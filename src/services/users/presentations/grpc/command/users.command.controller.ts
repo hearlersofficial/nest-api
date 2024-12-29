@@ -89,10 +89,16 @@ export class GrpcUserCommandController {
 
   @GrpcMethod("UserService", "UpdateUser")
   async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
+    const { userId, nickname, profileImage, phoneNumber, gender, birthday, introduction, mbti } = request;
     const command: UpdateUserCommand = new UpdateUserCommand({
-      userId: request.userId,
-      nickname: request.nickname,
-      userProfile: request.userProfile,
+      userId,
+      nickname,
+      profileImage,
+      phoneNumber,
+      gender,
+      birthday,
+      introduction,
+      mbti,
     });
     const updatedUser: Users = await this.commandBus.execute(command);
     return create(UpdateUserResponseSchema, { user: SchemaUsersMapper.toUserProto(updatedUser) });

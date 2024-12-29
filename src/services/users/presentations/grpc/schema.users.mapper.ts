@@ -37,6 +37,7 @@ export class SchemaUsersMapper {
     return create(UserProfileSchema, {
       profileImage: userProfile.profileImage,
       phoneNumber: userProfile.phoneNumber,
+      mbti: userProfile.mbti,
       gender: userProfile.gender,
       birthday: userProfile.birthday ? formatDayjs(userProfile.birthday) : null,
       introduction: userProfile.introduction,

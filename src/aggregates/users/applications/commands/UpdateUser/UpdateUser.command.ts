@@ -1,5 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
-import { UserProfile } from "~/src/gen/com/hearlers/v1/model/user_pb";
+import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
 
 export class UpdateUserCommand {
@@ -17,5 +17,10 @@ export class UpdateUserCommand {
 interface UpdateUserCommandProps {
   userId: number;
   nickname?: string;
-  userProfile?: UserProfile;
+  profileImage?: string;
+  phoneNumber?: string;
+  gender?: Gender;
+  birthday?: string;
+  introduction?: string;
+  mbti?: Mbti;
 }

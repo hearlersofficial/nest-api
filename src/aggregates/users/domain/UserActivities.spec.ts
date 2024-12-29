@@ -1,6 +1,6 @@
 import { UserActivities } from "./UserActivities";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { ActivityType, DevicePlatform } from "~/src/gen/v1/model/user_pb";
+import { ActivityType, DevicePlatform } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";
 
 describe("UserActivities", () => {

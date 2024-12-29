@@ -9,8 +9,8 @@ import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/Us
 import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
 import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/UserPrompts.entity";
 import { Users } from "~/src/aggregates/users/domain/Users";
-import { Gender, Mbti } from "~/src/gen/v1/model/user_pb";
-import { ProgressStatus, ProgressType } from "~/src/gen/v1/model/user_pb";
+import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
+import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { formatDayjs, getNowDayjs, convertDayjs } from "~/src/shared/utils/Date.utils";
 import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
 import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";

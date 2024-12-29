@@ -89,10 +89,10 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
 
   public isProfileCompleted(): boolean {
     let flag = true;
-    if (this.props.mbti === null || this.props.mbti === undefined) {
+    if (this.props.mbti === null || this.props.mbti === undefined || this.props.mbti === Mbti.UNSPECIFIED) {
       flag = false;
     }
-    if (this.props.gender === null || this.props.gender === undefined) {
+    if (this.props.gender === null || this.props.gender === undefined || this.props.gender === Gender.UNSPECIFIED) {
       flag = false;
     }
     if (this.props.birthday === null || this.props.birthday === undefined) {
@@ -106,6 +106,9 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
       profileImage: string;
       phoneNumber: string;
       introduction: string;
+      gender: Gender;
+      birthday: Dayjs;
+      mbti: Mbti;
     }>,
   ): Result<void> {
     if (props.profileImage !== undefined) {
@@ -123,7 +126,15 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
       }
       this.props.introduction = props.introduction;
     }
-
+    if (props.gender !== undefined) {
+      this.props.gender = props.gender;
+    }
+    if (props.birthday !== undefined) {
+      this.props.birthday = props.birthday;
+    }
+    if (props.mbti !== undefined) {
+      this.props.mbti = props.mbti;
+    }
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
   }

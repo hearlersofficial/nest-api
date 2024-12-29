@@ -23,5 +23,7 @@ export class UsersMessageController implements OnModuleInit {
   @EventPattern(UsersCounselMessageCreatedEvent.topic)
   handleCounselMessageCreated(@Payload() payload: string, @Ctx() context: KafkaContext): void {
     const convertedPayload = kafkaPayloadToProtoMessage(payload, CounselMessageCreatedPayloadSchema);
+    console.log(convertedPayload);
+    console.log(context);
   }
 }

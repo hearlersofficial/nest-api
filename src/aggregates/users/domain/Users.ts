@@ -2,7 +2,7 @@ import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { Result } from "~/src/shared/core/domain/Result";
 import { Dayjs } from "dayjs";
-import { getNowDayjs, TimestampUtils } from "~/src/shared/utils/Date.utils";
+import { formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
 import { Gender, Mbti, ProgressType } from "~/src/gen/v1/model/user_pb";
 import { UserProfiles } from "~/src/aggregates/users/domain/UserProfiles";
 import { UserProgresses } from "~/src/aggregates/users/domain/UserProgresses";
@@ -147,7 +147,7 @@ export class Users extends AggregateRoot<UsersProps> {
     this.props.updatedAt = getNowDayjs();
     const userUpdated = create(UserUpdatedPayloadSchema, {
       userId: this.id.getNumber(),
-      occurredAt: TimestampUtils.now(),
+      occurredAt: formatDayjs(getNowDayjs()),
     });
 
     this.addDomainEvent(new UserUpdatedEvent(userUpdated));

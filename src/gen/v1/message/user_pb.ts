@@ -4,8 +4,6 @@
 
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { AuthChannel } from "../model/auth_user_pb";
 import { file_v1_model_auth_user } from "../model/auth_user_pb";
 import type { Message } from "@bufbuild/protobuf";
@@ -14,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file v1/message/user.proto.
  */
 export const file_v1_message_user: GenFile = /*@__PURE__*/
-  fileDesc("ChV2MS9tZXNzYWdlL3VzZXIucHJvdG8SF2NvbS5oZWFybGVycy52MS5tZXNzYWdlIpABChJVc2VyVXBkYXRlZFBheWxvYWQSDwoHdXNlcl9pZBgBIAEoBRI4CgxhdXRoX2NoYW5uZWwYAiABKA4yIi5jb20uaGVhcmxlcnMudjEubW9kZWwuQXV0aENoYW5uZWwSLwoLb2NjdXJyZWRfYXQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wQqgBChtjb20uY29tLmhlYXJsZXJzLnYxLm1lc3NhZ2VCCVVzZXJQcm90b1ABogIEQ0hWTaoCF0NvbS5IZWFybGVycy5WMS5NZXNzYWdlygIXQ29tXEhlYXJsZXJzXFYxXE1lc3NhZ2XiAiNDb21cSGVhcmxlcnNcVjFcTWVzc2FnZVxHUEJNZXRhZGF0YeoCGkNvbTo6SGVhcmxlcnM6OlYxOjpNZXNzYWdlYgZwcm90bzM", [file_google_protobuf_timestamp, file_v1_model_auth_user]);
+  fileDesc("ChV2MS9tZXNzYWdlL3VzZXIucHJvdG8SF2NvbS5oZWFybGVycy52MS5tZXNzYWdlInQKElVzZXJVcGRhdGVkUGF5bG9hZBIPCgd1c2VyX2lkGAEgASgFEjgKDGF1dGhfY2hhbm5lbBgCIAEoDjIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5BdXRoQ2hhbm5lbBITCgtvY2N1cnJlZF9hdBgDIAEoCUKoAQobY29tLmNvbS5oZWFybGVycy52MS5tZXNzYWdlQglVc2VyUHJvdG9QAaICBENIVk2qAhdDb20uSGVhcmxlcnMuVjEuTWVzc2FnZcoCF0NvbVxIZWFybGVyc1xWMVxNZXNzYWdl4gIjQ29tXEhlYXJsZXJzXFYxXE1lc3NhZ2VcR1BCTWV0YWRhdGHqAhpDb206OkhlYXJsZXJzOjpWMTo6TWVzc2FnZWIGcHJvdG8z", [file_v1_model_auth_user]);
 
 /**
  * topic: user.updated
@@ -33,9 +31,11 @@ export type UserUpdatedPayload = Message<"com.hearlers.v1.message.UserUpdatedPay
   authChannel: AuthChannel;
 
   /**
-   * @generated from field: google.protobuf.Timestamp occurred_at = 3;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string occurred_at = 3;
    */
-  occurredAt?: Timestamp;
+  occurredAt: string;
 };
 
 /**

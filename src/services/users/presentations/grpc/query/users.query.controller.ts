@@ -44,7 +44,11 @@ export class GrpcUserQueryController {
       uniqueId: data.uniqueId,
     });
     const { authUser } = await this.queryBus.execute(query);
-    return create(FindOneAuthUserResponseSchema, { authUser: SchemaAuthUsersMapper.toAuthUserProto(authUser) });
+    const response = create(FindOneAuthUserResponseSchema, {
+      authUser: SchemaAuthUsersMapper.toAuthUserProto(authUser),
+    });
+    console.log(response);
+    return response;
   }
 
   @GrpcMethod("UserService", "CheckRemainingTokens")

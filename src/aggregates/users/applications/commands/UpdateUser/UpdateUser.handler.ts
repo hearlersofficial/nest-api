@@ -7,7 +7,7 @@ import { Users, UsersProps } from "~/src/aggregates/users/domain/Users";
 import { UserProfile } from "~/src/gen/v1/model/user_pb";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
 import { UserProfiles, UserProfilesProps } from "~/src/aggregates/users/domain/UserProfiles";
-import { TimestampUtils } from "~/src/shared/utils/Date.utils";
+import { convertDayjs } from "~/src/shared/utils/Date.utils";
 
 @CommandHandler(UpdateUserCommand)
 export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
@@ -70,7 +70,7 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
     if (profileImage) props.profileImage = profileImage;
     if (phoneNumber) props.phoneNumber = phoneNumber;
     if (gender) props.gender = gender;
-    if (birthday) props.birthday = TimestampUtils.timestampToDayjs(birthday);
+    if (birthday) props.birthday = convertDayjs(birthday);
     if (introduction) props.introduction = introduction;
     if (mbti) props.mbti = mbti;
     return props;

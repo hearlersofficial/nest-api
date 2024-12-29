@@ -12,7 +12,7 @@ import {
   RefreshTokenSchema,
 } from "~/src/gen/v1/model/auth_user_pb";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { TimestampUtils } from "~/src/shared/utils/Date.utils";
+import { formatDayjs } from "~/src/shared/utils/Date.utils";
 
 export class SchemaAuthUsersMapper {
   static toAuthUserProto(authUser: AuthUsers): AuthUser {
@@ -24,11 +24,11 @@ export class SchemaAuthUsersMapper {
       userId: authUser.userId,
       authChannel: authUser.authChannel,
       oauthChannelInfo: this.toOAuthChannelInfoProto(authUser),
-      lastLoginAt: TimestampUtils.dayjsToTimestamp(authUser.lastLoginAt),
+      lastLoginAt: formatDayjs(authUser.lastLoginAt),
       refreshTokens: this.toRefreshTokenProtos(authUser.refreshTokens),
-      createdAt: TimestampUtils.dayjsToTimestamp(authUser.createdAt),
-      updatedAt: TimestampUtils.dayjsToTimestamp(authUser.updatedAt),
-      deletedAt: authUser.deletedAt ? TimestampUtils.dayjsToTimestamp(authUser.deletedAt) : null,
+      createdAt: formatDayjs(authUser.createdAt),
+      updatedAt: formatDayjs(authUser.updatedAt),
+      deletedAt: authUser.deletedAt ? formatDayjs(authUser.deletedAt) : null,
     });
   }
 
@@ -45,9 +45,9 @@ export class SchemaAuthUsersMapper {
           id: authUser.kakao.id.getNumber(),
           authChannel: authUser.authChannel,
           uniqueId: authUser.kakao.uniqueId,
-          createdAt: TimestampUtils.dayjsToTimestamp(authUser.kakao.createdAt),
-          updatedAt: TimestampUtils.dayjsToTimestamp(authUser.kakao.updatedAt),
-          deletedAt: authUser.kakao.deletedAt ? TimestampUtils.dayjsToTimestamp(authUser.kakao.deletedAt) : null,
+          createdAt: formatDayjs(authUser.kakao.createdAt),
+          updatedAt: formatDayjs(authUser.kakao.updatedAt),
+          deletedAt: authUser.kakao.deletedAt ? formatDayjs(authUser.kakao.deletedAt) : null,
         });
       default:
         return null;
@@ -59,9 +59,9 @@ export class SchemaAuthUsersMapper {
     }
     return create(RefreshTokenSchema, {
       token: refreshToken.token,
-      expiresAt: TimestampUtils.dayjsToTimestamp(refreshToken.expiresAt),
-      createdAt: TimestampUtils.dayjsToTimestamp(refreshToken.createdAt),
-      updatedAt: TimestampUtils.dayjsToTimestamp(refreshToken.updatedAt),
+      expiresAt: formatDayjs(refreshToken.expiresAt),
+      createdAt: formatDayjs(refreshToken.createdAt),
+      updatedAt: formatDayjs(refreshToken.updatedAt),
     });
   }
 

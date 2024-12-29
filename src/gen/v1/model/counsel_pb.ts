@@ -4,15 +4,13 @@
 
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file v1/model/counsel.proto.
  */
 export const file_v1_model_counsel: GenFile = /*@__PURE__*/
-  fileDesc("ChZ2MS9tb2RlbC9jb3Vuc2VsLnByb3RvEhVjb20uaGVhcmxlcnMudjEubW9kZWwilgIKB0NvdW5zZWwSCgoCaWQYASABKAUSFAoMY291bnNlbG9yX2lkGAIgASgFEg8KB3VzZXJfaWQYAyABKAUSFAoMbGFzdF9tZXNzYWdlGAQgASgJEjIKDmxhc3RfY2hhdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpkZWxldGVkX2F0GAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCLqAQoOQ291bnNlbE1lc3NhZ2USCgoCaWQYASABKAUSEgoKY291bnNlbF9pZBgCIAEoBRIPCgdtZXNzYWdlGAMgASgJEhcKD2lzX3VzZXJfbWVzc2FnZRgEIAEoCBIuCgpjcmVhdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpkZWxldGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCLwAgoNQ291bnNlbFByb21wdBIKCgJpZBgBIAEoBRIPCgdwZXJzb25hGAIgASgJEg8KB2NvbnRleHQYAyABKAkSEwoLaW5zdHJ1Y3Rpb24YBCABKAkSDAoEdG9uZRgFIAEoCRIZChFhZGRpdGlvbmFsX3Byb21wdBgGIAEoCRI9Cgtwcm9tcHRfdHlwZRgHIAEoDjIoLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsUHJvbXB0VHlwZRITCgtkZXNjcmlwdGlvbhgIIAEoCRIPCgd2ZXJzaW9uGAkgASgJEi4KCmNyZWF0ZWRfYXQYCiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCnVwZGF0ZWRfYXQYCyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmRlbGV0ZWRfYXQYDCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIosDCglDb3Vuc2Vsb3ISCgoCaWQYASABKAUSPAoOY291bnNlbG9yX3R5cGUYAiABKA4yJC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yVHlwZRIMCgRuYW1lGAMgASgJEhMKC2Rlc2NyaXB0aW9uGAQgASgJEjYKBmdlbmRlchgFIAEoDjImLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JHZW5kZXISFQoNaW50cm9fbWVzc2FnZRgGIAEoCRIYChByZXNwb25zZV9vcHRpb24xGAcgASgJEhgKEHJlc3BvbnNlX29wdGlvbjIYCCABKAkSLgoKY3JlYXRlZF9hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgKIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKZGVsZXRlZF9hdBgLIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAqfgoNQ291bnNlbG9yVHlwZRIcChhDT1VOU0VMT1JfVFlQRV9ERVBSRVNTRUQQABIaChZDT1VOU0VMT1JfVFlQRV9BTlhJT1VTEAESGAoUQ09VTlNFTE9SX1RZUEVfVElSRUQQAhIZChVDT1VOU0VMT1JfVFlQRV9MT05FTFkQAypkCg9Db3Vuc2Vsb3JHZW5kZXISGQoVQ09VTlNFTE9SX0dFTkRFUl9NQUxFEAASGwoXQ09VTlNFTE9SX0dFTkRFUl9GRU1BTEUQARIZChVDT1VOU0VMT1JfR0VOREVSX05PTkUQAiq4AwoRQ291bnNlbFByb21wdFR5cGUSIgoeQ09VTlNFTF9QUk9NUFRfVFlQRV9TWVNURU1fTVNHEAASJAogQ09VTlNFTF9QUk9NUFRfVFlQRV9QT1NJVElWRV9NU0cQARIsCihDT1VOU0VMX1BST01QVF9UWVBFX0RFUFJFU1NFRF9SRUFTT05fTVNHEAISLworQ09VTlNFTF9QUk9NUFRfVFlQRV9ERVBSRVNTRURfTk9fUkVBU09OX01TRxADEioKJkNPVU5TRUxfUFJPTVBUX1RZUEVfQU5YSU9VU19SRUFTT05fTVNHEAQSLQopQ09VTlNFTF9QUk9NUFRfVFlQRV9BTlhJT1VTX05PX1JFQVNPTl9NU0cQBRIoCiRDT1VOU0VMX1BST01QVF9UWVBFX1RJUkVEX1JFQVNPTl9NU0cQBhIrCidDT1VOU0VMX1BST01QVF9UWVBFX1RJUkVEX05PX1JFQVNPTl9NU0cQBxIkCiBDT1VOU0VMX1BST01QVF9UWVBFX1dIWV9MSVZFX01TRxAIEiIKHkNPVU5TRUxfUFJPTVBUX1RZUEVfQlJBTkNIX01TRxAJQqEBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQgxDb3Vuc2VsUHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw", [file_google_protobuf_timestamp]);
+  fileDesc("ChZ2MS9tb2RlbC9jb3Vuc2VsLnByb3RvEhVjb20uaGVhcmxlcnMudjEubW9kZWwipgEKB0NvdW5zZWwSCgoCaWQYASABKAUSFAoMY291bnNlbG9yX2lkGAIgASgFEg8KB3VzZXJfaWQYAyABKAUSFAoMbGFzdF9tZXNzYWdlGAQgASgJEhYKDmxhc3RfY2hhdGVkX2F0GAUgASgJEhIKCmNyZWF0ZWRfYXQYBiABKAkSEgoKdXBkYXRlZF9hdBgHIAEoCRISCgpkZWxldGVkX2F0GAggASgJIpYBCg5Db3Vuc2VsTWVzc2FnZRIKCgJpZBgBIAEoBRISCgpjb3Vuc2VsX2lkGAIgASgFEg8KB21lc3NhZ2UYAyABKAkSFwoPaXNfdXNlcl9tZXNzYWdlGAQgASgIEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRISCgpkZWxldGVkX2F0GAcgASgJIpwCCg1Db3Vuc2VsUHJvbXB0EgoKAmlkGAEgASgFEg8KB3BlcnNvbmEYAiABKAkSDwoHY29udGV4dBgDIAEoCRITCgtpbnN0cnVjdGlvbhgEIAEoCRIMCgR0b25lGAUgASgJEhkKEWFkZGl0aW9uYWxfcHJvbXB0GAYgASgJEj0KC3Byb21wdF90eXBlGAcgASgOMiguY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxQcm9tcHRUeXBlEhMKC2Rlc2NyaXB0aW9uGAggASgJEg8KB3ZlcnNpb24YCSABKAkSEgoKY3JlYXRlZF9hdBgKIAEoCRISCgp1cGRhdGVkX2F0GAsgASgJEhIKCmRlbGV0ZWRfYXQYDCABKAkitwIKCUNvdW5zZWxvchIKCgJpZBgBIAEoBRI8Cg5jb3Vuc2Vsb3JfdHlwZRgCIAEoDjIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JUeXBlEgwKBG5hbWUYAyABKAkSEwoLZGVzY3JpcHRpb24YBCABKAkSNgoGZ2VuZGVyGAUgASgOMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvckdlbmRlchIVCg1pbnRyb19tZXNzYWdlGAYgASgJEhgKEHJlc3BvbnNlX29wdGlvbjEYByABKAkSGAoQcmVzcG9uc2Vfb3B0aW9uMhgIIAEoCRISCgpjcmVhdGVkX2F0GAkgASgJEhIKCnVwZGF0ZWRfYXQYCiABKAkSEgoKZGVsZXRlZF9hdBgLIAEoCSp+Cg1Db3Vuc2Vsb3JUeXBlEhwKGENPVU5TRUxPUl9UWVBFX0RFUFJFU1NFRBAAEhoKFkNPVU5TRUxPUl9UWVBFX0FOWElPVVMQARIYChRDT1VOU0VMT1JfVFlQRV9USVJFRBACEhkKFUNPVU5TRUxPUl9UWVBFX0xPTkVMWRADKmQKD0NvdW5zZWxvckdlbmRlchIZChVDT1VOU0VMT1JfR0VOREVSX01BTEUQABIbChdDT1VOU0VMT1JfR0VOREVSX0ZFTUFMRRABEhkKFUNPVU5TRUxPUl9HRU5ERVJfTk9ORRACKrgDChFDb3Vuc2VsUHJvbXB0VHlwZRIiCh5DT1VOU0VMX1BST01QVF9UWVBFX1NZU1RFTV9NU0cQABIkCiBDT1VOU0VMX1BST01QVF9UWVBFX1BPU0lUSVZFX01TRxABEiwKKENPVU5TRUxfUFJPTVBUX1RZUEVfREVQUkVTU0VEX1JFQVNPTl9NU0cQAhIvCitDT1VOU0VMX1BST01QVF9UWVBFX0RFUFJFU1NFRF9OT19SRUFTT05fTVNHEAMSKgomQ09VTlNFTF9QUk9NUFRfVFlQRV9BTlhJT1VTX1JFQVNPTl9NU0cQBBItCilDT1VOU0VMX1BST01QVF9UWVBFX0FOWElPVVNfTk9fUkVBU09OX01TRxAFEigKJENPVU5TRUxfUFJPTVBUX1RZUEVfVElSRURfUkVBU09OX01TRxAGEisKJ0NPVU5TRUxfUFJPTVBUX1RZUEVfVElSRURfTk9fUkVBU09OX01TRxAHEiQKIENPVU5TRUxfUFJPTVBUX1RZUEVfV0hZX0xJVkVfTVNHEAgSIgoeQ09VTlNFTF9QUk9NUFRfVFlQRV9CUkFOQ0hfTVNHEAlCoQEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCDENvdW5zZWxQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z");
 
 /**
  * @generated from message com.hearlers.v1.model.Counsel
@@ -39,24 +37,32 @@ export type Counsel = Message<"com.hearlers.v1.model.Counsel"> & {
   lastMessage: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp last_chated_at = 5;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string last_chated_at = 5;
    */
-  lastChatedAt?: Timestamp;
+  lastChatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 6;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string created_at = 6;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 7;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string updated_at = 7;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 8;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string deleted_at = 8;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**
@@ -91,19 +97,25 @@ export type CounselMessage = Message<"com.hearlers.v1.model.CounselMessage"> & {
   isUserMessage: boolean;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 5;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string created_at = 5;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 6;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string updated_at = 6;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 7;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string deleted_at = 7;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**
@@ -163,19 +175,25 @@ export type CounselPrompt = Message<"com.hearlers.v1.model.CounselPrompt"> & {
   version: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 10;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string created_at = 10;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 11;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string updated_at = 11;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 12;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string deleted_at = 12;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**
@@ -230,19 +248,25 @@ export type Counselor = Message<"com.hearlers.v1.model.Counselor"> & {
   responseOption2: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 9;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string created_at = 9;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 10;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string updated_at = 10;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 11;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string deleted_at = 11;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**

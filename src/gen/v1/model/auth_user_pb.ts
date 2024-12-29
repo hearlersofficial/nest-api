@@ -4,15 +4,13 @@
 
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file v1/model/auth_user.proto.
  */
 export const file_v1_model_auth_user: GenFile = /*@__PURE__*/
-  fileDesc("Chh2MS9tb2RlbC9hdXRoX3VzZXIucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCKmAwoIQXV0aFVzZXISCgoCaWQYASABKAUSDwoHdXNlcl9pZBgCIAEoBRI4CgxhdXRoX2NoYW5uZWwYAyABKA4yIi5jb20uaGVhcmxlcnMudjEubW9kZWwuQXV0aENoYW5uZWwSQwoSb2F1dGhfY2hhbm5lbF9pbmZvGAQgASgLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLk9BdXRoQ2hhbm5lbEluZm8SOwoOcmVmcmVzaF90b2tlbnMYBSADKAsyIy5jb20uaGVhcmxlcnMudjEubW9kZWwuUmVmcmVzaFRva2VuEjEKDWxhc3RfbG9naW5fYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmNyZWF0ZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCnVwZGF0ZWRfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmRlbGV0ZWRfYXQYCSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIvsBChBPQXV0aENoYW5uZWxJbmZvEgoKAmlkGAEgASgFEjgKDGF1dGhfY2hhbm5lbBgCIAEoDjIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5BdXRoQ2hhbm5lbBIRCgl1bmlxdWVfaWQYAyABKAkSLgoKY3JlYXRlZF9hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKZGVsZXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAirQEKDFJlZnJlc2hUb2tlbhINCgV0b2tlbhgBIAEoCRIuCgpleHBpcmVzX2F0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpjcmVhdGVkX2F0GAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCp2CgtBdXRoQ2hhbm5lbBIcChhBVVRIX0NIQU5ORUxfVU5TUEVDSUZJRUQQABIZChVBVVRIX0NIQU5ORUxfVU5MSU5LRUQQARIWChJBVVRIX0NIQU5ORUxfS0FLQU8QAhIWChJBVVRIX0NIQU5ORUxfTkFWRVIQA0KiAQoZY29tLmNvbS5oZWFybGVycy52MS5tb2RlbEINQXV0aFVzZXJQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z", [file_google_protobuf_timestamp]);
+  fileDesc("Chh2MS9tb2RlbC9hdXRoX3VzZXIucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCK2AgoIQXV0aFVzZXISCgoCaWQYASABKAUSDwoHdXNlcl9pZBgCIAEoBRI4CgxhdXRoX2NoYW5uZWwYAyABKA4yIi5jb20uaGVhcmxlcnMudjEubW9kZWwuQXV0aENoYW5uZWwSQwoSb2F1dGhfY2hhbm5lbF9pbmZvGAQgASgLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLk9BdXRoQ2hhbm5lbEluZm8SOwoOcmVmcmVzaF90b2tlbnMYBSADKAsyIy5jb20uaGVhcmxlcnMudjEubW9kZWwuUmVmcmVzaFRva2VuEhUKDWxhc3RfbG9naW5fYXQYBiABKAkSEgoKY3JlYXRlZF9hdBgHIAEoCRISCgp1cGRhdGVkX2F0GAggASgJEhIKCmRlbGV0ZWRfYXQYCSABKAkipwEKEE9BdXRoQ2hhbm5lbEluZm8SCgoCaWQYASABKAUSOAoMYXV0aF9jaGFubmVsGAIgASgOMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkF1dGhDaGFubmVsEhEKCXVuaXF1ZV9pZBgDIAEoCRISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSEgoKZGVsZXRlZF9hdBgGIAEoCSJZCgxSZWZyZXNoVG9rZW4SDQoFdG9rZW4YASABKAkSEgoKZXhwaXJlc19hdBgCIAEoCRISCgpjcmVhdGVkX2F0GAMgASgJEhIKCnVwZGF0ZWRfYXQYBCABKAkqdgoLQXV0aENoYW5uZWwSHAoYQVVUSF9DSEFOTkVMX1VOU1BFQ0lGSUVEEAASGQoVQVVUSF9DSEFOTkVMX1VOTElOS0VEEAESFgoSQVVUSF9DSEFOTkVMX0tBS0FPEAISFgoSQVVUSF9DSEFOTkVMX05BVkVSEANCogEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCDUF1dGhVc2VyUHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw");
 
 /**
  * @generated from message com.hearlers.v1.model.AuthUser
@@ -44,24 +42,32 @@ export type AuthUser = Message<"com.hearlers.v1.model.AuthUser"> & {
   refreshTokens: RefreshToken[];
 
   /**
-   * @generated from field: google.protobuf.Timestamp last_login_at = 6;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string last_login_at = 6;
    */
-  lastLoginAt?: Timestamp;
+  lastLoginAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 7;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string created_at = 7;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 8;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string updated_at = 8;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 9;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string deleted_at = 9;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**
@@ -91,19 +97,25 @@ export type OAuthChannelInfo = Message<"com.hearlers.v1.model.OAuthChannelInfo">
   uniqueId: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 4;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string created_at = 4;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 5;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string updated_at = 5;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 6;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string deleted_at = 6;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**
@@ -123,19 +135,25 @@ export type RefreshToken = Message<"com.hearlers.v1.model.RefreshToken"> & {
   token: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp expires_at = 2;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string expires_at = 2;
    */
-  expiresAt?: Timestamp;
+  expiresAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 3;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string created_at = 3;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 4;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string updated_at = 4;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 };
 
 /**

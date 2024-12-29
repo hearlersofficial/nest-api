@@ -4,16 +4,13 @@
 
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
-import { file_v1_model_counsel } from "../model/counsel_pb";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file v1/message/counsel.proto.
  */
 export const file_v1_message_counsel: GenFile = /*@__PURE__*/
-  fileDesc("Chh2MS9tZXNzYWdlL2NvdW5zZWwucHJvdG8SF2NvbS5oZWFybGVycy52MS5tZXNzYWdlIoMBChVDb3Vuc2VsQ3JlYXRlZFBheWxvYWQSEgoKY291bnNlbF9pZBgBIAEoBRIPCgd1c2VyX2lkGAIgASgFEhQKDGNvdW5zZWxvcl9pZBgDIAEoBRIvCgtvY2N1cnJlZF9hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAijQEKHENvdW5zZWxNZXNzYWdlQ3JlYXRlZFBheWxvYWQSEgoKY291bnNlbF9pZBgBIAEoBRIPCgdtZXNzYWdlGAIgASgJEhcKD2lzX3VzZXJfbWVzc2FnZRgDIAEoCBIvCgtvY2N1cnJlZF9hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCqwEKG2NvbS5jb20uaGVhcmxlcnMudjEubWVzc2FnZUIMQ291bnNlbFByb3RvUAGiAgRDSFZNqgIXQ29tLkhlYXJsZXJzLlYxLk1lc3NhZ2XKAhdDb21cSGVhcmxlcnNcVjFcTWVzc2FnZeICI0NvbVxIZWFybGVyc1xWMVxNZXNzYWdlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6Ok1lc3NhZ2ViBnByb3RvMw", [file_v1_model_counsel, file_google_protobuf_timestamp]);
+  fileDesc("Chh2MS9tZXNzYWdlL2NvdW5zZWwucHJvdG8SF2NvbS5oZWFybGVycy52MS5tZXNzYWdlImcKFUNvdW5zZWxDcmVhdGVkUGF5bG9hZBISCgpjb3Vuc2VsX2lkGAEgASgFEg8KB3VzZXJfaWQYAiABKAUSFAoMY291bnNlbG9yX2lkGAMgASgFEhMKC29jY3VycmVkX2F0GAQgASgJInEKHENvdW5zZWxNZXNzYWdlQ3JlYXRlZFBheWxvYWQSEgoKY291bnNlbF9pZBgBIAEoBRIPCgdtZXNzYWdlGAIgASgJEhcKD2lzX3VzZXJfbWVzc2FnZRgDIAEoCBITCgtvY2N1cnJlZF9hdBgEIAEoCUKrAQobY29tLmNvbS5oZWFybGVycy52MS5tZXNzYWdlQgxDb3Vuc2VsUHJvdG9QAaICBENIVk2qAhdDb20uSGVhcmxlcnMuVjEuTWVzc2FnZcoCF0NvbVxIZWFybGVyc1xWMVxNZXNzYWdl4gIjQ29tXEhlYXJsZXJzXFYxXE1lc3NhZ2VcR1BCTWV0YWRhdGHqAhpDb206OkhlYXJsZXJzOjpWMTo6TWVzc2FnZWIGcHJvdG8z");
 
 /**
  * topic: counsel.created
@@ -37,9 +34,11 @@ export type CounselCreatedPayload = Message<"com.hearlers.v1.message.CounselCrea
   counselorId: number;
 
   /**
-   * @generated from field: google.protobuf.Timestamp occurred_at = 4;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string occurred_at = 4;
    */
-  occurredAt?: Timestamp;
+  occurredAt: string;
 };
 
 /**
@@ -71,9 +70,11 @@ export type CounselMessageCreatedPayload = Message<"com.hearlers.v1.message.Coun
   isUserMessage: boolean;
 
   /**
-   * @generated from field: google.protobuf.Timestamp occurred_at = 4;
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string occurred_at = 4;
    */
-  occurredAt?: Timestamp;
+  occurredAt: string;
 };
 
 /**

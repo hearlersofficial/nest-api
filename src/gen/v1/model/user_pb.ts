@@ -4,15 +4,14 @@
 
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_struct, file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
+import { file_google_protobuf_struct } from "@bufbuild/protobuf/wkt";
 import type { JsonObject, Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file v1/model/user.proto.
  */
 export const file_v1_model_user: GenFile = /*@__PURE__*/
-  fileDesc("ChN2MS9tb2RlbC91c2VyLnByb3RvEhVjb20uaGVhcmxlcnMudjEubW9kZWwirAIKBFVzZXISCgoCaWQYASABKAUSEAoIbmlja25hbWUYAiABKAkSOAoMdXNlcl9wcm9maWxlGAMgASgLMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlVzZXJQcm9maWxlEjwKD3VzZXJfcHJvZ3Jlc3NlcxgEIAMoCzIjLmNvbS5oZWFybGVycy52MS5tb2RlbC5Vc2VyUHJvZ3Jlc3MSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKZGVsZXRlZF9hdBgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAi6AIKC1VzZXJQcm9maWxlEhUKDXByb2ZpbGVfaW1hZ2UYASABKAkSFAoMcGhvbmVfbnVtYmVyGAIgASgJEi0KBmdlbmRlchgDIAEoDjIdLmNvbS5oZWFybGVycy52MS5tb2RlbC5HZW5kZXISLAoIYmlydGhkYXkYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEhQKDGludHJvZHVjdGlvbhgFIAEoCRIpCgRtYnRpGAYgASgOMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLk1idGkSLgoKY3JlYXRlZF9hdBgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKZGVsZXRlZF9hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiwwIKDFVzZXJQcm9ncmVzcxI6Cg1wcm9ncmVzc190eXBlGAEgASgOMiMuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlByb2dyZXNzVHlwZRI1CgZzdGF0dXMYAiABKA4yJS5jb20uaGVhcmxlcnMudjEubW9kZWwuUHJvZ3Jlc3NTdGF0dXMSMAoMbGFzdF91cGRhdGVkGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpjcmVhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpkZWxldGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCKFAwoMVXNlckFjdGl2aXR5EjoKDWFjdGl2aXR5X3R5cGUYASABKA4yIy5jb20uaGVhcmxlcnMudjEubW9kZWwuQWN0aXZpdHlUeXBlEi4KDWFjdGl2aXR5X2RhdGEYAiABKAsyFy5nb29nbGUucHJvdG9idWYuU3RydWN0EjcKCHBsYXRmb3JtGAMgASgOMiUuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkRldmljZVBsYXRmb3JtEhIKCmlwX2FkZHJlc3MYBCABKAkSEgoKdXNlcl9hZ2VudBgFIAEoCRIYChBkdXJhdGlvbl9zZWNvbmRzGAYgASgFEi4KCmNyZWF0ZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCnVwZGF0ZWRfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmRlbGV0ZWRfYXQYCSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wKkQKBkdlbmRlchIWChJHRU5ERVJfVU5TUEVDSUZJRUQQABIPCgtHRU5ERVJfTUFMRRABEhEKDUdFTkRFUl9GRU1BTEUQAiqvAQoOUHJvZ3Jlc3NTdGF0dXMSHwobUFJPR1JFU1NfU1RBVFVTX1VOU1BFQ0lGSUVEEAASHwobUFJPR1JFU1NfU1RBVFVTX05PVF9TVEFSVEVEEAESHwobUFJPR1JFU1NfU1RBVFVTX0lOX1BST0dSRVNTEAISHQoZUFJPR1JFU1NfU1RBVFVTX0NPTVBMRVRFRBADEhsKF1BST0dSRVNTX1NUQVRVU19CTE9DS0VEEAQqawoMUHJvZ3Jlc3NUeXBlEh0KGVBST0dSRVNTX1RZUEVfVU5TUEVDSUZJRUQQABIcChhQUk9HUkVTU19UWVBFX09OQk9BUkRJTkcQARIeChpQUk9HUkVTU19UWVBFX1ZFUklGSUNBVElPThACKowCCgRNYnRpEhQKEE1CVElfVU5TUEVDSUZJRUQQABINCglNQlRJX0VOVFAQARINCglNQlRJX0VORlAQAhINCglNQlRJX0VOVEoQAxINCglNQlRJX0VORkoQBBINCglNQlRJX0VTVFAQBRINCglNQlRJX0VTVEoQBhINCglNQlRJX0VTRlAQBxINCglNQlRJX0VTRkoQCBINCglNQlRJX0lOVEoQCRINCglNQlRJX0lORkoQChINCglNQlRJX0lOVFAQCxINCglNQlRJX0lORlAQDBINCglNQlRJX0lTVFAQDRINCglNQlRJX0lTVEoQDhINCglNQlRJX0lTRlAQDxINCglNQlRJX0lTRkoQECqdAQoORGV2aWNlUGxhdGZvcm0SHwobREVWSUNFX1BMQVRGT1JNX1VOU1BFQ0lGSUVEEAASFwoTREVWSUNFX1BMQVRGT1JNX1dFQhABEhcKE0RFVklDRV9QTEFURk9STV9JT1MQAhIbChdERVZJQ0VfUExBVEZPUk1fQU5EUk9JRBADEhsKF0RFVklDRV9QTEFURk9STV9ERVNLVE9QEAQq6QQKDEFjdGl2aXR5VHlwZRIdChlBQ1RJVklUWV9UWVBFX1VOU1BFQ0lGSUVEEAASFwoTQUNUSVZJVFlfVFlQRV9MT0dJThABEhgKFEFDVElWSVRZX1RZUEVfTE9HT1VUEAISKQolQUNUSVZJVFlfVFlQRV9VTkxPR0lOTkVEX1VTRVJfQ09NRV9JThADEjQKMEFDVElWSVRZX1RZUEVfVU5MT0dJTk5FRF9VU0VSX1NUQVJURURfQ09VTlNFTElORxAEEjUKMUFDVElWSVRZX1RZUEVfVU5MT0dJTk5FRF9VU0VSX0ZJTklTSEVEX0NPVU5TRUxJTkcQBRIiCh5BQ1RJVklUWV9UWVBFX09OQk9BUkRJTkdfU1RBUlQQBhIgChxBQ1RJVklUWV9UWVBFX09OQk9BUkRJTkdfRU5EEAcSLQopQUNUSVZJVFlfVFlQRV9TRVRfQ09OVkVSU0FUSU9OX1BSRUZFUkVOQ0UQCBIiCh5BQ1RJVklUWV9UWVBFX0NPVU5TRUxJTkdfU1RBUlQQCRIgChxBQ1RJVklUWV9UWVBFX0NPVU5TRUxJTkdfRU5EEAoSIAocQUNUSVZJVFlfVFlQRV9QUk9GSUxFX1VQREFURRALEiEKHUFDVElWSVRZX1RZUEVfRkVFREJBQ0tfU1VCTUlUEAwSJAogQUNUSVZJVFlfVFlQRV9TVUJTQ1JJUFRJT05fU1RBUlQQDRIlCiFBQ1RJVklUWV9UWVBFX1NVQlNDUklQVElPTl9DQU5DRUwQDhIiCh5BQ1RJVklUWV9UWVBFX1BBWU1FTlRfQ09NUExFVEUQD0KeAQoZY29tLmNvbS5oZWFybGVycy52MS5tb2RlbEIJVXNlclByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM", [file_google_protobuf_timestamp, file_google_protobuf_struct]);
+  fileDesc("ChN2MS9tb2RlbC91c2VyLnByb3RvEhVjb20uaGVhcmxlcnMudjEubW9kZWwi2AEKBFVzZXISCgoCaWQYASABKAUSEAoIbmlja25hbWUYAiABKAkSOAoMdXNlcl9wcm9maWxlGAMgASgLMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlVzZXJQcm9maWxlEjwKD3VzZXJfcHJvZ3Jlc3NlcxgEIAMoCzIjLmNvbS5oZWFybGVycy52MS5tb2RlbC5Vc2VyUHJvZ3Jlc3MSEgoKY3JlYXRlZF9hdBgFIAEoCRISCgp1cGRhdGVkX2F0GAYgASgJEhIKCmRlbGV0ZWRfYXQYByABKAki+AEKC1VzZXJQcm9maWxlEhUKDXByb2ZpbGVfaW1hZ2UYASABKAkSFAoMcGhvbmVfbnVtYmVyGAIgASgJEi0KBmdlbmRlchgDIAEoDjIdLmNvbS5oZWFybGVycy52MS5tb2RlbC5HZW5kZXISEAoIYmlydGhkYXkYBCABKAkSFAoMaW50cm9kdWN0aW9uGAUgASgJEikKBG1idGkYBiABKA4yGy5jb20uaGVhcmxlcnMudjEubW9kZWwuTWJ0aRISCgpjcmVhdGVkX2F0GAcgASgJEhIKCnVwZGF0ZWRfYXQYCCABKAkSEgoKZGVsZXRlZF9hdBgJIAEoCSLTAQoMVXNlclByb2dyZXNzEjoKDXByb2dyZXNzX3R5cGUYASABKA4yIy5jb20uaGVhcmxlcnMudjEubW9kZWwuUHJvZ3Jlc3NUeXBlEjUKBnN0YXR1cxgCIAEoDjIlLmNvbS5oZWFybGVycy52MS5tb2RlbC5Qcm9ncmVzc1N0YXR1cxIUCgxsYXN0X3VwZGF0ZWQYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhIKCmRlbGV0ZWRfYXQYBiABKAkisQIKDFVzZXJBY3Rpdml0eRI6Cg1hY3Rpdml0eV90eXBlGAEgASgOMiMuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkFjdGl2aXR5VHlwZRIuCg1hY3Rpdml0eV9kYXRhGAIgASgLMhcuZ29vZ2xlLnByb3RvYnVmLlN0cnVjdBI3CghwbGF0Zm9ybRgDIAEoDjIlLmNvbS5oZWFybGVycy52MS5tb2RlbC5EZXZpY2VQbGF0Zm9ybRISCgppcF9hZGRyZXNzGAQgASgJEhIKCnVzZXJfYWdlbnQYBSABKAkSGAoQZHVyYXRpb25fc2Vjb25kcxgGIAEoBRISCgpjcmVhdGVkX2F0GAcgASgJEhIKCnVwZGF0ZWRfYXQYCCABKAkSEgoKZGVsZXRlZF9hdBgJIAEoCSpECgZHZW5kZXISFgoSR0VOREVSX1VOU1BFQ0lGSUVEEAASDwoLR0VOREVSX01BTEUQARIRCg1HRU5ERVJfRkVNQUxFEAIqrwEKDlByb2dyZXNzU3RhdHVzEh8KG1BST0dSRVNTX1NUQVRVU19VTlNQRUNJRklFRBAAEh8KG1BST0dSRVNTX1NUQVRVU19OT1RfU1RBUlRFRBABEh8KG1BST0dSRVNTX1NUQVRVU19JTl9QUk9HUkVTUxACEh0KGVBST0dSRVNTX1NUQVRVU19DT01QTEVURUQQAxIbChdQUk9HUkVTU19TVEFUVVNfQkxPQ0tFRBAEKmsKDFByb2dyZXNzVHlwZRIdChlQUk9HUkVTU19UWVBFX1VOU1BFQ0lGSUVEEAASHAoYUFJPR1JFU1NfVFlQRV9PTkJPQVJESU5HEAESHgoaUFJPR1JFU1NfVFlQRV9WRVJJRklDQVRJT04QAiqMAgoETWJ0aRIUChBNQlRJX1VOU1BFQ0lGSUVEEAASDQoJTUJUSV9FTlRQEAESDQoJTUJUSV9FTkZQEAISDQoJTUJUSV9FTlRKEAMSDQoJTUJUSV9FTkZKEAQSDQoJTUJUSV9FU1RQEAUSDQoJTUJUSV9FU1RKEAYSDQoJTUJUSV9FU0ZQEAcSDQoJTUJUSV9FU0ZKEAgSDQoJTUJUSV9JTlRKEAkSDQoJTUJUSV9JTkZKEAoSDQoJTUJUSV9JTlRQEAsSDQoJTUJUSV9JTkZQEAwSDQoJTUJUSV9JU1RQEA0SDQoJTUJUSV9JU1RKEA4SDQoJTUJUSV9JU0ZQEA8SDQoJTUJUSV9JU0ZKEBAqnQEKDkRldmljZVBsYXRmb3JtEh8KG0RFVklDRV9QTEFURk9STV9VTlNQRUNJRklFRBAAEhcKE0RFVklDRV9QTEFURk9STV9XRUIQARIXChNERVZJQ0VfUExBVEZPUk1fSU9TEAISGwoXREVWSUNFX1BMQVRGT1JNX0FORFJPSUQQAxIbChdERVZJQ0VfUExBVEZPUk1fREVTS1RPUBAEKukECgxBY3Rpdml0eVR5cGUSHQoZQUNUSVZJVFlfVFlQRV9VTlNQRUNJRklFRBAAEhcKE0FDVElWSVRZX1RZUEVfTE9HSU4QARIYChRBQ1RJVklUWV9UWVBFX0xPR09VVBACEikKJUFDVElWSVRZX1RZUEVfVU5MT0dJTk5FRF9VU0VSX0NPTUVfSU4QAxI0CjBBQ1RJVklUWV9UWVBFX1VOTE9HSU5ORURfVVNFUl9TVEFSVEVEX0NPVU5TRUxJTkcQBBI1CjFBQ1RJVklUWV9UWVBFX1VOTE9HSU5ORURfVVNFUl9GSU5JU0hFRF9DT1VOU0VMSU5HEAUSIgoeQUNUSVZJVFlfVFlQRV9PTkJPQVJESU5HX1NUQVJUEAYSIAocQUNUSVZJVFlfVFlQRV9PTkJPQVJESU5HX0VORBAHEi0KKUFDVElWSVRZX1RZUEVfU0VUX0NPTlZFUlNBVElPTl9QUkVGRVJFTkNFEAgSIgoeQUNUSVZJVFlfVFlQRV9DT1VOU0VMSU5HX1NUQVJUEAkSIAocQUNUSVZJVFlfVFlQRV9DT1VOU0VMSU5HX0VORBAKEiAKHEFDVElWSVRZX1RZUEVfUFJPRklMRV9VUERBVEUQCxIhCh1BQ1RJVklUWV9UWVBFX0ZFRURCQUNLX1NVQk1JVBAMEiQKIEFDVElWSVRZX1RZUEVfU1VCU0NSSVBUSU9OX1NUQVJUEA0SJQohQUNUSVZJVFlfVFlQRV9TVUJTQ1JJUFRJT05fQ0FOQ0VMEA4SIgoeQUNUSVZJVFlfVFlQRV9QQVlNRU5UX0NPTVBMRVRFEA9CngEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCCVVzZXJQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z", [file_google_protobuf_struct]);
 
 /**
  * @generated from message com.hearlers.v1.model.User
@@ -39,19 +38,25 @@ export type User = Message<"com.hearlers.v1.model.User"> & {
   userProgresses: UserProgress[];
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 5;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string created_at = 5;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 6;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string updated_at = 6;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 7;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string deleted_at = 7;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**
@@ -81,9 +86,11 @@ export type UserProfile = Message<"com.hearlers.v1.model.UserProfile"> & {
   gender: Gender;
 
   /**
-   * @generated from field: google.protobuf.Timestamp birthday = 4;
+   * YYYY-MM-DD
+   *
+   * @generated from field: string birthday = 4;
    */
-  birthday?: Timestamp;
+  birthday: string;
 
   /**
    * @generated from field: string introduction = 5;
@@ -96,19 +103,25 @@ export type UserProfile = Message<"com.hearlers.v1.model.UserProfile"> & {
   mbti: Mbti;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 7;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string created_at = 7;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 8;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string updated_at = 8;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 9;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string deleted_at = 9;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**
@@ -133,24 +146,32 @@ export type UserProgress = Message<"com.hearlers.v1.model.UserProgress"> & {
   status: ProgressStatus;
 
   /**
-   * @generated from field: google.protobuf.Timestamp last_updated = 3;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string last_updated = 3;
    */
-  lastUpdated?: Timestamp;
+  lastUpdated: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 4;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string created_at = 4;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 5;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string updated_at = 5;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 6;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string deleted_at = 6;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**
@@ -195,19 +216,25 @@ export type UserActivity = Message<"com.hearlers.v1.model.UserActivity"> & {
   durationSeconds: number;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 7;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string created_at = 7;
    */
-  createdAt?: Timestamp;
+  createdAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 8;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string updated_at = 8;
    */
-  updatedAt?: Timestamp;
+  updatedAt: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp deleted_at = 9;
+   * YYYY-MM-DD HH:MM:SS
+   *
+   * @generated from field: string deleted_at = 9;
    */
-  deletedAt?: Timestamp;
+  deletedAt: string;
 };
 
 /**

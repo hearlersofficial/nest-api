@@ -30,7 +30,7 @@ import { ConnectAuthChannelCommand } from "~/src/services/users/applications/com
 import { InitializeUserCommand } from "~/src/services/users/applications/commands/InitializeUser/InitializeUser.command";
 import { SchemaAuthUsersMapper } from "~/src/services/users/presentations/grpc/schema.authUsers.mapper";
 import { SchemaUsersMapper } from "~/src/services/users/presentations/grpc/schema.users.mapper";
-import { TimestampUtils } from "~/src/shared/utils/Date.utils";
+import { convertDayjs } from "~/src/shared/utils/Date.utils";
 
 @Controller("user")
 export class GrpcUserCommandController {
@@ -66,7 +66,7 @@ export class GrpcUserCommandController {
     const command: SaveRefreshTokenCommand = new SaveRefreshTokenCommand({
       userId,
       token,
-      expiresAt: TimestampUtils.timestampToDayjs(expiresAt),
+      expiresAt: convertDayjs(expiresAt),
     });
     await this.commandBus.execute(command);
     return create(SaveRefreshTokenResponseSchema, {

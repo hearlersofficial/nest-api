@@ -5,7 +5,7 @@ import { CounselMessageCreatedPayloadSchema } from "~/src/gen/v1/message/counsel
 import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
 import { Result } from "~/src/shared/core/domain/Result";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { getNowDayjs, TimestampUtils } from "~/src/shared/utils/Date.utils";
+import { formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
 import { CounselMessageCreatedEvent } from "./events/CounselMessageCreatedEvents";
 
 interface CounselMessagesNewProps {
@@ -52,7 +52,7 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
         counselId: message.counselId.getNumber(),
         message: message.message,
         isUserMessage: message.isUserMessage,
-        occurredAt: TimestampUtils.now(),
+        occurredAt: formatDayjs(getNowDayjs()),
       });
       createdMessage.value.addDomainEvent(new CounselMessageCreatedEvent(counselMessageCreated));
     }

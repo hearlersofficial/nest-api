@@ -6,7 +6,7 @@ import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
 import { Result } from "~/src/shared/core/domain/Result";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
-import { getNowDayjs, TimestampUtils } from "~/src/shared/utils/Date.utils";
+import { formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
 import { CounselCreatedEvent } from "./events/CounselCreatedEvents";
 
 interface CounselsNewProps {
@@ -58,7 +58,7 @@ export class Counsels extends AggregateRoot<CounselsProps> {
         counselId: counsel.id.getNumber(),
         userId: counsel.userId,
         counselorId: counsel.counselorId,
-        occurredAt: TimestampUtils.now(),
+        occurredAt: formatDayjs(getNowDayjs()),
       });
       createdCounsel.value.addDomainEvent(new CounselCreatedEvent(counselCreated));
     }

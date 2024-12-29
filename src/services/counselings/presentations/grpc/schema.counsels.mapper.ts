@@ -13,7 +13,7 @@ import {
   CounselPromptSchema,
   CounselSchema,
 } from "~/src/gen/v1/model/counsel_pb";
-import { TimestampUtils } from "~/src/shared/utils/Date.utils";
+import { formatDayjs } from "~/src/shared/utils/Date.utils";
 
 export class SchemaCounselsMapper {
   static toCounselProto(counsel: Counsels): Counsel {
@@ -22,10 +22,10 @@ export class SchemaCounselsMapper {
       userId: counsel.userId,
       counselorId: counsel.counselorId,
       lastMessage: counsel.lastMessage,
-      lastChatedAt: counsel.lastChatedAt ? TimestampUtils.dayjsToTimestamp(counsel.lastChatedAt) : null,
-      createdAt: TimestampUtils.dayjsToTimestamp(counsel.createdAt),
-      updatedAt: TimestampUtils.dayjsToTimestamp(counsel.updatedAt),
-      deletedAt: counsel.deletedAt ? TimestampUtils.dayjsToTimestamp(counsel.deletedAt) : null,
+      lastChatedAt: counsel.lastChatedAt ? formatDayjs(counsel.lastChatedAt) : null,
+      createdAt: formatDayjs(counsel.createdAt),
+      updatedAt: formatDayjs(counsel.updatedAt),
+      deletedAt: counsel.deletedAt ? formatDayjs(counsel.deletedAt) : null,
     });
   }
 
@@ -35,9 +35,9 @@ export class SchemaCounselsMapper {
       counselId: counselMessage.counselId.getNumber(),
       message: counselMessage.message,
       isUserMessage: counselMessage.isUserMessage,
-      createdAt: TimestampUtils.dayjsToTimestamp(counselMessage.createdAt),
-      updatedAt: TimestampUtils.dayjsToTimestamp(counselMessage.updatedAt),
-      deletedAt: counselMessage.deletedAt ? TimestampUtils.dayjsToTimestamp(counselMessage.deletedAt) : null,
+      createdAt: formatDayjs(counselMessage.createdAt),
+      updatedAt: formatDayjs(counselMessage.updatedAt),
+      deletedAt: counselMessage.deletedAt ? formatDayjs(counselMessage.deletedAt) : null,
     });
   }
 
@@ -52,9 +52,9 @@ export class SchemaCounselsMapper {
       promptType: counselPrompt.promptType,
       description: counselPrompt.description,
       version: counselPrompt.version,
-      createdAt: TimestampUtils.dayjsToTimestamp(counselPrompt.createdAt),
-      updatedAt: TimestampUtils.dayjsToTimestamp(counselPrompt.updatedAt),
-      deletedAt: counselPrompt.deletedAt ? TimestampUtils.dayjsToTimestamp(counselPrompt.deletedAt) : null,
+      createdAt: formatDayjs(counselPrompt.createdAt),
+      updatedAt: formatDayjs(counselPrompt.updatedAt),
+      deletedAt: counselPrompt.deletedAt ? formatDayjs(counselPrompt.deletedAt) : null,
     });
   }
 
@@ -70,9 +70,9 @@ export class SchemaCounselsMapper {
       introMessage: bubble.introMessage,
       responseOption1: bubble.responseOption1,
       responseOption2: bubble.responseOption2,
-      createdAt: TimestampUtils.dayjsToTimestamp(counselor.createdAt),
-      updatedAt: TimestampUtils.dayjsToTimestamp(counselor.updatedAt),
-      deletedAt: counselor.deletedAt ? TimestampUtils.dayjsToTimestamp(counselor.deletedAt) : null,
+      createdAt: formatDayjs(counselor.createdAt),
+      updatedAt: formatDayjs(counselor.updatedAt),
+      deletedAt: counselor.deletedAt ? formatDayjs(counselor.deletedAt) : null,
     });
   }
 }

@@ -2,17 +2,14 @@ import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { Result } from "~/src/shared/core/domain/Result";
 import { Dayjs } from "dayjs";
-import { formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { getNowDayjs } from "~/src/shared/utils/Date.utils";
 import { Gender, Mbti, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { UserProfiles } from "~/src/aggregates/users/domain/UserProfiles";
 import { UserProgresses } from "~/src/aggregates/users/domain/UserProgresses";
 import { UserPrompts } from "~/src/aggregates/users/domain/UserPrompts";
-import { create } from "@bufbuild/protobuf";
-import { UserUpdatedPayloadSchema } from "~/src/gen/com/hearlers/v1/message/user_pb";
-import { UserUpdatedEvent } from "~/src/aggregates/users/domain/events/UserUpdatedEvents";
-import { generateUUID } from "~/src/shared/utils/UUID.utils";
 import { UserMessageTokens } from "~/src/aggregates/users/domain/UserMessageTokens";
 import { TokenResetInterval } from "~/src/shared/enums/TokenResetInterval.enum";
+import { generateUUID } from "~/src/shared/utils/UUID.utils";
 
 interface UsersNewProps {}
 
@@ -105,6 +102,12 @@ export class Users extends AggregateRoot<UsersProps> {
     return Result.ok<void>();
   }
 
+  public updateNickname(nickname: string): Result<void> {
+    this.props.nickname = nickname;
+    this.props.updatedAt = getNowDayjs();
+    return Result.ok<void>();
+  }
+
   // Getters
   get nickname(): string {
     return this.props.nickname;
@@ -139,20 +142,6 @@ export class Users extends AggregateRoot<UsersProps> {
   }
 
   // Methods
-  public setProfile(profile: UserProfiles): Result<void> {
-    if (!profile.userId.equals(this.id)) {
-      return Result.fail<void>("[Users] 프로필의 사용자 ID가 일치하지 않습니다");
-    }
-    this.props.userProfile = profile;
-    this.props.updatedAt = getNowDayjs();
-    const userUpdated = create(UserUpdatedPayloadSchema, {
-      userId: this.id.getNumber(),
-      occurredAt: formatDayjs(getNowDayjs()),
-    });
-
-    this.addDomainEvent(new UserUpdatedEvent(userUpdated));
-    return Result.ok<void>();
-  }
 
   public addProgress(progress: UserProgresses): Result<void> {
     if (!progress.userId.equals(this.id)) {

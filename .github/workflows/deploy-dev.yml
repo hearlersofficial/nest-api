@@ -22,7 +22,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.DEV_EC2_USER }}@${{ secrets.DEV_EC2_HOST }} << EOF
             cd ~/hearlers-nest-api
-            git pull origin develop
+            git fetch origin
+            git reset --hard origin/develop
             git submodule foreach git pull origin main
             sudo docker-compose -f docker-compose.yaml pull
             sudo docker-compose -f docker-compose.yaml restart

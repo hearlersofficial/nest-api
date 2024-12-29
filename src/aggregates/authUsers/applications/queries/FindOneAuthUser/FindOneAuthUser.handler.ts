@@ -12,7 +12,15 @@ export class FindOneAuthUserHandler implements IQueryHandler<FindOneAuthUserQuer
   constructor(private readonly findOneAuthUserUseCase: FindOneAuthUserUseCase) {}
 
   async execute(query: FindOneAuthUserQuery): Promise<FindOneAuthUserQueryResult> {
-    const { ok, error, authUser } = await this.findOneAuthUserUseCase.execute(query.props);
+    const { authUserId, userId, authChannel, uniqueId } = query.props;
+    const { ok, error, authUser } = await this.findOneAuthUserUseCase.execute({
+      authUserId: authUserId ?? undefined,
+      userId: userId ?? undefined,
+      channelInfo: {
+        authChannel: authChannel ?? undefined,
+        uniqueId: uniqueId ?? undefined,
+      },
+    });
     if (!ok) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, error);
     }

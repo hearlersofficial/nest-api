@@ -87,6 +87,55 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
     return phoneRegex.test(phoneNumber.replace(/-/g, ""));
   }
 
+  public isProfileCompleted(): boolean {
+    let flag = true;
+    if (this.props.mbti === null || this.props.mbti === undefined) {
+      flag = false;
+    }
+    if (this.props.gender === null || this.props.gender === undefined) {
+      flag = false;
+    }
+    if (this.props.birthday === null || this.props.birthday === undefined) {
+      flag = false;
+    }
+    return flag;
+  }
+
+  public updateProfile(
+    props: Partial<{
+      profileImage: string;
+      phoneNumber: string;
+      introduction: string;
+    }>,
+  ): Result<void> {
+    if (props.profileImage !== undefined) {
+      this.props.profileImage = props.profileImage;
+    }
+    if (props.phoneNumber !== undefined) {
+      if (!this.validatePhoneNumber(props.phoneNumber)) {
+        return Result.fail<void>("[UserProfiles] 유효하지 않은 전화번호 형식입니다");
+      }
+      this.props.phoneNumber = props.phoneNumber;
+    }
+    if (props.introduction !== undefined) {
+      if (props.introduction.length > 500) {
+        return Result.fail<void>("[UserProfiles] 자기소개는 500자를 초과할 수 없습니다");
+      }
+      this.props.introduction = props.introduction;
+    }
+
+    this.props.updatedAt = getNowDayjs();
+    return Result.ok<void>();
+  }
+
+  public delete(): void {
+    this.props.deletedAt = getNowDayjs();
+  }
+
+  public restore(): void {
+    this.props.deletedAt = null;
+  }
+
   // Getters
   get userId(): UniqueEntityId {
     return this.props.userId;
@@ -126,41 +175,5 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
 
   get deletedAt(): Dayjs | null {
     return this.props.deletedAt;
-  }
-
-  // Methods
-  public updateProfile(
-    props: Partial<{
-      profileImage: string;
-      phoneNumber: string;
-      introduction: string;
-    }>,
-  ): Result<void> {
-    if (props.profileImage !== undefined) {
-      this.props.profileImage = props.profileImage;
-    }
-    if (props.phoneNumber !== undefined) {
-      if (!this.validatePhoneNumber(props.phoneNumber)) {
-        return Result.fail<void>("[UserProfiles] 유효하지 않은 전화번호 형식입니다");
-      }
-      this.props.phoneNumber = props.phoneNumber;
-    }
-    if (props.introduction !== undefined) {
-      if (props.introduction.length > 500) {
-        return Result.fail<void>("[UserProfiles] 자기소개는 500자를 초과할 수 없습니다");
-      }
-      this.props.introduction = props.introduction;
-    }
-
-    this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
-  }
-
-  public delete(): void {
-    this.props.deletedAt = getNowDayjs();
-  }
-
-  public restore(): void {
-    this.props.deletedAt = null;
   }
 }

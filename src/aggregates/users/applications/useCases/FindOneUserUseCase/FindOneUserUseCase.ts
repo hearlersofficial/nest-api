@@ -4,7 +4,7 @@ import { FindOneUserUseCaseResponse } from "~/src/aggregates/users/applications/
 import { Users } from "~/src/aggregates/users/domain/Users";
 import { USER_REPOSITORY, UsersRepositoryPort } from "~/src/aggregates/users/infrastructures/users.repository.port";
 import { UseCase } from "~/src/shared/core/applications/UseCase";
-import { AuthChannel } from "~/src/gen/v1/model/auth_user_pb";
+import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
 
 @Injectable()
 export class FindOneUserUseCase implements UseCase<FindOneUserUseCaseRequest, FindOneUserUseCaseResponse> {

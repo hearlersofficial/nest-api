@@ -53,8 +53,9 @@
 // };
 
 export enum CounselorType {
-  DEPRESSED = 0, //우울
-  ANXIOUS = 1, //불안
-  TIRED = 2, //무기력
-  LONELY = 3, //외로움
+  UNSPECIFIED = 0,
+  DEPRESSED = 1, //우울
+  ANXIOUS = 2, //불안
+  TIRED = 3, //무기력
+  LONELY = 4, //외로움
 }

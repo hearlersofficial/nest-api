@@ -1,5 +1,5 @@
 import { toBinary } from "@bufbuild/protobuf";
-import { CounselCreatedPayload, CounselCreatedPayloadSchema } from "~/src/gen/v1/message/counsel_pb";
+import { CounselCreatedPayload, CounselCreatedPayloadSchema } from "~/src/gen/com/hearlers/v1/message/counsel_pb";
 import { DomainEvent } from "~/src/shared/core/domain/events/DomainEvent";
 
 export class CounselCreatedEvent extends DomainEvent {

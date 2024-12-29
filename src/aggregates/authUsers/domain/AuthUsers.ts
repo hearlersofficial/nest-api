@@ -4,7 +4,7 @@ import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { Result } from "~/src/shared/core/domain/Result";
 import { CoreStatus } from "~/src/shared/core/constants/status.constants";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";
-import { AuthChannel } from "~/src/gen/v1/model/auth_user_pb";
+import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
 import { Kakao } from "~/src/aggregates/authUsers/domain/Kakao";
 import { RefreshTokensVO } from "~/src/aggregates/authUsers/domain/RefreshTokens.vo";
 

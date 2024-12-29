@@ -4,7 +4,7 @@ import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.ent
 import { CoreStatus } from "~/src/shared/core/constants/status.constants";
 import { KakaoEntity } from "~/src/shared/core/infrastructure/entities/Kakao.entity";
 import { RefreshTokenEntity } from "~/src/shared/core/infrastructure/entities/RefreshTokens.entity";
-import { AuthChannel } from "~/src/gen/v1/model/auth_user_pb";
+import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
 
 @Entity({
   name: "auth_users",

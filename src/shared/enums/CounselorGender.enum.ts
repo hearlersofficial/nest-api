@@ -1,10 +1,12 @@
 export enum CounselorGender {
-  MALE = 0,
-  FEMALE = 1,
-  NONE = 2,
+  UNSPECIFIED = 0,
+  MALE = 1,
+  FEMALE = 2,
+  NONE = 3,
 }
 
 export const CounselorGenderMap = {
+  [CounselorGender.UNSPECIFIED]: "unspecified",
   [CounselorGender.MALE]: "male",
   [CounselorGender.FEMALE]: "female",
   [CounselorGender.NONE]: "none",

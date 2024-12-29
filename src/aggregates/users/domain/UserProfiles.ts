@@ -1,6 +1,6 @@
 import { DomainEntity } from "~/src/shared/core/domain/DomainEntity";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { Gender, Mbti } from "~/src/gen/v1/model/user_pb";
+import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { Result } from "~/src/shared/core/domain/Result";
 import { Dayjs } from "dayjs";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";

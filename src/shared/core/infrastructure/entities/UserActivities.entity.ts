@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, JoinColumn, Index, RelationId } from "typeorm";
 import { CoreEntity } from "./Core.entity";
 import { UsersEntity } from "./Users.entity";
-import { ActivityType, DevicePlatform } from "~/src/gen/v1/model/user_pb";
+import { ActivityType, DevicePlatform } from "~/src/gen/com/hearlers/v1/model/user_pb";
 
 @Entity({ name: "user_activities" })
 @Index(["userId", "createdAt"]) // 사용자별 활동 시간순 조회를 위한 인덱스

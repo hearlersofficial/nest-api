@@ -4,7 +4,7 @@ import { UpdateUserCommand } from "./UpdateUser.command";
 import { FindOneUserUseCase } from "../../useCases/FindOneUserUseCase/FindOneUserUseCase";
 import { UpdateUserUseCase } from "../../useCases/UpdateUserUseCase/UpdateUserUseCase";
 import { Users, UsersProps } from "~/src/aggregates/users/domain/Users";
-import { UserProfile } from "~/src/gen/v1/model/user_pb";
+import { UserProfile } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
 import { UserProfiles, UserProfilesProps } from "~/src/aggregates/users/domain/UserProfiles";
 import { convertDayjs } from "~/src/shared/utils/Date.utils";

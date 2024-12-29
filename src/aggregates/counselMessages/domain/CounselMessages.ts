@@ -1,7 +1,7 @@
 import { create } from "@bufbuild/protobuf";
 import { Dayjs } from "dayjs";
 import { ChatCompletionAssistantMessageParam, ChatCompletionUserMessageParam } from "openai/resources";
-import { CounselMessageCreatedPayloadSchema } from "~/src/gen/v1/message/counsel_pb";
+import { CounselMessageCreatedPayloadSchema } from "~/src/gen/com/hearlers/v1/message/counsel_pb";
 import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
 import { Result } from "~/src/shared/core/domain/Result";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";

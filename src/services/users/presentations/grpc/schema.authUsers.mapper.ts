@@ -10,7 +10,7 @@ import {
   OAuthChannelInfoSchema,
   RefreshToken,
   RefreshTokenSchema,
-} from "~/src/gen/v1/model/auth_user_pb";
+} from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
 import { formatDayjs } from "~/src/shared/utils/Date.utils";
 

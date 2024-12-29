@@ -23,9 +23,12 @@ import {
   UpdatePromptRequest,
   UpdatePromptResult,
   UpdatePromptResultSchema,
-} from "~/src/gen/v1/service/counsel_pb";
+} from "~/src/gen/com/hearlers/v1/service/counsel_pb";
 import { SchemaCounselsMapper } from "~/src/services/counselings/presentations/grpc/schema.counsels.mapper";
-import { CreateCounselCommand, CreateCounselCommandResult } from "../../../applications/commands/CreateCounsel/CreateCounsel.command";
+import {
+  CreateCounselCommand,
+  CreateCounselCommandResult,
+} from "../../../applications/commands/CreateCounsel/CreateCounsel.command";
 import { CreatePromptCommand } from "~/src/aggregates/counselPrompts/applications/commands/CreatePrompt/CreatePrompt.command";
 import { UpdatePromptCommand } from "~/src/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.command";
 import { CreateCounselorCommand } from "~/src/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
@@ -47,7 +50,9 @@ export class GrpcCounselCommandController {
 
     return create(CreateCounselResultSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),
-      counselMessages: counselMessages.map((counselMessage) => SchemaCounselsMapper.toCounselMessageProto(counselMessage)),
+      counselMessages: counselMessages.map((counselMessage) =>
+        SchemaCounselsMapper.toCounselMessageProto(counselMessage),
+      ),
     });
   }
 

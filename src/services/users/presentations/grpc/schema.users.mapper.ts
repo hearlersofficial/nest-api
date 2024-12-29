@@ -10,7 +10,7 @@ import {
   UserProgress,
   UserProgressSchema,
   UserSchema,
-} from "~/src/gen/v1/model/user_pb";
+} from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
 import { formatDayjs } from "~/src/shared/utils/Date.utils";
 

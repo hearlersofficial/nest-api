@@ -1,7 +1,7 @@
 import { create } from "@bufbuild/protobuf";
 import { Dayjs } from "dayjs";
 import { CounselMessages } from "~/src/aggregates/counselMessages/domain/CounselMessages";
-import { CounselCreatedPayloadSchema } from "~/src/gen/v1/message/counsel_pb";
+import { CounselCreatedPayloadSchema } from "~/src/gen/com/hearlers/v1/message/counsel_pb";
 import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
 import { Result } from "~/src/shared/core/domain/Result";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";

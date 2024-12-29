@@ -25,7 +25,7 @@ import {
   VerifyRefreshTokenRequest,
   VerifyRefreshTokenResponse,
   VerifyRefreshTokenResponseSchema,
-} from "~/src/gen/v1/service/user_pb";
+} from "~/src/gen/com/hearlers/v1/service/user_pb";
 import { ConnectAuthChannelCommand } from "~/src/services/users/applications/commands/ConnectAuthChannel/ConnectAuthChannel.command";
 import { InitializeUserCommand } from "~/src/services/users/applications/commands/InitializeUser/InitializeUser.command";
 import { SchemaAuthUsersMapper } from "~/src/services/users/presentations/grpc/schema.authUsers.mapper";

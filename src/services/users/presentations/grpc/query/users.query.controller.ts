@@ -14,7 +14,7 @@ import {
   FindOneUserRequest,
   FindOneUserResponse,
   FindOneUserResponseSchema,
-} from "~/src/gen/v1/service/user_pb";
+} from "~/src/gen/com/hearlers/v1/service/user_pb";
 import { SchemaUsersMapper } from "~/src/services/users/presentations/grpc/schema.users.mapper";
 import { FindOneAuthUserQuery } from "~/src/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
 import { SchemaAuthUsersMapper } from "~/src/services/users/presentations/grpc/schema.authUsers.mapper";

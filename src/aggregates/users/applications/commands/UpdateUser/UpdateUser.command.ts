@@ -1,5 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
-import { UserProfile } from "~/src/gen/v1/model/user_pb";
+import { UserProfile } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
 
 export class UpdateUserCommand {

@@ -1,5 +1,5 @@
 import { AuthUsers } from "~/src/aggregates/authUsers/domain/AuthUsers";
-import { AuthChannel } from "~/src/gen/v1/model/auth_user_pb";
+import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
 
 export const AUTH_USERS_REPOSITORY = Symbol("AUTH_USERS_REPOSITORY");
 

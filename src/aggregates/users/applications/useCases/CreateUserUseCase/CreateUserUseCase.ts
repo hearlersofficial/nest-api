@@ -4,7 +4,7 @@ import { CreateUserUseCaseResponse } from "./dto/CreateUser.response";
 import { UserProgresses } from "~/src/aggregates/users/domain/UserProgresses";
 import { Users } from "~/src/aggregates/users/domain/Users";
 import { USER_REPOSITORY, UsersRepositoryPort } from "~/src/aggregates/users/infrastructures/users.repository.port";
-import { ProgressStatus, ProgressType } from "~/src/gen/v1/model/user_pb";
+import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { UseCase } from "~/src/shared/core/applications/UseCase";
 import { Result } from "~/src/shared/core/domain/Result";
 

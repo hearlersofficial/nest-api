@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
-import { Gender, Mbti } from "~/src/gen/v1/model/user_pb";
+import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
 import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
 

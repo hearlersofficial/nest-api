@@ -17,7 +17,7 @@ import {
   GetPromptListRequest,
   GetPromptListResult,
   GetPromptListResultSchema,
-} from "~/src/gen/v1/service/counsel_pb";
+} from "~/src/gen/com/hearlers/v1/service/counsel_pb";
 import { SchemaCounselsMapper } from "../schema.counsels.mapper";
 import { GetMessageListQuery } from "~/src/aggregates/counselMessages/applications/queries/GetMessageList/GetMessageList.query";
 import { CounselMessages } from "~/src/aggregates/counselMessages/domain/CounselMessages";
@@ -35,7 +35,9 @@ export class GrpcCounselQueryController {
     const query: GetCounselListQuery = new GetCounselListQuery({ userId: data.userId });
     const counselList: Counsels[] = await this.queryBus.execute(query);
 
-    return create(GetCounselListResultSchema, { counselList: counselList.map((counsel) => SchemaCounselsMapper.toCounselProto(counsel)) });
+    return create(GetCounselListResultSchema, {
+      counselList: counselList.map((counsel) => SchemaCounselsMapper.toCounselProto(counsel)),
+    });
   }
 
   @GrpcMethod("CounselService", "GetMessageList")
@@ -44,7 +46,9 @@ export class GrpcCounselQueryController {
     const counselMessageList: CounselMessages[] = await this.queryBus.execute(query);
 
     return create(GetMessageListResultSchema, {
-      messageList: counselMessageList.map((counselMessage) => SchemaCounselsMapper.toCounselMessageProto(counselMessage)),
+      messageList: counselMessageList.map((counselMessage) =>
+        SchemaCounselsMapper.toCounselMessageProto(counselMessage),
+      ),
     });
   }
 

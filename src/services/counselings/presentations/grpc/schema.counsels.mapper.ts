@@ -12,7 +12,7 @@ import {
   CounselPrompt,
   CounselPromptSchema,
   CounselSchema,
-} from "~/src/gen/v1/model/counsel_pb";
+} from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 import { formatDayjs } from "~/src/shared/utils/Date.utils";
 
 export class SchemaCounselsMapper {

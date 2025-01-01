@@ -3,11 +3,11 @@ import { ChatCompletionSystemMessageParam } from "openai/resources";
 import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
 import { Result } from "~/src/shared/core/domain/Result";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { CounselPromptType } from "~/src/shared/enums/CounselPromptType.enum";
 import { isValidVersion, VersionString } from "~/src/shared/types/version.type";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";
 import { Counselors } from "../../counselors/domain/counselors";
 import { CounselorGenderMap } from "~/src/shared/enums/CounselorGender.enum";
+import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 
 interface CounselPromptsNewProps {
   persona: string | null;
@@ -83,6 +83,9 @@ export class CounselPrompts extends AggregateRoot<CounselPromptsProps> {
     }
     if (!Object.values(CounselPromptType).includes(this.props.promptType)) {
       return Result.fail<void>("[CounselPrompts] 유효하지 않은 promptType입니다");
+    }
+    if (this.props.promptType === CounselPromptType.UNSPECIFIED) {
+      return Result.fail<void>("[CounselPrompts] promptType이 지정되지 않았습니다");
     }
 
     // version 검증

@@ -1,8 +1,7 @@
 import { Column, Entity, OneToMany } from "typeorm";
-import { CounselorType } from "~/src/shared/enums/CounselorType.enum";
 import { CoreEntity } from "./Core.entity";
-import { CounselorGender } from "~/src/shared/enums/CounselorGender.enum";
 import { CounselsEntity } from "./Counsels.entity";
+import { CounselorGender, CounselorType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 
 @Entity({
   name: "counselors",

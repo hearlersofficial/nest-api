@@ -1,4 +1,4 @@
-import { CounselPromptType } from "~/src/shared/enums/CounselPromptType.enum";
+import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 import { VersionString } from "~/src/shared/types/version.type";
 
 export interface CreateCounselPromptUseCaseRequest {

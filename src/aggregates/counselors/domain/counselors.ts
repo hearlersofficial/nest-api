@@ -2,12 +2,10 @@ import { Dayjs } from "dayjs";
 import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
 import { Result } from "~/src/shared/core/domain/Result";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { CounselorType } from "~/src/shared/enums/CounselorType.enum";
-import { CounselorGender } from "~/src/shared/enums/CounselorGender.enum";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";
 import { Bubble, BubbleList } from "./consts/Bubble.const";
 import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
-import { CounselPromptType } from "~/src/shared/enums/CounselPromptType.enum";
+import { CounselorGender, CounselorType, CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 
 interface CounselorsNewProps {
   counselorType: CounselorType;
@@ -58,6 +56,9 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     if (!Object.values(CounselorType).includes(this.props.counselorType)) {
       return Result.fail<void>("[Counselors] 유효하지 않은 상담사 타입입니다");
     }
+    if (this.props.counselorType === CounselorType.UNSPECIFIED) {
+      return Result.fail<void>("[Counselors] 상담사 타입이 지정되지 않았습니다");
+    }
 
     // name 검증
     if (this.props.name === null || this.props.name === undefined) {
@@ -73,6 +74,9 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     }
     if (!Object.values(CounselorGender).includes(this.props.gender)) {
       return Result.fail<void>("[Counselors] 유효하지 않은 성별입니다");
+    }
+    if (this.props.gender === CounselorGender.UNSPECIFIED) {
+      return Result.fail<void>("[Counselors] 성별이 지정되지 않았습니다");
     }
 
     // description 검증

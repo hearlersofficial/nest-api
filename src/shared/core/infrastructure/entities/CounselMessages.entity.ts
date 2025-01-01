@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 import { CoreEntity } from "./Core.entity";
 import { CounselsEntity } from "./Counsels.entity";
+import { CounselMessageReaction } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 
 @Entity({
   name: "counsel_messages",
@@ -35,4 +36,21 @@ export class CounselMessagesEntity extends CoreEntity {
     default: true,
   })
   isUserMessage: boolean;
+
+  @Column({
+    name: "reacted_at",
+    type: "timestamp",
+    comment: "좋아요/싫어요 누른 일시 (한국시간)",
+    nullable: true,
+  })
+  reactedAt: string;
+
+  @Column({
+    type: "enum",
+    name: "reaction",
+    enum: CounselMessageReaction,
+    comment: "좋아요/싫어요 여부",
+    nullable: true,
+  })
+  reaction: CounselMessageReaction;
 }

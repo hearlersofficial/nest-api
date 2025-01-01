@@ -1,8 +1,9 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindManyOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
+import { FindManyOptions, FindOneOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
 import {
   CounselMessagesRepositoryPort,
   FindManyPropsInCounselMessagesRepository,
+  FindOnePropsInCounselMessagesRepository,
 } from "~/src/aggregates/counselMessages/infrastructures/counselMessages.repository.port";
 import { CounselMessagesEntity } from "~/src/shared/core/infrastructure/entities/CounselMessages.entity";
 import { CounselMessages } from "~/src/aggregates/counselMessages/domain/CounselMessages";
@@ -55,5 +56,28 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
     }
 
     return counselMessageList;
+  }
+
+  async findOne(props: FindOnePropsInCounselMessagesRepository): Promise<CounselMessages> {
+    const { counselMessageId } = props;
+    const findOptionsWhere: FindOptionsWhere<CounselMessagesEntity> = {};
+    if (counselMessageId !== null && counselMessageId !== undefined) {
+      findOptionsWhere.id = counselMessageId;
+    }
+    const findOneOptions: FindOneOptions<CounselMessagesEntity> = { where: findOptionsWhere };
+    const counselMessagesEntity = await this.counselMessagesRepository.findOne(findOneOptions);
+    const counselMessage = PsqlCounselMessagesMapper.toDomain(counselMessagesEntity);
+    await this.publishDomainEvents(counselMessage);
+
+    return counselMessage;
+  }
+
+  async update(counselMessage: CounselMessages): Promise<CounselMessages> {
+    const counselMessagesEntity = PsqlCounselMessagesMapper.toEntity(counselMessage);
+    const updatedCounselMessagesEntity = await this.counselMessagesRepository.save(counselMessagesEntity);
+    const updatedCounselMessage = PsqlCounselMessagesMapper.toDomain(updatedCounselMessagesEntity);
+    await this.publishDomainEvents(updatedCounselMessage);
+
+    return updatedCounselMessage;
   }
 }

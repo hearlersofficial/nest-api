@@ -17,6 +17,9 @@ import {
   CreatePromptRequest,
   CreatePromptResult,
   CreatePromptResultSchema,
+  ReactMessageRequest,
+  ReactMessageResult,
+  ReactMessageResultSchema,
   UpdateCounselorRequest,
   UpdateCounselorResult,
   UpdateCounselorResultSchema,
@@ -25,14 +28,12 @@ import {
   UpdatePromptResultSchema,
 } from "~/src/gen/com/hearlers/v1/service/counsel_pb";
 import { SchemaCounselsMapper } from "~/src/services/counselings/presentations/grpc/schema.counsels.mapper";
-import {
-  CreateCounselCommand,
-  CreateCounselCommandResult,
-} from "../../../applications/commands/CreateCounsel/CreateCounsel.command";
+import { CreateCounselCommand, CreateCounselCommandResult } from "../../../applications/commands/CreateCounsel/CreateCounsel.command";
 import { CreatePromptCommand } from "~/src/aggregates/counselPrompts/applications/commands/CreatePrompt/CreatePrompt.command";
 import { UpdatePromptCommand } from "~/src/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.command";
 import { CreateCounselorCommand } from "~/src/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
 import { UpdateCounselorCommand } from "~/src/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
+import { ReactMessageCommand } from "~/src/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
 
 @Controller("counsel")
 export class GrpcCounselCommandController {
@@ -50,9 +51,7 @@ export class GrpcCounselCommandController {
 
     return create(CreateCounselResultSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),
-      counselMessages: counselMessages.map((counselMessage) =>
-        SchemaCounselsMapper.toCounselMessageProto(counselMessage),
-      ),
+      counselMessages: counselMessages.map((counselMessage) => SchemaCounselsMapper.toCounselMessageProto(counselMessage)),
     });
   }
 
@@ -65,6 +64,19 @@ export class GrpcCounselCommandController {
     const counselMessage: CounselMessages = await this.commandBus.execute(command);
 
     return create(CreateMessageResultSchema, {
+      counselMessage: SchemaCounselsMapper.toCounselMessageProto(counselMessage),
+    });
+  }
+
+  @GrpcMethod("CounselService", "ReactMessage")
+  async reactCounselMessage(request: ReactMessageRequest): Promise<ReactMessageResult> {
+    const command: ReactMessageCommand = new ReactMessageCommand({
+      messageId: request.messageId,
+      reaction: request.reaction,
+    });
+    const counselMessage: CounselMessages = await this.commandBus.execute(command);
+
+    return create(ReactMessageResultSchema, {
       counselMessage: SchemaCounselsMapper.toCounselMessageProto(counselMessage),
     });
   }

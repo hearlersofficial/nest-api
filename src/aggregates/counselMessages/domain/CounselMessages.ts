@@ -1,12 +1,13 @@
 import { create } from "@bufbuild/protobuf";
 import { Dayjs } from "dayjs";
 import { ChatCompletionAssistantMessageParam, ChatCompletionUserMessageParam } from "openai/resources";
-import { CounselMessageCreatedPayloadSchema } from "~/src/gen/com/hearlers/v1/message/counsel_pb";
 import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
 import { Result } from "~/src/shared/core/domain/Result";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
 import { CounselMessageCreatedEvent } from "./events/CounselMessageCreatedEvents";
+import { CounselMessageReaction } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
+import { CounselMessageCreatedPayloadSchema } from "~/src/gen/com/hearlers/v1/message/counsel_pb";
 
 interface CounselMessagesNewProps {
   counselId: UniqueEntityId;
@@ -15,6 +16,8 @@ interface CounselMessagesNewProps {
 }
 
 interface CounselMessagesProps extends CounselMessagesNewProps {
+  reactedAt: Dayjs | null;
+  reaction: CounselMessageReaction | null;
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -40,6 +43,8 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
     const createdMessage = this.create(
       {
         ...newProps,
+        reactedAt: null,
+        reaction: null,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -52,7 +57,7 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
         counselId: message.counselId.getNumber(),
         message: message.message,
         isUserMessage: message.isUserMessage,
-        occurredAt: formatDayjs(getNowDayjs()),
+        occurredAt: formatDayjs(now),
       });
       createdMessage.value.addDomainEvent(new CounselMessageCreatedEvent(counselMessageCreated));
     }
@@ -104,6 +109,14 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
     return this.props.isUserMessage;
   }
 
+  get reactedAt(): Dayjs | null {
+    return this.props.reactedAt;
+  }
+
+  get reaction(): CounselMessageReaction | null {
+    return this.props.reaction;
+  }
+
   get createdAt(): Dayjs {
     return this.props.createdAt;
   }
@@ -139,5 +152,16 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
   public checkNeedBranch(): boolean {
     const end_msg = "같이 더 이야기해보자.";
     return this.props.message.includes(end_msg);
+  }
+
+  public react(reaction: CounselMessageReaction): Result<void> {
+    if (this.props.reactedAt) {
+      return Result.fail<void>("[CounselMessages] 이미 좋아요 또는 싫어요를 누른 메시지입니다");
+    }
+    this.props.reactedAt = getNowDayjs();
+    this.props.reaction = reaction;
+
+    this.props.updatedAt = getNowDayjs();
+    return Result.ok<void>();
   }
 }

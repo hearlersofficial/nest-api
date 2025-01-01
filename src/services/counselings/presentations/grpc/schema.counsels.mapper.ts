@@ -35,6 +35,8 @@ export class SchemaCounselsMapper {
       counselId: counselMessage.counselId.getNumber(),
       message: counselMessage.message,
       isUserMessage: counselMessage.isUserMessage,
+      reactedAt: counselMessage.reactedAt ? formatDayjs(counselMessage.reactedAt) : null,
+      reaction: counselMessage.reaction,
       createdAt: formatDayjs(counselMessage.createdAt),
       updatedAt: formatDayjs(counselMessage.updatedAt),
       deletedAt: counselMessage.deletedAt ? formatDayjs(counselMessage.deletedAt) : null,

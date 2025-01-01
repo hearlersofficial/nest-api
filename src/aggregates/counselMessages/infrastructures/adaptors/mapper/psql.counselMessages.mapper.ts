@@ -15,6 +15,8 @@ export class PsqlCounselMessagesMapper {
       counselId: new UniqueEntityId(entity.counselId),
       message: entity.message,
       isUserMessage: entity.isUserMessage,
+      reactedAt: entity.reactedAt ? convertDayjs(entity.reactedAt) : null,
+      reaction: entity.reaction ? entity.reaction : null,
       createdAt: convertDayjs(entity.createdAt),
       updatedAt: convertDayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? convertDayjs(entity.deletedAt) : null,
@@ -40,6 +42,9 @@ export class PsqlCounselMessagesMapper {
 
     entity.message = counselMessages.message;
     entity.isUserMessage = counselMessages.isUserMessage;
+
+    entity.reactedAt = counselMessages.reactedAt ? formatDayjs(counselMessages.reactedAt) : null;
+    entity.reaction = counselMessages.reaction ? counselMessages.reaction : null;
 
     entity.createdAt = formatDayjs(counselMessages.createdAt);
     entity.updatedAt = formatDayjs(counselMessages.updatedAt);

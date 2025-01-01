@@ -4,9 +4,9 @@ import { BranchCounselStageUseCaseResponse } from "./dto/BranchCounselStage.resp
 import { UseCase } from "~/src/shared/core/applications/UseCase";
 import OpenAI from "openai";
 import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
-import { CounselPromptType } from "~/src/shared/enums/CounselPromptType.enum";
 import { GetCounselPromptByTypeUseCase } from "~/src/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
 import { CounselPrompts } from "~/src/aggregates/counselPrompts/domain/CounselPrompts";
+import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 
 @Injectable()
 export class BranchCounselStageUseCase implements UseCase<BranchCounselStageUseCaseRequest, BranchCounselStageUseCaseResponse> {

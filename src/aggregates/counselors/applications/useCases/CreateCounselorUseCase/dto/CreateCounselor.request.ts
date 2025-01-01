@@ -1,5 +1,4 @@
-import { CounselorType } from "~/src/shared/enums/CounselorType.enum";
-import { CounselorGender } from "~/src/shared/enums/CounselorGender.enum";
+import { CounselorGender, CounselorType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 
 export interface CreateCounselorUseCaseRequest {
   counselorType: CounselorType;

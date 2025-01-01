@@ -1,7 +1,7 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
 import { CoreEntity } from "./Core.entity";
-import { CounselPromptType } from "~/src/shared/enums/CounselPromptType.enum";
 import { isValidVersion } from "~/src/shared/types/version.type";
+import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 
 @Entity({
   name: "counsel_prompts",

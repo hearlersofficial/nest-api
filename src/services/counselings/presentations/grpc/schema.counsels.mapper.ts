@@ -68,7 +68,6 @@ export class SchemaCounselsMapper {
       name: counselor.name,
       description: counselor.description,
       gender: counselor.gender,
-      // TODO: bubble 삽입
       introMessage: bubble.introMessage,
       responseOption1: bubble.responseOption1,
       responseOption2: bubble.responseOption2,

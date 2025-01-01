@@ -1,9 +1,4 @@
-export enum CounselorGender {
-  UNSPECIFIED = 0,
-  MALE = 1,
-  FEMALE = 2,
-  NONE = 3,
-}
+import { CounselorGender } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 
 export const CounselorGenderMap = {
   [CounselorGender.UNSPECIFIED]: "unspecified",

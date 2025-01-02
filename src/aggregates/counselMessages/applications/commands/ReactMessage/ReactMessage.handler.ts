@@ -15,7 +15,10 @@ export class ReactMessageHandler implements ICommandHandler<ReactMessageCommand>
       throw new Error(getCounselMessageResult.error);
     }
     const counselMessage = getCounselMessageResult.counselMessage;
-    counselMessage.react(reaction);
+    const reactResult = counselMessage.react(reaction);
+    if (reactResult.isFailure) {
+      throw new Error(reactResult.error);
+    }
     const updateCounselMessageResult = await this.updateCounselMessageUseCase.execute({ toUpdateCounselMessage: counselMessage });
     if (!updateCounselMessageResult.ok) {
       throw new Error(updateCounselMessageResult.error);

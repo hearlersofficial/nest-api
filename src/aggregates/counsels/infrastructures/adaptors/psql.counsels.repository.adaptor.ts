@@ -47,8 +47,10 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
 
     const counselsEntities: CounselsEntity[] = await this.counselsRepository.find(findManyOptions);
     const counselList = counselsEntities.map((entity) => PsqlCounselsMapper.toDomain(entity));
-    if (counselList.length === 0) {
-      counselList.forEach((counsel) => this.publishDomainEvents(counsel));
+    if (counselList.length > 0) {
+      for (const counsel of counselList) {
+        await this.publishDomainEvents(counsel);
+      }
     }
     return counselList;
   }

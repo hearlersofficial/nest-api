@@ -155,6 +155,9 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
   }
 
   public react(reaction: CounselMessageReaction): Result<void> {
+    if (this.props.isUserMessage) {
+      return Result.fail<void>("[CounselMessages] 사용자 메시지에는 반응할 수 없습니다");
+    }
     if (this.props.reactedAt) {
       return Result.fail<void>("[CounselMessages] 이미 좋아요 또는 싫어요를 누른 메시지입니다");
     }

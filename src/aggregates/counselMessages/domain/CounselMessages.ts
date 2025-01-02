@@ -15,6 +15,10 @@ interface CounselMessagesNewProps {
   isUserMessage: boolean;
 }
 
+interface CounselMessagesNewPropsForEvent extends CounselMessagesNewProps {
+  userId: number;
+}
+
 interface CounselMessagesProps extends CounselMessagesNewProps {
   reactedAt: Dayjs | null;
   reaction: CounselMessageReaction | null;
@@ -37,12 +41,13 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
     return Result.ok<CounselMessages>(counselMessages);
   }
 
-  public static createNew(newProps: CounselMessagesNewProps): Result<CounselMessages> {
+  public static createNew(newProps: CounselMessagesNewPropsForEvent): Result<CounselMessages> {
     const now = getNowDayjs();
     const newId = new UniqueEntityId();
+    const { userId, ...newPropsWithoutUserId } = newProps;
     const createdMessage = this.create(
       {
-        ...newProps,
+        ...newPropsWithoutUserId,
         reactedAt: null,
         reaction: null,
         createdAt: now,
@@ -55,6 +60,7 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
       const message = createdMessage.value;
       const counselMessageCreated = create(CounselMessageCreatedPayloadSchema, {
         counselId: message.counselId.getNumber(),
+        userId: userId,
         message: message.message,
         isUserMessage: message.isUserMessage,
         occurredAt: formatDayjs(now),

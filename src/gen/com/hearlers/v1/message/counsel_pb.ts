@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/message/counsel.proto.
  */
 export const file_com_hearlers_v1_message_counsel: GenFile = /*@__PURE__*/
-  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS9jb3Vuc2VsLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJnChVDb3Vuc2VsQ3JlYXRlZFBheWxvYWQSEgoKY291bnNlbF9pZBgBIAEoBRIPCgd1c2VyX2lkGAIgASgFEhQKDGNvdW5zZWxvcl9pZBgDIAEoBRITCgtvY2N1cnJlZF9hdBgEIAEoCSJxChxDb3Vuc2VsTWVzc2FnZUNyZWF0ZWRQYXlsb2FkEhIKCmNvdW5zZWxfaWQYASABKAUSDwoHbWVzc2FnZRgCIAEoCRIXCg9pc191c2VyX21lc3NhZ2UYAyABKAgSEwoLb2NjdXJyZWRfYXQYBCABKAlCqwEKG2NvbS5jb20uaGVhcmxlcnMudjEubWVzc2FnZUIMQ291bnNlbFByb3RvUAGiAgRDSFZNqgIXQ29tLkhlYXJsZXJzLlYxLk1lc3NhZ2XKAhdDb21cSGVhcmxlcnNcVjFcTWVzc2FnZeICI0NvbVxIZWFybGVyc1xWMVxNZXNzYWdlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6Ok1lc3NhZ2ViBnByb3RvMw");
+  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS9jb3Vuc2VsLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJnChVDb3Vuc2VsQ3JlYXRlZFBheWxvYWQSEgoKY291bnNlbF9pZBgBIAEoBRIPCgd1c2VyX2lkGAIgASgFEhQKDGNvdW5zZWxvcl9pZBgDIAEoBRITCgtvY2N1cnJlZF9hdBgEIAEoCSKCAQocQ291bnNlbE1lc3NhZ2VDcmVhdGVkUGF5bG9hZBISCgpjb3Vuc2VsX2lkGAEgASgFEg8KB3VzZXJfaWQYAiABKAUSDwoHbWVzc2FnZRgDIAEoCRIXCg9pc191c2VyX21lc3NhZ2UYBCABKAgSEwoLb2NjdXJyZWRfYXQYBSABKAlCqwEKG2NvbS5jb20uaGVhcmxlcnMudjEubWVzc2FnZUIMQ291bnNlbFByb3RvUAGiAgRDSFZNqgIXQ29tLkhlYXJsZXJzLlYxLk1lc3NhZ2XKAhdDb21cSGVhcmxlcnNcVjFcTWVzc2FnZeICI0NvbVxIZWFybGVyc1xWMVxNZXNzYWdlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6Ok1lc3NhZ2ViBnByb3RvMw");
 
 /**
  * topic: counsel.created
@@ -60,19 +60,24 @@ export type CounselMessageCreatedPayload = Message<"com.hearlers.v1.message.Coun
   counselId: number;
 
   /**
-   * @generated from field: string message = 2;
+   * @generated from field: int32 user_id = 2;
+   */
+  userId: number;
+
+  /**
+   * @generated from field: string message = 3;
    */
   message: string;
 
   /**
-   * @generated from field: bool is_user_message = 3;
+   * @generated from field: bool is_user_message = 4;
    */
   isUserMessage: boolean;
 
   /**
    * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
    *
-   * @generated from field: string occurred_at = 4;
+   * @generated from field: string occurred_at = 5;
    */
   occurredAt: string;
 };

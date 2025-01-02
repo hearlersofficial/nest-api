@@ -40,6 +40,7 @@ export class CreateMessageHandler implements ICommandHandler<CreateMessageComman
     // 사용자 메시지 추가
     const createUserMessageResult = await this.createCounselMessageUseCase.execute({
       counselId,
+      userId: counsel.userId,
       message,
       isUserMessage: true,
     });
@@ -98,6 +99,7 @@ export class CreateMessageHandler implements ICommandHandler<CreateMessageComman
     // 시스템 메시지 추가
     const createSystemMessageResult = await this.createCounselMessageUseCase.execute({
       counselId,
+      userId: counsel.userId,
       message: response,
       isUserMessage: false,
     });

@@ -26,6 +26,7 @@ export class InitializeCounselUseCase implements UseCase<InitializeCounselUseCas
 
     const firstMessage = {
       counselId: counsel.id.getNumber(),
+      userId: userId,
       message: "안녕! 여기는 내 상담실이야. 여기서는 무슨 이야기든 털어놓을 수 있어. 같이 이야기해볼래?",
       isUserMessage: false,
     };

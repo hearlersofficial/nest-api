@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
-import type { Counsel, CounselMessage, Counselor, CounselorGender, CounselorType, CounselPrompt, CounselPromptType } from "../model/counsel_pb";
+import type { Counsel, CounselMessage, CounselMessageReaction, Counselor, CounselorGender, CounselorType, CounselPrompt, CounselPromptType } from "../model/counsel_pb";
 import { file_com_hearlers_v1_model_counsel } from "../model/counsel_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/service/counsel.proto.
  */
 export const file_com_hearlers_v1_service_counsel: GenFile = /*@__PURE__*/
-  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2VsLnByb3RvEhdjb20uaGVhcmxlcnMudjEuc2VydmljZSJuChRDcmVhdGVDb3Vuc2VsUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgFEhQKDGNvdW5zZWxvcl9pZBgCIAEoBRIVCg1pbnRyb19tZXNzYWdlGAMgASgJEhgKEHJlc3BvbnNlX21lc3NhZ2UYBCABKAkihwEKE0NyZWF0ZUNvdW5zZWxSZXN1bHQSLwoHY291bnNlbBgBIAEoCzIeLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsEj8KEGNvdW5zZWxfbWVzc2FnZXMYAiADKAsyJS5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbE1lc3NhZ2UiPgoVR2V0Q291bnNlbExpc3RSZXF1ZXN0Eg8KB3VzZXJfaWQYASABKAUSFAoMY291bnNlbG9yX2lkGAIgASgFIkwKFEdldENvdW5zZWxMaXN0UmVzdWx0EjQKDGNvdW5zZWxfbGlzdBgBIAMoCzIeLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsIjsKFENyZWF0ZU1lc3NhZ2VSZXF1ZXN0EhIKCmNvdW5zZWxfaWQYASABKAUSDwoHbWVzc2FnZRgCIAEoCSJVChNDcmVhdGVNZXNzYWdlUmVzdWx0Ej4KD2NvdW5zZWxfbWVzc2FnZRgBIAEoCzIlLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsTWVzc2FnZSIrChVHZXRNZXNzYWdlTGlzdFJlcXVlc3QSEgoKY291bnNlbF9pZBgBIAEoBSJTChRHZXRNZXNzYWdlTGlzdFJlc3VsdBI7CgxtZXNzYWdlX2xpc3QYASADKAsyJS5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbE1lc3NhZ2UiVQoUR2V0UHJvbXB0TGlzdFJlcXVlc3QSPQoLcHJvbXB0X3R5cGUYASABKA4yKC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbFByb21wdFR5cGUiUAoTR2V0UHJvbXB0TGlzdFJlc3VsdBI5Cgtwcm9tcHRfbGlzdBgBIAMoCzIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsUHJvbXB0ItoBChNDcmVhdGVQcm9tcHRSZXF1ZXN0Eg8KB3BlcnNvbmEYASABKAkSDwoHY29udGV4dBgCIAEoCRITCgtpbnN0cnVjdGlvbhgDIAEoCRIMCgR0b25lGAQgASgJEhkKEWFkZGl0aW9uYWxfcHJvbXB0GAUgASgJEj0KC3Byb21wdF90eXBlGAYgASgOMiguY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxQcm9tcHRUeXBlEhMKC2Rlc2NyaXB0aW9uGAcgASgJEg8KB3ZlcnNpb24YCCABKAkiSgoSQ3JlYXRlUHJvbXB0UmVzdWx0EjQKBnByb21wdBgBIAEoCzIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsUHJvbXB0Iq4BChNVcGRhdGVQcm9tcHRSZXF1ZXN0EhEKCXByb21wdF9pZBgBIAEoBRIPCgdwZXJzb25hGAIgASgJEg8KB2NvbnRleHQYAyABKAkSEwoLaW5zdHJ1Y3Rpb24YBCABKAkSDAoEdG9uZRgFIAEoCRIZChFhZGRpdGlvbmFsX3Byb21wdBgGIAEoCRITCgtkZXNjcmlwdGlvbhgHIAEoCRIPCgd2ZXJzaW9uGAggASgJIkoKElVwZGF0ZVByb21wdFJlc3VsdBI0CgZwcm9tcHQYASABKAsyJC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbFByb21wdCK7AQoWQ3JlYXRlQ291bnNlbG9yUmVxdWVzdBI8Cg5jb3Vuc2Vsb3JfdHlwZRgBIAEoDjIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JUeXBlEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSQAoQY291bnNlbG9yX2dlbmRlchgEIAEoDjImLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JHZW5kZXIiTAoVQ3JlYXRlQ291bnNlbG9yUmVzdWx0EjMKCWNvdW5zZWxvchgBIAEoCzIgLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3IiVwoXR2V0Q291bnNlbG9yTGlzdFJlcXVlc3QSPAoOY291bnNlbG9yX3R5cGUYASABKA4yJC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yVHlwZSJSChZHZXRDb3Vuc2Vsb3JMaXN0UmVzdWx0EjgKDmNvdW5zZWxvcl9saXN0GAEgAygLMiAuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvciLRAQoWVXBkYXRlQ291bnNlbG9yUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAUSPAoOY291bnNlbG9yX3R5cGUYAiABKA4yJC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yVHlwZRIMCgRuYW1lGAMgASgJEhMKC2Rlc2NyaXB0aW9uGAQgASgJEkAKEGNvdW5zZWxvcl9nZW5kZXIYBSABKA4yJi5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yR2VuZGVyIkwKFVVwZGF0ZUNvdW5zZWxvclJlc3VsdBIzCgljb3Vuc2Vsb3IYASABKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yMvEICg5Db3Vuc2VsU2VydmljZRJsCg1DcmVhdGVDb3Vuc2VsEi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQ291bnNlbFJlcXVlc3QaLC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb3Vuc2VsUmVzdWx0Em8KDkdldENvdW5zZWxMaXN0Ei4uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuR2V0Q291bnNlbExpc3RSZXF1ZXN0Gi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuR2V0Q291bnNlbExpc3RSZXN1bHQSbAoNQ3JlYXRlTWVzc2FnZRItLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZU1lc3NhZ2VSZXF1ZXN0GiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlTWVzc2FnZVJlc3VsdBJvCg5HZXRNZXNzYWdlTGlzdBIuLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdldE1lc3NhZ2VMaXN0UmVxdWVzdBotLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdldE1lc3NhZ2VMaXN0UmVzdWx0EmwKDUdldFByb21wdExpc3QSLS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5HZXRQcm9tcHRMaXN0UmVxdWVzdBosLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdldFByb21wdExpc3RSZXN1bHQSaQoMQ3JlYXRlUHJvbXB0EiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlUHJvbXB0UmVxdWVzdBorLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZVByb21wdFJlc3VsdBJpCgxVcGRhdGVQcm9tcHQSLC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVQcm9tcHRSZXF1ZXN0GisuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlUHJvbXB0UmVzdWx0EnIKD0NyZWF0ZUNvdW5zZWxvchIvLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZUNvdW5zZWxvclJlcXVlc3QaLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb3Vuc2Vsb3JSZXN1bHQSdQoQR2V0Q291bnNlbG9yTGlzdBIwLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdldENvdW5zZWxvckxpc3RSZXF1ZXN0Gi8uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuR2V0Q291bnNlbG9yTGlzdFJlc3VsdBJyCg9VcGRhdGVDb3Vuc2Vsb3ISLy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVDb3Vuc2Vsb3JSZXF1ZXN0Gi4uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQ291bnNlbG9yUmVzdWx0QqsBChtjb20uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2VCDENvdW5zZWxQcm90b1ABogIEQ0hWU6oCF0NvbS5IZWFybGVycy5WMS5TZXJ2aWNlygIXQ29tXEhlYXJsZXJzXFYxXFNlcnZpY2XiAiNDb21cSGVhcmxlcnNcVjFcU2VydmljZVxHUEJNZXRhZGF0YeoCGkNvbTo6SGVhcmxlcnM6OlYxOjpTZXJ2aWNlYgZwcm90bzM", [file_com_hearlers_v1_model_counsel]);
+  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2VsLnByb3RvEhdjb20uaGVhcmxlcnMudjEuc2VydmljZSJuChRDcmVhdGVDb3Vuc2VsUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgFEhQKDGNvdW5zZWxvcl9pZBgCIAEoBRIVCg1pbnRyb19tZXNzYWdlGAMgASgJEhgKEHJlc3BvbnNlX21lc3NhZ2UYBCABKAkihwEKE0NyZWF0ZUNvdW5zZWxSZXN1bHQSLwoHY291bnNlbBgBIAEoCzIeLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsEj8KEGNvdW5zZWxfbWVzc2FnZXMYAiADKAsyJS5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbE1lc3NhZ2UiPgoVR2V0Q291bnNlbExpc3RSZXF1ZXN0Eg8KB3VzZXJfaWQYASABKAUSFAoMY291bnNlbG9yX2lkGAIgASgFIkwKFEdldENvdW5zZWxMaXN0UmVzdWx0EjQKDGNvdW5zZWxfbGlzdBgBIAMoCzIeLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsIjsKFENyZWF0ZU1lc3NhZ2VSZXF1ZXN0EhIKCmNvdW5zZWxfaWQYASABKAUSDwoHbWVzc2FnZRgCIAEoCSJVChNDcmVhdGVNZXNzYWdlUmVzdWx0Ej4KD2NvdW5zZWxfbWVzc2FnZRgBIAEoCzIlLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsTWVzc2FnZSIrChVHZXRNZXNzYWdlTGlzdFJlcXVlc3QSEgoKY291bnNlbF9pZBgBIAEoBSJTChRHZXRNZXNzYWdlTGlzdFJlc3VsdBI7CgxtZXNzYWdlX2xpc3QYASADKAsyJS5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbE1lc3NhZ2UiagoTUmVhY3RNZXNzYWdlUmVxdWVzdBISCgptZXNzYWdlX2lkGAEgASgFEj8KCHJlYWN0aW9uGAIgASgOMi0uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxNZXNzYWdlUmVhY3Rpb24iVAoSUmVhY3RNZXNzYWdlUmVzdWx0Ej4KD2NvdW5zZWxfbWVzc2FnZRgBIAEoCzIlLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsTWVzc2FnZSLaAQoTQ3JlYXRlUHJvbXB0UmVxdWVzdBIPCgdwZXJzb25hGAEgASgJEg8KB2NvbnRleHQYAiABKAkSEwoLaW5zdHJ1Y3Rpb24YAyABKAkSDAoEdG9uZRgEIAEoCRIZChFhZGRpdGlvbmFsX3Byb21wdBgFIAEoCRI9Cgtwcm9tcHRfdHlwZRgGIAEoDjIoLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsUHJvbXB0VHlwZRITCgtkZXNjcmlwdGlvbhgHIAEoCRIPCgd2ZXJzaW9uGAggASgJIkoKEkNyZWF0ZVByb21wdFJlc3VsdBI0CgZwcm9tcHQYASABKAsyJC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbFByb21wdCJVChRHZXRQcm9tcHRMaXN0UmVxdWVzdBI9Cgtwcm9tcHRfdHlwZRgBIAEoDjIoLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsUHJvbXB0VHlwZSJQChNHZXRQcm9tcHRMaXN0UmVzdWx0EjkKC3Byb21wdF9saXN0GAEgAygLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxQcm9tcHQirgEKE1VwZGF0ZVByb21wdFJlcXVlc3QSEQoJcHJvbXB0X2lkGAEgASgFEg8KB3BlcnNvbmEYAiABKAkSDwoHY29udGV4dBgDIAEoCRITCgtpbnN0cnVjdGlvbhgEIAEoCRIMCgR0b25lGAUgASgJEhkKEWFkZGl0aW9uYWxfcHJvbXB0GAYgASgJEhMKC2Rlc2NyaXB0aW9uGAcgASgJEg8KB3ZlcnNpb24YCCABKAkiSgoSVXBkYXRlUHJvbXB0UmVzdWx0EjQKBnByb21wdBgBIAEoCzIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsUHJvbXB0IrsBChZDcmVhdGVDb3Vuc2Vsb3JSZXF1ZXN0EjwKDmNvdW5zZWxvcl90eXBlGAEgASgOMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvclR5cGUSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRJAChBjb3Vuc2Vsb3JfZ2VuZGVyGAQgASgOMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvckdlbmRlciJMChVDcmVhdGVDb3Vuc2Vsb3JSZXN1bHQSMwoJY291bnNlbG9yGAEgASgLMiAuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvciJXChdHZXRDb3Vuc2Vsb3JMaXN0UmVxdWVzdBI8Cg5jb3Vuc2Vsb3JfdHlwZRgBIAEoDjIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JUeXBlIlIKFkdldENvdW5zZWxvckxpc3RSZXN1bHQSOAoOY291bnNlbG9yX2xpc3QYASADKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yItEBChZVcGRhdGVDb3Vuc2Vsb3JSZXF1ZXN0EhQKDGNvdW5zZWxvcl9pZBgBIAEoBRI8Cg5jb3Vuc2Vsb3JfdHlwZRgCIAEoDjIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JUeXBlEgwKBG5hbWUYAyABKAkSEwoLZGVzY3JpcHRpb24YBCABKAkSQAoQY291bnNlbG9yX2dlbmRlchgFIAEoDjImLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JHZW5kZXIiTAoVVXBkYXRlQ291bnNlbG9yUmVzdWx0EjMKCWNvdW5zZWxvchgBIAEoCzIgLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3Iy3AkKDkNvdW5zZWxTZXJ2aWNlEmwKDUNyZWF0ZUNvdW5zZWwSLS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb3Vuc2VsUmVxdWVzdBosLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZUNvdW5zZWxSZXN1bHQSbwoOR2V0Q291bnNlbExpc3QSLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5HZXRDb3Vuc2VsTGlzdFJlcXVlc3QaLS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5HZXRDb3Vuc2VsTGlzdFJlc3VsdBJsCg1DcmVhdGVNZXNzYWdlEi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlTWVzc2FnZVJlcXVlc3QaLC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVNZXNzYWdlUmVzdWx0Em8KDkdldE1lc3NhZ2VMaXN0Ei4uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuR2V0TWVzc2FnZUxpc3RSZXF1ZXN0Gi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuR2V0TWVzc2FnZUxpc3RSZXN1bHQSaQoMUmVhY3RNZXNzYWdlEiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuUmVhY3RNZXNzYWdlUmVxdWVzdBorLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlJlYWN0TWVzc2FnZVJlc3VsdBJpCgxDcmVhdGVQcm9tcHQSLC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVQcm9tcHRSZXF1ZXN0GisuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlUHJvbXB0UmVzdWx0EmwKDUdldFByb21wdExpc3QSLS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5HZXRQcm9tcHRMaXN0UmVxdWVzdBosLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdldFByb21wdExpc3RSZXN1bHQSaQoMVXBkYXRlUHJvbXB0EiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlUHJvbXB0UmVxdWVzdBorLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZVByb21wdFJlc3VsdBJyCg9DcmVhdGVDb3Vuc2Vsb3ISLy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb3Vuc2Vsb3JSZXF1ZXN0Gi4uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQ291bnNlbG9yUmVzdWx0EnUKEEdldENvdW5zZWxvckxpc3QSMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5HZXRDb3Vuc2Vsb3JMaXN0UmVxdWVzdBovLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdldENvdW5zZWxvckxpc3RSZXN1bHQScgoPVXBkYXRlQ291bnNlbG9yEi8uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQ291bnNlbG9yUmVxdWVzdBouLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUNvdW5zZWxvclJlc3VsdEKrAQobY29tLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlQgxDb3Vuc2VsUHJvdG9QAaICBENIVlOqAhdDb20uSGVhcmxlcnMuVjEuU2VydmljZcoCF0NvbVxIZWFybGVyc1xWMVxTZXJ2aWNl4gIjQ29tXEhlYXJsZXJzXFYxXFNlcnZpY2VcR1BCTWV0YWRhdGHqAhpDb206OkhlYXJsZXJzOjpWMTo6U2VydmljZWIGcHJvdG8z", [file_com_hearlers_v1_model_counsel]);
 
 /**
  * @generated from message com.hearlers.v1.service.CreateCounselRequest
@@ -181,37 +181,42 @@ export const GetMessageListResultSchema: GenMessage<GetMessageListResult> = /*@_
   messageDesc(file_com_hearlers_v1_service_counsel, 7);
 
 /**
- * @generated from message com.hearlers.v1.service.GetPromptListRequest
+ * @generated from message com.hearlers.v1.service.ReactMessageRequest
  */
-export type GetPromptListRequest = Message<"com.hearlers.v1.service.GetPromptListRequest"> & {
+export type ReactMessageRequest = Message<"com.hearlers.v1.service.ReactMessageRequest"> & {
   /**
-   * @generated from field: com.hearlers.v1.model.CounselPromptType prompt_type = 1;
+   * @generated from field: int32 message_id = 1;
    */
-  promptType: CounselPromptType;
+  messageId: number;
+
+  /**
+   * @generated from field: com.hearlers.v1.model.CounselMessageReaction reaction = 2;
+   */
+  reaction: CounselMessageReaction;
 };
 
 /**
- * Describes the message com.hearlers.v1.service.GetPromptListRequest.
- * Use `create(GetPromptListRequestSchema)` to create a new message.
+ * Describes the message com.hearlers.v1.service.ReactMessageRequest.
+ * Use `create(ReactMessageRequestSchema)` to create a new message.
  */
-export const GetPromptListRequestSchema: GenMessage<GetPromptListRequest> = /*@__PURE__*/
+export const ReactMessageRequestSchema: GenMessage<ReactMessageRequest> = /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counsel, 8);
 
 /**
- * @generated from message com.hearlers.v1.service.GetPromptListResult
+ * @generated from message com.hearlers.v1.service.ReactMessageResult
  */
-export type GetPromptListResult = Message<"com.hearlers.v1.service.GetPromptListResult"> & {
+export type ReactMessageResult = Message<"com.hearlers.v1.service.ReactMessageResult"> & {
   /**
-   * @generated from field: repeated com.hearlers.v1.model.CounselPrompt prompt_list = 1;
+   * @generated from field: com.hearlers.v1.model.CounselMessage counsel_message = 1;
    */
-  promptList: CounselPrompt[];
+  counselMessage?: CounselMessage;
 };
 
 /**
- * Describes the message com.hearlers.v1.service.GetPromptListResult.
- * Use `create(GetPromptListResultSchema)` to create a new message.
+ * Describes the message com.hearlers.v1.service.ReactMessageResult.
+ * Use `create(ReactMessageResultSchema)` to create a new message.
  */
-export const GetPromptListResultSchema: GenMessage<GetPromptListResult> = /*@__PURE__*/
+export const ReactMessageResultSchema: GenMessage<ReactMessageResult> = /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counsel, 9);
 
 /**
@@ -284,6 +289,40 @@ export const CreatePromptResultSchema: GenMessage<CreatePromptResult> = /*@__PUR
   messageDesc(file_com_hearlers_v1_service_counsel, 11);
 
 /**
+ * @generated from message com.hearlers.v1.service.GetPromptListRequest
+ */
+export type GetPromptListRequest = Message<"com.hearlers.v1.service.GetPromptListRequest"> & {
+  /**
+   * @generated from field: com.hearlers.v1.model.CounselPromptType prompt_type = 1;
+   */
+  promptType: CounselPromptType;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.GetPromptListRequest.
+ * Use `create(GetPromptListRequestSchema)` to create a new message.
+ */
+export const GetPromptListRequestSchema: GenMessage<GetPromptListRequest> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counsel, 12);
+
+/**
+ * @generated from message com.hearlers.v1.service.GetPromptListResult
+ */
+export type GetPromptListResult = Message<"com.hearlers.v1.service.GetPromptListResult"> & {
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.CounselPrompt prompt_list = 1;
+   */
+  promptList: CounselPrompt[];
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.GetPromptListResult.
+ * Use `create(GetPromptListResultSchema)` to create a new message.
+ */
+export const GetPromptListResultSchema: GenMessage<GetPromptListResult> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counsel, 13);
+
+/**
  * @generated from message com.hearlers.v1.service.UpdatePromptRequest
  */
 export type UpdatePromptRequest = Message<"com.hearlers.v1.service.UpdatePromptRequest"> & {
@@ -333,7 +372,7 @@ export type UpdatePromptRequest = Message<"com.hearlers.v1.service.UpdatePromptR
  * Use `create(UpdatePromptRequestSchema)` to create a new message.
  */
 export const UpdatePromptRequestSchema: GenMessage<UpdatePromptRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel, 12);
+  messageDesc(file_com_hearlers_v1_service_counsel, 14);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdatePromptResult
@@ -350,7 +389,7 @@ export type UpdatePromptResult = Message<"com.hearlers.v1.service.UpdatePromptRe
  * Use `create(UpdatePromptResultSchema)` to create a new message.
  */
 export const UpdatePromptResultSchema: GenMessage<UpdatePromptResult> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel, 13);
+  messageDesc(file_com_hearlers_v1_service_counsel, 15);
 
 /**
  * @generated from message com.hearlers.v1.service.CreateCounselorRequest
@@ -382,7 +421,7 @@ export type CreateCounselorRequest = Message<"com.hearlers.v1.service.CreateCoun
  * Use `create(CreateCounselorRequestSchema)` to create a new message.
  */
 export const CreateCounselorRequestSchema: GenMessage<CreateCounselorRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel, 14);
+  messageDesc(file_com_hearlers_v1_service_counsel, 16);
 
 /**
  * @generated from message com.hearlers.v1.service.CreateCounselorResult
@@ -399,7 +438,7 @@ export type CreateCounselorResult = Message<"com.hearlers.v1.service.CreateCouns
  * Use `create(CreateCounselorResultSchema)` to create a new message.
  */
 export const CreateCounselorResultSchema: GenMessage<CreateCounselorResult> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel, 15);
+  messageDesc(file_com_hearlers_v1_service_counsel, 17);
 
 /**
  * @generated from message com.hearlers.v1.service.GetCounselorListRequest
@@ -416,7 +455,7 @@ export type GetCounselorListRequest = Message<"com.hearlers.v1.service.GetCounse
  * Use `create(GetCounselorListRequestSchema)` to create a new message.
  */
 export const GetCounselorListRequestSchema: GenMessage<GetCounselorListRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel, 16);
+  messageDesc(file_com_hearlers_v1_service_counsel, 18);
 
 /**
  * @generated from message com.hearlers.v1.service.GetCounselorListResult
@@ -433,7 +472,7 @@ export type GetCounselorListResult = Message<"com.hearlers.v1.service.GetCounsel
  * Use `create(GetCounselorListResultSchema)` to create a new message.
  */
 export const GetCounselorListResultSchema: GenMessage<GetCounselorListResult> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel, 17);
+  messageDesc(file_com_hearlers_v1_service_counsel, 19);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateCounselorRequest
@@ -470,7 +509,7 @@ export type UpdateCounselorRequest = Message<"com.hearlers.v1.service.UpdateCoun
  * Use `create(UpdateCounselorRequestSchema)` to create a new message.
  */
 export const UpdateCounselorRequestSchema: GenMessage<UpdateCounselorRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel, 18);
+  messageDesc(file_com_hearlers_v1_service_counsel, 20);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateCounselorResult
@@ -487,7 +526,7 @@ export type UpdateCounselorResult = Message<"com.hearlers.v1.service.UpdateCouns
  * Use `create(UpdateCounselorResultSchema)` to create a new message.
  */
 export const UpdateCounselorResultSchema: GenMessage<UpdateCounselorResult> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel, 19);
+  messageDesc(file_com_hearlers_v1_service_counsel, 21);
 
 /**
  * @generated from service com.hearlers.v1.service.CounselService
@@ -526,12 +565,12 @@ export const CounselService: GenService<{
     output: typeof GetMessageListResultSchema;
   },
   /**
-   * @generated from rpc com.hearlers.v1.service.CounselService.GetPromptList
+   * @generated from rpc com.hearlers.v1.service.CounselService.ReactMessage
    */
-  getPromptList: {
+  reactMessage: {
     methodKind: "unary";
-    input: typeof GetPromptListRequestSchema;
-    output: typeof GetPromptListResultSchema;
+    input: typeof ReactMessageRequestSchema;
+    output: typeof ReactMessageResultSchema;
   },
   /**
    * @generated from rpc com.hearlers.v1.service.CounselService.CreatePrompt
@@ -540,6 +579,14 @@ export const CounselService: GenService<{
     methodKind: "unary";
     input: typeof CreatePromptRequestSchema;
     output: typeof CreatePromptResultSchema;
+  },
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselService.GetPromptList
+   */
+  getPromptList: {
+    methodKind: "unary";
+    input: typeof GetPromptListRequestSchema;
+    output: typeof GetPromptListResultSchema;
   },
   /**
    * @generated from rpc com.hearlers.v1.service.CounselService.UpdatePrompt

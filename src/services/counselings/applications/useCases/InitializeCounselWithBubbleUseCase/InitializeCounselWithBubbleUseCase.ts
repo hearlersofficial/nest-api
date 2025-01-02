@@ -35,6 +35,7 @@ export class InitializeCounselWithBubbleUseCase implements UseCase<InitializeCou
     // introMessage 추가
     const firstMessage = {
       counselId: counsel.id.getNumber(),
+      userId: userId,
       message: introMessage,
       isUserMessage: false,
     };
@@ -47,6 +48,7 @@ export class InitializeCounselWithBubbleUseCase implements UseCase<InitializeCou
     // responseMessage 추가
     const secondMessage = {
       counselId: counsel.id.getNumber(),
+      userId: userId,
       message: responseMessage,
       isUserMessage: true,
     };
@@ -87,6 +89,7 @@ export class InitializeCounselWithBubbleUseCase implements UseCase<InitializeCou
     // 시스템 메시지 추가
     const createSystemMessageResult = await this.createCounselMessageUseCase.execute({
       counselId: counsel.id.getNumber(),
+      userId: userId,
       message: response,
       isUserMessage: false,
     });

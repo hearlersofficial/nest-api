@@ -15,8 +15,13 @@ export class CreateCounselMessageUseCase implements UseCase<CreateCounselMessage
   ) {}
 
   async execute(request: CreateCounselMessageUseCaseRequest): Promise<CreateCounselMessageUseCaseResponse> {
-    const { counselId, message, isUserMessage } = request;
-    const counselMessageOrError: Result<CounselMessages> = CounselMessages.createNew({ counselId: new UniqueEntityId(counselId), message, isUserMessage });
+    const { counselId, userId, message, isUserMessage } = request;
+    const counselMessageOrError: Result<CounselMessages> = CounselMessages.createNew({
+      counselId: new UniqueEntityId(counselId),
+      userId,
+      message,
+      isUserMessage,
+    });
     if (counselMessageOrError.isFailure) {
       return {
         ok: false,

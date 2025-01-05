@@ -1,4 +1,5 @@
-import { DescMessage, fromBinary, MessageShape } from "@bufbuild/protobuf";
+import { fromBinary, Message } from "@bufbuild/protobuf";
+import { GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { readdirSync, existsSync } from "fs";
 import { join } from "path";
 
@@ -27,9 +28,9 @@ export const findProtoFiles = (dir: string): string[] => {
   console.log(files);
   return files;
 };
-export function kafkaPayloadToProtoMessage<T extends DescMessage>(payload: string, schema: T): MessageShape<T> {
+export function kafkaPayloadToProtoMessage<T extends Message>(payload: string, schema: GenMessage<T>): T {
   const numberArray = payload.split(",").map(Number);
   const uint8Array = new Uint8Array(numberArray);
-  const convertedPayload = fromBinary<T>(schema, uint8Array);
+  const convertedPayload = fromBinary(schema, uint8Array);
   return convertedPayload;
 }

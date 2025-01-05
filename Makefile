@@ -23,7 +23,7 @@ commit:
 
 push:
 	@echo "[LOG] Pushing changes to remote..."
-	cd $(PROTO_DIR) && git push origin $(shell git rev-parse --abbrev-ref HEAD)
+	cd $(PROTO_DIR) && git push
 	@echo "[LOG] Push completed!"
 
 

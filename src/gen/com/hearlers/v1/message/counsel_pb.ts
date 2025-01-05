@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/message/counsel.proto.
  */
 export const file_com_hearlers_v1_message_counsel: GenFile = /*@__PURE__*/
-  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS9jb3Vuc2VsLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJnChVDb3Vuc2VsQ3JlYXRlZFBheWxvYWQSEgoKY291bnNlbF9pZBgBIAEoBRIPCgd1c2VyX2lkGAIgASgFEhQKDGNvdW5zZWxvcl9pZBgDIAEoBRITCgtvY2N1cnJlZF9hdBgEIAEoCSKCAQocQ291bnNlbE1lc3NhZ2VDcmVhdGVkUGF5bG9hZBISCgpjb3Vuc2VsX2lkGAEgASgFEg8KB3VzZXJfaWQYAiABKAUSDwoHbWVzc2FnZRgDIAEoCRIXCg9pc191c2VyX21lc3NhZ2UYBCABKAgSEwoLb2NjdXJyZWRfYXQYBSABKAlCqwEKG2NvbS5jb20uaGVhcmxlcnMudjEubWVzc2FnZUIMQ291bnNlbFByb3RvUAGiAgRDSFZNqgIXQ29tLkhlYXJsZXJzLlYxLk1lc3NhZ2XKAhdDb21cSGVhcmxlcnNcVjFcTWVzc2FnZeICI0NvbVxIZWFybGVyc1xWMVxNZXNzYWdlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6Ok1lc3NhZ2ViBnByb3RvMw");
+  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS9jb3Vuc2VsLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJnChVDb3Vuc2VsQ3JlYXRlZFBheWxvYWQSEgoKY291bnNlbF9pZBgBIAEoBRIPCgd1c2VyX2lkGAIgASgFEhQKDGNvdW5zZWxvcl9pZBgDIAEoBRITCgtvY2N1cnJlZF9hdBgEIAEoCSKeAQocQ291bnNlbE1lc3NhZ2VDcmVhdGVkUGF5bG9hZBIaChJjb3Vuc2VsX21lc3NhZ2VfaWQYASABKAUSEgoKY291bnNlbF9pZBgCIAEoBRIPCgd1c2VyX2lkGAMgASgFEg8KB21lc3NhZ2UYBCABKAkSFwoPaXNfdXNlcl9tZXNzYWdlGAUgASgIEhMKC29jY3VycmVkX2F0GAYgASgJQqsBChtjb20uY29tLmhlYXJsZXJzLnYxLm1lc3NhZ2VCDENvdW5zZWxQcm90b1ABogIEQ0hWTaoCF0NvbS5IZWFybGVycy5WMS5NZXNzYWdlygIXQ29tXEhlYXJsZXJzXFYxXE1lc3NhZ2XiAiNDb21cSGVhcmxlcnNcVjFcTWVzc2FnZVxHUEJNZXRhZGF0YeoCGkNvbTo6SGVhcmxlcnM6OlYxOjpNZXNzYWdlYgZwcm90bzM");
 
 /**
  * topic: counsel.created
@@ -55,29 +55,34 @@ export const CounselCreatedPayloadSchema: GenMessage<CounselCreatedPayload> = /*
  */
 export type CounselMessageCreatedPayload = Message<"com.hearlers.v1.message.CounselMessageCreatedPayload"> & {
   /**
-   * @generated from field: int32 counsel_id = 1;
+   * @generated from field: int32 counsel_message_id = 1;
+   */
+  counselMessageId: number;
+
+  /**
+   * @generated from field: int32 counsel_id = 2;
    */
   counselId: number;
 
   /**
-   * @generated from field: int32 user_id = 2;
+   * @generated from field: int32 user_id = 3;
    */
   userId: number;
 
   /**
-   * @generated from field: string message = 3;
+   * @generated from field: string message = 4;
    */
   message: string;
 
   /**
-   * @generated from field: bool is_user_message = 4;
+   * @generated from field: bool is_user_message = 5;
    */
   isUserMessage: boolean;
 
   /**
    * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
    *
-   * @generated from field: string occurred_at = 5;
+   * @generated from field: string occurred_at = 6;
    */
   occurredAt: string;
 };

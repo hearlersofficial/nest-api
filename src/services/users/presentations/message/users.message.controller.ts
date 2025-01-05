@@ -1,6 +1,7 @@
-import { create } from "@bufbuild/protobuf";
 import { Controller, Inject, OnModuleInit } from "@nestjs/common";
-import { ClientKafka, Ctx, EventPattern, KafkaContext, Payload } from "@nestjs/microservices";
+import { CommandBus } from "@nestjs/cqrs";
+import { ClientKafka, EventPattern, Payload } from "@nestjs/microservices";
+import { ConsumeTokensCommand } from "~/src/aggregates/users/applications/commands/ConsumeTokens/ConsumeTokens.command";
 import {
   CounselMessageCreatedPayload,
   CounselMessageCreatedPayloadSchema,
@@ -11,7 +12,10 @@ import { kafkaPayloadToProtoMessage } from "~/src/shared/utils/Proto.utils";
 
 @Controller()
 export class UsersMessageController implements OnModuleInit {
-  constructor(@Inject(KAFKA_CLIENT) private readonly kafkaClient: ClientKafka) {}
+  constructor(
+    @Inject(KAFKA_CLIENT) private readonly kafkaClient: ClientKafka,
+    private readonly commandBus: CommandBus,
+  ) {}
 
   async onModuleInit() {}
 
@@ -19,15 +23,11 @@ export class UsersMessageController implements OnModuleInit {
   // handleUserUpdated(@Payload() payload: string, @Ctx() context: KafkaContext): void {}
 
   @EventPattern(UsersCounselMessageCreatedEvent.topic)
-  handleCounselMessageCreated(@Payload() payload: string, @Ctx() context: KafkaContext): void {
+  async handleCounselMessageCreated(@Payload() payload: string): Promise<void> {
     const convertedPayload: CounselMessageCreatedPayload = kafkaPayloadToProtoMessage<CounselMessageCreatedPayload>(
       payload,
       CounselMessageCreatedPayloadSchema,
     );
-    const event = create(CounselMessageCreatedPayloadSchema, convertedPayload);
-    console.log(event);
-    console.log(context);
-    console.log(convertedPayload);
-    console.log(convertedPayload.$typeName);
+    await this.commandBus.execute(new ConsumeTokensCommand({ userId: convertedPayload.userId }));
   }
 }

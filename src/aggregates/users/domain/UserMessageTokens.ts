@@ -123,7 +123,7 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
   // 토큰 예약
   public reserveTokens(): Result<void> {
     this.props.reserved = true;
-    this.props.reservedTimeout = getNowDayjs().add(30, "second");
+    this.props.reservedTimeout = getNowDayjs().add(60, "second");
     return Result.ok<void>();
   }
 
@@ -139,6 +139,10 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
     if (this.props.remainingTokens < tokens) {
       return Result.fail<void>("[UserMessageTokens] 토큰이 부족합니다");
     }
+    // if (!this.isReserved()) {
+    //   return Result.fail<void>("[UserMessageTokens] 토큰이 예약되어 있지 않습니다");
+    // }
+    this.releaseTokens();
     this.props.remainingTokens -= tokens;
     return Result.ok<void>();
   }

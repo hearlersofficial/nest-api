@@ -11,12 +11,9 @@ import { CounselMessageCreatedPayloadSchema } from "~/src/gen/com/hearlers/v1/me
 
 interface CounselMessagesNewProps {
   counselId: UniqueEntityId;
+  userId: number;
   message: string;
   isUserMessage: boolean;
-}
-
-interface CounselMessagesNewPropsForEvent extends CounselMessagesNewProps {
-  userId: number;
 }
 
 interface CounselMessagesProps extends CounselMessagesNewProps {
@@ -41,13 +38,12 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
     return Result.ok<CounselMessages>(counselMessages);
   }
 
-  public static createNew(newProps: CounselMessagesNewPropsForEvent): Result<CounselMessages> {
+  public static createNew(newProps: CounselMessagesNewProps): Result<CounselMessages> {
     const now = getNowDayjs();
     const newId = new UniqueEntityId();
-    const { userId, ...newPropsWithoutUserId } = newProps;
     const createdMessage = this.create(
       {
-        ...newPropsWithoutUserId,
+        ...newProps,
         reactedAt: null,
         reaction: null,
         createdAt: now,
@@ -56,17 +52,6 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
       },
       newId,
     );
-    if (createdMessage.isSuccess) {
-      const message = createdMessage.value;
-      const counselMessageCreated = create(CounselMessageCreatedPayloadSchema, {
-        counselId: message.counselId.getNumber(),
-        userId: userId,
-        message: message.message,
-        isUserMessage: message.isUserMessage,
-        occurredAt: formatDayjs(now),
-      });
-      createdMessage.value.addDomainEvent(new CounselMessageCreatedEvent(counselMessageCreated));
-    }
 
     return createdMessage;
   }
@@ -75,6 +60,11 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
     // counselId 검증
     if (this.props.counselId === null || this.props.counselId === undefined) {
       return Result.fail<void>("[CounselMessages] 상담 ID는 필수입니다");
+    }
+
+    // userId 검증
+    if (this.props.userId === null || this.props.userId === undefined) {
+      return Result.fail<void>("[CounselMessages] 사용자 ID는 필수입니다");
     }
 
     // message 검증
@@ -105,6 +95,10 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
   // Getters
   get counselId(): UniqueEntityId {
     return this.props.counselId;
+  }
+
+  get userId(): number {
+    return this.props.userId;
   }
 
   get message(): string {
@@ -172,5 +166,17 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
 
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
+  }
+
+  public addCreatedEvent(): void {
+    const counselMessageCreated = create(CounselMessageCreatedPayloadSchema, {
+      counselMessageId: this.id.getNumber(),
+      counselId: this.counselId.getNumber(),
+      userId: this.userId,
+      message: this.message,
+      isUserMessage: this.isUserMessage,
+      occurredAt: formatDayjs(getNowDayjs()),
+    });
+    this.addDomainEvent(new CounselMessageCreatedEvent(counselMessageCreated));
   }
 }

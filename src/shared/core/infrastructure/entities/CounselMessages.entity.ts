@@ -23,6 +23,13 @@ export class CounselMessagesEntity extends CoreEntity {
   counselId: number;
 
   @Column({
+    type: "int",
+    name: "user_id",
+    comment: "사용자 ID",
+  })
+  userId: number;
+
+  @Column({
     type: "varchar",
     name: "message",
     comment: "메시지 내용",

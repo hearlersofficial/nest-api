@@ -28,11 +28,14 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
 
   async create(counselMessage: CounselMessages): Promise<CounselMessages> {
     const counselMessagesEntity = PsqlCounselMessagesMapper.toEntity(counselMessage);
-    const createdCounselsEntity = await this.counselMessagesRepository.save(counselMessagesEntity);
+    const createdCounselMessagesEntity = await this.counselMessagesRepository.save(counselMessagesEntity);
+    const createdCounselMessage = PsqlCounselMessagesMapper.toDomain(createdCounselMessagesEntity);
+    createdCounselMessage.addCreatedEvent();
 
     await this.publishDomainEvents(counselMessage);
+    await this.publishDomainEvents(createdCounselMessage);
 
-    return PsqlCounselMessagesMapper.toDomain(createdCounselsEntity);
+    return createdCounselMessage;
   }
 
   async findMany(props: FindManyPropsInCounselMessagesRepository): Promise<CounselMessages[]> {

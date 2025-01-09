@@ -25,10 +25,13 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
   async create(counsel: Counsels): Promise<Counsels> {
     const counselsEntity = PsqlCounselsMapper.toEntity(counsel);
     const createdCounselsEntity = await this.counselsRepository.save(counselsEntity);
+    const createdCounsel = PsqlCounselsMapper.toDomain(createdCounselsEntity);
+    createdCounsel.addCreatedEvent();
 
     await this.publishDomainEvents(counsel);
+    await this.publishDomainEvents(createdCounsel);
 
-    return PsqlCounselsMapper.toDomain(createdCounselsEntity);
+    return createdCounsel;
   }
 
   async findMany(props: FindManyPropsInCounselsRepository): Promise<Counsels[] | null> {

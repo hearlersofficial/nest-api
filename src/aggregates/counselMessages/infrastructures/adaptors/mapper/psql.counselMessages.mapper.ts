@@ -14,6 +14,7 @@ export class PsqlCounselMessagesMapper {
     const counselMessageProps = {
       counselId: new UniqueEntityId(entity.counselId),
       message: entity.message,
+      userId: entity.userId,
       isUserMessage: entity.isUserMessage,
       reactedAt: entity.reactedAt ? convertDayjs(entity.reactedAt) : null,
       reaction: entity.reaction ? entity.reaction : null,
@@ -39,6 +40,8 @@ export class PsqlCounselMessagesMapper {
     if (!counselMessages.counselId.isNewIdentifier()) {
       entity.counselId = counselMessages.counselId.getNumber();
     }
+
+    entity.userId = counselMessages.userId;
 
     entity.message = counselMessages.message;
     entity.isUserMessage = counselMessages.isUserMessage;

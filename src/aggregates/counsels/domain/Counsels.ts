@@ -52,16 +52,6 @@ export class Counsels extends AggregateRoot<CounselsProps> {
       },
       newId,
     );
-    if (createdCounsel.isSuccess) {
-      const counsel = createdCounsel.value;
-      const counselCreated = create(CounselCreatedPayloadSchema, {
-        counselId: counsel.id.getNumber(),
-        userId: counsel.userId,
-        counselorId: counsel.counselorId,
-        occurredAt: formatDayjs(getNowDayjs()),
-      });
-      createdCounsel.value.addDomainEvent(new CounselCreatedEvent(counselCreated));
-    }
 
     return createdCounsel;
   }
@@ -152,6 +142,16 @@ export class Counsels extends AggregateRoot<CounselsProps> {
     }
     const now = getNowDayjs();
     return now.isAfter(lastChatedAt.add(6, "hour"));
+  }
+
+  public addCreatedEvent(): void {
+    const counselCreated = create(CounselCreatedPayloadSchema, {
+      counselId: this.id.getNumber(),
+      userId: this.userId,
+      counselorId: this.counselorId,
+      occurredAt: formatDayjs(getNowDayjs()),
+    });
+    this.addDomainEvent(new CounselCreatedEvent(counselCreated));
   }
 
   public delete(): void {

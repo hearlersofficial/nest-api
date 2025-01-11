@@ -1,12 +1,13 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { CreateUserUseCaseRequest } from "./dto/CreateUser.request";
-import { CreateUserUseCaseResponse } from "./dto/CreateUser.response";
+import { UseCase } from "~shared/core/applications/UseCase";
+import { Result } from "~shared/core/domain/Result";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 import { Users } from "~users/aggregates/users/domain/Users";
 import { USER_REPOSITORY, UsersRepositoryPort } from "~users/aggregates/users/infrastructures/users.repository.port";
 import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
-import { UseCase } from "~shared/core/applications/UseCase";
-import { Result } from "~shared/core/domain/Result";
+
+import { CreateUserUseCaseRequest } from "./dto/CreateUser.request";
+import { CreateUserUseCaseResponse } from "./dto/CreateUser.response";
+import { Inject, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class CreateUserUseCase implements UseCase<CreateUserUseCaseRequest, CreateUserUseCaseResponse> {

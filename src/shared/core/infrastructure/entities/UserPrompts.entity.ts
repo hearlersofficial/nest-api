@@ -1,9 +1,10 @@
-import { Column, Entity, ManyToOne, JoinColumn, RelationId } from "typeorm";
-import { CoreEntity } from "./Core.entity";
-import { UsersEntity } from "./Users.entity";
-import { PromptTemplatesEntity } from "./PromptTemplates.entity";
-import { Context, Analysis } from "~/src/shared/types/prompts.types";
+import { Analysis,Context } from "~/src/shared/types/prompts.types";
 import { EntityConversation } from "~/src/shared/types/prompts.types";
+
+import { CoreEntity } from "./Core.entity";
+import { PromptTemplatesEntity } from "./PromptTemplates.entity";
+import { UsersEntity } from "./Users.entity";
+import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "user_prompts" })
 export class UserPromptsEntity extends CoreEntity {

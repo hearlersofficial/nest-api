@@ -1,10 +1,11 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, RelationId } from "typeorm";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
+import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
 import { CoreStatus } from "~/src/shared/core/constants/status.constants";
+import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
 import { KakaoEntity } from "~/src/shared/core/infrastructure/entities/Kakao.entity";
 import { RefreshTokenEntity } from "~/src/shared/core/infrastructure/entities/RefreshTokens.entity";
-import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
+import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
+
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, RelationId } from "typeorm";
 
 @Entity({
   name: "auth_users",

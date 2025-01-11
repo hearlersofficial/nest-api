@@ -1,15 +1,16 @@
-import { HttpStatus } from "@nestjs/common";
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { FindOneAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
-import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
-import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
-import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
 import {
   ConnectAuthChannelCommand,
   ConnectAuthChannelCommandResponse,
 } from "~/src/services/users/applications/commands/ConnectAuthChannel/ConnectAuthChannel.command";
 import { Result } from "~/src/shared/core/domain/Result";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { FindOneAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
+import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
+import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
+import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
+
+import { HttpStatus } from "@nestjs/common";
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 
 @CommandHandler(ConnectAuthChannelCommand)
 export class ConnectAuthChannelHandler

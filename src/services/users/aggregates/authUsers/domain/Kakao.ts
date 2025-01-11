@@ -1,8 +1,9 @@
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { Result } from "~/src/shared/core/domain/Result";
-import { Dayjs } from "dayjs";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
 import { DomainEntity } from "~/src/shared/core/domain/DomainEntity";
+import { Result } from "~/src/shared/core/domain/Result";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+
+import { Dayjs } from "dayjs";
 
 interface KakaoNewProps {
   authUserId: UniqueEntityId;

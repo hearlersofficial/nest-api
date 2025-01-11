@@ -1,12 +1,12 @@
-import { faker } from "@faker-js/faker";
-import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
-
-import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserPrompts.entity";
-import { PsqlUserPromptsMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userPrompts.mapper";
-import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserPrompts.entity";
 import { EmotionalState } from "~shared/enums/EmotionalState.enum";
 import { EntityConversation } from "~shared/types/prompts.types";
+import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
+import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
+import { PsqlUserPromptsMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userPrompts.mapper";
+
+import { faker } from "@faker-js/faker";
 
 describe("PsqlUserPromptsMapper", () => {
   const createMockUserPromptsEntity = () => {

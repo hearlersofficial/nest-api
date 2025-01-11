@@ -1,13 +1,13 @@
-import { Inject, Injectable } from "@nestjs/common";
-
-import { FindOneAuthUserUseCaseRequest } from "./dto/FindOneAuthUserUseCase.request";
-import { FindOneAuthUserUseCaseResponse } from "./dto/FindOneAuthUserUseCase.response";
+import { UseCase } from "~shared/core/applications/UseCase";
 import {
   AUTH_USERS_REPOSITORY,
   AuthUsersRepositoryPort,
   FindOnePropsInAuthUsersRepository,
 } from "~users/aggregates/authUsers/infrastructures/authUsers.repository.port";
-import { UseCase } from "~shared/core/applications/UseCase";
+
+import { FindOneAuthUserUseCaseRequest } from "./dto/FindOneAuthUserUseCase.request";
+import { FindOneAuthUserUseCaseResponse } from "./dto/FindOneAuthUserUseCase.response";
+import { Inject, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class FindOneAuthUserUseCase implements UseCase<FindOneAuthUserUseCaseRequest, FindOneAuthUserUseCaseResponse> {

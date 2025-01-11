@@ -1,9 +1,10 @@
-import { InternalServerErrorException } from "@nestjs/common";
-import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
 import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
+
+import { InternalServerErrorException } from "@nestjs/common";
 
 export class PsqlUserProgressesMapper {
   static toDomain(entity: UserProgressesEntity): UserProgresses | null {

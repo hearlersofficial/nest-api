@@ -1,5 +1,7 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
+import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/UserPrompts.entity";
+import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
+import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
 import { ConsumeTokensHandler } from "~users/aggregates/users/applications/commands/ConsumeTokens/ConsumeTokens.handler";
 import { ReserveTokensHandler } from "~users/aggregates/users/applications/commands/ReserveTokens/ReserveTokens.handler";
 import { UpdateUserHandler } from "~users/aggregates/users/applications/commands/UpdateUser/UpdateUser.handler";
@@ -8,13 +10,11 @@ import { FindOneUserHandler } from "~users/aggregates/users/applications/queries
 import { CreateUserUseCase } from "~users/aggregates/users/applications/useCases/CreateUserUseCase/CreateUserUseCase";
 import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
 import { UpdateUserUseCase } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
-
 import { PsqlUsersRepositoryAdaptor } from "~users/aggregates/users/infrastructures/adaptors/psql.users.repository.adaptor";
 import { USER_REPOSITORY } from "~users/aggregates/users/infrastructures/users.repository.port";
-import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
-import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
-import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/UserPrompts.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
+
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 const useCases = [CreateUserUseCase, FindOneUserUseCase, UpdateUserUseCase];
 

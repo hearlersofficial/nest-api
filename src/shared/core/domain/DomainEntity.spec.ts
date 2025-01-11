@@ -1,11 +1,12 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { DomainEntity } from "./DomainEntity";
-import { UniqueEntityId } from "./UniqueEntityId";
-import { Result } from "./Result";
-import { DomainEvent } from "./events/DomainEvent";
-import { Dayjs } from "dayjs";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+
+import { DomainEntity } from "./DomainEntity";
+import { DomainEvent } from "./events/DomainEvent";
+import { Result } from "./Result";
+import { UniqueEntityId } from "./UniqueEntityId";
 import { Message } from "@bufbuild/protobuf";
+import { fakerKO as faker } from "@faker-js/faker";
+import { Dayjs } from "dayjs";
 
 interface TestEntityNewProps {
   name: string;

@@ -1,10 +1,11 @@
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { SaveRefreshTokenCommand, SaveRefreshTokenResult } from "./SaveRefreshToken.command";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { HttpStatus } from "@nestjs/common";
+import { FindOneAuthUserUseCaseResponse } from "~/src/services/users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
 import { FindOneAuthUserUseCase } from "~/src/services/users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
 import { UpdateAuthUserUseCase } from "~/src/services/users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
-import { FindOneAuthUserUseCaseResponse } from "~/src/services/users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
+import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+
+import { SaveRefreshTokenCommand, SaveRefreshTokenResult } from "./SaveRefreshToken.command";
+import { HttpStatus } from "@nestjs/common";
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 
 @CommandHandler(SaveRefreshTokenCommand)
 export class SaveRefreshTokenHandler implements ICommandHandler<SaveRefreshTokenCommand, SaveRefreshTokenResult> {

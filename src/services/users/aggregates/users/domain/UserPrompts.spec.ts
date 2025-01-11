@@ -1,8 +1,9 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { UserPrompts } from "./UserPrompts";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
-import { Context, Analysis } from "~/src/shared/types/prompts.types";
+import { Analysis,Context } from "~/src/shared/types/prompts.types";
+
+import { UserPrompts } from "./UserPrompts";
+import { fakerKO as faker } from "@faker-js/faker";
 
 describe("UserPrompts", () => {
   const createValidContext = (): Context => ({

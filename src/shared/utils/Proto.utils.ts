@@ -1,6 +1,6 @@
 import { fromBinary, Message } from "@bufbuild/protobuf";
 import { GenMessage } from "@bufbuild/protobuf/codegenv1";
-import { readdirSync, existsSync } from "fs";
+import { existsSync,readdirSync } from "fs";
 import { join } from "path";
 
 export const findProtoFiles = (dir: string): string[] => {

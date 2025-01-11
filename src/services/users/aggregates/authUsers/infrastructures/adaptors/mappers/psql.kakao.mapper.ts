@@ -1,9 +1,10 @@
-import { InternalServerErrorException } from "@nestjs/common";
-import { Kakao } from "~users/aggregates/authUsers/domain/Kakao";
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KakaoEntity } from "~/src/shared/core/infrastructure/entities/Kakao.entity";
 import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { Kakao } from "~users/aggregates/authUsers/domain/Kakao";
+
+import { InternalServerErrorException } from "@nestjs/common";
 
 export class PsqlKakaoMapper {
   static toDomain(entity: KakaoEntity): Kakao | null {

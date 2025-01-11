@@ -1,5 +1,6 @@
-import { HttpStatus } from "@nestjs/common"; // NestJS HTTP 상태 코드
 import { RpcExceptionCode } from "~/src/shared/enums/RpcExceptionCode.enum";
+
+import { HttpStatus } from "@nestjs/common"; // NestJS HTTP 상태 코드
 
 // gRPC 오류 코드를 HTTP 상태 코드로 변환하는 함수
 export function grpcToHttpStatus(code: RpcExceptionCode): HttpStatus {

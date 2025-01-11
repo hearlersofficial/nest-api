@@ -1,6 +1,7 @@
-import { HttpStatus } from "@nestjs/common";
 import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+
+import { HttpStatus } from "@nestjs/common";
 
 export class UpdateUserCommand {
   constructor(public readonly props: UpdateUserCommandProps) {

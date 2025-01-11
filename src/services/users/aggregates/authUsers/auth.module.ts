@@ -1,5 +1,4 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
 import { SaveRefreshTokenHandler } from "~users/aggregates/authUsers/applications/commands/SaveRefreshToken/SaveRefreshToken.handler";
 import { VerifyRefreshTokenHandler } from "~users/aggregates/authUsers/applications/commands/VerifyRefreshToken/VerifyRefreshToken.handler";
 import { CreateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/CreateAuthUserUseCase";
@@ -7,7 +6,9 @@ import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications
 import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
 import { PsqlAuthUsersRepositoryAdaptor } from "~users/aggregates/authUsers/infrastructures/adaptors/psql.authUsers.repository.adaptor";
 import { AUTH_USERS_REPOSITORY } from "~users/aggregates/authUsers/infrastructures/authUsers.repository.port";
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
+
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 const useCases = [CreateAuthUserUseCase, FindOneAuthUserUseCase, UpdateAuthUserUseCase];
 

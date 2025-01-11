@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
 import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
 import { TokenResetInterval } from "~/src/shared/enums/TokenResetInterval.enum";
+
+import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 
 @Entity({ name: "user_message_tokens" })
 export class UserMessageTokensEntity extends CoreEntity {

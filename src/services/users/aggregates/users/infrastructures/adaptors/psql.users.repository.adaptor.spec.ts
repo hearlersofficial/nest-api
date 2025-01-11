@@ -1,19 +1,20 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { getRepositoryToken } from "@nestjs/typeorm";
-import { fakerKO as faker } from "@faker-js/faker";
-import { Repository } from "typeorm";
-import { ClientKafka } from "@nestjs/microservices";
-import { PsqlUsersRepositoryAdaptor } from "./psql.users.repository.adaptor";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
+import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
+import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
+import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
 import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/UserProfiles.entity";
 import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
 import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/UserPrompts.entity";
-import { Users } from "~users/aggregates/users/domain/Users";
-import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { formatDayjs, getNowDayjs, convertDayjs } from "~/src/shared/utils/Date.utils";
+import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
 import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
-import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
+import { convertDayjs,formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { Users } from "~users/aggregates/users/domain/Users";
+
+import { PsqlUsersRepositoryAdaptor } from "./psql.users.repository.adaptor";
+import { fakerKO as faker } from "@faker-js/faker";
+import { ClientKafka } from "@nestjs/microservices";
+import { Test, TestingModule } from "@nestjs/testing";
+import { getRepositoryToken } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 
 describe("PsqlUsersRepositoryAdaptor", () => {
   let module: TestingModule;
@@ -135,6 +136,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
           userProfiles: true,
           userProgresses: true,
           userPrompts: true,
+          userMessageTokens: true,
         },
       });
 

@@ -1,8 +1,9 @@
-import { GrpcOptions, Transport } from "@nestjs/microservices";
+import { findProtoFiles } from "~/src/shared/utils/Proto.utils";
+
 import { ReflectionService } from "@grpc/reflection";
 import { INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { findProtoFiles } from "~/src/shared/utils/Proto.utils";
+import { GrpcOptions, Transport } from "@nestjs/microservices";
 
 export enum ServiceType {
   APP = "APP",

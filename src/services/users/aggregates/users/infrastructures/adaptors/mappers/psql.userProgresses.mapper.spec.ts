@@ -1,10 +1,11 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
-import { PsqlUserProgressesMapper } from "./psql.userProgresses.mapper";
-import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { ProgressType, ProgressStatus } from "~proto/com/hearlers/v1/model/user_pb";
-import { getNowDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
+import { formatDayjs,getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
+import { ProgressStatus,ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
+
+import { PsqlUserProgressesMapper } from "./psql.userProgresses.mapper";
+import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
 
 describe("PsqlUserProgressesMapper", () => {

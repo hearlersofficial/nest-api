@@ -1,12 +1,13 @@
-import { HttpStatus } from "@nestjs/common";
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import {
   ReserveTokensCommand,
   ReserveTokensCommandResponse,
 } from "~users/aggregates/users/applications/commands/ReserveTokens/ReserveTokens.command";
 import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
 import { UpdateUserUseCase } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+
+import { HttpStatus } from "@nestjs/common";
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 
 @CommandHandler(ReserveTokensCommand)
 export class ReserveTokensHandler implements ICommandHandler<ReserveTokensCommand, ReserveTokensCommandResponse> {

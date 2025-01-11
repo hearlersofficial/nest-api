@@ -1,18 +1,19 @@
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { CreateMessageCommand } from "./CreateMessage.command";
-import { GetCounselUseCase } from "~/src/aggregates/counsels/applications/useCases/GetCounselUseCase/GetCounselUseCase";
-import { GetCounselPromptByTypeUseCase } from "~/src/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
-import { CreateCounselMessageUseCase } from "~/src/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
-import { GetCounselMessageListUseCase } from "~/src/aggregates/counselMessages/applications/useCases/GetCounselMessageListUseCase/GetCounselMessageListUseCase";
-import { UpdateCounselUseCase } from "~/src/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
-import { GenerateGptResponseUseCase } from "../../useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
-import { BranchCounselStageUseCase } from "../../useCases/BranchCounselStageUseCase/BranchCounselStageUseCase";
-import { CounselMessages } from "~/src/aggregates/counselMessages/domain/CounselMessages";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { HttpStatus } from "@nestjs/common";
 import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
+import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
+import { GetCounselMessageListUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/GetCounselMessageListUseCase/GetCounselMessageListUseCase";
+import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { GetCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/GetCounselorUseCase";
+import { GetCounselPromptByTypeUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
+import { GetCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/GetCounselUseCase/GetCounselUseCase";
+import { UpdateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
+import { BranchCounselStageUseCase } from "~counselings/applications/useCases/BranchCounselStageUseCase/BranchCounselStageUseCase";
+import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
+
+import { CreateMessageCommand } from "./CreateMessage.command";
+import { HttpStatus } from "@nestjs/common";
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { ChatCompletionMessageParam } from "openai/resources";
-import { GetCounselorUseCase } from "~/src/aggregates/counselors/applications/useCases/GetCounselorUseCase/GetCounselorUseCase";
 
 @CommandHandler(CreateMessageCommand)
 export class CreateMessageHandler implements ICommandHandler<CreateMessageCommand> {

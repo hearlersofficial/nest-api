@@ -1,5 +1,5 @@
-import { AuthUsers } from "~/src/aggregates/authUsers/domain/AuthUsers";
-import { Users } from "~/src/aggregates/users/domain/Users";
+import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
+import { Users } from "~users/aggregates/users/domain/Users";
 
 export interface BindAuthUserToUseUseCaseRequest {
   user: Users;

@@ -1,11 +1,11 @@
 import { Controller, Inject, OnModuleInit } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { ClientKafka, EventPattern, Payload } from "@nestjs/microservices";
-import { ConsumeTokensCommand } from "~/src/aggregates/users/applications/commands/ConsumeTokens/ConsumeTokens.command";
 import {
   CounselMessageCreatedPayload,
   CounselMessageCreatedPayloadSchema,
 } from "~/src/gen/com/hearlers/v1/message/counsel_pb";
+import { ConsumeTokensCommand } from "~/src/services/users/aggregates/users/applications/commands/ConsumeTokens/ConsumeTokens.command";
 import { UsersCounselMessageCreatedEvent } from "~/src/services/users/applications/events/CounselMessageCreatedEvents";
 import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
 import { kafkaPayloadToProtoMessage } from "~/src/shared/utils/Proto.utils";

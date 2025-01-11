@@ -1,8 +1,8 @@
 import { create } from "@bufbuild/protobuf";
 import { HttpStatus } from "@nestjs/common";
-import { UserProfiles } from "~/src/aggregates/users/domain/UserProfiles";
-import { UserProgresses } from "~/src/aggregates/users/domain/UserProgresses";
-import { Users } from "~/src/aggregates/users/domain/Users";
+import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
+import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
+import { Users } from "~users/aggregates/users/domain/Users";
 import {
   User,
   UserProfile,
@@ -11,8 +11,8 @@ import {
   UserProgressSchema,
   UserSchema,
 } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { formatDayjs } from "~/src/shared/utils/Date.utils";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { formatDayjs } from "~shared/utils/Date.utils";
 
 export class SchemaUsersMapper {
   static toUserProto(user: Users): User {

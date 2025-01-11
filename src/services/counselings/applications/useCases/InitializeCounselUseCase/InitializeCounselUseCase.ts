@@ -1,10 +1,10 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { UseCase } from "~shared/core/applications/UseCase";
 import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
 import { CreateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/CreateCounselUseCase/CreateCounselUseCase";
 import { UpdateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
+import { InitializeCounselUseCaseRequest } from "~counselings/applications/useCases/InitializeCounselUseCase/dto/InitializeCounsel.request";
+import { InitializeCounselUseCaseResponse } from "~counselings/applications/useCases/InitializeCounselUseCase/dto/InitializeCounsel.response";
 
-import { InitializeCounselUseCaseRequest } from "./dto/InitializeCounsel.request";
-import { InitializeCounselUseCaseResponse } from "./dto/InitializeCounsel.response";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()

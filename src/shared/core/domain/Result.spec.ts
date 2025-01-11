@@ -1,4 +1,4 @@
-import { Result } from "~/src/shared/core/domain/Result";
+import { Result } from "~shared/core/domain/Result";
 
 import { fakerKO as faker } from "@faker-js/faker";
 

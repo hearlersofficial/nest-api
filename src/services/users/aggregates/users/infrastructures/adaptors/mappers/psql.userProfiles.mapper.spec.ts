@@ -1,10 +1,10 @@
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/UserProfiles.entity";
-import { convertDayjs,formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
+import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
+import { PsqlUserProfilesMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userProfiles.mapper";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
-import { PsqlUserProfilesMapper } from "./psql.userProfiles.mapper";
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
 

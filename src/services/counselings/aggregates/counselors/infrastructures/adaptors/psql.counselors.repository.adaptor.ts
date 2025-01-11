@@ -1,12 +1,12 @@
-import { CounselorsEntity } from "~/src/shared/core/infrastructure/entities/Counselor.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselor.entity";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
 import { PsqlCounselorsMapper } from "~counselings/aggregates/counselors/infrastructures/adaptors/mapper/psql.counselors.mapper";
-
 import {
   CounselorsRepositoryPort,
   FindManyPropsInCounselorsRepository,
   FindOnePropsInCounselorsRepository,
-} from "../counselors.repository.port";
+} from "~counselings/aggregates/counselors/infrastructures/counselors.repository.port";
+
 import { InjectRepository } from "@nestjs/typeorm";
 import { FindManyOptions, FindOptionsWhere, Repository } from "typeorm";
 

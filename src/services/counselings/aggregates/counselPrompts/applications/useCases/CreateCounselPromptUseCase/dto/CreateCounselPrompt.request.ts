@@ -1,5 +1,5 @@
-import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { VersionString } from "~/src/shared/types/version.type";
+import { VersionString } from "~shared/types/version.type";
+import { CounselPromptType } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 export interface CreateCounselPromptUseCaseRequest {
   persona?: string;

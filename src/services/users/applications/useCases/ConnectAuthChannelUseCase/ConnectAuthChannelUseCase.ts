@@ -1,4 +1,4 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { UseCase } from "~shared/core/applications/UseCase";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { FindOneAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
 import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";

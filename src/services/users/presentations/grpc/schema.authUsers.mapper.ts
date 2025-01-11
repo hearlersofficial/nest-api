@@ -1,3 +1,7 @@
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { formatDayjs } from "~shared/utils/Date.utils";
+import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
+import { RefreshTokensVO } from "~users/aggregates/authUsers/domain/RefreshTokens.vo";
 import {
   AuthChannel,
   AuthUser,
@@ -6,11 +10,7 @@ import {
   OAuthChannelInfoSchema,
   RefreshToken,
   RefreshTokenSchema,
-} from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { formatDayjs } from "~shared/utils/Date.utils";
-import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
-import { RefreshTokensVO } from "~users/aggregates/authUsers/domain/RefreshTokens.vo";
+} from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { HttpStatus } from "@nestjs/common";

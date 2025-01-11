@@ -1,3 +1,8 @@
+import { formatDayjs } from "~shared/utils/Date.utils";
+import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
+import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
+import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import {
   Counsel,
   CounselMessage,
@@ -7,12 +12,7 @@ import {
   CounselPrompt,
   CounselPromptSchema,
   CounselSchema,
-} from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { formatDayjs } from "~/src/shared/utils/Date.utils";
-import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
-import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
-import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
-import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
+} from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
 

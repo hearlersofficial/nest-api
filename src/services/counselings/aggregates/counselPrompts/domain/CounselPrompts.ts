@@ -1,11 +1,11 @@
-import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { CounselorGenderMap } from "~/src/shared/enums/CounselorGender.enum";
-import { isValidVersion, VersionString } from "~/src/shared/types/version.type";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { CounselorGenderMap } from "~shared/enums/CounselorGender.enum";
+import { isValidVersion, VersionString } from "~shared/types/version.type";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
+import { CounselPromptType } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { Dayjs } from "dayjs";
 import { ChatCompletionSystemMessageParam } from "openai/resources";

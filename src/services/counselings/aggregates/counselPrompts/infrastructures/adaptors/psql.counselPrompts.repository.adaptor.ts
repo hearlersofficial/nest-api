@@ -1,11 +1,11 @@
-import { CounselPromptsEntity } from "~/src/shared/core/infrastructure/entities/CounselPrompts.entity";
+import { CounselPromptsEntity } from "~shared/core/infrastructure/entities/CounselPrompts.entity";
 import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
 import { PsqlCounselPromptsMapper } from "~counselings/aggregates/counselPrompts/infrastructures/adaptors/mapper/psql.counselPrompts.mapper";
-
 import {
   CounselPromptsRepositoryPort,
   FindOnePropsInCounselPromptsRepository,
-} from "../counselPrompts.repository.port";
+} from "~counselings/aggregates/counselPrompts/infrastructures/counselPrompts.repository.port";
+
 import { InjectRepository } from "@nestjs/typeorm";
 import { FindOneOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
 

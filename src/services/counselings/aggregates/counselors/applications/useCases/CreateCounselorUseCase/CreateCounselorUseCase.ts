@@ -1,5 +1,5 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
-import { Result } from "~/src/shared/core/domain/Result";
+import { UseCase } from "~shared/core/applications/UseCase";
+import { Result } from "~shared/core/domain/Result";
 import { CreateCounselorUseCaseRequest } from "~counselings/aggregates/counselors/applications/useCases/CreateCounselorUseCase/dto/CreateCounselor.request";
 import { CreateCounselorUseCaseResponse } from "~counselings/aggregates/counselors/applications/useCases/CreateCounselorUseCase/dto/CreateCounselor.response";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";

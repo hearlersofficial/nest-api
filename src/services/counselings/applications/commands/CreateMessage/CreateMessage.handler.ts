@@ -1,5 +1,5 @@
-import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { CounselStage } from "~shared/enums/CounselStage.enum";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
 import { GetCounselMessageListUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/GetCounselMessageListUseCase/GetCounselMessageListUseCase";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
@@ -7,10 +7,10 @@ import { GetCounselorUseCase } from "~counselings/aggregates/counselors/applicat
 import { GetCounselPromptByTypeUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
 import { GetCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/GetCounselUseCase/GetCounselUseCase";
 import { UpdateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
+import { CreateMessageCommand } from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
 import { BranchCounselStageUseCase } from "~counselings/applications/useCases/BranchCounselStageUseCase/BranchCounselStageUseCase";
 import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
 
-import { CreateMessageCommand } from "./CreateMessage.command";
 import { HttpStatus } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { ChatCompletionMessageParam } from "openai/resources";

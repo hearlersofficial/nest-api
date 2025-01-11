@@ -1,4 +1,4 @@
-import { findProtoFiles } from "~/src/shared/utils/Proto.utils";
+import { findProtoFiles } from "~shared/utils/Proto.utils";
 
 import { ReflectionService } from "@grpc/reflection";
 import { INestApplication } from "@nestjs/common";

@@ -1,10 +1,10 @@
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
-import { formatDayjs,getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
+import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
-import { ProgressStatus,ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
+import { PsqlUserProgressesMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userProgresses.mapper";
+import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
-import { PsqlUserProgressesMapper } from "./psql.userProgresses.mapper";
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
 

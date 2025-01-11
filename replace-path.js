@@ -9,6 +9,7 @@ const aliasMap = {
   "~/src/services/counselings": "~counselings",
   "~/src/services/users": "~users",
   "~/src/shared": "~shared",
+  "~/src/gen": "~proto",
 };
 
 // 변환 대상 파일 확장자

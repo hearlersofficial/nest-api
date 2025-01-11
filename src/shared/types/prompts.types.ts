@@ -1,5 +1,5 @@
-import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
-import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+import { EmotionalState } from "~shared/enums/EmotionalState.enum";
+import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 
 import { Dayjs } from "dayjs";
 

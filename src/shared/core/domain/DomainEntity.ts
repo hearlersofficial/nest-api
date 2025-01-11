@@ -1,5 +1,5 @@
-import { DomainEvent } from "~/src/shared/core/domain/events/DomainEvent";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { DomainEvent } from "~shared/core/domain/events/DomainEvent";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 
 export interface DomainEntityProps {
   [index: string]: any;

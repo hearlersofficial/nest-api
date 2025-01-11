@@ -1,11 +1,11 @@
 import { AppModule } from "~/src/app.module";
-import { CounselsServiceModule } from "~/src/services/counselings/counsels.service.module";
-import { UsersServiceModule } from "~/src/services/users/users.service.module";
+import { createMicroservices, serviceConfigs, ServiceType } from "~shared/core/presentations/Config";
+import { UsersServiceModule } from "~users/users.service.module";
+import { CounselsServiceModule } from "~counselings/counsels.service.module";
 
 import * as dotenv from "dotenv";
-dotenv.config({ path: [".env", ".env.dev"] });
 
-import { createMicroservices, serviceConfigs, ServiceType } from "~/src/shared/core/presentations/Config";
+dotenv.config({ path: [".env", ".env.dev"] });
 
 const moduleMap = {
   [ServiceType.APP]: AppModule,

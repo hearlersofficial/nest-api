@@ -1,12 +1,12 @@
 import { UseCase } from "~shared/core/applications/UseCase";
+import { GetCounselMessageListUseCaseRequest } from "~counselings/aggregates/counselMessages/applications/useCases/GetCounselMessageListUseCase/dto/GetCounselMessageList.request";
+import { GetCounselMessageListUseCaseResponse } from "~counselings/aggregates/counselMessages/applications/useCases/GetCounselMessageListUseCase/dto/GetCounselMessageList.response";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import {
   COUNSEL_MESSAGE_REPOSITORY,
   CounselMessagesRepositoryPort,
 } from "~counselings/aggregates/counselMessages/infrastructures/counselMessages.repository.port";
 
-import { GetCounselMessageListUseCaseRequest } from "./dto/GetCounselMessageList.request";
-import { GetCounselMessageListUseCaseResponse } from "./dto/GetCounselMessageList.response";
 import { Inject, Injectable } from "@nestjs/common";
 
 @Injectable()

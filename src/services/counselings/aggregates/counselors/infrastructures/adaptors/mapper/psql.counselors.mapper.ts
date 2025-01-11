@@ -1,6 +1,6 @@
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { CounselorsEntity } from "~/src/shared/core/infrastructure/entities/Counselor.entity";
-import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselor.entity";
+import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
 
 import { InternalServerErrorException } from "@nestjs/common";

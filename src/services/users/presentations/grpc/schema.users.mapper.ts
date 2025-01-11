@@ -1,3 +1,8 @@
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { formatDayjs } from "~shared/utils/Date.utils";
+import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
+import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
+import { Users } from "~users/aggregates/users/domain/Users";
 import {
   User,
   UserProfile,
@@ -5,12 +10,7 @@ import {
   UserProgress,
   UserProgressSchema,
   UserSchema,
-} from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { formatDayjs } from "~shared/utils/Date.utils";
-import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
-import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
-import { Users } from "~users/aggregates/users/domain/Users";
+} from "~proto/com/hearlers/v1/model/user_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { HttpStatus } from "@nestjs/common";

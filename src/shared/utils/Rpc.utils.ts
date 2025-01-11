@@ -1,4 +1,4 @@
-import { RpcExceptionCode } from "~/src/shared/enums/RpcExceptionCode.enum";
+import { RpcExceptionCode } from "~shared/enums/RpcExceptionCode.enum";
 
 import { HttpStatus } from "@nestjs/common"; // NestJS HTTP 상태 코드
 

@@ -1,5 +1,5 @@
-import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
+import { CounselPromptType } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 export const COUNSEL_PROMPT_REPOSITORY = Symbol("COUNSEL_PROMPT_REPOSITORY");
 

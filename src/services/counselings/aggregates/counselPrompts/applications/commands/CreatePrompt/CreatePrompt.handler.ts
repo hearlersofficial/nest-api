@@ -1,5 +1,5 @@
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { VersionString } from "~/src/shared/types/version.type";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { VersionString } from "~shared/types/version.type";
 import { CreatePromptCommand } from "~counselings/aggregates/counselPrompts/applications/commands/CreatePrompt/CreatePrompt.command";
 import { CreateCounselPromptUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/CreateCounselPromptUseCase/CreateCounselPromptUseCase";
 import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";

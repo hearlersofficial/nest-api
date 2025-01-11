@@ -1,9 +1,9 @@
-import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
-import { CoreStatus } from "~/src/shared/core/constants/status.constants";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { KakaoEntity } from "~/src/shared/core/infrastructure/entities/Kakao.entity";
-import { RefreshTokenEntity } from "~/src/shared/core/infrastructure/entities/RefreshTokens.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
+import { CoreStatus } from "~shared/core/constants/status.constants";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { KakaoEntity } from "~shared/core/infrastructure/entities/Kakao.entity";
+import { RefreshTokenEntity } from "~shared/core/infrastructure/entities/RefreshTokens.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, RelationId } from "typeorm";
 

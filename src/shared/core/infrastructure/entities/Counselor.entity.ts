@@ -1,7 +1,7 @@
-import { CounselorGender, CounselorType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { CounselorGender, CounselorType } from "~proto/com/hearlers/v1/model/counsel_pb";
 
-import { CoreEntity } from "./Core.entity";
-import { CounselsEntity } from "./Counsels.entity";
 import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity({

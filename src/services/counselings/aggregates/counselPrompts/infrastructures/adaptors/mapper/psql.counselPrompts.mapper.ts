@@ -1,8 +1,8 @@
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { CounselPromptsEntity } from "~/src/shared/core/infrastructure/entities/CounselPrompts.entity";
-import { VersionString } from "~/src/shared/types/version.type";
-import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { CounselPromptsEntity } from "~shared/core/infrastructure/entities/CounselPrompts.entity";
+import { VersionString } from "~shared/types/version.type";
+import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
 
 import { InternalServerErrorException } from "@nestjs/common";

@@ -1,8 +1,8 @@
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 
-import { AggregateRoot } from "./AggregateRoot";
-import { Result } from "./Result";
-import { UniqueEntityId } from "./UniqueEntityId";
 import { fakerKO as faker } from "@faker-js/faker";
 import { Dayjs } from "dayjs";
 

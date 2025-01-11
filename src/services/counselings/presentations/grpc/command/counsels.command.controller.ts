@@ -1,3 +1,15 @@
+import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
+import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { CreateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
+import { UpdateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
+import { CreatePromptCommand } from "~counselings/aggregates/counselPrompts/applications/commands/CreatePrompt/CreatePrompt.command";
+import { UpdatePromptCommand } from "~counselings/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.command";
+import {
+  CreateCounselCommand,
+  CreateCounselCommandResult,
+} from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
+import { CreateMessageCommand } from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
+import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
   CreateCounselorRequest,
   CreateCounselorResult,
@@ -20,19 +32,7 @@ import {
   UpdatePromptRequest,
   UpdatePromptResult,
   UpdatePromptResultSchema,
-} from "~/src/gen/com/hearlers/v1/service/counsel_pb";
-import { SchemaCounselsMapper } from "~/src/services/counselings/presentations/grpc/schema.counsels.mapper";
-import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
-import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
-import { CreateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
-import { UpdateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
-import { CreatePromptCommand } from "~counselings/aggregates/counselPrompts/applications/commands/CreatePrompt/CreatePrompt.command";
-import { UpdatePromptCommand } from "~counselings/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.command";
-import {
-  CreateCounselCommand,
-  CreateCounselCommandResult,
-} from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
-import { CreateMessageCommand } from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
+} from "~proto/com/hearlers/v1/service/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";

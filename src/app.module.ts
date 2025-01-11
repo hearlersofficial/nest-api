@@ -1,5 +1,5 @@
-import { CounselsServiceModule } from "~/src/services/counselings/counsels.service.module";
-import { UsersServiceModule } from "~/src/services/users/users.service.module";
+import { UsersServiceModule } from "~users/users.service.module";
+import { CounselsServiceModule } from "~counselings/counsels.service.module";
 
 import { Logger, Module, OnModuleInit } from "@nestjs/common";
 

@@ -1,3 +1,12 @@
+import { FindOneAuthUserQuery } from "~users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
+import {
+  CheckRemainingTokensQuery,
+  CheckRemainingTokensQueryResponse,
+} from "~users/aggregates/users/applications/queries/CheckRemainingTokens/CheckRemainingTokens.query";
+import { FindOneUserQuery } from "~users/aggregates/users/applications/queries/FindOneUser/FindOneUser.query";
+import { Users } from "~users/aggregates/users/domain/Users";
+import { SchemaAuthUsersMapper } from "~users/presentations/grpc/schema.authUsers.mapper";
+import { SchemaUsersMapper } from "~users/presentations/grpc/schema.users.mapper";
 import {
   CheckRemainingTokensRequest,
   CheckRemainingTokensResponse,
@@ -8,16 +17,7 @@ import {
   FindOneUserRequest,
   FindOneUserResponse,
   FindOneUserResponseSchema,
-} from "~/src/gen/com/hearlers/v1/service/user_pb";
-import { SchemaUsersMapper } from "~/src/services/users/presentations/grpc/schema.users.mapper";
-import { FindOneAuthUserQuery } from "~users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
-import {
-  CheckRemainingTokensQuery,
-  CheckRemainingTokensQueryResponse,
-} from "~users/aggregates/users/applications/queries/CheckRemainingTokens/CheckRemainingTokens.query";
-import { FindOneUserQuery } from "~users/aggregates/users/applications/queries/FindOneUser/FindOneUser.query";
-import { Users } from "~users/aggregates/users/domain/Users";
-import { SchemaAuthUsersMapper } from "~users/presentations/grpc/schema.authUsers.mapper";
+} from "~proto/com/hearlers/v1/service/user_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";

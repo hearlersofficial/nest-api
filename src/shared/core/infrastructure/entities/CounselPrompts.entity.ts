@@ -1,7 +1,7 @@
-import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { isValidVersion } from "~/src/shared/types/version.type";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { isValidVersion } from "~shared/types/version.type";
+import { CounselPromptType } from "~proto/com/hearlers/v1/model/counsel_pb";
 
-import { CoreEntity } from "./Core.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
 
 @Entity({

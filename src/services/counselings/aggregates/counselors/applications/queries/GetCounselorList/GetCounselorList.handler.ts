@@ -1,4 +1,4 @@
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { GetCounselorListQuery } from "~counselings/aggregates/counselors/applications/queries/GetCounselorList/GetCounselorList.query";
 import { GetCounselorListUseCase } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorListUseCase/GetCounselorListUseCase";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";

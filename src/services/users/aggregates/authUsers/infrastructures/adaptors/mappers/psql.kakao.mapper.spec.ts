@@ -1,9 +1,9 @@
-import { convertDayjs,formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KakaoEntity } from "~shared/core/infrastructure/entities/Kakao.entity";
+import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { Kakao } from "~users/aggregates/authUsers/domain/Kakao";
+import { PsqlKakaoMapper } from "~users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.kakao.mapper";
 
-import { PsqlKakaoMapper } from "./psql.kakao.mapper";
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
 

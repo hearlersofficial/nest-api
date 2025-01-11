@@ -1,6 +1,6 @@
-import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { isValidVersion } from "~/src/shared/types/version.type";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { isValidVersion } from "~shared/types/version.type";
+import { CounselPromptType } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus } from "@nestjs/common";
 

@@ -1,5 +1,5 @@
-import { UserUpdatedPayload, UserUpdatedPayloadSchema } from "~/src/gen/com/hearlers/v1/message/user_pb";
-import { DomainEvent } from "~/src/shared/core/domain/events/DomainEvent";
+import { DomainEvent } from "~shared/core/domain/events/DomainEvent";
+import { UserUpdatedPayload, UserUpdatedPayloadSchema } from "~proto/com/hearlers/v1/message/user_pb";
 
 import { toBinary } from "@bufbuild/protobuf";
 

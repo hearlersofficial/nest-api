@@ -1,9 +1,12 @@
-import { FindOneAuthUserUseCaseResponse } from "~/src/services/users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
-import { FindOneAuthUserUseCase } from "~/src/services/users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
-import { UpdateAuthUserUseCase } from "~/src/services/users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import {
+  SaveRefreshTokenCommand,
+  SaveRefreshTokenResult,
+} from "~users/aggregates/authUsers/applications/commands/SaveRefreshToken/SaveRefreshToken.command";
+import { FindOneAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
+import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
+import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
 
-import { SaveRefreshTokenCommand, SaveRefreshTokenResult } from "./SaveRefreshToken.command";
 import { HttpStatus } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 

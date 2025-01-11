@@ -1,4 +1,4 @@
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 
 import { HttpStatus } from "@nestjs/common";
 

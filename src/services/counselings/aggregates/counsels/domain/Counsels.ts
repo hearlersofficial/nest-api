@@ -1,11 +1,11 @@
-import { CounselCreatedPayloadSchema } from "~/src/gen/com/hearlers/v1/message/counsel_pb";
-import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
-import { formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { CounselStage } from "~shared/enums/CounselStage.enum";
+import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CounselCreatedEvent } from "~counselings/aggregates/counsels/domain/events/CounselCreatedEvents";
+import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { Dayjs } from "dayjs";

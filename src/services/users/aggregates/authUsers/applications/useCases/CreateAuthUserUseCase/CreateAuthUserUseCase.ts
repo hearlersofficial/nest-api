@@ -1,4 +1,4 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { UseCase } from "~shared/core/applications/UseCase";
 import { CreateAuthUserUseCaseRequest } from "~users/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/dto/CreateAuthUserUseCase.request";
 import { CreateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/dto/CreateAuthUserUseCase.response";
 import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";

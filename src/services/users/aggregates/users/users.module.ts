@@ -1,7 +1,7 @@
-import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
-import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/UserPrompts.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
+import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
+import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserPrompts.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
 import { ConsumeTokensHandler } from "~users/aggregates/users/applications/commands/ConsumeTokens/ConsumeTokens.handler";
 import { ReserveTokensHandler } from "~users/aggregates/users/applications/commands/ReserveTokens/ReserveTokens.handler";
 import { UpdateUserHandler } from "~users/aggregates/users/applications/commands/UpdateUser/UpdateUser.handler";

@@ -1,7 +1,7 @@
-import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/UserPrompts.entity";
-import { PromptCategory } from "~/src/shared/enums/PromptCategory.enum";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserPrompts.entity";
+import { PromptCategory } from "~shared/enums/PromptCategory.enum";
 
-import { CoreEntity } from "./Core.entity";
 import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity({ name: "prompt_templates" })

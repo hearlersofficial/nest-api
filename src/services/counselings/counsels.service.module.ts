@@ -1,7 +1,6 @@
-import { GrpcCounselCommandController } from "~/src/services/counselings/presentations/grpc/command/counsels.command.controller";
-import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~/src/shared/core/infrastructure/Config";
-import { AllExceptionFilter } from "~/src/shared/filters/GrpcExceptionFilter";
-import { LoggingInterceptor } from "~/src/shared/interceptors/LoggingInterceptor";
+import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~shared/core/infrastructure/Config";
+import { AllExceptionFilter } from "~shared/filters/GrpcExceptionFilter";
+import { LoggingInterceptor } from "~shared/interceptors/LoggingInterceptor";
 import { CounselMessagesModule } from "~counselings/aggregates/counselMessages/counselMessages.module";
 import { CounselorsModule } from "~counselings/aggregates/counselors/counselors.module";
 import { CounselPromptsModule } from "~counselings/aggregates/counselPrompts/counselPrompts.module";
@@ -12,6 +11,7 @@ import { BranchCounselStageUseCase } from "~counselings/applications/useCases/Br
 import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
 import { InitializeCounselUseCase } from "~counselings/applications/useCases/InitializeCounselUseCase/InitializeCounselUseCase";
 import { InitializeCounselWithBubbleUseCase } from "~counselings/applications/useCases/InitializeCounselWithBubbleUseCase/InitializeCounselWithBubbleUseCase";
+import { GrpcCounselCommandController } from "~counselings/presentations/grpc/command/counsels.command.controller";
 import { GrpcCounselQueryController } from "~counselings/presentations/grpc/query/counsels.query.controller";
 
 import { Inject, Logger, Module, OnModuleInit } from "@nestjs/common";

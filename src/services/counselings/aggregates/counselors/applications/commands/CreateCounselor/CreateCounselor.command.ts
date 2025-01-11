@@ -1,5 +1,5 @@
-import { CounselorGender, CounselorType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { CounselorGender, CounselorType } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus } from "@nestjs/common";
 

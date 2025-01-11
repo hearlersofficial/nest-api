@@ -1,4 +1,4 @@
-import { Identifier } from "~/src/shared/core/domain/Identifier";
+import { Identifier } from "~shared/core/domain/Identifier";
 
 import { fakerKO as faker } from "@faker-js/faker";
 

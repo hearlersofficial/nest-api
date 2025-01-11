@@ -1,7 +1,7 @@
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/UserProfiles.entity";
-import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
+import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 
 import { InternalServerErrorException } from "@nestjs/common";

@@ -1,11 +1,11 @@
-import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
-import { CoreStatus } from "~/src/shared/core/constants/status.constants";
-import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { CoreStatus } from "~shared/core/constants/status.constants";
+import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 import { Kakao } from "~users/aggregates/authUsers/domain/Kakao";
 import { RefreshTokensVO } from "~users/aggregates/authUsers/domain/RefreshTokens.vo";
+import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Dayjs } from "dayjs";
 

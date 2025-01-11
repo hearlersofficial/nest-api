@@ -1,6 +1,6 @@
-import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
+import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { HttpStatus } from "@nestjs/common";
 export class FindOneAuthUserQuery {

@@ -1,16 +1,16 @@
-import { FindOneAuthUserHandler } from "~/src/services/users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.handler";
-import { AuthModule } from "~/src/services/users/aggregates/authUsers/auth.module";
-import { UsersModule } from "~/src/services/users/aggregates/users/users.module";
-import { ConnectAuthChannelHandler } from "~/src/services/users/applications/commands/ConnectAuthChannel/ConnectAuthChannel.handler";
-import { InitializeUserHandler } from "~/src/services/users/applications/commands/InitializeUser/InitializeUser.handler";
-import { BindAuthUserToUseUseCase } from "~/src/services/users/applications/useCases/BindAuthUserToUseUseCase/BindAuthUserToUseUseCase";
-import { ConnectAuthChannelUseCase } from "~/src/services/users/applications/useCases/ConnectAuthChannelUseCase/ConnectAuthChannelUseCase";
-import { GrpcUserCommandController } from "~/src/services/users/presentations/grpc/command/users.command.controller";
-import { GrpcUserQueryController } from "~/src/services/users/presentations/grpc/query/users.query.controller";
-import { UsersMessageController } from "~/src/services/users/presentations/message/users.message.controller";
-import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~/src/shared/core/infrastructure/Config";
+import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~shared/core/infrastructure/Config";
 import { AllExceptionFilter } from "~shared/filters/GrpcExceptionFilter";
 import { LoggingInterceptor } from "~shared/interceptors/LoggingInterceptor";
+import { FindOneAuthUserHandler } from "~users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.handler";
+import { AuthModule } from "~users/aggregates/authUsers/auth.module";
+import { UsersModule } from "~users/aggregates/users/users.module";
+import { ConnectAuthChannelHandler } from "~users/applications/commands/ConnectAuthChannel/ConnectAuthChannel.handler";
+import { InitializeUserHandler } from "~users/applications/commands/InitializeUser/InitializeUser.handler";
+import { BindAuthUserToUseUseCase } from "~users/applications/useCases/BindAuthUserToUseUseCase/BindAuthUserToUseUseCase";
+import { ConnectAuthChannelUseCase } from "~users/applications/useCases/ConnectAuthChannelUseCase/ConnectAuthChannelUseCase";
+import { GrpcUserCommandController } from "~users/presentations/grpc/command/users.command.controller";
+import { GrpcUserQueryController } from "~users/presentations/grpc/query/users.query.controller";
+import { UsersMessageController } from "~users/presentations/message/users.message.controller";
 
 import { Inject, Logger, Module, OnModuleInit } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";

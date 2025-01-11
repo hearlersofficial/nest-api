@@ -1,11 +1,11 @@
-import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { UseCase } from "~/src/shared/core/applications/UseCase";
-import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
+import { UseCase } from "~shared/core/applications/UseCase";
+import { CounselStage } from "~shared/enums/CounselStage.enum";
 import { GetCounselPromptByTypeUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
 import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
+import { BranchCounselStageUseCaseRequest } from "~counselings/applications/useCases/BranchCounselStageUseCase/dto/BranchCounselStage.request";
+import { BranchCounselStageUseCaseResponse } from "~counselings/applications/useCases/BranchCounselStageUseCase/dto/BranchCounselStage.response";
+import { CounselPromptType } from "~proto/com/hearlers/v1/model/counsel_pb";
 
-import { BranchCounselStageUseCaseRequest } from "./dto/BranchCounselStage.request";
-import { BranchCounselStageUseCaseResponse } from "./dto/BranchCounselStage.response";
 import { Injectable } from "@nestjs/common";
 import OpenAI from "openai";
 

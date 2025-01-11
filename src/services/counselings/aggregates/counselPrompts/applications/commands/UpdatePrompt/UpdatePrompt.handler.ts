@@ -1,11 +1,11 @@
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { VersionString } from "~/src/shared/types/version.type";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { VersionString } from "~shared/types/version.type";
+import { getNowDayjs } from "~shared/utils/Date.utils";
+import { UpdatePromptCommand } from "~counselings/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.command";
 import { GetCounselPromptByIdUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByIdUseCase/GetCounselPromptByIdUseCase";
 import { UpdateCounselPromptUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/UpdateCounselPromptUseCase/UpdateCounselPromptUseCase";
 import { CounselPrompts, CounselPromptsProps } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
 
-import { UpdatePromptCommand } from "./UpdatePrompt.command";
 import { HttpStatus } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 

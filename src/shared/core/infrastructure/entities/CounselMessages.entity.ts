@@ -1,7 +1,7 @@
-import { CounselMessageReaction } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
-import { CoreEntity } from "./Core.entity";
-import { CounselsEntity } from "./Counsels.entity";
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({

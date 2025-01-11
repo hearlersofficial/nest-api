@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { TokenResetInterval } from "~/src/shared/enums/TokenResetInterval.enum";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
+import { getNowDayjs } from "~shared/utils/Date.utils";
+import { UserMessageTokens } from "~users/aggregates/users/domain/UserMessageTokens";
 
-import { UserMessageTokens } from "./UserMessageTokens";
 import { fakerKO as faker } from "@faker-js/faker";
 
 describe("UserMessageTokens", () => {

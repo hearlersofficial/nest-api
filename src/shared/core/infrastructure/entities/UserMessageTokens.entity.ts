@@ -1,6 +1,6 @@
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
-import { TokenResetInterval } from "~/src/shared/enums/TokenResetInterval.enum";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
 
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 

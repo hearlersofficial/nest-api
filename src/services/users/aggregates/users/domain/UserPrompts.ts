@@ -1,9 +1,9 @@
-import { DomainEntity } from "~/src/shared/core/domain/DomainEntity";
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
-import { Analysis, Context, DomainConversation } from "~/src/shared/types/prompts.types";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { DomainEntity } from "~shared/core/domain/DomainEntity";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { EmotionalState } from "~shared/enums/EmotionalState.enum";
+import { Analysis, Context, DomainConversation } from "~shared/types/prompts.types";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 
 import { Dayjs } from "dayjs";
 

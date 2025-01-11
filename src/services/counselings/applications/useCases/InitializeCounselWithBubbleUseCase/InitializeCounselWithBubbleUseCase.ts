@@ -1,5 +1,5 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
-import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
+import { UseCase } from "~shared/core/applications/UseCase";
+import { CounselStage } from "~shared/enums/CounselStage.enum";
 import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { GetCounselPromptByTypeUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";

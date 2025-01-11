@@ -1,4 +1,4 @@
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 

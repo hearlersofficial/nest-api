@@ -1,4 +1,4 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { UseCase } from "~shared/core/applications/UseCase";
 import { GenerateGptResponseUseCaseRequest } from "~counselings/applications/useCases/GenerateGptResponseUseCase/dto/GenerateGptResponse.request";
 import { GenerateGptResponseUseCaseResponse } from "~counselings/applications/useCases/GenerateGptResponseUseCase/dto/GenerateGptResponse.response";
 

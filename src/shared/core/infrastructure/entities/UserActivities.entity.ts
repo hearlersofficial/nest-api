@@ -1,7 +1,7 @@
-import { ActivityType, DevicePlatform } from "~/src/gen/com/hearlers/v1/model/user_pb";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { ActivityType, DevicePlatform } from "~proto/com/hearlers/v1/model/user_pb";
 
-import { CoreEntity } from "./Core.entity";
-import { UsersEntity } from "./Users.entity";
 import { Column, Entity, Index, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "user_activities" })

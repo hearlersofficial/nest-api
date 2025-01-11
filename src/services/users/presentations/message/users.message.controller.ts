@@ -1,11 +1,11 @@
+import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
+import { kafkaPayloadToProtoMessage } from "~shared/utils/Proto.utils";
+import { ConsumeTokensCommand } from "~users/aggregates/users/applications/commands/ConsumeTokens/ConsumeTokens.command";
+import { UsersCounselMessageCreatedEvent } from "~users/applications/events/CounselMessageCreatedEvents";
 import {
   CounselMessageCreatedPayload,
   CounselMessageCreatedPayloadSchema,
-} from "~/src/gen/com/hearlers/v1/message/counsel_pb";
-import { ConsumeTokensCommand } from "~/src/services/users/aggregates/users/applications/commands/ConsumeTokens/ConsumeTokens.command";
-import { UsersCounselMessageCreatedEvent } from "~/src/services/users/applications/events/CounselMessageCreatedEvents";
-import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
-import { kafkaPayloadToProtoMessage } from "~/src/shared/utils/Proto.utils";
+} from "~proto/com/hearlers/v1/message/counsel_pb";
 
 import { Controller, Inject, OnModuleInit } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";

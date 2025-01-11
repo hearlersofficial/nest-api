@@ -1,9 +1,9 @@
-import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
-import { generateUUID } from "~/src/shared/utils/UUID.utils";
+import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
+import { getNowDayjs } from "~shared/utils/Date.utils";
+import { generateUUID } from "~shared/utils/UUID.utils";
 import { UserMessageTokens } from "~users/aggregates/users/domain/UserMessageTokens";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";

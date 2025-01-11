@@ -1,9 +1,9 @@
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { DomainEntity } from "~shared/core/domain/DomainEntity";
+import { DomainEvent } from "~shared/core/domain/events/DomainEvent";
+import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 
-import { DomainEntity } from "./DomainEntity";
-import { DomainEvent } from "./events/DomainEvent";
-import { Result } from "./Result";
-import { UniqueEntityId } from "./UniqueEntityId";
 import { Message } from "@bufbuild/protobuf";
 import { fakerKO as faker } from "@faker-js/faker";
 import { Dayjs } from "dayjs";

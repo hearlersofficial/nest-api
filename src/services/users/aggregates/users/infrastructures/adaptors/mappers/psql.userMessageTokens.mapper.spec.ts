@@ -1,10 +1,10 @@
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { UserMessageTokensEntity } from "~/src/shared/core/infrastructure/entities/UserMessageTokens.entity";
-import { TokenResetInterval } from "~/src/shared/enums/TokenResetInterval.enum";
-import { formatDayjs,getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/UserMessageTokens.entity";
+import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
+import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserMessageTokens } from "~users/aggregates/users/domain/UserMessageTokens";
+import { PsqlUserMessageTokensMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper";
 
-import { PsqlUserMessageTokensMapper } from "./psql.userMessageTokens.mapper";
 import { fakerKO as faker } from "@faker-js/faker";
 
 describe("PsqlUserMessageTokensMapper", () => {

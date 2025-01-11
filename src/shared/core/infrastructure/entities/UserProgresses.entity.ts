@@ -1,7 +1,7 @@
-import { ProgressStatus } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { ProgressStatus } from "~proto/com/hearlers/v1/model/user_pb";
+import { ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 

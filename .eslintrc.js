@@ -50,8 +50,8 @@ module.exports = {
           {
             patterns: [
               {
-                group: ["./**", "../**", "~counselings/*", "~"],
-                message: "Users 서비스는 자신의, 혹은 공유된 모듈만 import할 수 있습니다.",
+                group: ["./**", "../**", "~counselings/*", "~/*"],
+                message: "Users 서비스는 절대경로로 자신의, 혹은 공유된 모듈만 import할 수 있습니다.",
               },
             ],
           },
@@ -66,8 +66,8 @@ module.exports = {
           {
             patterns: [
               {
-                group: ["./**", "../**", "~users/*", "~"],
-                message: "Counseling 서비스는 자신의, 혹은 공유된 모듈만 import할 수 있습니다.",
+                group: ["./**", "../**", "~users/*", "~/*"],
+                message: "Counseling 서비스는 절대경로로 자신의, 혹은 공유된 모듈만 import할 수 있습니다.",
               },
             ],
           },
@@ -82,8 +82,8 @@ module.exports = {
           {
             patterns: [
               {
-                group: ["./**", "../**", "~users/*", "~counselings/*", "~"],
-                message: "Shared 모듈은 자신의, 혹은 공유된 모듈만 import할 수 있습니다.",
+                group: ["./**", "../**", "~users/*", "~counselings/*", "~/*"],
+                message: "Shared 모듈은 절대경로로 자신의, 혹은 공유된 모듈만 import할 수 있습니다.",
               },
             ],
           },

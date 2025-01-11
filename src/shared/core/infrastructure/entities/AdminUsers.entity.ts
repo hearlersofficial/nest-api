@@ -1,5 +1,5 @@
-import { CoreStatus } from "~/src/shared/core/constants/status.constants";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
+import { CoreStatus } from "~shared/core/constants/status.constants";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 
 import { Column, Entity } from "typeorm";
 

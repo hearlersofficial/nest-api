@@ -1,5 +1,5 @@
-import { RpcExceptionCode } from "~/src/shared/enums/RpcExceptionCode.enum";
-import { CustomRpcException, HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { RpcExceptionCode } from "~shared/enums/RpcExceptionCode.enum";
+import { CustomRpcException, HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 
 import { ArgumentsHost, Catch, HttpStatus,Logger } from "@nestjs/common";
 import { BaseRpcExceptionFilter, RpcException } from "@nestjs/microservices";

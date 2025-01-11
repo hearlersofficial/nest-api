@@ -1,5 +1,5 @@
-import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/AuthUsers.entity";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 

@@ -1,6 +1,6 @@
-import { Error, ErrorSchema } from "~/src/gen/com/hearlers/v1/common/error_pb";
-import { RpcExceptionCode } from "~/src/shared/enums/RpcExceptionCode.enum";
-import { grpcToHttpStatus, httpStatusToGrpc } from "~/src/shared/utils/Rpc.utils";
+import { RpcExceptionCode } from "~shared/enums/RpcExceptionCode.enum";
+import { grpcToHttpStatus, httpStatusToGrpc } from "~shared/utils/Rpc.utils";
+import { Error, ErrorSchema } from "~proto/com/hearlers/v1/common/error_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { HttpStatus } from "@nestjs/common";

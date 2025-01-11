@@ -1,12 +1,12 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { convertDayjs } from "~shared/utils/Date.utils";
+import { UpdateUserCommand } from "~users/aggregates/users/applications/commands/UpdateUser/UpdateUser.command";
 import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
 import { UpdateUserUseCase } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
 import { UserProfilesProps } from "~users/aggregates/users/domain/UserProfiles";
 import { Users } from "~users/aggregates/users/domain/Users";
 import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
-import { UpdateUserCommand } from "./UpdateUser.command";
 import { HttpStatus } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 

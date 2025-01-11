@@ -1,4 +1,4 @@
-import { CounselPromptsEntity } from "~/src/shared/core/infrastructure/entities/CounselPrompts.entity";
+import { CounselPromptsEntity } from "~shared/core/infrastructure/entities/CounselPrompts.entity";
 import { CreatePromptHandler } from "~counselings/aggregates/counselPrompts/applications/commands/CreatePrompt/CreatePrompt.handler";
 import { UpdatePromptHandler } from "~counselings/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.handler";
 import { GetPromptListHandler } from "~counselings/aggregates/counselPrompts/applications/queries/GetPromptList/GetPromptList.handler";

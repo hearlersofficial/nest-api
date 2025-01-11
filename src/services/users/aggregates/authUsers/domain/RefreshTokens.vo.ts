@@ -1,6 +1,6 @@
-import { Result } from "~/src/shared/core/domain/Result";
-import { ValueObject } from "~/src/shared/core/domain/ValueObject";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { Result } from "~shared/core/domain/Result";
+import { ValueObject } from "~shared/core/domain/ValueObject";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 
 import { Dayjs } from "dayjs";
 

@@ -1,8 +1,8 @@
-import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/CounselMessages.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselor.entity";
+import { CounselStage } from "~shared/enums/CounselStage.enum";
 
-import { CoreEntity } from "./Core.entity";
-import { CounselMessagesEntity } from "./CounselMessages.entity";
-import { CounselorsEntity } from "./Counselor.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
 @Entity({

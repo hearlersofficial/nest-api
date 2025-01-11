@@ -1,13 +1,13 @@
-import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
+import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
 import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/CounselMessages.entity";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { PsqlCounselMessagesMapper } from "~counselings/aggregates/counselMessages/infrastructures/adaptors/mapper/psql.counselMessages.mapper";
 import {
   CounselMessagesRepositoryPort,
   FindManyPropsInCounselMessagesRepository,
   FindOnePropsInCounselMessagesRepository,
 } from "~counselings/aggregates/counselMessages/infrastructures/counselMessages.repository.port";
 
-import { PsqlCounselMessagesMapper } from "./mapper/psql.counselMessages.mapper";
 import { Inject } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";

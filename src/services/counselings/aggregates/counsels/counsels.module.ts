@@ -1,4 +1,4 @@
-import { CounselsEntity } from "~/src/shared/core/infrastructure/entities/Counsels.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
 import { GetCounselListHandler } from "~counselings/aggregates/counsels/applications/queries/GetCounselList/GetCounselList.handler";
 import { CreateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/CreateCounselUseCase/CreateCounselUseCase";
 import { GetCounselListUseCase } from "~counselings/aggregates/counsels/applications/useCases/GetCounselListUseCase/GetCounselListUseCase";

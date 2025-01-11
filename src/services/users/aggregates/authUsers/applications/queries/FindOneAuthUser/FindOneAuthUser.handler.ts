@@ -1,9 +1,9 @@
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import {
   FindOneAuthUserQuery,
   FindOneAuthUserQueryResult,
-} from "~/src/services/users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
-import { FindOneAuthUserUseCase } from "~/src/services/users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+} from "~users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
+import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
 
 import { HttpStatus } from "@nestjs/common";
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";

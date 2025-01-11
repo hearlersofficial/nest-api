@@ -1,3 +1,13 @@
+import { convertDayjs } from "~shared/utils/Date.utils";
+import { SaveRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/SaveRefreshToken/SaveRefreshToken.command";
+import { VerifyRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/VerifyRefreshToken/VerifyRefreshToken.command";
+import { ReserveTokensCommand } from "~users/aggregates/users/applications/commands/ReserveTokens/ReserveTokens.command";
+import { UpdateUserCommand } from "~users/aggregates/users/applications/commands/UpdateUser/UpdateUser.command";
+import { Users } from "~users/aggregates/users/domain/Users";
+import { ConnectAuthChannelCommand } from "~users/applications/commands/ConnectAuthChannel/ConnectAuthChannel.command";
+import { InitializeUserCommand } from "~users/applications/commands/InitializeUser/InitializeUser.command";
+import { SchemaAuthUsersMapper } from "~users/presentations/grpc/schema.authUsers.mapper";
+import { SchemaUsersMapper } from "~users/presentations/grpc/schema.users.mapper";
 import {
   ConnectAuthChannelRequest,
   ConnectAuthChannelResponse,
@@ -16,17 +26,7 @@ import {
   VerifyRefreshTokenRequest,
   VerifyRefreshTokenResponse,
   VerifyRefreshTokenResponseSchema,
-} from "~/src/gen/com/hearlers/v1/service/user_pb";
-import { ConnectAuthChannelCommand } from "~/src/services/users/applications/commands/ConnectAuthChannel/ConnectAuthChannel.command";
-import { InitializeUserCommand } from "~/src/services/users/applications/commands/InitializeUser/InitializeUser.command";
-import { SchemaAuthUsersMapper } from "~/src/services/users/presentations/grpc/schema.authUsers.mapper";
-import { SchemaUsersMapper } from "~/src/services/users/presentations/grpc/schema.users.mapper";
-import { convertDayjs } from "~/src/shared/utils/Date.utils";
-import { SaveRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/SaveRefreshToken/SaveRefreshToken.command";
-import { VerifyRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/VerifyRefreshToken/VerifyRefreshToken.command";
-import { ReserveTokensCommand } from "~users/aggregates/users/applications/commands/ReserveTokens/ReserveTokens.command";
-import { UpdateUserCommand } from "~users/aggregates/users/applications/commands/UpdateUser/UpdateUser.command";
-import { Users } from "~users/aggregates/users/domain/Users";
+} from "~proto/com/hearlers/v1/service/user_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";

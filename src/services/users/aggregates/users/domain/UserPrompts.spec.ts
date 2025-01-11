@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
-import { Analysis,Context } from "~/src/shared/types/prompts.types";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { EmotionalState } from "~shared/enums/EmotionalState.enum";
+import { Analysis, Context } from "~shared/types/prompts.types";
+import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
 
-import { UserPrompts } from "./UserPrompts";
 import { fakerKO as faker } from "@faker-js/faker";
 
 describe("UserPrompts", () => {

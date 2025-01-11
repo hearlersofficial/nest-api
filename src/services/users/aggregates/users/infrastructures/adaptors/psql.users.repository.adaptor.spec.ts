@@ -1,15 +1,15 @@
-import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
-import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/UserProfiles.entity";
-import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
-import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/UserPrompts.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
-import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
-import { convertDayjs,formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
+import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
+import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
+import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserPrompts.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { EmotionalState } from "~shared/enums/EmotionalState.enum";
+import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { Users } from "~users/aggregates/users/domain/Users";
+import { PsqlUsersRepositoryAdaptor } from "~users/aggregates/users/infrastructures/adaptors/psql.users.repository.adaptor";
+import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
+import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
-import { PsqlUsersRepositoryAdaptor } from "./psql.users.repository.adaptor";
 import { fakerKO as faker } from "@faker-js/faker";
 import { ClientKafka } from "@nestjs/microservices";
 import { Test, TestingModule } from "@nestjs/testing";

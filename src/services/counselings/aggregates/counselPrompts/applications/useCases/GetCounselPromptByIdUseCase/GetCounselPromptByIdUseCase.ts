@@ -1,4 +1,4 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { UseCase } from "~shared/core/applications/UseCase";
 import { GetCounselPromptByIdUseCaseRequest } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByIdUseCase/dto/GetCounselPromptById.request";
 import { GetCounselPromptByIdUseCaseResponse } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByIdUseCase/dto/GetCounselPromptById.response";
 import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";

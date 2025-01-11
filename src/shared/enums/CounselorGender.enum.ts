@@ -1,4 +1,4 @@
-import { CounselorGender } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
+import { CounselorGender } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 export const CounselorGenderMap = {
   [CounselorGender.UNSPECIFIED]: "unspecified",

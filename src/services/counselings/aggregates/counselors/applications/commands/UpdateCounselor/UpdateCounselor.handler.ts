@@ -1,5 +1,5 @@
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 import { UpdateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
 import { GetCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/GetCounselorUseCase";
 import { UpdateCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/UpdateCounselorUseCase/UpdateCounselorUseCase";

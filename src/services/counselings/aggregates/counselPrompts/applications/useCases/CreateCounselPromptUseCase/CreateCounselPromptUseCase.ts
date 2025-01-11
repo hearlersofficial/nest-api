@@ -1,5 +1,5 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
-import { Result } from "~/src/shared/core/domain/Result";
+import { UseCase } from "~shared/core/applications/UseCase";
+import { Result } from "~shared/core/domain/Result";
 import { CreateCounselPromptUseCaseRequest } from "~counselings/aggregates/counselPrompts/applications/useCases/CreateCounselPromptUseCase/dto/CreateCounselPrompt.request";
 import { CreateCounselPromptUseCaseResponse } from "~counselings/aggregates/counselPrompts/applications/useCases/CreateCounselPromptUseCase/dto/CreateCounselPrompt.response";
 import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";

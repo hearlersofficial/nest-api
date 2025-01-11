@@ -1,4 +1,4 @@
-import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/AuthUsers.entity";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
 @Entity({ name: "refresh_tokens", comment: "리프레시 토큰 테이블" })

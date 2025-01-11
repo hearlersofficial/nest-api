@@ -1,13 +1,13 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
-import { Result } from "~/src/shared/core/domain/Result";
+import { UseCase } from "~shared/core/applications/UseCase";
+import { Result } from "~shared/core/domain/Result";
+import { CreateCounselUseCaseRequest } from "~counselings/aggregates/counsels/applications/useCases/CreateCounselUseCase/dto/CreateCounsel.request";
+import { CreateCounselUseCaseResponse } from "~counselings/aggregates/counsels/applications/useCases/CreateCounselUseCase/dto/CreateCounsel.response";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import {
   COUNSEL_REPOSITORY,
   CounselsRepositoryPort,
 } from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
 
-import { CreateCounselUseCaseRequest } from "./dto/CreateCounsel.request";
-import { CreateCounselUseCaseResponse } from "./dto/CreateCounsel.response";
 import { Inject, Injectable } from "@nestjs/common";
 
 @Injectable()

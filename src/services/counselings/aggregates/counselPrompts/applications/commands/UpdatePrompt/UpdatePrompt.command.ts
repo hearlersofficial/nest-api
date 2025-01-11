@@ -1,5 +1,5 @@
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { isValidVersion } from "~/src/shared/types/version.type";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { isValidVersion } from "~shared/types/version.type";
 
 import { HttpStatus } from "@nestjs/common";
 

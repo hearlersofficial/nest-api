@@ -1,9 +1,10 @@
-import { create } from "@bufbuild/protobuf";
-import { HttpStatus } from "@nestjs/common";
-import { RpcException } from "@nestjs/microservices";
 import { Error, ErrorSchema } from "~/src/gen/com/hearlers/v1/common/error_pb";
 import { RpcExceptionCode } from "~/src/shared/enums/RpcExceptionCode.enum";
 import { grpcToHttpStatus, httpStatusToGrpc } from "~/src/shared/utils/Rpc.utils";
+
+import { create } from "@bufbuild/protobuf";
+import { HttpStatus } from "@nestjs/common";
+import { RpcException } from "@nestjs/microservices";
 
 export class CustomRpcException extends RpcException {
   private errorProto: Error;

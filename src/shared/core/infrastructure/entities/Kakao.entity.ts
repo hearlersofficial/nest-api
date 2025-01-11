@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/AuthUsers.entity";
 import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
+
+import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 
 @Entity({
   name: "kakao",

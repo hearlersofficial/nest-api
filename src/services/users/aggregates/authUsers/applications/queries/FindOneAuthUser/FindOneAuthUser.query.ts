@@ -1,7 +1,8 @@
-import { HttpStatus } from "@nestjs/common";
 import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
 import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
+
+import { HttpStatus } from "@nestjs/common";
 export class FindOneAuthUserQuery {
   constructor(public readonly props: FindOneAuthUserQueryProps) {
     this.validateProps(props);

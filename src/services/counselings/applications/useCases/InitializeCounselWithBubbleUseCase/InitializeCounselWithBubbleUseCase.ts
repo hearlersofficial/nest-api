@@ -1,18 +1,21 @@
-import { Injectable } from "@nestjs/common";
 import { UseCase } from "~/src/shared/core/applications/UseCase";
-import { CreateCounselUseCase } from "~/src/aggregates/counsels/applications/useCases/CreateCounselUseCase/CreateCounselUseCase";
-import { CreateCounselMessageUseCase } from "~/src/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
-import { UpdateCounselUseCase } from "~/src/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
-import { InitializeCounselWithBubbleUseCaseRequest } from "./dto/InitializeCounselWithBubble.request";
-import { InitializeCounselWithBubbleUseCaseResponse } from "./dto/InitializeCounselWithBubble.response";
-import { CounselMessages } from "~/src/aggregates/counselMessages/domain/CounselMessages";
 import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
+import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
+import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { GetCounselPromptByTypeUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
+import { CreateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/CreateCounselUseCase/CreateCounselUseCase";
+import { UpdateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
+import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
+import { InitializeCounselWithBubbleUseCaseRequest } from "~counselings/applications/useCases/InitializeCounselWithBubbleUseCase/dto/InitializeCounselWithBubble.request";
+import { InitializeCounselWithBubbleUseCaseResponse } from "~counselings/applications/useCases/InitializeCounselWithBubbleUseCase/dto/InitializeCounselWithBubble.response";
+
+import { Injectable } from "@nestjs/common";
 import { ChatCompletionMessageParam } from "openai/resources";
-import { GenerateGptResponseUseCase } from "../GenerateGptResponseUseCase/GenerateGptResponseUseCase";
-import { GetCounselPromptByTypeUseCase } from "~/src/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
 
 @Injectable()
-export class InitializeCounselWithBubbleUseCase implements UseCase<InitializeCounselWithBubbleUseCaseRequest, InitializeCounselWithBubbleUseCaseResponse> {
+export class InitializeCounselWithBubbleUseCase
+  implements UseCase<InitializeCounselWithBubbleUseCaseRequest, InitializeCounselWithBubbleUseCaseResponse>
+{
   constructor(
     private readonly createCounselUseCase: CreateCounselUseCase,
     private readonly createCounselMessageUseCase: CreateCounselMessageUseCase,
@@ -21,11 +24,16 @@ export class InitializeCounselWithBubbleUseCase implements UseCase<InitializeCou
     private readonly updateCounselUseCase: UpdateCounselUseCase,
   ) {}
 
-  async execute(request: InitializeCounselWithBubbleUseCaseRequest): Promise<InitializeCounselWithBubbleUseCaseResponse> {
+  async execute(
+    request: InitializeCounselWithBubbleUseCaseRequest,
+  ): Promise<InitializeCounselWithBubbleUseCaseResponse> {
     const { userId, counselor, introMessage, responseMessage } = request;
 
     // 상담 생성
-    const createCounselResult = await this.createCounselUseCase.execute({ userId, counselorId: counselor.id.getNumber() });
+    const createCounselResult = await this.createCounselUseCase.execute({
+      userId,
+      counselorId: counselor.id.getNumber(),
+    });
     if (!createCounselResult.ok) {
       return { ok: false, error: createCounselResult.error };
     }

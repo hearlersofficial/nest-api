@@ -1,8 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
 import { ProgressStatus } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
+import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
+import { UsersEntity } from "~/src/shared/core/infrastructure/entities/Users.entity";
+
+import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "user_progresses" })
 export class UserProgressesEntity extends CoreEntity {

@@ -1,9 +1,3 @@
-import { Controller } from "@nestjs/common";
-import { GrpcMethod } from "@nestjs/microservices";
-import { QueryBus } from "@nestjs/cqrs";
-import { FindOneUserQuery } from "~users/aggregates/users/applications/queries/FindOneUser/FindOneUser.query";
-import { Users } from "~users/aggregates/users/domain/Users";
-import { create } from "@bufbuild/protobuf";
 import {
   CheckRemainingTokensRequest,
   CheckRemainingTokensResponse,
@@ -17,11 +11,18 @@ import {
 } from "~/src/gen/com/hearlers/v1/service/user_pb";
 import { SchemaUsersMapper } from "~/src/services/users/presentations/grpc/schema.users.mapper";
 import { FindOneAuthUserQuery } from "~users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
-import { SchemaAuthUsersMapper } from "~users/presentations/grpc/schema.authUsers.mapper";
 import {
   CheckRemainingTokensQuery,
   CheckRemainingTokensQueryResponse,
 } from "~users/aggregates/users/applications/queries/CheckRemainingTokens/CheckRemainingTokens.query";
+import { FindOneUserQuery } from "~users/aggregates/users/applications/queries/FindOneUser/FindOneUser.query";
+import { Users } from "~users/aggregates/users/domain/Users";
+import { SchemaAuthUsersMapper } from "~users/presentations/grpc/schema.authUsers.mapper";
+
+import { create } from "@bufbuild/protobuf";
+import { Controller } from "@nestjs/common";
+import { QueryBus } from "@nestjs/cqrs";
+import { GrpcMethod } from "@nestjs/microservices";
 
 @Controller("user")
 export class GrpcUserQueryController {

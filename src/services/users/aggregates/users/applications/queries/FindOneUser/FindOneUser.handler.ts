@@ -1,10 +1,11 @@
 // src/application/handlers/find-one-user.handler.ts
-import { HttpStatus } from "@nestjs/common";
-import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { FindOneUserQuery } from "~users/aggregates/users/applications/queries/FindOneUser/FindOneUser.query";
 import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
 import { Users } from "~users/aggregates/users/domain/Users";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+
+import { HttpStatus } from "@nestjs/common";
+import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 
 @QueryHandler(FindOneUserQuery)
 export class FindOneUserHandler implements IQueryHandler<FindOneUserQuery> {

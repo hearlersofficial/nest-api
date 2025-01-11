@@ -1,8 +1,9 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { UseCase } from "~shared/core/applications/UseCase";
 import { UpdateUserUseCaseRequest } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/dto/UpdateUserUseCase.request";
 import { UpdateUserUseCaseResponse } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/dto/UpdateUserUseCase.response";
 import { USER_REPOSITORY, UsersRepositoryPort } from "~users/aggregates/users/infrastructures/users.repository.port";
-import { UseCase } from "~shared/core/applications/UseCase";
+
+import { Inject, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class UpdateUserUseCase implements UseCase<UpdateUserUseCaseRequest, UpdateUserUseCaseResponse> {

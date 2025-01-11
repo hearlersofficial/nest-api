@@ -1,10 +1,11 @@
+import { convertDayjs,formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { KakaoEntity } from "~shared/core/infrastructure/entities/Kakao.entity";
+import { Kakao } from "~users/aggregates/authUsers/domain/Kakao";
+
+import { PsqlKakaoMapper } from "./psql.kakao.mapper";
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
-import { PsqlKakaoMapper } from "./psql.kakao.mapper";
-import { Kakao } from "~users/aggregates/authUsers/domain/Kakao";
-import { KakaoEntity } from "~shared/core/infrastructure/entities/Kakao.entity";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { formatDayjs, getNowDayjs, convertDayjs } from "~/src/shared/utils/Date.utils";
 
 describe("PsqlKakaoMapper", () => {
   const createMockKakaoEntity = () => {

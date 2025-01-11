@@ -1,15 +1,16 @@
-import { InjectRepository } from "@nestjs/typeorm";
-import { FindOneOptions, FindOptionsRelations, FindOptionsWhere, Repository } from "typeorm";
+import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
+import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
 import { Users } from "~users/aggregates/users/domain/Users";
 import { PsqlUsersMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.users.mapper";
 import {
   FindOnePropsInUsersRepository,
   UsersRepositoryPort,
 } from "~users/aggregates/users/infrastructures/users.repository.port";
-import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
-import { ClientKafka } from "@nestjs/microservices";
-import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
+
 import { Inject } from "@nestjs/common";
+import { ClientKafka } from "@nestjs/microservices";
+import { InjectRepository } from "@nestjs/typeorm";
+import { FindOneOptions, FindOptionsRelations, FindOptionsWhere, Repository } from "typeorm";
 
 export class PsqlUsersRepositoryAdaptor implements UsersRepositoryPort {
   private readonly userFindOptionsRelation: FindOptionsRelations<UsersEntity> = {

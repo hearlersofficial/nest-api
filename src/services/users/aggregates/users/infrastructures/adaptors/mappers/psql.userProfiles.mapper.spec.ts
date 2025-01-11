@@ -1,10 +1,11 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
-import { PsqlUserProfilesMapper } from "./psql.userProfiles.mapper";
-import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/UserProfiles.entity";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/UserProfiles.entity";
+import { convertDayjs,formatDayjs, getNowDayjs } from "~/src/shared/utils/Date.utils";
+import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
-import { getNowDayjs, formatDayjs, convertDayjs } from "~/src/shared/utils/Date.utils";
+
+import { PsqlUserProfilesMapper } from "./psql.userProfiles.mapper";
+import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
 
 describe("PsqlUserProfilesMapper", () => {

@@ -1,6 +1,7 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { Kakao } from "./Kakao";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+
+import { Kakao } from "./Kakao";
+import { fakerKO as faker } from "@faker-js/faker";
 import { advanceTo, clear } from "jest-date-mock";
 
 describe("Kakao", () => {

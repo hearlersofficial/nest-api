@@ -1,11 +1,11 @@
-import { fakerKO as faker } from "@faker-js/faker";
-
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { EmotionalState } from "~shared/enums/EmotionalState.enum";
-import { Users } from "~users/aggregates/users/domain/Users";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
+import { Users } from "~users/aggregates/users/domain/Users";
+
+import { fakerKO as faker } from "@faker-js/faker";
 
 describe("Users", () => {
   describe("createNew", () => {

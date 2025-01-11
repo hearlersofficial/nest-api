@@ -1,6 +1,7 @@
 import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
-import { Dayjs } from "dayjs";
 import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+
+import { Dayjs } from "dayjs";
 
 // 도메인용 타입
 export interface DomainConversation {

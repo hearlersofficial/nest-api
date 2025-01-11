@@ -1,10 +1,11 @@
-import { InternalServerErrorException } from "@nestjs/common";
-import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserPrompts.entity";
 import { toDomainConversation, toEntityConversation } from "~shared/types/prompts.types";
 import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
+
+import { InternalServerErrorException } from "@nestjs/common";
 
 export class PsqlUserPromptsMapper {
   static toDomain(entity: UserPromptsEntity): UserPrompts | null {

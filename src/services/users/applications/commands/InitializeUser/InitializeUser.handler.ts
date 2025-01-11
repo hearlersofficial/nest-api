@@ -1,5 +1,4 @@
-import { HttpStatus } from "@nestjs/common";
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CreateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/CreateAuthUserUseCase";
 import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
 import { CreateUserUseCase } from "~users/aggregates/users/applications/useCases/CreateUserUseCase/CreateUserUseCase";
@@ -7,7 +6,9 @@ import { CreateUserUseCaseResponse } from "~users/aggregates/users/applications/
 import { Users } from "~users/aggregates/users/domain/Users";
 import { InitializeUserCommand } from "~users/applications/commands/InitializeUser/InitializeUser.command";
 import { BindAuthUserToUseUseCase } from "~users/applications/useCases/BindAuthUserToUseUseCase/BindAuthUserToUseUseCase";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+
+import { HttpStatus } from "@nestjs/common";
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 
 @CommandHandler(InitializeUserCommand)
 export class InitializeUserHandler implements ICommandHandler<InitializeUserCommand> {

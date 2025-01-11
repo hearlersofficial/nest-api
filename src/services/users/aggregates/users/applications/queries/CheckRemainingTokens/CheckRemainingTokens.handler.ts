@@ -1,11 +1,12 @@
-import { HttpStatus } from "@nestjs/common";
-import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import {
   CheckRemainingTokensQuery,
   CheckRemainingTokensQueryResponse,
 } from "~users/aggregates/users/applications/queries/CheckRemainingTokens/CheckRemainingTokens.query";
 import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+
+import { HttpStatus } from "@nestjs/common";
+import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 
 @QueryHandler(CheckRemainingTokensQuery)
 export class CheckRemainingTokensHandler

@@ -1,5 +1,6 @@
-import { HttpStatus } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+
+import { HttpStatus } from "@nestjs/common";
 
 export class FindOneUserQuery {
   constructor(public readonly props: FindOneUserQueryProps) {

@@ -1,10 +1,11 @@
-import { HttpStatus } from "@nestjs/common";
-import { UserMessageTokens, UserMessageTokensProps } from "~users/aggregates/users/domain/UserMessageTokens";
 import { Result } from "~/src/shared/core/domain/Result";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { UserMessageTokensEntity } from "~/src/shared/core/infrastructure/entities/UserMessageTokens.entity";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
 import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+import { UserMessageTokens, UserMessageTokensProps } from "~users/aggregates/users/domain/UserMessageTokens";
+
+import { HttpStatus } from "@nestjs/common";
 
 export class PsqlUserMessageTokensMapper {
   static toDomain(entity: UserMessageTokensEntity): UserMessageTokens | null {

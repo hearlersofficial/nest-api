@@ -1,13 +1,13 @@
-import { Column, Entity, OneToMany, OneToOne, RelationId } from "typeorm";
-
+import { CoreStatus } from "~/src/shared/core/constants/status.constants";
+import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/AuthUsers.entity";
 import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
 import { UserActivitiesEntity } from "~/src/shared/core/infrastructure/entities/UserActivities.entity";
+import { UserMessageTokensEntity } from "~/src/shared/core/infrastructure/entities/UserMessageTokens.entity";
 import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/UserProfiles.entity";
 import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/UserProgresses.entity";
 import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/UserPrompts.entity";
-import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/AuthUsers.entity";
-import { CoreStatus } from "~/src/shared/core/constants/status.constants";
-import { UserMessageTokensEntity } from "~/src/shared/core/infrastructure/entities/UserMessageTokens.entity";
+
+import { Column, Entity, OneToMany, OneToOne, RelationId } from "typeorm";
 
 @Entity({
   name: "users",

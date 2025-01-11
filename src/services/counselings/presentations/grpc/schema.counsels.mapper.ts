@@ -1,8 +1,3 @@
-import { create } from "@bufbuild/protobuf";
-import { CounselMessages } from "~/src/aggregates/counselMessages/domain/CounselMessages";
-import { Counselors } from "~/src/aggregates/counselors/domain/counselors";
-import { CounselPrompts } from "~/src/aggregates/counselPrompts/domain/CounselPrompts";
-import { Counsels } from "~/src/aggregates/counsels/domain/Counsels";
 import {
   Counsel,
   CounselMessage,
@@ -14,6 +9,12 @@ import {
   CounselSchema,
 } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 import { formatDayjs } from "~/src/shared/utils/Date.utils";
+import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
+import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
+import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
+
+import { create } from "@bufbuild/protobuf";
 
 export class SchemaCounselsMapper {
   static toCounselProto(counsel: Counsels): Counsel {

@@ -1,9 +1,10 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { AggregateRoot } from "./AggregateRoot";
-import { UniqueEntityId } from "./UniqueEntityId";
-import { Result } from "./Result";
-import { Dayjs } from "dayjs";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+
+import { AggregateRoot } from "./AggregateRoot";
+import { Result } from "./Result";
+import { UniqueEntityId } from "./UniqueEntityId";
+import { fakerKO as faker } from "@faker-js/faker";
+import { Dayjs } from "dayjs";
 
 interface TestAggregateNewProps {
   name: string;

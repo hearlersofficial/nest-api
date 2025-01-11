@@ -1,5 +1,6 @@
-import { fakerKO as faker } from "@faker-js/faker";
 import { Identifier } from "~/src/shared/core/domain/Identifier";
+
+import { fakerKO as faker } from "@faker-js/faker";
 
 describe("Identifier", (): void => {
   describe("equals", (): void => {

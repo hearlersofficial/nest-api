@@ -1,8 +1,9 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { UserProfiles } from "./UserProfiles";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { convertDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
+
+import { UserProfiles } from "./UserProfiles";
+import { fakerKO as faker } from "@faker-js/faker";
 
 describe("UserProfiles", () => {
   const validPhoneNumber = "01012345678";

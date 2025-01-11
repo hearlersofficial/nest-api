@@ -1,8 +1,9 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { UserProgresses } from "./UserProgresses";
+import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";
-import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
+
+import { UserProgresses } from "./UserProgresses";
+import { fakerKO as faker } from "@faker-js/faker";
 
 describe("UserProgresses", () => {
   describe("createNew", () => {

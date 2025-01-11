@@ -1,4 +1,3 @@
-import { Inject, Injectable } from "@nestjs/common";
 import { UseCase } from "~/src/shared/core/applications/UseCase";
 import { CreateAuthUserUseCaseRequest } from "~users/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/dto/CreateAuthUserUseCase.request";
 import { CreateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/dto/CreateAuthUserUseCase.response";
@@ -7,6 +6,8 @@ import {
   AUTH_USERS_REPOSITORY,
   AuthUsersRepositoryPort,
 } from "~users/aggregates/authUsers/infrastructures/authUsers.repository.port";
+
+import { Inject, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class CreateAuthUserUseCase implements UseCase<CreateAuthUserUseCaseRequest, CreateAuthUserUseCaseResponse> {

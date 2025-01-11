@@ -1,6 +1,7 @@
-import { Logger, Module, OnModuleInit } from "@nestjs/common";
 import { CounselsServiceModule } from "~/src/services/counselings/counsels.service.module";
 import { UsersServiceModule } from "~/src/services/users/users.service.module";
+
+import { Logger, Module, OnModuleInit } from "@nestjs/common";
 
 @Module({
   imports: [UsersServiceModule, CounselsServiceModule],

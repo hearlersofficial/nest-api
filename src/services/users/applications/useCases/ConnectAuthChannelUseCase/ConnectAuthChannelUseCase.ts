@@ -1,18 +1,19 @@
-import { HttpStatus, Injectable } from "@nestjs/common";
 import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { FindOneAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
+import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
+import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
+import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
+import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
+import { FindOneUserUseCaseResponse } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/dto/FindOneUserUseCase.response";
+import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
+import { UpdateUserUseCaseResponse } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/dto/UpdateUserUseCase.response";
+import { UpdateUserUseCase } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
+import { Users } from "~users/aggregates/users/domain/Users";
 import { ConnectAuthChannelUseCaseRequest } from "~users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.request";
 import { ConnectAuthChannelUseCaseResponse } from "~users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.response";
-import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
-import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
-import { FindOneAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
-import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
-import { UpdateUserUseCase } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
-import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
-import { FindOneUserUseCaseResponse } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/dto/FindOneUserUseCase.response";
-import { Users } from "~users/aggregates/users/domain/Users";
-import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { UpdateUserUseCaseResponse } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/dto/UpdateUserUseCase.response";
+
+import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class ConnectAuthChannelUseCase

@@ -1,7 +1,8 @@
-import * as dotenv from "dotenv";
 import { AppModule } from "~/src/app.module";
 import { CounselsServiceModule } from "~/src/services/counselings/counsels.service.module";
 import { UsersServiceModule } from "~/src/services/users/users.service.module";
+
+import * as dotenv from "dotenv";
 dotenv.config({ path: [".env", ".env.dev"] });
 
 import { createMicroservices, serviceConfigs, ServiceType } from "~/src/shared/core/presentations/Config";

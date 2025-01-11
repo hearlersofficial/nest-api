@@ -1,13 +1,14 @@
-import { InjectRepository } from "@nestjs/typeorm";
-import { FindOptionsRelations, FindOptionsWhere, Repository } from "typeorm";
+import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
+import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/AuthUsers.entity";
 import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
 import { PsqlAuthUsersMapper } from "~users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.authUsers.mapper";
 import {
   AuthUsersRepositoryPort,
   FindOnePropsInAuthUsersRepository,
 } from "~users/aggregates/authUsers/infrastructures/authUsers.repository.port";
-import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
-import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/AuthUsers.entity";
+
+import { InjectRepository } from "@nestjs/typeorm";
+import { FindOptionsRelations, FindOptionsWhere, Repository } from "typeorm";
 
 export class PsqlAuthUsersRepositoryAdaptor implements AuthUsersRepositoryPort {
   constructor(@InjectRepository(AuthUsersEntity) private readonly authUsersRepository: Repository<AuthUsersEntity>) {}

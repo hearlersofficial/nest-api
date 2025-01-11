@@ -1,11 +1,12 @@
-import { HttpStatus } from "@nestjs/common";
-import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import {
   FindOneAuthUserQuery,
   FindOneAuthUserQueryResult,
 } from "~/src/services/users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
 import { FindOneAuthUserUseCase } from "~/src/services/users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+
+import { HttpStatus } from "@nestjs/common";
+import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 
 @QueryHandler(FindOneAuthUserQuery)
 export class FindOneAuthUserHandler implements IQueryHandler<FindOneAuthUserQuery, FindOneAuthUserQueryResult> {

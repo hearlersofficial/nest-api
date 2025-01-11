@@ -1,13 +1,16 @@
-import { Injectable } from "@nestjs/common";
 import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
+import { CreateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/CreateCounselUseCase/CreateCounselUseCase";
+import { UpdateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
+
 import { InitializeCounselUseCaseRequest } from "./dto/InitializeCounsel.request";
 import { InitializeCounselUseCaseResponse } from "./dto/InitializeCounsel.response";
-import { CreateCounselUseCase } from "~/src/aggregates/counsels/applications/useCases/CreateCounselUseCase/CreateCounselUseCase";
-import { CreateCounselMessageUseCase } from "~/src/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
-import { UpdateCounselUseCase } from "~/src/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class InitializeCounselUseCase implements UseCase<InitializeCounselUseCaseRequest, InitializeCounselUseCaseResponse> {
+export class InitializeCounselUseCase
+  implements UseCase<InitializeCounselUseCaseRequest, InitializeCounselUseCaseResponse>
+{
   constructor(
     private readonly createCounselUseCase: CreateCounselUseCase,
     private readonly createCounselMessageUseCase: CreateCounselMessageUseCase,
@@ -18,7 +21,10 @@ export class InitializeCounselUseCase implements UseCase<InitializeCounselUseCas
     const { userId, counselor } = request;
 
     // 상담 생성
-    const createCounselResult = await this.createCounselUseCase.execute({ userId, counselorId: counselor.id.getNumber() });
+    const createCounselResult = await this.createCounselUseCase.execute({
+      userId,
+      counselorId: counselor.id.getNumber(),
+    });
     if (!createCounselResult.ok) {
       return { ok: false, error: createCounselResult.error };
     }

@@ -1,5 +1,4 @@
-import { HttpStatus } from "@nestjs/common";
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import {
   ConsumeTokensCommand,
   ConsumeTokensCommandResponse,
@@ -7,7 +6,9 @@ import {
 import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
 import { UpdateUserUseCase } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
 import { UserMessageTokens } from "~users/aggregates/users/domain/UserMessageTokens";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+
+import { HttpStatus } from "@nestjs/common";
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 
 @CommandHandler(ConsumeTokensCommand)
 export class ConsumeTokensHandler implements ICommandHandler<ConsumeTokensCommand, ConsumeTokensCommandResponse> {

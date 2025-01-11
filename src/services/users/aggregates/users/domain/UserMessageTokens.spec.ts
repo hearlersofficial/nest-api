@@ -1,8 +1,9 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { UserMessageTokens } from "./UserMessageTokens";
 import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { TokenResetInterval } from "~/src/shared/enums/TokenResetInterval.enum";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+
+import { UserMessageTokens } from "./UserMessageTokens";
+import { fakerKO as faker } from "@faker-js/faker";
 
 describe("UserMessageTokens", () => {
   let defaultNewProps: any;

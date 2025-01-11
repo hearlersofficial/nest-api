@@ -1,9 +1,10 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { Injectable } from "@nestjs/common";
+import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
 import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
 import { BindAuthUserToUseUseCaseRequest } from "~users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.request";
 import { BindAuthUserToUseUseCaseResponse } from "~users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.response";
-import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
+
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class BindAuthUserToUseUseCase

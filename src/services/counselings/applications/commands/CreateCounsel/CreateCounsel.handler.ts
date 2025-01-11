@@ -1,11 +1,14 @@
+import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { GetCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/GetCounselorUseCase";
+import {
+  CreateCounselCommand,
+  CreateCounselCommandResult,
+} from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
+import { InitializeCounselUseCase } from "~counselings/applications/useCases/InitializeCounselUseCase/InitializeCounselUseCase";
+import { InitializeCounselWithBubbleUseCase } from "~counselings/applications/useCases/InitializeCounselWithBubbleUseCase/InitializeCounselWithBubbleUseCase";
+
 import { HttpStatus } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { CreateCounselCommand, CreateCounselCommandResult } from "./CreateCounsel.command";
-import { InitializeCounselUseCase } from "../../useCases/InitializeCounselUseCase/InitializeCounselUseCase";
-import { InitializeCounselWithBubbleUseCase } from "../../useCases/InitializeCounselWithBubbleUseCase/InitializeCounselWithBubbleUseCase";
-import { GetCounselorUseCase } from "~/src/aggregates/counselors/applications/useCases/GetCounselorUseCase/GetCounselorUseCase";
 
 @CommandHandler(CreateCounselCommand)
 export class CreateCounselHandler implements ICommandHandler<CreateCounselCommand> {
@@ -35,7 +38,10 @@ export class CreateCounselHandler implements ICommandHandler<CreateCounselComman
         responseMessage,
       });
       if (!initializeCounselWithBubbleResult.ok) {
-        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, initializeCounselWithBubbleResult.error);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          initializeCounselWithBubbleResult.error,
+        );
       }
 
       const { counsel, counselMessages } = initializeCounselWithBubbleResult;

@@ -1,5 +1,3 @@
-import { HttpStatus } from "@nestjs/common";
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { FindOneAuthUserUseCase } from "~/src/services/users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
 import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
 import {
@@ -9,6 +7,9 @@ import {
 import { FindOneAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
 import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
 import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
+
+import { HttpStatus } from "@nestjs/common";
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 
 @CommandHandler(VerifyRefreshTokenCommand)
 export class VerifyRefreshTokenHandler implements ICommandHandler<VerifyRefreshTokenCommand, VerifyRefreshTokenResult> {

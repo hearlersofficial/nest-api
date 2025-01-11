@@ -1,17 +1,18 @@
-import { fakerKO as faker } from "@faker-js/faker";
-import { Users } from "~users/aggregates/users/domain/Users";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/UserMessageTokens.entity";
+import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
+import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
+import { convertDayjs,formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
+import { Users } from "~users/aggregates/users/domain/Users";
 import { PsqlUsersMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.users.mapper";
-import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
-import { ProgressType, ProgressStatus } from "~proto/com/hearlers/v1/model/user_pb";
-import { getNowDayjs, formatDayjs, convertDayjs } from "~shared/utils/Date.utils";
-import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
-import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
-import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/UserMessageTokens.entity";
-import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
+import { ProgressStatus,ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
+
+import { fakerKO as faker } from "@faker-js/faker";
 
 describe("PsqlUsersMapper", () => {
   const createMockUserEntity = () => {

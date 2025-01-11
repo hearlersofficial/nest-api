@@ -1,10 +1,11 @@
 import { DomainEntity } from "~/src/shared/core/domain/DomainEntity";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { Result } from "~/src/shared/core/domain/Result";
-import { Dayjs } from "dayjs";
-import { getNowDayjs } from "~/src/shared/utils/Date.utils";
-import { Context, Analysis, DomainConversation } from "~/src/shared/types/prompts.types";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
+import { Analysis, Context, DomainConversation } from "~/src/shared/types/prompts.types";
+import { getNowDayjs } from "~/src/shared/utils/Date.utils";
+
+import { Dayjs } from "dayjs";
 
 interface UserPromptsNewProps {
   userId: UniqueEntityId;

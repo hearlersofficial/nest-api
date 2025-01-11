@@ -1,10 +1,11 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { UseCase } from "~shared/core/applications/UseCase";
 import { FindOneUserUseCaseRequest } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/dto/FindOneUserUseCase.request";
 import { FindOneUserUseCaseResponse } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/dto/FindOneUserUseCase.response";
 import { Users } from "~users/aggregates/users/domain/Users";
 import { USER_REPOSITORY, UsersRepositoryPort } from "~users/aggregates/users/infrastructures/users.repository.port";
-import { UseCase } from "~shared/core/applications/UseCase";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
+
+import { Inject, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class FindOneUserUseCase implements UseCase<FindOneUserUseCaseRequest, FindOneUserUseCaseResponse> {

@@ -1,7 +1,8 @@
-import { Catch, ArgumentsHost, Logger, HttpStatus } from "@nestjs/common";
-import { BaseRpcExceptionFilter, RpcException } from "@nestjs/microservices";
 import { RpcExceptionCode } from "~/src/shared/enums/RpcExceptionCode.enum";
 import { CustomRpcException, HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+
+import { ArgumentsHost, Catch, HttpStatus,Logger } from "@nestjs/common";
+import { BaseRpcExceptionFilter, RpcException } from "@nestjs/microservices";
 
 @Catch()
 export class AllExceptionFilter extends BaseRpcExceptionFilter {

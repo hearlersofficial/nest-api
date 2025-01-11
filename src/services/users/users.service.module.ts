@@ -1,9 +1,3 @@
-import { Inject, Logger, Module, OnModuleInit } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
-import { CommandBus, CqrsModule } from "@nestjs/cqrs";
-import { ClientKafka, ClientsModule } from "@nestjs/microservices";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { FindOneAuthUserHandler } from "~/src/services/users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.handler";
 import { AuthModule } from "~/src/services/users/aggregates/authUsers/auth.module";
 import { UsersModule } from "~/src/services/users/aggregates/users/users.module";
@@ -17,6 +11,13 @@ import { UsersMessageController } from "~/src/services/users/presentations/messa
 import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~/src/shared/core/infrastructure/Config";
 import { AllExceptionFilter } from "~shared/filters/GrpcExceptionFilter";
 import { LoggingInterceptor } from "~shared/interceptors/LoggingInterceptor";
+
+import { Inject, Logger, Module, OnModuleInit } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
+import { CommandBus, CqrsModule } from "@nestjs/cqrs";
+import { ClientKafka, ClientsModule } from "@nestjs/microservices";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
   imports: [

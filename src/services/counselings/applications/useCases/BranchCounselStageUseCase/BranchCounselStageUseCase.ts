@@ -1,15 +1,18 @@
-import { Injectable } from "@nestjs/common";
+import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
+import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
+import { GetCounselPromptByTypeUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
+import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
+
 import { BranchCounselStageUseCaseRequest } from "./dto/BranchCounselStage.request";
 import { BranchCounselStageUseCaseResponse } from "./dto/BranchCounselStage.response";
-import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { Injectable } from "@nestjs/common";
 import OpenAI from "openai";
-import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
-import { GetCounselPromptByTypeUseCase } from "~/src/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
-import { CounselPrompts } from "~/src/aggregates/counselPrompts/domain/CounselPrompts";
-import { CounselPromptType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
 
 @Injectable()
-export class BranchCounselStageUseCase implements UseCase<BranchCounselStageUseCaseRequest, BranchCounselStageUseCaseResponse> {
+export class BranchCounselStageUseCase
+  implements UseCase<BranchCounselStageUseCaseRequest, BranchCounselStageUseCaseResponse>
+{
   private openai: OpenAI;
 
   constructor(private readonly getCounselPromptByTypeUseCase: GetCounselPromptByTypeUseCase) {
@@ -21,7 +24,9 @@ export class BranchCounselStageUseCase implements UseCase<BranchCounselStageUseC
   async execute(request: BranchCounselStageUseCaseRequest): Promise<BranchCounselStageUseCaseResponse> {
     const { prompts } = request;
 
-    const getCounselPromptResult = await this.getCounselPromptByTypeUseCase.execute({ promptType: CounselPromptType.BRANCH_MSG });
+    const getCounselPromptResult = await this.getCounselPromptByTypeUseCase.execute({
+      promptType: CounselPromptType.BRANCH_MSG,
+    });
     if (!getCounselPromptResult.ok) {
       return {
         ok: false,

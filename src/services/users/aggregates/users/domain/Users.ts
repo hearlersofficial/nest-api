@@ -1,15 +1,16 @@
 import { AggregateRoot } from "~/src/shared/core/domain/AggregateRoot";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { Result } from "~/src/shared/core/domain/Result";
-import { Dayjs } from "dayjs";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~/src/shared/utils/Date.utils";
-import { Gender, Mbti, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
+import { generateUUID } from "~/src/shared/utils/UUID.utils";
+import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
+import { UserMessageTokens } from "~users/aggregates/users/domain/UserMessageTokens";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
-import { UserMessageTokens } from "~users/aggregates/users/domain/UserMessageTokens";
-import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
-import { generateUUID } from "~/src/shared/utils/UUID.utils";
+import { Gender, Mbti, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
+
+import { Dayjs } from "dayjs";
 
 interface UsersNewProps {}
 

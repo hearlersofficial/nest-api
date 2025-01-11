@@ -1,24 +1,25 @@
-import { Inject, Logger, Module, OnModuleInit } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
-import { CqrsModule } from "@nestjs/cqrs";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { CounselsModule } from "~/src/aggregates/counsels/counsels.module";
 import { GrpcCounselCommandController } from "~/src/services/counselings/presentations/grpc/command/counsels.command.controller";
 import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~/src/shared/core/infrastructure/Config";
 import { AllExceptionFilter } from "~/src/shared/filters/GrpcExceptionFilter";
 import { LoggingInterceptor } from "~/src/shared/interceptors/LoggingInterceptor";
-import { GrpcCounselQueryController } from "./presentations/grpc/query/counsels.query.controller";
-import { CounselMessagesModule } from "~/src/aggregates/counselMessages/counselMessages.module";
-import { CounselPromptsModule } from "~/src/aggregates/counselPrompts/counselPrompts.module";
-import { InitializeCounselUseCase } from "./applications/useCases/InitializeCounselUseCase/InitializeCounselUseCase";
-import { CreateCounselHandler } from "./applications/commands/CreateCounsel/CreateCounsel.handler";
-import { BranchCounselStageUseCase } from "./applications/useCases/BranchCounselStageUseCase/BranchCounselStageUseCase";
-import { GenerateGptResponseUseCase } from "./applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
-import { CreateMessageHandler } from "./applications/commands/CreateMessage/CreateMessage.handler";
-import { CounselorsModule } from "~/src/aggregates/counselors/counselors.module";
-import { InitializeCounselWithBubbleUseCase } from "./applications/useCases/InitializeCounselWithBubbleUseCase/InitializeCounselWithBubbleUseCase";
+import { CounselMessagesModule } from "~counselings/aggregates/counselMessages/counselMessages.module";
+import { CounselorsModule } from "~counselings/aggregates/counselors/counselors.module";
+import { CounselPromptsModule } from "~counselings/aggregates/counselPrompts/counselPrompts.module";
+import { CounselsModule } from "~counselings/aggregates/counsels/counsels.module";
+import { CreateCounselHandler } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.handler";
+import { CreateMessageHandler } from "~counselings/applications/commands/CreateMessage/CreateMessage.handler";
+import { BranchCounselStageUseCase } from "~counselings/applications/useCases/BranchCounselStageUseCase/BranchCounselStageUseCase";
+import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
+import { InitializeCounselUseCase } from "~counselings/applications/useCases/InitializeCounselUseCase/InitializeCounselUseCase";
+import { InitializeCounselWithBubbleUseCase } from "~counselings/applications/useCases/InitializeCounselWithBubbleUseCase/InitializeCounselWithBubbleUseCase";
+import { GrpcCounselQueryController } from "~counselings/presentations/grpc/query/counsels.query.controller";
+
+import { Inject, Logger, Module, OnModuleInit } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
+import { CqrsModule } from "@nestjs/cqrs";
 import { ClientKafka, ClientsModule } from "@nestjs/microservices";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
   imports: [

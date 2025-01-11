@@ -1,7 +1,8 @@
-import { Column, Entity, OneToMany } from "typeorm";
+import { CounselorGender, CounselorType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
+
 import { CoreEntity } from "./Core.entity";
 import { CounselsEntity } from "./Counsels.entity";
-import { CounselorGender, CounselorType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
+import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity({
   name: "counselors",

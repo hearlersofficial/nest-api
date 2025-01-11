@@ -4,9 +4,9 @@ import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { CommandBus, CqrsModule } from "@nestjs/cqrs";
 import { ClientKafka, ClientsModule } from "@nestjs/microservices";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { FindOneAuthUserHandler } from "~/src/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.handler";
-import { AuthModule } from "~/src/aggregates/authUsers/auth.module";
-import { UsersModule } from "~/src/aggregates/users/users.module";
+import { FindOneAuthUserHandler } from "~/src/services/users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.handler";
+import { AuthModule } from "~/src/services/users/aggregates/authUsers/auth.module";
+import { UsersModule } from "~/src/services/users/aggregates/users/users.module";
 import { ConnectAuthChannelHandler } from "~/src/services/users/applications/commands/ConnectAuthChannel/ConnectAuthChannel.handler";
 import { InitializeUserHandler } from "~/src/services/users/applications/commands/InitializeUser/InitializeUser.handler";
 import { BindAuthUserToUseUseCase } from "~/src/services/users/applications/useCases/BindAuthUserToUseUseCase/BindAuthUserToUseUseCase";
@@ -15,8 +15,8 @@ import { GrpcUserCommandController } from "~/src/services/users/presentations/gr
 import { GrpcUserQueryController } from "~/src/services/users/presentations/grpc/query/users.query.controller";
 import { UsersMessageController } from "~/src/services/users/presentations/message/users.message.controller";
 import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~/src/shared/core/infrastructure/Config";
-import { AllExceptionFilter } from "~/src/shared/filters/GrpcExceptionFilter";
-import { LoggingInterceptor } from "~/src/shared/interceptors/LoggingInterceptor";
+import { AllExceptionFilter } from "~shared/filters/GrpcExceptionFilter";
+import { LoggingInterceptor } from "~shared/interceptors/LoggingInterceptor";
 
 @Module({
   imports: [

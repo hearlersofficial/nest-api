@@ -1,18 +1,18 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UseCase } from "~/src/shared/core/applications/UseCase";
-import { ConnectAuthChannelUseCaseRequest } from "~/src/services/users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.request";
-import { ConnectAuthChannelUseCaseResponse } from "~/src/services/users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.response";
-import { UpdateAuthUserUseCase } from "~/src/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
-import { FindOneAuthUserUseCase } from "~/src/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
-import { FindOneAuthUserUseCaseResponse } from "~/src/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
-import { UpdateAuthUserUseCaseResponse } from "~/src/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
-import { UpdateUserUseCase } from "~/src/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
-import { FindOneUserUseCase } from "~/src/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
-import { FindOneUserUseCaseResponse } from "~/src/aggregates/users/applications/useCases/FindOneUserUseCase/dto/FindOneUserUseCase.response";
-import { Users } from "~/src/aggregates/users/domain/Users";
-import { AuthUsers } from "~/src/aggregates/authUsers/domain/AuthUsers";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { UpdateUserUseCaseResponse } from "~/src/aggregates/users/applications/useCases/UpdateUserUseCase/dto/UpdateUserUseCase.response";
+import { ConnectAuthChannelUseCaseRequest } from "~users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.request";
+import { ConnectAuthChannelUseCaseResponse } from "~users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.response";
+import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
+import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
+import { FindOneAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
+import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
+import { UpdateUserUseCase } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
+import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
+import { FindOneUserUseCaseResponse } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/dto/FindOneUserUseCase.response";
+import { Users } from "~users/aggregates/users/domain/Users";
+import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { UpdateUserUseCaseResponse } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/dto/UpdateUserUseCase.response";
 
 @Injectable()
 export class ConnectAuthChannelUseCase

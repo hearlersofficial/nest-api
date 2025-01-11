@@ -109,10 +109,18 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "moduleNameMapper": {
+      "~users/(.*)$": "<rootDir>/../src/services/users/$1",
+      "~counselings/(.*)$": "<rootDir>/../src/services/counselings/$1",
+      "~shared/(.*)$": "<rootDir>/../src/shared/$1",
+      "~proto/(.*)$": "<rootDir>/../src/gen/$1",
       "^~/(.*)$": "<rootDir>/../$1"
     }
   },
   "moduleNameMapper": {
+    "~users/(.*)$": "<rootDir>/../src/services/users/$1",
+    "~counselings/(.*)$": "<rootDir>/../src/services/counselings/$1",
+    "~shared/(.*)$": "<rootDir>/../src/shared/$1",
+    "~proto/(.*)$": "<rootDir>/../src/gen/$1",
     "^~/(.*)$": "<rootDir>/../$1"
   }
 }

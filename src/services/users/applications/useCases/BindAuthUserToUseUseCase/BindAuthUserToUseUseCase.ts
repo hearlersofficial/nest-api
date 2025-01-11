@@ -1,9 +1,9 @@
-import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { UseCase } from "~shared/core/applications/UseCase";
 import { Injectable } from "@nestjs/common";
-import { UpdateAuthUserUseCase } from "~/src/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
-import { BindAuthUserToUseUseCaseRequest } from "~/src/services/users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.request";
-import { BindAuthUserToUseUseCaseResponse } from "~/src/services/users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.response";
-import { UpdateAuthUserUseCaseResponse } from "~/src/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
+import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
+import { BindAuthUserToUseUseCaseRequest } from "~users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.request";
+import { BindAuthUserToUseUseCaseResponse } from "~users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.response";
+import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
 
 @Injectable()
 export class BindAuthUserToUseUseCase

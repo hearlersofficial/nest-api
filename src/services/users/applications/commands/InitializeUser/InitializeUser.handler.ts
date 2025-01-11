@@ -1,13 +1,13 @@
 import { HttpStatus } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { CreateAuthUserUseCase } from "~/src/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/CreateAuthUserUseCase";
-import { AuthUsers } from "~/src/aggregates/authUsers/domain/AuthUsers";
-import { CreateUserUseCase } from "~/src/aggregates/users/applications/useCases/CreateUserUseCase/CreateUserUseCase";
-import { CreateUserUseCaseResponse } from "~/src/aggregates/users/applications/useCases/CreateUserUseCase/dto/CreateUser.response";
-import { Users } from "~/src/aggregates/users/domain/Users";
-import { InitializeUserCommand } from "~/src/services/users/applications/commands/InitializeUser/InitializeUser.command";
-import { BindAuthUserToUseUseCase } from "~/src/services/users/applications/useCases/BindAuthUserToUseUseCase/BindAuthUserToUseUseCase";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { CreateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/CreateAuthUserUseCase";
+import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
+import { CreateUserUseCase } from "~users/aggregates/users/applications/useCases/CreateUserUseCase/CreateUserUseCase";
+import { CreateUserUseCaseResponse } from "~users/aggregates/users/applications/useCases/CreateUserUseCase/dto/CreateUser.response";
+import { Users } from "~users/aggregates/users/domain/Users";
+import { InitializeUserCommand } from "~users/applications/commands/InitializeUser/InitializeUser.command";
+import { BindAuthUserToUseUseCase } from "~users/applications/useCases/BindAuthUserToUseUseCase/BindAuthUserToUseUseCase";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 
 @CommandHandler(InitializeUserCommand)
 export class InitializeUserHandler implements ICommandHandler<InitializeUserCommand> {

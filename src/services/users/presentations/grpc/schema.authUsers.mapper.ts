@@ -1,7 +1,7 @@
 import { create } from "@bufbuild/protobuf";
 import { HttpStatus } from "@nestjs/common";
-import { AuthUsers } from "~/src/aggregates/authUsers/domain/AuthUsers";
-import { RefreshTokensVO } from "~/src/aggregates/authUsers/domain/RefreshTokens.vo";
+import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
+import { RefreshTokensVO } from "~users/aggregates/authUsers/domain/RefreshTokens.vo";
 import {
   AuthChannel,
   AuthUser,
@@ -11,8 +11,8 @@ import {
   RefreshToken,
   RefreshTokenSchema,
 } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { formatDayjs } from "~/src/shared/utils/Date.utils";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { formatDayjs } from "~shared/utils/Date.utils";
 
 export class SchemaAuthUsersMapper {
   static toAuthUserProto(authUser: AuthUsers): AuthUser {

@@ -19,6 +19,10 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
+      "~users/*": ["./src/services/users/*"],
+      "~counselings/*": ["./src/services/counselings/*"],
+      "~shared/*": ["./src/shared/*"],
+      "~proto/*": ["./src/gen/*"],
       "~/*": ["./*"]
     }
   }

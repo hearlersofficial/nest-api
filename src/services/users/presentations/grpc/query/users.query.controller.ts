@@ -1,8 +1,8 @@
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { QueryBus } from "@nestjs/cqrs";
-import { FindOneUserQuery } from "~/src/aggregates/users/applications/queries/FindOneUser/FindOneUser.query";
-import { Users } from "~/src/aggregates/users/domain/Users";
+import { FindOneUserQuery } from "~users/aggregates/users/applications/queries/FindOneUser/FindOneUser.query";
+import { Users } from "~users/aggregates/users/domain/Users";
 import { create } from "@bufbuild/protobuf";
 import {
   CheckRemainingTokensRequest,
@@ -16,12 +16,12 @@ import {
   FindOneUserResponseSchema,
 } from "~/src/gen/com/hearlers/v1/service/user_pb";
 import { SchemaUsersMapper } from "~/src/services/users/presentations/grpc/schema.users.mapper";
-import { FindOneAuthUserQuery } from "~/src/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
-import { SchemaAuthUsersMapper } from "~/src/services/users/presentations/grpc/schema.authUsers.mapper";
+import { FindOneAuthUserQuery } from "~users/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
+import { SchemaAuthUsersMapper } from "~users/presentations/grpc/schema.authUsers.mapper";
 import {
   CheckRemainingTokensQuery,
   CheckRemainingTokensQueryResponse,
-} from "~/src/aggregates/users/applications/queries/CheckRemainingTokens/CheckRemainingTokens.query";
+} from "~users/aggregates/users/applications/queries/CheckRemainingTokens/CheckRemainingTokens.query";
 
 @Controller("user")
 export class GrpcUserQueryController {

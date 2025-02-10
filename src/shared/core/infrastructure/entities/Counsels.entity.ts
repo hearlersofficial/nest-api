@@ -4,6 +4,11 @@ import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselor
 import { CounselStage } from "~shared/enums/CounselStage.enum";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
+import { CoreEntity } from "./Core.entity";
+import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
+import { CounselMessagesEntity } from "./CounselMessages.entity";
+import { CounselorsEntity } from "./Counselor.entity";
+import { CounselTechniquesEntity } from "~/src/shared/core/infrastructure/entities/CounselTechniques.entity";
 
 @Entity({
   name: "counsels",
@@ -61,4 +66,10 @@ export class CounselsEntity extends CoreEntity {
     onUpdate: "CASCADE",
   })
   counselMessages: CounselMessagesEntity[];
+
+  @ManyToOne(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.counsels, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  counselTechnique: CounselTechniquesEntity;
 }

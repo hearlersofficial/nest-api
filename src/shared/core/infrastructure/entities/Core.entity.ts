@@ -1,8 +1,12 @@
-import { BaseEntity, Column, DeleteDateColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DeleteDateColumn, PrimaryColumn } from "typeorm";
 
 export class CoreEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn({
+    type: "bigint",
+    name: "id",
+    comment: "ID",
+  })
+  id: string;
 
   @Column({
     name: "created_at",

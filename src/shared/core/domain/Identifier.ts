@@ -19,6 +19,10 @@ export class Identifier<T> {
     return this.value;
   }
 
+  getString(): string {
+    return String(this.value);
+  }
+
   getNumber(): number {
     return Number(this.value);
   }

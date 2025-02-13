@@ -6,7 +6,16 @@ import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
 import { PsqlUserPromptsMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userPrompts.mapper";
 
+<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.userPrompts.mapper.spec.ts
 import { faker } from "@faker-js/faker";
+=======
+import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/users/UserPrompts.entity";
+import { PsqlUserPromptsMapper } from "~/src/aggregates/users/infrastructures/adaptors/mappers/psql.userPrompts.mapper";
+import { UserPrompts } from "~/src/aggregates/users/domain/UserPrompts";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
+import { EntityConversation } from "~/src/shared/types/prompts.types";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.userPrompts.mapper.spec.ts
 
 describe("PsqlUserPromptsMapper", () => {
   const createMockUserPromptsEntity = () => {

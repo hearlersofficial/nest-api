@@ -1,9 +1,11 @@
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+
 export class VerifyRefreshTokenCommand {
   constructor(public readonly props: VerifyRefreshTokenCommandProps) {}
 }
 
 interface VerifyRefreshTokenCommandProps {
-  userId: number;
+  userId: UniqueEntityId;
   token: string;
 }
 

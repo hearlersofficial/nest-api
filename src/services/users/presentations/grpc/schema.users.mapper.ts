@@ -21,7 +21,7 @@ export class SchemaUsersMapper {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to map user to proto");
     }
     return create(UserSchema, {
-      id: user.id.getNumber(),
+      id: user.id.getString(),
       nickname: user.nickname,
       userProfile: user.userProfile ? this.toUserProfileProto(user.userProfile) : null,
       userProgresses: user.userProgresses ? user.userProgresses.map(this.toUserProgressProto) : null,

@@ -12,7 +12,7 @@ import { ChatCompletionAssistantMessageParam, ChatCompletionUserMessageParam } f
 
 interface CounselMessagesNewProps {
   counselId: UniqueEntityId;
-  userId: number;
+  userId: UniqueEntityId;
   message: string;
   isUserMessage: boolean;
 }
@@ -98,7 +98,7 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
     return this.props.counselId;
   }
 
-  get userId(): number {
+  get userId(): UniqueEntityId {
     return this.props.userId;
   }
 
@@ -171,9 +171,9 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
 
   public addCreatedEvent(): void {
     const counselMessageCreated = create(CounselMessageCreatedPayloadSchema, {
-      counselMessageId: this.id.getNumber(),
-      counselId: this.counselId.getNumber(),
-      userId: this.userId,
+      counselMessageId: this.id.getString(),
+      counselId: this.counselId.getString(),
+      userId: this.userId.getString(),
       message: this.message,
       isUserMessage: this.isUserMessage,
       occurredAt: formatDayjs(getNowDayjs()),

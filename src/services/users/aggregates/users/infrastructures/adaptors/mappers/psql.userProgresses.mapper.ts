@@ -5,6 +5,14 @@ import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 
 import { InternalServerErrorException } from "@nestjs/common";
+<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.userProgresses.mapper.ts
+=======
+import { UserProgresses } from "~/src/aggregates/users/domain/UserProgresses";
+import { Result } from "~/src/shared/core/domain/Result";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProgresses.entity";
+import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.userProgresses.mapper.ts
 
 export class PsqlUserProgressesMapper {
   static toDomain(entity: UserProgressesEntity): UserProgresses | null {
@@ -38,10 +46,10 @@ export class PsqlUserProgressesMapper {
     const entity = new UserProgressesEntity();
 
     if (!userProgresses.id.isNewIdentifier()) {
-      entity.id = userProgresses.id.getNumber();
+      entity.id = userProgresses.id.getString();
     }
     if (!userProgresses.userId.isNewIdentifier()) {
-      entity.userId = userProgresses.userId.getNumber();
+      entity.userId = userProgresses.userId.getString();
     }
 
     entity.progressType = userProgresses.progressType;

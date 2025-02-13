@@ -3,6 +3,13 @@ import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 
 import { HttpStatus } from "@nestjs/common";
+<<<<<<< HEAD
+=======
+import { CounselMessages } from "~/src/aggregates/counselMessages/domain/CounselMessages";
+import { Counsels } from "~/src/aggregates/counsels/domain/Counsels";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 export class CreateCounselCommand {
   constructor(public readonly props: CreateCounselCommandProps) {
@@ -40,8 +47,8 @@ export class CreateCounselCommand {
 }
 
 interface CreateCounselCommandProps {
-  userId: number;
-  counselorId: number;
+  userId: UniqueEntityId;
+  counselorId: UniqueEntityId;
   introMessage?: string;
   responseMessage?: string;
 }

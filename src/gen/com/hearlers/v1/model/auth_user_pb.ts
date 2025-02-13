@@ -10,21 +10,21 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/model/auth_user.proto.
  */
 export const file_com_hearlers_v1_model_auth_user: GenFile = /*@__PURE__*/
-  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbW9kZWwvYXV0aF91c2VyLnByb3RvEhVjb20uaGVhcmxlcnMudjEubW9kZWwitgIKCEF1dGhVc2VyEgoKAmlkGAEgASgFEg8KB3VzZXJfaWQYAiABKAUSOAoMYXV0aF9jaGFubmVsGAMgASgOMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkF1dGhDaGFubmVsEkMKEm9hdXRoX2NoYW5uZWxfaW5mbxgEIAEoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5PQXV0aENoYW5uZWxJbmZvEjsKDnJlZnJlc2hfdG9rZW5zGAUgAygLMiMuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlJlZnJlc2hUb2tlbhIVCg1sYXN0X2xvZ2luX2F0GAYgASgJEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRISCgpkZWxldGVkX2F0GAkgASgJIqcBChBPQXV0aENoYW5uZWxJbmZvEgoKAmlkGAEgASgFEjgKDGF1dGhfY2hhbm5lbBgCIAEoDjIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5BdXRoQ2hhbm5lbBIRCgl1bmlxdWVfaWQYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhIKCmRlbGV0ZWRfYXQYBiABKAkiWQoMUmVmcmVzaFRva2VuEg0KBXRva2VuGAEgASgJEhIKCmV4cGlyZXNfYXQYAiABKAkSEgoKY3JlYXRlZF9hdBgDIAEoCRISCgp1cGRhdGVkX2F0GAQgASgJKnYKC0F1dGhDaGFubmVsEhwKGEFVVEhfQ0hBTk5FTF9VTlNQRUNJRklFRBAAEhkKFUFVVEhfQ0hBTk5FTF9VTkxJTktFRBABEhYKEkFVVEhfQ0hBTk5FTF9LQUtBTxACEhYKEkFVVEhfQ0hBTk5FTF9OQVZFUhADQqIBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQg1BdXRoVXNlclByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM");
+  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbW9kZWwvYXV0aF91c2VyLnByb3RvEhVjb20uaGVhcmxlcnMudjEubW9kZWwitgIKCEF1dGhVc2VyEgoKAmlkGAEgASgJEg8KB3VzZXJfaWQYAiABKAkSOAoMYXV0aF9jaGFubmVsGAMgASgOMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkF1dGhDaGFubmVsEkMKEm9hdXRoX2NoYW5uZWxfaW5mbxgEIAEoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5PQXV0aENoYW5uZWxJbmZvEjsKDnJlZnJlc2hfdG9rZW5zGAUgAygLMiMuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlJlZnJlc2hUb2tlbhIVCg1sYXN0X2xvZ2luX2F0GAYgASgJEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRISCgpkZWxldGVkX2F0GAkgASgJIqcBChBPQXV0aENoYW5uZWxJbmZvEgoKAmlkGAEgASgJEjgKDGF1dGhfY2hhbm5lbBgCIAEoDjIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5BdXRoQ2hhbm5lbBIRCgl1bmlxdWVfaWQYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhIKCmRlbGV0ZWRfYXQYBiABKAkiWQoMUmVmcmVzaFRva2VuEg0KBXRva2VuGAEgASgJEhIKCmV4cGlyZXNfYXQYAiABKAkSEgoKY3JlYXRlZF9hdBgDIAEoCRISCgp1cGRhdGVkX2F0GAQgASgJKnYKC0F1dGhDaGFubmVsEhwKGEFVVEhfQ0hBTk5FTF9VTlNQRUNJRklFRBAAEhkKFUFVVEhfQ0hBTk5FTF9VTkxJTktFRBABEhYKEkFVVEhfQ0hBTk5FTF9LQUtBTxACEhYKEkFVVEhfQ0hBTk5FTF9OQVZFUhADQqIBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQg1BdXRoVXNlclByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM");
 
 /**
  * @generated from message com.hearlers.v1.model.AuthUser
  */
 export type AuthUser = Message<"com.hearlers.v1.model.AuthUser"> & {
   /**
-   * @generated from field: int32 id = 1;
+   * @generated from field: string id = 1;
    */
-  id: number;
+  id: string;
 
   /**
-   * @generated from field: int32 user_id = 2;
+   * @generated from field: string user_id = 2;
    */
-  userId: number;
+  userId: string;
 
   /**
    * @generated from field: com.hearlers.v1.model.AuthChannel auth_channel = 3;
@@ -82,9 +82,9 @@ export const AuthUserSchema: GenMessage<AuthUser> = /*@__PURE__*/
  */
 export type OAuthChannelInfo = Message<"com.hearlers.v1.model.OAuthChannelInfo"> & {
   /**
-   * @generated from field: int32 id = 1;
+   * @generated from field: string id = 1;
    */
-  id: number;
+  id: string;
 
   /**
    * @generated from field: com.hearlers.v1.model.AuthChannel auth_channel = 2;

@@ -8,6 +8,17 @@ import { PsqlKakaoMapper } from "~users/aggregates/authUsers/infrastructures/ada
 import { PsqlRefreshTokensMapper } from "~users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.refreshTokens.mapper";
 
 import { InternalServerErrorException } from "@nestjs/common";
+<<<<<<< HEAD:src/services/users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.authUsers.mapper.ts
+=======
+import { AuthUsers, AuthUsersProps } from "~/src/aggregates/authUsers/domain/AuthUsers";
+import { PsqlKakaoMapper } from "~/src/aggregates/authUsers/infrastructures/adaptors/mappers/psql.kakao.mapper";
+import { PsqlRefreshTokensMapper } from "~/src/aggregates/authUsers/infrastructures/adaptors/mappers/psql.refreshTokens.mapper";
+import { CoreStatus } from "~/src/shared/core/constants/status.constants";
+import { Result } from "~/src/shared/core/domain/Result";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/users/AuthUsers.entity";
+import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/authUsers/infrastructures/adaptors/mappers/psql.authUsers.mapper.ts
 
 export class PsqlAuthUsersMapper {
   static toDomain(entity: AuthUsersEntity): AuthUsers | null {
@@ -17,7 +28,7 @@ export class PsqlAuthUsersMapper {
 
     const authUsersProps: AuthUsersProps = {
       status: CoreStatus.ACTIVE,
-      userId: entity.userId,
+      userId: new UniqueEntityId(entity.userId),
       lastLoginAt: convertDayjs(entity.lastLoginAt),
       authChannel: entity.authChannel,
       kakao: PsqlKakaoMapper.toDomain(entity.kakao),
@@ -37,14 +48,14 @@ export class PsqlAuthUsersMapper {
     const entity = new AuthUsersEntity();
 
     if (!authUser.id.isNewIdentifier()) {
-      entity.id = authUser.id.getNumber();
+      entity.id = authUser.id.getString();
     }
 
-    entity.userId = authUser.userId;
+    entity.userId = authUser.userId.getString();
     entity.lastLoginAt = formatDayjs(authUser.lastLoginAt);
     entity.authChannel = authUser.authChannel;
     entity.kakao = authUser.kakao ? PsqlKakaoMapper.toEntity(authUser.kakao) : null;
-    entity.refreshTokens = PsqlRefreshTokensMapper.toEntities(authUser.refreshTokens, authUser.id.getNumber());
+    entity.refreshTokens = PsqlRefreshTokensMapper.toEntities(authUser.refreshTokens, authUser.id);
     entity.createdAt = formatDayjs(authUser.createdAt);
     entity.updatedAt = formatDayjs(authUser.updatedAt);
     entity.deletedAt = authUser.deletedAt ? formatDayjs(authUser.deletedAt) : null;

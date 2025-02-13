@@ -17,12 +17,24 @@ import {
   FindOneUserRequest,
   FindOneUserResponse,
   FindOneUserResponseSchema,
+<<<<<<< HEAD
 } from "~proto/com/hearlers/v1/service/user_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
 import { GrpcMethod } from "@nestjs/microservices";
+=======
+} from "~/src/gen/com/hearlers/v1/service/user_pb";
+import { SchemaUsersMapper } from "~/src/services/users/presentations/grpc/schema.users.mapper";
+import { FindOneAuthUserQuery } from "~/src/aggregates/authUsers/applications/queries/FindOneAuthUser/FindOneAuthUser.query";
+import { SchemaAuthUsersMapper } from "~/src/services/users/presentations/grpc/schema.authUsers.mapper";
+import {
+  CheckRemainingTokensQuery,
+  CheckRemainingTokensQueryResponse,
+} from "~/src/aggregates/users/applications/queries/CheckRemainingTokens/CheckRemainingTokens.query";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 @Controller("user")
 export class GrpcUserQueryController {
@@ -30,7 +42,10 @@ export class GrpcUserQueryController {
 
   @GrpcMethod("UserService", "FindOneUser")
   async findOneUser(data: FindOneUserRequest): Promise<FindOneUserResponse> {
-    const query: FindOneUserQuery = new FindOneUserQuery({ userId: data.userId, nickname: data.nickname });
+    const query: FindOneUserQuery = new FindOneUserQuery({
+      userId: data.userId ? new UniqueEntityId(data.userId) : undefined,
+      nickname: data.nickname,
+    });
     const user: Users = await this.queryBus.execute(query);
 
     return create(FindOneUserResponseSchema, { user: SchemaUsersMapper.toUserProto(user) });
@@ -39,8 +54,8 @@ export class GrpcUserQueryController {
   @GrpcMethod("UserService", "FindOneAuthUser")
   async findOneAuthUser(data: FindOneAuthUserRequest): Promise<FindOneAuthUserResponse> {
     const query: FindOneAuthUserQuery = new FindOneAuthUserQuery({
-      authUserId: data.authUserId,
-      userId: data.userId,
+      authUserId: data.authUserId ? new UniqueEntityId(data.authUserId) : undefined,
+      userId: data.userId ? new UniqueEntityId(data.userId) : undefined,
       authChannel: data.authChannel,
       uniqueId: data.uniqueId,
     });
@@ -54,7 +69,9 @@ export class GrpcUserQueryController {
 
   @GrpcMethod("UserService", "CheckRemainingTokens")
   async checkRemainingTokens(data: CheckRemainingTokensRequest): Promise<CheckRemainingTokensResponse> {
-    const query: CheckRemainingTokensQuery = new CheckRemainingTokensQuery({ userId: data.userId });
+    const query: CheckRemainingTokensQuery = new CheckRemainingTokensQuery({
+      userId: new UniqueEntityId(data.userId),
+    });
     const { remainingTokens, maxTokens, reserved }: CheckRemainingTokensQueryResponse = await this.queryBus.execute(
       query,
     );

@@ -14,6 +14,24 @@ import { ConnectAuthChannelUseCaseRequest } from "~users/applications/useCases/C
 import { ConnectAuthChannelUseCaseResponse } from "~users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.response";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+<<<<<<< HEAD
+=======
+import { UseCase } from "~/src/shared/core/applications/UseCase";
+import { ConnectAuthChannelUseCaseRequest } from "~/src/services/users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.request";
+import { ConnectAuthChannelUseCaseResponse } from "~/src/services/users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.response";
+import { UpdateAuthUserUseCase } from "~/src/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
+import { FindOneAuthUserUseCase } from "~/src/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
+import { FindOneAuthUserUseCaseResponse } from "~/src/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
+import { UpdateAuthUserUseCaseResponse } from "~/src/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
+import { UpdateUserUseCase } from "~/src/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
+import { FindOneUserUseCase } from "~/src/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
+import { FindOneUserUseCaseResponse } from "~/src/aggregates/users/applications/useCases/FindOneUserUseCase/dto/FindOneUserUseCase.response";
+import { Users } from "~/src/aggregates/users/domain/Users";
+import { AuthUsers } from "~/src/aggregates/authUsers/domain/AuthUsers";
+import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+import { UpdateUserUseCaseResponse } from "~/src/aggregates/users/applications/useCases/UpdateUserUseCase/dto/UpdateUserUseCase.response";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 @Injectable()
 export class ConnectAuthChannelUseCase
@@ -54,7 +72,7 @@ export class ConnectAuthChannelUseCase
     return { ok: true, authUser };
   }
 
-  private async getUserAndAuthUser(userId: number): Promise<{ user: Users; authUser: AuthUsers }> {
+  private async getUserAndAuthUser(userId: UniqueEntityId): Promise<{ user: Users; authUser: AuthUsers }> {
     const findOneAuthUserResponse: FindOneAuthUserUseCaseResponse = await this.findOneAuthUserUseCase.execute({
       userId,
     });

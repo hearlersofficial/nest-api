@@ -6,6 +6,14 @@ import { PsqlKakaoMapper } from "~users/aggregates/authUsers/infrastructures/ada
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
+<<<<<<< HEAD:src/services/users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.kakao.mapper.spec.ts
+=======
+import { PsqlKakaoMapper } from "./psql.kakao.mapper";
+import { Kakao } from "~/src/aggregates/authUsers/domain/Kakao";
+import { KakaoEntity } from "~/src/shared/core/infrastructure/entities/users/Kakao.entity";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { formatDayjs, getNowDayjs, convertDayjs } from "~/src/shared/utils/Date.utils";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/authUsers/infrastructures/adaptors/mappers/psql.kakao.mapper.spec.ts
 
 describe("PsqlKakaoMapper", () => {
   const createMockKakaoEntity = () => {

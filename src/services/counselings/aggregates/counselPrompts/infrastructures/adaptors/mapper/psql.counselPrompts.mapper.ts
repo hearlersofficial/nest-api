@@ -42,7 +42,7 @@ export class PsqlCounselPromptsMapper {
     const entity = new CounselPromptsEntity();
 
     if (!counselPrompts.id.isNewIdentifier()) {
-      entity.id = counselPrompts.id.getNumber();
+      entity.id = counselPrompts.id.getString();
     }
 
     entity.persona = counselPrompts.persona ?? null;

@@ -12,24 +12,25 @@ import { CreateMessageCommand } from "~counselings/applications/commands/CreateM
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
   CreateCounselorRequest,
-  CreateCounselorResult,
-  CreateCounselorResultSchema,
+  CreateCounselorResponse,
+  CreateCounselorResponseSchema,
   CreateCounselRequest,
-  CreateCounselResult,
-  CreateCounselResultSchema,
+  CreateCounselResponse,
+  CreateCounselResponseSchema,
   CreateMessageRequest,
-  CreateMessageResult,
-  CreateMessageResultSchema,
+  CreateMessageResponse,
+  CreateMessageResponseSchema,
   CreatePromptRequest,
-  CreatePromptResult,
-  CreatePromptResultSchema,
+  CreatePromptResponse,
+  CreatePromptResponseSchema,
   ReactMessageRequest,
-  ReactMessageResult,
-  ReactMessageResultSchema,
+  ReactMessageResponse,
+  ReactMessageResponseSchema,
   UpdateCounselorRequest,
-  UpdateCounselorResult,
-  UpdateCounselorResultSchema,
+  UpdateCounselorResponse,
+  UpdateCounselorResponseSchema,
   UpdatePromptRequest,
+<<<<<<< HEAD
   UpdatePromptResult,
   UpdatePromptResultSchema,
 } from "~proto/com/hearlers/v1/service/counsel_pb";
@@ -38,22 +39,38 @@ import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { GrpcMethod } from "@nestjs/microservices";
+=======
+  UpdatePromptResponse,
+  UpdatePromptResponseSchema,
+} from "~/src/gen/com/hearlers/v1/service/counsel_pb";
+import { SchemaCounselsMapper } from "~/src/services/counselings/presentations/grpc/schema.counsels.mapper";
+import {
+  CreateCounselCommand,
+  CreateCounselCommandResult,
+} from "../../../applications/commands/CreateCounsel/CreateCounsel.command";
+import { CreatePromptCommand } from "~/src/aggregates/counselPrompts/applications/commands/CreatePrompt/CreatePrompt.command";
+import { UpdatePromptCommand } from "~/src/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.command";
+import { CreateCounselorCommand } from "~/src/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
+import { UpdateCounselorCommand } from "~/src/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
+import { ReactMessageCommand } from "~/src/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 @Controller("counsel")
 export class GrpcCounselCommandController {
   constructor(private readonly commandBus: CommandBus) {}
 
   @GrpcMethod("CounselService", "CreateCounsel")
-  async createCounsel(request: CreateCounselRequest): Promise<CreateCounselResult> {
+  async createCounsel(request: CreateCounselRequest): Promise<CreateCounselResponse> {
     const command: CreateCounselCommand = new CreateCounselCommand({
-      userId: request.userId,
-      counselorId: request.counselorId,
+      userId: new UniqueEntityId(request.userId),
+      counselorId: new UniqueEntityId(request.counselorId),
       introMessage: request.introMessage,
       responseMessage: request.responseMessage,
     });
     const { counsel, counselMessages }: CreateCounselCommandResult = await this.commandBus.execute(command);
 
-    return create(CreateCounselResultSchema, {
+    return create(CreateCounselResponseSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),
       counselMessages: counselMessages.map((counselMessage) =>
         SchemaCounselsMapper.toCounselMessageProto(counselMessage),
@@ -62,53 +79,61 @@ export class GrpcCounselCommandController {
   }
 
   @GrpcMethod("CounselService", "CreateMessage")
-  async createCounselMessage(request: CreateMessageRequest): Promise<CreateMessageResult> {
+  async createCounselMessage(request: CreateMessageRequest): Promise<CreateMessageResponse> {
     const command: CreateMessageCommand = new CreateMessageCommand({
-      counselId: request.counselId,
+      counselId: new UniqueEntityId(request.counselId),
       message: request.message,
     });
     const counselMessage: CounselMessages = await this.commandBus.execute(command);
 
-    return create(CreateMessageResultSchema, {
+    return create(CreateMessageResponseSchema, {
       counselMessage: SchemaCounselsMapper.toCounselMessageProto(counselMessage),
     });
   }
 
   @GrpcMethod("CounselService", "ReactMessage")
-  async reactCounselMessage(request: ReactMessageRequest): Promise<ReactMessageResult> {
+  async reactCounselMessage(request: ReactMessageRequest): Promise<ReactMessageResponse> {
     const command: ReactMessageCommand = new ReactMessageCommand({
-      messageId: request.messageId,
+      messageId: new UniqueEntityId(request.messageId),
       reaction: request.reaction,
     });
     const counselMessage: CounselMessages = await this.commandBus.execute(command);
 
-    return create(ReactMessageResultSchema, {
+    return create(ReactMessageResponseSchema, {
       counselMessage: SchemaCounselsMapper.toCounselMessageProto(counselMessage),
     });
   }
 
   @GrpcMethod("CounselService", "CreatePrompt")
-  async createCounselPrompt(request: CreatePromptRequest): Promise<CreatePromptResult> {
+  async createCounselPrompt(request: CreatePromptRequest): Promise<CreatePromptResponse> {
     const command: CreatePromptCommand = new CreatePromptCommand(request);
     const counselPrompt = await this.commandBus.execute(command);
 
-    return create(CreatePromptResultSchema, {
+    return create(CreatePromptResponseSchema, {
       prompt: SchemaCounselsMapper.toCounselPromptProto(counselPrompt),
     });
   }
 
   @GrpcMethod("CounselService", "UpdatePrompt")
-  async updateCounselPrompt(request: UpdatePromptRequest): Promise<UpdatePromptResult> {
-    const command: UpdatePromptCommand = new UpdatePromptCommand(request);
+  async updateCounselPrompt(request: UpdatePromptRequest): Promise<UpdatePromptResponse> {
+    const command: UpdatePromptCommand = new UpdatePromptCommand({
+      promptId: new UniqueEntityId(request.promptId),
+      persona: request.persona,
+      context: request.context,
+      instruction: request.instruction,
+      tone: request.tone,
+      additionalPrompt: request.additionalPrompt,
+      version: request.version,
+    });
     const counselPrompt = await this.commandBus.execute(command);
 
-    return create(UpdatePromptResultSchema, {
+    return create(UpdatePromptResponseSchema, {
       prompt: SchemaCounselsMapper.toCounselPromptProto(counselPrompt),
     });
   }
 
   @GrpcMethod("CounselService", "CreateCounselor")
-  async createCounselor(request: CreateCounselorRequest): Promise<CreateCounselorResult> {
+  async createCounselor(request: CreateCounselorRequest): Promise<CreateCounselorResponse> {
     const command: CreateCounselorCommand = new CreateCounselorCommand({
       counselorType: request.counselorType,
       name: request.name,
@@ -117,15 +142,15 @@ export class GrpcCounselCommandController {
     });
     const counselor = await this.commandBus.execute(command);
 
-    return create(CreateCounselorResultSchema, {
+    return create(CreateCounselorResponseSchema, {
       counselor: SchemaCounselsMapper.toCounselorProto(counselor),
     });
   }
 
   @GrpcMethod("CounselService", "UpdateCounselor")
-  async updateCounselor(request: UpdateCounselorRequest): Promise<UpdateCounselorResult> {
+  async updateCounselor(request: UpdateCounselorRequest): Promise<UpdateCounselorResponse> {
     const command: UpdateCounselorCommand = new UpdateCounselorCommand({
-      counselorId: request.counselorId,
+      counselorId: new UniqueEntityId(request.counselorId),
       counselorType: request.counselorType,
       name: request.name,
       description: request.description,
@@ -133,7 +158,7 @@ export class GrpcCounselCommandController {
     });
     const counselor = await this.commandBus.execute(command);
 
-    return create(UpdateCounselorResultSchema, {
+    return create(UpdateCounselorResponseSchema, {
       counselor: SchemaCounselsMapper.toCounselorProto(counselor),
     });
   }

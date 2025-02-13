@@ -17,18 +17,18 @@ export class CounselMessagesEntity extends CoreEntity {
 
   @RelationId((counselMessages: CounselMessagesEntity) => counselMessages.counsel)
   @Column({
-    type: "int",
+    type: "bigint",
     name: "counsel_id",
     comment: "상담 ID",
   })
-  counselId: number;
+  counselId: string;
 
   @Column({
-    type: "int",
+    type: "bigint",
     name: "user_id",
     comment: "사용자 ID",
   })
-  userId: number;
+  userId: string;
 
   @Column({
     type: "varchar",

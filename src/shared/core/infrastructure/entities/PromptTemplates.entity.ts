@@ -3,6 +3,12 @@ import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserProm
 import { PromptCategory } from "~shared/enums/PromptCategory.enum";
 
 import { Column, Entity, OneToMany } from "typeorm";
+<<<<<<< HEAD
+=======
+import { CoreEntity } from "./Core.entity";
+import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/users/UserPrompts.entity";
+import { PromptCategory } from "~/src/shared/enums/PromptCategory.enum";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 @Entity({ name: "prompt_templates" })
 export class PromptTemplatesEntity extends CoreEntity {

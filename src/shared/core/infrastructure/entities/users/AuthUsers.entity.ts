@@ -6,6 +6,15 @@ import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, RelationId } from "typeorm";
+<<<<<<< HEAD:src/shared/core/infrastructure/entities/AuthUsers.entity.ts
+=======
+import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
+import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
+import { CoreStatus } from "~/src/shared/core/constants/status.constants";
+import { KakaoEntity } from "~/src/shared/core/infrastructure/entities/users/Kakao.entity";
+import { RefreshTokenEntity } from "~/src/shared/core/infrastructure/entities/users/RefreshTokens.entity";
+import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/shared/core/infrastructure/entities/users/AuthUsers.entity.ts
 
 @Entity({
   name: "auth_users",
@@ -24,11 +33,11 @@ export class AuthUsersEntity extends CoreEntity {
   @RelationId((authUser: AuthUsersEntity) => authUser.user)
   @Column({
     name: "user_id",
-    type: "int",
+    type: "bigint",
     comment: "사용자 ID (외래 키)",
     nullable: true,
   })
-  userId: number;
+  userId: string;
 
   @Column({
     type: "timestamp",

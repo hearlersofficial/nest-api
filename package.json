@@ -46,6 +46,7 @@
     "@nestjs/schedule": "4.1.0",
     "@nestjs/swagger": "7.4.0",
     "@nestjs/typeorm": "10.0.2",
+    "@sapphire/snowflake": "^3.5.5",
     "@types/uuid": "9.0.1",
     "axios": "1.7.7",
     "bcrypt": "5.1.1",

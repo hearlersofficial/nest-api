@@ -15,6 +15,21 @@ import { ClientKafka } from "@nestjs/microservices";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/psql.users.repository.adaptor.spec.ts
+=======
+import { ClientKafka } from "@nestjs/microservices";
+import { PsqlUsersRepositoryAdaptor } from "./psql.users.repository.adaptor";
+import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
+import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProfiles.entity";
+import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProgresses.entity";
+import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/users/UserPrompts.entity";
+import { Users } from "~/src/aggregates/users/domain/Users";
+import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
+import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
+import { formatDayjs, getNowDayjs, convertDayjs } from "~/src/shared/utils/Date.utils";
+import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
+import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/psql.users.repository.adaptor.spec.ts
 
 describe("PsqlUsersRepositoryAdaptor", () => {
   let module: TestingModule;

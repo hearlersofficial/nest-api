@@ -19,9 +19,9 @@ import { create } from "@bufbuild/protobuf";
 export class SchemaCounselsMapper {
   static toCounselProto(counsel: Counsels): Counsel {
     return create(CounselSchema, {
-      id: counsel.id.getNumber(),
-      userId: counsel.userId,
-      counselorId: counsel.counselorId,
+      id: counsel.id.getString(),
+      userId: counsel.userId.getString(),
+      counselorId: counsel.counselorId.getString(),
       lastMessage: counsel.lastMessage,
       lastChatedAt: counsel.lastChatedAt ? formatDayjs(counsel.lastChatedAt) : null,
       createdAt: formatDayjs(counsel.createdAt),
@@ -32,8 +32,8 @@ export class SchemaCounselsMapper {
 
   static toCounselMessageProto(counselMessage: CounselMessages): CounselMessage {
     return create(CounselMessageSchema, {
-      id: counselMessage.id.getNumber(),
-      counselId: counselMessage.counselId.getNumber(),
+      id: counselMessage.id.getString(),
+      counselId: counselMessage.counselId.getString(),
       message: counselMessage.message,
       isUserMessage: counselMessage.isUserMessage,
       reactedAt: counselMessage.reactedAt ? formatDayjs(counselMessage.reactedAt) : null,
@@ -46,7 +46,7 @@ export class SchemaCounselsMapper {
 
   static toCounselPromptProto(counselPrompt: CounselPrompts): CounselPrompt {
     return create(CounselPromptSchema, {
-      id: counselPrompt.id.getNumber(),
+      id: counselPrompt.id.getString(),
       persona: counselPrompt.persona,
       context: counselPrompt.context,
       instruction: counselPrompt.instruction,
@@ -64,7 +64,7 @@ export class SchemaCounselsMapper {
   static toCounselorProto(counselor: Counselors): Counselor {
     const bubble = counselor.bubble;
     return create(CounselorSchema, {
-      id: counselor.id.getNumber(),
+      id: counselor.id.getString(),
       counselorType: counselor.counselorType,
       name: counselor.name,
       description: counselor.description,

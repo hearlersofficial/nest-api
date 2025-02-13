@@ -17,7 +17,7 @@ export interface AuthUsersNewProps {}
 export interface AuthUsersProps extends AuthUsersNewProps {
   authChannel: AuthChannel;
   status: CoreStatus;
-  userId: number;
+  userId: UniqueEntityId;
   lastLoginAt: Dayjs;
   kakao?: Kakao;
   refreshTokens: RefreshTokensVO[];
@@ -69,7 +69,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
   }
 
   // Getters
-  get userId(): number {
+  get userId(): UniqueEntityId {
     return this.props.userId;
   }
 
@@ -126,7 +126,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     return Result.ok<void>();
   }
 
-  public bindUser(userId: number): void {
+  public bindUser(userId: UniqueEntityId): void {
     this.props.userId = userId;
     this.props.status = CoreStatus.ACTIVE;
     this.props.updatedAt = getNowDayjs();

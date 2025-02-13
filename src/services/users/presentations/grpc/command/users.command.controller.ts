@@ -26,12 +26,22 @@ import {
   VerifyRefreshTokenRequest,
   VerifyRefreshTokenResponse,
   VerifyRefreshTokenResponseSchema,
+<<<<<<< HEAD
 } from "~proto/com/hearlers/v1/service/user_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { GrpcMethod } from "@nestjs/microservices";
+=======
+} from "~/src/gen/com/hearlers/v1/service/user_pb";
+import { ConnectAuthChannelCommand } from "~/src/services/users/applications/commands/ConnectAuthChannel/ConnectAuthChannel.command";
+import { InitializeUserCommand } from "~/src/services/users/applications/commands/InitializeUser/InitializeUser.command";
+import { SchemaAuthUsersMapper } from "~/src/services/users/presentations/grpc/schema.authUsers.mapper";
+import { SchemaUsersMapper } from "~/src/services/users/presentations/grpc/schema.users.mapper";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { convertDayjs } from "~/src/shared/utils/Date.utils";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 @Controller("user")
 export class GrpcUserCommandController {
@@ -51,7 +61,7 @@ export class GrpcUserCommandController {
   async connectAuthChannel(request: ConnectAuthChannelRequest): Promise<ConnectAuthChannelResponse> {
     const { userId, authChannel, uniqueId } = request;
     const command: ConnectAuthChannelCommand = new ConnectAuthChannelCommand({
-      userId,
+      userId: new UniqueEntityId(userId),
       authChannel,
       uniqueId,
     });
@@ -65,7 +75,7 @@ export class GrpcUserCommandController {
   async saveRefreshToken(request: SaveRefreshTokenRequest): Promise<SaveRefreshTokenResponse> {
     const { userId, token, expiresAt } = request;
     const command: SaveRefreshTokenCommand = new SaveRefreshTokenCommand({
-      userId,
+      userId: new UniqueEntityId(userId),
       token,
       expiresAt: convertDayjs(expiresAt),
     });
@@ -79,7 +89,7 @@ export class GrpcUserCommandController {
   async verifyRefreshToken(request: VerifyRefreshTokenRequest): Promise<VerifyRefreshTokenResponse> {
     const { userId, token } = request;
     const command: VerifyRefreshTokenCommand = new VerifyRefreshTokenCommand({
-      userId,
+      userId: new UniqueEntityId(userId),
       token,
     });
     const { success } = await this.commandBus.execute(command);
@@ -92,7 +102,7 @@ export class GrpcUserCommandController {
   async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
     const { userId, nickname, profileImage, phoneNumber, gender, birthday, introduction, mbti } = request;
     const command: UpdateUserCommand = new UpdateUserCommand({
-      userId,
+      userId: new UniqueEntityId(userId),
       nickname,
       profileImage,
       phoneNumber,
@@ -108,7 +118,7 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "ReserveTokens")
   async reserveTokens(request: ReserveTokensRequest): Promise<ReserveTokensResponse> {
     const command: ReserveTokensCommand = new ReserveTokensCommand({
-      userId: request.userId,
+      userId: new UniqueEntityId(request.userId),
     });
     const { remainingTokens, maxTokens, reserved } = await this.commandBus.execute(command);
     return create(ReserveTokensResponseSchema, {

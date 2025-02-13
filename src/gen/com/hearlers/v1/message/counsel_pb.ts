@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/message/counsel.proto.
  */
 export const file_com_hearlers_v1_message_counsel: GenFile = /*@__PURE__*/
-  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS9jb3Vuc2VsLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJnChVDb3Vuc2VsQ3JlYXRlZFBheWxvYWQSEgoKY291bnNlbF9pZBgBIAEoBRIPCgd1c2VyX2lkGAIgASgFEhQKDGNvdW5zZWxvcl9pZBgDIAEoBRITCgtvY2N1cnJlZF9hdBgEIAEoCSKeAQocQ291bnNlbE1lc3NhZ2VDcmVhdGVkUGF5bG9hZBIaChJjb3Vuc2VsX21lc3NhZ2VfaWQYASABKAUSEgoKY291bnNlbF9pZBgCIAEoBRIPCgd1c2VyX2lkGAMgASgFEg8KB21lc3NhZ2UYBCABKAkSFwoPaXNfdXNlcl9tZXNzYWdlGAUgASgIEhMKC29jY3VycmVkX2F0GAYgASgJQqsBChtjb20uY29tLmhlYXJsZXJzLnYxLm1lc3NhZ2VCDENvdW5zZWxQcm90b1ABogIEQ0hWTaoCF0NvbS5IZWFybGVycy5WMS5NZXNzYWdlygIXQ29tXEhlYXJsZXJzXFYxXE1lc3NhZ2XiAiNDb21cSGVhcmxlcnNcVjFcTWVzc2FnZVxHUEJNZXRhZGF0YeoCGkNvbTo6SGVhcmxlcnM6OlYxOjpNZXNzYWdlYgZwcm90bzM");
+  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS9jb3Vuc2VsLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJnChVDb3Vuc2VsQ3JlYXRlZFBheWxvYWQSEgoKY291bnNlbF9pZBgBIAEoCRIPCgd1c2VyX2lkGAIgASgJEhQKDGNvdW5zZWxvcl9pZBgDIAEoCRITCgtvY2N1cnJlZF9hdBgEIAEoCSKeAQocQ291bnNlbE1lc3NhZ2VDcmVhdGVkUGF5bG9hZBIaChJjb3Vuc2VsX21lc3NhZ2VfaWQYASABKAkSEgoKY291bnNlbF9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEg8KB21lc3NhZ2UYBCABKAkSFwoPaXNfdXNlcl9tZXNzYWdlGAUgASgIEhMKC29jY3VycmVkX2F0GAYgASgJQqsBChtjb20uY29tLmhlYXJsZXJzLnYxLm1lc3NhZ2VCDENvdW5zZWxQcm90b1ABogIEQ0hWTaoCF0NvbS5IZWFybGVycy5WMS5NZXNzYWdlygIXQ29tXEhlYXJsZXJzXFYxXE1lc3NhZ2XiAiNDb21cSGVhcmxlcnNcVjFcTWVzc2FnZVxHUEJNZXRhZGF0YeoCGkNvbTo6SGVhcmxlcnM6OlYxOjpNZXNzYWdlYgZwcm90bzM");
 
 /**
  * topic: counsel.created
@@ -19,19 +19,19 @@ export const file_com_hearlers_v1_message_counsel: GenFile = /*@__PURE__*/
  */
 export type CounselCreatedPayload = Message<"com.hearlers.v1.message.CounselCreatedPayload"> & {
   /**
-   * @generated from field: int32 counsel_id = 1;
+   * @generated from field: string counsel_id = 1;
    */
-  counselId: number;
+  counselId: string;
 
   /**
-   * @generated from field: int32 user_id = 2;
+   * @generated from field: string user_id = 2;
    */
-  userId: number;
+  userId: string;
 
   /**
-   * @generated from field: int32 counselor_id = 3;
+   * @generated from field: string counselor_id = 3;
    */
-  counselorId: number;
+  counselorId: string;
 
   /**
    * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
@@ -55,19 +55,19 @@ export const CounselCreatedPayloadSchema: GenMessage<CounselCreatedPayload> = /*
  */
 export type CounselMessageCreatedPayload = Message<"com.hearlers.v1.message.CounselMessageCreatedPayload"> & {
   /**
-   * @generated from field: int32 counsel_message_id = 1;
+   * @generated from field: string counsel_message_id = 1;
    */
-  counselMessageId: number;
+  counselMessageId: string;
 
   /**
-   * @generated from field: int32 counsel_id = 2;
+   * @generated from field: string counsel_id = 2;
    */
-  counselId: number;
+  counselId: string;
 
   /**
-   * @generated from field: int32 user_id = 3;
+   * @generated from field: string user_id = 3;
    */
-  userId: number;
+  userId: string;
 
   /**
    * @generated from field: string message = 4;

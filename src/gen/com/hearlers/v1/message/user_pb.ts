@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/message/user.proto.
  */
 export const file_com_hearlers_v1_message_user: GenFile = /*@__PURE__*/
-  fileDesc("CiJjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS91c2VyLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJ0ChJVc2VyVXBkYXRlZFBheWxvYWQSDwoHdXNlcl9pZBgBIAEoBRI4CgxhdXRoX2NoYW5uZWwYAiABKA4yIi5jb20uaGVhcmxlcnMudjEubW9kZWwuQXV0aENoYW5uZWwSEwoLb2NjdXJyZWRfYXQYAyABKAlCqAEKG2NvbS5jb20uaGVhcmxlcnMudjEubWVzc2FnZUIJVXNlclByb3RvUAGiAgRDSFZNqgIXQ29tLkhlYXJsZXJzLlYxLk1lc3NhZ2XKAhdDb21cSGVhcmxlcnNcVjFcTWVzc2FnZeICI0NvbVxIZWFybGVyc1xWMVxNZXNzYWdlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6Ok1lc3NhZ2ViBnByb3RvMw", [file_com_hearlers_v1_model_auth_user]);
+  fileDesc("CiJjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS91c2VyLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJ0ChJVc2VyVXBkYXRlZFBheWxvYWQSDwoHdXNlcl9pZBgBIAEoCRI4CgxhdXRoX2NoYW5uZWwYAiABKA4yIi5jb20uaGVhcmxlcnMudjEubW9kZWwuQXV0aENoYW5uZWwSEwoLb2NjdXJyZWRfYXQYAyABKAlCqAEKG2NvbS5jb20uaGVhcmxlcnMudjEubWVzc2FnZUIJVXNlclByb3RvUAGiAgRDSFZNqgIXQ29tLkhlYXJsZXJzLlYxLk1lc3NhZ2XKAhdDb21cSGVhcmxlcnNcVjFcTWVzc2FnZeICI0NvbVxIZWFybGVyc1xWMVxNZXNzYWdlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6Ok1lc3NhZ2ViBnByb3RvMw", [file_com_hearlers_v1_model_auth_user]);
 
 /**
  * topic: user.updated
@@ -21,9 +21,9 @@ export const file_com_hearlers_v1_message_user: GenFile = /*@__PURE__*/
  */
 export type UserUpdatedPayload = Message<"com.hearlers.v1.message.UserUpdatedPayload"> & {
   /**
-   * @generated from field: int32 user_id = 1;
+   * @generated from field: string user_id = 1;
    */
-  userId: number;
+  userId: string;
 
   /**
    * @generated from field: com.hearlers.v1.model.AuthChannel auth_channel = 2;

@@ -5,6 +5,14 @@ import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 
 import { InternalServerErrorException } from "@nestjs/common";
+<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.userProfiles.mapper.ts
+=======
+import { UserProfiles } from "~/src/aggregates/users/domain/UserProfiles";
+import { Result } from "~/src/shared/core/domain/Result";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProfiles.entity";
+import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.userProfiles.mapper.ts
 
 export class PsqlUserProfilesMapper {
   static toDomain(entity: UserProfilesEntity): UserProfiles | null {
@@ -41,10 +49,10 @@ export class PsqlUserProfilesMapper {
     const entity = new UserProfilesEntity();
 
     if (!userProfiles.id.isNewIdentifier()) {
-      entity.id = userProfiles.id.getNumber();
+      entity.id = userProfiles.id.getString();
     }
     if (!userProfiles.userId.isNewIdentifier()) {
-      entity.userId = userProfiles.userId.getNumber();
+      entity.userId = userProfiles.userId.getString();
     }
 
     entity.profileImage = userProfiles.profileImage;

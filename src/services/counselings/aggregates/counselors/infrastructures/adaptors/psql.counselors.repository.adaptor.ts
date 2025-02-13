@@ -8,7 +8,19 @@ import {
 } from "~counselings/aggregates/counselors/infrastructures/counselors.repository.port";
 
 import { InjectRepository } from "@nestjs/typeorm";
+<<<<<<< HEAD:src/services/counselings/aggregates/counselors/infrastructures/adaptors/psql.counselors.repository.adaptor.ts
 import { FindManyOptions, FindOptionsWhere, Repository } from "typeorm";
+=======
+import {
+  CounselorsRepositoryPort,
+  FindManyPropsInCounselorsRepository,
+  FindOnePropsInCounselorsRepository,
+} from "../counselors.repository.port";
+import { FindManyOptions, FindOptionsWhere, Repository } from "typeorm";
+import { Counselors } from "../../domain/counselors";
+import { PsqlCounselorsMapper } from "./mapper/psql.counselors.mapper";
+import { CounselorsEntity } from "~/src/shared/core/infrastructure/entities/Counselors.entity";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counselors/infrastructures/adaptors/psql.counselors.repository.adaptor.ts
 
 export class PsqlCounselorsRepositoryAdaptor implements CounselorsRepositoryPort {
   constructor(
@@ -40,7 +52,7 @@ export class PsqlCounselorsRepositoryAdaptor implements CounselorsRepositoryPort
     const { counselorId } = props;
     const findOptionsWhere: FindOptionsWhere<CounselorsEntity> = {};
     if (counselorId !== null && counselorId !== undefined) {
-      findOptionsWhere.id = counselorId;
+      findOptionsWhere.id = counselorId.getString();
     }
 
     const findOneOptions: FindManyOptions<CounselorsEntity> = {

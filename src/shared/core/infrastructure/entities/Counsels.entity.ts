@@ -7,20 +7,28 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "ty
 import { CoreEntity } from "./Core.entity";
 import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
 import { CounselMessagesEntity } from "./CounselMessages.entity";
-import { CounselorsEntity } from "./Counselor.entity";
 import { CounselTechniquesEntity } from "~/src/shared/core/infrastructure/entities/CounselTechniques.entity";
+import { CounselorsEntity } from "~/src/shared/core/infrastructure/entities/Counselors.entity";
+import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
+import { CounselorUserRelationshipsEntity } from "~/src/shared/core/infrastructure/entities/CounselorUserRelationships.entity";
 
 @Entity({
   name: "counsels",
+  comment: "상담",
 })
 export class CounselsEntity extends CoreEntity {
+  @RelationId((counsels: CounselsEntity) => counsels.user)
   @Column({
-    type: "int",
+    type: "bigint",
     name: "user_id",
     comment: "사용자 ID",
   })
-  userId: number;
+  userId: string;
 
+  /**
+   * @deprecated 상담 단계는 새로운 로직에서 사용되지 않습니다.
+   * CounselTechniques로 대체해주세요.
+   */
   @Column({
     type: "enum",
     name: "counsel_stage",
@@ -55,11 +63,18 @@ export class CounselsEntity extends CoreEntity {
 
   @RelationId((counsels: CounselsEntity) => counsels.counselor)
   @Column({
-    type: "int",
+    type: "bigint",
     name: "counselor_id",
     comment: "상담사 ID",
   })
-  counselorId: number;
+  counselorId: string;
+
+  @ManyToOne(() => UsersEntity, (user) => user.counsels, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn({ name: "user_id" })
+  user: UsersEntity;
 
   @OneToMany(() => CounselMessagesEntity, (counselMessage) => counselMessage.counsel, {
     onDelete: "CASCADE",
@@ -71,5 +86,22 @@ export class CounselsEntity extends CoreEntity {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
+  @JoinColumn({ name: "counsel_technique_id" })
   counselTechnique: CounselTechniquesEntity;
+
+  @RelationId((counsels: CounselsEntity) => counsels.counselTechnique)
+  @Column({
+    type: "bigint",
+    name: "counsel_technique_id",
+    comment: "상담 기법 ID",
+  })
+  counselTechniqueId: string;
+
+  @ManyToOne(() => CounselorUserRelationshipsEntity, (counselorUserRelationship) => counselorUserRelationship.counsels)
+  @JoinColumn({ name: "counselor_user_relationship_id" })
+  counselorUserRelationship: CounselorUserRelationshipsEntity;
+
+  @RelationId((counsels: CounselsEntity) => counsels.counselorUserRelationship)
+  @Column({ type: "bigint", name: "counselor_user_relationship_id" })
+  counselorUserRelationshipId: string;
 }

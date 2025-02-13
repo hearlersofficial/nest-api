@@ -44,7 +44,7 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
     const { counselId } = props;
     const findOptionsWhere: FindOptionsWhere<CounselMessagesEntity> = {};
     if (counselId !== null && counselId !== undefined) {
-      findOptionsWhere.counselId = counselId;
+      findOptionsWhere.counselId = counselId.getString();
     }
 
     const findOptionsOrder: FindOptionsOrder<CounselMessagesEntity> = { createdAt: "ASC" };
@@ -71,7 +71,7 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
     const { counselMessageId } = props;
     const findOptionsWhere: FindOptionsWhere<CounselMessagesEntity> = {};
     if (counselMessageId !== null && counselMessageId !== undefined) {
-      findOptionsWhere.id = counselMessageId;
+      findOptionsWhere.id = counselMessageId.getString();
     }
     const findOneOptions: FindOneOptions<CounselMessagesEntity> = { where: findOptionsWhere };
     const counselMessagesEntity = await this.counselMessagesRepository.findOne(findOneOptions);

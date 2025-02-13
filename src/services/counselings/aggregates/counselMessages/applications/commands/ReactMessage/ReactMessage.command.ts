@@ -2,6 +2,12 @@ import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus } from "@nestjs/common";
+<<<<<<< HEAD:src/services/counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command.ts
+=======
+import { CounselMessageReaction } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command.ts
 
 export class ReactMessageCommand {
   constructor(public readonly props: ReactMessageCommandProps) {
@@ -25,6 +31,6 @@ export class ReactMessageCommand {
 }
 
 interface ReactMessageCommandProps {
-  messageId: number;
+  messageId: UniqueEntityId;
   reaction: CounselMessageReaction;
 }

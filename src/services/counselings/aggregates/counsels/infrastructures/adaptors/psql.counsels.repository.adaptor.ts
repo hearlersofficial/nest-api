@@ -1,13 +1,25 @@
+<<<<<<< HEAD:src/services/counselings/aggregates/counsels/infrastructures/adaptors/psql.counsels.repository.adaptor.ts
 import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import { PsqlCounselsMapper } from "~counselings/aggregates/counsels/infrastructures/adaptors/mapper/psql.counsels.mapper";
+=======
+import { InjectRepository } from "@nestjs/typeorm";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counsels/infrastructures/adaptors/psql.counsels.repository.adaptor.ts
 import {
   CounselsRepositoryPort,
   FindManyPropsInCounselsRepository,
   FindOnePropsInCounselsRepository,
+<<<<<<< HEAD:src/services/counselings/aggregates/counsels/infrastructures/adaptors/psql.counsels.repository.adaptor.ts
 } from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
 
+=======
+} from "../counsels.repository.port";
+import { CounselsEntity } from "~/src/shared/core/infrastructure/entities/Counsels.entity";
+import { Counsels } from "~/src/aggregates/counsels/domain/Counsels";
+import { PsqlCounselsMapper } from "~/src/aggregates/counsels/infrastructures/adaptors/mapper/psql.counsels.mapper";
+import { FindManyOptions, FindOneOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counsels/infrastructures/adaptors/psql.counsels.repository.adaptor.ts
 import { Inject } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -43,7 +55,7 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
     const { userId } = props;
     const findOptionsWhere: FindOptionsWhere<CounselsEntity> = {};
     if (userId !== null && userId !== undefined) {
-      findOptionsWhere.userId = userId;
+      findOptionsWhere.userId = userId.getString();
     }
 
     const findOptionsOrder: FindOptionsOrder<CounselsEntity> = { lastChatedAt: "DESC" };
@@ -67,7 +79,7 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
     const { counselId } = props;
     const findOptionsWhere: FindOptionsWhere<CounselsEntity> = {};
     if (counselId !== null && counselId !== undefined) {
-      findOptionsWhere.id = counselId;
+      findOptionsWhere.id = counselId.getString();
     }
 
     const findOneOptions: FindOneOptions<CounselsEntity> = {

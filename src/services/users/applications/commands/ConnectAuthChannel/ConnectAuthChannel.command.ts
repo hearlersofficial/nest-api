@@ -3,6 +3,13 @@ import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { HttpStatus } from "@nestjs/common";
+<<<<<<< HEAD
+=======
+import { AuthUsers } from "~/src/aggregates/authUsers/domain/AuthUsers";
+import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 export class ConnectAuthChannelCommand {
   constructor(public readonly props: ConnectAuthChannelCommandProps) {
@@ -23,7 +30,7 @@ export class ConnectAuthChannelCommand {
 }
 
 interface ConnectAuthChannelCommandProps {
-  userId: number;
+  userId: UniqueEntityId;
   authChannel: AuthChannel;
   uniqueId: string;
 }

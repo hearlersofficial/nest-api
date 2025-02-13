@@ -1,4 +1,9 @@
+<<<<<<< HEAD:src/services/counselings/aggregates/counsels/infrastructures/counsels.repository.port.ts
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
+=======
+import { Counsels } from "~/src/aggregates/counsels/domain/Counsels";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counsels/infrastructures/counsels.repository.port.ts
 
 export const COUNSEL_REPOSITORY = Symbol("COUNSEL_REPOSITORY");
 
@@ -10,9 +15,9 @@ export interface CounselsRepositoryPort {
 }
 
 export interface FindManyPropsInCounselsRepository {
-  userId?: number;
+  userId?: UniqueEntityId;
 }
 
 export interface FindOnePropsInCounselsRepository {
-  counselId?: number;
+  counselId?: UniqueEntityId;
 }

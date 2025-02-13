@@ -14,7 +14,7 @@ export class BindAuthUserToUseUseCase
 
   async execute(request: BindAuthUserToUseUseCaseRequest): Promise<BindAuthUserToUseUseCaseResponse> {
     const { user, authUser } = request;
-    authUser.bindUser(user.id.getNumber());
+    authUser.bindUser(user.id);
     const updateAuthUserResponse: UpdateAuthUserUseCaseResponse = await this.updateAuthUserUseCase.execute({
       toUpdateAuthUser: authUser,
     });

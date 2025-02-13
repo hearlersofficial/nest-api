@@ -5,8 +5,15 @@ import { PsqlUsersMapper } from "~users/aggregates/users/infrastructures/adaptor
 import {
   FindOnePropsInUsersRepository,
   UsersRepositoryPort,
+<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/psql.users.repository.adaptor.ts
 } from "~users/aggregates/users/infrastructures/users.repository.port";
 
+=======
+} from "~/src/aggregates/users/infrastructures/users.repository.port";
+import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
+import { ClientKafka } from "@nestjs/microservices";
+import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/psql.users.repository.adaptor.ts
 import { Inject } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -46,7 +53,7 @@ export class PsqlUsersRepositoryAdaptor implements UsersRepositoryPort {
     const findOptionsRelation = this.userFindOptionsRelation;
     const findOptionsWhere: FindOptionsWhere<UsersEntity> = {};
     if (userId) {
-      findOptionsWhere.id = userId;
+      findOptionsWhere.id = userId.getString();
     }
     if (nickname) {
       findOptionsWhere.nickname = nickname;

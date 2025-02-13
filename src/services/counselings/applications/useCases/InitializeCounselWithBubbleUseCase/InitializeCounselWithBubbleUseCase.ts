@@ -32,7 +32,11 @@ export class InitializeCounselWithBubbleUseCase
     // 상담 생성
     const createCounselResult = await this.createCounselUseCase.execute({
       userId,
+<<<<<<< HEAD
       counselorId: counselor.id.getNumber(),
+=======
+      counselorId: counselor.id,
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
     });
     if (!createCounselResult.ok) {
       return { ok: false, error: createCounselResult.error };
@@ -42,7 +46,7 @@ export class InitializeCounselWithBubbleUseCase
 
     // introMessage 추가
     const firstMessage = {
-      counselId: counsel.id.getNumber(),
+      counselId: counsel.id,
       userId: userId,
       message: introMessage,
       isUserMessage: false,
@@ -55,7 +59,7 @@ export class InitializeCounselWithBubbleUseCase
 
     // responseMessage 추가
     const secondMessage = {
-      counselId: counsel.id.getNumber(),
+      counselId: counsel.id,
       userId: userId,
       message: responseMessage,
       isUserMessage: true,
@@ -96,7 +100,7 @@ export class InitializeCounselWithBubbleUseCase
 
     // 시스템 메시지 추가
     const createSystemMessageResult = await this.createCounselMessageUseCase.execute({
-      counselId: counsel.id.getNumber(),
+      counselId: counsel.id,
       userId: userId,
       message: response,
       isUserMessage: false,

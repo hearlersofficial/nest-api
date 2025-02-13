@@ -10,12 +10,12 @@ import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/coun
 import { create } from "@bufbuild/protobuf";
 import { Dayjs } from "dayjs";
 
-interface CounselsNewProps {
-  counselorId: number;
-  userId: number;
+export interface CounselsNewProps {
+  counselorId: UniqueEntityId;
+  userId: UniqueEntityId;
 }
 
-interface CounselsProps extends CounselsNewProps {
+export interface CounselsProps extends CounselsNewProps {
   counselStage: CounselStage;
   lastChatedAt: Dayjs | null;
   lastMessage: string | null;
@@ -88,11 +88,11 @@ export class Counsels extends AggregateRoot<CounselsProps> {
   }
 
   // Getters
-  get counselorId(): number {
+  get counselorId(): UniqueEntityId {
     return this.props.counselorId;
   }
 
-  get userId(): number {
+  get userId(): UniqueEntityId {
     return this.props.userId;
   }
 
@@ -147,9 +147,9 @@ export class Counsels extends AggregateRoot<CounselsProps> {
 
   public addCreatedEvent(): void {
     const counselCreated = create(CounselCreatedPayloadSchema, {
-      counselId: this.id.getNumber(),
-      userId: this.userId,
-      counselorId: this.counselorId,
+      counselId: this.id.getString(),
+      userId: this.userId.getString(),
+      counselorId: this.counselorId.getString(),
       occurredAt: formatDayjs(getNowDayjs()),
     });
     this.addDomainEvent(new CounselCreatedEvent(counselCreated));

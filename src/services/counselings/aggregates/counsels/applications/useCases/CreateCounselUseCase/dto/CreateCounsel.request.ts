@@ -1,4 +1,6 @@
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+
 export interface CreateCounselUseCaseRequest {
-  userId: number;
-  counselorId: number;
+  userId: UniqueEntityId;
+  counselorId: UniqueEntityId;
 }

@@ -5,6 +5,14 @@ import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 
 import { InternalServerErrorException } from "@nestjs/common";
+<<<<<<< HEAD:src/services/counselings/aggregates/counsels/infrastructures/adaptors/mapper/psql.counsels.mapper.ts
+=======
+import { Result } from "~/src/shared/core/domain/Result";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
+import { CounselsEntity } from "~/src/shared/core/infrastructure/entities/Counsels.entity";
+import { Counsels, CounselsProps } from "~/src/aggregates/counsels/domain/Counsels";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counsels/infrastructures/adaptors/mapper/psql.counsels.mapper.ts
 
 export class PsqlCounselsMapper {
   static toDomain(entity: CounselsEntity): Counsels | null {
@@ -12,9 +20,9 @@ export class PsqlCounselsMapper {
       return null;
     }
 
-    const counselProps = {
-      counselorId: entity.counselorId,
-      userId: entity.userId,
+    const counselProps: CounselsProps = {
+      counselorId: new UniqueEntityId(entity.counselorId),
+      userId: new UniqueEntityId(entity.userId),
       counselStage: entity.counselStage,
       lastMessage: entity.lastMessage,
       lastChatedAt: entity.lastChatedAt ? convertDayjs(entity.lastChatedAt) : null,
@@ -35,11 +43,11 @@ export class PsqlCounselsMapper {
     const entity = new CounselsEntity();
 
     if (!counsels.id.isNewIdentifier()) {
-      entity.id = counsels.id.getNumber();
+      entity.id = counsels.id.getString();
     }
 
-    entity.counselorId = counsels.counselorId;
-    entity.userId = counsels.userId;
+    entity.counselorId = counsels.counselorId.getString();
+    entity.userId = counsels.userId.getString();
     entity.counselStage = counsels.counselStage;
 
     entity.lastMessage = counsels.lastMessage;

@@ -5,11 +5,19 @@ import { UsersCounselMessageCreatedEvent } from "~users/applications/events/Coun
 import {
   CounselMessageCreatedPayload,
   CounselMessageCreatedPayloadSchema,
+<<<<<<< HEAD
 } from "~proto/com/hearlers/v1/message/counsel_pb";
 
 import { Controller, Inject, OnModuleInit } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { ClientKafka, EventPattern, Payload } from "@nestjs/microservices";
+=======
+} from "~/src/gen/com/hearlers/v1/message/counsel_pb";
+import { UsersCounselMessageCreatedEvent } from "~/src/services/users/applications/events/CounselMessageCreatedEvents";
+import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
+import { kafkaPayloadToProtoMessage } from "~/src/shared/utils/Proto.utils";
+>>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 @Controller()
 export class UsersMessageController implements OnModuleInit {
@@ -29,6 +37,6 @@ export class UsersMessageController implements OnModuleInit {
       payload,
       CounselMessageCreatedPayloadSchema,
     );
-    await this.commandBus.execute(new ConsumeTokensCommand({ userId: convertedPayload.userId }));
+    await this.commandBus.execute(new ConsumeTokensCommand({ userId: new UniqueEntityId(convertedPayload.userId) }));
   }
 }

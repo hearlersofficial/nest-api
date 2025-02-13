@@ -1,14 +1,8 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
-<<<<<<< HEAD:src/shared/core/infrastructure/entities/UserProfiles.entity.ts
-=======
-import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/shared/core/infrastructure/entities/users/UserProfiles.entity.ts
 
 @Entity({ name: "user_profiles" })
 export class UserProfilesEntity extends CoreEntity {

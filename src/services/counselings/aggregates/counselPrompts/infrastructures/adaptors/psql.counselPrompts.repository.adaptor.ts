@@ -8,16 +8,6 @@ import {
 
 import { InjectRepository } from "@nestjs/typeorm";
 import { FindOneOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
-<<<<<<< HEAD:src/services/counselings/aggregates/counselPrompts/infrastructures/adaptors/psql.counselPrompts.repository.adaptor.ts
-=======
-import {
-  CounselPromptsRepositoryPort,
-  FindOnePropsInCounselPromptsRepository,
-} from "../counselPrompts.repository.port";
-import { CounselPromptsEntity } from "~/src/shared/core/infrastructure/entities/CounselPrompts.entity";
-import { CounselPrompts } from "../../domain/CounselPrompts";
-import { PsqlCounselPromptsMapper } from "./mapper/psql.counselPrompts.mapper";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counselPrompts/infrastructures/adaptors/psql.counselPrompts.repository.adaptor.ts
 
 export class PsqlCounselPromptsRepositoryAdaptor implements CounselPromptsRepositoryPort {
   private readonly counselPromptFindOptionsOrder: FindOptionsOrder<CounselPromptsEntity> = {

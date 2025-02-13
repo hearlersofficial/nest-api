@@ -1,8 +1,9 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
-import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
-import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
-import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserPrompts.entity";
-import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
+import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
+import { UserPromptsEntity } from "~shared/core/infrastructure/entities/users/UserPrompts.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { EmotionalState } from "~shared/enums/EmotionalState.enum";
 import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { Users } from "~users/aggregates/users/domain/Users";
@@ -15,21 +16,6 @@ import { ClientKafka } from "@nestjs/microservices";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/psql.users.repository.adaptor.spec.ts
-=======
-import { ClientKafka } from "@nestjs/microservices";
-import { PsqlUsersRepositoryAdaptor } from "./psql.users.repository.adaptor";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
-import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProfiles.entity";
-import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/users/UserPrompts.entity";
-import { Users } from "~/src/aggregates/users/domain/Users";
-import { Gender, Mbti } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { ProgressStatus, ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { formatDayjs, getNowDayjs, convertDayjs } from "~/src/shared/utils/Date.utils";
-import { EmotionalState } from "~/src/shared/enums/EmotionalState.enum";
-import { KAFKA_CLIENT } from "~/src/shared/core/infrastructure/Config";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/psql.users.repository.adaptor.spec.ts
 
 describe("PsqlUsersRepositoryAdaptor", () => {
   let module: TestingModule;
@@ -39,7 +25,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
 
   const createMockUserEntity = () => {
     const user = new UsersEntity();
-    user.id = faker.number.int();
+    user.id = faker.string.uuid();
     user.nickname = faker.internet.userName().slice(0, 10);
     user.createdAt = formatDayjs(getNowDayjs());
     user.updatedAt = formatDayjs(getNowDayjs());
@@ -52,7 +38,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
 
     // UserProfiles 관계 설정
     const profile = new UserProfilesEntity();
-    profile.id = faker.number.int();
+    profile.id = faker.string.uuid();
     profile.userId = user.id;
     profile.profileImage = faker.image.avatar();
     profile.phoneNumber = "01012345678";
@@ -67,7 +53,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
 
     // UserProgresses 관계 설정
     const progress = new UserProgressesEntity();
-    progress.id = faker.number.int();
+    progress.id = faker.string.uuid();
     progress.userId = user.id;
     progress.progressType = ProgressType.ONBOARDING;
     progress.status = ProgressStatus.IN_PROGRESS;
@@ -79,8 +65,8 @@ describe("PsqlUsersRepositoryAdaptor", () => {
 
     // UserPrompts 관계 설정
     const prompt = new UserPromptsEntity();
-    prompt.id = faker.number.int();
-    prompt.templateId = faker.number.int();
+    prompt.id = faker.string.uuid();
+    prompt.templateId = faker.string.uuid();
     prompt.userId = user.id;
     prompt.context = {
       emotionalState: EmotionalState.ANGRY,
@@ -143,7 +129,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
       const mockUserWithRelations = createMockUserWithRelations();
       jest.spyOn(repository, "findOne").mockResolvedValue(mockUserWithRelations);
 
-      const result = await adaptor.findOne({ userId: mockUserWithRelations.id });
+      const result = await adaptor.findOne({ userId: new UniqueEntityId(mockUserWithRelations.id) });
 
       expect(repository.findOne).toHaveBeenCalledWith({
         where: { id: mockUserWithRelations.id },
@@ -162,7 +148,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
 
     it("존재하지 않는 사용자를 조회하면 null을 반환한다", async () => {
       jest.spyOn(repository, "findOne").mockResolvedValue(null);
-      const result = await adaptor.findOne({ userId: 999 });
+      const result = await adaptor.findOne({ userId: new UniqueEntityId("999") });
       expect(result).toBeNull();
     });
   });

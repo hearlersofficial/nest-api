@@ -1,16 +1,12 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/CounselMessages.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselor.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
+import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/CounselorUserRelationships.entity";
+import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/CounselTechniques.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { CounselStage } from "~shared/enums/CounselStage.enum";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
-import { CoreEntity } from "./Core.entity";
-import { CounselStage } from "~/src/shared/enums/CounselStage.enum";
-import { CounselMessagesEntity } from "./CounselMessages.entity";
-import { CounselTechniquesEntity } from "~/src/shared/core/infrastructure/entities/CounselTechniques.entity";
-import { CounselorsEntity } from "~/src/shared/core/infrastructure/entities/Counselors.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
-import { CounselorUserRelationshipsEntity } from "~/src/shared/core/infrastructure/entities/CounselorUserRelationships.entity";
 
 @Entity({
   name: "counsels",

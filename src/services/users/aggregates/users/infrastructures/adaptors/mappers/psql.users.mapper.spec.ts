@@ -1,34 +1,18 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/UserMessageTokens.entity";
-import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
-import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
-import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/users/UserMessageTokens.entity";
+import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
+import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
-import { convertDayjs,formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
+import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 import { Users } from "~users/aggregates/users/domain/Users";
 import { PsqlUsersMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.users.mapper";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
-import { ProgressStatus,ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
+import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
-<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.users.mapper.spec.ts
-=======
-import { Users } from "~/src/aggregates/users/domain/Users";
-import { UserProfiles } from "~/src/aggregates/users/domain/UserProfiles";
-import { UserProgresses } from "~/src/aggregates/users/domain/UserProgresses";
-import { PsqlUsersMapper } from "./psql.users.mapper";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { Gender, Mbti } from "~/src/gen/v1/model/user_pb";
-import { ProgressType, ProgressStatus } from "~/src/gen/v1/model/user_pb";
-import { getNowDayjs, formatDayjs, convertDayjs } from "~/src/shared/utils/Date.utils";
-import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProfiles.entity";
-import { UserMessageTokensEntity } from "~/src/shared/core/infrastructure/entities/users/UserMessageTokens.entity";
-import { TokenResetInterval } from "~/src/shared/enums/TokenResetInterval.enum";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.users.mapper.spec.ts
 
 describe("PsqlUsersMapper", () => {
   const createMockUserEntity = () => {

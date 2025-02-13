@@ -1,20 +1,11 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/UserMessageTokens.entity";
+import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/users/UserMessageTokens.entity";
 import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
 import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserMessageTokens } from "~users/aggregates/users/domain/UserMessageTokens";
 import { PsqlUserMessageTokensMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper";
 
 import { fakerKO as faker } from "@faker-js/faker";
-<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper.spec.ts
-=======
-import { PsqlUserMessageTokensMapper } from "./psql.userMessageTokens.mapper";
-import { UserMessageTokensEntity } from "~/src/shared/core/infrastructure/entities/users/UserMessageTokens.entity";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { getNowDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
-import { TokenResetInterval } from "~/src/shared/enums/TokenResetInterval.enum";
-import { UserMessageTokens } from "~/src/aggregates/users/domain/UserMessageTokens";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper.spec.ts
 
 describe("PsqlUserMessageTokensMapper", () => {
   const createMockUserMessageTokensEntity = () => {

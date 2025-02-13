@@ -1,20 +1,11 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
+import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
 import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 import { PsqlUserProfilesMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userProfiles.mapper";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
-<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.userProfiles.mapper.spec.ts
-=======
-import { UserProfiles } from "~/src/aggregates/users/domain/UserProfiles";
-import { PsqlUserProfilesMapper } from "./psql.userProfiles.mapper";
-import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProfiles.entity";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { Gender, Mbti } from "~/src/gen/v1/model/user_pb";
-import { getNowDayjs, formatDayjs, convertDayjs } from "~/src/shared/utils/Date.utils";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.userProfiles.mapper.spec.ts
 import { InternalServerErrorException } from "@nestjs/common";
 
 describe("PsqlUserProfilesMapper", () => {

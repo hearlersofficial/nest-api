@@ -1,6 +1,7 @@
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { InstructionMapsEntity } from "~shared/core/infrastructure/entities/prompts/InstructionMaps.entity";
+
 import { Column, Entity, OneToMany } from "typeorm";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { InstructionMapsEntity } from "~/src/shared/core/infrastructure/entities/prompts/InstructionMaps.entity";
 
 @Entity({
   name: "instruction_items",

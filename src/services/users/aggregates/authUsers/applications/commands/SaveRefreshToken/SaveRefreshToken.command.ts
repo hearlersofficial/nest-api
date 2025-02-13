@@ -1,5 +1,6 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+
 import { Dayjs } from "dayjs";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
 
 export class SaveRefreshTokenCommand {
   constructor(public readonly props: SaveRefreshTokenCommandProps) {}

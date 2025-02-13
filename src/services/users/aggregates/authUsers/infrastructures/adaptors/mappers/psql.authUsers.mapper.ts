@@ -1,24 +1,13 @@
 import { CoreStatus } from "~shared/core/constants/status.constants";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { AuthUsers, AuthUsersProps } from "~users/aggregates/authUsers/domain/AuthUsers";
 import { PsqlKakaoMapper } from "~users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.kakao.mapper";
 import { PsqlRefreshTokensMapper } from "~users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.refreshTokens.mapper";
 
 import { InternalServerErrorException } from "@nestjs/common";
-<<<<<<< HEAD:src/services/users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.authUsers.mapper.ts
-=======
-import { AuthUsers, AuthUsersProps } from "~/src/aggregates/authUsers/domain/AuthUsers";
-import { PsqlKakaoMapper } from "~/src/aggregates/authUsers/infrastructures/adaptors/mappers/psql.kakao.mapper";
-import { PsqlRefreshTokensMapper } from "~/src/aggregates/authUsers/infrastructures/adaptors/mappers/psql.refreshTokens.mapper";
-import { CoreStatus } from "~/src/shared/core/constants/status.constants";
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/users/AuthUsers.entity";
-import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/authUsers/infrastructures/adaptors/mappers/psql.authUsers.mapper.ts
 
 export class PsqlAuthUsersMapper {
   static toDomain(entity: AuthUsersEntity): AuthUsers | null {

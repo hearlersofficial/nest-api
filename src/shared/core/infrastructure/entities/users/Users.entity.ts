@@ -1,26 +1,15 @@
 import { CoreStatus } from "~shared/core/constants/status.constants";
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { UserActivitiesEntity } from "~shared/core/infrastructure/entities/UserActivities.entity";
-import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/UserMessageTokens.entity";
-import { UserProfilesEntity } from "~shared/core/infrastructure/entities/UserProfiles.entity";
-import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
-import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserPrompts.entity";
+import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/CounselorUserRelationships.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
+import { UserActivitiesEntity } from "~shared/core/infrastructure/entities/users/UserActivities.entity";
+import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/users/UserMessageTokens.entity";
+import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
+import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
+import { UserPromptsEntity } from "~shared/core/infrastructure/entities/users/UserPrompts.entity";
 
-<<<<<<< HEAD:src/shared/core/infrastructure/entities/Users.entity.ts
 import { Column, Entity, OneToMany, OneToOne, RelationId } from "typeorm";
-=======
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { UserActivitiesEntity } from "~/src/shared/core/infrastructure/entities/users/UserActivities.entity";
-import { UserProfilesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProfiles.entity";
-import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/users/UserPrompts.entity";
-import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/users/AuthUsers.entity";
-import { CoreStatus } from "~/src/shared/core/constants/status.constants";
-import { UserMessageTokensEntity } from "~/src/shared/core/infrastructure/entities/users/UserMessageTokens.entity";
-import { CounselsEntity } from "~/src/shared/core/infrastructure/entities/Counsels.entity";
-import { CounselorUserRelationshipsEntity } from "~/src/shared/core/infrastructure/entities/CounselorUserRelationships.entity";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/shared/core/infrastructure/entities/users/Users.entity.ts
 
 @Entity({
   name: "users",

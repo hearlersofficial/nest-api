@@ -1,12 +1,7 @@
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
-<<<<<<< HEAD:src/shared/core/infrastructure/entities/Kakao.entity.ts
-=======
-import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/users/AuthUsers.entity";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/shared/core/infrastructure/entities/users/Kakao.entity.ts
 
 @Entity({
   name: "kakao",
@@ -22,8 +17,9 @@ export class KakaoEntity extends CoreEntity {
   @RelationId((kakao: KakaoEntity) => kakao.authUser)
   @Column({
     name: "auth_user_id",
+    type: "bigint",
   })
-  authUserId: number;
+  authUserId: string;
 
   @OneToOne(() => AuthUsersEntity)
   @JoinColumn({ name: "auth_user_id" })

@@ -1,20 +1,14 @@
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
 import { PsqlAuthUsersMapper } from "~users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.authUsers.mapper";
 import {
   AuthUsersRepositoryPort,
   FindOnePropsInAuthUsersRepository,
-<<<<<<< HEAD:src/services/users/aggregates/authUsers/infrastructures/adaptors/psql.authUsers.repository.adaptor.ts
 } from "~users/aggregates/authUsers/infrastructures/authUsers.repository.port";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { InjectRepository } from "@nestjs/typeorm";
 import { FindOptionsRelations, FindOptionsWhere, Repository } from "typeorm";
-=======
-} from "~/src/aggregates/authUsers/infrastructures/authUsers.repository.port";
-import { AuthChannel } from "~/src/gen/com/hearlers/v1/model/auth_user_pb";
-import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/users/AuthUsers.entity";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/authUsers/infrastructures/adaptors/psql.authUsers.repository.adaptor.ts
 
 export class PsqlAuthUsersRepositoryAdaptor implements AuthUsersRepositoryPort {
   constructor(@InjectRepository(AuthUsersEntity) private readonly authUsersRepository: Repository<AuthUsersEntity>) {}

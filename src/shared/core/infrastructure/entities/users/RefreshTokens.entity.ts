@@ -1,12 +1,7 @@
-<<<<<<< HEAD:src/shared/core/infrastructure/entities/RefreshTokens.entity.ts
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
-=======
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
-import { AuthUsersEntity } from "~/src/shared/core/infrastructure/entities/users/AuthUsers.entity";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/shared/core/infrastructure/entities/users/RefreshTokens.entity.ts
 @Entity({ name: "refresh_tokens", comment: "리프레시 토큰 테이블" })
 export class RefreshTokenEntity extends CoreEntity {
   @Column({ type: "varchar", comment: "리프레시 토큰" })

@@ -1,20 +1,11 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { UserPromptsEntity } from "~shared/core/infrastructure/entities/UserPrompts.entity";
+import { UserPromptsEntity } from "~shared/core/infrastructure/entities/users/UserPrompts.entity";
 import { toDomainConversation, toEntityConversation } from "~shared/types/prompts.types";
 import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
 
 import { InternalServerErrorException } from "@nestjs/common";
-<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.userPrompts.mapper.ts
-=======
-import { UserPrompts } from "~/src/aggregates/users/domain/UserPrompts";
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { UserPromptsEntity } from "~/src/shared/core/infrastructure/entities/users/UserPrompts.entity";
-import { toDomainConversation, toEntityConversation } from "~/src/shared/types/prompts.types";
-import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.userPrompts.mapper.ts
 
 export class PsqlUserPromptsMapper {
   static toDomain(entity: UserPromptsEntity): UserPrompts | null {

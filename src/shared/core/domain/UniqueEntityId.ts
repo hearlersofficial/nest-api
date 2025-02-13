@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import { Identifier } from "~shared/core/domain/Identifier";
-=======
-import { Identifier } from "~/src/shared/core/domain/Identifier";
+
 import { Snowflake } from "@sapphire/snowflake";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 export class UniqueEntityId extends Identifier<string | number> {
   private static readonly EPOCH = 1609459200000; // 2021-01-01 기준

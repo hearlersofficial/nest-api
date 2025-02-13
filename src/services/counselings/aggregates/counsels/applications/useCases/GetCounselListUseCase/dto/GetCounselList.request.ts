@@ -1,4 +1,4 @@
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 
 export interface GetCounselListUseCaseRequest {
   userId: UniqueEntityId;

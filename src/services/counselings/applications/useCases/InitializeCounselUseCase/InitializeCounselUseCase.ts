@@ -23,11 +23,7 @@ export class InitializeCounselUseCase
     // 상담 생성
     const createCounselResult = await this.createCounselUseCase.execute({
       userId,
-<<<<<<< HEAD
-      counselorId: counselor.id.getNumber(),
-=======
       counselorId: counselor.id,
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
     });
     if (!createCounselResult.ok) {
       return { ok: false, error: createCounselResult.error };

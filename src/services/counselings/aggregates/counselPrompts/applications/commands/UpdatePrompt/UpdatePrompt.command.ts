@@ -1,13 +1,8 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { isValidVersion } from "~shared/types/version.type";
 
 import { HttpStatus } from "@nestjs/common";
-<<<<<<< HEAD:src/services/counselings/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.command.ts
-=======
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { isValidVersion } from "~/src/shared/types/version.type";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.command.ts
 
 export class UpdatePromptCommand {
   constructor(public readonly props: UpdatePromptCommandProps) {

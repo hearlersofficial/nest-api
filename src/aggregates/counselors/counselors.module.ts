@@ -1,15 +1,16 @@
-import { Module } from "@nestjs/common";
 import { CounselorsEntity } from "~/src/shared/core/infrastructure/entities/Counselors.entity";
-import { COUNSELOR_REPOSITORY } from "./infrastructures/counselors.repository.port";
-import { PsqlCounselorsRepositoryAdaptor } from "./infrastructures/adaptors/psql.counselors.repository.adaptor";
-import { CreateCounselorUseCase } from "./applications/useCases/CreateCounselorUseCase/CreateCounselorUseCase";
-import { GetCounselorUseCase } from "./applications/useCases/GetCounselorUseCase/GetCounselorUseCase";
-import { GetCounselorListUseCase } from "./applications/useCases/GetCounselorListUseCase/GetCounselorListUseCase";
-import { UpdateCounselorUseCase } from "./applications/useCases/UpdateCounselorUseCase/UpdateCounselorUseCase";
+import { CreateCounselorHandler } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.handler";
+import { UpdateCounselorHandler } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.handler";
+import { GetCounselorListHandler } from "~counselings/aggregates/counselors/applications/queries/GetCounselorList/GetCounselorList.handler";
+import { CreateCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/CreateCounselorUseCase/CreateCounselorUseCase";
+import { GetCounselorListUseCase } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorListUseCase/GetCounselorListUseCase";
+import { GetCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/GetCounselorUseCase";
+import { UpdateCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/UpdateCounselorUseCase/UpdateCounselorUseCase";
+import { PsqlCounselorsRepositoryAdaptor } from "~counselings/aggregates/counselors/infrastructures/adaptors/psql.counselors.repository.adaptor";
+import { COUNSELOR_REPOSITORY } from "~counselings/aggregates/counselors/infrastructures/counselors.repository.port";
+
+import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { CreateCounselorHandler } from "./applications/commands/CreateCounselor/CreateCounselor.handler";
-import { UpdateCounselorHandler } from "./applications/commands/UpdateCounselor/UpdateCounselor.handler";
-import { GetCounselorListHandler } from "./applications/queries/GetCounselorList/GetCounselorList.handler";
 
 const useCases = [CreateCounselorUseCase, GetCounselorUseCase, GetCounselorListUseCase, UpdateCounselorUseCase];
 

@@ -1,15 +1,8 @@
-<<<<<<< HEAD:src/services/counselings/aggregates/counselors/infrastructures/adaptors/mapper/psql.counselors.mapper.ts
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselor.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
 import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
 
-=======
-import { CounselorsEntity } from "~/src/shared/core/infrastructure/entities/Counselors.entity";
-import { Counselors } from "../../../domain/counselors";
-import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counselors/infrastructures/adaptors/mapper/psql.counselors.mapper.ts
 import { InternalServerErrorException } from "@nestjs/common";
 
 export class PsqlCounselorsMapper {

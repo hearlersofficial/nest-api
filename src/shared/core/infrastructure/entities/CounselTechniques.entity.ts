@@ -1,10 +1,11 @@
-import { Column, Entity, ManyToOne, OneToOne, JoinColumn, RelationId, OneToMany } from "typeorm";
-import { CounselTechniqueStage } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { ContextEntity } from "~/src/shared/core/infrastructure/entities/prompts/Context.entity";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { CounselsEntity } from "~/src/shared/core/infrastructure/entities/Counsels.entity";
-import { InstructionEntity } from "~/src/shared/core/infrastructure/entities/prompts/Instructions.entity";
-import { ToneEntity } from "~/src/shared/core/infrastructure/entities/prompts/Tones.entity";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { ContextEntity } from "~shared/core/infrastructure/entities/prompts/Context.entity";
+import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
+import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
+
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 
 @Entity({ name: "counsel_techniques", comment: "상담 기법 (톤 + 컨텍스트 + 지시사항)" })
 export class CounselTechniquesEntity extends CoreEntity {

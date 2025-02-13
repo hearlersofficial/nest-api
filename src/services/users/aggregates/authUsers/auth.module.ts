@@ -1,4 +1,4 @@
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/AuthUsers.entity";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 import { SaveRefreshTokenHandler } from "~users/aggregates/authUsers/applications/commands/SaveRefreshToken/SaveRefreshToken.handler";
 import { VerifyRefreshTokenHandler } from "~users/aggregates/authUsers/applications/commands/VerifyRefreshToken/VerifyRefreshToken.handler";
 import { CreateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/CreateAuthUserUseCase";

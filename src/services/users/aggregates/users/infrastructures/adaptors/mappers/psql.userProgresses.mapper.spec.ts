@@ -1,20 +1,11 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { UserProgressesEntity } from "~shared/core/infrastructure/entities/UserProgresses.entity";
+import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
 import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 import { PsqlUserProgressesMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userProgresses.mapper";
 import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
-<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.userProgresses.mapper.spec.ts
-=======
-import { UserProgresses } from "~/src/aggregates/users/domain/UserProgresses";
-import { PsqlUserProgressesMapper } from "./psql.userProgresses.mapper";
-import { UserProgressesEntity } from "~/src/shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { ProgressType, ProgressStatus } from "~/src/gen/v1/model/user_pb";
-import { getNowDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.userProgresses.mapper.spec.ts
 import { InternalServerErrorException } from "@nestjs/common";
 
 describe("PsqlUserProgressesMapper", () => {

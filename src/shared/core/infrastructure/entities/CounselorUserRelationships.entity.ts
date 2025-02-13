@@ -1,7 +1,8 @@
-import { CounselorsEntity } from "~/src/shared/core/infrastructure/entities/Counselors.entity";
-import { CounselsEntity } from "~/src/shared/core/infrastructure/entities/Counsels.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
+
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
 @Entity({ name: "counselor_user_relationships", comment: "유저별로 개인화된 개별 상담사와의 관계" })

@@ -1,20 +1,11 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/UserMessageTokens.entity";
+import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/users/UserMessageTokens.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { UserMessageTokens, UserMessageTokensProps } from "~users/aggregates/users/domain/UserMessageTokens";
 
 import { HttpStatus } from "@nestjs/common";
-<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper.ts
-=======
-import { UserMessageTokens, UserMessageTokensProps } from "~/src/aggregates/users/domain/UserMessageTokens";
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { UserMessageTokensEntity } from "~/src/shared/core/infrastructure/entities/users/UserMessageTokens.entity";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
-import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper.ts
 
 export class PsqlUserMessageTokensMapper {
   static toDomain(entity: UserMessageTokensEntity): UserMessageTokens | null {

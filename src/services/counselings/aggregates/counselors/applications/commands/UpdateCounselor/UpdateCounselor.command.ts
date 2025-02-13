@@ -1,13 +1,8 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselorGender, CounselorType } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus } from "@nestjs/common";
-<<<<<<< HEAD:src/services/counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command.ts
-=======
-import { CounselorGender, CounselorType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~/src/shared/filters/exceptions";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command.ts
 
 export class UpdateCounselorCommand {
   constructor(public readonly props: UpdateCounselorCommandProps) {

@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { convertDayjs } from "~shared/utils/Date.utils";
 import { SaveRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/SaveRefreshToken/SaveRefreshToken.command";
 import { VerifyRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/VerifyRefreshToken/VerifyRefreshToken.command";
@@ -26,22 +27,12 @@ import {
   VerifyRefreshTokenRequest,
   VerifyRefreshTokenResponse,
   VerifyRefreshTokenResponseSchema,
-<<<<<<< HEAD
 } from "~proto/com/hearlers/v1/service/user_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { GrpcMethod } from "@nestjs/microservices";
-=======
-} from "~/src/gen/com/hearlers/v1/service/user_pb";
-import { ConnectAuthChannelCommand } from "~/src/services/users/applications/commands/ConnectAuthChannel/ConnectAuthChannel.command";
-import { InitializeUserCommand } from "~/src/services/users/applications/commands/InitializeUser/InitializeUser.command";
-import { SchemaAuthUsersMapper } from "~/src/services/users/presentations/grpc/schema.authUsers.mapper";
-import { SchemaUsersMapper } from "~/src/services/users/presentations/grpc/schema.users.mapper";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { convertDayjs } from "~/src/shared/utils/Date.utils";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
 
 @Controller("user")
 export class GrpcUserCommandController {

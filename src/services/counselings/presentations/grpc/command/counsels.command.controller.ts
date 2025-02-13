@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CreateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
@@ -30,32 +31,14 @@ import {
   UpdateCounselorResponse,
   UpdateCounselorResponseSchema,
   UpdatePromptRequest,
-<<<<<<< HEAD
-  UpdatePromptResult,
-  UpdatePromptResultSchema,
+  UpdatePromptResponse,
+  UpdatePromptResponseSchema,
 } from "~proto/com/hearlers/v1/service/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { GrpcMethod } from "@nestjs/microservices";
-=======
-  UpdatePromptResponse,
-  UpdatePromptResponseSchema,
-} from "~/src/gen/com/hearlers/v1/service/counsel_pb";
-import { SchemaCounselsMapper } from "~/src/services/counselings/presentations/grpc/schema.counsels.mapper";
-import {
-  CreateCounselCommand,
-  CreateCounselCommandResult,
-} from "../../../applications/commands/CreateCounsel/CreateCounsel.command";
-import { CreatePromptCommand } from "~/src/aggregates/counselPrompts/applications/commands/CreatePrompt/CreatePrompt.command";
-import { UpdatePromptCommand } from "~/src/aggregates/counselPrompts/applications/commands/UpdatePrompt/UpdatePrompt.command";
-import { CreateCounselorCommand } from "~/src/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
-import { UpdateCounselorCommand } from "~/src/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
-import { ReactMessageCommand } from "~/src/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립)
-
 @Controller("counsel")
 export class GrpcCounselCommandController {
   constructor(private readonly commandBus: CommandBus) {}

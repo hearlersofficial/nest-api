@@ -1,9 +1,10 @@
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/CounselorUserRelationships.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { PersonasEntity } from "~shared/core/infrastructure/entities/prompts/Personas.entity";
+import { CounselorGender, CounselorType } from "~proto/com/hearlers/v1/model/counsel_pb";
+
 import { Column, Entity, OneToMany } from "typeorm";
-import { CoreEntity } from "./Core.entity";
-import { CounselsEntity } from "./Counsels.entity";
-import { CounselorGender, CounselorType } from "~/src/gen/com/hearlers/v1/model/counsel_pb";
-import { PersonasEntity } from "~/src/shared/core/infrastructure/entities/prompts/Personas.entity";
-import { CounselorUserRelationshipsEntity } from "~/src/shared/core/infrastructure/entities/CounselorUserRelationships.entity";
 
 @Entity({
   name: "counselors",

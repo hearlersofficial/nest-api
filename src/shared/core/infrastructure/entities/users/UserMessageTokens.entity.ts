@@ -1,14 +1,8 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
 
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
-<<<<<<< HEAD:src/shared/core/infrastructure/entities/UserMessageTokens.entity.ts
-=======
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
-import { TokenResetInterval } from "~/src/shared/enums/TokenResetInterval.enum";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/shared/core/infrastructure/entities/users/UserMessageTokens.entity.ts
 
 @Entity({ name: "user_message_tokens" })
 export class UserMessageTokensEntity extends CoreEntity {

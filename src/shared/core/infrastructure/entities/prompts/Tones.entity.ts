@@ -1,6 +1,7 @@
+import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/CounselTechniques.entity";
+
 import { Column, Entity, OneToMany } from "typeorm";
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { CounselTechniquesEntity } from "~/src/shared/core/infrastructure/entities/CounselTechniques.entity";
 
 @Entity({ name: "tones", comment: "톤" })
 export class ToneEntity extends CoreEntity {

@@ -1,16 +1,8 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
-import { ProgressStatus } from "~proto/com/hearlers/v1/model/user_pb";
-import { ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
+import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
+import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
-<<<<<<< HEAD:src/shared/core/infrastructure/entities/UserProgresses.entity.ts
-=======
-import { CoreEntity } from "~/src/shared/core/infrastructure/entities/Core.entity";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
-import { ProgressStatus } from "~/src/gen/com/hearlers/v1/model/user_pb";
-import { ProgressType } from "~/src/gen/com/hearlers/v1/model/user_pb";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/shared/core/infrastructure/entities/users/UserProgresses.entity.ts
 
 @Entity({ name: "user_progresses" })
 export class UserProgressesEntity extends CoreEntity {

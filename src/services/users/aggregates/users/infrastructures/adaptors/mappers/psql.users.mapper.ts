@@ -1,6 +1,6 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { UsersEntity } from "~shared/core/infrastructure/entities/Users.entity";
+import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
 import { Users, UsersProps } from "~users/aggregates/users/domain/Users";
 import { PsqlUserMessageTokensMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper";
@@ -9,18 +9,6 @@ import { PsqlUserProgressesMapper } from "~users/aggregates/users/infrastructure
 import { PsqlUserPromptsMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userPrompts.mapper";
 
 import { InternalServerErrorException } from "@nestjs/common";
-<<<<<<< HEAD:src/services/users/aggregates/users/infrastructures/adaptors/mappers/psql.users.mapper.ts
-=======
-import { Users, UsersProps } from "~/src/aggregates/users/domain/Users";
-import { Result } from "~/src/shared/core/domain/Result";
-import { UniqueEntityId } from "~/src/shared/core/domain/UniqueEntityId";
-import { UsersEntity } from "~/src/shared/core/infrastructure/entities/users/Users.entity";
-import { PsqlUserProfilesMapper } from "./psql.userProfiles.mapper";
-import { PsqlUserProgressesMapper } from "./psql.userProgresses.mapper";
-import { PsqlUserPromptsMapper } from "./psql.userPrompts.mapper";
-import { convertDayjs, formatDayjs } from "~/src/shared/utils/Date.utils";
-import { PsqlUserMessageTokensMapper } from "~/src/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper";
->>>>>>> 270a161 (feat: snowflakeid 추가 새 프로덕트에 맞는 디비 구조 정립):src/aggregates/users/infrastructures/adaptors/mappers/psql.users.mapper.ts
 
 export class PsqlUsersMapper {
   static toDomain(entity: UsersEntity): Users | null {

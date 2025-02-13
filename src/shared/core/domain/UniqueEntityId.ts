@@ -12,8 +12,8 @@ export class UniqueEntityId extends Identifier<string | number> {
   constructor(id?: string | number) {
     if (!id) {
       const envWorkerId = process.env.WORKER_ID;
-      // 없을 경우 default 0
-      const workerId = envWorkerId ? BigInt(envWorkerId) : 0n;
+      // 없을 경우 없이 생성
+      const workerId = envWorkerId ? BigInt(envWorkerId) : undefined;
       // Snowflake ID 생성
       const generatedId = UniqueEntityId.snowflake
         .generate({

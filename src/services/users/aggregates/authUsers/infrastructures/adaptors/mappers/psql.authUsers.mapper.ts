@@ -36,11 +36,8 @@ export class PsqlAuthUsersMapper {
   static toEntity(authUser: AuthUsers): AuthUsersEntity {
     const entity = new AuthUsersEntity();
 
-    if (!authUser.id.isNewIdentifier()) {
-      entity.id = authUser.id.getString();
-    }
-
-    entity.userId = authUser.userId.getString();
+    entity.id = authUser.id.getString();
+    entity.userId = authUser.userId?.getString() || null;
     entity.lastLoginAt = formatDayjs(authUser.lastLoginAt);
     entity.authChannel = authUser.authChannel;
     entity.kakao = authUser.kakao ? PsqlKakaoMapper.toEntity(authUser.kakao) : null;

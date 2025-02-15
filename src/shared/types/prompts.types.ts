@@ -1,5 +1,5 @@
 import { EmotionalState } from "~shared/enums/EmotionalState.enum";
-import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 
 import { Dayjs } from "dayjs";
 
@@ -34,10 +34,10 @@ export interface Analysis {
 // 필요한 경우 타입 변환 유틸리티
 export const toDomainConversation = (conv: EntityConversation): DomainConversation => ({
   ...conv,
-  timestamp: convertDayjs(conv.timestamp),
+  timestamp: convertUtcStringToDayjs(conv.timestamp),
 });
 
 export const toEntityConversation = (conv: DomainConversation): EntityConversation => ({
   ...conv,
-  timestamp: formatDayjs(conv.timestamp),
+  timestamp: formatDayjsToUtcString(conv.timestamp),
 });

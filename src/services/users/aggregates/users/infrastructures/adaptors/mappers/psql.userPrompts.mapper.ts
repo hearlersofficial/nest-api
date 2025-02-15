@@ -2,7 +2,7 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserPromptsEntity } from "~shared/core/infrastructure/entities/users/UserPrompts.entity";
 import { toDomainConversation, toEntityConversation } from "~shared/types/prompts.types";
-import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
 
 import { InternalServerErrorException } from "@nestjs/common";
@@ -20,9 +20,9 @@ export class PsqlUserPromptsMapper {
       generatedPrompt: entity.generatedPrompt,
       conversationHistory: entity.conversationHistory.map(toDomainConversation),
       analysis: entity.analysis,
-      createdAt: convertDayjs(entity.createdAt),
-      updatedAt: convertDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertDayjs(entity.deletedAt) : null,
+      createdAt: convertUtcStringToDayjs(entity.createdAt),
+      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
     };
 
     const userPromptsOrError: Result<UserPrompts> = UserPrompts.create(userPromptsProps, new UniqueEntityId(entity.id));
@@ -51,9 +51,9 @@ export class PsqlUserPromptsMapper {
     entity.generatedPrompt = userPrompts.generatedPrompt;
     entity.conversationHistory = userPrompts.conversationHistory.map(toEntityConversation);
     entity.analysis = userPrompts.analysis;
-    entity.createdAt = formatDayjs(userPrompts.createdAt);
-    entity.updatedAt = formatDayjs(userPrompts.updatedAt);
-    entity.deletedAt = userPrompts.deletedAt ? formatDayjs(userPrompts.deletedAt) : null;
+    entity.createdAt = formatDayjsToUtcString(userPrompts.createdAt);
+    entity.updatedAt = formatDayjsToUtcString(userPrompts.updatedAt);
+    entity.deletedAt = userPrompts.deletedAt ? formatDayjsToUtcString(userPrompts.deletedAt) : null;
 
     return entity;
   }

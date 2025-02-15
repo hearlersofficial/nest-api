@@ -1,7 +1,7 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { Users, UsersProps } from "~users/aggregates/users/domain/Users";
 import { PsqlUserMessageTokensMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper";
 import { PsqlUserProfilesMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userProfiles.mapper";
@@ -25,9 +25,9 @@ export class PsqlUsersMapper {
       userMessageToken: entity.userMessageTokens
         ? PsqlUserMessageTokensMapper.toDomain(entity.userMessageTokens)
         : undefined,
-      createdAt: convertDayjs(entity.createdAt),
-      updatedAt: convertDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertDayjs(entity.deletedAt) : null,
+      createdAt: convertUtcStringToDayjs(entity.createdAt),
+      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
     };
     const usersOrError: Result<Users> = Users.create(userProps, new UniqueEntityId(entity.id));
 
@@ -65,9 +65,9 @@ export class PsqlUsersMapper {
       return promptEntity;
     });
 
-    entity.createdAt = formatDayjs(users.createdAt);
-    entity.updatedAt = formatDayjs(users.updatedAt);
-    entity.deletedAt = users.deletedAt ? formatDayjs(users.deletedAt) : null;
+    entity.createdAt = formatDayjsToUtcString(users.createdAt);
+    entity.updatedAt = formatDayjsToUtcString(users.updatedAt);
+    entity.deletedAt = users.deletedAt ? formatDayjsToUtcString(users.deletedAt) : null;
 
     return entity;
   }

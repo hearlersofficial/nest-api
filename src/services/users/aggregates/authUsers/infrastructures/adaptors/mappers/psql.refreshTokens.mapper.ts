@@ -1,7 +1,7 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { RefreshTokenEntity } from "~shared/core/infrastructure/entities/users/RefreshTokens.entity";
-import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { RefreshTokensVO } from "~users/aggregates/authUsers/domain/RefreshTokens.vo";
 
 import { InternalServerErrorException } from "@nestjs/common";
@@ -13,9 +13,9 @@ export class PsqlRefreshTokensMapper {
     }
     const refreshTokenOrError: Result<RefreshTokensVO> = RefreshTokensVO.create({
       token: entity.token,
-      expiresAt: convertDayjs(entity.expiresAt),
-      createdAt: convertDayjs(entity.createdAt),
-      updatedAt: convertDayjs(entity.updatedAt),
+      expiresAt: convertUtcStringToDayjs(entity.expiresAt),
+      createdAt: convertUtcStringToDayjs(entity.createdAt),
+      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
     });
     if (refreshTokenOrError.isFailure) {
       throw new InternalServerErrorException(refreshTokenOrError.errorValue);
@@ -32,9 +32,9 @@ export class PsqlRefreshTokensMapper {
 
     entity.authUserId = authUserId.getString();
     entity.token = refreshTokenVO.token;
-    entity.expiresAt = formatDayjs(refreshTokenVO.expiresAt);
-    entity.createdAt = formatDayjs(refreshTokenVO.createdAt);
-    entity.updatedAt = formatDayjs(refreshTokenVO.updatedAt);
+    entity.expiresAt = formatDayjsToUtcString(refreshTokenVO.expiresAt);
+    entity.createdAt = formatDayjsToUtcString(refreshTokenVO.createdAt);
+    entity.updatedAt = formatDayjsToUtcString(refreshTokenVO.updatedAt);
 
     return entity;
   }

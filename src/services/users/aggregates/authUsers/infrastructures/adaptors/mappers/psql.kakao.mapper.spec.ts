@@ -1,6 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KakaoEntity } from "~shared/core/infrastructure/entities/users/Kakao.entity";
-import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
+import { formatDayjsToUtcString, getNowDayjs } from "~shared/utils/Date.utils";
 import { Kakao } from "~users/aggregates/authUsers/domain/Kakao";
 import { PsqlKakaoMapper } from "~users/aggregates/authUsers/infrastructures/adaptors/mappers/psql.kakao.mapper";
 
@@ -13,8 +13,8 @@ describe("PsqlKakaoMapper", () => {
     entity.id = faker.string.uuid();
     entity.authUserId = faker.string.uuid();
     entity.uniqueId = faker.string.numeric(10);
-    entity.createdAt = formatDayjs(getNowDayjs());
-    entity.updatedAt = formatDayjs(getNowDayjs());
+    entity.createdAt = formatDayjsToUtcString(getNowDayjs());
+    entity.updatedAt = formatDayjsToUtcString(getNowDayjs());
     entity.deletedAt = null;
     return entity;
   };
@@ -28,19 +28,19 @@ describe("PsqlKakaoMapper", () => {
       expect(result?.id.getNumber()).toBe(mockEntity.id);
       expect(result?.authUserId.getNumber()).toBe(mockEntity.authUserId);
       expect(result?.uniqueId).toBe(mockEntity.uniqueId);
-      expect(result?.createdAt.toISOString()).toBe(convertDayjs(mockEntity.createdAt).toISOString());
-      expect(result?.updatedAt.toISOString()).toBe(convertDayjs(mockEntity.updatedAt).toISOString());
+      expect(formatDayjsToUtcString(result?.createdAt)).toBe(mockEntity.createdAt);
+      expect(formatDayjsToUtcString(result?.updatedAt)).toBe(mockEntity.updatedAt);
       expect(result?.deletedAt).toBeNull();
     });
 
     it("삭제된 KakaoEntity를 변환할 수 있다", () => {
       const mockEntity = createMockKakaoEntity();
-      mockEntity.deletedAt = formatDayjs(getNowDayjs());
+      mockEntity.deletedAt = formatDayjsToUtcString(getNowDayjs());
 
       const result = PsqlKakaoMapper.toDomain(mockEntity);
 
       expect(result).toBeDefined();
-      expect(result?.deletedAt?.toISOString()).toBe(convertDayjs(mockEntity.deletedAt).toISOString());
+      expect(formatDayjsToUtcString(result?.deletedAt)).toBe(mockEntity.deletedAt);
     });
 
     it("entity가 null이면 null을 반환한다", () => {
@@ -125,12 +125,8 @@ describe("PsqlKakaoMapper", () => {
 
       expect(resultDomain.authUserId.equals(originalDomain.authUserId)).toBeTruthy();
       expect(resultDomain.uniqueId).toBe(originalDomain.uniqueId);
-      expect(resultDomain.createdAt.format("YYYY-MM-DD HH:mm:ss")).toBe(
-        originalDomain.createdAt.format("YYYY-MM-DD HH:mm:ss"),
-      );
-      expect(resultDomain.updatedAt.format("YYYY-MM-DD HH:mm:ss")).toBe(
-        originalDomain.updatedAt.format("YYYY-MM-DD HH:mm:ss"),
-      );
+      expect(formatDayjsToUtcString(resultDomain.createdAt)).toBe(originalDomain.createdAt);
+      expect(formatDayjsToUtcString(resultDomain.updatedAt)).toBe(originalDomain.updatedAt);
       expect(resultDomain.deletedAt).toBe(originalDomain.deletedAt);
     });
   });

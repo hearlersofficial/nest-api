@@ -1,5 +1,5 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { formatDayjs } from "~shared/utils/Date.utils";
+import { formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 import { Users } from "~users/aggregates/users/domain/Users";
@@ -25,9 +25,9 @@ export class SchemaUsersMapper {
       nickname: user.nickname,
       userProfile: user.userProfile ? this.toUserProfileProto(user.userProfile) : null,
       userProgresses: user.userProgresses ? user.userProgresses.map(this.toUserProgressProto) : null,
-      createdAt: formatDayjs(user.createdAt),
-      updatedAt: formatDayjs(user.updatedAt),
-      deletedAt: user.deletedAt ? formatDayjs(user.deletedAt) : null,
+      createdAt: formatDayjsToUtcString(user.createdAt),
+      updatedAt: formatDayjsToUtcString(user.updatedAt),
+      deletedAt: user.deletedAt ? formatDayjsToUtcString(user.deletedAt) : null,
     });
   }
 
@@ -40,11 +40,11 @@ export class SchemaUsersMapper {
       phoneNumber: userProfile.phoneNumber,
       mbti: userProfile.mbti,
       gender: userProfile.gender,
-      birthday: userProfile.birthday ? formatDayjs(userProfile.birthday) : null,
+      birthday: userProfile.birthday ? formatDayjsToUtcString(userProfile.birthday) : null,
       introduction: userProfile.introduction,
-      createdAt: formatDayjs(userProfile.createdAt),
-      updatedAt: formatDayjs(userProfile.updatedAt),
-      deletedAt: userProfile.deletedAt ? formatDayjs(userProfile.deletedAt) : null,
+      createdAt: formatDayjsToUtcString(userProfile.createdAt),
+      updatedAt: formatDayjsToUtcString(userProfile.updatedAt),
+      deletedAt: userProfile.deletedAt ? formatDayjsToUtcString(userProfile.deletedAt) : null,
     });
   }
 
@@ -55,10 +55,10 @@ export class SchemaUsersMapper {
     return create(UserProgressSchema, {
       status: userProgress.status,
       progressType: userProgress.progressType,
-      lastUpdated: formatDayjs(userProgress.lastUpdated),
-      createdAt: formatDayjs(userProgress.createdAt),
-      updatedAt: formatDayjs(userProgress.updatedAt),
-      deletedAt: userProgress.deletedAt ? formatDayjs(userProgress.deletedAt) : null,
+      lastUpdated: formatDayjsToUtcString(userProgress.lastUpdated),
+      createdAt: formatDayjsToUtcString(userProgress.createdAt),
+      updatedAt: formatDayjsToUtcString(userProgress.updatedAt),
+      deletedAt: userProgress.deletedAt ? formatDayjsToUtcString(userProgress.deletedAt) : null,
     });
   }
 }

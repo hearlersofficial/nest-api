@@ -1,7 +1,7 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 
 import { InternalServerErrorException } from "@nestjs/common";
@@ -16,10 +16,10 @@ export class PsqlUserProgressesMapper {
       userId: new UniqueEntityId(entity.userId),
       progressType: entity.progressType,
       status: entity.status,
-      lastUpdated: convertDayjs(entity.lastUpdated),
-      createdAt: convertDayjs(entity.createdAt),
-      updatedAt: convertDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertDayjs(entity.deletedAt) : null,
+      lastUpdated: convertUtcStringToDayjs(entity.lastUpdated),
+      createdAt: convertUtcStringToDayjs(entity.createdAt),
+      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
     };
 
     const userProgressesOrError: Result<UserProgresses> = UserProgresses.create(
@@ -46,10 +46,10 @@ export class PsqlUserProgressesMapper {
 
     entity.progressType = userProgresses.progressType;
     entity.status = userProgresses.status;
-    entity.lastUpdated = formatDayjs(userProgresses.lastUpdated);
-    entity.createdAt = formatDayjs(userProgresses.createdAt);
-    entity.updatedAt = formatDayjs(userProgresses.updatedAt);
-    entity.deletedAt = userProgresses.deletedAt ? formatDayjs(userProgresses.deletedAt) : null;
+    entity.lastUpdated = formatDayjsToUtcString(userProgresses.lastUpdated);
+    entity.createdAt = formatDayjsToUtcString(userProgresses.createdAt);
+    entity.updatedAt = formatDayjsToUtcString(userProgresses.updatedAt);
+    entity.deletedAt = userProgresses.deletedAt ? formatDayjsToUtcString(userProgresses.deletedAt) : null;
 
     return entity;
   }

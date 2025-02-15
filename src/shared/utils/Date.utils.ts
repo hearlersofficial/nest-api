@@ -1,19 +1,16 @@
 import dayjs, { Dayjs } from "dayjs";
-import isBetween from "dayjs/plugin/isBetween";
-
-dayjs.extend(isBetween);
 
 export function getNowDayjs(): Dayjs {
-  return dayjs();
+  return dayjs.utc();
 }
 
-export function convertDayjs(dateString: string): Dayjs {
-  return dayjs(dateString);
+export function convertUtcStringToDayjs(utcDateString: string): Dayjs {
+  return dayjs.utc(utcDateString);
 }
 
-export function formatDayjs(date: Dayjs): string | null {
+export function formatDayjsToUtcString(date: Dayjs): string | null {
   if (!date) return null;
-  return date.format("YYYY-MM-DD HH:mm:ss");
+  return date.utc().format("YYYY-MM-DD HH:mm:ss");
 }
 
 export function isBetweenDayjs(target: Dayjs, from: Dayjs, to: Dayjs): boolean {

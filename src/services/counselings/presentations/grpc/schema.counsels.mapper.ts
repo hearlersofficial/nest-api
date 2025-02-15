@@ -1,4 +1,4 @@
-import { formatDayjs } from "~shared/utils/Date.utils";
+import { formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
 import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
@@ -23,10 +23,10 @@ export class SchemaCounselsMapper {
       userId: counsel.userId.getString(),
       counselorId: counsel.counselorId.getString(),
       lastMessage: counsel.lastMessage,
-      lastChatedAt: counsel.lastChatedAt ? formatDayjs(counsel.lastChatedAt) : null,
-      createdAt: formatDayjs(counsel.createdAt),
-      updatedAt: formatDayjs(counsel.updatedAt),
-      deletedAt: counsel.deletedAt ? formatDayjs(counsel.deletedAt) : null,
+      lastChatedAt: counsel.lastChatedAt ? formatDayjsToUtcString(counsel.lastChatedAt) : null,
+      createdAt: formatDayjsToUtcString(counsel.createdAt),
+      updatedAt: formatDayjsToUtcString(counsel.updatedAt),
+      deletedAt: counsel.deletedAt ? formatDayjsToUtcString(counsel.deletedAt) : null,
     });
   }
 
@@ -36,11 +36,11 @@ export class SchemaCounselsMapper {
       counselId: counselMessage.counselId.getString(),
       message: counselMessage.message,
       isUserMessage: counselMessage.isUserMessage,
-      reactedAt: counselMessage.reactedAt ? formatDayjs(counselMessage.reactedAt) : null,
+      reactedAt: counselMessage.reactedAt ? formatDayjsToUtcString(counselMessage.reactedAt) : null,
       reaction: counselMessage.reaction,
-      createdAt: formatDayjs(counselMessage.createdAt),
-      updatedAt: formatDayjs(counselMessage.updatedAt),
-      deletedAt: counselMessage.deletedAt ? formatDayjs(counselMessage.deletedAt) : null,
+      createdAt: formatDayjsToUtcString(counselMessage.createdAt),
+      updatedAt: formatDayjsToUtcString(counselMessage.updatedAt),
+      deletedAt: counselMessage.deletedAt ? formatDayjsToUtcString(counselMessage.deletedAt) : null,
     });
   }
 
@@ -55,9 +55,9 @@ export class SchemaCounselsMapper {
       promptType: counselPrompt.promptType,
       description: counselPrompt.description,
       version: counselPrompt.version,
-      createdAt: formatDayjs(counselPrompt.createdAt),
-      updatedAt: formatDayjs(counselPrompt.updatedAt),
-      deletedAt: counselPrompt.deletedAt ? formatDayjs(counselPrompt.deletedAt) : null,
+      createdAt: formatDayjsToUtcString(counselPrompt.createdAt),
+      updatedAt: formatDayjsToUtcString(counselPrompt.updatedAt),
+      deletedAt: counselPrompt.deletedAt ? formatDayjsToUtcString(counselPrompt.deletedAt) : null,
     });
   }
 
@@ -72,9 +72,9 @@ export class SchemaCounselsMapper {
       introMessage: bubble.introMessage,
       responseOption1: bubble.responseOption1,
       responseOption2: bubble.responseOption2,
-      createdAt: formatDayjs(counselor.createdAt),
-      updatedAt: formatDayjs(counselor.updatedAt),
-      deletedAt: counselor.deletedAt ? formatDayjs(counselor.deletedAt) : null,
+      createdAt: formatDayjsToUtcString(counselor.createdAt),
+      updatedAt: formatDayjsToUtcString(counselor.updatedAt),
+      deletedAt: counselor.deletedAt ? formatDayjsToUtcString(counselor.deletedAt) : null,
     });
   }
 }

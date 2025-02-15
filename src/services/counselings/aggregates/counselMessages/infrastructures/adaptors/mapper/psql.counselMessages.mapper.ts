@@ -1,7 +1,7 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/CounselMessages.entity";
-import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 
 import { InternalServerErrorException } from "@nestjs/common";
@@ -17,11 +17,11 @@ export class PsqlCounselMessagesMapper {
       message: entity.message,
       userId: new UniqueEntityId(entity.userId),
       isUserMessage: entity.isUserMessage,
-      reactedAt: entity.reactedAt ? convertDayjs(entity.reactedAt) : null,
+      reactedAt: entity.reactedAt ? convertUtcStringToDayjs(entity.reactedAt) : null,
       reaction: entity.reaction ? entity.reaction : null,
-      createdAt: convertDayjs(entity.createdAt),
-      updatedAt: convertDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertDayjs(entity.deletedAt) : null,
+      createdAt: convertUtcStringToDayjs(entity.createdAt),
+      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
     };
     const counselMessagesOrError: Result<CounselMessages> = CounselMessages.create(
       counselMessageProps,
@@ -50,12 +50,12 @@ export class PsqlCounselMessagesMapper {
     entity.message = counselMessages.message;
     entity.isUserMessage = counselMessages.isUserMessage;
 
-    entity.reactedAt = counselMessages.reactedAt ? formatDayjs(counselMessages.reactedAt) : null;
+    entity.reactedAt = counselMessages.reactedAt ? formatDayjsToUtcString(counselMessages.reactedAt) : null;
     entity.reaction = counselMessages.reaction ? counselMessages.reaction : null;
 
-    entity.createdAt = formatDayjs(counselMessages.createdAt);
-    entity.updatedAt = formatDayjs(counselMessages.updatedAt);
-    entity.deletedAt = counselMessages.deletedAt ? formatDayjs(counselMessages.deletedAt) : null;
+    entity.createdAt = formatDayjsToUtcString(counselMessages.createdAt);
+    entity.updatedAt = formatDayjsToUtcString(counselMessages.updatedAt);
+    entity.deletedAt = counselMessages.deletedAt ? formatDayjsToUtcString(counselMessages.deletedAt) : null;
 
     return entity;
   }

@@ -3,8 +3,10 @@ import { createMicroservices, serviceConfigs, ServiceType } from "~shared/core/p
 import { UsersServiceModule } from "~users/users.service.module";
 import { CounselsServiceModule } from "~counselings/counsels.service.module";
 
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+import utc from "dayjs/plugin/utc";
 import * as dotenv from "dotenv";
-
 dotenv.config({ path: [".env", ".env.dev"] });
 
 const moduleMap = {
@@ -14,6 +16,9 @@ const moduleMap = {
 };
 
 async function bootstrap(): Promise<void> {
+  dayjs.extend(utc);
+  dayjs.extend(isBetween);
+
   const serviceType = process.env.SERVICE_TYPE as ServiceType;
 
   if (!serviceType || !(serviceType in ServiceType)) {

@@ -2,7 +2,7 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselPromptsEntity } from "~shared/core/infrastructure/entities/CounselPrompts.entity";
 import { VersionString } from "~shared/types/version.type";
-import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
 
 import { InternalServerErrorException } from "@nestjs/common";
@@ -22,9 +22,9 @@ export class PsqlCounselPromptsMapper {
       promptType: entity.promptType,
       description: entity.description ?? null,
       version: entity.version as VersionString,
-      createdAt: convertDayjs(entity.createdAt),
-      updatedAt: convertDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertDayjs(entity.deletedAt) : null,
+      createdAt: convertUtcStringToDayjs(entity.createdAt),
+      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
     };
     const counselPromptsOrError: Result<CounselPrompts> = CounselPrompts.create(
       counselPromptsProps,
@@ -54,9 +54,9 @@ export class PsqlCounselPromptsMapper {
     entity.description = counselPrompts.description ?? null;
     entity.version = counselPrompts.version;
 
-    entity.createdAt = formatDayjs(counselPrompts.createdAt);
-    entity.updatedAt = formatDayjs(counselPrompts.updatedAt);
-    entity.deletedAt = counselPrompts.deletedAt ? formatDayjs(counselPrompts.deletedAt) : null;
+    entity.createdAt = formatDayjsToUtcString(counselPrompts.createdAt);
+    entity.updatedAt = formatDayjsToUtcString(counselPrompts.updatedAt);
+    entity.deletedAt = counselPrompts.deletedAt ? formatDayjsToUtcString(counselPrompts.deletedAt) : null;
 
     return entity;
   }

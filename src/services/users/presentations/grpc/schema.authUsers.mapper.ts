@@ -1,5 +1,5 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { formatDayjs } from "~shared/utils/Date.utils";
+import { formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
 import { RefreshTokensVO } from "~users/aggregates/authUsers/domain/RefreshTokens.vo";
 import {
@@ -25,11 +25,11 @@ export class SchemaAuthUsersMapper {
       userId: authUser.userId.getString(),
       authChannel: authUser.authChannel,
       oauthChannelInfo: this.toOAuthChannelInfoProto(authUser),
-      lastLoginAt: formatDayjs(authUser.lastLoginAt),
+      lastLoginAt: formatDayjsToUtcString(authUser.lastLoginAt),
       refreshTokens: this.toRefreshTokenProtos(authUser.refreshTokens),
-      createdAt: formatDayjs(authUser.createdAt),
-      updatedAt: formatDayjs(authUser.updatedAt),
-      deletedAt: authUser.deletedAt ? formatDayjs(authUser.deletedAt) : null,
+      createdAt: formatDayjsToUtcString(authUser.createdAt),
+      updatedAt: formatDayjsToUtcString(authUser.updatedAt),
+      deletedAt: authUser.deletedAt ? formatDayjsToUtcString(authUser.deletedAt) : null,
     });
   }
 
@@ -46,9 +46,9 @@ export class SchemaAuthUsersMapper {
           id: authUser.kakao.id.getString(),
           authChannel: authUser.authChannel,
           uniqueId: authUser.kakao.uniqueId,
-          createdAt: formatDayjs(authUser.kakao.createdAt),
-          updatedAt: formatDayjs(authUser.kakao.updatedAt),
-          deletedAt: authUser.kakao.deletedAt ? formatDayjs(authUser.kakao.deletedAt) : null,
+          createdAt: formatDayjsToUtcString(authUser.kakao.createdAt),
+          updatedAt: formatDayjsToUtcString(authUser.kakao.updatedAt),
+          deletedAt: authUser.kakao.deletedAt ? formatDayjsToUtcString(authUser.kakao.deletedAt) : null,
         });
       default:
         return null;
@@ -60,9 +60,9 @@ export class SchemaAuthUsersMapper {
     }
     return create(RefreshTokenSchema, {
       token: refreshToken.token,
-      expiresAt: formatDayjs(refreshToken.expiresAt),
-      createdAt: formatDayjs(refreshToken.createdAt),
-      updatedAt: formatDayjs(refreshToken.updatedAt),
+      expiresAt: formatDayjsToUtcString(refreshToken.expiresAt),
+      createdAt: formatDayjsToUtcString(refreshToken.createdAt),
+      updatedAt: formatDayjsToUtcString(refreshToken.updatedAt),
     });
   }
 

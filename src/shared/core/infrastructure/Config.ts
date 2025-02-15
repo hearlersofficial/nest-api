@@ -18,6 +18,9 @@ export class TypeOrmConfigs implements TypeOrmOptionsFactory {
       synchronize: process.env.NODE_ENV === "development",
       retryAttempts: 3,
       logging: process.env.NODE_ENV === "development",
+      extra: {
+        options: "-c timezone=UTC",
+      },
     };
   }
 }

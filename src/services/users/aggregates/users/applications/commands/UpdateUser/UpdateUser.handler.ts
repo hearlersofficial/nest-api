@@ -1,5 +1,5 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { convertDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs } from "~shared/utils/Date.utils";
 import { UpdateUserCommand } from "~users/aggregates/users/applications/commands/UpdateUser/UpdateUser.command";
 import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
 import { UpdateUserUseCase } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
@@ -38,7 +38,7 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
       if (profileImage) updateProps.profileImage = profileImage;
       if (phoneNumber) updateProps.phoneNumber = phoneNumber;
       if (gender) updateProps.gender = gender;
-      if (birthday) updateProps.birthday = convertDayjs(birthday);
+      if (birthday) updateProps.birthday = convertUtcStringToDayjs(birthday);
       if (introduction) updateProps.introduction = introduction;
       if (mbti) updateProps.mbti = mbti;
       const updateResult = user.userProfile.updateProfile(updateProps);

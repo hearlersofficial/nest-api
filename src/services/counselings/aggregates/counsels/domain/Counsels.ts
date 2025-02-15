@@ -2,7 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselStage } from "~shared/enums/CounselStage.enum";
-import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
+import { formatDayjsToUtcString, getNowDayjs } from "~shared/utils/Date.utils";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CounselCreatedEvent } from "~counselings/aggregates/counsels/domain/events/CounselCreatedEvents";
 import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
@@ -150,7 +150,7 @@ export class Counsels extends AggregateRoot<CounselsProps> {
       counselId: this.id.getString(),
       userId: this.userId.getString(),
       counselorId: this.counselorId.getString(),
-      occurredAt: formatDayjs(getNowDayjs()),
+      occurredAt: formatDayjsToUtcString(getNowDayjs()),
     });
     this.addDomainEvent(new CounselCreatedEvent(counselCreated));
   }

@@ -1,7 +1,7 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
-import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 
 import { InternalServerErrorException } from "@nestjs/common";
@@ -17,12 +17,12 @@ export class PsqlUserProfilesMapper {
       profileImage: entity.profileImage,
       phoneNumber: entity.phoneNumber,
       gender: entity.gender,
-      birthday: convertDayjs(entity.birthday),
+      birthday: convertUtcStringToDayjs(entity.birthday),
       introduction: entity.introduction,
       mbti: entity.mbti,
-      createdAt: convertDayjs(entity.createdAt),
-      updatedAt: convertDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertDayjs(entity.deletedAt) : null,
+      createdAt: convertUtcStringToDayjs(entity.createdAt),
+      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
     };
 
     const userProfilesOrError: Result<UserProfiles> = UserProfiles.create(
@@ -43,19 +43,18 @@ export class PsqlUserProfilesMapper {
     if (!userProfiles.id.isNewIdentifier()) {
       entity.id = userProfiles.id.getString();
     }
-    if (!userProfiles.userId.isNewIdentifier()) {
-      entity.userId = userProfiles.userId.getString();
-    }
+
+    entity.userId = userProfiles.userId.getString();
 
     entity.profileImage = userProfiles.profileImage;
     entity.phoneNumber = userProfiles.phoneNumber;
     entity.gender = userProfiles.gender;
-    entity.birthday = formatDayjs(userProfiles.birthday);
+    entity.birthday = formatDayjsToUtcString(userProfiles.birthday);
     entity.introduction = userProfiles.introduction;
     entity.mbti = userProfiles.mbti;
-    entity.createdAt = formatDayjs(userProfiles.createdAt);
-    entity.updatedAt = formatDayjs(userProfiles.updatedAt);
-    entity.deletedAt = userProfiles.deletedAt ? formatDayjs(userProfiles.deletedAt) : null;
+    entity.createdAt = formatDayjsToUtcString(userProfiles.createdAt);
+    entity.updatedAt = formatDayjsToUtcString(userProfiles.updatedAt);
+    entity.deletedAt = userProfiles.deletedAt ? formatDayjsToUtcString(userProfiles.deletedAt) : null;
 
     return entity;
   }

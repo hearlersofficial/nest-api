@@ -1,7 +1,7 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KakaoEntity } from "~shared/core/infrastructure/entities/users/Kakao.entity";
-import { convertDayjs, formatDayjs } from "~shared/utils/Date.utils";
+import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { Kakao } from "~users/aggregates/authUsers/domain/Kakao";
 
 import { InternalServerErrorException } from "@nestjs/common";
@@ -15,9 +15,9 @@ export class PsqlKakaoMapper {
     const kakaoProps = {
       authUserId: new UniqueEntityId(entity.authUserId),
       uniqueId: entity.uniqueId,
-      createdAt: convertDayjs(entity.createdAt),
-      updatedAt: convertDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertDayjs(entity.deletedAt) : null,
+      createdAt: convertUtcStringToDayjs(entity.createdAt),
+      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
     };
 
     const kakaoOrError: Result<Kakao> = Kakao.create(kakaoProps, new UniqueEntityId(entity.id));
@@ -38,9 +38,9 @@ export class PsqlKakaoMapper {
 
     entity.authUserId = kakao.authUserId.getString();
     entity.uniqueId = kakao.uniqueId;
-    entity.createdAt = formatDayjs(kakao.createdAt);
-    entity.updatedAt = formatDayjs(kakao.updatedAt);
-    entity.deletedAt = kakao.deletedAt ? formatDayjs(kakao.deletedAt) : null;
+    entity.createdAt = formatDayjsToUtcString(kakao.createdAt);
+    entity.updatedAt = formatDayjsToUtcString(kakao.updatedAt);
+    entity.deletedAt = kakao.deletedAt ? formatDayjsToUtcString(kakao.deletedAt) : null;
 
     return entity;
   }

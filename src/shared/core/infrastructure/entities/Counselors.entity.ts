@@ -1,23 +1,16 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/CounselorUserRelationships.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
-import { PersonasEntity } from "~shared/core/infrastructure/entities/prompts/Personas.entity";
-import { CounselorGender, CounselorType } from "~proto/com/hearlers/v1/model/counsel_pb";
+import { PersonaEntity } from "~shared/core/infrastructure/entities/prompts/Personas.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
+import { CounselorGender } from "~proto/com/hearlers/v1/model/counsel_pb";
 
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
 @Entity({
   name: "counselors",
 })
 export class CounselorsEntity extends CoreEntity {
-  @Column({
-    type: "enum",
-    name: "counselor_type",
-    enum: CounselorType,
-    comment: "상담사 타입",
-  })
-  counselorType: CounselorType;
-
   @Column({
     type: "varchar",
     name: "name",
@@ -40,22 +33,30 @@ export class CounselorsEntity extends CoreEntity {
   })
   description: string;
 
+  @ManyToOne(() => ToneEntity, (tone) => tone.counselors)
+  @JoinColumn({ name: "tone_id" })
+  tone: ToneEntity;
+
+  @RelationId((counselor: CounselorsEntity) => counselor.tone)
+  @Column({
+    type: "bigint",
+    name: "tone_id",
+    comment: "톤 ID",
+  })
+  toneId: string;
+
   @OneToMany(() => CounselsEntity, (counsel) => counsel.counselor, {
     cascade: true,
   })
   counsels: CounselsEntity[];
 
-  @OneToMany(() => PersonasEntity, (persona) => persona.counselor, {
+  @OneToMany(() => PersonaEntity, (persona) => persona.counselor, {
     cascade: true,
   })
-  persona: PersonasEntity[];
+  personas: PersonaEntity[];
 
-  @OneToMany(
-    () => CounselorUserRelationshipsEntity,
-    (counselorUserRelationship) => counselorUserRelationship.counselor,
-    {
-      cascade: true,
-    },
-  )
+  @OneToMany(() => CounselorUserRelationshipsEntity, (counselorUserRelationship) => counselorUserRelationship.counselor, {
+    cascade: true,
+  })
   counselorUserRelationships: CounselorUserRelationshipsEntity[];
 }

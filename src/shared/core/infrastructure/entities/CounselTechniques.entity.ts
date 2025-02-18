@@ -1,6 +1,6 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
-import { ContextEntity } from "~shared/core/infrastructure/entities/prompts/Context.entity";
+import { ContextEntity } from "~shared/core/infrastructure/entities/prompts/Contexts.entity";
 import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
 import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
@@ -20,6 +20,39 @@ export class CounselTechniquesEntity extends CoreEntity {
   @JoinColumn({ name: "tone_id" })
   tone: ToneEntity | null;
 
+  @RelationId((technique: CounselTechniquesEntity) => technique.tone)
+  @Column({
+    type: "bigint",
+    name: "tone_id",
+    comment: "톤 ID",
+    nullable: true,
+  })
+  toneId: string | null;
+
+  @ManyToOne(() => ContextEntity, (context) => context.counselTechniques)
+  @JoinColumn({ name: "context_id" })
+  context: ContextEntity;
+
+  @RelationId((technique: CounselTechniquesEntity) => technique.context)
+  @Column({
+    type: "bigint",
+    name: "context_id",
+    comment: "컨텍스트 ID",
+  })
+  contextId: string;
+
+  @ManyToOne(() => InstructionEntity, (instruction) => instruction.counselTechniques)
+  @JoinColumn({ name: "instruction_id" })
+  instruction: InstructionEntity;
+
+  @RelationId((technique: CounselTechniquesEntity) => technique.instruction)
+  @Column({
+    type: "bigint",
+    name: "instruction_id",
+    comment: "지시사항 ID",
+  })
+  instructionId: string;
+
   @Column({
     type: "enum",
     name: "counsel_technique_stage",
@@ -27,12 +60,6 @@ export class CounselTechniquesEntity extends CoreEntity {
     comment: "상담 기법 단계",
   })
   counselTechniqueStage: CounselTechniqueStage;
-
-  @ManyToOne(() => ContextEntity, (context) => context.counselTechniques)
-  context: ContextEntity;
-
-  @ManyToOne(() => InstructionEntity, (instruction) => instruction.counselTechniques)
-  instruction: InstructionEntity;
 
   // 이전 노드를 가리키는 관계
   @OneToOne(() => CounselTechniquesEntity, { nullable: true })
@@ -45,12 +72,12 @@ export class CounselTechniquesEntity extends CoreEntity {
 
   @RelationId((technique: CounselTechniquesEntity) => technique.nextTechnique)
   @Column({
-    type: "varchar",
+    type: "bigint",
     name: "next_technique_id",
     comment: "다음 노드 ID",
     nullable: true,
   })
-  nextTechniqueId: string;
+  nextTechniqueId: string | null;
 
   @OneToMany(() => CounselsEntity, (counsel) => counsel.counselTechnique, {
     cascade: true,

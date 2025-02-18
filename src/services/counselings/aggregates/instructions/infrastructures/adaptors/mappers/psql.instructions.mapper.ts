@@ -14,7 +14,9 @@ export class PsqlInstructionsMapper {
 
     const instructionProps: InstructionsProps = {
       initialSentence: entity.initialSentence,
-      instructionMaps: entity.instructionMaps.map((instructionMap) => PsqlInstructionMapsMapper.toDomain(instructionMap)),
+      instructionMaps: entity.instructionMaps
+        .sort((a, b) => a.sequence - b.sequence) // 항상 sequence 순서대로 정렬
+        .map((instructionMap) => PsqlInstructionMapsMapper.toDomain(instructionMap)),
       createdAt: convertUtcStringToDayjs(entity.createdAt),
       updatedAt: convertUtcStringToDayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,

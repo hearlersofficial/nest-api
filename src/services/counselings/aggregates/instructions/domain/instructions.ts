@@ -8,10 +8,10 @@ import { Dayjs } from "dayjs";
 
 export interface InstructionsNewProps {
   initialSentence: string | null;
-  instructionMaps: InstructionMaps[];
 }
 
 export interface InstructionsProps extends InstructionsNewProps {
+  instructionMaps: InstructionMaps[];
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -39,6 +39,7 @@ export class Instructions extends AggregateRoot<InstructionsProps> {
     const createdInstruction = this.create(
       {
         ...newProps,
+        instructionMaps: [],
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -83,6 +84,40 @@ export class Instructions extends AggregateRoot<InstructionsProps> {
   }
 
   // Methods
+  public updateInstructionMaps(instructionItemIds: UniqueEntityId[]): Result<void> {
+    const currentInstructionLength = this.props.instructionMaps.length;
+    const newInstructionLength = instructionItemIds.length;
+
+    // 업데이트할 항목의 길이만큼 반복
+    for (let i = 0; i < Math.min(currentInstructionLength, newInstructionLength); i++) {
+      this.props.instructionMaps[i].updateInstructionItemId(instructionItemIds[i]);
+    }
+
+    // 초과된 기존 항목 삭제
+    if (currentInstructionLength > newInstructionLength) {
+      for (let i = newInstructionLength; i < currentInstructionLength; i++) {
+        this.props.instructionMaps[i].delete();
+      }
+    }
+    // 부족한 새로운 항목 추가
+    else if (newInstructionLength > currentInstructionLength) {
+      for (let i = currentInstructionLength; i < newInstructionLength; i++) {
+        const newInstructionMapResult = InstructionMaps.createNew({
+          sequence: i + 1,
+          instructionItemId: instructionItemIds[i],
+          instructionId: this.id,
+        });
+        if (newInstructionMapResult.isFailure) {
+          return Result.fail<void>(newInstructionMapResult.error);
+        }
+        this.props.instructionMaps.push(newInstructionMapResult.value);
+      }
+    }
+
+    this.props.updatedAt = getNowDayjs();
+    return Result.ok<void>();
+  }
+
   public delete(): void {
     this.props.deletedAt = getNowDayjs();
   }

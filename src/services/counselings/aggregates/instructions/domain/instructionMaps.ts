@@ -53,8 +53,8 @@ export class InstructionMaps extends DomainEntity<InstructionMapsProps> {
     if (this.props.sequence === null || this.props.sequence === undefined) {
       return Result.fail<void>("[InstructionMaps] 순서는 필수입니다");
     }
-    if (this.props.sequence < 0) {
-      return Result.fail<void>("[InstructionMaps] 순서는 0 이상이어야 합니다");
+    if (this.props.sequence < 1) {
+      return Result.fail<void>("[InstructionMaps] 순서는 1 이상이어야 합니다");
     }
     if (!Number.isInteger(this.props.sequence)) {
       return Result.fail<void>("[InstructionMaps] 순서는 정수여야 합니다");
@@ -107,6 +107,16 @@ export class InstructionMaps extends DomainEntity<InstructionMapsProps> {
   }
 
   // Methods
+  public updateInstructionItemId(instructionItemId: UniqueEntityId): void {
+    this.props.instructionItemId = instructionItemId;
+    this.props.updatedAt = getNowDayjs();
+  }
+
+  public updateSequence(sequence: number): void {
+    this.props.sequence = sequence;
+    this.props.updatedAt = getNowDayjs();
+  }
+
   public delete(): void {
     this.props.deletedAt = getNowDayjs();
   }

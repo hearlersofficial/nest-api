@@ -1,10 +1,15 @@
 import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~shared/core/infrastructure/Config";
 import { AllExceptionFilter } from "~shared/filters/GrpcExceptionFilter";
 import { LoggingInterceptor } from "~shared/interceptors/LoggingInterceptor";
+import { ContextsModule } from "~counselings/aggregates/contexts/contexts.module";
 import { CounselMessagesModule } from "~counselings/aggregates/counselMessages/counselMessages.module";
 import { CounselorsModule } from "~counselings/aggregates/counselors/counselors.module";
-import { CounselPromptsModule } from "~counselings/aggregates/counselPrompts/counselPrompts.module";
 import { CounselsModule } from "~counselings/aggregates/counsels/counsels.module";
+import { CounselTechniquesModule } from "~counselings/aggregates/counselTechniques/counselTechniques.module";
+import { InstructionItemsModule } from "~counselings/aggregates/instructionItems/instructionItems.module";
+import { InstructionsModule } from "~counselings/aggregates/instructions/instructions.module";
+import { PersonasModule } from "~counselings/aggregates/personas/personas.module";
+import { TonesModule } from "~counselings/aggregates/tones/tones.module";
 import { CreateCounselHandler } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.handler";
 import { CreateMessageHandler } from "~counselings/applications/commands/CreateMessage/CreateMessage.handler";
 import { BranchCounselStageUseCase } from "~counselings/applications/useCases/BranchCounselStageUseCase/BranchCounselStageUseCase";
@@ -25,8 +30,13 @@ import { TypeOrmModule } from "@nestjs/typeorm";
   imports: [
     CounselsModule,
     CounselMessagesModule,
-    CounselPromptsModule,
     CounselorsModule,
+    PersonasModule,
+    ContextsModule,
+    InstructionsModule,
+    InstructionItemsModule,
+    TonesModule,
+    CounselTechniquesModule,
     CqrsModule,
     ConfigModule.forRoot({
       envFilePath: [".env", ".env.dev"],

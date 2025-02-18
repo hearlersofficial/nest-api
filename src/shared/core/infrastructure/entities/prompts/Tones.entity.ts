@@ -1,9 +1,13 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
 import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/CounselTechniques.entity";
 
 import { Column, Entity, OneToMany } from "typeorm";
 
-@Entity({ name: "tones", comment: "톤" })
+@Entity({
+  name: "tones",
+  comment: "톤",
+})
 export class ToneEntity extends CoreEntity {
   @Column({
     name: "name",
@@ -12,6 +16,7 @@ export class ToneEntity extends CoreEntity {
   name: string;
 
   @Column({
+    type: "text",
     name: "body",
     comment: "본문",
   })
@@ -19,4 +24,7 @@ export class ToneEntity extends CoreEntity {
 
   @OneToMany(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.tone)
   counselTechniques: CounselTechniquesEntity[];
+
+  @OneToMany(() => CounselorsEntity, (counselor) => counselor.tone)
+  counselors: CounselorsEntity[];
 }

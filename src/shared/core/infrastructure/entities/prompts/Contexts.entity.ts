@@ -3,7 +3,10 @@ import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/Co
 
 import { Column, Entity, OneToMany } from "typeorm";
 
-@Entity("contexts")
+@Entity({
+  name: "contexts",
+  comment: "컨텍스트",
+})
 export class ContextEntity extends CoreEntity {
   // 플레이스홀더는 ,기준으로 구분된 문자열
   // 꺼낼 때 split(",")
@@ -16,10 +19,10 @@ export class ContextEntity extends CoreEntity {
 
   @Column({
     type: "text",
-    name: "context_body",
-    comment: "컨텍스트 본문",
+    name: "body",
+    comment: "본문",
   })
-  contextBody: string;
+  body: string;
 
   @OneToMany(() => CounselTechniquesEntity, (counselTechniques) => counselTechniques.context)
   counselTechniques: CounselTechniquesEntity[];

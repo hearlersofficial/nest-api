@@ -1,3 +1,12 @@
-export const INSTRUCTION_ITEMS_REPOSITORY = Symbol("INSTRUCTION_ITEMS_REPOSITORY");
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { InstructionItems } from "~counselings/aggregates/instructionItems/domain/instructionItems";
 
-export interface InstructionItemsRepositoryPort {}
+export const INSTRUCTION_ITEM_REPOSITORY = Symbol("INSTRUCTION_ITEM_REPOSITORY");
+
+export interface InstructionItemsRepositoryPort {
+  findMany(props: FindManyPropsInInstructionItemsRepository): Promise<InstructionItems[] | null>;
+}
+
+export interface FindManyPropsInInstructionItemsRepository {
+  instructionItemIds?: UniqueEntityId[];
+}

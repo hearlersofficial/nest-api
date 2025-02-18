@@ -85,6 +85,29 @@ export class Contexts extends AggregateRoot<ContextsProps> {
   }
 
   // Methods
+  public getPrompt(variables?: Record<string, string>): Result<string> {
+    let prompt = this.body;
+    const placeholders = this.placeholders;
+
+    if (placeholders.length > 0) {
+      if (!variables) {
+        return Result.fail<string>("[Contexts] 컨텍스트 변수가 필요합니다");
+      }
+
+      const keys = Object.keys(variables);
+      for (const placeholder of placeholders) {
+        if (!keys.includes(placeholder)) {
+          return Result.fail<string>(`[Contexts] 컨텍스트 변수 {${placeholder}}가 존재하지 않습니다`);
+        }
+        const value = variables[placeholder];
+        prompt = prompt.replace(new RegExp(`{${placeholder}}`, "g"), value);
+      }
+    }
+
+    prompt = `<Context>\n${prompt}`;
+    return Result.ok<string>(prompt);
+  }
+
   public delete(): void {
     this.props.deletedAt = getNowDayjs();
   }

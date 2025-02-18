@@ -90,6 +90,11 @@ export class Personas extends AggregateRoot<PersonasProps> {
   }
 
   // Methods
+  public getPrompt(): Result<string> {
+    const prompt = `<Persona>\n${this.props.body}`;
+    return Result.ok<string>(prompt);
+  }
+
   public delete(): void {
     this.props.deletedAt = getNowDayjs();
   }

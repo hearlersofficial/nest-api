@@ -88,6 +88,11 @@ export class Tones extends AggregateRoot<TonesProps> {
   }
 
   // Methods
+  public getPrompt(): Result<string> {
+    const prompt = `<Tone>\n${this.props.body}`;
+    return Result.ok<string>(prompt);
+  }
+
   public delete(): void {
     this.props.deletedAt = getNowDayjs();
   }

@@ -30,13 +30,9 @@ export class PsqlTonesMapper {
   public static toEntity(tones: Tones): ToneEntity {
     const entity = new ToneEntity();
 
-    if (!tones.id.isNewIdentifier()) {
-      entity.id = tones.id.getString();
-    }
-
+    entity.id = tones.id.getString();
     entity.name = tones.name;
     entity.body = tones.body;
-
     entity.createdAt = formatDayjsToUtcString(tones.createdAt);
     entity.updatedAt = formatDayjsToUtcString(tones.updatedAt);
     entity.deletedAt = tones.deletedAt ? formatDayjsToUtcString(tones.deletedAt) : null;

@@ -1,6 +1,6 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { GetCounselorUseCaseRequest } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/dto/GetCounselor.request";
-import { GetCounselorUseCaseResponse } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/dto/GetCounselor.response";
+import { GetCounselorUseCaseRequest } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/dto/GetCounselorUseCase.Request";
+import { GetCounselorUseCaseResponse } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/dto/GetCounselorUseCase.response";
 import {
   COUNSELOR_REPOSITORY,
   CounselorsRepositoryPort,

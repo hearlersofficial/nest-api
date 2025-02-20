@@ -12,7 +12,38 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/message/user.proto.
  */
 export const file_com_hearlers_v1_message_user: GenFile = /*@__PURE__*/
-  fileDesc("CiJjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS91c2VyLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJ0ChJVc2VyVXBkYXRlZFBheWxvYWQSDwoHdXNlcl9pZBgBIAEoCRI4CgxhdXRoX2NoYW5uZWwYAiABKA4yIi5jb20uaGVhcmxlcnMudjEubW9kZWwuQXV0aENoYW5uZWwSEwoLb2NjdXJyZWRfYXQYAyABKAlCqAEKG2NvbS5jb20uaGVhcmxlcnMudjEubWVzc2FnZUIJVXNlclByb3RvUAGiAgRDSFZNqgIXQ29tLkhlYXJsZXJzLlYxLk1lc3NhZ2XKAhdDb21cSGVhcmxlcnNcVjFcTWVzc2FnZeICI0NvbVxIZWFybGVyc1xWMVxNZXNzYWdlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6Ok1lc3NhZ2ViBnByb3RvMw", [file_com_hearlers_v1_model_auth_user]);
+  fileDesc("CiJjb20vaGVhcmxlcnMvdjEvbWVzc2FnZS91c2VyLnByb3RvEhdjb20uaGVhcmxlcnMudjEubWVzc2FnZSJ0ChJVc2VyQ3JlYXRlZFBheWxvYWQSDwoHdXNlcl9pZBgBIAEoCRI4CgxhdXRoX2NoYW5uZWwYAiABKA4yIi5jb20uaGVhcmxlcnMudjEubW9kZWwuQXV0aENoYW5uZWwSEwoLb2NjdXJyZWRfYXQYAyABKAkidAoSVXNlclVwZGF0ZWRQYXlsb2FkEg8KB3VzZXJfaWQYASABKAkSOAoMYXV0aF9jaGFubmVsGAIgASgOMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkF1dGhDaGFubmVsEhMKC29jY3VycmVkX2F0GAMgASgJQqgBChtjb20uY29tLmhlYXJsZXJzLnYxLm1lc3NhZ2VCCVVzZXJQcm90b1ABogIEQ0hWTaoCF0NvbS5IZWFybGVycy5WMS5NZXNzYWdlygIXQ29tXEhlYXJsZXJzXFYxXE1lc3NhZ2XiAiNDb21cSGVhcmxlcnNcVjFcTWVzc2FnZVxHUEJNZXRhZGF0YeoCGkNvbTo6SGVhcmxlcnM6OlYxOjpNZXNzYWdlYgZwcm90bzM", [file_com_hearlers_v1_model_auth_user]);
+
+/**
+ * topic: user.created
+ *
+ * @generated from message com.hearlers.v1.message.UserCreatedPayload
+ */
+export type UserCreatedPayload = Message<"com.hearlers.v1.message.UserCreatedPayload"> & {
+  /**
+   * @generated from field: string user_id = 1;
+   */
+  userId: string;
+
+  /**
+   * @generated from field: com.hearlers.v1.model.AuthChannel auth_channel = 2;
+   */
+  authChannel: AuthChannel;
+
+  /**
+   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   *
+   * @generated from field: string occurred_at = 3;
+   */
+  occurredAt: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.message.UserCreatedPayload.
+ * Use `create(UserCreatedPayloadSchema)` to create a new message.
+ */
+export const UserCreatedPayloadSchema: GenMessage<UserCreatedPayload> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_message_user, 0);
 
 /**
  * topic: user.updated
@@ -43,5 +74,5 @@ export type UserUpdatedPayload = Message<"com.hearlers.v1.message.UserUpdatedPay
  * Use `create(UserUpdatedPayloadSchema)` to create a new message.
  */
 export const UserUpdatedPayloadSchema: GenMessage<UserUpdatedPayload> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_message_user, 0);
+  messageDesc(file_com_hearlers_v1_message_user, 1);
 

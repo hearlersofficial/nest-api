@@ -1,15 +1,21 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { ContextPersistor } from "~counselings/aggregates/contexts/applications/tools/context.persistor";
 import { ContextReader } from "~counselings/aggregates/contexts/applications/tools/context.reader";
-import { Contexts } from "~counselings/aggregates/contexts/domain/contexts";
+import { Contexts, ContextsNewProps } from "~counselings/aggregates/contexts/domain/contexts";
 
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class ApplicationContextService {
   constructor(private readonly contextReader: ContextReader, private readonly contextPersistor: ContextPersistor) {}
 
-  async create(context: Contexts): Promise<Contexts> {
+  async create(contextNewProps: ContextsNewProps): Promise<Contexts> {
+    const contextOrError = Contexts.createNew(contextNewProps);
+    if (contextOrError.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, contextOrError.error);
+    }
+    const context = contextOrError.value;
     const createdContext = await this.contextPersistor.create(context);
     return createdContext;
   }

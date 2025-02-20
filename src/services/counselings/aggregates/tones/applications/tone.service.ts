@@ -1,15 +1,21 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { TonePersistor } from "~counselings/aggregates/tones/applications/tools/tone.persistor";
 import { ToneReader } from "~counselings/aggregates/tones/applications/tools/tone.reader";
-import { Tones } from "~counselings/aggregates/tones/domain/tones";
+import { Tones, TonesNewProps } from "~counselings/aggregates/tones/domain/tones";
 
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class ToneService {
   constructor(private readonly toneReader: ToneReader, private readonly tonePersistor: TonePersistor) {}
 
-  async create(tone: Tones): Promise<Tones> {
+  async create(toneNewProps: TonesNewProps): Promise<Tones> {
+    const toneOrError = Tones.createNew(toneNewProps);
+    if (toneOrError.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, toneOrError.error);
+    }
+    const tone = toneOrError.value;
     const createdTone = await this.tonePersistor.create(tone);
     return createdTone;
   }

@@ -1,15 +1,21 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { PersonaPersistor } from "~counselings/aggregates/personas/applications/tools/persona.persistor";
 import { PersonaReader } from "~counselings/aggregates/personas/applications/tools/persona.reader";
-import { Personas } from "~counselings/aggregates/personas/domain/personas";
+import { Personas, PersonasNewProps } from "~counselings/aggregates/personas/domain/personas";
 
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class PersonaService {
   constructor(private readonly personaReader: PersonaReader, private readonly personaPersistor: PersonaPersistor) {}
 
-  async create(persona: Personas): Promise<Personas> {
+  async create(personaNewProps: PersonasNewProps): Promise<Personas> {
+    const personaOrError = Personas.createNew(personaNewProps);
+    if (personaOrError.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, personaOrError.error);
+    }
+    const persona = personaOrError.value;
     const createdPersona = await this.personaPersistor.create(persona);
     return createdPersona;
   }

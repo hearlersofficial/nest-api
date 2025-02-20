@@ -9,6 +9,12 @@ import { Column, Entity, OneToMany } from "typeorm";
 })
 export class InstructionEntity extends CoreEntity {
   @Column({
+    name: "name",
+    comment: "이름",
+  })
+  name: string;
+
+  @Column({
     name: "initial_sentence",
     comment: "초기 문장",
     nullable: true,

@@ -30,13 +30,9 @@ export class PsqlPersonasMapper {
   static toEntity(personas: Personas): PersonaEntity {
     const entity = new PersonaEntity();
 
-    if (!personas.id.isNewIdentifier()) {
-      entity.id = personas.id.getString();
-    }
-
+    entity.id = personas.id.getString();
     entity.counselorId = personas.counselorId.getString();
     entity.body = personas.body;
-
     entity.createdAt = formatDayjsToUtcString(personas.createdAt);
     entity.updatedAt = formatDayjsToUtcString(personas.updatedAt);
     entity.deletedAt = personas.deletedAt ? formatDayjsToUtcString(personas.deletedAt) : null;

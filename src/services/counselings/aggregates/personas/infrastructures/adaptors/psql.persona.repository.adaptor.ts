@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PersonaEntity } from "~shared/core/infrastructure/entities/prompts/Personas.entity";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import { PsqlPersonasMapper } from "~counselings/aggregates/personas/infrastructures/adaptors/mappers/psql.persona.mapper";
@@ -26,9 +27,9 @@ export class PsqlPersonaRepositoryAdaptor implements PersonasRepositoryPort {
     return persona;
   }
 
-  async findOne(personaId: string): Promise<Personas> {
+  async findOne(personaId: UniqueEntityId): Promise<Personas> {
     const personaEntity = await this.personasRepository.findOne({
-      where: { id: personaId },
+      where: { id: personaId.getString() },
     });
     return PsqlPersonasMapper.toDomain(personaEntity);
   }

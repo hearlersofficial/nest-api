@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { TonePersistor } from "~counselings/aggregates/tones/applications/tools/tone.persistor";
 import { ToneReader } from "~counselings/aggregates/tones/applications/tools/tone.reader";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
@@ -18,7 +19,7 @@ export class ToneService {
     return updatedTone;
   }
 
-  async findOne(toneId: string): Promise<Tones> {
+  async findOne(toneId: UniqueEntityId): Promise<Tones> {
     const tone = await this.toneReader.findOne(toneId);
     return tone;
   }
@@ -28,7 +29,7 @@ export class ToneService {
     return tones;
   }
 
-  async getOne(toneId: string): Promise<Tones> {
+  async getOne(toneId: UniqueEntityId): Promise<Tones> {
     const tone: Tones | null = await this.findOne(toneId);
     if (!tone) {
       throw new NotFoundException("Tone not found");

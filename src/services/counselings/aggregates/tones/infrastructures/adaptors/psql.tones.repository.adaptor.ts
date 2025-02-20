@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
 import { PsqlTonesMapper } from "~counselings/aggregates/tones/infrastructures/adaptors/mappers/psql.tones.mapper";
@@ -26,9 +27,9 @@ export class PsqlTonesRepositoryAdaptor implements ToneRepositoryPort {
     return tone;
   }
 
-  async findOne(toneId: string): Promise<Tones> {
+  async findOne(toneId: UniqueEntityId): Promise<Tones> {
     const toneEntity = await this.tonesRepository.findOne({
-      where: { id: toneId },
+      where: { id: toneId.getString() },
     });
     return PsqlTonesMapper.toDomain(toneEntity);
   }

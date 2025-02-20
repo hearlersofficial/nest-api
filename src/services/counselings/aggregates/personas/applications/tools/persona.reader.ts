@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import {
   PERSONA_REPOSITORY,
@@ -13,11 +14,12 @@ export class PersonaReader {
     private readonly personaRepository: PersonasRepositoryPort,
   ) {}
 
-  async findOne(personaId: string): Promise<Personas> {
+  async findOne(personaId: UniqueEntityId): Promise<Personas> {
     const persona = await this.personaRepository.findOne(personaId);
     return persona;
   }
 
+  // NOTE: option이 필요하면 findMany로 분리
   async findAll(): Promise<Personas[]> {
     const personas = await this.personaRepository.findAll();
     return personas;

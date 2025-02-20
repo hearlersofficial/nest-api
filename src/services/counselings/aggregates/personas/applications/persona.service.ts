@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PersonaPersistor } from "~counselings/aggregates/personas/applications/tools/persona.persistor";
 import { PersonaReader } from "~counselings/aggregates/personas/applications/tools/persona.reader";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
@@ -18,7 +19,7 @@ export class PersonaService {
     return updatedPersona;
   }
 
-  async findOne(personaId: string): Promise<Personas> {
+  async findOne(personaId: UniqueEntityId): Promise<Personas> {
     const persona = await this.personaReader.findOne(personaId);
     return persona;
   }
@@ -28,7 +29,7 @@ export class PersonaService {
     return personas;
   }
 
-  async getOne(personaId: string): Promise<Personas> {
+  async getOne(personaId: UniqueEntityId): Promise<Personas> {
     const persona: Personas | null = await this.findOne(personaId);
     if (!persona) {
       throw new NotFoundException("Persona not found");

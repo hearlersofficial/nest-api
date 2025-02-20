@@ -6,6 +6,7 @@ import { getNowDayjs } from "~shared/utils/Date.utils";
 import { Dayjs } from "dayjs";
 
 export interface ContextsNewProps {
+  name: string;
   placeholders: string[];
   body: string;
 }
@@ -64,6 +65,11 @@ export class Contexts extends AggregateRoot<ContextsProps> {
   }
 
   // Getters
+
+  get name(): string {
+    return this.props.name;
+  }
+
   get placeholders(): string[] {
     return this.props.placeholders;
   }

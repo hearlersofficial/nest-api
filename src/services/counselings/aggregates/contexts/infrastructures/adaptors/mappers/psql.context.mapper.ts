@@ -5,13 +5,14 @@ import { Contexts, ContextsProps } from "~counselings/aggregates/contexts/domain
 
 import { InternalServerErrorException } from "@nestjs/common";
 
-export class PsqlContextsMapper {
+export class PsqlContextMapper {
   static toDomain(entity: ContextEntity): Contexts | null {
     if (!entity) {
       return null;
     }
 
     const contextProps: ContextsProps = {
+      name: entity.name,
       placeholders: entity.placeholders.split(","), // 플레이스홀더는 ,기준으로 구분된 문자열
       body: entity.body,
       createdAt: convertUtcStringToDayjs(entity.createdAt),
@@ -30,10 +31,8 @@ export class PsqlContextsMapper {
   static toEntity(contexts: Contexts): ContextEntity {
     const entity = new ContextEntity();
 
-    if (!contexts.id.isNewIdentifier()) {
-      entity.id = contexts.id.getString();
-    }
-
+    entity.id = contexts.id.getString();
+    entity.name = contexts.name;
     entity.placeholders = contexts.placeholders.join(","); // 플레이스홀더는 ,기준으로 구분된 문자열
     entity.body = contexts.body;
 

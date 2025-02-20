@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
 import {
   TONE_REPOSITORY,
@@ -13,7 +14,7 @@ export class ToneReader {
     private readonly toneRepository: ToneRepositoryPort,
   ) {}
 
-  async findOne(toneId: string): Promise<Tones> {
+  async findOne(toneId: UniqueEntityId): Promise<Tones> {
     const tone = await this.toneRepository.findOne(toneId);
     return tone;
   }

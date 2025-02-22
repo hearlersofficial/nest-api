@@ -35,6 +35,11 @@ export class PersonaService {
     return personas;
   }
 
+  async findMany(props: { counselorId?: UniqueEntityId }): Promise<Personas[]> {
+    const personas = await this.personaReader.findMany(props);
+    return personas;
+  }
+
   async getOne(personaId: UniqueEntityId): Promise<Personas> {
     const persona: Personas | null = await this.findOne(personaId);
     if (!persona) {
@@ -45,6 +50,14 @@ export class PersonaService {
 
   async getAll(): Promise<Personas[]> {
     const personas = await this.findAll();
+    if (personas.length === 0) {
+      throw new NotFoundException("Personas not found");
+    }
+    return personas;
+  }
+
+  async getMany(props: { counselorId?: UniqueEntityId }): Promise<Personas[]> {
+    const personas = await this.findMany(props);
     if (personas.length === 0) {
       throw new NotFoundException("Personas not found");
     }

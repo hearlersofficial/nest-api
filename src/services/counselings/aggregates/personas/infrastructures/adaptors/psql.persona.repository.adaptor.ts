@@ -2,11 +2,11 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PersonaEntity } from "~shared/core/infrastructure/entities/prompts/Personas.entity";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import { PsqlPersonasMapper } from "~counselings/aggregates/personas/infrastructures/adaptors/mappers/psql.persona.mapper";
-import { PersonasRepositoryPort } from "~counselings/aggregates/personas/infrastructures/persona.repository.port";
+import { FindManyPropsInPersonasRepository, PersonasRepositoryPort } from "~counselings/aggregates/personas/infrastructures/persona.repository.port";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()
 export class PsqlPersonaRepositoryAdaptor implements PersonasRepositoryPort {
@@ -36,6 +36,17 @@ export class PsqlPersonaRepositoryAdaptor implements PersonasRepositoryPort {
 
   async findAll(): Promise<Personas[]> {
     const personaEntities = await this.personasRepository.find();
+    return personaEntities.map((personaEntity) => PsqlPersonasMapper.toDomain(personaEntity));
+  }
+
+  async findMany(props: FindManyPropsInPersonasRepository): Promise<Personas[]> {
+    const findOptionsWhere: FindOptionsWhere<PersonaEntity> = {};
+    if (props.counselorId) {
+      findOptionsWhere.counselorId = props.counselorId.getString();
+    }
+    const personaEntities = await this.personasRepository.find({
+      where: findOptionsWhere,
+    });
     return personaEntities.map((personaEntity) => PsqlPersonasMapper.toDomain(personaEntity));
   }
 }

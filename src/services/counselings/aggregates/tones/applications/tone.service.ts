@@ -35,6 +35,11 @@ export class ToneService {
     return tones;
   }
 
+  async findMany(props: { name?: string }): Promise<Tones[]> {
+    const tones = await this.toneReader.findMany(props);
+    return tones;
+  }
+
   async getOne(toneId: UniqueEntityId): Promise<Tones> {
     const tone: Tones | null = await this.findOne(toneId);
     if (!tone) {
@@ -45,6 +50,14 @@ export class ToneService {
 
   async getAll(): Promise<Tones[]> {
     const tones = await this.findAll();
+    if (tones.length === 0) {
+      throw new NotFoundException("Tones not found");
+    }
+    return tones;
+  }
+
+  async getMany(props: { name?: string }): Promise<Tones[]> {
+    const tones = await this.findMany(props);
     if (tones.length === 0) {
       throw new NotFoundException("Tones not found");
     }

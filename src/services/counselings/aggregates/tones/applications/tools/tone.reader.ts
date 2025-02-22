@@ -1,9 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
-import {
-  TONE_REPOSITORY,
-  ToneRepositoryPort,
-} from "~counselings/aggregates/tones/infrastructures/tones.repository.port";
+import { TONE_REPOSITORY, ToneRepositoryPort } from "~counselings/aggregates/tones/infrastructures/tones.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -19,9 +16,13 @@ export class ToneReader {
     return tone;
   }
 
-  // NOTE: option이 필요하면 findMany로 분리
   async findAll(): Promise<Tones[]> {
     const tones = await this.toneRepository.findAll();
+    return tones;
+  }
+
+  async findMany(props: { name?: string }): Promise<Tones[]> {
+    const tones = await this.toneRepository.findMany(props);
     return tones;
   }
 }

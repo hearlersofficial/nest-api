@@ -8,4 +8,9 @@ export interface ToneRepositoryPort {
   update(tone: Tones): Promise<Tones>;
   findOne(toneId: UniqueEntityId): Promise<Tones>;
   findAll(): Promise<Tones[]>;
+  findMany(props: FindManyPropsInTonesRepository): Promise<Tones[]>;
+}
+
+export interface FindManyPropsInTonesRepository {
+  name?: string;
 }

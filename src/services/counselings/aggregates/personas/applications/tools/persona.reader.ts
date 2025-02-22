@@ -1,9 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
-import {
-  PERSONA_REPOSITORY,
-  PersonasRepositoryPort,
-} from "~counselings/aggregates/personas/infrastructures/persona.repository.port";
+import { PERSONA_REPOSITORY, PersonasRepositoryPort } from "~counselings/aggregates/personas/infrastructures/persona.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -19,9 +16,13 @@ export class PersonaReader {
     return persona;
   }
 
-  // NOTE: option이 필요하면 findMany로 분리
   async findAll(): Promise<Personas[]> {
     const personas = await this.personaRepository.findAll();
+    return personas;
+  }
+
+  async findMany(props: { counselorId?: UniqueEntityId }): Promise<Personas[]> {
+    const personas = await this.personaRepository.findMany(props);
     return personas;
   }
 }

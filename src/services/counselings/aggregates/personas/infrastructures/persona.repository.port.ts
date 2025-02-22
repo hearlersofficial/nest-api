@@ -8,4 +8,9 @@ export interface PersonasRepositoryPort {
   update(persona: Personas): Promise<Personas>;
   findOne(personaId: UniqueEntityId): Promise<Personas>;
   findAll(): Promise<Personas[]>;
+  findMany(props: FindManyPropsInPersonasRepository): Promise<Personas[]>;
+}
+
+export interface FindManyPropsInPersonasRepository {
+  counselorId?: UniqueEntityId;
 }

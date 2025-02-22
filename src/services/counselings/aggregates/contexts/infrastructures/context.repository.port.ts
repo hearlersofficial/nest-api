@@ -8,4 +8,9 @@ export interface ContextsRepositoryPort {
   update(context: Contexts): Promise<Contexts>;
   findOne(contextId: UniqueEntityId): Promise<Contexts>;
   findAll(): Promise<Contexts[]>;
+  findMany(props: FindManyPropsInContextsRepository): Promise<Contexts[]>;
+}
+
+export interface FindManyPropsInContextsRepository {
+  name?: string;
 }

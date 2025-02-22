@@ -1,9 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Contexts } from "~counselings/aggregates/contexts/domain/contexts";
-import {
-  CONTEXT_REPOSITORY,
-  ContextsRepositoryPort,
-} from "~counselings/aggregates/contexts/infrastructures/context.repository.port";
+import { CONTEXT_REPOSITORY, ContextsRepositoryPort } from "~counselings/aggregates/contexts/infrastructures/context.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -19,9 +16,13 @@ export class ContextReader {
     return context;
   }
 
-  // NOTE: option이 필요하면 findMany로 분리
   async findAll(): Promise<Contexts[]> {
     const contexts = await this.contextRepository.findAll();
+    return contexts;
+  }
+
+  async findMany(props: { name?: string }): Promise<Contexts[]> {
+    const contexts = await this.contextRepository.findMany(props);
     return contexts;
   }
 }

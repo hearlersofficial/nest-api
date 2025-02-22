@@ -7,7 +7,7 @@ import { Contexts, ContextsNewProps } from "~counselings/aggregates/contexts/dom
 import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
-export class ApplicationContextService {
+export class ContextService {
   constructor(private readonly contextReader: ContextReader, private readonly contextPersistor: ContextPersistor) {}
 
   async create(contextNewProps: ContextsNewProps): Promise<Contexts> {
@@ -35,6 +35,11 @@ export class ApplicationContextService {
     return contexts;
   }
 
+  async findMany(props: { name?: string }): Promise<Contexts[]> {
+    const contexts = await this.contextReader.findMany(props);
+    return contexts;
+  }
+
   async getOne(contextId: UniqueEntityId): Promise<Contexts> {
     const context: Contexts | null = await this.findOne(contextId);
     if (!context) {
@@ -45,6 +50,14 @@ export class ApplicationContextService {
 
   async getAll(): Promise<Contexts[]> {
     const contexts = await this.findAll();
+    if (contexts.length === 0) {
+      throw new NotFoundException("Contexts not found");
+    }
+    return contexts;
+  }
+
+  async getMany(props: { name?: string }): Promise<Contexts[]> {
+    const contexts = await this.findMany(props);
     if (contexts.length === 0) {
       throw new NotFoundException("Contexts not found");
     }

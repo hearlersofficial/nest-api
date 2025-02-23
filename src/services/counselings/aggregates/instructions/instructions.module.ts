@@ -1,22 +1,24 @@
 import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
-import { GetInstructionUseCase } from "~counselings/aggregates/instructions/applications/useCases/GetInstructionUseCase/GetInstructionUseCase";
+import { InstructionService } from "~counselings/aggregates/instructions/applications/instruction.service";
+import { InstructionPersistor } from "~counselings/aggregates/instructions/applications/tools/instruction.persistor";
+import { InstructionReader } from "~counselings/aggregates/instructions/applications/tools/instruction.reader";
 import { PsqlInstructionsRepositoryAdaptor } from "~counselings/aggregates/instructions/infrastructures/adaptors/psql.instructions.repository.adaptor";
 import { INSTRUCTION_REPOSITORY } from "~counselings/aggregates/instructions/infrastructures/instructions.repository.port";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-const useCases = [GetInstructionUseCase];
-
 @Module({
   imports: [TypeOrmModule.forFeature([InstructionEntity])],
   providers: [
-    ...useCases,
+    InstructionPersistor,
+    InstructionReader,
+    InstructionService,
     {
       provide: INSTRUCTION_REPOSITORY,
       useClass: PsqlInstructionsRepositoryAdaptor,
     },
   ],
-  exports: [...useCases],
+  exports: [InstructionService],
 })
 export class InstructionsModule {}

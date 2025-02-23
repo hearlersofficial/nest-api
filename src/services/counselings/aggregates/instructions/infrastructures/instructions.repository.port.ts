@@ -4,9 +4,13 @@ import { Instructions } from "~counselings/aggregates/instructions/domain/instru
 export const INSTRUCTION_REPOSITORY = Symbol("INSTRUCTION_REPOSITORY");
 
 export interface InstructionsRepositoryPort {
-  findOne(props: FindOnePropsInInstructionsRepository): Promise<Instructions | null>;
+  create(instruction: Instructions): Promise<Instructions>;
+  update(instruction: Instructions): Promise<Instructions>;
+  findOne(instructionId: UniqueEntityId): Promise<Instructions>;
+  findAll(): Promise<Instructions[]>;
+  findMany(props: FindManyPropsInInstructionsRepository): Promise<Instructions[]>;
 }
 
-export interface FindOnePropsInInstructionsRepository {
-  instructionId?: UniqueEntityId;
+export interface FindManyPropsInInstructionsRepository {
+  name?: string;
 }

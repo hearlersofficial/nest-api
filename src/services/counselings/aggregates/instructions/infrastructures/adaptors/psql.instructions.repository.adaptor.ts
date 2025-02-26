@@ -9,10 +9,14 @@ import {
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindOptionsWhere, Repository } from "typeorm";
+import { FindOptionsRelations, FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()
 export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepositoryPort {
+  private readonly instructionFindOptionsRelation: FindOptionsRelations<InstructionEntity> = {
+    instructionMaps: true,
+  };
+
   constructor(
     @InjectRepository(InstructionEntity)
     private readonly instructionsRepository: Repository<InstructionEntity>,
@@ -33,12 +37,15 @@ export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepository
   async findOne(instructionId: UniqueEntityId): Promise<Instructions> {
     const instructionEntity = await this.instructionsRepository.findOne({
       where: { id: instructionId.getString() },
+      relations: this.instructionFindOptionsRelation,
     });
     return PsqlInstructionsMapper.toDomain(instructionEntity);
   }
 
   async findAll(): Promise<Instructions[]> {
-    const instructionEntities = await this.instructionsRepository.find();
+    const instructionEntities = await this.instructionsRepository.find({
+      relations: this.instructionFindOptionsRelation,
+    });
     return instructionEntities.map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity));
   }
 
@@ -49,6 +56,7 @@ export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepository
     }
     const instructionEntities = await this.instructionsRepository.find({
       where: findOptionsWhere,
+      relations: this.instructionFindOptionsRelation,
     });
     return instructionEntities.map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity));
   }

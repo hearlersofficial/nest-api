@@ -1,25 +1,9 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { CounselorType } from "~proto/com/hearlers/v1/model/counsel_pb";
-
-import { HttpStatus } from "@nestjs/common";
-
 export class GetCounselorListQuery {
   constructor(public readonly props: GetCounselorListQueryProps) {
     this.validateProps(props);
   }
 
-  private validateProps(props: GetCounselorListQueryProps): void {
-    if (props.counselorType !== null && props.counselorType !== undefined) {
-      if (!Object.values(CounselorType).includes(props.counselorType)) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "유효하지 않은 상담사 타입입니다.");
-      }
-      if (props.counselorType === CounselorType.UNSPECIFIED) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "상담사 타입이 지정되지 않았습니다.");
-      }
-    }
-  }
+  private validateProps(props: GetCounselorListQueryProps): void {}
 }
 
-interface GetCounselorListQueryProps {
-  counselorType?: CounselorType;
-}
+interface GetCounselorListQueryProps {}

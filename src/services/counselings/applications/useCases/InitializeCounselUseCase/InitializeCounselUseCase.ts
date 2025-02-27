@@ -1,4 +1,5 @@
 import { UseCase } from "~shared/core/applications/UseCase";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
 import { CreateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/CreateCounselUseCase/CreateCounselUseCase";
 import { UpdateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
@@ -24,6 +25,8 @@ export class InitializeCounselUseCase
     const createCounselResult = await this.createCounselUseCase.execute({
       userId,
       counselorId: counselor.id,
+      // TODO: 의미 있는 값 넣을 것
+      counselTechniqueId: new UniqueEntityId(),
     });
     if (!createCounselResult.ok) {
       return { ok: false, error: createCounselResult.error };

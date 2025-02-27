@@ -1,6 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { CounselorGender, CounselorType } from "~proto/com/hearlers/v1/model/counsel_pb";
+import { CounselorGender } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus } from "@nestjs/common";
 
@@ -12,15 +12,6 @@ export class UpdateCounselorCommand {
   private validate(props: UpdateCounselorCommandProps): void {
     if (props.counselorId === null || props.counselorId === undefined) {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "상담사 ID는 필수입니다.");
-    }
-
-    if (props.counselorType !== null && props.counselorType !== undefined) {
-      if (!Object.values(CounselorType).includes(props.counselorType)) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "유효하지 않은 상담사 타입입니다.");
-      }
-      if (props.counselorType === CounselorType.UNSPECIFIED) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "상담사 타입이 지정되지 않았습니다.");
-      }
     }
 
     if (props.gender !== null && props.gender !== undefined) {
@@ -36,7 +27,6 @@ export class UpdateCounselorCommand {
 
 interface UpdateCounselorCommandProps {
   counselorId: UniqueEntityId;
-  counselorType?: CounselorType;
   name?: string;
   description?: string;
   gender?: CounselorGender;

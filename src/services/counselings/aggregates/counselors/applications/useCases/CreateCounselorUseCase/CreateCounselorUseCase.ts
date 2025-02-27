@@ -1,5 +1,6 @@
 import { UseCase } from "~shared/core/applications/UseCase";
 import { Result } from "~shared/core/domain/Result";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CreateCounselorUseCaseRequest } from "~counselings/aggregates/counselors/applications/useCases/CreateCounselorUseCase/dto/CreateCounselor.request";
 import { CreateCounselorUseCaseResponse } from "~counselings/aggregates/counselors/applications/useCases/CreateCounselorUseCase/dto/CreateCounselor.response";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
@@ -18,8 +19,14 @@ export class CreateCounselorUseCase implements UseCase<CreateCounselorUseCaseReq
   ) {}
 
   async execute(request: CreateCounselorUseCaseRequest): Promise<CreateCounselorUseCaseResponse> {
-    const { counselorType, name, description, gender } = request;
-    const counselorOrError: Result<Counselors> = Counselors.createNew({ counselorType, name, gender, description });
+    const { name, description, gender } = request;
+    const counselorOrError: Result<Counselors> = Counselors.createNew({
+      name,
+      gender,
+      description,
+      // TODO: 의미 있는 값 넣을 것
+      toneId: new UniqueEntityId(),
+    });
     if (counselorOrError.isFailure) {
       return {
         ok: false,

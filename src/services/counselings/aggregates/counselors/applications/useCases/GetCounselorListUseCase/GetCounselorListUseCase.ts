@@ -18,8 +18,7 @@ export class GetCounselorListUseCase
   ) {}
 
   async execute(request: GetCounselorListUseCaseRequest): Promise<GetCounselorListUseCaseResponse> {
-    const { counselorType } = request;
-    const counselorList = await this.counselorsRepository.findMany({ counselorType });
+    const counselorList = await this.counselorsRepository.findMany({});
     return {
       ok: true,
       counselorList,

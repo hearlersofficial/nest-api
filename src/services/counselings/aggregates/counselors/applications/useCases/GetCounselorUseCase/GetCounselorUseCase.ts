@@ -17,7 +17,7 @@ export class GetCounselorUseCase implements UseCase<GetCounselorUseCaseRequest, 
 
   async execute(request: GetCounselorUseCaseRequest): Promise<GetCounselorUseCaseResponse> {
     const { counselorId } = request;
-    const counselor = await this.counselorsRepository.findOne({ counselorId });
+    const counselor = await this.counselorsRepository.findOne(counselorId);
     return {
       ok: true,
       counselor,

@@ -1,4 +1,3 @@
-import { CounselStage } from "~shared/enums/CounselStage.enum";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
 import { GetCounselMessageListUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/GetCounselMessageListUseCase/GetCounselMessageListUseCase";
@@ -48,15 +47,15 @@ export class CreateMessageHandler implements ICommandHandler<CreateMessageComman
 
     // 상담 단계 초기화여부 체크
     if (counsel.checkNeedStageReset()) {
-      counsel.updateCounselStage(CounselStage.SMALL_TALK);
+      // counsel.updateCounselStage(CounselStage.SMALL_TALK);
     }
 
     // 극단적 상태 체크
     if (userMessage.checkExtreme()) {
-      counsel.updateCounselStage(CounselStage.EXTREME);
+      // counsel.updateCounselStage(CounselStage.EXTREME);
     }
 
-    const stage = counsel.counselStage;
+    // const stage = counsel.counselStage;
 
     // 상담사 정보 가져오기
     const getCounselorResult = await this.getCounselorUseCase.execute({ counselorId: counsel.counselorId });
@@ -106,21 +105,21 @@ export class CreateMessageHandler implements ICommandHandler<CreateMessageComman
     const systemMessage = createSystemMessageResult.counselMessage;
 
     // 프롬프트 분기(SMALL_TALK  단계에서만 이루어지는지 확인 필요)
-    if (stage == CounselStage.SMALL_TALK && systemMessage.checkNeedBranch()) {
-      // const branchCounselStageResult = await this.branchCounselStageUseCase.execute({ prompts: prompts.slice(1) });
-      // if (!branchCounselStageResult.ok) {
-      //   throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, branchCounselStageResult.error);
-      // }
-      // const branchedStage = branchCounselStageResult.branchedStage;
-      // counsel.updateCounselStage(branchedStage);
-    }
+    // if (stage == CounselStage.SMALL_TALK && systemMessage.checkNeedBranch()) {
+    // const branchCounselStageResult = await this.branchCounselStageUseCase.execute({ prompts: prompts.slice(1) });
+    // if (!branchCounselStageResult.ok) {
+    //   throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, branchCounselStageResult.error);
+    // }
+    // const branchedStage = branchCounselStageResult.branchedStage;
+    // counsel.updateCounselStage(branchedStage);
+    // }
 
     // last message 저장 및 상담 정보 업데이트
-    counsel.saveLastMessage(systemMessage);
-    const updateCounselResult = await this.updateCounselUseCase.execute({ toUpdateCounsel: counsel });
-    if (!updateCounselResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateCounselResult.error);
-    }
+    // counsel.saveLastMessage(systemMessage);
+    // const updateCounselResult = await this.updateCounselUseCase.execute({ toUpdateCounsel: counsel });
+    // if (!updateCounselResult.ok) {
+    //   throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateCounselResult.error);
+    // }
 
     return systemMessage;
   }

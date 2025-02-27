@@ -4,4 +4,6 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 
+COPY src/proto /usr/src/app/src/proto
+COPY . .
 EXPOSE 50051

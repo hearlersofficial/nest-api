@@ -1,7 +1,6 @@
 import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselStage } from "~shared/enums/CounselStage.enum";
 import { formatDayjsToUtcString, getNowDayjs } from "~shared/utils/Date.utils";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CounselCreatedEvent } from "~counselings/aggregates/counsels/domain/events/CounselCreatedEvents";
@@ -11,12 +10,12 @@ import { create } from "@bufbuild/protobuf";
 import { Dayjs } from "dayjs";
 
 export interface CounselsNewProps {
-  counselorId: UniqueEntityId;
   userId: UniqueEntityId;
+  counselorId: UniqueEntityId;
+  counselTechniqueId: UniqueEntityId;
 }
 
 export interface CounselsProps extends CounselsNewProps {
-  counselStage: CounselStage;
   lastChatedAt: Dayjs | null;
   lastMessage: string | null;
   createdAt: Dayjs;
@@ -44,7 +43,6 @@ export class Counsels extends AggregateRoot<CounselsProps> {
     const createdCounsel = this.create(
       {
         ...newProps,
-        counselStage: CounselStage.SMALL_TALK,
         lastChatedAt: null,
         lastMessage: null,
         createdAt: now,
@@ -68,12 +66,9 @@ export class Counsels extends AggregateRoot<CounselsProps> {
       return Result.fail<void>("[Counsels] 사용자 ID는 필수입니다");
     }
 
-    // counselStage 검증
-    if (this.props.counselStage === null || this.props.counselStage === undefined) {
-      return Result.fail<void>("[Counsels] 상담 단계는 필수입니다");
-    }
-    if (!Object.values(CounselStage).includes(this.props.counselStage)) {
-      return Result.fail<void>("[Counsels] 유효하지 않은 상담 단계입니다");
+    // counselTechniqueId 검증
+    if (this.props.counselTechniqueId === null || this.props.counselTechniqueId === undefined) {
+      return Result.fail<void>("[Counsels] 상담 기법 ID는 필수입니다");
     }
 
     // 날짜 검증
@@ -96,8 +91,8 @@ export class Counsels extends AggregateRoot<CounselsProps> {
     return this.props.userId;
   }
 
-  get counselStage(): CounselStage {
-    return this.props.counselStage;
+  get counselTechniqueId(): UniqueEntityId {
+    return this.props.counselTechniqueId;
   }
 
   get lastChatedAt(): Dayjs | null {
@@ -121,12 +116,6 @@ export class Counsels extends AggregateRoot<CounselsProps> {
   }
 
   // Methods
-  public updateCounselStage(counselStage: CounselStage): Result<void> {
-    this.props.counselStage = counselStage;
-    this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
-  }
-
   public saveLastMessage(counselMessage: CounselMessages): Result<void> {
     if (!counselMessage.counselId.equals(this.id)) {
       return Result.fail<void>("[Counsels] 메시지의 상담 ID가 일치하지 않습니다");

@@ -1,5 +1,5 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { GetCounselorUseCaseRequest } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/dto/GetCounselorUseCase.Request";
+import { GetCounselorUseCaseRequest } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/dto/GetCounselorUseCase.request";
 import { GetCounselorUseCaseResponse } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/dto/GetCounselorUseCase.response";
 import {
   COUNSELOR_REPOSITORY,

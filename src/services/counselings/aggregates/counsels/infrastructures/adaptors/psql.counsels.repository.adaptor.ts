@@ -1,17 +1,14 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import { PsqlCounselsMapper } from "~counselings/aggregates/counsels/infrastructures/adaptors/mapper/psql.counsels.mapper";
-import {
-  CounselsRepositoryPort,
-  FindManyPropsInCounselsRepository,
-  FindOnePropsInCounselsRepository,
-} from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
+import { CounselsRepositoryPort, FindManyPropsInCounselsRepository } from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindManyOptions, FindOneOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
+import { FindManyOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()
 export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
@@ -30,23 +27,39 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
 
   async create(counsel: Counsels): Promise<Counsels> {
     const counselsEntity = PsqlCounselsMapper.toEntity(counsel);
-    const createdCounselsEntity = await this.counselsRepository.save(counselsEntity);
-    const createdCounsel = PsqlCounselsMapper.toDomain(createdCounselsEntity);
-    createdCounsel.addCreatedEvent();
+    await this.counselsRepository.save(counselsEntity);
 
     await this.publishDomainEvents(counsel);
-    await this.publishDomainEvents(createdCounsel);
 
-    return createdCounsel;
+    return counsel;
   }
 
-  async findMany(props: FindManyPropsInCounselsRepository): Promise<Counsels[] | null> {
-    const { userId } = props;
-    const findOptionsWhere: FindOptionsWhere<CounselsEntity> = {};
-    if (userId !== null && userId !== undefined) {
-      findOptionsWhere.userId = userId.getString();
-    }
+  async update(counsel: Counsels): Promise<Counsels> {
+    const counselsEntity = PsqlCounselsMapper.toEntity(counsel);
+    await this.counselsRepository.save(counselsEntity);
 
+    await this.publishDomainEvents(counsel);
+
+    return counsel;
+  }
+
+  async findOne(counselId: UniqueEntityId): Promise<Counsels> {
+    const counselsEntity: CounselsEntity = await this.counselsRepository.findOne({
+      where: { id: counselId.getString() },
+    });
+    return PsqlCounselsMapper.toDomain(counselsEntity);
+  }
+
+  async findAll(): Promise<Counsels[]> {
+    const counselsEntities: CounselsEntity[] = await this.counselsRepository.find();
+    return counselsEntities.map((counselEntity) => PsqlCounselsMapper.toDomain(counselEntity));
+  }
+
+  async findMany(props: FindManyPropsInCounselsRepository): Promise<Counsels[]> {
+    const findOptionsWhere: FindOptionsWhere<CounselsEntity> = {};
+    if (props.userId) {
+      findOptionsWhere.userId = props.userId.getString();
+    }
     const findOptionsOrder: FindOptionsOrder<CounselsEntity> = { lastChatedAt: "DESC" };
 
     const findManyOptions: FindManyOptions<CounselsEntity> = {
@@ -55,40 +68,6 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
     };
 
     const counselsEntities: CounselsEntity[] = await this.counselsRepository.find(findManyOptions);
-    const counselList = counselsEntities.map((entity) => PsqlCounselsMapper.toDomain(entity));
-    if (counselList.length > 0) {
-      for (const counsel of counselList) {
-        await this.publishDomainEvents(counsel);
-      }
-    }
-    return counselList;
-  }
-
-  async findOne(props: FindOnePropsInCounselsRepository): Promise<Counsels | null> {
-    const { counselId } = props;
-    const findOptionsWhere: FindOptionsWhere<CounselsEntity> = {};
-    if (counselId !== null && counselId !== undefined) {
-      findOptionsWhere.id = counselId.getString();
-    }
-
-    const findOneOptions: FindOneOptions<CounselsEntity> = {
-      where: findOptionsWhere,
-    };
-
-    const counselsEntity: CounselsEntity = await this.counselsRepository.findOne(findOneOptions);
-    const counsel = PsqlCounselsMapper.toDomain(counselsEntity);
-    if (counsel) {
-      await this.publishDomainEvents(counsel);
-    }
-    return counsel;
-  }
-
-  async update(counsel: Counsels): Promise<Counsels> {
-    const counselsEntity = PsqlCounselsMapper.toEntity(counsel);
-    const updatedCounselsEntity = await this.counselsRepository.save(counselsEntity, { reload: true });
-
-    await this.publishDomainEvents(counsel);
-
-    return PsqlCounselsMapper.toDomain(updatedCounselsEntity);
+    return counselsEntities.map((entity) => PsqlCounselsMapper.toDomain(entity));
   }
 }

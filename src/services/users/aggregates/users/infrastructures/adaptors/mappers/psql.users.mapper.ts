@@ -1,13 +1,13 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { Users, UsersProps } from "~users/aggregates/users/domain/Users";
 import { PsqlUserMessageTokensMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper";
 import { PsqlUserProfilesMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userProfiles.mapper";
 import { PsqlUserProgressesMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userProgresses.mapper";
 
 import { InternalServerErrorException } from "@nestjs/common";
+import dayjs from "dayjs";
 
 export class PsqlUsersMapper {
   static toDomain(entity: UsersEntity): Users | null {
@@ -23,9 +23,9 @@ export class PsqlUsersMapper {
       userMessageToken: entity.userMessageTokens
         ? PsqlUserMessageTokensMapper.toDomain(entity.userMessageTokens)
         : undefined,
-      createdAt: convertUtcStringToDayjs(entity.createdAt),
-      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
+      createdAt: dayjs(entity.createdAt),
+      updatedAt: dayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
     const usersOrError: Result<Users> = Users.create(userProps, new UniqueEntityId(entity.id));
 
@@ -58,9 +58,9 @@ export class PsqlUsersMapper {
       return progressEntity;
     });
 
-    entity.createdAt = formatDayjsToUtcString(users.createdAt);
-    entity.updatedAt = formatDayjsToUtcString(users.updatedAt);
-    entity.deletedAt = users.deletedAt ? formatDayjsToUtcString(users.deletedAt) : null;
+    entity.createdAt = users.createdAt.toISOString();
+    entity.updatedAt = users.updatedAt.toISOString();
+    entity.deletedAt = users.deletedAt ? users.deletedAt.toISOString() : null;
 
     return entity;
   }

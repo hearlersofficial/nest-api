@@ -2,6 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { isDefined } from "~shared/utils/Validate.utils";
 
 import { Dayjs } from "dayjs";
 
@@ -46,6 +47,16 @@ export class Tones extends AggregateRoot<TonesProps> {
     return createdTone;
   }
 
+  public update(props: Partial<TonesProps>): void {
+    if (isDefined(props.name)) {
+      this.props.name = props.name;
+    }
+    if (isDefined(props.body)) {
+      this.props.body = props.body;
+    }
+    this.props.updatedAt = getNowDayjs();
+  }
+
   validateDomain(): Result<void> {
     // name 검증
     if (this.props.name === null || this.props.name === undefined) {
@@ -64,6 +75,7 @@ export class Tones extends AggregateRoot<TonesProps> {
     if (!this.props.updatedAt) {
       return Result.fail<void>("[Tones] 수정 시간은 필수입니다");
     }
+    return Result.ok<void>();
   }
 
   // Getters

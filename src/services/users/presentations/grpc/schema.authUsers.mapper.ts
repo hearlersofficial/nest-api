@@ -1,5 +1,4 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
 import { RefreshTokensVO } from "~users/aggregates/authUsers/domain/RefreshTokens.vo";
 import {
@@ -25,11 +24,11 @@ export class SchemaAuthUsersMapper {
       userId: authUser.userId.getString(),
       authChannel: authUser.authChannel,
       oauthChannelInfo: this.toOAuthChannelInfoProto(authUser),
-      lastLoginAt: formatDayjsToUtcString(authUser.lastLoginAt),
+      lastLoginAt: authUser.lastLoginAt.toISOString(),
       refreshTokens: this.toRefreshTokenProtos(authUser.refreshTokens),
-      createdAt: formatDayjsToUtcString(authUser.createdAt),
-      updatedAt: formatDayjsToUtcString(authUser.updatedAt),
-      deletedAt: authUser.deletedAt ? formatDayjsToUtcString(authUser.deletedAt) : null,
+      createdAt: authUser.createdAt.toISOString(),
+      updatedAt: authUser.updatedAt.toISOString(),
+      deletedAt: authUser.deletedAt ? authUser.deletedAt.toISOString() : null,
     });
   }
 
@@ -46,9 +45,9 @@ export class SchemaAuthUsersMapper {
           id: authUser.kakao.id.getString(),
           authChannel: authUser.authChannel,
           uniqueId: authUser.kakao.uniqueId,
-          createdAt: formatDayjsToUtcString(authUser.kakao.createdAt),
-          updatedAt: formatDayjsToUtcString(authUser.kakao.updatedAt),
-          deletedAt: authUser.kakao.deletedAt ? formatDayjsToUtcString(authUser.kakao.deletedAt) : null,
+          createdAt: authUser.kakao.createdAt.toISOString(),
+          updatedAt: authUser.kakao.updatedAt.toISOString(),
+          deletedAt: authUser.kakao.deletedAt ? authUser.kakao.deletedAt.toISOString() : null,
         });
       default:
         return null;
@@ -60,9 +59,9 @@ export class SchemaAuthUsersMapper {
     }
     return create(RefreshTokenSchema, {
       token: refreshToken.token,
-      expiresAt: formatDayjsToUtcString(refreshToken.expiresAt),
-      createdAt: formatDayjsToUtcString(refreshToken.createdAt),
-      updatedAt: formatDayjsToUtcString(refreshToken.updatedAt),
+      expiresAt: refreshToken.expiresAt.toISOString(),
+      createdAt: refreshToken.createdAt.toISOString(),
+      updatedAt: refreshToken.updatedAt.toISOString(),
     });
   }
 

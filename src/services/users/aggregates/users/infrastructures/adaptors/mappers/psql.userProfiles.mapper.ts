@@ -1,10 +1,10 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
-import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 
 import { InternalServerErrorException } from "@nestjs/common";
+import dayjs from "dayjs";
 
 export class PsqlUserProfilesMapper {
   static toDomain(entity: UserProfilesEntity): UserProfiles | null {
@@ -17,12 +17,12 @@ export class PsqlUserProfilesMapper {
       profileImage: entity.profileImage,
       phoneNumber: entity.phoneNumber,
       gender: entity.gender,
-      birthday: convertUtcStringToDayjs(entity.birthday),
+      birthday: dayjs(entity.birthday),
       introduction: entity.introduction,
       mbti: entity.mbti,
-      createdAt: convertUtcStringToDayjs(entity.createdAt),
-      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
+      createdAt: dayjs(entity.createdAt),
+      updatedAt: dayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
 
     const userProfilesOrError: Result<UserProfiles> = UserProfiles.create(
@@ -49,12 +49,12 @@ export class PsqlUserProfilesMapper {
     entity.profileImage = userProfiles.profileImage;
     entity.phoneNumber = userProfiles.phoneNumber;
     entity.gender = userProfiles.gender;
-    entity.birthday = formatDayjsToUtcString(userProfiles.birthday);
+    entity.birthday = userProfiles.birthday.toISOString();
     entity.introduction = userProfiles.introduction;
     entity.mbti = userProfiles.mbti;
-    entity.createdAt = formatDayjsToUtcString(userProfiles.createdAt);
-    entity.updatedAt = formatDayjsToUtcString(userProfiles.updatedAt);
-    entity.deletedAt = userProfiles.deletedAt ? formatDayjsToUtcString(userProfiles.deletedAt) : null;
+    entity.createdAt = userProfiles.createdAt.toISOString();
+    entity.updatedAt = userProfiles.updatedAt.toISOString();
+    entity.deletedAt = userProfiles.deletedAt ? userProfiles.deletedAt.toISOString() : null;
 
     return entity;
   }

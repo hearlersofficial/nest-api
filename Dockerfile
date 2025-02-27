@@ -7,3 +7,7 @@ COPY package.json ./
 COPY src/proto /usr/src/app/src/proto
 COPY . .
 EXPOSE 50051
+
+RUN yarn install
+
+CMD ["yarn", "start"]

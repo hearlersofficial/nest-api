@@ -1,9 +1,12 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { InstructionItemEntity } from "~shared/core/infrastructure/entities/prompts/InstructionItems.entity";
-import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
-import { InstructionItems, InstructionItemsProps } from "~counselings/aggregates/instructionItems/domain/instructionItems";
+import {
+  InstructionItems,
+  InstructionItemsProps,
+} from "~counselings/aggregates/instructionItems/domain/instructionItems";
 
 import { InternalServerErrorException } from "@nestjs/common";
+import dayjs from "dayjs";
 
 export class PsqlInstructionItemsMapper {
   static toDomain(entity: InstructionItemEntity): InstructionItems | null {
@@ -13,9 +16,9 @@ export class PsqlInstructionItemsMapper {
 
     const instructionItemsProps: InstructionItemsProps = {
       body: entity.body,
-      createdAt: convertUtcStringToDayjs(entity.createdAt),
-      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
+      createdAt: dayjs(entity.createdAt),
+      updatedAt: dayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
     const instructionItemsOrError = InstructionItems.create(instructionItemsProps, new UniqueEntityId(entity.id));
 
@@ -35,9 +38,9 @@ export class PsqlInstructionItemsMapper {
 
     entity.body = instructionItems.body;
 
-    entity.createdAt = formatDayjsToUtcString(instructionItems.createdAt);
-    entity.updatedAt = formatDayjsToUtcString(instructionItems.updatedAt);
-    entity.deletedAt = instructionItems.deletedAt ? formatDayjsToUtcString(instructionItems.deletedAt) : null;
+    entity.createdAt = instructionItems.createdAt.toISOString();
+    entity.updatedAt = instructionItems.updatedAt.toISOString();
+    entity.deletedAt = instructionItems.deletedAt ? instructionItems.deletedAt.toISOString() : null;
 
     return entity;
   }

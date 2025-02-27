@@ -1,9 +1,12 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/CounselTechniques.entity";
-import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
-import { CounselTechniques, CounselTechniquesProps } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
+import {
+  CounselTechniques,
+  CounselTechniquesProps,
+} from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
 
 import { InternalServerErrorException } from "@nestjs/common";
+import dayjs from "dayjs";
 
 export class PsqlCounselTechniquesMapper {
   static toDomain(entity: CounselTechniquesEntity): CounselTechniques | null {
@@ -18,9 +21,9 @@ export class PsqlCounselTechniquesMapper {
       instructionId: new UniqueEntityId(entity.instructionId),
       counselTechniqueStage: entity.counselTechniqueStage,
       nextTechniqueId: entity.nextTechniqueId ? new UniqueEntityId(entity.nextTechniqueId) : null,
-      createdAt: convertUtcStringToDayjs(entity.createdAt),
-      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
+      createdAt: dayjs(entity.createdAt),
+      updatedAt: dayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
     const counselTechniquesOrError = CounselTechniques.create(counselTechniqueProps, new UniqueEntityId(entity.id));
 
@@ -45,9 +48,9 @@ export class PsqlCounselTechniquesMapper {
     entity.counselTechniqueStage = counselTechniques.counselTechniqueStage;
     entity.nextTechniqueId = counselTechniques.nextTechniqueId ? counselTechniques.nextTechniqueId.getString() : null;
 
-    entity.createdAt = formatDayjsToUtcString(counselTechniques.createdAt);
-    entity.updatedAt = formatDayjsToUtcString(counselTechniques.updatedAt);
-    entity.deletedAt = counselTechniques.deletedAt ? formatDayjsToUtcString(counselTechniques.deletedAt) : null;
+    entity.createdAt = counselTechniques.createdAt.toISOString();
+    entity.updatedAt = counselTechniques.updatedAt.toISOString();
+    entity.deletedAt = counselTechniques.deletedAt ? counselTechniques.deletedAt.toISOString() : null;
 
     return entity;
   }

@@ -56,7 +56,9 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
     };
 
     const counselMessagesEntities = await this.counselMessagesRepository.find(findManyOptions);
-    const counselMessageList = counselMessagesEntities.map((counselMessagesEntity) => PsqlCounselMessagesMapper.toDomain(counselMessagesEntity));
+    const counselMessageList = counselMessagesEntities.map((counselMessagesEntity) =>
+      PsqlCounselMessagesMapper.toDomain(counselMessagesEntity),
+    );
     if (counselMessageList.length > 0) {
       for (const counselMessage of counselMessageList) {
         await this.publishDomainEvents(counselMessage);

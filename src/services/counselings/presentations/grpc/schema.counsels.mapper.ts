@@ -1,7 +1,7 @@
-import { formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
+import { Tones } from "~counselings/aggregates/tones/domain/tones";
 import {
   Counsel,
   CounselMessage,
@@ -9,6 +9,8 @@ import {
   Counselor,
   CounselorSchema,
   CounselSchema,
+  Tone,
+  ToneSchema,
 } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
@@ -20,10 +22,10 @@ export class SchemaCounselsMapper {
       userId: counsel.userId.getString(),
       counselorId: counsel.counselorId.getString(),
       lastMessage: counsel.lastMessage,
-      lastChatedAt: counsel.lastChatedAt ? formatDayjsToUtcString(counsel.lastChatedAt) : null,
-      createdAt: formatDayjsToUtcString(counsel.createdAt),
-      updatedAt: formatDayjsToUtcString(counsel.updatedAt),
-      deletedAt: counsel.deletedAt ? formatDayjsToUtcString(counsel.deletedAt) : null,
+      lastChatedAt: counsel.lastChatedAt ? counsel.lastChatedAt.toISOString() : null,
+      createdAt: counsel.createdAt.toISOString(),
+      updatedAt: counsel.updatedAt.toISOString(),
+      deletedAt: counsel.deletedAt ? counsel.deletedAt.toISOString() : null,
     });
   }
 
@@ -33,11 +35,11 @@ export class SchemaCounselsMapper {
       counselId: counselMessage.counselId.getString(),
       message: counselMessage.message,
       isUserMessage: counselMessage.isUserMessage,
-      reactedAt: counselMessage.reactedAt ? formatDayjsToUtcString(counselMessage.reactedAt) : null,
+      reactedAt: counselMessage.reactedAt ? counselMessage.reactedAt.toISOString() : null,
       reaction: counselMessage.reaction,
-      createdAt: formatDayjsToUtcString(counselMessage.createdAt),
-      updatedAt: formatDayjsToUtcString(counselMessage.updatedAt),
-      deletedAt: counselMessage.deletedAt ? formatDayjsToUtcString(counselMessage.deletedAt) : null,
+      createdAt: counselMessage.createdAt.toISOString(),
+      updatedAt: counselMessage.updatedAt.toISOString(),
+      deletedAt: counselMessage.deletedAt ? counselMessage.deletedAt.toISOString() : null,
     });
   }
 
@@ -51,9 +53,20 @@ export class SchemaCounselsMapper {
       introMessage: bubble.introMessage,
       responseOption1: bubble.responseOption1,
       responseOption2: bubble.responseOption2,
-      createdAt: formatDayjsToUtcString(counselor.createdAt),
-      updatedAt: formatDayjsToUtcString(counselor.updatedAt),
-      deletedAt: counselor.deletedAt ? formatDayjsToUtcString(counselor.deletedAt) : null,
+      createdAt: counselor.createdAt.toISOString(),
+      updatedAt: counselor.updatedAt.toISOString(),
+      deletedAt: counselor.deletedAt ? counselor.deletedAt.toISOString() : null,
+    });
+  }
+
+  static toToneProto(tone: Tones): Tone {
+    return create(ToneSchema, {
+      id: tone.id.getString(),
+      name: tone.name,
+      body: tone.body,
+      createdAt: tone.createdAt.toISOString(),
+      updatedAt: tone.updatedAt.toISOString(),
+      deletedAt: tone.deletedAt ? tone.deletedAt.toISOString() : null,
     });
   }
 }

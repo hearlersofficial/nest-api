@@ -1,5 +1,4 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { convertUtcStringToDayjs } from "~shared/utils/Date.utils";
 import { SaveRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/SaveRefreshToken/SaveRefreshToken.command";
 import { VerifyRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/VerifyRefreshToken/VerifyRefreshToken.command";
 import { ReserveTokensCommand } from "~users/aggregates/users/applications/commands/ReserveTokens/ReserveTokens.command";
@@ -33,6 +32,7 @@ import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { GrpcMethod } from "@nestjs/microservices";
+import dayjs from "dayjs";
 
 @Controller("user")
 export class GrpcUserCommandController {
@@ -68,7 +68,7 @@ export class GrpcUserCommandController {
     const command: SaveRefreshTokenCommand = new SaveRefreshTokenCommand({
       userId: new UniqueEntityId(userId),
       token,
-      expiresAt: convertUtcStringToDayjs(expiresAt),
+      expiresAt: dayjs(expiresAt),
     });
     await this.commandBus.execute(command);
     return create(SaveRefreshTokenResponseSchema, {

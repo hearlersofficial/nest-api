@@ -1,7 +1,7 @@
 import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { formatDayjsToUtcString, getNowDayjs } from "~shared/utils/Date.utils";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 import { CounselMessageCreatedEvent } from "~counselings/aggregates/counselMessages/domain/events/CounselMessageCreatedEvents";
 import { CounselMessageCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
@@ -176,7 +176,7 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
       userId: this.userId.getString(),
       message: this.message,
       isUserMessage: this.isUserMessage,
-      occurredAt: formatDayjsToUtcString(getNowDayjs()),
+      occurredAt: getNowDayjs().toISOString(),
     });
     this.addDomainEvent(new CounselMessageCreatedEvent(counselMessageCreated));
   }

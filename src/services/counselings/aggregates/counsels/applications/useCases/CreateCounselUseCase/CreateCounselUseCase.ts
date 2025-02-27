@@ -18,8 +18,8 @@ export class CreateCounselUseCase implements UseCase<CreateCounselUseCaseRequest
   ) {}
 
   async execute(request: CreateCounselUseCaseRequest): Promise<CreateCounselUseCaseResponse> {
-    const { userId, counselorId } = request;
-    const counselOrError: Result<Counsels> = Counsels.createNew({ userId, counselorId });
+    const { userId, counselorId, counselTechniqueId } = request;
+    const counselOrError: Result<Counsels> = Counsels.createNew({ userId, counselorId, counselTechniqueId });
     if (counselOrError.isFailure) {
       return {
         ok: false,

@@ -1,7 +1,6 @@
-import { CounselorGender, CounselorType } from "~proto/com/hearlers/v1/model/counsel_pb";
+import { CounselorGender } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 export interface CreateCounselorUseCaseRequest {
-  counselorType: CounselorType;
   name: string;
   description: string;
   gender: CounselorGender;

@@ -11,8 +11,7 @@ export class GetCounselorListHandler implements IQueryHandler<GetCounselorListQu
   constructor(private readonly getCounselorListUseCase: GetCounselorListUseCase) {}
 
   async execute(query: GetCounselorListQuery): Promise<Counselors[]> {
-    const { counselorType } = query.props;
-    const getCounselorListResult = await this.getCounselorListUseCase.execute({ counselorType });
+    const getCounselorListResult = await this.getCounselorListUseCase.execute({});
     if (!getCounselorListResult.ok) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, getCounselorListResult.error);
     }

@@ -40,9 +40,8 @@ export class UpdateCounselorHandler implements ICommandHandler<UpdateCounselorCo
   }
 
   private getUpdateProps(command: UpdateCounselorCommand, originCounselor: Counselors): CounselorsProps {
-    const { counselorType, name, description, gender } = command.props;
+    const { name, description, gender } = command.props;
     const props = originCounselor.propsValue;
-    if (counselorType !== null && counselorType !== undefined) props.counselorType = counselorType;
     if (name !== null && name !== undefined) props.name = name;
     if (description !== null && description !== undefined) props.description = description;
     if (gender !== null && gender !== undefined) props.gender = gender;

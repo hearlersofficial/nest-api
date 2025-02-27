@@ -60,7 +60,7 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
       userId: newProps.userId.getString(),
       message: newProps.message,
       isUserMessage: newProps.isUserMessage,
-      occurredAt: formatDayjsToUtcString(getNowDayjs()),
+      occurredAt: getNowDayjs().toISOString(),
     });
     createdMessage.value.addDomainEvent(new CounselMessageCreatedEvent(counselMessageCreated));
 
@@ -177,17 +177,5 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
 
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
-  }
-
-  public addCreatedEvent(): void {
-    const counselMessageCreated = create(CounselMessageCreatedPayloadSchema, {
-      counselMessageId: this.id.getString(),
-      counselId: this.counselId.getString(),
-      userId: this.userId.getString(),
-      message: this.message,
-      isUserMessage: this.isUserMessage,
-      occurredAt: getNowDayjs().toISOString(),
-    });
-    this.addDomainEvent(new CounselMessageCreatedEvent(counselMessageCreated));
   }
 }

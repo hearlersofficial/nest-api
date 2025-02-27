@@ -13,6 +13,7 @@ export interface CounselsNewProps {
   userId: UniqueEntityId;
   counselorId: UniqueEntityId;
   counselTechniqueId: UniqueEntityId;
+  counselorUserRelationshipId: UniqueEntityId;
 }
 
 export interface CounselsProps extends CounselsNewProps {
@@ -79,6 +80,11 @@ export class Counsels extends AggregateRoot<CounselsProps> {
       return Result.fail<void>("[Counsels] 상담 기법 ID는 필수입니다");
     }
 
+    // counselorUserRelationshipId 검증
+    if (this.props.counselorUserRelationshipId === null || this.props.counselorUserRelationshipId === undefined) {
+      return Result.fail<void>("[Counsels] 상담사-사용자 관계 ID는 필수입니다");
+    }
+
     // 날짜 검증
     if (!this.props.createdAt) {
       return Result.fail<void>("[Counsels] 생성 시간은 필수입니다");
@@ -101,6 +107,10 @@ export class Counsels extends AggregateRoot<CounselsProps> {
 
   get counselTechniqueId(): UniqueEntityId {
     return this.props.counselTechniqueId;
+  }
+
+  get counselorUserRelationshipId(): UniqueEntityId {
+    return this.props.counselorUserRelationshipId;
   }
 
   get lastChatedAt(): Dayjs | null {

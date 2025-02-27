@@ -16,6 +16,7 @@ export class PsqlCounselsMapper {
       counselorId: new UniqueEntityId(entity.counselorId),
       userId: new UniqueEntityId(entity.userId),
       counselTechniqueId: new UniqueEntityId(entity.counselTechniqueId),
+      counselorUserRelationshipId: new UniqueEntityId(entity.counselorUserRelationshipId),
       lastMessage: entity.lastMessage,
       lastChatedAt: entity.lastChatedAt ? dayjs(entity.lastChatedAt) : null,
       createdAt: dayjs(entity.createdAt),
@@ -38,6 +39,7 @@ export class PsqlCounselsMapper {
     entity.counselorId = counsels.counselorId.getString();
     entity.userId = counsels.userId.getString();
     entity.counselTechniqueId = counsels.counselTechniqueId.getString();
+    entity.counselorUserRelationshipId = counsels.counselorUserRelationshipId.getString();
 
     entity.lastMessage = counsels.lastMessage;
     entity.lastChatedAt = counsels.lastChatedAt ? counsels.lastChatedAt.toISOString() : null;

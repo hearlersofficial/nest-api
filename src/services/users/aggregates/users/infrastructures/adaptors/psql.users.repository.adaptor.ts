@@ -16,7 +16,6 @@ export class PsqlUsersRepositoryAdaptor implements UsersRepositoryPort {
   private readonly userFindOptionsRelation: FindOptionsRelations<UsersEntity> = {
     userProfiles: true,
     userProgresses: true,
-    userPrompts: true,
     userMessageTokens: true,
   };
 

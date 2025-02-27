@@ -1,7 +1,6 @@
 import { formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
-import { CounselPrompts } from "~counselings/aggregates/counselPrompts/domain/CounselPrompts";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import {
   Counsel,
@@ -9,8 +8,6 @@ import {
   CounselMessageSchema,
   Counselor,
   CounselorSchema,
-  CounselPrompt,
-  CounselPromptSchema,
   CounselSchema,
 } from "~proto/com/hearlers/v1/model/counsel_pb";
 
@@ -44,28 +41,10 @@ export class SchemaCounselsMapper {
     });
   }
 
-  static toCounselPromptProto(counselPrompt: CounselPrompts): CounselPrompt {
-    return create(CounselPromptSchema, {
-      id: counselPrompt.id.getString(),
-      persona: counselPrompt.persona,
-      context: counselPrompt.context,
-      instruction: counselPrompt.instruction,
-      tone: counselPrompt.tone,
-      additionalPrompt: counselPrompt.additionalPrompt,
-      promptType: counselPrompt.promptType,
-      description: counselPrompt.description,
-      version: counselPrompt.version,
-      createdAt: formatDayjsToUtcString(counselPrompt.createdAt),
-      updatedAt: formatDayjsToUtcString(counselPrompt.updatedAt),
-      deletedAt: counselPrompt.deletedAt ? formatDayjsToUtcString(counselPrompt.deletedAt) : null,
-    });
-  }
-
   static toCounselorProto(counselor: Counselors): Counselor {
     const bubble = counselor.bubble;
     return create(CounselorSchema, {
       id: counselor.id.getString(),
-      counselorType: counselor.counselorType,
       name: counselor.name,
       description: counselor.description,
       gender: counselor.gender,

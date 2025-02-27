@@ -7,7 +7,6 @@ import { generateUUID } from "~shared/utils/UUID.utils";
 import { UserMessageTokens } from "~users/aggregates/users/domain/UserMessageTokens";
 import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
 import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
-import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
 import { Gender, Mbti, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { Dayjs } from "dayjs";
@@ -19,7 +18,6 @@ export interface UsersProps extends UsersNewProps {
   userProfile: UserProfiles;
   userProgresses: UserProgresses[];
   userMessageToken: UserMessageTokens;
-  userPrompts: UserPrompts[];
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -64,7 +62,6 @@ export class Users extends AggregateRoot<UsersProps> {
           remainingTokens: 7,
         }).value,
         userProgresses: [],
-        userPrompts: [],
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -93,13 +90,6 @@ export class Users extends AggregateRoot<UsersProps> {
       }
     }
 
-    // userPrompts 검증
-    for (const prompt of this.props.userPrompts) {
-      if (!prompt.userId.equals(this.id)) {
-        return Result.fail<void>("[Users] 프롬프트의 사용자 ID가 일치하지 않습니다");
-      }
-    }
-
     return Result.ok<void>();
   }
 
@@ -120,10 +110,6 @@ export class Users extends AggregateRoot<UsersProps> {
 
   get userProgresses(): UserProgresses[] {
     return [...this.props.userProgresses];
-  }
-
-  get userPrompts(): UserPrompts[] {
-    return [...this.props.userPrompts];
   }
 
   get userMessageToken(): UserMessageTokens {
@@ -149,15 +135,6 @@ export class Users extends AggregateRoot<UsersProps> {
       return Result.fail<void>("[Users] 진행 상태의 사용자 ID가 일치하지 않습니다");
     }
     this.props.userProgresses.push(progress);
-    this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
-  }
-
-  public addPrompt(prompt: UserPrompts): Result<void> {
-    if (!prompt.userId.equals(this.id)) {
-      return Result.fail<void>("[Users] 프롬프트의 사용자 ID가 일치하지 않습니다");
-    }
-    this.props.userPrompts.push(prompt);
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
   }

@@ -36,7 +36,7 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
 
   async update(counsel: Counsels): Promise<Counsels> {
     const counselsEntity = PsqlCounselsMapper.toEntity(counsel);
-    await this.counselsRepository.save(counselsEntity);
+    await this.counselsRepository.update(counselsEntity.id, counselsEntity);
 
     await this.publishDomainEvents(counsel);
 

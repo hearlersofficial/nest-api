@@ -10,14 +10,14 @@ import { create } from "@bufbuild/protobuf";
 import { Dayjs } from "dayjs";
 import { ChatCompletionAssistantMessageParam, ChatCompletionUserMessageParam } from "openai/resources";
 
-interface CounselMessagesNewProps {
+export interface CounselMessagesNewProps {
   counselId: UniqueEntityId;
   userId: UniqueEntityId;
   message: string;
   isUserMessage: boolean;
 }
 
-interface CounselMessagesProps extends CounselMessagesNewProps {
+export interface CounselMessagesProps extends CounselMessagesNewProps {
   reactedAt: Dayjs | null;
   reaction: CounselMessageReaction | null;
   createdAt: Dayjs;
@@ -53,6 +53,16 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
       },
       newId,
     );
+
+    const counselMessageCreated = create(CounselMessageCreatedPayloadSchema, {
+      counselMessageId: newId.getString(),
+      counselId: newProps.counselId.getString(),
+      userId: newProps.userId.getString(),
+      message: newProps.message,
+      isUserMessage: newProps.isUserMessage,
+      occurredAt: formatDayjsToUtcString(getNowDayjs()),
+    });
+    createdMessage.value.addDomainEvent(new CounselMessageCreatedEvent(counselMessageCreated));
 
     return createdMessage;
   }

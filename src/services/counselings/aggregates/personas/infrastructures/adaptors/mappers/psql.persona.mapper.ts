@@ -1,9 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PersonaEntity } from "~shared/core/infrastructure/entities/prompts/Personas.entity";
-import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { Personas, PersonasProps } from "~counselings/aggregates/personas/domain/personas";
 
 import { InternalServerErrorException } from "@nestjs/common";
+import dayjs from "dayjs";
 
 export class PsqlPersonasMapper {
   static toDomain(entity: PersonaEntity): Personas | null {
@@ -14,9 +14,9 @@ export class PsqlPersonasMapper {
     const personaProps: PersonasProps = {
       counselorId: new UniqueEntityId(entity.counselorId),
       body: entity.body,
-      createdAt: convertUtcStringToDayjs(entity.createdAt),
-      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
+      createdAt: dayjs(entity.createdAt),
+      updatedAt: dayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
     const personasOrError = Personas.create(personaProps, new UniqueEntityId(entity.id));
 
@@ -33,9 +33,9 @@ export class PsqlPersonasMapper {
     entity.id = personas.id.getString();
     entity.counselorId = personas.counselorId.getString();
     entity.body = personas.body;
-    entity.createdAt = formatDayjsToUtcString(personas.createdAt);
-    entity.updatedAt = formatDayjsToUtcString(personas.updatedAt);
-    entity.deletedAt = personas.deletedAt ? formatDayjsToUtcString(personas.deletedAt) : null;
+    entity.createdAt = personas.createdAt.toISOString();
+    entity.updatedAt = personas.updatedAt.toISOString();
+    entity.deletedAt = personas.deletedAt ? personas.deletedAt.toISOString() : null;
 
     return entity;
   }

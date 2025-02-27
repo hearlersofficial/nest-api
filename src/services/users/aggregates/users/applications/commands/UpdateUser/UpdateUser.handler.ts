@@ -1,5 +1,4 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { convertUtcStringToDayjs } from "~shared/utils/Date.utils";
 import { UpdateUserCommand } from "~users/aggregates/users/applications/commands/UpdateUser/UpdateUser.command";
 import { FindOneUserUseCase } from "~users/aggregates/users/applications/useCases/FindOneUserUseCase/FindOneUserUseCase";
 import { UpdateUserUseCase } from "~users/aggregates/users/applications/useCases/UpdateUserUseCase/UpdateUserUseCase";
@@ -9,6 +8,7 @@ import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_
 
 import { HttpStatus } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
+import dayjs from "dayjs";
 
 @CommandHandler(UpdateUserCommand)
 export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
@@ -38,7 +38,7 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
       if (profileImage) updateProps.profileImage = profileImage;
       if (phoneNumber) updateProps.phoneNumber = phoneNumber;
       if (gender) updateProps.gender = gender;
-      if (birthday) updateProps.birthday = convertUtcStringToDayjs(birthday);
+      if (birthday) updateProps.birthday = dayjs(birthday);
       if (introduction) updateProps.introduction = introduction;
       if (mbti) updateProps.mbti = mbti;
       const updateResult = user.userProfile.updateProfile(updateProps);

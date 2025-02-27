@@ -1,4 +1,8 @@
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
+import { CreateToneHandler } from "~counselings/aggregates/tones/applications/commands/CreateTone/CreateTone.handler";
+import { UpdateToneHandler } from "~counselings/aggregates/tones/applications/commands/UpdateTone/UpdateTone.handler";
+import { FindToneByIdHandler } from "~counselings/aggregates/tones/applications/queries/FindToneById/FindToneById.handler";
+import { FindTonesHandler } from "~counselings/aggregates/tones/applications/queries/FindTones/FindTones.handler";
 import { ToneService } from "~counselings/aggregates/tones/applications/tone.service";
 import { TonePersistor } from "~counselings/aggregates/tones/applications/tools/tone.persistor";
 import { ToneReader } from "~counselings/aggregates/tones/applications/tools/tone.reader";
@@ -14,6 +18,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     ToneService,
     ToneReader,
     TonePersistor,
+    CreateToneHandler,
+    UpdateToneHandler,
+    FindTonesHandler,
+    FindToneByIdHandler,
     {
       provide: TONE_REPOSITORY,
       useClass: PsqlTonesRepositoryAdaptor,

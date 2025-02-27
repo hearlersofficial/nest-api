@@ -1,9 +1,41 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { FindToneByIdQuery } from "~counselings/aggregates/tones/applications/queries/FindToneById/FindToneById.query";
+import { FindTonesQuery } from "~counselings/aggregates/tones/applications/queries/FindTones/FineTones.query";
+import { Tones } from "~counselings/aggregates/tones/domain/tones";
+import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
+import {
+  FindToneByIdRequest,
+  FindToneByIdResponse,
+  FindToneByIdResponseSchema,
+  FindTonesRequest,
+  FindTonesResponse,
+  FindTonesResponseSchema,
+} from "~proto/com/hearlers/v1/service/counsel_pb";
+
+import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
+import { GrpcMethod } from "@nestjs/microservices";
 
 @Controller("counsel")
 export class GrpcCounselQueryController {
   constructor(private readonly queryBus: QueryBus) {}
+
+  @GrpcMethod("CounselService", "FindTones")
+  async findTones(data: FindTonesRequest): Promise<FindTonesResponse> {
+    const query: FindTonesQuery = new FindTonesQuery({ name: data.name });
+    const tones: Tones[] = await this.queryBus.execute(query);
+    return create(FindTonesResponseSchema, {
+      tones: tones?.map((tone) => SchemaCounselsMapper.toToneProto(tone)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindToneById")
+  async findToneById(data: FindToneByIdRequest): Promise<FindToneByIdResponse> {
+    const query: FindToneByIdQuery = new FindToneByIdQuery(new UniqueEntityId(data.toneId));
+    const tone: Tones = await this.queryBus.execute(query);
+    return create(FindToneByIdResponseSchema, { tone: SchemaCounselsMapper.toToneProto(tone) });
+  }
 
   // @GrpcMethod("CounselService", "GetCounselList")
   // async getCounselList(data: GetCounselListRequest): Promise<GetCounselListResponse> {

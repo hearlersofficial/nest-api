@@ -2,11 +2,10 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/users/UserMessageTokens.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { UserMessageTokens, UserMessageTokensProps } from "~users/aggregates/users/domain/UserMessageTokens";
 
 import { HttpStatus } from "@nestjs/common";
-
+import dayjs from "dayjs";
 export class PsqlUserMessageTokensMapper {
   static toDomain(entity: UserMessageTokensEntity): UserMessageTokens | null {
     if (!entity) {
@@ -18,12 +17,12 @@ export class PsqlUserMessageTokensMapper {
       maxTokens: entity.maxTokens,
       remainingTokens: entity.remainingTokens,
       reserved: entity.reserved,
-      reservedTimeout: entity.reservedTimeout ? convertUtcStringToDayjs(entity.reservedTimeout) : null,
+      reservedTimeout: entity.reservedTimeout ? dayjs(entity.reservedTimeout) : null,
       resetInterval: entity.resetInterval,
-      lastReset: convertUtcStringToDayjs(entity.lastReset),
-      createdAt: convertUtcStringToDayjs(entity.createdAt),
-      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
+      lastReset: dayjs(entity.lastReset),
+      createdAt: dayjs(entity.createdAt),
+      updatedAt: dayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
 
     const userMessageTokensOrError: Result<UserMessageTokens> = UserMessageTokens.create(
@@ -59,14 +58,12 @@ export class PsqlUserMessageTokensMapper {
     entity.maxTokens = userMessageTokens.maxTokens;
     entity.remainingTokens = userMessageTokens.remainingTokens;
     entity.reserved = userMessageTokens.reserved;
-    entity.reservedTimeout = userMessageTokens.reservedTimeout
-      ? formatDayjsToUtcString(userMessageTokens.reservedTimeout)
-      : null;
+    entity.reservedTimeout = userMessageTokens.reservedTimeout ? userMessageTokens.reservedTimeout.toISOString() : null;
     entity.resetInterval = userMessageTokens.resetInterval;
-    entity.lastReset = formatDayjsToUtcString(userMessageTokens.lastReset);
-    entity.createdAt = formatDayjsToUtcString(userMessageTokens.createdAt);
-    entity.updatedAt = formatDayjsToUtcString(userMessageTokens.updatedAt);
-    entity.deletedAt = userMessageTokens.deletedAt ? formatDayjsToUtcString(userMessageTokens.deletedAt) : null;
+    entity.lastReset = userMessageTokens.lastReset.toISOString();
+    entity.createdAt = userMessageTokens.createdAt.toISOString();
+    entity.updatedAt = userMessageTokens.updatedAt.toISOString();
+    entity.deletedAt = userMessageTokens.deletedAt ? userMessageTokens.deletedAt.toISOString() : null;
 
     return entity;
   }

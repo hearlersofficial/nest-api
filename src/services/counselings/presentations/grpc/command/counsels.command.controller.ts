@@ -1,6 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { CreateToneCommand } from "~counselings/aggregates/tones/applications/commands/CreateTone/CreateTone.command";
+import { UpdateToneCommand } from "~counselings/aggregates/tones/applications/commands/UpdateTone/UpdateTone.command";
+import { Tones } from "~counselings/aggregates/tones/domain/tones";
 import {
   CreateCounselCommand,
   CreateCounselCommandResult,
@@ -10,9 +13,15 @@ import {
   CreateCounselRequest,
   CreateCounselResponse,
   CreateCounselResponseSchema,
+  CreateToneRequest,
+  CreateToneResponse,
+  CreateToneResponseSchema,
   ReactMessageRequest,
   ReactMessageResponse,
   ReactMessageResponseSchema,
+  UpdateToneRequest,
+  UpdateToneResponse,
+  UpdateToneResponseSchema,
 } from "~proto/com/hearlers/v1/service/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
@@ -125,4 +134,29 @@ export class GrpcCounselCommandController {
   //     counselor: SchemaCounselsMapper.toCounselorProto(counselor),
   //   });
   // }
+
+  @GrpcMethod("CounselService", "CreateTone")
+  async createTone(request: CreateToneRequest): Promise<CreateToneResponse> {
+    const command: CreateToneCommand = new CreateToneCommand({
+      name: request.name,
+      body: request.body,
+    });
+    const tone: Tones = await this.commandBus.execute(command);
+    return create(CreateToneResponseSchema, {
+      tone: SchemaCounselsMapper.toToneProto(tone),
+    });
+  }
+
+  @GrpcMethod("CounselService", "UpdateTone")
+  async updateTone(request: UpdateToneRequest): Promise<UpdateToneResponse> {
+    const command: UpdateToneCommand = new UpdateToneCommand({
+      toneId: new UniqueEntityId(request.toneId),
+      name: request.name,
+      body: request.body,
+    });
+    const tone: Tones = await this.commandBus.execute(command);
+    return create(UpdateToneResponseSchema, {
+      tone: SchemaCounselsMapper.toToneProto(tone),
+    });
+  }
 }

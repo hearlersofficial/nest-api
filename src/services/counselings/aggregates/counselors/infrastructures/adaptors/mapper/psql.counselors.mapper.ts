@@ -1,9 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
-import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
 import { Counselors, CounselorsProps } from "~counselings/aggregates/counselors/domain/counselors";
 
 import { InternalServerErrorException } from "@nestjs/common";
+import dayjs from "dayjs";
 
 export class PsqlCounselorsMapper {
   static toDomain(entity: CounselorsEntity): Counselors | null {
@@ -16,9 +16,9 @@ export class PsqlCounselorsMapper {
       gender: entity.gender,
       description: entity.description,
       toneId: new UniqueEntityId(entity.toneId),
-      createdAt: convertUtcStringToDayjs(entity.createdAt),
-      updatedAt: convertUtcStringToDayjs(entity.updatedAt),
-      deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
+      createdAt: dayjs(entity.createdAt),
+      updatedAt: dayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
     const counselorsOrError = Counselors.create(counselorProps, new UniqueEntityId(entity.id));
 
@@ -38,9 +38,9 @@ export class PsqlCounselorsMapper {
     entity.description = counselors.description;
     entity.toneId = counselors.toneId.getString();
 
-    entity.createdAt = formatDayjsToUtcString(counselors.createdAt);
-    entity.updatedAt = formatDayjsToUtcString(counselors.updatedAt);
-    entity.deletedAt = counselors.deletedAt ? formatDayjsToUtcString(counselors.deletedAt) : null;
+    entity.createdAt = counselors.createdAt.toISOString();
+    entity.updatedAt = counselors.updatedAt.toISOString();
+    entity.deletedAt = counselors.deletedAt ? counselors.deletedAt.toISOString() : null;
 
     return entity;
   }

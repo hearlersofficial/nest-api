@@ -40,7 +40,7 @@ export class ToneService {
     return tones;
   }
 
-  async getOne(toneId: UniqueEntityId): Promise<Tones> {
+  async getById(toneId: UniqueEntityId): Promise<Tones> {
     const tone: Tones | null = await this.findOne(toneId);
     if (!tone) {
       throw new NotFoundException("Tone not found");

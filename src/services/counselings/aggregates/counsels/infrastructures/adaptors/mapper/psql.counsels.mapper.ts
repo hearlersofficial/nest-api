@@ -15,7 +15,7 @@ export class PsqlCounselsMapper {
     const counselProps: CounselsProps = {
       counselorId: new UniqueEntityId(entity.counselorId),
       userId: new UniqueEntityId(entity.userId),
-      counselStage: entity.counselStage,
+      counselTechniqueId: new UniqueEntityId(entity.counselTechniqueId),
       lastMessage: entity.lastMessage,
       lastChatedAt: entity.lastChatedAt ? convertUtcStringToDayjs(entity.lastChatedAt) : null,
       createdAt: convertUtcStringToDayjs(entity.createdAt),
@@ -34,13 +34,10 @@ export class PsqlCounselsMapper {
   static toEntity(counsels: Counsels): CounselsEntity {
     const entity = new CounselsEntity();
 
-    if (!counsels.id.isNewIdentifier()) {
-      entity.id = counsels.id.getString();
-    }
-
+    entity.id = counsels.id.getString();
     entity.counselorId = counsels.counselorId.getString();
     entity.userId = counsels.userId.getString();
-    entity.counselStage = counsels.counselStage;
+    entity.counselTechniqueId = counsels.counselTechniqueId.getString();
 
     entity.lastMessage = counsels.lastMessage;
     entity.lastChatedAt = counsels.lastChatedAt ? formatDayjsToUtcString(counsels.lastChatedAt) : null;

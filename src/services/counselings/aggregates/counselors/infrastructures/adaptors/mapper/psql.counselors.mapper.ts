@@ -1,7 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
 import { convertUtcStringToDayjs, formatDayjsToUtcString } from "~shared/utils/Date.utils";
-import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
+import { Counselors, CounselorsProps } from "~counselings/aggregates/counselors/domain/counselors";
 
 import { InternalServerErrorException } from "@nestjs/common";
 
@@ -11,14 +11,11 @@ export class PsqlCounselorsMapper {
       return null;
     }
 
-    const counselorProps = {
-      counselorType: entity.counselorType,
+    const counselorProps: CounselorsProps = {
       name: entity.name,
       gender: entity.gender,
       description: entity.description,
-      introMessage: null,
-      responseOption1: null,
-      responseOption2: null,
+      toneId: new UniqueEntityId(entity.toneId),
       createdAt: convertUtcStringToDayjs(entity.createdAt),
       updatedAt: convertUtcStringToDayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? convertUtcStringToDayjs(entity.deletedAt) : null,
@@ -35,14 +32,11 @@ export class PsqlCounselorsMapper {
   static toEntity(counselors: Counselors): CounselorsEntity {
     const entity = new CounselorsEntity();
 
-    if (!counselors.id.isNewIdentifier()) {
-      entity.id = counselors.id.getString();
-    }
-
-    entity.counselorType = counselors.counselorType;
+    entity.id = counselors.id.getString();
     entity.name = counselors.name;
     entity.gender = counselors.gender;
     entity.description = counselors.description;
+    entity.toneId = counselors.toneId.getString();
 
     entity.createdAt = formatDayjsToUtcString(counselors.createdAt);
     entity.updatedAt = formatDayjsToUtcString(counselors.updatedAt);

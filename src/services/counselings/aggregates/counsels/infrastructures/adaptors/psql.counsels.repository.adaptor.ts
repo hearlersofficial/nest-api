@@ -8,11 +8,12 @@ import {
   FindOnePropsInCounselsRepository,
 } from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
 
-import { Inject } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FindManyOptions, FindOneOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
 
+@Injectable()
 export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
   constructor(
     @InjectRepository(CounselsEntity) private readonly counselsRepository: Repository<CounselsEntity>,

@@ -1,18 +1,17 @@
 import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselStage } from "~shared/enums/CounselStage.enum";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { Bubble, BubbleList } from "~counselings/aggregates/counselors/domain/consts/Bubble.const";
-import { CounselorGender, CounselorType, CounselPromptType } from "~proto/com/hearlers/v1/model/counsel_pb";
+import { CounselorGender } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { Dayjs } from "dayjs";
 
-interface CounselorsNewProps {
-  counselorType: CounselorType;
+export interface CounselorsNewProps {
   name: string;
   gender: CounselorGender;
   description: string;
+  toneId: UniqueEntityId;
 }
 
 export interface CounselorsProps extends CounselorsNewProps {
@@ -50,17 +49,6 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
   }
 
   validateDomain(): Result<void> {
-    // counselorType 검증
-    if (this.props.counselorType === null || this.props.counselorType === undefined) {
-      return Result.fail<void>("[Counselors] 상담사 타입은 필수입니다");
-    }
-    if (!Object.values(CounselorType).includes(this.props.counselorType)) {
-      return Result.fail<void>("[Counselors] 유효하지 않은 상담사 타입입니다");
-    }
-    if (this.props.counselorType === CounselorType.UNSPECIFIED) {
-      return Result.fail<void>("[Counselors] 상담사 타입이 지정되지 않았습니다");
-    }
-
     // name 검증
     if (this.props.name === null || this.props.name === undefined) {
       return Result.fail<void>("[Counselors] 상담사 이름은 필수입니다");
@@ -88,6 +76,11 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
       return Result.fail<void>("[Counselors] 상담사 소개는 최소 1자 이상이어야 합니다");
     }
 
+    // toneId 검증
+    if (this.props.toneId === null || this.props.toneId === undefined) {
+      return Result.fail<void>("[Counselors] 톤 ID는 필수입니다");
+    }
+
     // 날짜 검증
     if (!this.props.createdAt) {
       return Result.fail<void>("[Counsels] 생성 시간은 필수입니다");
@@ -100,10 +93,6 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
   }
 
   // Getters
-  get counselorType(): CounselorType {
-    return this.props.counselorType;
-  }
-
   get name(): string {
     return this.props.name;
   }
@@ -114,6 +103,10 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
 
   get description(): string {
     return this.props.description;
+  }
+
+  get toneId(): UniqueEntityId {
+    return this.props.toneId;
   }
 
   get bubble(): Bubble {
@@ -140,40 +133,5 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
 
   public restore(): void {
     this.props.deletedAt = null;
-  }
-
-  public decideSystemPrompt(stage: CounselStage): CounselPromptType {
-    if (stage == CounselStage.SMALL_TALK) {
-      return CounselPromptType.SYSTEM_MSG;
-    }
-    if (stage == CounselStage.POSITIVE) {
-      return CounselPromptType.POSITIVE_MSG;
-    }
-    const type = this.props.counselorType;
-    if (stage == CounselStage.NEGATIVE_WITH_REASON) {
-      if (type == CounselorType.DEPRESSED) {
-        return CounselPromptType.DEPRESSED_REASON_MSG;
-      }
-      if (type == CounselorType.ANXIOUS) {
-        return CounselPromptType.ANXIOUS_REASON_MSG;
-      }
-      if (type == CounselorType.TIRED) {
-        return CounselPromptType.TIRED_REASON_MSG;
-      }
-    }
-    if (stage == CounselStage.NEGATIVE_WITHOUT_REASON) {
-      if (type == CounselorType.DEPRESSED) {
-        return CounselPromptType.DEPRESSED_NO_REASON_MSG;
-      }
-      if (type == CounselorType.ANXIOUS) {
-        return CounselPromptType.ANXIOUS_NO_REASON_MSG;
-      }
-      if (type == CounselorType.TIRED) {
-        return CounselPromptType.TIRED_NO_REASON_MSG;
-      }
-    }
-    if (stage == CounselStage.EXTREME) {
-      return CounselPromptType.WHY_LIVE_MSG;
-    }
   }
 }

@@ -8,11 +8,12 @@ import {
   FindOnePropsInCounselMessagesRepository,
 } from "~counselings/aggregates/counselMessages/infrastructures/counselMessages.repository.port";
 
-import { Inject } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FindManyOptions, FindOneOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
 
+@Injectable()
 export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepositoryPort {
   constructor(
     @InjectRepository(CounselMessagesEntity)
@@ -55,9 +56,7 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
     };
 
     const counselMessagesEntities = await this.counselMessagesRepository.find(findManyOptions);
-    const counselMessageList = counselMessagesEntities.map((counselMessagesEntity) =>
-      PsqlCounselMessagesMapper.toDomain(counselMessagesEntity),
-    );
+    const counselMessageList = counselMessagesEntities.map((counselMessagesEntity) => PsqlCounselMessagesMapper.toDomain(counselMessagesEntity));
     if (counselMessageList.length > 0) {
       for (const counselMessage of counselMessageList) {
         await this.publishDomainEvents(counselMessage);

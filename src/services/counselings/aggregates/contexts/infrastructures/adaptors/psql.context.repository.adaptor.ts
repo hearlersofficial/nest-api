@@ -23,7 +23,7 @@ export class PsqlContextRepositoryAdaptor implements ContextsRepositoryPort {
 
   async update(context: Contexts): Promise<Contexts> {
     const contextEntity = PsqlContextMapper.toEntity(context);
-    await this.contextsRepository.save(contextEntity);
+    await this.contextsRepository.update(contextEntity.id, contextEntity);
     return context;
   }
 

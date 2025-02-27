@@ -7,7 +7,6 @@ import { UserActivitiesEntity } from "~shared/core/infrastructure/entities/users
 import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/users/UserMessageTokens.entity";
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
 import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { UserPromptsEntity } from "~shared/core/infrastructure/entities/users/UserPrompts.entity";
 
 import { Column, Entity, OneToMany, OneToOne, RelationId } from "typeorm";
 
@@ -41,11 +40,6 @@ export class UsersEntity extends CoreEntity {
     cascade: true,
   })
   userProgresses: UserProgressesEntity[];
-
-  @OneToMany(() => UserPromptsEntity, (userPrompt) => userPrompt.user, {
-    cascade: true,
-  })
-  userPrompts: UserPromptsEntity[];
 
   @OneToMany(() => UserActivitiesEntity, (userActivity) => userActivity.user, {
     cascade: true,

@@ -12,7 +12,6 @@ import { PersonasModule } from "~counselings/aggregates/personas/personas.module
 import { TonesModule } from "~counselings/aggregates/tones/tones.module";
 import { CreateCounselHandler } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.handler";
 import { CreateMessageHandler } from "~counselings/applications/commands/CreateMessage/CreateMessage.handler";
-import { BranchCounselStageUseCase } from "~counselings/applications/useCases/BranchCounselStageUseCase/BranchCounselStageUseCase";
 import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
 import { InitializeCounselUseCase } from "~counselings/applications/useCases/InitializeCounselUseCase/InitializeCounselUseCase";
 import { InitializeCounselWithBubbleUseCase } from "~counselings/applications/useCases/InitializeCounselWithBubbleUseCase/InitializeCounselWithBubbleUseCase";
@@ -51,7 +50,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
   providers: [
     InitializeCounselUseCase,
     InitializeCounselWithBubbleUseCase,
-    BranchCounselStageUseCase,
     GenerateGptResponseUseCase,
     CreateCounselHandler,
     CreateMessageHandler,

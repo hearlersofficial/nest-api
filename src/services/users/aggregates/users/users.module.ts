@@ -1,6 +1,5 @@
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
 import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { UserPromptsEntity } from "~shared/core/infrastructure/entities/users/UserPrompts.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { ConsumeTokensHandler } from "~users/aggregates/users/applications/commands/ConsumeTokens/ConsumeTokens.handler";
 import { ReserveTokensHandler } from "~users/aggregates/users/applications/commands/ReserveTokens/ReserveTokens.handler";
@@ -19,7 +18,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 const useCases = [CreateUserUseCase, FindOneUserUseCase, UpdateUserUseCase];
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsersEntity, UserProgressesEntity, UserProfilesEntity, UserPromptsEntity])],
+  imports: [TypeOrmModule.forFeature([UsersEntity, UserProgressesEntity, UserProfilesEntity])],
   providers: [
     ...useCases,
     FindOneUserHandler,

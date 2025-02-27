@@ -4,11 +4,9 @@ import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMess
 import { GetCounselMessageListUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/GetCounselMessageListUseCase/GetCounselMessageListUseCase";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { GetCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/GetCounselorUseCase";
-import { GetCounselPromptByTypeUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
 import { GetCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/GetCounselUseCase/GetCounselUseCase";
 import { UpdateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
 import { CreateMessageCommand } from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
-import { BranchCounselStageUseCase } from "~counselings/applications/useCases/BranchCounselStageUseCase/BranchCounselStageUseCase";
 import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
 
 import { HttpStatus } from "@nestjs/common";
@@ -20,12 +18,10 @@ export class CreateMessageHandler implements ICommandHandler<CreateMessageComman
   constructor(
     private readonly getCounselUseCase: GetCounselUseCase,
     private readonly getCounselorUseCase: GetCounselorUseCase,
-    private readonly getCounselPromptByTypeUseCase: GetCounselPromptByTypeUseCase,
     private readonly createCounselMessageUseCase: CreateCounselMessageUseCase,
     private readonly getCounselMessageListUseCase: GetCounselMessageListUseCase,
     private readonly updateCounselUseCase: UpdateCounselUseCase,
     private readonly generateGptResponseUseCase: GenerateGptResponseUseCase,
-    private readonly branchCounselStageUseCase: BranchCounselStageUseCase,
   ) {}
 
   async execute(command: CreateMessageCommand): Promise<CounselMessages> {
@@ -67,18 +63,18 @@ export class CreateMessageHandler implements ICommandHandler<CreateMessageComman
     if (!getCounselorResult.ok) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, getCounselorResult.error);
     }
-    const counselor = getCounselorResult.counselor;
+    // const counselor = getCounselorResult.counselor;
 
     // 시스템 프롬프트 가져오기
     // 유저 정보 가져와 집어넣는 로직 필요(프롬프트에서 사용하는 유저 정보 구체화 필요)
     const prompts: ChatCompletionMessageParam[] = [];
-    const systemPromptType = counselor.decideSystemPrompt(stage);
-    const getPromptResult = await this.getCounselPromptByTypeUseCase.execute({ promptType: systemPromptType });
-    if (!getPromptResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, getPromptResult.error);
-    }
-    const systemPrompt = getPromptResult.counselPrompt;
-    prompts.push(systemPrompt.makePrompt(counselor));
+    // const systemPromptType = counselor.decideSystemPrompt(stage);
+    // const getPromptResult = await this.getCounselPromptByTypeUseCase.execute({ promptType: systemPromptType });
+    // if (!getPromptResult.ok) {
+    //   throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, getPromptResult.error);
+    // }
+    // const systemPrompt = getPromptResult.counselPrompt;
+    // prompts.push(systemPrompt.makePrompt(counselor));
 
     // 이전 대화 가져오기 (유저의 대화만 가져오는지 시스템 응답도 포함하는지 확인 필요)
     const getMessageListResult = await this.getCounselMessageListUseCase.execute({ counselId });
@@ -111,12 +107,12 @@ export class CreateMessageHandler implements ICommandHandler<CreateMessageComman
 
     // 프롬프트 분기(SMALL_TALK  단계에서만 이루어지는지 확인 필요)
     if (stage == CounselStage.SMALL_TALK && systemMessage.checkNeedBranch()) {
-      const branchCounselStageResult = await this.branchCounselStageUseCase.execute({ prompts: prompts.slice(1) });
-      if (!branchCounselStageResult.ok) {
-        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, branchCounselStageResult.error);
-      }
-      const branchedStage = branchCounselStageResult.branchedStage;
-      counsel.updateCounselStage(branchedStage);
+      // const branchCounselStageResult = await this.branchCounselStageUseCase.execute({ prompts: prompts.slice(1) });
+      // if (!branchCounselStageResult.ok) {
+      //   throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, branchCounselStageResult.error);
+      // }
+      // const branchedStage = branchCounselStageResult.branchedStage;
+      // counsel.updateCounselStage(branchedStage);
     }
 
     // last message 저장 및 상담 정보 업데이트

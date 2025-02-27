@@ -2,7 +2,6 @@ import { UseCase } from "~shared/core/applications/UseCase";
 import { CounselStage } from "~shared/enums/CounselStage.enum";
 import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
-import { GetCounselPromptByTypeUseCase } from "~counselings/aggregates/counselPrompts/applications/useCases/GetCounselPromptByTypeUseCase/GetCounselPromptByTypeUseCase";
 import { CreateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/CreateCounselUseCase/CreateCounselUseCase";
 import { UpdateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/UpdateCounselUseCase/UpdateCounselUseCase";
 import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
@@ -19,7 +18,7 @@ export class InitializeCounselWithBubbleUseCase
   constructor(
     private readonly createCounselUseCase: CreateCounselUseCase,
     private readonly createCounselMessageUseCase: CreateCounselMessageUseCase,
-    private readonly getCounselPromptByTypeUseCase: GetCounselPromptByTypeUseCase,
+    // private readonly getCounselPromptByTypeUseCase: GetCounselPromptByTypeUseCase,
     private readonly generateGptResponseUseCase: GenerateGptResponseUseCase,
     private readonly updateCounselUseCase: UpdateCounselUseCase,
   ) {}
@@ -71,18 +70,18 @@ export class InitializeCounselWithBubbleUseCase
       counsel.updateCounselStage(CounselStage.EXTREME);
     }
 
-    const stage = counsel.counselStage;
+    // const stage = counsel.counselStage;
 
     // 시스템 프롬프트 가져오기
     // 유저 정보 가져와 집어넣는 로직 필요(프롬프트에서 사용하는 유저 정보 구체화 필요)
     const prompts: ChatCompletionMessageParam[] = [];
-    const systemPromptType = counselor.decideSystemPrompt(stage);
-    const getPromptResult = await this.getCounselPromptByTypeUseCase.execute({ promptType: systemPromptType });
-    if (!getPromptResult.ok) {
-      return { ok: false, error: getPromptResult.error };
-    }
-    const systemPrompt = getPromptResult.counselPrompt;
-    prompts.push(systemPrompt.makePrompt(counselor));
+    // const systemPromptType = counselor.decideSystemPrompt(stage);
+    // const getPromptResult = await this.getCounselPromptByTypeUseCase.execute({ promptType: systemPromptType });
+    // if (!getPromptResult.ok) {
+    //   return { ok: false, error: getPromptResult.error };
+    // }
+    // const systemPrompt = getPromptResult.counselPrompt;
+    // prompts.push(systemPrompt.makePrompt(counselor));
 
     prompts.push(createFirstCounselMessgeResult.counselMessage.makePrompt());
     prompts.push(createSecondCounselMessgeResult.counselMessage.makePrompt());

@@ -2,10 +2,8 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
 import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { UserPromptsEntity } from "~shared/core/infrastructure/entities/users/UserPrompts.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { EmotionalState } from "~shared/enums/EmotionalState.enum";
-import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 import { Users } from "~users/aggregates/users/domain/Users";
 import { PsqlUsersRepositoryAdaptor } from "~users/aggregates/users/infrastructures/adaptors/psql.users.repository.adaptor";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
@@ -15,6 +13,7 @@ import { fakerKO as faker } from "@faker-js/faker";
 import { ClientKafka } from "@nestjs/microservices";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
+import dayjs from "dayjs";
 import { Repository } from "typeorm";
 
 describe("PsqlUsersRepositoryAdaptor", () => {
@@ -27,8 +26,8 @@ describe("PsqlUsersRepositoryAdaptor", () => {
     const user = new UsersEntity();
     user.id = faker.string.uuid();
     user.nickname = faker.internet.userName().slice(0, 10);
-    user.createdAt = formatDayjs(getNowDayjs());
-    user.updatedAt = formatDayjs(getNowDayjs());
+    user.createdAt = getNowDayjs().toISOString();
+    user.updatedAt = getNowDayjs().toISOString();
     user.deletedAt = null;
     return user;
   };
@@ -44,10 +43,10 @@ describe("PsqlUsersRepositoryAdaptor", () => {
     profile.phoneNumber = "01012345678";
     profile.gender = Gender.MALE;
     profile.mbti = Mbti.ENFP;
-    profile.birthday = formatDayjs(convertDayjs("1990-01-01"));
+    profile.birthday = dayjs("1990-01-01").toISOString();
     profile.introduction = faker.lorem.paragraph();
-    profile.createdAt = formatDayjs(getNowDayjs());
-    profile.updatedAt = formatDayjs(getNowDayjs());
+    profile.createdAt = getNowDayjs().toISOString();
+    profile.updatedAt = getNowDayjs().toISOString();
     profile.deletedAt = null;
     user.userProfiles = profile;
 
@@ -57,37 +56,11 @@ describe("PsqlUsersRepositoryAdaptor", () => {
     progress.userId = user.id;
     progress.progressType = ProgressType.ONBOARDING;
     progress.status = ProgressStatus.IN_PROGRESS;
-    progress.lastUpdated = formatDayjs(getNowDayjs());
-    progress.createdAt = formatDayjs(getNowDayjs());
-    progress.updatedAt = formatDayjs(getNowDayjs());
+    progress.lastUpdated = getNowDayjs().toISOString();
+    progress.createdAt = getNowDayjs().toISOString();
+    progress.updatedAt = getNowDayjs().toISOString();
     progress.deletedAt = null;
     user.userProgresses = [progress];
-
-    // UserPrompts 관계 설정
-    const prompt = new UserPromptsEntity();
-    prompt.id = faker.string.uuid();
-    prompt.templateId = faker.string.uuid();
-    prompt.userId = user.id;
-    prompt.context = {
-      emotionalState: EmotionalState.ANGRY,
-      recentEvents: [faker.lorem.sentence()],
-    };
-    prompt.generatedPrompt = faker.lorem.paragraph();
-    prompt.conversationHistory = [
-      {
-        role: "user",
-        content: faker.lorem.sentence(),
-        timestamp: formatDayjs(getNowDayjs()),
-      },
-    ];
-    prompt.analysis = {
-      sentimentScore: 0.8,
-      keyTopics: [faker.lorem.word()],
-    };
-    prompt.createdAt = formatDayjs(getNowDayjs());
-    prompt.updatedAt = formatDayjs(getNowDayjs());
-    prompt.deletedAt = null;
-    user.userPrompts = [prompt];
 
     return user;
   };
@@ -136,7 +109,6 @@ describe("PsqlUsersRepositoryAdaptor", () => {
         relations: {
           userProfiles: true,
           userProgresses: true,
-          userPrompts: true,
           userMessageTokens: true,
         },
       });

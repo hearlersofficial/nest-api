@@ -1,5 +1,8 @@
 import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { CounselService } from "~counselings/aggregates/counsels/applications/counsel.service";
 import { GetCounselListHandler } from "~counselings/aggregates/counsels/applications/queries/GetCounselList/GetCounselList.handler";
+import { CounselPersister } from "~counselings/aggregates/counsels/applications/tools/counsel.persister";
+import { CounselReader } from "~counselings/aggregates/counsels/applications/tools/counsel.reader";
 import { CreateCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/CreateCounselUseCase/CreateCounselUseCase";
 import { GetCounselListUseCase } from "~counselings/aggregates/counsels/applications/useCases/GetCounselListUseCase/GetCounselListUseCase";
 import { GetCounselUseCase } from "~counselings/aggregates/counsels/applications/useCases/GetCounselUseCase/GetCounselUseCase";
@@ -16,12 +19,15 @@ const useCases = [CreateCounselUseCase, GetCounselListUseCase, GetCounselUseCase
   imports: [TypeOrmModule.forFeature([CounselsEntity])],
   providers: [
     ...useCases,
+    CounselPersister,
+    CounselReader,
+    CounselService,
     GetCounselListHandler,
     {
       provide: COUNSEL_REPOSITORY,
       useClass: PsqlCounselsRepositoryAdaptor,
     },
   ],
-  exports: [...useCases],
+  exports: [...useCases, CounselService],
 })
 export class CounselsModule {}

@@ -4,15 +4,12 @@ export const COUNSEL_REPOSITORY = Symbol("COUNSEL_REPOSITORY");
 
 export interface CounselsRepositoryPort {
   create(counsel: Counsels): Promise<Counsels>;
-  findMany(props: FindManyPropsInCounselsRepository): Promise<Counsels[] | null>;
-  findOne(props: FindOnePropsInCounselsRepository): Promise<Counsels | null>;
   update(counsel: Counsels): Promise<Counsels>;
+  findOne(counselId: UniqueEntityId): Promise<Counsels>;
+  findAll(): Promise<Counsels[]>;
+  findMany(props: FindManyPropsInCounselsRepository): Promise<Counsels[]>;
 }
 
 export interface FindManyPropsInCounselsRepository {
   userId?: UniqueEntityId;
-}
-
-export interface FindOnePropsInCounselsRepository {
-  counselId?: UniqueEntityId;
 }

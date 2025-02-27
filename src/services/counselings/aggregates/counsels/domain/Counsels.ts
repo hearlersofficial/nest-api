@@ -52,6 +52,14 @@ export class Counsels extends AggregateRoot<CounselsProps> {
       newId,
     );
 
+    const counselCreated = create(CounselCreatedPayloadSchema, {
+      counselId: newId.getString(),
+      userId: newProps.userId.getString(),
+      counselorId: newProps.counselorId.getString(),
+      occurredAt: formatDayjsToUtcString(getNowDayjs()),
+    });
+    createdCounsel.value.addDomainEvent(new CounselCreatedEvent(counselCreated));
+
     return createdCounsel;
   }
 

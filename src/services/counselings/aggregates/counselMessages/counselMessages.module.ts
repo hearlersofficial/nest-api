@@ -1,6 +1,9 @@
 import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/CounselMessages.entity";
 import { ReactMessageHandler } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.handler";
+import { CounselMessageService } from "~counselings/aggregates/counselMessages/applications/counselMessage.service";
 import { GetMessageListHandler } from "~counselings/aggregates/counselMessages/applications/queries/GetMessageList/GetMessageList.handler";
+import { CounselMessagePersister } from "~counselings/aggregates/counselMessages/applications/tools/counselMessage.persister";
+import { CounselMessageReader } from "~counselings/aggregates/counselMessages/applications/tools/counselMessage.reader";
 import { CreateCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/CreateCounselMessageUseCase/CreateCounselMessageUseCase";
 import { GetCounselMessageListUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/GetCounselMessageListUseCase/GetCounselMessageListUseCase";
 import { GetCounselMessageUseCase } from "~counselings/aggregates/counselMessages/applications/useCases/GetCounselMessageUseCase/GetCounselMessageUseCase";
@@ -11,17 +14,15 @@ import { COUNSEL_MESSAGE_REPOSITORY } from "~counselings/aggregates/counselMessa
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-const useCases = [
-  CreateCounselMessageUseCase,
-  GetCounselMessageListUseCase,
-  GetCounselMessageUseCase,
-  UpdateCounselMessageUseCase,
-];
+const useCases = [CreateCounselMessageUseCase, GetCounselMessageListUseCase, GetCounselMessageUseCase, UpdateCounselMessageUseCase];
 
 @Module({
   imports: [TypeOrmModule.forFeature([CounselMessagesEntity])],
   providers: [
     ...useCases,
+    CounselMessagePersister,
+    CounselMessageReader,
+    CounselMessageService,
     GetMessageListHandler,
     ReactMessageHandler,
     {
@@ -29,6 +30,6 @@ const useCases = [
       useClass: PsqlCounselMessagesRepositoryAdaptor,
     },
   ],
-  exports: [...useCases],
+  exports: [...useCases, CounselMessageService],
 })
 export class CounselMessagesModule {}

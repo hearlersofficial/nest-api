@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
 import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/CounselMessages.entity";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
@@ -5,13 +6,12 @@ import { PsqlCounselMessagesMapper } from "~counselings/aggregates/counselMessag
 import {
   CounselMessagesRepositoryPort,
   FindManyPropsInCounselMessagesRepository,
-  FindOnePropsInCounselMessagesRepository,
 } from "~counselings/aggregates/counselMessages/infrastructures/counselMessages.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindManyOptions, FindOneOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
+import { FindManyOptions, FindOptionsOrder, FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()
 export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepositoryPort {
@@ -31,23 +31,39 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
 
   async create(counselMessage: CounselMessages): Promise<CounselMessages> {
     const counselMessagesEntity = PsqlCounselMessagesMapper.toEntity(counselMessage);
-    const createdCounselMessagesEntity = await this.counselMessagesRepository.save(counselMessagesEntity);
-    const createdCounselMessage = PsqlCounselMessagesMapper.toDomain(createdCounselMessagesEntity);
-    createdCounselMessage.addCreatedEvent();
+    await this.counselMessagesRepository.save(counselMessagesEntity);
 
     await this.publishDomainEvents(counselMessage);
-    await this.publishDomainEvents(createdCounselMessage);
 
-    return createdCounselMessage;
+    return counselMessage;
+  }
+
+  async update(counselMessage: CounselMessages): Promise<CounselMessages> {
+    const counselMessagesEntity = PsqlCounselMessagesMapper.toEntity(counselMessage);
+    await this.counselMessagesRepository.update(counselMessagesEntity.id, counselMessagesEntity);
+
+    await this.publishDomainEvents(counselMessage);
+
+    return counselMessage;
+  }
+
+  async findOne(counselMessageId: UniqueEntityId): Promise<CounselMessages> {
+    const counselMessagesEntity = await this.counselMessagesRepository.findOne({
+      where: { id: counselMessageId.getString() },
+    });
+    return PsqlCounselMessagesMapper.toDomain(counselMessagesEntity);
+  }
+
+  async findAll(): Promise<CounselMessages[]> {
+    const counselMessagesEntities = await this.counselMessagesRepository.find();
+    return counselMessagesEntities.map((counselMessagesEntity) => PsqlCounselMessagesMapper.toDomain(counselMessagesEntity));
   }
 
   async findMany(props: FindManyPropsInCounselMessagesRepository): Promise<CounselMessages[]> {
-    const { counselId } = props;
     const findOptionsWhere: FindOptionsWhere<CounselMessagesEntity> = {};
-    if (counselId !== null && counselId !== undefined) {
-      findOptionsWhere.counselId = counselId.getString();
+    if (props.counselId) {
+      findOptionsWhere.counselId = props.counselId.getString();
     }
-
     const findOptionsOrder: FindOptionsOrder<CounselMessagesEntity> = { createdAt: "ASC" };
 
     const findManyOptions: FindManyOptions<CounselMessagesEntity> = {
@@ -56,9 +72,7 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
     };
 
     const counselMessagesEntities = await this.counselMessagesRepository.find(findManyOptions);
-    const counselMessageList = counselMessagesEntities.map((counselMessagesEntity) =>
-      PsqlCounselMessagesMapper.toDomain(counselMessagesEntity),
-    );
+    const counselMessageList = counselMessagesEntities.map((counselMessagesEntity) => PsqlCounselMessagesMapper.toDomain(counselMessagesEntity));
     if (counselMessageList.length > 0) {
       for (const counselMessage of counselMessageList) {
         await this.publishDomainEvents(counselMessage);

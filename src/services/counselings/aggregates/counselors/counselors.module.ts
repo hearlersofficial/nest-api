@@ -2,13 +2,10 @@ import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselor
 import { CreateCounselorHandler } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.handler";
 import { UpdateCounselorHandler } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.handler";
 import { CounselorService } from "~counselings/aggregates/counselors/applications/counselor.service";
-import { GetCounselorListHandler } from "~counselings/aggregates/counselors/applications/queries/GetCounselorList/GetCounselorList.handler";
+import { FindCounselorByIdHandler } from "~counselings/aggregates/counselors/applications/queries/FindCounselorById/FindCounselorById.handler";
+import { FindCounselorsHandler } from "~counselings/aggregates/counselors/applications/queries/FindCounselors/FindCounselors.handler";
 import { CounselorPersister } from "~counselings/aggregates/counselors/applications/tools/counselor.persister";
 import { CounselorReader } from "~counselings/aggregates/counselors/applications/tools/counselor.reader";
-import { CreateCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/CreateCounselorUseCase/CreateCounselorUseCase";
-import { GetCounselorListUseCase } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorListUseCase/GetCounselorListUseCase";
-import { GetCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/GetCounselorUseCase/GetCounselorUseCase";
-import { UpdateCounselorUseCase } from "~counselings/aggregates/counselors/applications/useCases/UpdateCounselorUseCase/UpdateCounselorUseCase";
 import { PsqlCounselorsRepositoryAdaptor } from "~counselings/aggregates/counselors/infrastructures/adaptors/psql.counselors.repository.adaptor";
 import { COUNSELOR_REPOSITORY } from "~counselings/aggregates/counselors/infrastructures/counselors.repository.port";
 
@@ -23,16 +20,13 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     CounselorService,
     CreateCounselorHandler,
     UpdateCounselorHandler,
-    GetCounselorListHandler,
-    CreateCounselorUseCase,
-    UpdateCounselorUseCase,
-    GetCounselorListUseCase,
-    GetCounselorUseCase,
+    FindCounselorByIdHandler,
+    FindCounselorsHandler,
     {
       provide: COUNSELOR_REPOSITORY,
       useClass: PsqlCounselorsRepositoryAdaptor,
     },
   ],
-  exports: [CreateCounselorUseCase, UpdateCounselorUseCase, GetCounselorListUseCase, GetCounselorUseCase],
+  exports: [CounselorService],
 })
 export class CounselorsModule {}

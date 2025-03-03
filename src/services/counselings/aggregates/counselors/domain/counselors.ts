@@ -2,6 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { Bubble, BubbleList } from "~counselings/aggregates/counselors/domain/consts/Bubble.const";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counsel_pb";
 
@@ -46,6 +47,22 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
       },
       newId,
     );
+  }
+
+  public update(props: Partial<CounselorsProps>): void {
+    if (isDefined(props.toneId)) {
+      this.props.toneId = props.toneId;
+    }
+    if (isDefined(props.name)) {
+      this.props.name = props.name;
+    }
+    if (isDefined(props.description)) {
+      this.props.description = props.description;
+    }
+    if (isDefined(props.gender)) {
+      this.props.gender = props.gender;
+    }
+    this.props.updatedAt = getNowDayjs();
   }
 
   validateDomain(): Result<void> {

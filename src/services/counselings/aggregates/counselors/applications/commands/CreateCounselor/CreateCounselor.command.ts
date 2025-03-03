@@ -1,3 +1,4 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counsel_pb";
 
@@ -9,8 +10,8 @@ export class CreateCounselorCommand {
   }
 
   private validate(props: CreateCounselorCommandProps): void {
-    if (props.name === null || props.name === undefined) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "유효하지 않은 상담사 타입입니다.");
+    if (props.toneId === null || props.toneId === undefined) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "상담사 ID는 필수입니다.");
     }
 
     if (props.name === null || props.name === undefined) {
@@ -34,6 +35,7 @@ export class CreateCounselorCommand {
 }
 
 interface CreateCounselorCommandProps {
+  toneId: UniqueEntityId;
   name: string;
   description: string;
   gender: CounselorGender;

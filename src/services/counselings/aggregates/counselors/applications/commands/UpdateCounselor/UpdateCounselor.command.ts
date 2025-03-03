@@ -27,6 +27,7 @@ export class UpdateCounselorCommand {
 
 interface UpdateCounselorCommandProps {
   counselorId: UniqueEntityId;
+  toneId?: UniqueEntityId;
   name?: string;
   description?: string;
   gender?: CounselorGender;

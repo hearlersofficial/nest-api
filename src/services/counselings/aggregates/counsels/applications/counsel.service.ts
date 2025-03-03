@@ -35,7 +35,7 @@ export class CounselService {
     return counsels;
   }
 
-  async findMany(props: { userId?: UniqueEntityId }): Promise<Counsels[]> {
+  async findMany(props: { userId?: UniqueEntityId; counselorId?: UniqueEntityId }): Promise<Counsels[]> {
     const counsels = await this.counselReader.findMany(props);
     return counsels;
   }

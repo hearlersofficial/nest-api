@@ -60,6 +60,9 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
     if (props.userId) {
       findOptionsWhere.userId = props.userId.getString();
     }
+    if (props.counselorId) {
+      findOptionsWhere.counselorId = props.counselorId.getString();
+    }
     const findOptionsOrder: FindOptionsOrder<CounselsEntity> = { lastChatedAt: "DESC" };
 
     const findManyOptions: FindManyOptions<CounselsEntity> = {

@@ -4,6 +4,7 @@ import {
   COUNSEL_TECHNIQUE_REPOSITORY,
   CounselTechniquesRepositoryPort,
 } from "~counselings/aggregates/counselTechniques/infrastructures/counselTechniques.repository.port";
+import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -16,6 +17,11 @@ export class CounselTechniqueReader {
 
   async findOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques> {
     const counselTechnique = await this.counselTechniqueRepository.findOne(counselTechniqueId);
+    return counselTechnique;
+  }
+
+  async findFirst(props: { stage: CounselTechniqueStage; toneId?: UniqueEntityId }): Promise<CounselTechniques> {
+    const counselTechnique = await this.counselTechniqueRepository.findFirst(props);
     return counselTechnique;
   }
 

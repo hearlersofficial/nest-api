@@ -4,12 +4,13 @@ import { CounselTechniques } from "~counselings/aggregates/counselTechniques/dom
 import { PsqlCounselTechniquesMapper } from "~counselings/aggregates/counselTechniques/infrastructures/adaptors/mappers/psql.counselTechniques.mapper";
 import {
   CounselTechniquesRepositoryPort,
+  FindFirstPropsInCounselTechniquesRepository,
   FindManyPropsInCounselTechniquesRepository,
 } from "~counselings/aggregates/counselTechniques/infrastructures/counselTechniques.repository.port";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindOptionsWhere, Repository } from "typeorm";
+import { FindOptionsWhere, IsNull, Repository } from "typeorm";
 
 @Injectable()
 export class PsqlCounselTechniquesRepositoryAdaptor implements CounselTechniquesRepositoryPort {
@@ -33,6 +34,21 @@ export class PsqlCounselTechniquesRepositoryAdaptor implements CounselTechniques
   async findOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques> {
     const counselTechniqueEntity = await this.counselTechniquesRepository.findOne({
       where: { id: counselTechniqueId.getString() },
+    });
+    return PsqlCounselTechniquesMapper.toDomain(counselTechniqueEntity);
+  }
+
+  async findFirst(props: FindFirstPropsInCounselTechniquesRepository): Promise<CounselTechniques> {
+    const findOptionsWhere: FindOptionsWhere<CounselTechniquesEntity> = {
+      counselTechniqueStage: props.stage,
+      prevTechnique: IsNull(),
+    };
+    if (props.toneId) {
+      findOptionsWhere.toneId = props.toneId.getString();
+    }
+    const counselTechniqueEntity = await this.counselTechniquesRepository.findOne({
+      where: findOptionsWhere,
+      order: { createdAt: "DESC" },
     });
     return PsqlCounselTechniquesMapper.toDomain(counselTechniqueEntity);
   }

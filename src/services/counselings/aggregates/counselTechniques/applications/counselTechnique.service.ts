@@ -3,6 +3,7 @@ import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselTechniquePersistor } from "~counselings/aggregates/counselTechniques/applications/tools/counselTechnique.persistor";
 import { CounselTechniqueReader } from "~counselings/aggregates/counselTechniques/applications/tools/counselTechnique.reader";
 import { CounselTechniques, CounselTechniquesNewProps } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
+import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
@@ -30,6 +31,11 @@ export class CounselTechniqueService {
     return counselTechnique;
   }
 
+  async findFirst(props: { stage: CounselTechniqueStage; toneId?: UniqueEntityId }): Promise<CounselTechniques> {
+    const counselTechnique = await this.counselTechniqueReader.findFirst(props);
+    return counselTechnique;
+  }
+
   async findAll(): Promise<CounselTechniques[]> {
     const counselTechniques = await this.counselTechniqueReader.findAll();
     return counselTechniques;
@@ -42,6 +48,14 @@ export class CounselTechniqueService {
 
   async getOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques> {
     const counselTechnique: CounselTechniques | null = await this.findOne(counselTechniqueId);
+    if (!counselTechnique) {
+      throw new NotFoundException("CounselTechnique not found");
+    }
+    return counselTechnique;
+  }
+
+  async getFirst(props: { stage: CounselTechniqueStage; toneId?: UniqueEntityId }): Promise<CounselTechniques> {
+    const counselTechnique: CounselTechniques | null = await this.findFirst(props);
     if (!counselTechnique) {
       throw new NotFoundException("CounselTechnique not found");
     }

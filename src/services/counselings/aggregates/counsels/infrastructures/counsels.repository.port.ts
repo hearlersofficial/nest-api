@@ -12,4 +12,5 @@ export interface CounselsRepositoryPort {
 
 export interface FindManyPropsInCounselsRepository {
   userId?: UniqueEntityId;
+  counselorId?: UniqueEntityId;
 }

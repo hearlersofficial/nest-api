@@ -1,9 +1,18 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { FindPersonaByIdQuery } from "~counselings/aggregates/personas/applications/queries/FindPersonaById/FindPersonaById.query";
+import { FindPersonasQuery } from "~counselings/aggregates/personas/applications/queries/FindPersonas/FindPersonas.query";
+import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import { FindToneByIdQuery } from "~counselings/aggregates/tones/applications/queries/FindToneById/FindToneById.query";
 import { FindTonesQuery } from "~counselings/aggregates/tones/applications/queries/FindTones/FineTones.query";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
+  FindPersonaByIdRequest,
+  FindPersonaByIdResponse,
+  FindPersonaByIdResponseSchema,
+  FindPersonasRequest,
+  FindPersonasResponse,
+  FindPersonasResponseSchema,
   FindToneByIdRequest,
   FindToneByIdResponse,
   FindToneByIdResponseSchema,
@@ -20,6 +29,22 @@ import { GrpcMethod } from "@nestjs/microservices";
 @Controller("counsel")
 export class GrpcCounselQueryController {
   constructor(private readonly queryBus: QueryBus) {}
+
+  @GrpcMethod("CounselService", "FindPersonas")
+  async findPersonas(data: FindPersonasRequest): Promise<FindPersonasResponse> {
+    const query: FindPersonasQuery = new FindPersonasQuery({ counselorId: new UniqueEntityId(data.counselorId) });
+    const personas: Personas[] = await this.queryBus.execute(query);
+    return create(FindPersonasResponseSchema, {
+      personas: personas?.map((persona) => SchemaCounselsMapper.toPersonaProto(persona)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindPersonaById")
+  async findPersonaById(data: FindPersonaByIdRequest): Promise<FindPersonaByIdResponse> {
+    const query: FindPersonaByIdQuery = new FindPersonaByIdQuery(new UniqueEntityId(data.personaId));
+    const persona: Personas = await this.queryBus.execute(query);
+    return create(FindPersonaByIdResponseSchema, { persona: SchemaCounselsMapper.toPersonaProto(persona) });
+  }
 
   @GrpcMethod("CounselService", "FindTones")
   async findTones(data: FindTonesRequest): Promise<FindTonesResponse> {

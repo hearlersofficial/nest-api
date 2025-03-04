@@ -1,6 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { CreatePersonaCommand } from "~counselings/aggregates/personas/applications/commands/CreatePersona/CreatePersona.command";
+import { UpdatePersonaCommand } from "~counselings/aggregates/personas/applications/commands/UpdatePersona/UpdatePersona.command";
+import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import { CreateToneCommand } from "~counselings/aggregates/tones/applications/commands/CreateTone/CreateTone.command";
 import { UpdateToneCommand } from "~counselings/aggregates/tones/applications/commands/UpdateTone/UpdateTone.command";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
@@ -13,12 +16,18 @@ import {
   CreateCounselRequest,
   CreateCounselResponse,
   CreateCounselResponseSchema,
+  CreatePersonaRequest,
+  CreatePersonaResponse,
+  CreatePersonaResponseSchema,
   CreateToneRequest,
   CreateToneResponse,
   CreateToneResponseSchema,
   ReactMessageRequest,
   ReactMessageResponse,
   ReactMessageResponseSchema,
+  UpdatePersonaRequest,
+  UpdatePersonaResponse,
+  UpdatePersonaResponseSchema,
   UpdateToneRequest,
   UpdateToneResponse,
   UpdateToneResponseSchema,
@@ -134,6 +143,30 @@ export class GrpcCounselCommandController {
   //     counselor: SchemaCounselsMapper.toCounselorProto(counselor),
   //   });
   // }
+
+  @GrpcMethod("CounselService", "CreatePersona")
+  async createPersona(request: CreatePersonaRequest): Promise<CreatePersonaResponse> {
+    const command: CreatePersonaCommand = new CreatePersonaCommand({
+      body: request.body,
+      counselorId: new UniqueEntityId(request.counselorId),
+    });
+    const persona: Personas = await this.commandBus.execute(command);
+    return create(CreatePersonaResponseSchema, {
+      persona: SchemaCounselsMapper.toPersonaProto(persona),
+    });
+  }
+
+  @GrpcMethod("CounselService", "UpdatePersona")
+  async updatePersona(request: UpdatePersonaRequest): Promise<UpdatePersonaResponse> {
+    const command: UpdatePersonaCommand = new UpdatePersonaCommand({
+      personaId: new UniqueEntityId(request.personaId),
+      body: request.body,
+    });
+    const persona: Personas = await this.commandBus.execute(command);
+    return create(UpdatePersonaResponseSchema, {
+      persona: SchemaCounselsMapper.toPersonaProto(persona),
+    });
+  }
 
   @GrpcMethod("CounselService", "CreateTone")
   async createTone(request: CreateToneRequest): Promise<CreateToneResponse> {

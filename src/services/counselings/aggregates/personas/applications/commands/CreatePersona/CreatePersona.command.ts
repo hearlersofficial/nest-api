@@ -10,7 +10,7 @@ export class CreatePersonaCommand {
 
   private validate(props: PersonasNewProps): void {
     if (props.body === null || props.body === undefined) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "이름은 필수입니다.");
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "body는 필수입니다.");
     }
   }
 }

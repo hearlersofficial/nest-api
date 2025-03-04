@@ -4,7 +4,7 @@ import { PersonaPersistor } from "~counselings/aggregates/personas/applications/
 import { PersonaReader } from "~counselings/aggregates/personas/applications/tools/persona.reader";
 import { Personas, PersonasNewProps } from "~counselings/aggregates/personas/domain/personas";
 
-import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class PersonaService {
@@ -25,7 +25,7 @@ export class PersonaService {
     return updatedPersona;
   }
 
-  async findOne(personaId: UniqueEntityId): Promise<Personas> {
+  async findById(personaId: UniqueEntityId): Promise<Personas> {
     const persona = await this.personaReader.findOne(personaId);
     return persona;
   }
@@ -40,10 +40,10 @@ export class PersonaService {
     return personas;
   }
 
-  async getOne(personaId: UniqueEntityId): Promise<Personas> {
-    const persona: Personas | null = await this.findOne(personaId);
+  async getById(personaId: UniqueEntityId): Promise<Personas> {
+    const persona: Personas | null = await this.findById(personaId);
     if (!persona) {
-      throw new NotFoundException("Persona not found");
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Persona not found");
     }
     return persona;
   }
@@ -51,7 +51,7 @@ export class PersonaService {
   async getAll(): Promise<Personas[]> {
     const personas = await this.findAll();
     if (personas.length === 0) {
-      throw new NotFoundException("Personas not found");
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Personas not found");
     }
     return personas;
   }
@@ -59,7 +59,7 @@ export class PersonaService {
   async getMany(props: { counselorId?: UniqueEntityId }): Promise<Personas[]> {
     const personas = await this.findMany(props);
     if (personas.length === 0) {
-      throw new NotFoundException("Personas not found");
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Personas not found");
     }
     return personas;
   }

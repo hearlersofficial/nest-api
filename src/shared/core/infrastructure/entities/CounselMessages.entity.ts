@@ -31,6 +31,13 @@ export class CounselMessagesEntity extends CoreEntity {
   userId: string;
 
   @Column({
+    type: "bigint",
+    name: "counsel_technique_id",
+    comment: "상담기법 ID",
+  })
+  counselTechniqueId: string;
+
+  @Column({
     type: "varchar",
     name: "message",
     comment: "메시지 내용",

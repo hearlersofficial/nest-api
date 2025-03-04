@@ -16,6 +16,7 @@ export class PsqlCounselMessagesMapper {
       counselId: new UniqueEntityId(entity.counselId),
       message: entity.message,
       userId: new UniqueEntityId(entity.userId),
+      counselTechniqueId: new UniqueEntityId(entity.counselTechniqueId),
       isUserMessage: entity.isUserMessage,
       reactedAt: entity.reactedAt ? dayjs(entity.reactedAt) : null,
       reaction: entity.reaction ? entity.reaction : null,
@@ -23,10 +24,7 @@ export class PsqlCounselMessagesMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const counselMessagesOrError: Result<CounselMessages> = CounselMessages.create(
-      counselMessageProps,
-      new UniqueEntityId(entity.id),
-    );
+    const counselMessagesOrError: Result<CounselMessages> = CounselMessages.create(counselMessageProps, new UniqueEntityId(entity.id));
 
     if (counselMessagesOrError.isFailure) {
       throw new InternalServerErrorException(counselMessagesOrError.errorValue);
@@ -46,6 +44,7 @@ export class PsqlCounselMessagesMapper {
     }
 
     entity.userId = counselMessages.userId.getString();
+    entity.counselTechniqueId = counselMessages.counselTechniqueId.getString();
 
     entity.message = counselMessages.message;
     entity.isUserMessage = counselMessages.isUserMessage;

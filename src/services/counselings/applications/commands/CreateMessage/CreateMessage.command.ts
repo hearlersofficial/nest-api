@@ -1,5 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 
 import { HttpStatus } from "@nestjs/common";
 export class CreateMessageCommand {
@@ -20,4 +21,9 @@ export class CreateMessageCommand {
 interface CreateMessageCommandProps {
   counselId: UniqueEntityId;
   message: string;
+}
+
+export interface CreateMessageCommandResult {
+  createdCounselMessage: CounselMessages;
+  counselorResponseMessage: CounselMessages;
 }

@@ -13,6 +13,7 @@ import { ChatCompletionAssistantMessageParam, ChatCompletionUserMessageParam } f
 export interface CounselMessagesNewProps {
   counselId: UniqueEntityId;
   userId: UniqueEntityId;
+  counselTechniqueId: UniqueEntityId;
   message: string;
   isUserMessage: boolean;
 }
@@ -78,6 +79,11 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
       return Result.fail<void>("[CounselMessages] 사용자 ID는 필수입니다");
     }
 
+    // counselTechniqueId 검증
+    if (this.props.counselTechniqueId === null || this.props.counselTechniqueId === undefined) {
+      return Result.fail<void>("[CounselMessages] 상담 기법법 ID는 필수입니다");
+    }
+
     // message 검증
     if (this.props.message === null || this.props.message === undefined) {
       return Result.fail<void>("[CounselMessages] 메시지 내용은 필수입니다");
@@ -110,6 +116,10 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
 
   get userId(): UniqueEntityId {
     return this.props.userId;
+  }
+
+  get counselTechniqueId(): UniqueEntityId {
+    return this.props.counselTechniqueId;
   }
 
   get message(): string {

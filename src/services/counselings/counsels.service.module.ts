@@ -13,8 +13,9 @@ import { TonesModule } from "~counselings/aggregates/tones/tones.module";
 import { CreateCounselHandler } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.handler";
 import { CreateMessageHandler } from "~counselings/applications/commands/CreateMessage/CreateMessage.handler";
 import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
-import { InitializeCounselUseCase } from "~counselings/applications/useCases/InitializeCounselUseCase/InitializeCounselUseCase";
-import { InitializeCounselWithBubbleUseCase } from "~counselings/applications/useCases/InitializeCounselWithBubbleUseCase/InitializeCounselWithBubbleUseCase";
+import { MakeSystemPromptUseCase } from "~counselings/applications/useCases/MakeSystemPromptUseCase/MakeSystemPromptUseCase";
+import { ProceedCounselingUseCase } from "~counselings/applications/useCases/ProceedCounselingUseCase/ProceedCounselingUseCase";
+import { TransitionCounselTechniqueUseCase } from "~counselings/applications/useCases/TransitionCounselTechniqueUseCase/TransitionCounselTechniqueUseCase";
 import { GrpcCounselCommandController } from "~counselings/presentations/grpc/command/counsels.command.controller";
 import { GrpcCounselQueryController } from "~counselings/presentations/grpc/query/counsels.query.controller";
 
@@ -48,9 +49,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
   ],
   controllers: [GrpcCounselCommandController, GrpcCounselQueryController],
   providers: [
-    InitializeCounselUseCase,
-    InitializeCounselWithBubbleUseCase,
     GenerateGptResponseUseCase,
+    MakeSystemPromptUseCase,
+    ProceedCounselingUseCase,
+    TransitionCounselTechniqueUseCase,
     CreateCounselHandler,
     CreateMessageHandler,
     {

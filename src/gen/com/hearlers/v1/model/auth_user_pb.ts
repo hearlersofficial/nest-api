@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/model/auth_user.proto.
  */
 export const file_com_hearlers_v1_model_auth_user: GenFile = /*@__PURE__*/
-  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbW9kZWwvYXV0aF91c2VyLnByb3RvEhVjb20uaGVhcmxlcnMudjEubW9kZWwitgIKCEF1dGhVc2VyEgoKAmlkGAEgASgJEg8KB3VzZXJfaWQYAiABKAkSOAoMYXV0aF9jaGFubmVsGAMgASgOMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkF1dGhDaGFubmVsEkMKEm9hdXRoX2NoYW5uZWxfaW5mbxgEIAEoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5PQXV0aENoYW5uZWxJbmZvEjsKDnJlZnJlc2hfdG9rZW5zGAUgAygLMiMuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlJlZnJlc2hUb2tlbhIVCg1sYXN0X2xvZ2luX2F0GAYgASgJEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRISCgpkZWxldGVkX2F0GAkgASgJIqcBChBPQXV0aENoYW5uZWxJbmZvEgoKAmlkGAEgASgJEjgKDGF1dGhfY2hhbm5lbBgCIAEoDjIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5BdXRoQ2hhbm5lbBIRCgl1bmlxdWVfaWQYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhIKCmRlbGV0ZWRfYXQYBiABKAkiWQoMUmVmcmVzaFRva2VuEg0KBXRva2VuGAEgASgJEhIKCmV4cGlyZXNfYXQYAiABKAkSEgoKY3JlYXRlZF9hdBgDIAEoCRISCgp1cGRhdGVkX2F0GAQgASgJKnYKC0F1dGhDaGFubmVsEhwKGEFVVEhfQ0hBTk5FTF9VTlNQRUNJRklFRBAAEhkKFUFVVEhfQ0hBTk5FTF9VTkxJTktFRBABEhYKEkFVVEhfQ0hBTk5FTF9LQUtBTxACEhYKEkFVVEhfQ0hBTk5FTF9OQVZFUhADQqIBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQg1BdXRoVXNlclByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM");
+  fileDesc("CiVjb20vaGVhcmxlcnMvdjEvbW9kZWwvYXV0aF91c2VyLnByb3RvEhVjb20uaGVhcmxlcnMudjEubW9kZWwi6wIKCEF1dGhVc2VyEgoKAmlkGAEgASgJEg8KB3VzZXJfaWQYAiABKAkSOAoMYXV0aF9jaGFubmVsGAMgASgOMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkF1dGhDaGFubmVsEkMKEm9hdXRoX2NoYW5uZWxfaW5mbxgEIAEoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5PQXV0aENoYW5uZWxJbmZvEjsKDnJlZnJlc2hfdG9rZW5zGAUgAygLMiMuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlJlZnJlc2hUb2tlbhIzCglhdXRob3JpdHkYBiABKA4yIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQXV0aG9yaXR5EhUKDWxhc3RfbG9naW5fYXQYByABKAkSEgoKY3JlYXRlZF9hdBgIIAEoCRISCgp1cGRhdGVkX2F0GAkgASgJEhIKCmRlbGV0ZWRfYXQYCiABKAkipwEKEE9BdXRoQ2hhbm5lbEluZm8SCgoCaWQYASABKAkSOAoMYXV0aF9jaGFubmVsGAIgASgOMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkF1dGhDaGFubmVsEhEKCXVuaXF1ZV9pZBgDIAEoCRISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSEgoKZGVsZXRlZF9hdBgGIAEoCSJZCgxSZWZyZXNoVG9rZW4SDQoFdG9rZW4YASABKAkSEgoKZXhwaXJlc19hdBgCIAEoCRISCgpjcmVhdGVkX2F0GAMgASgJEhIKCnVwZGF0ZWRfYXQYBCABKAkqTwoJQXV0aG9yaXR5EhkKFUFVVEhPUklUWV9VTlNQRUNJRklFRBAAEhIKDkFVVEhPUklUWV9VU0VSEAESEwoPQVVUSE9SSVRZX0FETUlOEAIqdgoLQXV0aENoYW5uZWwSHAoYQVVUSF9DSEFOTkVMX1VOU1BFQ0lGSUVEEAASGQoVQVVUSF9DSEFOTkVMX1VOTElOS0VEEAESFgoSQVVUSF9DSEFOTkVMX0tBS0FPEAISFgoSQVVUSF9DSEFOTkVMX05BVkVSEANCogEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCDUF1dGhVc2VyUHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw");
 
 /**
  * @generated from message com.hearlers.v1.model.AuthUser
@@ -42,30 +42,35 @@ export type AuthUser = Message<"com.hearlers.v1.model.AuthUser"> & {
   refreshTokens: RefreshToken[];
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * @generated from field: com.hearlers.v1.model.Authority authority = 6;
+   */
+  authority: Authority;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string last_login_at = 6;
+   * @generated from field: string last_login_at = 7;
    */
   lastLoginAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string created_at = 7;
+   * @generated from field: string created_at = 8;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string updated_at = 8;
+   * @generated from field: string updated_at = 9;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 9;
+   * @generated from field: string deleted_at = 10;
    */
   deletedAt: string;
 };
@@ -97,21 +102,21 @@ export type OAuthChannelInfo = Message<"com.hearlers.v1.model.OAuthChannelInfo">
   uniqueId: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 4;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 5;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 6;
    */
@@ -135,21 +140,21 @@ export type RefreshToken = Message<"com.hearlers.v1.model.RefreshToken"> & {
   token: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string expires_at = 2;
    */
   expiresAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 3;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 4;
    */
@@ -162,6 +167,32 @@ export type RefreshToken = Message<"com.hearlers.v1.model.RefreshToken"> & {
  */
 export const RefreshTokenSchema: GenMessage<RefreshToken> = /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_model_auth_user, 2);
+
+/**
+ * @generated from enum com.hearlers.v1.model.Authority
+ */
+export enum Authority {
+  /**
+   * @generated from enum value: AUTHORITY_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: AUTHORITY_USER = 1;
+   */
+  USER = 1,
+
+  /**
+   * @generated from enum value: AUTHORITY_ADMIN = 2;
+   */
+  ADMIN = 2,
+}
+
+/**
+ * Describes the enum com.hearlers.v1.model.Authority.
+ */
+export const AuthoritySchema: GenEnum<Authority> = /*@__PURE__*/
+  enumDesc(file_com_hearlers_v1_model_auth_user, 0);
 
 /**
  * @generated from enum com.hearlers.v1.model.AuthChannel
@@ -192,5 +223,5 @@ export enum AuthChannel {
  * Describes the enum com.hearlers.v1.model.AuthChannel.
  */
 export const AuthChannelSchema: GenEnum<AuthChannel> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_auth_user, 0);
+  enumDesc(file_com_hearlers_v1_model_auth_user, 1);
 

@@ -24,6 +24,7 @@ export class SchemaAuthUsersMapper {
       userId: authUser.userId.getString(),
       authChannel: authUser.authChannel,
       oauthChannelInfo: this.toOAuthChannelInfoProto(authUser),
+      authority: authUser.authority,
       lastLoginAt: authUser.lastLoginAt.toISOString(),
       refreshTokens: this.toRefreshTokenProtos(authUser.refreshTokens),
       createdAt: authUser.createdAt.toISOString(),

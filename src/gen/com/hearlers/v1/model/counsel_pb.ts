@@ -99,7 +99,7 @@ export type CounselMessage = Message<"com.hearlers.v1.model.CounselMessage"> & {
   isUserMessage: boolean;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string reacted_at = 5;
    */
@@ -111,21 +111,21 @@ export type CounselMessage = Message<"com.hearlers.v1.model.CounselMessage"> & {
   reaction: CounselMessageReaction;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 7;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 8;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 9;
    */
@@ -184,21 +184,21 @@ export type Counselor = Message<"com.hearlers.v1.model.Counselor"> & {
   responseOption2: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 9;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 10;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 11;
    */
@@ -252,21 +252,21 @@ export type CounselTechnique = Message<"com.hearlers.v1.model.CounselTechnique">
   nextCounselTechniqueId?: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 8;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 9;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 10;
    */
@@ -305,21 +305,21 @@ export type CounselorUserRelationship = Message<"com.hearlers.v1.model.Counselor
   rapport: number;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 5;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 6;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 7;
    */
@@ -353,21 +353,21 @@ export type Persona = Message<"com.hearlers.v1.model.Persona"> & {
   counselorId: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 4;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 5;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 6;
    */
@@ -406,21 +406,21 @@ export type Context = Message<"com.hearlers.v1.model.Context"> & {
   body: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 5;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 6;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 7;
    */
@@ -459,21 +459,21 @@ export type Instruction = Message<"com.hearlers.v1.model.Instruction"> & {
   instructionItems: InstructionItem[];
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 5;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 6;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 7;
    */
@@ -502,21 +502,21 @@ export type InstructionItem = Message<"com.hearlers.v1.model.InstructionItem"> &
   body: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 3;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 4;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 5;
    */
@@ -550,21 +550,21 @@ export type Tone = Message<"com.hearlers.v1.model.Tone"> & {
   body: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 4;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 5;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:mm:ss (2024-12-29 12:34:56)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 6;
    */

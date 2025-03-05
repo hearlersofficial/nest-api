@@ -1,6 +1,8 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { SaveRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/SaveRefreshToken/SaveRefreshToken.command";
+import { UpdateAuthorityCommand } from "~users/aggregates/authUsers/applications/commands/UpdateAuthority/UpdateAuthority.command";
 import { VerifyRefreshTokenCommand } from "~users/aggregates/authUsers/applications/commands/VerifyRefreshToken/VerifyRefreshToken.command";
+import { AuthUsers } from "~users/aggregates/authUsers/domain/AuthUsers";
 import { ReserveTokensCommand } from "~users/aggregates/users/applications/commands/ReserveTokens/ReserveTokens.command";
 import { UpdateUserCommand } from "~users/aggregates/users/applications/commands/UpdateUser/UpdateUser.command";
 import { Users } from "~users/aggregates/users/domain/Users";
@@ -20,6 +22,9 @@ import {
   SaveRefreshTokenRequest,
   SaveRefreshTokenResponse,
   SaveRefreshTokenResponseSchema,
+  UpdateAuthorityRequest,
+  UpdateAuthorityResponse,
+  UpdateAuthorityResponseSchema,
   UpdateUserRequest,
   UpdateUserResponse,
   UpdateUserResponseSchema,
@@ -117,5 +122,16 @@ export class GrpcUserCommandController {
       maxTokens,
       reserved,
     });
+  }
+
+  @GrpcMethod("UserService", "UpdateAuthority")
+  async updateAuthority(request: UpdateAuthorityRequest): Promise<UpdateAuthorityResponse> {
+    const { authUserId, authority } = request;
+    const command: UpdateAuthorityCommand = new UpdateAuthorityCommand({
+      authUserId: new UniqueEntityId(authUserId),
+      authority,
+    });
+    const authUser: AuthUsers = await this.commandBus.execute(command);
+    return create(UpdateAuthorityResponseSchema, { authUser: SchemaAuthUsersMapper.toAuthUserProto(authUser) });
   }
 }

@@ -38,21 +38,21 @@ export type User = Message<"com.hearlers.v1.model.User"> & {
   userProgresses: UserProgress[];
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 5;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 6;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 7;
    */
@@ -86,7 +86,7 @@ export type UserProfile = Message<"com.hearlers.v1.model.UserProfile"> & {
   gender: Gender;
 
   /**
-   * YYYY-MM-DD 00:00:00
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string birthday = 4;
    */
@@ -103,21 +103,21 @@ export type UserProfile = Message<"com.hearlers.v1.model.UserProfile"> & {
   mbti: Mbti;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 7;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 8;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 9;
    */
@@ -146,28 +146,28 @@ export type UserProgress = Message<"com.hearlers.v1.model.UserProgress"> & {
   status: ProgressStatus;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string last_updated = 3;
    */
   lastUpdated: string;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 4;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 5;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 6;
    */
@@ -216,21 +216,21 @@ export type UserActivity = Message<"com.hearlers.v1.model.UserActivity"> & {
   durationSeconds: number;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 7;
    */
   createdAt: string;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string updated_at = 8;
    */
   updatedAt: string;
 
   /**
-   * YYYY-MM-DD HH:MM:SS
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string deleted_at = 9;
    */

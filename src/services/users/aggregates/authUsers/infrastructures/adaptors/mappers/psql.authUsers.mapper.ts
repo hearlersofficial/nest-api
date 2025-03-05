@@ -17,6 +17,7 @@ export class PsqlAuthUsersMapper {
 
     const authUsersProps: AuthUsersProps = {
       status: CoreStatus.ACTIVE,
+      authority: entity.authority,
       userId: new UniqueEntityId(entity.userId),
       lastLoginAt: dayjs(entity.lastLoginAt),
       authChannel: entity.authChannel,
@@ -38,6 +39,7 @@ export class PsqlAuthUsersMapper {
 
     entity.id = authUser.id.getString();
     entity.userId = authUser.userId?.getString() || null;
+    entity.authority = authUser.authority;
     entity.lastLoginAt = authUser.lastLoginAt.toISOString();
     entity.authChannel = authUser.authChannel;
     entity.kakao = authUser.kakao ? PsqlKakaoMapper.toEntity(authUser.kakao) : null;

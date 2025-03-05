@@ -1,5 +1,6 @@
 import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 import { SaveRefreshTokenHandler } from "~users/aggregates/authUsers/applications/commands/SaveRefreshToken/SaveRefreshToken.handler";
+import { UpdateAuthorityHandler } from "~users/aggregates/authUsers/applications/commands/UpdateAuthority/UpdateAuthority.handler";
 import { VerifyRefreshTokenHandler } from "~users/aggregates/authUsers/applications/commands/VerifyRefreshToken/VerifyRefreshToken.handler";
 import { CreateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/CreateAuthUserUseCase/CreateAuthUserUseCase";
 import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
@@ -18,6 +19,7 @@ const useCases = [CreateAuthUserUseCase, FindOneAuthUserUseCase, UpdateAuthUserU
     ...useCases,
     SaveRefreshTokenHandler,
     VerifyRefreshTokenHandler,
+    UpdateAuthorityHandler,
     {
       provide: AUTH_USERS_REPOSITORY,
       useClass: PsqlAuthUsersRepositoryAdaptor,

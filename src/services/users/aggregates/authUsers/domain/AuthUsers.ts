@@ -5,7 +5,7 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { Kakao } from "~users/aggregates/authUsers/domain/Kakao";
 import { RefreshTokensVO } from "~users/aggregates/authUsers/domain/RefreshTokens.vo";
-import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
+import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Dayjs } from "dayjs";
 
@@ -17,6 +17,7 @@ export interface AuthUsersNewProps {}
 export interface AuthUsersProps extends AuthUsersNewProps {
   authChannel: AuthChannel;
   status: CoreStatus;
+  authority: Authority;
   userId: UniqueEntityId;
   lastLoginAt: Dayjs;
   kakao?: Kakao;
@@ -49,6 +50,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
       {
         ...props,
         authChannel: AuthChannel.UNLINKED,
+        authority: Authority.USER,
         userId: null,
         status: CoreStatus.INACTIVE,
         lastLoginAt: nowDayjs,
@@ -75,6 +77,10 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
 
   get authChannel(): AuthChannel {
     return this.props.authChannel;
+  }
+
+  get authority(): Authority {
+    return this.props.authority;
   }
 
   get kakao(): Kakao | undefined {
@@ -138,7 +144,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     return Result.ok<void>();
   }
 
-  public update(props: AuthUsersProps): Result<void> {
+  public update(props: Partial<AuthUsersProps>): Result<void> {
     this.props = { ...this.props, ...props };
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();

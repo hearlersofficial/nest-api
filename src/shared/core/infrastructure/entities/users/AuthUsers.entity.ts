@@ -3,7 +3,7 @@ import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { KakaoEntity } from "~shared/core/infrastructure/entities/users/Kakao.entity";
 import { RefreshTokenEntity } from "~shared/core/infrastructure/entities/users/RefreshTokens.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
+import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, RelationId } from "typeorm";
 
@@ -58,6 +58,15 @@ export class AuthUsersEntity extends CoreEntity {
     default: AuthChannel.UNLINKED,
   })
   authChannel: AuthChannel;
+
+  @Column({
+    type: "enum",
+    name: "authority",
+    enum: Authority,
+    comment: "권한",
+    default: Authority.USER,
+  })
+  authority: Authority;
 
   @Column({
     type: "enum",

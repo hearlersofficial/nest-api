@@ -1,4 +1,12 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { FindMessagesQuery } from "~counselings/aggregates/counselMessages/applications/queries/FindMessages/FindMessages.query";
+import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { FindCounselorByIdQuery } from "~counselings/aggregates/counselors/applications/queries/FindCounselorById/FindCounselorById.query";
+import { FindCounselorsQuery } from "~counselings/aggregates/counselors/applications/queries/FindCounselors/FindCounselors.query";
+import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
+import { FindCounselByIdQuery } from "~counselings/aggregates/counsels/applications/queries/FindCounselById/FindCounselById.query";
+import { FindCounselsQuery } from "~counselings/aggregates/counsels/applications/queries/FindCounsels/FindCounsels.query";
+import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import { FindPersonaByIdQuery } from "~counselings/aggregates/personas/applications/queries/FindPersonaById/FindPersonaById.query";
 import { FindPersonasQuery } from "~counselings/aggregates/personas/applications/queries/FindPersonas/FindPersonas.query";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
@@ -7,6 +15,21 @@ import { FindTonesQuery } from "~counselings/aggregates/tones/applications/queri
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
+  FindCounselByIdRequest,
+  FindCounselByIdResponse,
+  FindCounselByIdResponseSchema,
+  FindCounselorByIdRequest,
+  FindCounselorByIdResponse,
+  FindCounselorByIdResponseSchema,
+  FindCounselorsRequest,
+  FindCounselorsResponse,
+  FindCounselorsResponseSchema,
+  FindCounselsRequest,
+  FindCounselsResponse,
+  FindCounselsResponseSchema,
+  FindMessagesRequest,
+  FindMessagesResponse,
+  FindMessagesResponseSchema,
   FindPersonaByIdRequest,
   FindPersonaByIdResponse,
   FindPersonaByIdResponseSchema,
@@ -29,6 +52,60 @@ import { GrpcMethod } from "@nestjs/microservices";
 @Controller("counsel")
 export class GrpcCounselQueryController {
   constructor(private readonly queryBus: QueryBus) {}
+
+  @GrpcMethod("CounselService", "FindCounsels")
+  async findCounsels(data: FindCounselsRequest): Promise<FindCounselsResponse> {
+    const query: FindCounselsQuery = new FindCounselsQuery({
+      userId: new UniqueEntityId(data.userId),
+      counselorId: data.counselorId ? new UniqueEntityId(data.counselorId) : undefined,
+    });
+    const counsels: Counsels[] = await this.queryBus.execute(query);
+    return create(FindCounselsResponseSchema, {
+      counsels: counsels.map((counsel) => SchemaCounselsMapper.toCounselProto(counsel)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindCounselById")
+  async findCounselById(data: FindCounselByIdRequest): Promise<FindCounselByIdResponse> {
+    const query: FindCounselByIdQuery = new FindCounselByIdQuery({
+      counselId: new UniqueEntityId(data.counselId),
+    });
+    const counsel: Counsels = await this.queryBus.execute(query);
+    return create(FindCounselByIdResponseSchema, { counsel: SchemaCounselsMapper.toCounselProto(counsel) });
+  }
+
+  @GrpcMethod("CounselService", "FindMessages")
+  async findMessages(data: FindMessagesRequest): Promise<FindMessagesResponse> {
+    const query: FindMessagesQuery = new FindMessagesQuery({
+      counselId: new UniqueEntityId(data.counselId),
+    });
+    const counselMessages: CounselMessages[] = await this.queryBus.execute(query);
+    return create(FindMessagesResponseSchema, {
+      counselMessages: counselMessages.map((message) => SchemaCounselsMapper.toCounselMessageProto(message)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindCounselors")
+  async findCounselors(data: FindCounselorsRequest): Promise<FindCounselorsResponse> {
+    const query: FindCounselorsQuery = new FindCounselorsQuery({
+      toneId: data.toneId ? new UniqueEntityId(data.toneId) : undefined,
+    });
+    const counselors: Counselors[] = await this.queryBus.execute(query);
+    return create(FindCounselorsResponseSchema, {
+      counselors: counselors.map((counselor) => SchemaCounselsMapper.toCounselorProto(counselor)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindCounselorById")
+  async findCounselorById(data: FindCounselorByIdRequest): Promise<FindCounselorByIdResponse> {
+    const query: FindCounselorByIdQuery = new FindCounselorByIdQuery({
+      counselorId: new UniqueEntityId(data.counselorId),
+    });
+    const counselor: Counselors = await this.queryBus.execute(query);
+    return create(FindCounselorByIdResponseSchema, {
+      counselor: SchemaCounselsMapper.toCounselorProto(counselor),
+    });
+  }
 
   @GrpcMethod("CounselService", "FindPersonas")
   async findPersonas(data: FindPersonasRequest): Promise<FindPersonasResponse> {

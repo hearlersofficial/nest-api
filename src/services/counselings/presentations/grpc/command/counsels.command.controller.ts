@@ -1,6 +1,8 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { CreateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
+import { UpdateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
 import { CreatePersonaCommand } from "~counselings/aggregates/personas/applications/commands/CreatePersona/CreatePersona.command";
 import { UpdatePersonaCommand } from "~counselings/aggregates/personas/applications/commands/UpdatePersona/UpdatePersona.command";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
@@ -119,6 +121,30 @@ export class GrpcCounselCommandController {
 
     return create(UpdateCounselorResponseSchema, {
       counselor: SchemaCounselsMapper.toCounselorProto(counselor),
+    });
+  }
+
+  @GrpcMethod("CounselService", "CreatePersona")
+  async createPersona(request: CreatePersonaRequest): Promise<CreatePersonaResponse> {
+    const command: CreatePersonaCommand = new CreatePersonaCommand({
+      body: request.body,
+      counselorId: new UniqueEntityId(request.counselorId),
+    });
+    const persona: Personas = await this.commandBus.execute(command);
+    return create(CreatePersonaResponseSchema, {
+      persona: SchemaCounselsMapper.toPersonaProto(persona),
+    });
+  }
+
+  @GrpcMethod("CounselService", "UpdatePersona")
+  async updatePersona(request: UpdatePersonaRequest): Promise<UpdatePersonaResponse> {
+    const command: UpdatePersonaCommand = new UpdatePersonaCommand({
+      personaId: new UniqueEntityId(request.personaId),
+      body: request.body,
+    });
+    const persona: Personas = await this.commandBus.execute(command);
+    return create(UpdatePersonaResponseSchema, {
+      persona: SchemaCounselsMapper.toPersonaProto(persona),
     });
   }
 

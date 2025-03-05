@@ -164,15 +164,4 @@ export class SchemaCounselsMapper {
       deletedAt: tone.deletedAt ? tone.deletedAt.toISOString() : null,
     });
   }
-
-  static toPersonaProto(persona: Personas): Persona {
-    return create(PersonaSchema, {
-      id: persona.id.getString(),
-      body: persona.body,
-      counselorId: persona.counselorId.getString(),
-      createdAt: persona.createdAt.toISOString(),
-      updatedAt: persona.updatedAt.toISOString(),
-      deletedAt: persona.deletedAt ? persona.deletedAt.toISOString() : null,
-    });
-  }
 }

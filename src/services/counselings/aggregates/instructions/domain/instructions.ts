@@ -7,6 +7,7 @@ import { InstructionMaps } from "~counselings/aggregates/instructions/domain/ins
 import { Dayjs } from "dayjs";
 
 export interface InstructionsNewProps {
+  name: string;
   initialSentence: string | null;
 }
 
@@ -51,18 +52,27 @@ export class Instructions extends AggregateRoot<InstructionsProps> {
   }
 
   private validateDomain(): Result<void> {
+    // name 검증
+    if (this.props.name === null || this.props.name === undefined) {
+      return Result.fail<void>("[Instructions] 이름은 필수입니다");
+    }
+
     // 날짜 검증
     if (!this.props.createdAt) {
-      return Result.fail<void>("[Counsels] 생성 시간은 필수입니다");
+      return Result.fail<void>("[Instructions] 생성 시간은 필수입니다");
     }
     if (!this.props.updatedAt) {
-      return Result.fail<void>("[Counsels] 수정 시간은 필수입니다");
+      return Result.fail<void>("[Instructions] 수정 시간은 필수입니다");
     }
 
     return Result.ok();
   }
 
   // Getters
+  get name(): string {
+    return this.props.name;
+  }
+
   get initialSentence(): string | null {
     return this.props.initialSentence;
   }

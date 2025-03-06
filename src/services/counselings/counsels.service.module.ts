@@ -11,7 +11,11 @@ import { InstructionsModule } from "~counselings/aggregates/instructions/instruc
 import { PersonasModule } from "~counselings/aggregates/personas/personas.module";
 import { TonesModule } from "~counselings/aggregates/tones/tones.module";
 import { CreateCounselHandler } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.handler";
+import { CreateInstructionHandler } from "~counselings/applications/commands/CreateInstruction/CreateInstruction.handler";
 import { CreateMessageHandler } from "~counselings/applications/commands/CreateMessage/CreateMessage.handler";
+import { UpdateInstructionHandler } from "~counselings/applications/commands/UpdateInstruction/UpdateInstruction.handler";
+import { FindInstructionByIdHandler } from "~counselings/applications/queries/FindInstructionById/FindInstructionById.handler";
+import { FindInstructionsHandler } from "~counselings/applications/queries/FindInstructions/FindInstructions.handler";
 import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
 import { MakeSystemPromptUseCase } from "~counselings/applications/useCases/MakeSystemPromptUseCase/MakeSystemPromptUseCase";
 import { ProceedCounselingUseCase } from "~counselings/applications/useCases/ProceedCounselingUseCase/ProceedCounselingUseCase";
@@ -55,6 +59,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     TransitionCounselTechniqueUseCase,
     CreateCounselHandler,
     CreateMessageHandler,
+    CreateInstructionHandler,
+    UpdateInstructionHandler,
+    FindInstructionByIdHandler,
+    FindInstructionsHandler,
     {
       provide: APP_FILTER,
       useClass: AllExceptionFilter,

@@ -2,6 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { InstructionItems } from "~counselings/aggregates/instructionItems/domain/instructionItems";
 import { InstructionMaps } from "~counselings/aggregates/instructions/domain/instructionMaps";
 
@@ -95,6 +96,16 @@ export class Instructions extends AggregateRoot<InstructionsProps> {
   }
 
   // Methods
+  public update(props: Partial<InstructionsProps>): void {
+    if (isDefined(props.name) && props.name !== this.props.name) {
+      this.props.name = props.name;
+    }
+    if (isDefined(props.initialSentence) && props.initialSentence !== this.props.initialSentence) {
+      this.props.initialSentence = props.initialSentence;
+    }
+    this.props.updatedAt = getNowDayjs();
+  }
+
   public updateInstructionMaps(instructionItemIds: UniqueEntityId[]): Result<void> {
     const currentInstructionLength = this.props.instructionMaps.length;
     const newInstructionLength = instructionItemIds.length;

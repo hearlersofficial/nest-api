@@ -1,4 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { CreateContextCommand } from "~counselings/aggregates/contexts/applications/commands/CreateContext/CreateContext.command";
+import { UpdateContextCommand } from "~counselings/aggregates/contexts/applications/commands/UpdateContext/UpdateContext.command";
+import { Contexts } from "~counselings/aggregates/contexts/domain/contexts";
 import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CreateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
@@ -13,6 +16,9 @@ import { CreateCounselCommand, CreateCounselCommandResult } from "~counselings/a
 import { CreateMessageCommand, CreateMessageCommandResult } from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
+  CreateContextRequest,
+  CreateContextResponse,
+  CreateContextResponseSchema,
   CreateCounselorRequest,
   CreateCounselorResponse,
   CreateCounselorResponseSchema,
@@ -31,6 +37,9 @@ import {
   ReactMessageRequest,
   ReactMessageResponse,
   ReactMessageResponseSchema,
+  UpdateContextRequest,
+  UpdateContextResponse,
+  UpdateContextResponseSchema,
   UpdateCounselorRequest,
   UpdateCounselorResponse,
   UpdateCounselorResponseSchema,
@@ -145,6 +154,33 @@ export class GrpcCounselCommandController {
     const persona: Personas = await this.commandBus.execute(command);
     return create(UpdatePersonaResponseSchema, {
       persona: SchemaCounselsMapper.toPersonaProto(persona),
+    });
+  }
+
+  @GrpcMethod("CounselService", "CreateContext")
+  async createContext(request: CreateContextRequest): Promise<CreateContextResponse> {
+    const command: CreateContextCommand = new CreateContextCommand({
+      name: request.name,
+      body: request.body,
+      placeholders: request.placeholders,
+    });
+    const context: Contexts = await this.commandBus.execute(command);
+    return create(CreateContextResponseSchema, {
+      context: SchemaCounselsMapper.toContextProto(context),
+    });
+  }
+
+  @GrpcMethod("CounselService", "UpdateContext")
+  async updateContext(request: UpdateContextRequest): Promise<UpdateContextResponse> {
+    const command: UpdateContextCommand = new UpdateContextCommand({
+      contextId: new UniqueEntityId(request.contextId),
+      name: request.name,
+      body: request.body,
+      placeholders: request.placeholders,
+    });
+    const context: Contexts = await this.commandBus.execute(command);
+    return create(UpdateContextResponseSchema, {
+      context: SchemaCounselsMapper.toContextProto(context),
     });
   }
 

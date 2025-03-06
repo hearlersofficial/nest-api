@@ -40,7 +40,7 @@ export class ContextService {
     return contexts;
   }
 
-  async getOne(contextId: UniqueEntityId): Promise<Contexts> {
+  async getById(contextId: UniqueEntityId): Promise<Contexts> {
     const context: Contexts | null = await this.findOne(contextId);
     if (!context) {
       throw new NotFoundException("Context not found");

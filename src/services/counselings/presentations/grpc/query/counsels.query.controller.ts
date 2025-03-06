@@ -1,4 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { FindContextByIdQuery } from "~counselings/aggregates/contexts/applications/queries/FindContextById/FindContextById.query";
+import { FindContextsQuery } from "~counselings/aggregates/contexts/applications/queries/FindContexts/FindContexts.query";
+import { Contexts } from "~counselings/aggregates/contexts/domain/contexts";
 import { FindMessagesQuery } from "~counselings/aggregates/counselMessages/applications/queries/FindMessages/FindMessages.query";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { FindCounselorByIdQuery } from "~counselings/aggregates/counselors/applications/queries/FindCounselorById/FindCounselorById.query";
@@ -15,6 +18,12 @@ import { FindTonesQuery } from "~counselings/aggregates/tones/applications/queri
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
+  FindContextByIdRequest,
+  FindContextByIdResponse,
+  FindContextByIdResponseSchema,
+  FindContextsRequest,
+  FindContextsResponse,
+  FindContextsResponseSchema,
   FindCounselByIdRequest,
   FindCounselByIdResponse,
   FindCounselByIdResponseSchema,
@@ -121,6 +130,22 @@ export class GrpcCounselQueryController {
     const query: FindPersonaByIdQuery = new FindPersonaByIdQuery(new UniqueEntityId(data.personaId));
     const persona: Personas = await this.queryBus.execute(query);
     return create(FindPersonaByIdResponseSchema, { persona: SchemaCounselsMapper.toPersonaProto(persona) });
+  }
+
+  @GrpcMethod("CounselService", "FindContexts")
+  async findContexts(data: FindContextsRequest): Promise<FindContextsResponse> {
+    const query: FindContextsQuery = new FindContextsQuery({ name: data.name });
+    const contexts: Contexts[] = await this.queryBus.execute(query);
+    return create(FindContextsResponseSchema, {
+      contexts: contexts?.map((context) => SchemaCounselsMapper.toContextProto(context)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindContextById")
+  async findContextById(data: FindContextByIdRequest): Promise<FindContextByIdResponse> {
+    const query: FindContextByIdQuery = new FindContextByIdQuery(new UniqueEntityId(data.contextId));
+    const context: Contexts = await this.queryBus.execute(query);
+    return create(FindContextByIdResponseSchema, { context: SchemaCounselsMapper.toContextProto(context) });
   }
 
   @GrpcMethod("CounselService", "FindTones")

@@ -2,6 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { isDefined } from "~shared/utils/Validate.utils";
 
 import { Dayjs } from "dayjs";
 
@@ -91,6 +92,19 @@ export class Contexts extends AggregateRoot<ContextsProps> {
   }
 
   // Methods
+  public update(props: Partial<ContextsProps>): void {
+    if (isDefined(props.name) && props.name !== this.props.name) {
+      this.props.name = props.name;
+    }
+    if (isDefined(props.body) && props.body !== this.props.body) {
+      this.props.body = props.body;
+    }
+    if (isDefined(props.placeholders) && props.placeholders !== this.props.placeholders) {
+      this.props.placeholders = props.placeholders;
+    }
+    this.props.updatedAt = getNowDayjs();
+  }
+
   public getPrompt(variables?: Record<string, string>): Result<string> {
     let prompt = this.body;
     const placeholders = this.placeholders;

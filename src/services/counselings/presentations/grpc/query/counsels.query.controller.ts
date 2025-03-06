@@ -19,6 +19,8 @@ import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import { FindToneByIdQuery } from "~counselings/aggregates/tones/applications/queries/FindToneById/FindToneById.query";
 import { FindTonesQuery } from "~counselings/aggregates/tones/applications/queries/FindTones/FineTones.query";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
+import { FindInstructionByIdQuery, FindInstructionByIdQueryResult } from "~counselings/applications/queries/FindInstructionById/FindInstructionById.query";
+import { FindInstructionsQuery, FindInstructionsQueryResult } from "~counselings/applications/queries/FindInstructions/FindInstructions.query";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
   FindContextByIdRequest,
@@ -39,12 +41,18 @@ import {
   FindCounselsRequest,
   FindCounselsResponse,
   FindCounselsResponseSchema,
+  FindInstructionByIdRequest,
+  FindInstructionByIdResponse,
+  FindInstructionByIdResponseSchema,
   FindInstructionItemByIdRequest,
   FindInstructionItemByIdResponse,
   FindInstructionItemByIdResponseSchema,
   FindInstructionItemsRequest,
   FindInstructionItemsResponse,
   FindInstructionItemsResponseSchema,
+  FindInstructionsRequest,
+  FindInstructionsResponse,
+  FindInstructionsResponseSchema,
   FindMessagesRequest,
   FindMessagesResponse,
   FindMessagesResponseSchema,
@@ -155,6 +163,22 @@ export class GrpcCounselQueryController {
     const query: FindContextByIdQuery = new FindContextByIdQuery(new UniqueEntityId(data.contextId));
     const context: Contexts = await this.queryBus.execute(query);
     return create(FindContextByIdResponseSchema, { context: SchemaCounselsMapper.toContextProto(context) });
+  }
+
+  @GrpcMethod("CounselService", "FindInstructions")
+  async findInstructions(data: FindInstructionsRequest): Promise<FindInstructionsResponse> {
+    const query: FindInstructionsQuery = new FindInstructionsQuery({ name: data.name });
+    const { instructions }: FindInstructionsQueryResult = await this.queryBus.execute(query);
+    return create(FindInstructionsResponseSchema, {
+      instructions: instructions?.map((instruction) => SchemaCounselsMapper.toInstructionProto(instruction.instruction, instruction.instructionItems)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindInstructionById")
+  async findInstructionById(data: FindInstructionByIdRequest): Promise<FindInstructionByIdResponse> {
+    const query: FindInstructionByIdQuery = new FindInstructionByIdQuery(new UniqueEntityId(data.instructionId));
+    const { instruction, instructionItems }: FindInstructionByIdQueryResult = await this.queryBus.execute(query);
+    return create(FindInstructionByIdResponseSchema, { instruction: SchemaCounselsMapper.toInstructionProto(instruction, instructionItems) });
   }
 
   @GrpcMethod("CounselService", "FindInstructionItems")

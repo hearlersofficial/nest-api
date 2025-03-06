@@ -1,6 +1,5 @@
 import { UseCase } from "~shared/core/applications/UseCase";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselMessageService } from "~counselings/aggregates/counselMessages/applications/counselMessage.service";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CounselorService } from "~counselings/aggregates/counselors/applications/counselor.service";
@@ -12,7 +11,7 @@ import { ProceedCounselingRequest } from "~counselings/applications/useCases/Pro
 import { ProceedCounselingResponse } from "~counselings/applications/useCases/ProceedCounselingUseCase/dto/ProceedCounseling.response";
 import { TransitionCounselTechniqueUseCase } from "~counselings/applications/useCases/TransitionCounselTechniqueUseCase/TransitionCounselTechniqueUseCase";
 
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { ChatCompletionMessageParam } from "openai/resources";
 
 @Injectable()
@@ -45,7 +44,10 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     // 상담사 조회
     const counselor = await this.counselorService.findOne(counsel.counselorId);
     if (!counselor) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counselor not found");
+      return {
+        ok: false,
+        error: "Counselor not found",
+      };
     }
 
     // 이전 대화 조회
@@ -67,7 +69,10 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     // 상담 기법 조회
     const counselTechnique = await this.counselTechniqueService.findOne(counsel.counselTechniqueId);
     if (!counselTechnique) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "CounselTechnique not found");
+      return {
+        ok: false,
+        error: "CounselTechnique not found",
+      };
     }
 
     const prompts: ChatCompletionMessageParam[] = [];

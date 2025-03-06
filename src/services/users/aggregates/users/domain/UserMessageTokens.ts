@@ -31,7 +31,7 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
     const userMessageTokens = new UserMessageTokens(props, id);
     const validateResult = userMessageTokens.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<UserMessageTokens>(validateResult.error);
+      return Result.fail<UserMessageTokens>(validateResult.error as string);
     }
     return Result.ok<UserMessageTokens>(userMessageTokens);
   }

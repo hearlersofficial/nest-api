@@ -34,11 +34,14 @@ export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepository
     return instruction;
   }
 
-  async findOne(instructionId: UniqueEntityId): Promise<Instructions> {
+  async findOne(instructionId: UniqueEntityId): Promise<Instructions | null> {
     const instructionEntity = await this.instructionsRepository.findOne({
       where: { id: instructionId.getString() },
       relations: this.instructionFindOptionsRelation,
     });
+    if (!instructionEntity) {
+      return null;
+    }
     return PsqlInstructionsMapper.toDomain(instructionEntity);
   }
 
@@ -46,7 +49,9 @@ export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepository
     const instructionEntities = await this.instructionsRepository.find({
       relations: this.instructionFindOptionsRelation,
     });
-    return instructionEntities.map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity));
+    return instructionEntities
+      .map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity))
+      .filter((instruction) => instruction !== null);
   }
 
   async findMany(props: FindManyPropsInInstructionsRepository): Promise<Instructions[]> {
@@ -58,6 +63,8 @@ export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepository
       where: findOptionsWhere,
       relations: this.instructionFindOptionsRelation,
     });
-    return instructionEntities.map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity));
+    return instructionEntities
+      .map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity))
+      .filter((instruction) => instruction !== null);
   }
 }

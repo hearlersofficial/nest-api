@@ -31,7 +31,7 @@ export class UserActivities extends DomainEntity<UserActivitiesProps> {
     const userActivities = new UserActivities(props, id);
     const validateResult = userActivities.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<UserActivities>(validateResult.error);
+      return Result.fail<UserActivities>(validateResult.error as string);
     }
     return Result.ok<UserActivities>(userActivities);
   }

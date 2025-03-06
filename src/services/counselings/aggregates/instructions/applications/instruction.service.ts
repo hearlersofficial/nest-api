@@ -8,12 +8,15 @@ import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class InstructionService {
-  constructor(private readonly instructionReader: InstructionReader, private readonly instructionPersistor: InstructionPersistor) {}
+  constructor(
+    private readonly instructionReader: InstructionReader,
+    private readonly instructionPersistor: InstructionPersistor,
+  ) {}
 
   async create(instructionNewProps: InstructionsNewProps): Promise<Instructions> {
     const instructionOrError = Instructions.createNew(instructionNewProps);
     if (instructionOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, instructionOrError.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, instructionOrError.error as string);
     }
     const instruction = instructionOrError.value;
     const createdInstruction = await this.instructionPersistor.create(instruction);
@@ -25,7 +28,7 @@ export class InstructionService {
     return updatedInstruction;
   }
 
-  async findOne(instructionId: UniqueEntityId): Promise<Instructions> {
+  async findOne(instructionId: UniqueEntityId): Promise<Instructions | null> {
     const instruction = await this.instructionReader.findOne(instructionId);
     return instruction;
   }

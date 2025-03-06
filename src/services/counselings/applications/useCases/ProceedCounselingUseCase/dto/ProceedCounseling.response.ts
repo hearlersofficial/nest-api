@@ -3,7 +3,7 @@ import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 
 export interface ProceedCounselingResponse extends UseCaseCoreResponse {
-  counsel?: Counsels;
-  createdCounselMessage?: CounselMessages;
-  counselorResponseMessage?: CounselMessages;
+  counsel: Counsels;
+  createdCounselMessage: CounselMessages;
+  counselorResponseMessage: CounselMessages;
 }

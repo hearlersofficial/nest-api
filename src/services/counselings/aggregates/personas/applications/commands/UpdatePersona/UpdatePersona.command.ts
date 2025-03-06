@@ -6,7 +6,7 @@ import { HttpStatus } from "@nestjs/common";
 
 interface UpdatePersonaCommandProps {
   personaId: UniqueEntityId;
-  body: string;
+  body?: string;
 }
 
 export class UpdatePersonaCommand {

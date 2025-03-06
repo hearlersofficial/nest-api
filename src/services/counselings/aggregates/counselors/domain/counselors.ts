@@ -30,7 +30,7 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     const counselors = new Counselors(props, id);
     const validateResult = counselors.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<Counselors>(validateResult.error);
+      return Result.fail<Counselors>(validateResult.error as string);
     }
     return Result.ok<Counselors>(counselors);
   }

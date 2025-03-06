@@ -6,7 +6,7 @@ export const TONE_REPOSITORY = Symbol("TONES_REPOSITORY");
 export interface ToneRepositoryPort {
   create(tone: Tones): Promise<Tones>;
   update(tone: Tones): Promise<Tones>;
-  findOne(toneId: UniqueEntityId): Promise<Tones>;
+  findOne(toneId: UniqueEntityId): Promise<Tones | null>;
   findAll(): Promise<Tones[]>;
   findMany(props: FindManyPropsInTonesRepository): Promise<Tones[]>;
 }

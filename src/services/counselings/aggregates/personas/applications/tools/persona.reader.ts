@@ -1,6 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
-import { PERSONA_REPOSITORY, PersonasRepositoryPort } from "~counselings/aggregates/personas/infrastructures/persona.repository.port";
+import {
+  PERSONA_REPOSITORY,
+  PersonasRepositoryPort,
+} from "~counselings/aggregates/personas/infrastructures/persona.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -11,7 +14,7 @@ export class PersonaReader {
     private readonly personaRepository: PersonasRepositoryPort,
   ) {}
 
-  async findOne(personaId: UniqueEntityId): Promise<Personas> {
+  async findOne(personaId: UniqueEntityId): Promise<Personas | null> {
     const persona = await this.personaRepository.findOne(personaId);
     return persona;
   }

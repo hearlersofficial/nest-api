@@ -25,6 +25,9 @@ export class ConsumeTokensHandler implements ICommandHandler<ConsumeTokensComman
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.");
     }
     const { user } = findOneUserUseCaseResponse;
+    if (!user) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "user not found");
+    }
     const userMessageToken: UserMessageTokens = user.userMessageToken;
     if (!userMessageToken.hasRemainingTokens()) {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "토큰이 없습니다.");

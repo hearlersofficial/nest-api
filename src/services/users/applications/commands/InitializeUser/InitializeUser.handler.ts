@@ -21,20 +21,35 @@ export class InitializeUserHandler implements ICommandHandler<InitializeUserComm
   async execute(): Promise<{ user: Users; authUser: AuthUsers }> {
     const createUserUseCaseResponse: CreateUserUseCaseResponse = await this.createUserUseCase.execute();
     if (!createUserUseCaseResponse.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, createUserUseCaseResponse.error);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        createUserUseCaseResponse.error as string,
+      );
     }
-    const user: Users = createUserUseCaseResponse.user;
+    const user: Users | undefined = createUserUseCaseResponse.user;
+    if (!user) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to create user");
+    }
     const createAuthUserUseCaseResponse = await this.createAuthUserUseCase.execute();
     if (!createAuthUserUseCaseResponse.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, createAuthUserUseCaseResponse.error);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        createAuthUserUseCaseResponse.error as string,
+      );
     }
-    const authUser: AuthUsers = createAuthUserUseCaseResponse.authUser;
+    const authUser: AuthUsers | undefined = createAuthUserUseCaseResponse.authUser;
+    if (!authUser) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to create auth user");
+    }
     const bindAuthUserUseCaseResponse = await this.bindAuthUserUseCase.execute({
       user,
       authUser,
     });
     if (!bindAuthUserUseCaseResponse.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, bindAuthUserUseCaseResponse.error);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        bindAuthUserUseCaseResponse.error as string,
+      );
     }
     return { user, authUser };
   }

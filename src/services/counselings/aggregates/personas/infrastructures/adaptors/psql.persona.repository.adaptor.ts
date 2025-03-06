@@ -2,7 +2,10 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PersonaEntity } from "~shared/core/infrastructure/entities/prompts/Personas.entity";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import { PsqlPersonasMapper } from "~counselings/aggregates/personas/infrastructures/adaptors/mappers/psql.persona.mapper";
-import { FindManyPropsInPersonasRepository, PersonasRepositoryPort } from "~counselings/aggregates/personas/infrastructures/persona.repository.port";
+import {
+  FindManyPropsInPersonasRepository,
+  PersonasRepositoryPort,
+} from "~counselings/aggregates/personas/infrastructures/persona.repository.port";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -27,16 +30,21 @@ export class PsqlPersonaRepositoryAdaptor implements PersonasRepositoryPort {
     return persona;
   }
 
-  async findOne(personaId: UniqueEntityId): Promise<Personas> {
+  async findOne(personaId: UniqueEntityId): Promise<Personas | null> {
     const personaEntity = await this.personasRepository.findOne({
       where: { id: personaId.getString() },
     });
+    if (!personaEntity) {
+      return null;
+    }
     return PsqlPersonasMapper.toDomain(personaEntity);
   }
 
   async findAll(): Promise<Personas[]> {
     const personaEntities = await this.personasRepository.find();
-    return personaEntities.map((personaEntity) => PsqlPersonasMapper.toDomain(personaEntity));
+    return personaEntities
+      .map((personaEntity) => PsqlPersonasMapper.toDomain(personaEntity))
+      .filter((persona) => persona !== null);
   }
 
   async findMany(props: FindManyPropsInPersonasRepository): Promise<Personas[]> {
@@ -47,6 +55,8 @@ export class PsqlPersonaRepositoryAdaptor implements PersonasRepositoryPort {
     const personaEntities = await this.personasRepository.find({
       where: findOptionsWhere,
     });
-    return personaEntities.map((personaEntity) => PsqlPersonasMapper.toDomain(personaEntity));
+    return personaEntities
+      .map((personaEntity) => PsqlPersonasMapper.toDomain(personaEntity))
+      .filter((persona) => persona !== null);
   }
 }

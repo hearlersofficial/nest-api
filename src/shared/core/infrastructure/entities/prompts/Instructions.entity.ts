@@ -17,6 +17,7 @@ export class InstructionEntity extends CoreEntity {
   @Column({
     name: "initial_sentence",
     comment: "초기 문장",
+    type: "varchar",
     nullable: true,
   })
   initialSentence: string | null;

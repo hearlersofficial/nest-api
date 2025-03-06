@@ -31,14 +31,17 @@ export class PsqlCounselTechniquesRepositoryAdaptor implements CounselTechniques
     return counselTechnique;
   }
 
-  async findOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques> {
+  async findOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques | null> {
     const counselTechniqueEntity = await this.counselTechniquesRepository.findOne({
       where: { id: counselTechniqueId.getString() },
     });
+    if (!counselTechniqueEntity) {
+      return null;
+    }
     return PsqlCounselTechniquesMapper.toDomain(counselTechniqueEntity);
   }
 
-  async findFirst(props: FindFirstPropsInCounselTechniquesRepository): Promise<CounselTechniques> {
+  async findFirst(props: FindFirstPropsInCounselTechniquesRepository): Promise<CounselTechniques | null> {
     const findOptionsWhere: FindOptionsWhere<CounselTechniquesEntity> = {
       counselTechniqueStage: props.stage,
       prevTechnique: IsNull(),
@@ -50,12 +53,17 @@ export class PsqlCounselTechniquesRepositoryAdaptor implements CounselTechniques
       where: findOptionsWhere,
       order: { createdAt: "DESC" },
     });
+    if (!counselTechniqueEntity) {
+      return null;
+    }
     return PsqlCounselTechniquesMapper.toDomain(counselTechniqueEntity);
   }
 
   async findAll(): Promise<CounselTechniques[]> {
     const counselTechniqueEntities = await this.counselTechniquesRepository.find();
-    return counselTechniqueEntities.map((counselTechniqueEntity) => PsqlCounselTechniquesMapper.toDomain(counselTechniqueEntity));
+    return counselTechniqueEntities
+      .map((counselTechniqueEntity) => PsqlCounselTechniquesMapper.toDomain(counselTechniqueEntity))
+      .filter((counselTechnique) => counselTechnique !== null);
   }
 
   async findMany(props: FindManyPropsInCounselTechniquesRepository): Promise<CounselTechniques[]> {
@@ -66,6 +74,8 @@ export class PsqlCounselTechniquesRepositoryAdaptor implements CounselTechniques
     const counselTechniqueEntities = await this.counselTechniquesRepository.find({
       where: findOptionsWhere,
     });
-    return counselTechniqueEntities.map((counselTechniqueEntity) => PsqlCounselTechniquesMapper.toDomain(counselTechniqueEntity));
+    return counselTechniqueEntities
+      .map((counselTechniqueEntity) => PsqlCounselTechniquesMapper.toDomain(counselTechniqueEntity))
+      .filter((counselTechnique) => counselTechnique !== null);
   }
 }

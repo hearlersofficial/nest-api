@@ -18,9 +18,9 @@ export interface AuthUsersProps extends AuthUsersNewProps {
   authChannel: AuthChannel;
   status: CoreStatus;
   authority: Authority;
-  userId: UniqueEntityId;
+  userId: UniqueEntityId | null;
   lastLoginAt: Dayjs;
-  kakao?: Kakao;
+  kakao: Kakao | null;
   refreshTokens: RefreshTokensVO[];
   createdAt: Dayjs;
   updatedAt: Dayjs;
@@ -37,7 +37,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     const validationResult = authUsers.validateDomain();
     authUsers.expireRefreshTokens();
     if (validationResult.isFailure) {
-      return Result.fail<AuthUsers>(validationResult.error);
+      return Result.fail<AuthUsers>(validationResult.error as string);
     }
 
     return Result.ok<AuthUsers>(authUsers);
@@ -58,6 +58,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
         createdAt: nowDayjs,
         updatedAt: nowDayjs,
         deletedAt: null,
+        kakao: null,
       },
       new UniqueEntityId(),
     );
@@ -71,7 +72,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
   }
 
   // Getters
-  get userId(): UniqueEntityId {
+  get userId(): UniqueEntityId | null {
     return this.props.userId;
   }
 
@@ -83,7 +84,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     return this.props.authority;
   }
 
-  get kakao(): Kakao | undefined {
+  get kakao(): Kakao | null {
     return this.props.kakao;
   }
 
@@ -91,7 +92,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     return this.props.refreshTokens;
   }
 
-  get lastLoginAt(): Dayjs | null {
+  get lastLoginAt(): Dayjs {
     return this.props.lastLoginAt;
   }
 
@@ -120,7 +121,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
       case AuthChannel.KAKAO:
         const kakaoResult: Result<Kakao> = Kakao.createNew({ uniqueId, authUserId: this.id });
         if (kakaoResult.isFailure) {
-          return Result.fail<void>(kakaoResult.error);
+          return Result.fail<void>(kakaoResult.error as string);
         }
         this.props.authChannel = authChannel;
         this.props.kakao = kakaoResult.value;
@@ -171,7 +172,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
       updatedAt: getNowDayjs(),
     });
     if (refreshTokenVOResult.isFailure) {
-      return Result.fail<RefreshTokensVO>(refreshTokenVOResult.error);
+      return Result.fail<RefreshTokensVO>(refreshTokenVOResult.error as string);
     }
     const refreshTokenVO = refreshTokenVOResult.value;
     this.props.refreshTokens.push(refreshTokenVO);
@@ -183,7 +184,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
   public verifyRefreshToken(refreshToken: string): Result<RefreshTokensVO> {
     const findRefreshTokenResult = this.findRefreshToken(refreshToken);
     if (findRefreshTokenResult.isFailure) {
-      return Result.fail<RefreshTokensVO>(findRefreshTokenResult.error);
+      return Result.fail<RefreshTokensVO>(findRefreshTokenResult.error as string);
     }
     const refreshTokenVO = findRefreshTokenResult.value;
     if (refreshTokenVO.isExpired()) {

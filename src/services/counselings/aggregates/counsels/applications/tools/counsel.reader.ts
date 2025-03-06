@@ -1,6 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
-import { COUNSEL_REPOSITORY, CounselsRepositoryPort } from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
+import {
+  COUNSEL_REPOSITORY,
+  CounselsRepositoryPort,
+} from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -11,7 +14,7 @@ export class CounselReader {
     private readonly counselRepository: CounselsRepositoryPort,
   ) {}
 
-  async findOne(counselId: UniqueEntityId): Promise<Counsels> {
+  async findOne(counselId: UniqueEntityId): Promise<Counsels | null> {
     const counsel = await this.counselRepository.findOne(counselId);
     return counsel;
   }

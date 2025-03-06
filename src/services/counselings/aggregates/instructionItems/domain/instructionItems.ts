@@ -25,7 +25,7 @@ export class InstructionItems extends AggregateRoot<InstructionItemsProps> {
     const instructionItems = new InstructionItems(props, id);
     const validateResult = instructionItems.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<InstructionItems>(validateResult.error);
+      return Result.fail<InstructionItems>(validateResult.error as string);
     }
     return Result.ok<InstructionItems>(instructionItems);
   }

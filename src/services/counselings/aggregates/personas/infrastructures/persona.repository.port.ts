@@ -6,7 +6,7 @@ export const PERSONA_REPOSITORY = Symbol("PERSONA_REPOSITORY");
 export interface PersonasRepositoryPort {
   create(persona: Personas): Promise<Personas>;
   update(persona: Personas): Promise<Personas>;
-  findOne(personaId: UniqueEntityId): Promise<Personas>;
+  findOne(personaId: UniqueEntityId): Promise<Personas | null>;
   findAll(): Promise<Personas[]>;
   findMany(props: FindManyPropsInPersonasRepository): Promise<Personas[]>;
 }

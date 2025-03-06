@@ -16,7 +16,7 @@ export class FindOneUserHandler implements IQueryHandler<FindOneUserQuery> {
 
     const { ok, error, user } = await this.findOneUserUseCase.execute({ userId });
     if (!ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, error);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, error as string);
     }
     if (!user) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "user not found");

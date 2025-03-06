@@ -16,15 +16,15 @@ export class PsqlAuthUsersRepositoryAdaptor implements AuthUsersRepositoryPort {
   async create(authUsers: AuthUsers): Promise<AuthUsers> {
     const entity = PsqlAuthUsersMapper.toEntity(authUsers);
     const createdEntity = await this.authUsersRepository.create(entity);
-    const result = await this.authUsersRepository.save(createdEntity);
-    return PsqlAuthUsersMapper.toDomain(result);
+    await this.authUsersRepository.save(createdEntity);
+    return authUsers;
   }
 
   async update(authUsers: AuthUsers): Promise<AuthUsers> {
     const entity = PsqlAuthUsersMapper.toEntity(authUsers);
     const createdEntity = await this.authUsersRepository.create(entity);
-    const updatedEntity = await this.authUsersRepository.save(createdEntity);
-    return PsqlAuthUsersMapper.toDomain(updatedEntity);
+    await this.authUsersRepository.save(createdEntity);
+    return authUsers;
   }
 
   async findOne(props: FindOnePropsInAuthUsersRepository): Promise<AuthUsers | null> {

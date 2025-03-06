@@ -26,7 +26,7 @@ export class Personas extends AggregateRoot<PersonasProps> {
     const personas = new Personas(props, id);
     const validateResult = personas.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<Personas>(validateResult.error);
+      return Result.fail<Personas>(validateResult.error as string);
     }
     return Result.ok<Personas>(personas);
   }

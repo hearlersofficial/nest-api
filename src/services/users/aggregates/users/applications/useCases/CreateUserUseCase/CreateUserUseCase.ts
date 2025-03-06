@@ -46,12 +46,12 @@ export class CreateUserUseCase implements UseCase<CreateUserUseCaseRequest, Crea
       });
 
       if (progressResult.isFailure) {
-        return Result.fail(progressResult.error);
+        return Result.fail(progressResult.error as string);
       }
 
       const addedResult = user.addProgress(progressResult.value);
       if (addedResult.isFailure) {
-        return Result.fail(addedResult.error);
+        return Result.fail(addedResult.error as string);
       }
     }
 

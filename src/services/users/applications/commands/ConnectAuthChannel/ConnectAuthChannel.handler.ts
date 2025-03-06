@@ -1,5 +1,6 @@
 import { Result } from "~shared/core/domain/Result";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { FindOneAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/dto/FindOneAuthUserUseCase.response";
 import { FindOneAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/FindOneAuthUserUseCase/FindOneAuthUserUseCase";
 import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
@@ -30,20 +31,26 @@ export class ConnectAuthChannelHandler
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "인증 유저를 찾을 수 없습니다.");
     }
     const { authUser } = findOneAuthUserUseCaseResponse;
+    if (!isDefined(authUser)) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to find auth user");
+    }
 
     const connectAuthChannelResult: Result<void> = authUser.connectAuthChannel(authChannel, uniqueId);
     if (connectAuthChannelResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, connectAuthChannelResult.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, connectAuthChannelResult.error as string);
     }
 
     const updateAuthUserUseCaseResponse: UpdateAuthUserUseCaseResponse = await this.updateAuthUserUseCase.execute({
       toUpdateAuthUser: authUser,
     });
     if (!updateAuthUserUseCaseResponse.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateAuthUserUseCaseResponse.error);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        updateAuthUserUseCaseResponse.error as string,
+      );
     }
     return {
-      authUser: updateAuthUserUseCaseResponse.authUser,
+      authUser,
     };
   }
 }

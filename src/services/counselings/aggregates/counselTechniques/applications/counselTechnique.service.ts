@@ -2,19 +2,25 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselTechniquePersistor } from "~counselings/aggregates/counselTechniques/applications/tools/counselTechnique.persistor";
 import { CounselTechniqueReader } from "~counselings/aggregates/counselTechniques/applications/tools/counselTechnique.reader";
-import { CounselTechniques, CounselTechniquesNewProps } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
+import {
+  CounselTechniques,
+  CounselTechniquesNewProps,
+} from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
 import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class CounselTechniqueService {
-  constructor(private readonly counselTechniqueReader: CounselTechniqueReader, private readonly counselTechniquePersistor: CounselTechniquePersistor) {}
+  constructor(
+    private readonly counselTechniqueReader: CounselTechniqueReader,
+    private readonly counselTechniquePersistor: CounselTechniquePersistor,
+  ) {}
 
   async create(counselTechniqueNewProps: CounselTechniquesNewProps): Promise<CounselTechniques> {
     const counselTechniqueOrError = CounselTechniques.createNew(counselTechniqueNewProps);
     if (counselTechniqueOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, counselTechniqueOrError.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, counselTechniqueOrError.error as string);
     }
     const counselTechnique = counselTechniqueOrError.value;
     const createdCounselTechnique = await this.counselTechniquePersistor.create(counselTechnique);
@@ -26,12 +32,12 @@ export class CounselTechniqueService {
     return updatedCounselTechnique;
   }
 
-  async findOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques> {
+  async findOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques | null> {
     const counselTechnique = await this.counselTechniqueReader.findOne(counselTechniqueId);
     return counselTechnique;
   }
 
-  async findFirst(props: { stage: CounselTechniqueStage; toneId?: UniqueEntityId }): Promise<CounselTechniques> {
+  async findFirst(props: { stage: CounselTechniqueStage; toneId?: UniqueEntityId }): Promise<CounselTechniques | null> {
     const counselTechnique = await this.counselTechniqueReader.findFirst(props);
     return counselTechnique;
   }

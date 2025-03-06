@@ -8,8 +8,8 @@ import { HttpStatus } from "@nestjs/common";
 
 interface CreateInstructionCommandProps {
   name: string;
-  initialSentence?: string;
-  instructionItemIds?: UniqueEntityId[];
+  initialSentence: string | null;
+  instructionItemIds: UniqueEntityId[];
 }
 
 export interface CreateInstructionCommandResult {

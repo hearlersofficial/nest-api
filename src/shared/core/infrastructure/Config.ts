@@ -10,7 +10,7 @@ export class TypeOrmConfigs implements TypeOrmOptionsFactory {
     return {
       type: "postgres",
       host: process.env.POSTGRESQL_HOST,
-      port: parseInt(process.env.POSTGRESQL_PORT),
+      port: parseInt(process.env.POSTGRESQL_PORT ?? "5432"),
       username: process.env.POSTGRESQL_USER,
       password: process.env.POSTGRESQL_PASSWORD,
       database: process.env.POSTGRESQL_DATABASE,
@@ -34,11 +34,11 @@ export class ClientsConfigs implements ClientsModuleOptionsFactory {
       transport: Transport.KAFKA,
       options: {
         client: {
-          brokers: [process.env.KAFKA_BOOTSTRAP_SERVERS],
-          clientId: process.env.KAFKA_CLIENT_ID,
+          brokers: [process.env.KAFKA_BOOTSTRAP_SERVERS ?? ""],
+          clientId: process.env.KAFKA_CLIENT_ID ?? "",
         },
         consumer: {
-          groupId: process.env.KAFKA_GROUP_ID,
+          groupId: process.env.KAFKA_GROUP_ID ?? "",
         },
       },
     };

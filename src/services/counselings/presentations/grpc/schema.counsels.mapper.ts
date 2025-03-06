@@ -36,13 +36,13 @@ export class SchemaCounselsMapper {
       id: counsel.id.getString(),
       userId: counsel.userId.getString(),
       counselorId: counsel.counselorId.getString(),
-      lastMessage: counsel.lastMessage,
-      lastChatedAt: counsel.lastChatedAt ? counsel.lastChatedAt.toISOString() : null,
+      lastMessage: counsel.lastMessage ?? undefined,
+      lastChatedAt: counsel.lastChatedAt ? counsel.lastChatedAt.toISOString() : undefined,
       counselTechniqueId: counsel.counselTechniqueId.getString(),
       counselorUserRelationshipId: counsel.counselorUserRelationshipId.getString(),
       createdAt: counsel.createdAt.toISOString(),
       updatedAt: counsel.updatedAt.toISOString(),
-      deletedAt: counsel.deletedAt ? counsel.deletedAt.toISOString() : null,
+      deletedAt: counsel.deletedAt ? counsel.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -52,11 +52,11 @@ export class SchemaCounselsMapper {
       counselId: counselMessage.counselId.getString(),
       message: counselMessage.message,
       isUserMessage: counselMessage.isUserMessage,
-      reactedAt: counselMessage.reactedAt ? counselMessage.reactedAt.toISOString() : null,
-      reaction: counselMessage.reaction,
+      reactedAt: counselMessage.reactedAt ? counselMessage.reactedAt.toISOString() : undefined,
+      reaction: counselMessage.reaction ?? undefined,
       createdAt: counselMessage.createdAt.toISOString(),
       updatedAt: counselMessage.updatedAt.toISOString(),
-      deletedAt: counselMessage.deletedAt ? counselMessage.deletedAt.toISOString() : null,
+      deletedAt: counselMessage.deletedAt ? counselMessage.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -73,7 +73,7 @@ export class SchemaCounselsMapper {
       responseOption2: bubble.responseOption2,
       createdAt: counselor.createdAt.toISOString(),
       updatedAt: counselor.updatedAt.toISOString(),
-      deletedAt: counselor.deletedAt ? counselor.deletedAt.toISOString() : null,
+      deletedAt: counselor.deletedAt ? counselor.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -81,14 +81,16 @@ export class SchemaCounselsMapper {
     return create(CounselTechniqueSchema, {
       id: counselTechnique.id.getString(),
       name: counselTechnique.name,
-      toneId: counselTechnique.toneId ? counselTechnique.toneId.getString() : null,
+      toneId: counselTechnique.toneId ? counselTechnique.toneId.getString() : undefined,
       contextId: counselTechnique.contextId.getString(),
       instructionId: counselTechnique.instructionId.getString(),
       counselTechniqueStage: counselTechnique.counselTechniqueStage,
-      nextCounselTechniqueId: counselTechnique.nextTechniqueId ? counselTechnique.nextTechniqueId.getString() : null,
+      nextCounselTechniqueId: counselTechnique.nextTechniqueId
+        ? counselTechnique.nextTechniqueId.getString()
+        : undefined,
       createdAt: counselTechnique.createdAt.toISOString(),
       updatedAt: counselTechnique.updatedAt.toISOString(),
-      deletedAt: counselTechnique.deletedAt ? counselTechnique.deletedAt.toISOString() : null,
+      deletedAt: counselTechnique.deletedAt ? counselTechnique.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -101,7 +103,7 @@ export class SchemaCounselsMapper {
       counselorId: persona.counselorId.getString(),
       createdAt: persona.createdAt.toISOString(),
       updatedAt: persona.updatedAt.toISOString(),
-      deletedAt: persona.deletedAt ? persona.deletedAt.toISOString() : null,
+      deletedAt: persona.deletedAt ? persona.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -113,7 +115,7 @@ export class SchemaCounselsMapper {
       body: context.body,
       createdAt: context.createdAt.toISOString(),
       updatedAt: context.updatedAt.toISOString(),
-      deletedAt: context.deletedAt ? context.deletedAt.toISOString() : null,
+      deletedAt: context.deletedAt ? context.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -121,11 +123,11 @@ export class SchemaCounselsMapper {
     return create(InstructionSchema, {
       id: instruction.id.getString(),
       name: instruction.name,
-      initialSentence: instruction.initialSentence,
+      initialSentence: instruction.initialSentence ?? undefined,
       instructionItems: instructionItems.map((item) => SchemaCounselsMapper.toInstructionItemProto(item)),
       createdAt: instruction.createdAt.toISOString(),
       updatedAt: instruction.updatedAt.toISOString(),
-      deletedAt: instruction.deletedAt ? instruction.deletedAt.toISOString() : null,
+      deletedAt: instruction.deletedAt ? instruction.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -135,7 +137,7 @@ export class SchemaCounselsMapper {
       body: instructionItem.body,
       createdAt: instructionItem.createdAt.toISOString(),
       updatedAt: instructionItem.updatedAt.toISOString(),
-      deletedAt: instructionItem.deletedAt ? instructionItem.deletedAt.toISOString() : null,
+      deletedAt: instructionItem.deletedAt ? instructionItem.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -146,7 +148,7 @@ export class SchemaCounselsMapper {
       body: tone.body,
       createdAt: tone.createdAt.toISOString(),
       updatedAt: tone.updatedAt.toISOString(),
-      deletedAt: tone.deletedAt ? tone.deletedAt.toISOString() : null,
+      deletedAt: tone.deletedAt ? tone.deletedAt.toISOString() : undefined,
     });
   }
 }

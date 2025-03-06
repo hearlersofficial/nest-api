@@ -28,7 +28,7 @@ export class UserProgresses extends DomainEntity<UserProgressesProps> {
     const userProgresses = new UserProgresses(props, id);
     const validateResult = userProgresses.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<UserProgresses>(validateResult.error);
+      return Result.fail<UserProgresses>(validateResult.error as string);
     }
     return Result.ok<UserProgresses>(userProgresses);
   }

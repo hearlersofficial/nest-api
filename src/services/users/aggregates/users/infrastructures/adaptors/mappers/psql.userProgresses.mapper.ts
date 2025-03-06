@@ -33,6 +33,10 @@ export class PsqlUserProgressesMapper {
     return userProgressesOrError.value;
   }
 
+  static toDomains(entities: UserProgressesEntity[]): UserProgresses[] {
+    return entities.map((entity) => PsqlUserProgressesMapper.toDomain(entity)).filter(Boolean) as UserProgresses[];
+  }
+
   static toEntity(userProgresses: UserProgresses): UserProgressesEntity {
     const entity = new UserProgressesEntity();
 

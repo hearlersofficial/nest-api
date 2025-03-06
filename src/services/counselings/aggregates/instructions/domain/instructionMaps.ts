@@ -22,11 +22,11 @@ export class InstructionMaps extends DomainEntity<InstructionMapsProps> {
     super(props, id);
   }
 
-  public static create(props: InstructionMapsProps, id?: UniqueEntityId): Result<InstructionMaps> {
+  public static create(props: InstructionMapsProps, id: UniqueEntityId): Result<InstructionMaps> {
     const instructionMaps = new InstructionMaps(props, id);
     const validateResult = instructionMaps.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<InstructionMaps>(validateResult.error);
+      return Result.fail<InstructionMaps>(validateResult.error as string);
     }
 
     return Result.ok<InstructionMaps>(instructionMaps);

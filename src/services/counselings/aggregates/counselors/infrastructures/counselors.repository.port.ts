@@ -6,9 +6,9 @@ export const COUNSELOR_REPOSITORY = Symbol("COUNSELOR_REPOSITORY");
 export interface CounselorsRepositoryPort {
   create(counselor: Counselors): Promise<Counselors>;
   update(counselor: Counselors): Promise<Counselors>;
-  findOne(counselorId: UniqueEntityId): Promise<Counselors>;
+  findOne(counselorId: UniqueEntityId): Promise<Counselors | null>;
   findAll(): Promise<Counselors[]>;
-  findMany(props: FindManyPropsInCounselorsRepository): Promise<Counselors[] | null>;
+  findMany(props: FindManyPropsInCounselorsRepository): Promise<Counselors[]>;
 }
 
 export interface FindManyPropsInCounselorsRepository {

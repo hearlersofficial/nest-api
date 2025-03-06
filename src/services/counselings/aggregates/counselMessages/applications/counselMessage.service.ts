@@ -2,18 +2,24 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselMessagePersister } from "~counselings/aggregates/counselMessages/applications/tools/counselMessage.persister";
 import { CounselMessageReader } from "~counselings/aggregates/counselMessages/applications/tools/counselMessage.reader";
-import { CounselMessages, CounselMessagesNewProps } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import {
+  CounselMessages,
+  CounselMessagesNewProps,
+} from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 
 import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class CounselMessageService {
-  constructor(private readonly counselMessageReader: CounselMessageReader, private readonly counselMessagePersister: CounselMessagePersister) {}
+  constructor(
+    private readonly counselMessageReader: CounselMessageReader,
+    private readonly counselMessagePersister: CounselMessagePersister,
+  ) {}
 
   async create(counselMessageNewProps: CounselMessagesNewProps): Promise<CounselMessages> {
     const counselMessageOrError = CounselMessages.createNew(counselMessageNewProps);
     if (counselMessageOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, counselMessageOrError.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, counselMessageOrError.error as string);
     }
     const counselMessage = counselMessageOrError.value;
     const createdCounselMessage = await this.counselMessagePersister.create(counselMessage);
@@ -25,8 +31,9 @@ export class CounselMessageService {
     return updatedCounselMessage;
   }
 
-  async findOne(counselMessageId: UniqueEntityId): Promise<CounselMessages> {
+  async findOne(counselMessageId: UniqueEntityId): Promise<CounselMessages | null> {
     const counselMessage = await this.counselMessageReader.findOne(counselMessageId);
+
     return counselMessage;
   }
 

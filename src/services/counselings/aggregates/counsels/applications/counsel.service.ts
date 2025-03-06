@@ -13,7 +13,7 @@ export class CounselService {
   async create(counselNewProps: CounselsNewProps): Promise<Counsels> {
     const counselOrError = Counsels.createNew(counselNewProps);
     if (counselOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, counselOrError.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, counselOrError.error as string);
     }
     const counsel = counselOrError.value;
     const createdCounsel = await this.counselPersistor.create(counsel);
@@ -25,7 +25,7 @@ export class CounselService {
     return updatedCounsel;
   }
 
-  async findOne(counselId: UniqueEntityId): Promise<Counsels> {
+  async findOne(counselId: UniqueEntityId): Promise<Counsels | null> {
     const counsel = await this.counselReader.findOne(counselId);
     return counsel;
   }

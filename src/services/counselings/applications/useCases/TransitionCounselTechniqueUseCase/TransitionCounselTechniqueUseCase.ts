@@ -9,7 +9,9 @@ import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class TransitionCounselTechniqueUseCase implements UseCase<TransitionCounselTechniqueRequest, TransitionCounselTechniqueResponse> {
+export class TransitionCounselTechniqueUseCase
+  implements UseCase<TransitionCounselTechniqueRequest, TransitionCounselTechniqueResponse>
+{
   constructor(
     private readonly counselService: CounselService,
     private readonly counselTechniqueService: CounselTechniqueService,
@@ -50,7 +52,7 @@ export class TransitionCounselTechniqueUseCase implements UseCase<TransitionCoun
       switch (currentCounselTechnique.counselTechniqueStage) {
         // 초기 단계 종료
         case CounselTechniqueStage.INITIAL:
-          const counselor = await this.counselorService.findOne(counsel.counselorId);
+          const counselor = await this.counselorService.getById(counsel.counselorId);
           const nextCounselTechnique = await this.counselTechniqueService.findFirst({
             stage: CounselTechniqueStage.MIDDLE,
             toneId: counselor.toneId,
@@ -75,6 +77,11 @@ export class TransitionCounselTechniqueUseCase implements UseCase<TransitionCoun
           return {
             ok: true,
             counsel,
+          };
+        default:
+          return {
+            ok: false,
+            error: "Invalid CounselTechniqueStage",
           };
       }
     }

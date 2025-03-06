@@ -15,10 +15,22 @@ import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import { CreateToneCommand } from "~counselings/aggregates/tones/applications/commands/CreateTone/CreateTone.command";
 import { UpdateToneCommand } from "~counselings/aggregates/tones/applications/commands/UpdateTone/UpdateTone.command";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
-import { CreateCounselCommand, CreateCounselCommandResult } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
-import { CreateInstructionCommand, CreateInstructionCommandResult } from "~counselings/applications/commands/CreateInstruction/CreateInstruction.command";
-import { CreateMessageCommand, CreateMessageCommandResult } from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
-import { UpdateInstructionCommand, UpdateInstructionCommandResult } from "~counselings/applications/commands/UpdateInstruction/UpdateInstruction.command";
+import {
+  CreateCounselCommand,
+  CreateCounselCommandResult,
+} from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
+import {
+  CreateInstructionCommand,
+  CreateInstructionCommandResult,
+} from "~counselings/applications/commands/CreateInstruction/CreateInstruction.command";
+import {
+  CreateMessageCommand,
+  CreateMessageCommandResult,
+} from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
+import {
+  UpdateInstructionCommand,
+  UpdateInstructionCommandResult,
+} from "~counselings/applications/commands/UpdateInstruction/UpdateInstruction.command";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
   CreateContextRequest,
@@ -88,7 +100,9 @@ export class GrpcCounselCommandController {
 
     return create(CreateCounselResponseSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),
-      counselMessages: counselMessages.map((counselMessage) => SchemaCounselsMapper.toCounselMessageProto(counselMessage)),
+      counselMessages: counselMessages.map((counselMessage) =>
+        SchemaCounselsMapper.toCounselMessageProto(counselMessage),
+      ),
     });
   }
 
@@ -98,7 +112,8 @@ export class GrpcCounselCommandController {
       counselId: new UniqueEntityId(request.counselId),
       message: request.message,
     });
-    const { createdCounselMessage, counselorResponseMessage }: CreateMessageCommandResult = await this.commandBus.execute(command);
+    const { createdCounselMessage, counselorResponseMessage }: CreateMessageCommandResult =
+      await this.commandBus.execute(command);
 
     return create(CreateMessageResponseSchema, {
       createdCounselMessage: SchemaCounselsMapper.toCounselMessageProto(createdCounselMessage),
@@ -205,7 +220,7 @@ export class GrpcCounselCommandController {
   async createInstruction(request: CreateInstructionRequest): Promise<CreateInstructionResponse> {
     const command: CreateInstructionCommand = new CreateInstructionCommand({
       name: request.name,
-      initialSentence: request.initialSentence,
+      initialSentence: request.initialSentence ?? null,
       instructionItemIds: request.instructionItemIds.map((instructionItemId) => new UniqueEntityId(instructionItemId)),
     });
     const { instruction, instructionItems }: CreateInstructionCommandResult = await this.commandBus.execute(command);

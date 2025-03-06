@@ -3,7 +3,10 @@ import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import { PsqlCounselsMapper } from "~counselings/aggregates/counsels/infrastructures/adaptors/mapper/psql.counsels.mapper";
-import { CounselsRepositoryPort, FindManyPropsInCounselsRepository } from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
+import {
+  CounselsRepositoryPort,
+  FindManyPropsInCounselsRepository,
+} from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
@@ -43,16 +46,21 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
     return counsel;
   }
 
-  async findOne(counselId: UniqueEntityId): Promise<Counsels> {
-    const counselsEntity: CounselsEntity = await this.counselsRepository.findOne({
+  async findOne(counselId: UniqueEntityId): Promise<Counsels | null> {
+    const counselsEntity: CounselsEntity | null = await this.counselsRepository.findOne({
       where: { id: counselId.getString() },
     });
+    if (!counselsEntity) {
+      return null;
+    }
     return PsqlCounselsMapper.toDomain(counselsEntity);
   }
 
   async findAll(): Promise<Counsels[]> {
     const counselsEntities: CounselsEntity[] = await this.counselsRepository.find();
-    return counselsEntities.map((counselEntity) => PsqlCounselsMapper.toDomain(counselEntity));
+    return counselsEntities
+      .map((counselEntity) => PsqlCounselsMapper.toDomain(counselEntity))
+      .filter((counsel) => counsel !== null);
   }
 
   async findMany(props: FindManyPropsInCounselsRepository): Promise<Counsels[]> {
@@ -71,6 +79,6 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
     };
 
     const counselsEntities: CounselsEntity[] = await this.counselsRepository.find(findManyOptions);
-    return counselsEntities.map((entity) => PsqlCounselsMapper.toDomain(entity));
+    return counselsEntities.map((entity) => PsqlCounselsMapper.toDomain(entity)).filter((counsel) => counsel !== null);
   }
 }

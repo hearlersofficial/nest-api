@@ -12,7 +12,7 @@ export class UpdateUserUseCase implements UseCase<UpdateUserUseCaseRequest, Upda
     private readonly usersRepository: UsersRepositoryPort,
   ) {}
 
-  async execute(request?: UpdateUserUseCaseRequest): Promise<UpdateUserUseCaseResponse> {
+  async execute(request: UpdateUserUseCaseRequest): Promise<UpdateUserUseCaseResponse> {
     const { toUpdateUser } = request;
 
     // 업데이트 유저 저장

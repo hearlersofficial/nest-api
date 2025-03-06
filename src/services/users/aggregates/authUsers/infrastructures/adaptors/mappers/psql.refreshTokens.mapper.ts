@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 export class PsqlRefreshTokensMapper {
   static toVO(entity: RefreshTokenEntity): RefreshTokensVO {
     if (!entity) {
-      return null;
+      throw new InternalServerErrorException("refresh token entity is null");
     }
     const refreshTokenOrError: Result<RefreshTokensVO> = RefreshTokensVO.create({
       token: entity.token,

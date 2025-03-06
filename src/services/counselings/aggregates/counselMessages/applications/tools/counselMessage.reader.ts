@@ -14,8 +14,11 @@ export class CounselMessageReader {
     private readonly counselMessageRepository: CounselMessagesRepositoryPort,
   ) {}
 
-  async findOne(counselMessageId: UniqueEntityId): Promise<CounselMessages> {
+  async findOne(counselMessageId: UniqueEntityId): Promise<CounselMessages | null> {
     const counselMessage = await this.counselMessageRepository.findOne(counselMessageId);
+    if (!counselMessage) {
+      return null;
+    }
     return counselMessage;
   }
 

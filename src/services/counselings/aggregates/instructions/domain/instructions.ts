@@ -30,7 +30,7 @@ export class Instructions extends AggregateRoot<InstructionsProps> {
     const validateResult = instructions.validateDomain();
 
     if (validateResult.isFailure) {
-      return Result.fail<Instructions>(validateResult.error);
+      return Result.fail<Instructions>(validateResult.error as string);
     }
 
     return Result.ok<Instructions>(instructions);
@@ -130,7 +130,7 @@ export class Instructions extends AggregateRoot<InstructionsProps> {
           instructionId: this.id,
         });
         if (newInstructionMapResult.isFailure) {
-          return Result.fail<void>(newInstructionMapResult.error);
+          return Result.fail<void>(newInstructionMapResult.error as string);
         }
         this.props.instructionMaps.push(newInstructionMapResult.value);
       }

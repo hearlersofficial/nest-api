@@ -27,7 +27,7 @@ export class Contexts extends AggregateRoot<ContextsProps> {
     const contexts = new Contexts(props, id);
     const validateResult = contexts.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<Contexts>(validateResult.error);
+      return Result.fail<Contexts>(validateResult.error as string);
     }
     return Result.ok<Contexts>(contexts);
   }

@@ -6,6 +6,9 @@ import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/app
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CreateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
 import { UpdateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
+import { CreateInstructionItemCommand } from "~counselings/aggregates/instructionItems/applications/commands/CreateInstructionItem/CreateInstructionItem.command";
+import { UpdateInstructionItemCommand } from "~counselings/aggregates/instructionItems/applications/commands/UpdateInstructionItem/UpdateInstructionItem.command";
+import { InstructionItems } from "~counselings/aggregates/instructionItems/domain/instructionItems";
 import { CreatePersonaCommand } from "~counselings/aggregates/personas/applications/commands/CreatePersona/CreatePersona.command";
 import { UpdatePersonaCommand } from "~counselings/aggregates/personas/applications/commands/UpdatePersona/UpdatePersona.command";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
@@ -25,6 +28,9 @@ import {
   CreateCounselRequest,
   CreateCounselResponse,
   CreateCounselResponseSchema,
+  CreateInstructionItemRequest,
+  CreateInstructionItemResponse,
+  CreateInstructionItemResponseSchema,
   CreateMessageRequest,
   CreateMessageResponse,
   CreateMessageResponseSchema,
@@ -43,6 +49,9 @@ import {
   UpdateCounselorRequest,
   UpdateCounselorResponse,
   UpdateCounselorResponseSchema,
+  UpdateInstructionItemRequest,
+  UpdateInstructionItemResponse,
+  UpdateInstructionItemResponseSchema,
   UpdatePersonaRequest,
   UpdatePersonaResponse,
   UpdatePersonaResponseSchema,
@@ -181,6 +190,29 @@ export class GrpcCounselCommandController {
     const context: Contexts = await this.commandBus.execute(command);
     return create(UpdateContextResponseSchema, {
       context: SchemaCounselsMapper.toContextProto(context),
+    });
+  }
+
+  @GrpcMethod("CounselService", "CreateInstructionItem")
+  async createInstructionItem(request: CreateInstructionItemRequest): Promise<CreateInstructionItemResponse> {
+    const command: CreateInstructionItemCommand = new CreateInstructionItemCommand({
+      body: request.body,
+    });
+    const instructionItem: InstructionItems = await this.commandBus.execute(command);
+    return create(CreateInstructionItemResponseSchema, {
+      instructionItem: SchemaCounselsMapper.toInstructionItemProto(instructionItem),
+    });
+  }
+
+  @GrpcMethod("CounselService", "UpdateInstructionItem")
+  async updateInstructionItem(request: UpdateInstructionItemRequest): Promise<UpdateInstructionItemResponse> {
+    const command: UpdateInstructionItemCommand = new UpdateInstructionItemCommand({
+      instructionItemId: new UniqueEntityId(request.instructionItemId),
+      body: request.body,
+    });
+    const instructionItem: InstructionItems = await this.commandBus.execute(command);
+    return create(UpdateInstructionItemResponseSchema, {
+      instructionItem: SchemaCounselsMapper.toInstructionItemProto(instructionItem),
     });
   }
 

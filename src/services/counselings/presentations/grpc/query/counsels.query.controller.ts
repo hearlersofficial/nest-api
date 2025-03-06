@@ -10,6 +10,9 @@ import { Counselors } from "~counselings/aggregates/counselors/domain/counselors
 import { FindCounselByIdQuery } from "~counselings/aggregates/counsels/applications/queries/FindCounselById/FindCounselById.query";
 import { FindCounselsQuery } from "~counselings/aggregates/counsels/applications/queries/FindCounsels/FindCounsels.query";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
+import { FindInstructionItemByIdQuery } from "~counselings/aggregates/instructionItems/applications/queries/FindInstructionItemById/FindInstructionItemById.query";
+import { FindInstructionItemsQuery } from "~counselings/aggregates/instructionItems/applications/queries/FindInstructionItems/FindInstructionItems.query";
+import { InstructionItems } from "~counselings/aggregates/instructionItems/domain/instructionItems";
 import { FindPersonaByIdQuery } from "~counselings/aggregates/personas/applications/queries/FindPersonaById/FindPersonaById.query";
 import { FindPersonasQuery } from "~counselings/aggregates/personas/applications/queries/FindPersonas/FindPersonas.query";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
@@ -36,6 +39,12 @@ import {
   FindCounselsRequest,
   FindCounselsResponse,
   FindCounselsResponseSchema,
+  FindInstructionItemByIdRequest,
+  FindInstructionItemByIdResponse,
+  FindInstructionItemByIdResponseSchema,
+  FindInstructionItemsRequest,
+  FindInstructionItemsResponse,
+  FindInstructionItemsResponseSchema,
   FindMessagesRequest,
   FindMessagesResponse,
   FindMessagesResponseSchema,
@@ -146,6 +155,22 @@ export class GrpcCounselQueryController {
     const query: FindContextByIdQuery = new FindContextByIdQuery(new UniqueEntityId(data.contextId));
     const context: Contexts = await this.queryBus.execute(query);
     return create(FindContextByIdResponseSchema, { context: SchemaCounselsMapper.toContextProto(context) });
+  }
+
+  @GrpcMethod("CounselService", "FindInstructionItems")
+  async findInstructionItems(data: FindInstructionItemsRequest): Promise<FindInstructionItemsResponse> {
+    const query: FindInstructionItemsQuery = new FindInstructionItemsQuery({ keyword: data.keyword });
+    const instructionItems: InstructionItems[] = await this.queryBus.execute(query);
+    return create(FindInstructionItemsResponseSchema, {
+      instructionItems: instructionItems?.map((item) => SchemaCounselsMapper.toInstructionItemProto(item)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindInstructionItemById")
+  async findInstructionItemById(data: FindInstructionItemByIdRequest): Promise<FindInstructionItemByIdResponse> {
+    const query: FindInstructionItemByIdQuery = new FindInstructionItemByIdQuery(new UniqueEntityId(data.instructionItemId));
+    const instructionItem: InstructionItems = await this.queryBus.execute(query);
+    return create(FindInstructionItemByIdResponseSchema, { instructionItem: SchemaCounselsMapper.toInstructionItemProto(instructionItem) });
   }
 
   @GrpcMethod("CounselService", "FindTones")

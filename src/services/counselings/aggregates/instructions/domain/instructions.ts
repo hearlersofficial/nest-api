@@ -2,6 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { InstructionItems } from "~counselings/aggregates/instructionItems/domain/instructionItems";
 import { InstructionMaps } from "~counselings/aggregates/instructions/domain/instructionMaps";
 
 import { Dayjs } from "dayjs";
@@ -126,6 +127,23 @@ export class Instructions extends AggregateRoot<InstructionsProps> {
 
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
+  }
+
+  public getPrompt(instructionItems: InstructionItems[]): Result<string> {
+    let prompt = this.initialSentence ? this.initialSentence : "";
+    const instructionMaps = this.props.instructionMaps.sort((a, b) => a.sequence - b.sequence);
+
+    instructionMaps.forEach((map, index) => {
+      const instructionItem = instructionItems.find((item) => item.id.equals(map.instructionItemId));
+      if (instructionItem) {
+        prompt += `\n${index + 1}. ${instructionItem.body}`;
+      } else {
+        return Result.fail<string>("[Instructions] 지시사항 아이템을 찾을 수 없습니다");
+      }
+    });
+
+    prompt = `<Instruction>\n${prompt}`;
+    return Result.ok<string>(prompt);
   }
 
   public delete(): void {

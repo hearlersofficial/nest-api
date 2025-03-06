@@ -4,7 +4,6 @@ import { Counselors } from "~counselings/aggregates/counselors/domain/counselors
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import { CounselTechniques } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
 import { InstructionItems } from "~counselings/aggregates/instructionItems/domain/instructionItems";
-import { InstructionMaps } from "~counselings/aggregates/instructions/domain/instructionMaps";
 import { Instructions } from "~counselings/aggregates/instructions/domain/instructions";
 import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
@@ -22,8 +21,6 @@ import {
   Instruction,
   InstructionItem,
   InstructionItemSchema,
-  InstructionMap,
-  InstructionMapSchema,
   InstructionSchema,
   Persona,
   PersonaSchema,
@@ -120,27 +117,15 @@ export class SchemaCounselsMapper {
     });
   }
 
-  static toInstructionProto(instruction: Instructions): Instruction {
+  static toInstructionProto(instruction: Instructions, instructionItems: InstructionItems[]): Instruction {
     return create(InstructionSchema, {
       id: instruction.id.getString(),
       name: instruction.name,
       initialSentence: instruction.initialSentence,
-      instructionMaps: instruction.instructionMaps.map((instructionMap) => SchemaCounselsMapper.toInstructionMapProto(instructionMap)),
+      instructionItems: instructionItems.map((item) => SchemaCounselsMapper.toInstructionItemProto(item)),
       createdAt: instruction.createdAt.toISOString(),
       updatedAt: instruction.updatedAt.toISOString(),
       deletedAt: instruction.deletedAt ? instruction.deletedAt.toISOString() : null,
-    });
-  }
-
-  static toInstructionMapProto(instructionMap: InstructionMaps): InstructionMap {
-    return create(InstructionMapSchema, {
-      id: instructionMap.id.getString(),
-      sequence: instructionMap.sequence,
-      instructionId: instructionMap.instructionId.getString(),
-      instructionItemId: instructionMap.instructionItemId.getString(),
-      createdAt: instructionMap.createdAt.toISOString(),
-      updatedAt: instructionMap.updatedAt.toISOString(),
-      deletedAt: instructionMap.deletedAt ? instructionMap.deletedAt.toISOString() : null,
     });
   }
 

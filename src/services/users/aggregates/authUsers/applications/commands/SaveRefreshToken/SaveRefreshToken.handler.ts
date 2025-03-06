@@ -28,7 +28,7 @@ export class SaveRefreshTokenHandler implements ICommandHandler<SaveRefreshToken
     const authUser = findOneAuthUserUseCaseResponse.authUser;
     const saveRefreshTokenResult = authUser.saveRefreshToken(token, expiresAt);
     if (saveRefreshTokenResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, saveRefreshTokenResult.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, saveRefreshTokenResult.error as string);
     }
     await this.updateAuthUserUseCase.execute({
       toUpdateAuthUser: authUser,

@@ -2,7 +2,10 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
 import { PsqlTonesMapper } from "~counselings/aggregates/tones/infrastructures/adaptors/mappers/psql.tones.mapper";
-import { FindManyPropsInTonesRepository, ToneRepositoryPort } from "~counselings/aggregates/tones/infrastructures/tones.repository.port";
+import {
+  FindManyPropsInTonesRepository,
+  ToneRepositoryPort,
+} from "~counselings/aggregates/tones/infrastructures/tones.repository.port";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -27,16 +30,19 @@ export class PsqlTonesRepositoryAdaptor implements ToneRepositoryPort {
     return tone;
   }
 
-  async findOne(toneId: UniqueEntityId): Promise<Tones> {
+  async findOne(toneId: UniqueEntityId): Promise<Tones | null> {
     const toneEntity = await this.tonesRepository.findOne({
       where: { id: toneId.getString() },
     });
+    if (!toneEntity) {
+      return null;
+    }
     return PsqlTonesMapper.toDomain(toneEntity);
   }
 
   async findAll(): Promise<Tones[]> {
     const toneEntities = await this.tonesRepository.find();
-    return toneEntities.map((toneEntity) => PsqlTonesMapper.toDomain(toneEntity));
+    return toneEntities.map((toneEntity) => PsqlTonesMapper.toDomain(toneEntity)).filter((tone) => tone !== null);
   }
 
   async findMany(props: FindManyPropsInTonesRepository): Promise<Tones[]> {
@@ -47,6 +53,6 @@ export class PsqlTonesRepositoryAdaptor implements ToneRepositoryPort {
     const toneEntities = await this.tonesRepository.find({
       where: findOptionsWhere,
     });
-    return toneEntities.map((toneEntity) => PsqlTonesMapper.toDomain(toneEntity));
+    return toneEntities.map((toneEntity) => PsqlTonesMapper.toDomain(toneEntity)).filter((tone) => tone !== null);
   }
 }

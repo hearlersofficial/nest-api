@@ -23,7 +23,10 @@ export class FindOneAuthUserHandler implements IQueryHandler<FindOneAuthUserQuer
       },
     });
     if (!ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, error);
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, error as string);
+    }
+    if (!authUser) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "authUser not found");
     }
     return { authUser };
   }

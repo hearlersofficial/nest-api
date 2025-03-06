@@ -1,6 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Instructions } from "~counselings/aggregates/instructions/domain/instructions";
-import { INSTRUCTION_REPOSITORY, InstructionsRepositoryPort } from "~counselings/aggregates/instructions/infrastructures/instructions.repository.port";
+import {
+  INSTRUCTION_REPOSITORY,
+  InstructionsRepositoryPort,
+} from "~counselings/aggregates/instructions/infrastructures/instructions.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -11,7 +14,7 @@ export class InstructionReader {
     private readonly instructionRepository: InstructionsRepositoryPort,
   ) {}
 
-  async findOne(instructionId: UniqueEntityId): Promise<Instructions> {
+  async findOne(instructionId: UniqueEntityId): Promise<Instructions | null> {
     const instruction = await this.instructionRepository.findOne(instructionId);
     return instruction;
   }

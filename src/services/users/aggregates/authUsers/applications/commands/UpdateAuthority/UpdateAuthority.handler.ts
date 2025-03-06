@@ -21,7 +21,7 @@ export class UpdateAuthorityHandler implements ICommandHandler<UpdateAuthorityCo
     const findOneAuthUserUseCaseResponse: FindOneAuthUserUseCaseResponse = await this.findOneAuthUserUseCase.execute({
       authUserId,
     });
-    const authUser: AuthUsers = findOneAuthUserUseCaseResponse.authUser;
+    const authUser: AuthUsers | null | undefined = findOneAuthUserUseCaseResponse.authUser;
     if (!authUser) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "AuthUser not found");
     }
@@ -29,6 +29,6 @@ export class UpdateAuthorityHandler implements ICommandHandler<UpdateAuthorityCo
     const updateAuthUserUseCaseResponse: UpdateAuthUserUseCaseResponse = await this.updateAuthUserUseCase.execute({
       toUpdateAuthUser: authUser,
     });
-    return updateAuthUserUseCaseResponse.authUser;
+    return updateAuthUserUseCaseResponse.authUser as AuthUsers;
   }
 }

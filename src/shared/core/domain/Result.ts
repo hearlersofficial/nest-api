@@ -23,7 +23,7 @@ export class Result<T> {
   }
 
   get errorValue(): string {
-    return this.error;
+    return this.error ?? "unspecified error";
   }
 
   public static ok<U>(value?: U): Result<U> {

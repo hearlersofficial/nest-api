@@ -1,6 +1,9 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
+import { UserMessageTokens } from "~users/aggregates/users/domain/UserMessageTokens";
+import { UserProfiles } from "~users/aggregates/users/domain/UserProfiles";
+import { UserProgresses } from "~users/aggregates/users/domain/UserProgresses";
 import { Users, UsersProps } from "~users/aggregates/users/domain/Users";
 import { PsqlUserMessageTokensMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userMessageTokens.mapper";
 import { PsqlUserProfilesMapper } from "~users/aggregates/users/infrastructures/adaptors/mappers/psql.userProfiles.mapper";
@@ -15,14 +18,23 @@ export class PsqlUsersMapper {
       return null;
     }
 
+    const userProfile: UserProfiles | null = entity.userProfiles
+      ? PsqlUserProfilesMapper.toDomain(entity.userProfiles)
+      : null;
+    const userProgresses: UserProgresses[] = PsqlUserProgressesMapper.toDomains(entity.userProgresses);
+    const userMessageToken: UserMessageTokens | null = entity.userMessageTokens
+      ? PsqlUserMessageTokensMapper.toDomain(entity.userMessageTokens)
+      : null;
+
+    if (!userProfile || !userProgresses || !userMessageToken) {
+      throw new InternalServerErrorException("Failed to map user profile, user progresses, or user message token");
+    }
+
     const userProps: UsersProps = {
       nickname: entity.nickname,
-      userProfile: entity.userProfiles ? PsqlUserProfilesMapper.toDomain(entity.userProfiles) : undefined,
-      userProgresses:
-        entity.userProgresses?.map((progress) => PsqlUserProgressesMapper.toDomain(progress)).filter(Boolean) || [],
-      userMessageToken: entity.userMessageTokens
-        ? PsqlUserMessageTokensMapper.toDomain(entity.userMessageTokens)
-        : undefined,
+      userProfile: userProfile,
+      userProgresses: userProgresses,
+      userMessageToken: userMessageToken,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,

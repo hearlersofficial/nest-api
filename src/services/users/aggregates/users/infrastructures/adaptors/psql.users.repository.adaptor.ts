@@ -34,10 +34,8 @@ export class PsqlUsersRepositoryAdaptor implements UsersRepositoryPort {
   async create(user: Users): Promise<Users> {
     await this.publishDomainEvents(user);
     const usersEntity = PsqlUsersMapper.toEntity(user);
-    const createdUsersEntity = await this.usersRepository.create(usersEntity);
-    const savedUsersEntity = await this.usersRepository.save(createdUsersEntity, { reload: true });
-
-    return PsqlUsersMapper.toDomain(savedUsersEntity);
+    await this.usersRepository.create(usersEntity);
+    return user;
   }
 
   async findOne(props: FindOnePropsInUsersRepository): Promise<Users | null> {
@@ -55,7 +53,10 @@ export class PsqlUsersRepositoryAdaptor implements UsersRepositoryPort {
       where: findOptionsWhere,
       relations: findOptionsRelation,
     };
-    const usersEntity: UsersEntity = await this.usersRepository.findOne(findOneOptions);
+    const usersEntity: UsersEntity | null = await this.usersRepository.findOne(findOneOptions);
+    if (!usersEntity) {
+      return null;
+    }
     const user = PsqlUsersMapper.toDomain(usersEntity);
     if (user) {
       await this.publishDomainEvents(user);
@@ -66,7 +67,7 @@ export class PsqlUsersRepositoryAdaptor implements UsersRepositoryPort {
   async update(user: Users): Promise<Users> {
     await this.publishDomainEvents(user);
     const usersEntity = PsqlUsersMapper.toEntity(user);
-    const updatedUsersEntity = await this.usersRepository.save(usersEntity, { reload: true });
-    return PsqlUsersMapper.toDomain(updatedUsersEntity);
+    await this.usersRepository.save(usersEntity, { reload: true });
+    return user;
   }
 }

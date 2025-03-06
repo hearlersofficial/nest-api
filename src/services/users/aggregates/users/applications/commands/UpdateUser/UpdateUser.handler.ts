@@ -23,9 +23,12 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
     // 기존 사용자 조회
     const findOneUserUseCaseResponse = await this.findOneUserUseCase.execute({ userId });
     if (!findOneUserUseCaseResponse.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, findOneUserUseCaseResponse.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, findOneUserUseCaseResponse.error as string);
     }
-    const user: Users = findOneUserUseCaseResponse.user;
+    const user: Users | undefined = findOneUserUseCaseResponse.user;
+    if (!user) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "user not found");
+    }
 
     // 닉네임 업데이트
     if (command.props.nickname) {
@@ -41,15 +44,17 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
       if (birthday) updateProps.birthday = dayjs(birthday);
       if (introduction) updateProps.introduction = introduction;
       if (mbti) updateProps.mbti = mbti;
-      const updateResult = user.userProfile.updateProfile(updateProps);
-      if (updateResult.isFailure) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, updateResult.error);
+      if (user.userProfile) {
+        const updateResult = user.userProfile.updateProfile(updateProps);
+        if (updateResult.isFailure) {
+          throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, updateResult.error as string);
+        }
       }
     }
 
     // 온보딩 체크 및 완료 처리
     const onboardingProgress = user.findProgress(ProgressType.ONBOARDING);
-    if (onboardingProgress.status !== ProgressStatus.COMPLETED && user.userProfile.isProfileCompleted()) {
+    if (onboardingProgress?.status !== ProgressStatus.COMPLETED && user.userProfile?.isProfileCompleted()) {
       if (onboardingProgress) {
         onboardingProgress.updateStatus(ProgressStatus.COMPLETED);
       }
@@ -58,9 +63,15 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
     console.log(user);
     const updateUserUseCaseResponse = await this.updateUserUseCase.execute({ toUpdateUser: user });
     if (!updateUserUseCaseResponse.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateUserUseCaseResponse.error);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        updateUserUseCaseResponse.error as string,
+      );
     }
-
-    return updateUserUseCaseResponse.user;
+    const savedUser: Users | undefined = updateUserUseCaseResponse.user;
+    if (!savedUser) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "user not found");
+    }
+    return savedUser;
   }
 }

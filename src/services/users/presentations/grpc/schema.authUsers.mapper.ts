@@ -21,19 +21,19 @@ export class SchemaAuthUsersMapper {
     }
     return create(AuthUserSchema, {
       id: authUser.id.getString(),
-      userId: authUser.userId.getString(),
+      userId: authUser.userId?.getString(),
       authChannel: authUser.authChannel,
       oauthChannelInfo: this.toOAuthChannelInfoProto(authUser),
       authority: authUser.authority,
-      lastLoginAt: authUser.lastLoginAt.toISOString(),
+      lastLoginAt: authUser.lastLoginAt ? authUser.lastLoginAt.toISOString() : undefined,
       refreshTokens: this.toRefreshTokenProtos(authUser.refreshTokens),
       createdAt: authUser.createdAt.toISOString(),
       updatedAt: authUser.updatedAt.toISOString(),
-      deletedAt: authUser.deletedAt ? authUser.deletedAt.toISOString() : null,
+      deletedAt: authUser.deletedAt ? authUser.deletedAt.toISOString() : undefined,
     });
   }
 
-  static toOAuthChannelInfoProto(authUser: AuthUsers): OAuthChannelInfo {
+  static toOAuthChannelInfoProto(authUser: AuthUsers): OAuthChannelInfo | undefined {
     if (!authUser) {
       throw new HttpStatusBasedRpcException(
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -43,15 +43,15 @@ export class SchemaAuthUsersMapper {
     switch (authUser.authChannel) {
       case AuthChannel.KAKAO:
         return create(OAuthChannelInfoSchema, {
-          id: authUser.kakao.id.getString(),
+          id: authUser?.kakao?.id.getString(),
           authChannel: authUser.authChannel,
-          uniqueId: authUser.kakao.uniqueId,
-          createdAt: authUser.kakao.createdAt.toISOString(),
-          updatedAt: authUser.kakao.updatedAt.toISOString(),
-          deletedAt: authUser.kakao.deletedAt ? authUser.kakao.deletedAt.toISOString() : null,
+          uniqueId: authUser?.kakao?.uniqueId,
+          createdAt: authUser?.kakao?.createdAt.toISOString(),
+          updatedAt: authUser?.kakao?.updatedAt.toISOString(),
+          deletedAt: authUser?.kakao?.deletedAt ? authUser.kakao.deletedAt.toISOString() : undefined,
         });
       default:
-        return null;
+        return undefined;
     }
   }
   static toRefreshTokenProto(refreshToken: RefreshTokensVO): RefreshToken {

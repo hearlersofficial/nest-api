@@ -30,16 +30,21 @@ export class PsqlInstructionItemsRepositoryAdaptor implements InstructionItemsRe
     return instructionItem;
   }
 
-  async findOne(instructionItemId: UniqueEntityId): Promise<InstructionItems> {
+  async findOne(instructionItemId: UniqueEntityId): Promise<InstructionItems | null> {
     const instructionItemEntity = await this.instructionItemsRepository.findOne({
       where: { id: instructionItemId.getString() },
     });
+    if (!instructionItemEntity) {
+      return null;
+    }
     return PsqlInstructionItemsMapper.toDomain(instructionItemEntity);
   }
 
   async findAll(): Promise<InstructionItems[]> {
     const instructionItemEntities = await this.instructionItemsRepository.find();
-    return instructionItemEntities.map((instructionItemEntity) => PsqlInstructionItemsMapper.toDomain(instructionItemEntity));
+    return instructionItemEntities
+      .map((instructionItemEntity) => PsqlInstructionItemsMapper.toDomain(instructionItemEntity))
+      .filter((instructionItem) => instructionItem !== null);
   }
 
   async findMany(props: FindManyPropsInInstructionItemsRepository): Promise<InstructionItems[]> {
@@ -53,6 +58,8 @@ export class PsqlInstructionItemsRepositoryAdaptor implements InstructionItemsRe
     const instructionItemEntities = await this.instructionItemsRepository.find({
       where: findOptionsWhere,
     });
-    return instructionItemEntities.map((instructionItemEntity) => PsqlInstructionItemsMapper.toDomain(instructionItemEntity));
+    return instructionItemEntities
+      .map((instructionItemEntity) => PsqlInstructionItemsMapper.toDomain(instructionItemEntity))
+      .filter((instructionItem) => instructionItem !== null);
   }
 }

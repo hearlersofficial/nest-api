@@ -2,7 +2,10 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
 import { Counselors } from "~counselings/aggregates/counselors/domain/counselors";
 import { PsqlCounselorsMapper } from "~counselings/aggregates/counselors/infrastructures/adaptors/mapper/psql.counselors.mapper";
-import { CounselorsRepositoryPort, FindManyPropsInCounselorsRepository } from "~counselings/aggregates/counselors/infrastructures/counselors.repository.port";
+import {
+  CounselorsRepositoryPort,
+  FindManyPropsInCounselorsRepository,
+} from "~counselings/aggregates/counselors/infrastructures/counselors.repository.port";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -27,19 +30,24 @@ export class PsqlCounselorsRepositoryAdaptor implements CounselorsRepositoryPort
     return counselor;
   }
 
-  async findOne(counselorId: UniqueEntityId): Promise<Counselors> {
-    const counselorsEntity: CounselorsEntity = await this.counselorsRepository.findOne({
+  async findOne(counselorId: UniqueEntityId): Promise<Counselors | null> {
+    const counselorsEntity: CounselorsEntity | null = await this.counselorsRepository.findOne({
       where: { id: counselorId.getString() },
     });
+    if (!counselorsEntity) {
+      return null;
+    }
     return PsqlCounselorsMapper.toDomain(counselorsEntity);
   }
 
   async findAll(): Promise<Counselors[]> {
     const counselorsEntities = await this.counselorsRepository.find();
-    return counselorsEntities.map((counselorsEntity) => PsqlCounselorsMapper.toDomain(counselorsEntity));
+    return counselorsEntities
+      .map((counselorsEntity) => PsqlCounselorsMapper.toDomain(counselorsEntity))
+      .filter((counselor) => counselor !== null);
   }
 
-  async findMany(props: FindManyPropsInCounselorsRepository): Promise<Counselors[] | null> {
+  async findMany(props: FindManyPropsInCounselorsRepository): Promise<Counselors[]> {
     const findOptionsWhere: FindOptionsWhere<CounselorsEntity> = {};
     if (props.name) {
       findOptionsWhere.name = props.name;
@@ -51,6 +59,8 @@ export class PsqlCounselorsRepositoryAdaptor implements CounselorsRepositoryPort
     const counselorsEntities: CounselorsEntity[] = await this.counselorsRepository.find({
       where: findOptionsWhere,
     });
-    return counselorsEntities.map((counselorsEntity) => PsqlCounselorsMapper.toDomain(counselorsEntity));
+    return counselorsEntities
+      .map((counselorsEntity) => PsqlCounselorsMapper.toDomain(counselorsEntity))
+      .filter((counselor) => counselor !== null);
   }
 }

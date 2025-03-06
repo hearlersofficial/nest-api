@@ -22,11 +22,11 @@ export class SchemaUsersMapper {
     return create(UserSchema, {
       id: user.id.getString(),
       nickname: user.nickname,
-      userProfile: user.userProfile ? this.toUserProfileProto(user.userProfile) : null,
-      userProgresses: user.userProgresses ? user.userProgresses.map(this.toUserProgressProto) : null,
+      userProfile: user.userProfile ? this.toUserProfileProto(user.userProfile) : undefined,
+      userProgresses: user.userProgresses ? user.userProgresses.map(this.toUserProgressProto) : undefined,
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
-      deletedAt: user.deletedAt ? user.deletedAt.toISOString() : null,
+      deletedAt: user.deletedAt ? user.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -39,11 +39,11 @@ export class SchemaUsersMapper {
       phoneNumber: userProfile.phoneNumber,
       mbti: userProfile.mbti,
       gender: userProfile.gender,
-      birthday: userProfile.birthday ? userProfile.birthday.toISOString() : null,
+      birthday: userProfile.birthday ? userProfile.birthday.toISOString() : undefined,
       introduction: userProfile.introduction,
       createdAt: userProfile.createdAt.toISOString(),
       updatedAt: userProfile.updatedAt.toISOString(),
-      deletedAt: userProfile.deletedAt ? userProfile.deletedAt.toISOString() : null,
+      deletedAt: userProfile.deletedAt ? userProfile.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -57,7 +57,7 @@ export class SchemaUsersMapper {
       lastUpdated: userProgress.lastUpdated.toISOString(),
       createdAt: userProgress.createdAt.toISOString(),
       updatedAt: userProgress.updatedAt.toISOString(),
-      deletedAt: userProgress.deletedAt ? userProgress.deletedAt.toISOString() : null,
+      deletedAt: userProgress.deletedAt ? userProgress.deletedAt.toISOString() : undefined,
     });
   }
 }

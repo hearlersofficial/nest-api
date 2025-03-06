@@ -32,7 +32,7 @@ export class Users extends AggregateRoot<UsersProps> {
     const users = new Users(props, id);
     const validateResult = users.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<Users>(validateResult.error);
+      return Result.fail<Users>(validateResult.error as string);
     }
     return Result.ok<Users>(users);
   }

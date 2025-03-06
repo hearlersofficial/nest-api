@@ -58,7 +58,7 @@ export class CounselMessagesEntity extends CoreEntity {
     comment: "좋아요/싫어요 누른 일시 (한국시간)",
     nullable: true,
   })
-  reactedAt: string;
+  reactedAt: string | null;
 
   @Column({
     type: "enum",
@@ -67,5 +67,5 @@ export class CounselMessagesEntity extends CoreEntity {
     comment: "좋아요/싫어요 여부",
     nullable: true,
   })
-  reaction: CounselMessageReaction;
+  reaction: CounselMessageReaction | null;
 }

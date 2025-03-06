@@ -13,7 +13,7 @@ export class ToneService {
   async create(toneNewProps: TonesNewProps): Promise<Tones> {
     const toneOrError = Tones.createNew(toneNewProps);
     if (toneOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, toneOrError.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, toneOrError.error as string);
     }
     const tone = toneOrError.value;
     const createdTone = await this.tonePersistor.create(tone);
@@ -25,7 +25,7 @@ export class ToneService {
     return updatedTone;
   }
 
-  async findOne(toneId: UniqueEntityId): Promise<Tones> {
+  async findOne(toneId: UniqueEntityId): Promise<Tones | null> {
     const tone = await this.toneReader.findOne(toneId);
     return tone;
   }

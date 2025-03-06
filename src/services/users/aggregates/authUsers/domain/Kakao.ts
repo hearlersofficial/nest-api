@@ -25,7 +25,7 @@ export class Kakao extends DomainEntity<KakaoProps> {
     const kakao = new Kakao(props, id);
     const validateResult = kakao.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<Kakao>(validateResult.error);
+      return Result.fail<Kakao>(validateResult.error as string);
     }
     return Result.ok<Kakao>(kakao);
   }

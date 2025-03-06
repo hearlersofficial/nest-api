@@ -8,12 +8,15 @@ import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class CounselorService {
-  constructor(private readonly counselorReader: CounselorReader, private readonly counselorPersister: CounselorPersister) {}
+  constructor(
+    private readonly counselorReader: CounselorReader,
+    private readonly counselorPersister: CounselorPersister,
+  ) {}
 
   async create(counselorNewProps: CounselorsNewProps): Promise<Counselors> {
     const counselorOrError = Counselors.createNew(counselorNewProps);
     if (counselorOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, counselorOrError.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, counselorOrError.error as string);
     }
     const counselor = counselorOrError.value;
     const createdCounselor = await this.counselorPersister.create(counselor);
@@ -25,7 +28,7 @@ export class CounselorService {
     return updatedCounselor;
   }
 
-  async findOne(counselorId: UniqueEntityId): Promise<Counselors> {
+  async findOne(counselorId: UniqueEntityId): Promise<Counselors | null> {
     const counselor = await this.counselorReader.findOne(counselorId);
     return counselor;
   }
@@ -40,7 +43,7 @@ export class CounselorService {
     return counselors;
   }
 
-  async getOne(counselorId: UniqueEntityId): Promise<Counselors> {
+  async getById(counselorId: UniqueEntityId): Promise<Counselors> {
     const counselor = await this.counselorReader.findOne(counselorId);
     if (!counselor) {
       throw new NotFoundException("Counselor not found");

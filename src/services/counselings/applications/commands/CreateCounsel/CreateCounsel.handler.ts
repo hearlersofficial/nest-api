@@ -1,12 +1,16 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { CounselMessageService } from "~counselings/aggregates/counselMessages/applications/counselMessage.service";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CounselorService } from "~counselings/aggregates/counselors/applications/counselor.service";
 import { CounselService } from "~counselings/aggregates/counsels/applications/counsel.service";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import { CounselTechniqueService } from "~counselings/aggregates/counselTechniques/applications/counselTechnique.service";
-import { CreateCounselCommand, CreateCounselCommandResult } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
+import {
+  CreateCounselCommand,
+  CreateCounselCommandResult,
+} from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
 import { ProceedCounselingUseCase } from "~counselings/applications/useCases/ProceedCounselingUseCase/ProceedCounselingUseCase";
 import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
@@ -15,7 +19,8 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 
 @CommandHandler(CreateCounselCommand)
 export class CreateCounselHandler implements ICommandHandler<CreateCounselCommand> {
-  private readonly FirstMessage = "안녕! 여기는 내 상담실이야. 여기서는 무슨 이야기든 털어놓을 수 있어. 같이 이야기해볼래?";
+  private readonly FirstMessage =
+    "안녕! 여기는 내 상담실이야. 여기서는 무슨 이야기든 털어놓을 수 있어. 같이 이야기해볼래?";
 
   constructor(
     private readonly counselService: CounselService,
@@ -58,6 +63,9 @@ export class CreateCounselHandler implements ICommandHandler<CreateCounselComman
 
     if (withBubble) {
       // IntroMessage 생성
+      if (!isDefined(introMessage)) {
+        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "IntroMessage is required");
+      }
       const createdIntroMessage = await this.counselMessageService.create({
         counselId: createdCounsel.id,
         userId: createdCounsel.userId,
@@ -70,10 +78,13 @@ export class CreateCounselHandler implements ICommandHandler<CreateCounselComman
       // ResponseMessage를 통해 상담 진행
       const proceedCounselingResult = await this.proceedCounselingUseCase.execute({
         counsel: createdCounsel,
-        userMessage: responseMessage,
+        userMessage: responseMessage as string,
       });
       if (!proceedCounselingResult.ok) {
-        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, proceedCounselingResult.error);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          proceedCounselingResult.error as string,
+        );
       }
 
       counselResult = proceedCounselingResult.counsel;
@@ -93,7 +104,7 @@ export class CreateCounselHandler implements ICommandHandler<CreateCounselComman
       // 마지막 채팅 업데이트
       const saveLastMessageResult = createdCounsel.saveLastMessage(createdFirstMessage);
       if (saveLastMessageResult.isFailure) {
-        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, saveLastMessageResult.error);
+        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, saveLastMessageResult.error as string);
       }
       counselResult = await this.counselService.update(createdCounsel);
     }

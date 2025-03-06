@@ -31,7 +31,7 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
     const userProfiles = new UserProfiles(props, id);
     const validateResult = userProfiles.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<UserProfiles>(validateResult.error);
+      return Result.fail<UserProfiles>(validateResult.error as string);
     }
     return Result.ok<UserProfiles>(userProfiles);
   }

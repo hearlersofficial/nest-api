@@ -5,8 +5,8 @@ import { HttpStatus } from "@nestjs/common";
 
 interface UpdateToneCommandProps {
   toneId: UniqueEntityId;
-  name: string;
-  body: string;
+  name?: string;
+  body?: string;
 }
 
 export class UpdateToneCommand {

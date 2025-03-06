@@ -14,7 +14,7 @@ export class InstructionItemReader {
     private readonly instructionItemRepository: InstructionItemsRepositoryPort,
   ) {}
 
-  async findOne(instructionItemId: UniqueEntityId): Promise<InstructionItems> {
+  async findOne(instructionItemId: UniqueEntityId): Promise<InstructionItems | null> {
     const instructionItem = await this.instructionItemRepository.findOne(instructionItemId);
     return instructionItem;
   }
@@ -32,7 +32,9 @@ export class InstructionItemReader {
         throw new NotFoundException("InstructionItem not found with the provided ids");
       }
       const instructionItemMap = new Map(instructionItems.map((item) => [item.id.getString(), item]));
-      return props.ids.map((id) => instructionItemMap.get(id.getString()));
+      return props.ids
+        .map((id) => instructionItemMap.get(id.getString()))
+        .filter((instructionItem) => instructionItem !== undefined);
     }
     return instructionItems;
   }

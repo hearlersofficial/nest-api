@@ -1,5 +1,7 @@
 import { UseCase } from "~shared/core/applications/UseCase";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { CounselMessageService } from "~counselings/aggregates/counselMessages/applications/counselMessage.service";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CounselorService } from "~counselings/aggregates/counselors/applications/counselor.service";
@@ -11,7 +13,7 @@ import { ProceedCounselingRequest } from "~counselings/applications/useCases/Pro
 import { ProceedCounselingResponse } from "~counselings/applications/useCases/ProceedCounselingUseCase/dto/ProceedCounseling.response";
 import { TransitionCounselTechniqueUseCase } from "~counselings/applications/useCases/TransitionCounselTechniqueUseCase/TransitionCounselTechniqueUseCase";
 
-import { Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import { ChatCompletionMessageParam } from "openai/resources";
 
 @Injectable()
@@ -44,10 +46,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     // 상담사 조회
     const counselor = await this.counselorService.findOne(counsel.counselorId);
     if (!counselor) {
-      return {
-        ok: false,
-        error: "Counselor not found",
-      };
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Counselor not found");
     }
 
     // 이전 대화 조회
@@ -58,10 +57,13 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
       // 상담 기법 변경
       const transitionCounselTechniqueResponse = await this.transitionCounselTechniqueUseCase.execute({ counsel });
       if (!transitionCounselTechniqueResponse.ok) {
-        return {
-          ok: false,
-          error: transitionCounselTechniqueResponse.error,
-        };
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          transitionCounselTechniqueResponse.error as string,
+        );
+      }
+      if (!transitionCounselTechniqueResponse.counsel) {
+        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Counsel not found");
       }
       counsel = transitionCounselTechniqueResponse.counsel;
     }
@@ -69,22 +71,24 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     // 상담 기법 조회
     const counselTechnique = await this.counselTechniqueService.findOne(counsel.counselTechniqueId);
     if (!counselTechnique) {
-      return {
-        ok: false,
-        error: "CounselTechnique not found",
-      };
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "CounselTechnique not found");
     }
 
     const prompts: ChatCompletionMessageParam[] = [];
     // 시스템 프롬프트 생성
-    const makeSystemPromptResult = await this.makeSystemPromptUseCase.execute({ counselTechnique, counselor, userId: counsel.userId });
+    const makeSystemPromptResult = await this.makeSystemPromptUseCase.execute({
+      counselTechnique,
+      counselor,
+      userId: counsel.userId,
+    });
     if (!makeSystemPromptResult.ok) {
-      return {
-        ok: false,
-        error: makeSystemPromptResult.error,
-      };
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, makeSystemPromptResult.error as string);
     }
-    prompts.push(makeSystemPromptResult.prompt);
+    const prompt = makeSystemPromptResult.prompt;
+    if (!isDefined(prompt)) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Prompt not found");
+    }
+    prompts.push(prompt);
 
     // 이전 대화 추가
     counselMessages.forEach((counselMessage) => {
@@ -94,12 +98,15 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     // 응답 생성
     const generateGptResponseResult = await this.generateGptResponseUseCase.execute({ prompts });
     if (!generateGptResponseResult.ok) {
-      return {
-        ok: false,
-        error: generateGptResponseResult.error,
-      };
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        generateGptResponseResult.error as string,
+      );
     }
     const response = generateGptResponseResult.response;
+    if (!isDefined(response)) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Response not found");
+    }
 
     // 시스템 메시지 생성
     const createdSystemMessage = await this.counselMessageService.create({
@@ -123,7 +130,9 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
   }
 
   private checkCounselTechniqueChange(counselMessages: CounselMessages[], counselTechniqueId: UniqueEntityId): boolean {
-    const messageCountAtCurrentTechnique = counselMessages.filter((counselMessage) => counselMessage.counselTechniqueId === counselTechniqueId).length;
+    const messageCountAtCurrentTechnique = counselMessages.filter(
+      (counselMessage) => counselMessage.counselTechniqueId === counselTechniqueId,
+    ).length;
     return messageCountAtCurrentTechnique > this.MessageCountForNextPrompt;
   }
 }

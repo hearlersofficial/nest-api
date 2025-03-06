@@ -28,21 +28,21 @@ export class AuthUsersEntity extends CoreEntity {
     comment: "사용자 ID (외래 키)",
     nullable: true,
   })
-  userId: string;
+  userId: string | null;
 
   @Column({
     type: "timestamp",
     name: "last_login_at",
     comment: "마지막 로그인 시간",
-    nullable: true,
   })
-  lastLoginAt: string | null;
+  lastLoginAt: string;
 
   @OneToOne(() => KakaoEntity, (kakao) => kakao.authUser, {
     cascade: true,
     orphanedRowAction: "disable",
+    nullable: true,
   })
-  kakao: KakaoEntity;
+  kakao: KakaoEntity | null;
 
   @OneToMany(() => RefreshTokenEntity, (refreshToken) => refreshToken.authUser, {
     cascade: true,

@@ -24,6 +24,9 @@ export class ReserveTokensHandler implements ICommandHandler<ReserveTokensComman
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.");
     }
     const { user } = findOneUserUseCaseResponse;
+    if (!user) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "user not found");
+    }
     const userMessageToken = user.userMessageToken;
     if (!userMessageToken.hasRemainingTokens()) {
       throw new HttpStatusBasedRpcException(HttpStatus.FORBIDDEN, "잔여 토큰이 없습니다.");
@@ -33,6 +36,9 @@ export class ReserveTokensHandler implements ICommandHandler<ReserveTokensComman
       throw new HttpStatusBasedRpcException(HttpStatus.CONFLICT, "이미 예약된 토큰이 있습니다.");
     }
     userMessageToken.reserveTokens();
+    if (!user) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "user not found");
+    }
     const updateUserUseCaseResponse = await this.updateUserUseCase.execute({ toUpdateUser: user });
     if (!updateUserUseCaseResponse.ok) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "사용자 업데이트 실패");

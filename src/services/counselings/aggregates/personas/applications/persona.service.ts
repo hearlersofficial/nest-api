@@ -13,7 +13,7 @@ export class PersonaService {
   async create(personaNewProps: PersonasNewProps): Promise<Personas> {
     const personaOrError = Personas.createNew(personaNewProps);
     if (personaOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, personaOrError.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, personaOrError.error as string);
     }
     const persona = personaOrError.value;
     const createdPersona = await this.personaPersistor.create(persona);
@@ -25,7 +25,7 @@ export class PersonaService {
     return updatedPersona;
   }
 
-  async findById(personaId: UniqueEntityId): Promise<Personas> {
+  async findById(personaId: UniqueEntityId): Promise<Personas | null> {
     const persona = await this.personaReader.findOne(personaId);
     return persona;
   }

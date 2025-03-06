@@ -1,6 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
-import { TONE_REPOSITORY, ToneRepositoryPort } from "~counselings/aggregates/tones/infrastructures/tones.repository.port";
+import {
+  TONE_REPOSITORY,
+  ToneRepositoryPort,
+} from "~counselings/aggregates/tones/infrastructures/tones.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -11,7 +14,7 @@ export class ToneReader {
     private readonly toneRepository: ToneRepositoryPort,
   ) {}
 
-  async findOne(toneId: UniqueEntityId): Promise<Tones> {
+  async findOne(toneId: UniqueEntityId): Promise<Tones | null> {
     const tone = await this.toneRepository.findOne(toneId);
     return tone;
   }

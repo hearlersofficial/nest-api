@@ -26,7 +26,7 @@ export class Tones extends AggregateRoot<TonesProps> {
     const tones = new Tones(props, id);
     const validateResult = tones.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<Tones>(validateResult.error);
+      return Result.fail<Tones>(validateResult.error as string);
     }
     return Result.ok<Tones>(tones);
   }

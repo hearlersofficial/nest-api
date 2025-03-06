@@ -31,7 +31,7 @@ export class PsqlUserMessageTokensMapper {
     );
 
     if (userMessageTokensOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, userMessageTokensOrError.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, userMessageTokensOrError.error as string);
     }
 
     return userMessageTokensOrError.value;
@@ -42,7 +42,7 @@ export class PsqlUserMessageTokensMapper {
       return [];
     }
 
-    return entities.map((entity) => this.toDomain(entity));
+    return entities.map((entity) => this.toDomain(entity)).filter(Boolean) as UserMessageTokens[];
   }
 
   static toEntity(userMessageTokens: UserMessageTokens): UserMessageTokensEntity {

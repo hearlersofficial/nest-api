@@ -10,7 +10,7 @@ export class FindCounselorByIdHandler {
 
   async execute(query: FindCounselorByIdQuery): Promise<Counselors> {
     const { counselorId } = query.props;
-    const counselor = await this.counselorService.findOne(counselorId);
+    const counselor = await this.counselorService.getById(counselorId);
 
     return counselor;
   }

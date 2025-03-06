@@ -47,16 +47,21 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
     return counselMessage;
   }
 
-  async findOne(counselMessageId: UniqueEntityId): Promise<CounselMessages> {
-    const counselMessagesEntity = await this.counselMessagesRepository.findOne({
+  async findOne(counselMessageId: UniqueEntityId): Promise<CounselMessages | null> {
+    const counselMessagesEntity: CounselMessagesEntity | null = await this.counselMessagesRepository.findOne({
       where: { id: counselMessageId.getString() },
     });
+    if (!counselMessagesEntity) {
+      return null;
+    }
     return PsqlCounselMessagesMapper.toDomain(counselMessagesEntity);
   }
 
   async findAll(): Promise<CounselMessages[]> {
     const counselMessagesEntities = await this.counselMessagesRepository.find();
-    return counselMessagesEntities.map((counselMessagesEntity) => PsqlCounselMessagesMapper.toDomain(counselMessagesEntity));
+    return counselMessagesEntities
+      .map((counselMessagesEntity) => PsqlCounselMessagesMapper.toDomain(counselMessagesEntity))
+      .filter((counselMessage) => counselMessage !== null);
   }
 
   async findMany(props: FindManyPropsInCounselMessagesRepository): Promise<CounselMessages[]> {
@@ -72,7 +77,9 @@ export class PsqlCounselMessagesRepositoryAdaptor implements CounselMessagesRepo
     };
 
     const counselMessagesEntities = await this.counselMessagesRepository.find(findManyOptions);
-    const counselMessageList = counselMessagesEntities.map((counselMessagesEntity) => PsqlCounselMessagesMapper.toDomain(counselMessagesEntity));
+    const counselMessageList = counselMessagesEntities
+      .map((counselMessagesEntity) => PsqlCounselMessagesMapper.toDomain(counselMessagesEntity))
+      .filter((counselMessage) => counselMessage !== null);
     if (counselMessageList.length > 0) {
       for (const counselMessage of counselMessageList) {
         await this.publishDomainEvents(counselMessage);

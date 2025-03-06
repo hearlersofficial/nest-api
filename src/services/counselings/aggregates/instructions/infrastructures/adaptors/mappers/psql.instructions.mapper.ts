@@ -17,7 +17,8 @@ export class PsqlInstructionsMapper {
       initialSentence: entity.initialSentence ?? null,
       instructionMaps: entity.instructionMaps
         .sort((a, b) => a.sequence - b.sequence) // 항상 sequence 순서대로 정렬
-        .map((instructionMap) => PsqlInstructionMapsMapper.toDomain(instructionMap)),
+        .map((instructionMap) => PsqlInstructionMapsMapper.toDomain(instructionMap))
+        .filter((instructionMap) => instructionMap !== null),
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
@@ -40,7 +41,9 @@ export class PsqlInstructionsMapper {
 
     entity.name = instructions.name;
     entity.initialSentence = instructions.initialSentence ?? null;
-    entity.instructionMaps = instructions.instructionMaps.map((instructionMap) => PsqlInstructionMapsMapper.toEntity(instructionMap));
+    entity.instructionMaps = instructions.instructionMaps.map((instructionMap) =>
+      PsqlInstructionMapsMapper.toEntity(instructionMap),
+    );
 
     entity.createdAt = instructions.createdAt.toISOString();
     entity.updatedAt = instructions.updatedAt.toISOString();

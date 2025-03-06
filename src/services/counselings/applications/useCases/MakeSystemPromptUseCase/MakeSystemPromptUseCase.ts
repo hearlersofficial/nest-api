@@ -1,4 +1,5 @@
 import { UseCase } from "~shared/core/applications/UseCase";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { ContextService } from "~counselings/aggregates/contexts/applications/context.service";
 import { InstructionItemService } from "~counselings/aggregates/instructionItems/applications/instructionItem.service";
 import { InstructionService } from "~counselings/aggregates/instructions/applications/instruction.service";
@@ -11,7 +12,9 @@ import { Injectable } from "@nestjs/common";
 import { ChatCompletionSystemMessageParam } from "openai/resources";
 
 @Injectable()
-export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse> {
+export class MakeSystemPromptUseCase
+  implements UseCase<MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse>
+{
   constructor(
     private readonly personaService: PersonaService,
     private readonly contextService: ContextService,
@@ -21,7 +24,7 @@ export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseR
   ) {}
 
   async execute(request: MakeSystemPromptUseCaseRequest): Promise<MakeSystemPromptUseCaseResponse> {
-    const { counselTechnique, counselor, userId } = request;
+    const { counselTechnique, counselor } = request;
 
     const personas = await this.personaService.findMany({ counselorId: counselor.id });
     if (personas.length === 0) {
@@ -39,8 +42,13 @@ export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseR
     if (!instruction) {
       return { ok: false, error: "Instruction not found" };
     }
-    const instructionItems = await this.instructionItemService.findMany({ ids: instruction.instructionMaps.map((map) => map.instructionItemId) });
+    const instructionItems = await this.instructionItemService.findMany({
+      ids: instruction.instructionMaps.map((map) => map.instructionItemId),
+    });
 
+    if (!isDefined(counselTechnique.toneId)) {
+      return { ok: false, error: "Tone not found" };
+    }
     const tone = await this.toneService.findOne(counselTechnique.toneId);
     if (!tone) {
       return { ok: false, error: "Tone not found" };

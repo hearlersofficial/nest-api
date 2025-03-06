@@ -22,10 +22,10 @@ export class FindOneUserUseCase implements UseCase<FindOneUserUseCaseRequest, Fi
         error: "유니크한 유저를 식별가능한 최소한의 값이 주어지지 않았습니다.",
       };
     }
-    const user: Users = await this.usersRepository.findOne({ userId, nickname, authChannel, uniqueId });
+    const user: Users | null = await this.usersRepository.findOne({ userId, nickname, authChannel, uniqueId });
     return {
       ok: true,
-      user,
+      user: user ?? undefined,
     };
   }
 }

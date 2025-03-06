@@ -35,7 +35,7 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
     const counselMessages = new CounselMessages(props, id);
     const validateResult = counselMessages.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<CounselMessages>(validateResult.error);
+      return Result.fail<CounselMessages>(validateResult.error as string);
     }
     return Result.ok<CounselMessages>(counselMessages);
   }

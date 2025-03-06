@@ -13,7 +13,7 @@ export class ContextService {
   async create(contextNewProps: ContextsNewProps): Promise<Contexts> {
     const contextOrError = Contexts.createNew(contextNewProps);
     if (contextOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, contextOrError.error);
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, contextOrError.error as string);
     }
     const context = contextOrError.value;
     const createdContext = await this.contextPersistor.create(context);
@@ -25,8 +25,9 @@ export class ContextService {
     return updatedContext;
   }
 
-  async findOne(contextId: UniqueEntityId): Promise<Contexts> {
+  async findOne(contextId: UniqueEntityId): Promise<Contexts | null> {
     const context = await this.contextReader.findOne(contextId);
+
     return context;
   }
 

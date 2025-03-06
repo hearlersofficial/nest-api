@@ -18,10 +18,10 @@ export class PsqlAuthUsersMapper {
     const authUsersProps: AuthUsersProps = {
       status: CoreStatus.ACTIVE,
       authority: entity.authority,
-      userId: new UniqueEntityId(entity.userId),
+      userId: entity.userId ? new UniqueEntityId(entity.userId) : null,
       lastLoginAt: dayjs(entity.lastLoginAt),
       authChannel: entity.authChannel,
-      kakao: PsqlKakaoMapper.toDomain(entity.kakao),
+      kakao: entity.kakao ? PsqlKakaoMapper.toDomain(entity.kakao) : null,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,

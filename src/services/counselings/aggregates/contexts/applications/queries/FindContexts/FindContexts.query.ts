@@ -1,6 +1,6 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+// import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 
-import { HttpStatus } from "@nestjs/common";
+// import { HttpStatus } from "@nestjs/common";
 
 export interface FindContextsQueryProps {
   name?: string;
@@ -12,8 +12,8 @@ export class FindContextsQuery {
   }
 
   validate(): void {
-    if (!this.props.name) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "name is required");
-    }
+    // if (!this.props.name) {
+    //   throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "name is required");
+    // }
   }
 }

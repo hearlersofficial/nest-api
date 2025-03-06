@@ -40,7 +40,7 @@ export class InstructionItemService {
     return instructionItems;
   }
 
-  async getOne(instructionItemId: UniqueEntityId): Promise<InstructionItems> {
+  async getById(instructionItemId: UniqueEntityId): Promise<InstructionItems> {
     const instructionItem: InstructionItems | null = await this.findOne(instructionItemId);
     if (!instructionItem) {
       throw new NotFoundException("InstructionItem not found");

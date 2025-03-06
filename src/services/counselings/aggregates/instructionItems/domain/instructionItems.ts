@@ -2,6 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { isDefined } from "~shared/utils/Validate.utils";
 
 import { Dayjs } from "dayjs";
 
@@ -80,6 +81,13 @@ export class InstructionItems extends AggregateRoot<InstructionItemsProps> {
   }
 
   // Methods
+  public update(props: Partial<InstructionItemsProps>): void {
+    if (isDefined(props.body) && props.body !== this.props.body) {
+      this.props.body = props.body;
+    }
+    this.props.updatedAt = getNowDayjs();
+  }
+
   public delete(): void {
     this.props.deletedAt = getNowDayjs();
   }

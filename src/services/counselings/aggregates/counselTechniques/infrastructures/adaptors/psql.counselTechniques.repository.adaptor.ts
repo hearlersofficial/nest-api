@@ -44,7 +44,7 @@ export class PsqlCounselTechniquesRepositoryAdaptor implements CounselTechniques
   async findFirst(props: FindFirstPropsInCounselTechniquesRepository): Promise<CounselTechniques | null> {
     const findOptionsWhere: FindOptionsWhere<CounselTechniquesEntity> = {
       counselTechniqueStage: props.stage,
-      prevTechnique: IsNull(),
+      prevTechniqueId: IsNull(),
     };
     if (props.toneId) {
       findOptionsWhere.toneId = props.toneId.getString();

@@ -9,14 +9,13 @@ export class CreateCounselTechniqueHandler implements ICommandHandler<CreateCoun
   constructor(private readonly counselTechniqueService: CounselTechniqueService) {}
 
   async execute(command: CreateCounselTechniqueCommand): Promise<CounselTechniques> {
-    const { name, toneId, contextId, instructionId, counselTechniqueStage, nextTechniqueId } = command.props;
+    const { name, toneId, contextId, instructionId, counselTechniqueStage } = command.props;
     const technique: CounselTechniques = await this.counselTechniqueService.create({
       name,
       toneId,
       contextId,
       instructionId,
       counselTechniqueStage,
-      nextTechniqueId,
     });
     return technique;
   }

@@ -9,9 +9,9 @@ export class UpdateCounselTechniqueHandler implements ICommandHandler<UpdateCoun
   constructor(private readonly counselTechniqueService: CounselTechniqueService) {}
 
   async execute(command: UpdateCounselTechniqueCommand): Promise<CounselTechniques> {
-    const { techniqueId, name, toneId, contextId, instructionId, counselTechniqueStage, nextTechniqueId } = command.props;
+    const { techniqueId, name, toneId, contextId, instructionId, counselTechniqueStage } = command.props;
     const technique: CounselTechniques = await this.counselTechniqueService.getById(techniqueId);
-    technique.update({ name, toneId, contextId, instructionId, counselTechniqueStage, nextTechniqueId });
+    technique.update({ name, toneId, contextId, instructionId, counselTechniqueStage });
     await this.counselTechniqueService.update(technique);
     return technique;
   }

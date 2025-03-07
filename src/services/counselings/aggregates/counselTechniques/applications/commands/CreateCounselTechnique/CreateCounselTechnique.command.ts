@@ -11,7 +11,6 @@ interface CreateCounselTechniqueCommandProps {
   contextId: UniqueEntityId;
   instructionId: UniqueEntityId;
   counselTechniqueStage: CounselTechniqueStage;
-  nextTechniqueId: UniqueEntityId | null;
 }
 
 export interface CreateCounselTechniqueCommandResponse {

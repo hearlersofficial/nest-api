@@ -62,13 +62,23 @@ export class CounselTechniquesEntity extends CoreEntity {
   counselTechniqueStage: CounselTechniqueStage;
 
   // 이전 노드를 가리키는 관계
-  @OneToOne(() => CounselTechniquesEntity, { nullable: true })
-  prevTechnique: CounselTechniquesEntity;
+  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, { nullable: true })
+  @JoinColumn({ name: "prev_technique_id" })
+  prevTechnique: CounselTechniquesEntity | null;
 
-  // 다음 노드를 가리키는 관계 (소유측)
+  @RelationId((technique: CounselTechniquesEntity) => technique.prevTechnique)
+  @Column({
+    type: "bigint",
+    name: "prev_technique_id",
+    comment: "이전 노드 ID",
+    nullable: true,
+  })
+  prevTechniqueId: string | null;
+
+  // 다음 노드를 가리키는 관계
   @OneToOne(() => CounselTechniquesEntity, (technique) => technique.prevTechnique, { nullable: true })
   @JoinColumn({ name: "next_technique_id" })
-  nextTechnique: CounselTechniquesEntity;
+  nextTechnique: CounselTechniquesEntity | null;
 
   @RelationId((technique: CounselTechniquesEntity) => technique.nextTechnique)
   @Column({

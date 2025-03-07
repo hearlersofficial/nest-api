@@ -2,20 +2,14 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselTechniquePersistor } from "~counselings/aggregates/counselTechniques/applications/tools/counselTechnique.persistor";
 import { CounselTechniqueReader } from "~counselings/aggregates/counselTechniques/applications/tools/counselTechnique.reader";
-import {
-  CounselTechniques,
-  CounselTechniquesNewProps,
-} from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
+import { CounselTechniques, CounselTechniquesNewProps } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
 import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class CounselTechniqueService {
-  constructor(
-    private readonly counselTechniqueReader: CounselTechniqueReader,
-    private readonly counselTechniquePersistor: CounselTechniquePersistor,
-  ) {}
+  constructor(private readonly counselTechniqueReader: CounselTechniqueReader, private readonly counselTechniquePersistor: CounselTechniquePersistor) {}
 
   async create(counselTechniqueNewProps: CounselTechniquesNewProps): Promise<CounselTechniques> {
     const counselTechniqueOrError = CounselTechniques.createNew(counselTechniqueNewProps);
@@ -52,7 +46,7 @@ export class CounselTechniqueService {
     return counselTechniques;
   }
 
-  async getOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques> {
+  async getById(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques> {
     const counselTechnique: CounselTechniques | null = await this.findOne(counselTechniqueId);
     if (!counselTechnique) {
       throw new NotFoundException("CounselTechnique not found");

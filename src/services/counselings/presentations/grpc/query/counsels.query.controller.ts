@@ -10,6 +10,9 @@ import { Counselors } from "~counselings/aggregates/counselors/domain/counselors
 import { FindCounselByIdQuery } from "~counselings/aggregates/counsels/applications/queries/FindCounselById/FindCounselById.query";
 import { FindCounselsQuery } from "~counselings/aggregates/counsels/applications/queries/FindCounsels/FindCounsels.query";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
+import { FindCounselTechniqueByIdQuery } from "~counselings/aggregates/counselTechniques/applications/queries/FindCounselTechniqueById/FindCounselTechniqueById.query";
+import { FindCounselTechniquesQuery } from "~counselings/aggregates/counselTechniques/applications/queries/FindCounselTechniques/FindCounselTechniques.query";
+import { CounselTechniques } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
 import { FindInstructionItemByIdQuery } from "~counselings/aggregates/instructionItems/applications/queries/FindInstructionItemById/FindInstructionItemById.query";
 import { FindInstructionItemsQuery } from "~counselings/aggregates/instructionItems/applications/queries/FindInstructionItems/FindInstructionItems.query";
 import { InstructionItems } from "~counselings/aggregates/instructionItems/domain/instructionItems";
@@ -41,6 +44,12 @@ import {
   FindCounselsRequest,
   FindCounselsResponse,
   FindCounselsResponseSchema,
+  FindCounselTechniqueByIdRequest,
+  FindCounselTechniqueByIdResponse,
+  FindCounselTechniqueByIdResponseSchema,
+  FindCounselTechniquesRequest,
+  FindCounselTechniquesResponse,
+  FindCounselTechniquesResponseSchema,
   FindInstructionByIdRequest,
   FindInstructionByIdResponse,
   FindInstructionByIdResponseSchema,
@@ -131,6 +140,26 @@ export class GrpcCounselQueryController {
     return create(FindCounselorByIdResponseSchema, {
       counselor: SchemaCounselsMapper.toCounselorProto(counselor),
     });
+  }
+
+  @GrpcMethod("CounselService", "FindCounselTechniques")
+  async findCounselTechniques(data: FindCounselTechniquesRequest): Promise<FindCounselTechniquesResponse> {
+    const query: FindCounselTechniquesQuery = new FindCounselTechniquesQuery({
+      name: data.name,
+      toneId: data.toneId ? new UniqueEntityId(data.toneId) : undefined,
+      counselTechniqueStage: data.counselTechniqueStage,
+    });
+    const techniques: CounselTechniques[] = await this.queryBus.execute(query);
+    return create(FindCounselTechniquesResponseSchema, {
+      counselTechniques: techniques.map((technique) => SchemaCounselsMapper.toCounselTechniqueProto(technique)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindCounselTechniqueById")
+  async findCounselTechniqueById(data: FindCounselTechniqueByIdRequest): Promise<FindCounselTechniqueByIdResponse> {
+    const query: FindCounselTechniqueByIdQuery = new FindCounselTechniqueByIdQuery(new UniqueEntityId(data.counselTechniqueId));
+    const technique: CounselTechniques = await this.queryBus.execute(query);
+    return create(FindCounselTechniqueByIdResponseSchema, { counselTechnique: SchemaCounselsMapper.toCounselTechniqueProto(technique) });
   }
 
   @GrpcMethod("CounselService", "FindPersonas")

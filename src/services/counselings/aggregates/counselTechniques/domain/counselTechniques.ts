@@ -2,6 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { Dayjs } from "dayjs";
@@ -127,6 +128,28 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
   }
 
   // Methods
+  public update(props: Partial<CounselTechniquesProps>): void {
+    if (isDefined(props.name) && props.name !== this.props.name) {
+      this.props.name = props.name;
+    }
+    if (props.toneId !== undefined && props.toneId !== this.props.toneId) {
+      this.props.toneId = props.toneId;
+    }
+    if (isDefined(props.contextId) && props.contextId !== this.props.contextId) {
+      this.props.contextId = props.contextId;
+    }
+    if (isDefined(props.instructionId) && props.instructionId !== this.props.instructionId) {
+      this.props.instructionId = props.instructionId;
+    }
+    if (isDefined(props.counselTechniqueStage) && props.counselTechniqueStage !== this.props.counselTechniqueStage) {
+      this.props.counselTechniqueStage = props.counselTechniqueStage;
+    }
+    if (props.nextTechniqueId !== undefined && props.nextTechniqueId !== this.props.nextTechniqueId) {
+      this.props.nextTechniqueId = props.nextTechniqueId;
+    }
+    this.props.updatedAt = getNowDayjs();
+  }
+
   public delete(): void {
     this.props.deletedAt = getNowDayjs();
   }

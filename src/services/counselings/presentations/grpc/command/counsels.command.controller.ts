@@ -167,7 +167,6 @@ export class GrpcCounselCommandController {
       contextId: new UniqueEntityId(request.contextId),
       instructionId: new UniqueEntityId(request.instructionId),
       counselTechniqueStage: request.counselTechniqueStage,
-      nextTechniqueId: request.nextCounselTechniqueId ? new UniqueEntityId(request.nextCounselTechniqueId) : null,
     });
     const counselTechnique: CounselTechniques = await this.commandBus.execute(command);
     return create(CreateCounselTechniqueResponseSchema, {
@@ -184,7 +183,6 @@ export class GrpcCounselCommandController {
       contextId: new UniqueEntityId(request.contextId),
       instructionId: new UniqueEntityId(request.instructionId),
       counselTechniqueStage: request.counselTechniqueStage,
-      nextTechniqueId: request.nextCounselTechniqueId ? new UniqueEntityId(request.nextCounselTechniqueId) : null,
     });
     const counselTechnique: CounselTechniques = await this.commandBus.execute(command);
     return create(UpdateCounselTechniqueResponseSchema, {

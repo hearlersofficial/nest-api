@@ -1,9 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/CounselTechniques.entity";
-import {
-  CounselTechniques,
-  CounselTechniquesProps,
-} from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
+import { CounselTechniques, CounselTechniquesProps } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
 
 import { InternalServerErrorException } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -20,6 +17,7 @@ export class PsqlCounselTechniquesMapper {
       contextId: new UniqueEntityId(entity.contextId),
       instructionId: new UniqueEntityId(entity.instructionId),
       counselTechniqueStage: entity.counselTechniqueStage,
+      prevTechniqueId: entity.prevTechniqueId ? new UniqueEntityId(entity.prevTechniqueId) : null,
       nextTechniqueId: entity.nextTechniqueId ? new UniqueEntityId(entity.nextTechniqueId) : null,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
@@ -46,6 +44,7 @@ export class PsqlCounselTechniquesMapper {
     entity.contextId = counselTechniques.contextId.getString();
     entity.instructionId = counselTechniques.instructionId.getString();
     entity.counselTechniqueStage = counselTechniques.counselTechniqueStage;
+    entity.prevTechniqueId = counselTechniques.prevTechniqueId ? counselTechniques.prevTechniqueId.getString() : null;
     entity.nextTechniqueId = counselTechniques.nextTechniqueId ? counselTechniques.nextTechniqueId.getString() : null;
 
     entity.createdAt = counselTechniques.createdAt.toISOString();

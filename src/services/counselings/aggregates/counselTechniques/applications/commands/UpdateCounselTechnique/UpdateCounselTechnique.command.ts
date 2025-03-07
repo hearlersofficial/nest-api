@@ -11,7 +11,6 @@ interface UpdateCounselTechniqueCommandProps {
   contextId?: UniqueEntityId;
   instructionId?: UniqueEntityId;
   counselTechniqueStage?: CounselTechniqueStage;
-  nextTechniqueId?: UniqueEntityId | null;
 }
 
 export class UpdateCounselTechniqueCommand {

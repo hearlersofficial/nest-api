@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/model/counsel.proto.
  */
 export const file_com_hearlers_v1_model_counsel: GenFile = /*@__PURE__*/
-  fileDesc("CiNjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbC5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIuwBCgdDb3Vuc2VsEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEhQKDGxhc3RfbWVzc2FnZRgEIAEoCRIWCg5sYXN0X2NoYXRlZF9hdBgFIAEoCRIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgGIAEoCRImCh5jb3Vuc2Vsb3JfdXNlcl9yZWxhdGlvbnNoaXBfaWQYByABKAkSEgoKY3JlYXRlZF9hdBgIIAEoCRISCgp1cGRhdGVkX2F0GAkgASgJEhIKCmRlbGV0ZWRfYXQYCiABKAki6wEKDkNvdW5zZWxNZXNzYWdlEgoKAmlkGAEgASgJEhIKCmNvdW5zZWxfaWQYAiABKAkSDwoHbWVzc2FnZRgDIAEoCRIXCg9pc191c2VyX21lc3NhZ2UYBCABKAgSEgoKcmVhY3RlZF9hdBgFIAEoCRI/CghyZWFjdGlvbhgGIAEoDjItLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsTWVzc2FnZVJlYWN0aW9uEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRISCgpkZWxldGVkX2F0GAkgASgJIooCCglDb3Vuc2Vsb3ISCgoCaWQYASABKAkSDwoHdG9uZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhMKC2Rlc2NyaXB0aW9uGAQgASgJEjYKBmdlbmRlchgFIAEoDjImLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JHZW5kZXISFQoNaW50cm9fbWVzc2FnZRgGIAEoCRIYChByZXNwb25zZV9vcHRpb24xGAcgASgJEhgKEHJlc3BvbnNlX29wdGlvbjIYCCABKAkSEgoKY3JlYXRlZF9hdBgJIAEoCRISCgp1cGRhdGVkX2F0GAogASgJEhIKCmRlbGV0ZWRfYXQYCyABKAkiywIKEENvdW5zZWxUZWNobmlxdWUSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIUCgd0b25lX2lkGAMgASgJSACIAQESEgoKY29udGV4dF9pZBgEIAEoCRIWCg5pbnN0cnVjdGlvbl9pZBgFIAEoCRJNChdjb3Vuc2VsX3RlY2huaXF1ZV9zdGFnZRgGIAEoDjIsLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsVGVjaG5pcXVlU3RhZ2USJgoZbmV4dF9jb3Vuc2VsX3RlY2huaXF1ZV9pZBgHIAEoCUgBiAEBEhIKCmNyZWF0ZWRfYXQYCCABKAkSEgoKdXBkYXRlZF9hdBgJIAEoCRISCgpkZWxldGVkX2F0GAogASgJQgoKCF90b25lX2lkQhwKGl9uZXh0X2NvdW5zZWxfdGVjaG5pcXVlX2lkIpsBChlDb3Vuc2Vsb3JVc2VyUmVsYXRpb25zaGlwEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEg8KB3JhcHBvcnQYBCABKAUSEgoKY3JlYXRlZF9hdBgFIAEoCRISCgp1cGRhdGVkX2F0GAYgASgJEhIKCmRlbGV0ZWRfYXQYByABKAkidQoHUGVyc29uYRIKCgJpZBgBIAEoCRIMCgRib2R5GAIgASgJEhQKDGNvdW5zZWxvcl9pZBgDIAEoCRISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSEgoKZGVsZXRlZF9hdBgGIAEoCSKDAQoHQ29udGV4dBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhQKDHBsYWNlaG9sZGVycxgDIAMoCRIMCgRib2R5GAQgASgJEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRISCgpkZWxldGVkX2F0GAcgASgJItoBCgtJbnN0cnVjdGlvbhIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEh0KEGluaXRpYWxfc2VudGVuY2UYAyABKAlIAIgBARJBChFpbnN0cnVjdGlvbl9pdGVtcxgEIAMoCzImLmNvbS5oZWFybGVycy52MS5tb2RlbC5JbnN0cnVjdGlvbkl0ZW0SEgoKY3JlYXRlZF9hdBgFIAEoCRISCgp1cGRhdGVkX2F0GAYgASgJEhIKCmRlbGV0ZWRfYXQYByABKAlCEwoRX2luaXRpYWxfc2VudGVuY2UiZwoPSW5zdHJ1Y3Rpb25JdGVtEgoKAmlkGAEgASgJEgwKBGJvZHkYAiABKAkSEgoKY3JlYXRlZF9hdBgDIAEoCRISCgp1cGRhdGVkX2F0GAQgASgJEhIKCmRlbGV0ZWRfYXQYBSABKAkiagoEVG9uZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEgwKBGJvZHkYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhIKCmRlbGV0ZWRfYXQYBiABKAkqiwEKFkNvdW5zZWxNZXNzYWdlUmVhY3Rpb24SKAokQ09VTlNFTF9NRVNTQUdFX1JFQUNUSU9OX1VOU1BFQ0lGSUVEEAASIQodQ09VTlNFTF9NRVNTQUdFX1JFQUNUSU9OX0xJS0UQARIkCiBDT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fRElTTElLRRACKoYBCg9Db3Vuc2Vsb3JHZW5kZXISIAocQ09VTlNFTE9SX0dFTkRFUl9VTlNQRUNJRklFRBAAEhkKFUNPVU5TRUxPUl9HRU5ERVJfTUFMRRABEhsKF0NPVU5TRUxPUl9HRU5ERVJfRkVNQUxFEAISGQoVQ09VTlNFTE9SX0dFTkRFUl9OT05FEAMqiQEKFUNvdW5zZWxUZWNobmlxdWVTdGFnZRInCiNDT1VOU0VMX1RFQ0hOSVFVRV9TVEFHRV9VTlNQRUNJRklFRBAAEiMKH0NPVU5TRUxfVEVDSE5JUVVFX1NUQUdFX0lOSVRJQUwQARIiCh5DT1VOU0VMX1RFQ0hOSVFVRV9TVEFHRV9NSURETEUQAkKhAQoZY29tLmNvbS5oZWFybGVycy52MS5tb2RlbEIMQ291bnNlbFByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM");
+  fileDesc("CiNjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbC5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIoACCgdDb3Vuc2VsEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEhQKDGxhc3RfbWVzc2FnZRgEIAEoCRIWCg5sYXN0X2NoYXRlZF9hdBgFIAEoCRIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgGIAEoCRImCh5jb3Vuc2Vsb3JfdXNlcl9yZWxhdGlvbnNoaXBfaWQYByABKAkSEgoKY3JlYXRlZF9hdBgIIAEoCRISCgp1cGRhdGVkX2F0GAkgASgJEhcKCmRlbGV0ZWRfYXQYCiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKlAgoOQ291bnNlbE1lc3NhZ2USCgoCaWQYASABKAkSEgoKY291bnNlbF9pZBgCIAEoCRIPCgdtZXNzYWdlGAMgASgJEhcKD2lzX3VzZXJfbWVzc2FnZRgEIAEoCBIXCgpyZWFjdGVkX2F0GAUgASgJSACIAQESRAoIcmVhY3Rpb24YBiABKA4yLS5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbE1lc3NhZ2VSZWFjdGlvbkgBiAEBEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRIXCgpkZWxldGVkX2F0GAkgASgJSAKIAQFCDQoLX3JlYWN0ZWRfYXRCCwoJX3JlYWN0aW9uQg0KC19kZWxldGVkX2F0Ip4CCglDb3Vuc2Vsb3ISCgoCaWQYASABKAkSDwoHdG9uZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhMKC2Rlc2NyaXB0aW9uGAQgASgJEjYKBmdlbmRlchgFIAEoDjImLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JHZW5kZXISFQoNaW50cm9fbWVzc2FnZRgGIAEoCRIYChByZXNwb25zZV9vcHRpb24xGAcgASgJEhgKEHJlc3BvbnNlX29wdGlvbjIYCCABKAkSEgoKY3JlYXRlZF9hdBgJIAEoCRISCgp1cGRhdGVkX2F0GAogASgJEhcKCmRlbGV0ZWRfYXQYCyABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCLfAgoQQ291bnNlbFRlY2huaXF1ZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhQKB3RvbmVfaWQYAyABKAlIAIgBARISCgpjb250ZXh0X2lkGAQgASgJEhYKDmluc3RydWN0aW9uX2lkGAUgASgJEk0KF2NvdW5zZWxfdGVjaG5pcXVlX3N0YWdlGAYgASgOMiwuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxUZWNobmlxdWVTdGFnZRImChluZXh0X2NvdW5zZWxfdGVjaG5pcXVlX2lkGAcgASgJSAGIAQESEgoKY3JlYXRlZF9hdBgIIAEoCRISCgp1cGRhdGVkX2F0GAkgASgJEhcKCmRlbGV0ZWRfYXQYCiABKAlIAogBAUIKCghfdG9uZV9pZEIcChpfbmV4dF9jb3Vuc2VsX3RlY2huaXF1ZV9pZEINCgtfZGVsZXRlZF9hdCKvAQoZQ291bnNlbG9yVXNlclJlbGF0aW9uc2hpcBIKCgJpZBgBIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAiABKAkSDwoHdXNlcl9pZBgDIAEoCRIPCgdyYXBwb3J0GAQgASgFEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRIXCgpkZWxldGVkX2F0GAcgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQiiQEKB1BlcnNvbmESCgoCaWQYASABKAkSDAoEYm9keRgCIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKXAQoHQ29udGV4dBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhQKDHBsYWNlaG9sZGVycxgDIAMoCRIMCgRib2R5GAQgASgJEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRIXCgpkZWxldGVkX2F0GAcgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQi7gEKC0luc3RydWN0aW9uEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSHQoQaW5pdGlhbF9zZW50ZW5jZRgDIAEoCUgAiAEBEkEKEWluc3RydWN0aW9uX2l0ZW1zGAQgAygLMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkluc3RydWN0aW9uSXRlbRISCgpjcmVhdGVkX2F0GAUgASgJEhIKCnVwZGF0ZWRfYXQYBiABKAkSFwoKZGVsZXRlZF9hdBgHIAEoCUgBiAEBQhMKEV9pbml0aWFsX3NlbnRlbmNlQg0KC19kZWxldGVkX2F0InsKD0luc3RydWN0aW9uSXRlbRIKCgJpZBgBIAEoCRIMCgRib2R5GAIgASgJEhIKCmNyZWF0ZWRfYXQYAyABKAkSEgoKdXBkYXRlZF9hdBgEIAEoCRIXCgpkZWxldGVkX2F0GAUgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQifgoEVG9uZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEgwKBGJvZHkYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCqLAQoWQ291bnNlbE1lc3NhZ2VSZWFjdGlvbhIoCiRDT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fVU5TUEVDSUZJRUQQABIhCh1DT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fTElLRRABEiQKIENPVU5TRUxfTUVTU0FHRV9SRUFDVElPTl9ESVNMSUtFEAIqhgEKD0NvdW5zZWxvckdlbmRlchIgChxDT1VOU0VMT1JfR0VOREVSX1VOU1BFQ0lGSUVEEAASGQoVQ09VTlNFTE9SX0dFTkRFUl9NQUxFEAESGwoXQ09VTlNFTE9SX0dFTkRFUl9GRU1BTEUQAhIZChVDT1VOU0VMT1JfR0VOREVSX05PTkUQAyqJAQoVQ291bnNlbFRlY2huaXF1ZVN0YWdlEicKI0NPVU5TRUxfVEVDSE5JUVVFX1NUQUdFX1VOU1BFQ0lGSUVEEAASIwofQ09VTlNFTF9URUNITklRVUVfU1RBR0VfSU5JVElBTBABEiIKHkNPVU5TRUxfVEVDSE5JUVVFX1NUQUdFX01JRERMRRACQqEBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQgxDb3Vuc2VsUHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw");
 
 /**
  * @generated from message com.hearlers.v1.model.Counsel
@@ -62,9 +62,9 @@ export type Counsel = Message<"com.hearlers.v1.model.Counsel"> & {
   updatedAt: string;
 
   /**
-   * @generated from field: string deleted_at = 10;
+   * @generated from field: optional string deleted_at = 10;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
@@ -101,14 +101,14 @@ export type CounselMessage = Message<"com.hearlers.v1.model.CounselMessage"> & {
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string reacted_at = 5;
+   * @generated from field: optional string reacted_at = 5;
    */
-  reactedAt: string;
+  reactedAt?: string;
 
   /**
-   * @generated from field: com.hearlers.v1.model.CounselMessageReaction reaction = 6;
+   * @generated from field: optional com.hearlers.v1.model.CounselMessageReaction reaction = 6;
    */
-  reaction: CounselMessageReaction;
+  reaction?: CounselMessageReaction;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
@@ -127,9 +127,9 @@ export type CounselMessage = Message<"com.hearlers.v1.model.CounselMessage"> & {
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 9;
+   * @generated from field: optional string deleted_at = 9;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
@@ -200,9 +200,9 @@ export type Counselor = Message<"com.hearlers.v1.model.Counselor"> & {
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 11;
+   * @generated from field: optional string deleted_at = 11;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
@@ -268,9 +268,9 @@ export type CounselTechnique = Message<"com.hearlers.v1.model.CounselTechnique">
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 10;
+   * @generated from field: optional string deleted_at = 10;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
@@ -321,9 +321,9 @@ export type CounselorUserRelationship = Message<"com.hearlers.v1.model.Counselor
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 7;
+   * @generated from field: optional string deleted_at = 7;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
@@ -369,9 +369,9 @@ export type Persona = Message<"com.hearlers.v1.model.Persona"> & {
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 6;
+   * @generated from field: optional string deleted_at = 6;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
@@ -422,9 +422,9 @@ export type Context = Message<"com.hearlers.v1.model.Context"> & {
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 7;
+   * @generated from field: optional string deleted_at = 7;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
@@ -475,9 +475,9 @@ export type Instruction = Message<"com.hearlers.v1.model.Instruction"> & {
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 7;
+   * @generated from field: optional string deleted_at = 7;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
@@ -518,9 +518,9 @@ export type InstructionItem = Message<"com.hearlers.v1.model.InstructionItem"> &
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 5;
+   * @generated from field: optional string deleted_at = 5;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
@@ -566,9 +566,9 @@ export type Tone = Message<"com.hearlers.v1.model.Tone"> & {
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 6;
+   * @generated from field: optional string deleted_at = 6;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**

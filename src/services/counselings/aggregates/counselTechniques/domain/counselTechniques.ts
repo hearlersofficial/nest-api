@@ -13,10 +13,11 @@ export interface CounselTechniquesNewProps {
   contextId: UniqueEntityId;
   instructionId: UniqueEntityId;
   counselTechniqueStage: CounselTechniqueStage;
-  nextTechniqueId: UniqueEntityId | null;
 }
 
 export interface CounselTechniquesProps extends CounselTechniquesNewProps {
+  nextTechniqueId: UniqueEntityId | null;
+  prevTechniqueId: UniqueEntityId | null;
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -42,6 +43,8 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     const createdCounselTechnique = this.create(
       {
         ...newProps,
+        nextTechniqueId: null,
+        prevTechniqueId: null,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -115,6 +118,10 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     return this.props.nextTechniqueId;
   }
 
+  get prevTechniqueId(): UniqueEntityId | null {
+    return this.props.prevTechniqueId;
+  }
+
   get createdAt(): Dayjs {
     return this.props.createdAt;
   }
@@ -143,9 +150,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     }
     if (isDefined(props.counselTechniqueStage) && props.counselTechniqueStage !== this.props.counselTechniqueStage) {
       this.props.counselTechniqueStage = props.counselTechniqueStage;
-    }
-    if (props.nextTechniqueId !== undefined && props.nextTechniqueId !== this.props.nextTechniqueId) {
-      this.props.nextTechniqueId = props.nextTechniqueId;
     }
     this.props.updatedAt = getNowDayjs();
   }

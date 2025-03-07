@@ -6,6 +6,9 @@ import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/app
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CreateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
 import { UpdateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
+import { CreateCounselTechniqueCommand } from "~counselings/aggregates/counselTechniques/applications/commands/CreateCounselTechnique/CreateCounselTechnique.command";
+import { UpdateCounselTechniqueCommand } from "~counselings/aggregates/counselTechniques/applications/commands/UpdateCounselTechnique/UpdateCounselTechnique.command";
+import { CounselTechniques } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
 import { CreateInstructionItemCommand } from "~counselings/aggregates/instructionItems/applications/commands/CreateInstructionItem/CreateInstructionItem.command";
 import { UpdateInstructionItemCommand } from "~counselings/aggregates/instructionItems/applications/commands/UpdateInstructionItem/UpdateInstructionItem.command";
 import { InstructionItems } from "~counselings/aggregates/instructionItems/domain/instructionItems";
@@ -15,22 +18,10 @@ import { Personas } from "~counselings/aggregates/personas/domain/personas";
 import { CreateToneCommand } from "~counselings/aggregates/tones/applications/commands/CreateTone/CreateTone.command";
 import { UpdateToneCommand } from "~counselings/aggregates/tones/applications/commands/UpdateTone/UpdateTone.command";
 import { Tones } from "~counselings/aggregates/tones/domain/tones";
-import {
-  CreateCounselCommand,
-  CreateCounselCommandResult,
-} from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
-import {
-  CreateInstructionCommand,
-  CreateInstructionCommandResult,
-} from "~counselings/applications/commands/CreateInstruction/CreateInstruction.command";
-import {
-  CreateMessageCommand,
-  CreateMessageCommandResult,
-} from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
-import {
-  UpdateInstructionCommand,
-  UpdateInstructionCommandResult,
-} from "~counselings/applications/commands/UpdateInstruction/UpdateInstruction.command";
+import { CreateCounselCommand, CreateCounselCommandResult } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
+import { CreateInstructionCommand, CreateInstructionCommandResult } from "~counselings/applications/commands/CreateInstruction/CreateInstruction.command";
+import { CreateMessageCommand, CreateMessageCommandResult } from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
+import { UpdateInstructionCommand, UpdateInstructionCommandResult } from "~counselings/applications/commands/UpdateInstruction/UpdateInstruction.command";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
   CreateContextRequest,
@@ -42,6 +33,9 @@ import {
   CreateCounselRequest,
   CreateCounselResponse,
   CreateCounselResponseSchema,
+  CreateCounselTechniqueRequest,
+  CreateCounselTechniqueResponse,
+  CreateCounselTechniqueResponseSchema,
   CreateInstructionItemRequest,
   CreateInstructionItemResponse,
   CreateInstructionItemResponseSchema,
@@ -66,6 +60,9 @@ import {
   UpdateCounselorRequest,
   UpdateCounselorResponse,
   UpdateCounselorResponseSchema,
+  UpdateCounselTechniqueRequest,
+  UpdateCounselTechniqueResponse,
+  UpdateCounselTechniqueResponseSchema,
   UpdateInstructionItemRequest,
   UpdateInstructionItemResponse,
   UpdateInstructionItemResponseSchema,
@@ -100,9 +97,7 @@ export class GrpcCounselCommandController {
 
     return create(CreateCounselResponseSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),
-      counselMessages: counselMessages.map((counselMessage) =>
-        SchemaCounselsMapper.toCounselMessageProto(counselMessage),
-      ),
+      counselMessages: counselMessages.map((counselMessage) => SchemaCounselsMapper.toCounselMessageProto(counselMessage)),
     });
   }
 
@@ -112,8 +107,7 @@ export class GrpcCounselCommandController {
       counselId: new UniqueEntityId(request.counselId),
       message: request.message,
     });
-    const { createdCounselMessage, counselorResponseMessage }: CreateMessageCommandResult =
-      await this.commandBus.execute(command);
+    const { createdCounselMessage, counselorResponseMessage }: CreateMessageCommandResult = await this.commandBus.execute(command);
 
     return create(CreateMessageResponseSchema, {
       createdCounselMessage: SchemaCounselsMapper.toCounselMessageProto(createdCounselMessage),
@@ -162,6 +156,39 @@ export class GrpcCounselCommandController {
 
     return create(UpdateCounselorResponseSchema, {
       counselor: SchemaCounselsMapper.toCounselorProto(counselor),
+    });
+  }
+
+  @GrpcMethod("CounselService", "CreateCounselTechnique")
+  async createCounselTechnique(request: CreateCounselTechniqueRequest): Promise<CreateCounselTechniqueResponse> {
+    const command: CreateCounselTechniqueCommand = new CreateCounselTechniqueCommand({
+      name: request.name,
+      toneId: request.toneId ? new UniqueEntityId(request.toneId) : null,
+      contextId: new UniqueEntityId(request.contextId),
+      instructionId: new UniqueEntityId(request.instructionId),
+      counselTechniqueStage: request.counselTechniqueStage,
+      nextTechniqueId: request.nextCounselTechniqueId ? new UniqueEntityId(request.nextCounselTechniqueId) : null,
+    });
+    const counselTechnique: CounselTechniques = await this.commandBus.execute(command);
+    return create(CreateCounselTechniqueResponseSchema, {
+      counselTechnique: SchemaCounselsMapper.toCounselTechniqueProto(counselTechnique),
+    });
+  }
+
+  @GrpcMethod("CounselService", "UpdateCounselTechnique")
+  async updateCounselTechnique(request: UpdateCounselTechniqueRequest): Promise<UpdateCounselTechniqueResponse> {
+    const command: UpdateCounselTechniqueCommand = new UpdateCounselTechniqueCommand({
+      techniqueId: new UniqueEntityId(request.counselTechniqueId),
+      name: request.name,
+      toneId: request.toneId ? new UniqueEntityId(request.toneId) : null,
+      contextId: new UniqueEntityId(request.contextId),
+      instructionId: new UniqueEntityId(request.instructionId),
+      counselTechniqueStage: request.counselTechniqueStage,
+      nextTechniqueId: request.nextCounselTechniqueId ? new UniqueEntityId(request.nextCounselTechniqueId) : null,
+    });
+    const counselTechnique: CounselTechniques = await this.commandBus.execute(command);
+    return create(UpdateCounselTechniqueResponseSchema, {
+      counselTechnique: SchemaCounselsMapper.toCounselTechniqueProto(counselTechnique),
     });
   }
 

@@ -27,6 +27,7 @@ export class InitializeUserHandler implements ICommandHandler<InitializeUserComm
       );
     }
     const user: Users | undefined = createUserUseCaseResponse.user;
+    console.log("user", user);
     if (!user) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to create user");
     }

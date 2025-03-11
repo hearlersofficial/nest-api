@@ -8,7 +8,7 @@ import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/us
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
 import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
 
-import { Column, Entity, OneToMany, OneToOne, RelationId } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne } from "typeorm";
 
 @Entity({
   name: "users",
@@ -23,18 +23,8 @@ export class UsersEntity extends CoreEntity {
 
   @OneToOne(() => UserProfilesEntity, (userProfiles) => userProfiles.user, {
     cascade: true,
-    nullable: true,
   })
   userProfiles: UserProfilesEntity;
-
-  @RelationId((users: UsersEntity) => users.userProfiles)
-  @Column({
-    type: "bigint",
-    name: "user_profiles_id",
-    comment: "사용자 프로필 ID",
-    nullable: true,
-  })
-  userProfilesId: string;
 
   @OneToMany(() => UserProgressesEntity, (userProgress) => userProgress.user, {
     cascade: true,

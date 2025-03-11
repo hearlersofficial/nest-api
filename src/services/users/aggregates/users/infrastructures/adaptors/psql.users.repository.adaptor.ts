@@ -34,7 +34,7 @@ export class PsqlUsersRepositoryAdaptor implements UsersRepositoryPort {
   async create(user: Users): Promise<Users> {
     await this.publishDomainEvents(user);
     const usersEntity = PsqlUsersMapper.toEntity(user);
-    await this.usersRepository.create(usersEntity);
+    await this.usersRepository.save(usersEntity);
     return user;
   }
 

@@ -4,7 +4,7 @@ import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus } from "@nestjs/common";
 
-interface UpdateCounselTechniqueCommandProps {
+export interface UpdateCounselTechniqueCommandProps {
   techniqueId: UniqueEntityId;
   name?: string;
   toneId?: UniqueEntityId | null;

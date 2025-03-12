@@ -100,7 +100,7 @@ export class Instructions extends AggregateRoot<InstructionsProps> {
     if (isDefined(props.name) && props.name !== this.props.name) {
       this.props.name = props.name;
     }
-    if (isDefined(props.initialSentence) && props.initialSentence !== this.props.initialSentence) {
+    if (props.initialSentence !== undefined && props.initialSentence !== this.props.initialSentence) {
       this.props.initialSentence = props.initialSentence;
     }
     this.props.updatedAt = getNowDayjs();

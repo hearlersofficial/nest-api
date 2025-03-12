@@ -7,7 +7,7 @@ import { HttpStatus } from "@nestjs/common";
 
 export interface FindCounselTechniquesQueryProps {
   name?: string;
-  toneId?: UniqueEntityId | null;
+  toneId?: UniqueEntityId;
   counselTechniqueStage?: CounselTechniqueStage;
 }
 

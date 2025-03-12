@@ -30,7 +30,12 @@ export class CounselTechniqueReader {
     return counselTechniques;
   }
 
-  async findMany(props: { name?: string }): Promise<CounselTechniques[]> {
+  async findMany(props: {
+    ids?: UniqueEntityId[];
+    name?: string;
+    toneId?: UniqueEntityId;
+    counselTechniqueStage?: CounselTechniqueStage;
+  }): Promise<CounselTechniques[]> {
     const counselTechniques = await this.counselTechniqueRepository.findMany(props);
     return counselTechniques;
   }

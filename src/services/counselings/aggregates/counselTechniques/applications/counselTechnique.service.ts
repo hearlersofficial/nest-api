@@ -41,7 +41,12 @@ export class CounselTechniqueService {
     return counselTechniques;
   }
 
-  async findMany(props: { name?: string }): Promise<CounselTechniques[]> {
+  async findMany(props: {
+    ids?: UniqueEntityId[];
+    name?: string;
+    toneId?: UniqueEntityId;
+    counselTechniqueStage?: CounselTechniqueStage;
+  }): Promise<CounselTechniques[]> {
     const counselTechniques = await this.counselTechniqueReader.findMany(props);
     return counselTechniques;
   }
@@ -70,7 +75,12 @@ export class CounselTechniqueService {
     return counselTechniques;
   }
 
-  async getMany(props: { name?: string }): Promise<CounselTechniques[]> {
+  async getMany(props: {
+    ids?: UniqueEntityId[];
+    name?: string;
+    toneId?: UniqueEntityId;
+    counselTechniqueStage?: CounselTechniqueStage;
+  }): Promise<CounselTechniques[]> {
     const counselTechniques = await this.findMany(props);
     if (counselTechniques.length === 0) {
       throw new NotFoundException("CounselTechniques not found");

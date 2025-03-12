@@ -10,7 +10,7 @@ import {
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindOptionsWhere, IsNull, Repository } from "typeorm";
+import { FindOptionsWhere, In, IsNull, Repository } from "typeorm";
 
 @Injectable()
 export class PsqlCounselTechniquesRepositoryAdaptor implements CounselTechniquesRepositoryPort {
@@ -68,8 +68,17 @@ export class PsqlCounselTechniquesRepositoryAdaptor implements CounselTechniques
 
   async findMany(props: FindManyPropsInCounselTechniquesRepository): Promise<CounselTechniques[]> {
     const findOptionsWhere: FindOptionsWhere<CounselTechniquesEntity> = {};
+    if (props.ids) {
+      findOptionsWhere.id = In(props.ids.map((id) => id.getString()));
+    }
     if (props.name) {
       findOptionsWhere.name = props.name;
+    }
+    if (props.toneId) {
+      findOptionsWhere.toneId = props.toneId.getString();
+    }
+    if (props.counselTechniqueStage) {
+      findOptionsWhere.counselTechniqueStage = props.counselTechniqueStage;
     }
     const counselTechniqueEntities = await this.counselTechniquesRepository.find({
       where: findOptionsWhere,

@@ -14,7 +14,10 @@ export interface CounselTechniquesRepositoryPort {
 }
 
 export interface FindManyPropsInCounselTechniquesRepository {
+  ids?: UniqueEntityId[];
   name?: string;
+  toneId?: UniqueEntityId;
+  counselTechniqueStage?: CounselTechniqueStage;
 }
 
 export interface FindFirstPropsInCounselTechniquesRepository {

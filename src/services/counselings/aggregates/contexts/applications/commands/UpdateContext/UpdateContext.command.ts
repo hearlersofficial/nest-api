@@ -3,7 +3,7 @@ import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 
 import { HttpStatus } from "@nestjs/common";
 
-interface UpdateContextCommandProps {
+export interface UpdateContextCommandProps {
   contextId: UniqueEntityId;
   name?: string;
   body?: string;

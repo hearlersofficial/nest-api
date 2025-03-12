@@ -1,13 +1,16 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CreateContextCommand } from "~counselings/aggregates/contexts/applications/commands/CreateContext/CreateContext.command";
-import { UpdateContextCommand } from "~counselings/aggregates/contexts/applications/commands/UpdateContext/UpdateContext.command";
+import { UpdateContextCommand, UpdateContextCommandProps } from "~counselings/aggregates/contexts/applications/commands/UpdateContext/UpdateContext.command";
 import { Contexts } from "~counselings/aggregates/contexts/domain/contexts";
 import { ReactMessageCommand } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.command";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { CreateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.command";
 import { UpdateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
 import { CreateCounselTechniqueCommand } from "~counselings/aggregates/counselTechniques/applications/commands/CreateCounselTechnique/CreateCounselTechnique.command";
-import { UpdateCounselTechniqueCommand } from "~counselings/aggregates/counselTechniques/applications/commands/UpdateCounselTechnique/UpdateCounselTechnique.command";
+import {
+  UpdateCounselTechniqueCommand,
+  UpdateCounselTechniqueCommandProps,
+} from "~counselings/aggregates/counselTechniques/applications/commands/UpdateCounselTechnique/UpdateCounselTechnique.command";
 import { CounselTechniques } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
 import { CreateInstructionItemCommand } from "~counselings/aggregates/instructionItems/applications/commands/CreateInstructionItem/CreateInstructionItem.command";
 import { UpdateInstructionItemCommand } from "~counselings/aggregates/instructionItems/applications/commands/UpdateInstructionItem/UpdateInstructionItem.command";
@@ -21,7 +24,11 @@ import { Tones } from "~counselings/aggregates/tones/domain/tones";
 import { CreateCounselCommand, CreateCounselCommandResult } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.command";
 import { CreateInstructionCommand, CreateInstructionCommandResult } from "~counselings/applications/commands/CreateInstruction/CreateInstruction.command";
 import { CreateMessageCommand, CreateMessageCommandResult } from "~counselings/applications/commands/CreateMessage/CreateMessage.command";
-import { UpdateInstructionCommand, UpdateInstructionCommandResult } from "~counselings/applications/commands/UpdateInstruction/UpdateInstruction.command";
+import {
+  UpdateInstructionCommand,
+  UpdateInstructionCommandProps,
+  UpdateInstructionCommandResult,
+} from "~counselings/applications/commands/UpdateInstruction/UpdateInstruction.command";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/schema.counsels.mapper";
 import {
   CreateContextRequest,
@@ -176,14 +183,17 @@ export class GrpcCounselCommandController {
 
   @GrpcMethod("CounselService", "UpdateCounselTechnique")
   async updateCounselTechnique(request: UpdateCounselTechniqueRequest): Promise<UpdateCounselTechniqueResponse> {
-    const command: UpdateCounselTechniqueCommand = new UpdateCounselTechniqueCommand({
+    const props: UpdateCounselTechniqueCommandProps = {
       techniqueId: new UniqueEntityId(request.counselTechniqueId),
       name: request.name,
-      toneId: request.toneId ? new UniqueEntityId(request.toneId) : null,
       contextId: new UniqueEntityId(request.contextId),
       instructionId: new UniqueEntityId(request.instructionId),
       counselTechniqueStage: request.counselTechniqueStage,
-    });
+    };
+    if (request.hasTone) {
+      props.toneId = request.toneId ? new UniqueEntityId(request.toneId) : null;
+    }
+    const command: UpdateCounselTechniqueCommand = new UpdateCounselTechniqueCommand(props);
     const counselTechnique: CounselTechniques = await this.commandBus.execute(command);
     return create(UpdateCounselTechniqueResponseSchema, {
       counselTechnique: SchemaCounselsMapper.toCounselTechniqueProto(counselTechnique),
@@ -229,12 +239,15 @@ export class GrpcCounselCommandController {
 
   @GrpcMethod("CounselService", "UpdateContext")
   async updateContext(request: UpdateContextRequest): Promise<UpdateContextResponse> {
-    const command: UpdateContextCommand = new UpdateContextCommand({
+    const props: UpdateContextCommandProps = {
       contextId: new UniqueEntityId(request.contextId),
       name: request.name,
       body: request.body,
-      placeholders: request.placeholders,
-    });
+    };
+    if (request.hasPlaceholders) {
+      props.placeholders = request.placeholders;
+    }
+    const command: UpdateContextCommand = new UpdateContextCommand(props);
     const context: Contexts = await this.commandBus.execute(command);
     return create(UpdateContextResponseSchema, {
       context: SchemaCounselsMapper.toContextProto(context),
@@ -256,6 +269,16 @@ export class GrpcCounselCommandController {
 
   @GrpcMethod("CounselService", "UpdateInstruction")
   async updateInstruction(request: UpdateInstructionRequest): Promise<UpdateInstructionResponse> {
+    const props: UpdateInstructionCommandProps = {
+      instructionId: new UniqueEntityId(request.instructionId),
+      name: request.name,
+    };
+    if (request.hasInitialSentence) {
+      props.initialSentence = request.initialSentence ?? null;
+    }
+    if (request.hasInstructionItemIds) {
+      props.instructionItemIds = request.instructionItemIds.map((instructionItemId) => new UniqueEntityId(instructionItemId));
+    }
     const command: UpdateInstructionCommand = new UpdateInstructionCommand({
       instructionId: new UniqueEntityId(request.instructionId),
       name: request.name,

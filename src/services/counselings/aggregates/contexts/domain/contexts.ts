@@ -99,7 +99,10 @@ export class Contexts extends AggregateRoot<ContextsProps> {
     if (isDefined(props.body) && props.body !== this.props.body) {
       this.props.body = props.body;
     }
-    if (isDefined(props.placeholders) && props.placeholders !== this.props.placeholders) {
+    if (
+      props.placeholders !== undefined &&
+      !(props.placeholders.length === this.props.placeholders.length && props.placeholders.every((v, i) => v === this.props.placeholders[i]))
+    ) {
       this.props.placeholders = props.placeholders;
     }
     this.props.updatedAt = getNowDayjs();

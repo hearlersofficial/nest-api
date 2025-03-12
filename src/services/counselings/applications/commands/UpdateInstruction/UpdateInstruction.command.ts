@@ -5,10 +5,10 @@ import { Instructions } from "~counselings/aggregates/instructions/domain/instru
 
 import { HttpStatus } from "@nestjs/common";
 
-interface UpdateInstructionCommandProps {
+export interface UpdateInstructionCommandProps {
   instructionId: UniqueEntityId;
   name?: string;
-  initialSentence?: string;
+  initialSentence?: string | null;
   instructionItemIds?: UniqueEntityId[];
 }
 

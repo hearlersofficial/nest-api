@@ -1,4 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { InstructionMapEntity } from "~shared/core/infrastructure/entities/prompts/InstructionMaps.entity";
 import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
 import { Instructions } from "~counselings/aggregates/instructions/domain/instructions";
 import { PsqlInstructionsMapper } from "~counselings/aggregates/instructions/infrastructures/adaptors/mappers/psql.instructions.mapper";
@@ -20,6 +21,8 @@ export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepository
   constructor(
     @InjectRepository(InstructionEntity)
     private readonly instructionsRepository: Repository<InstructionEntity>,
+    @InjectRepository(InstructionMapEntity)
+    private readonly instructionMapRepository: Repository<InstructionMapEntity>,
   ) {}
 
   async create(instruction: Instructions): Promise<Instructions> {
@@ -30,7 +33,10 @@ export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepository
 
   async update(instruction: Instructions): Promise<Instructions> {
     const instructionEntity = PsqlInstructionsMapper.toEntity(instruction);
-    await this.instructionsRepository.update(instructionEntity.id, instructionEntity);
+    for (const instructionMap of instructionEntity.instructionMaps) {
+      await this.instructionMapRepository.save(instructionMap);
+    }
+    await this.instructionsRepository.save(instructionEntity);
     return instruction;
   }
 
@@ -49,9 +55,7 @@ export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepository
     const instructionEntities = await this.instructionsRepository.find({
       relations: this.instructionFindOptionsRelation,
     });
-    return instructionEntities
-      .map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity))
-      .filter((instruction) => instruction !== null);
+    return instructionEntities.map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity)).filter((instruction) => instruction !== null);
   }
 
   async findMany(props: FindManyPropsInInstructionsRepository): Promise<Instructions[]> {
@@ -63,8 +67,6 @@ export class PsqlInstructionsRepositoryAdaptor implements InstructionsRepository
       where: findOptionsWhere,
       relations: this.instructionFindOptionsRelation,
     });
-    return instructionEntities
-      .map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity))
-      .filter((instruction) => instruction !== null);
+    return instructionEntities.map((instructionEntity) => PsqlInstructionsMapper.toDomain(instructionEntity)).filter((instruction) => instruction !== null);
   }
 }

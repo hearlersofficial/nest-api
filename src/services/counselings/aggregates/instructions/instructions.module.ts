@@ -1,3 +1,4 @@
+import { InstructionMapEntity } from "~shared/core/infrastructure/entities/prompts/InstructionMaps.entity";
 import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
 import { InstructionService } from "~counselings/aggregates/instructions/applications/instruction.service";
 import { InstructionPersistor } from "~counselings/aggregates/instructions/applications/tools/instruction.persistor";
@@ -9,7 +10,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InstructionEntity])],
+  imports: [TypeOrmModule.forFeature([InstructionEntity, InstructionMapEntity])],
   providers: [
     InstructionPersistor,
     InstructionReader,

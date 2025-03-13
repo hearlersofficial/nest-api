@@ -23,7 +23,9 @@ export class UpdateInstructionHandler implements ICommandHandler<UpdateInstructi
     }
     await this.instructionService.update(instruction);
 
-    const instructionItems = await this.instructionItemService.findMany({ ids: instruction.instructionMaps.map((map) => map.instructionItemId) });
+    const instructionItems = await this.instructionItemService.findMany({
+      ids: instruction.instructionMaps.filter((map) => map.deletedAt === null).map((map) => map.instructionItemId),
+    });
 
     const result: UpdateInstructionCommandResult = {
       instruction,

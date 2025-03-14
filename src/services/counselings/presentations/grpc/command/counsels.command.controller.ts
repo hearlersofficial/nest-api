@@ -193,8 +193,8 @@ export class GrpcCounselCommandController {
     const props: UpdateCounselTechniqueCommandProps = {
       techniqueId: new UniqueEntityId(request.counselTechniqueId),
       name: request.name,
-      contextId: new UniqueEntityId(request.contextId),
-      instructionId: new UniqueEntityId(request.instructionId),
+      contextId: request.contextId ? new UniqueEntityId(request.contextId) : undefined,
+      instructionId: request.instructionId ? new UniqueEntityId(request.instructionId) : undefined,
       counselTechniqueStage: request.counselTechniqueStage,
     };
     if (request.hasTone) {

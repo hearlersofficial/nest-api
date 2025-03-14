@@ -164,7 +164,7 @@ export class GrpcCounselQueryController {
 
   @GrpcMethod("CounselService", "FindPersonas")
   async findPersonas(data: FindPersonasRequest): Promise<FindPersonasResponse> {
-    const query: FindPersonasQuery = new FindPersonasQuery({ counselorId: new UniqueEntityId(data.counselorId) });
+    const query: FindPersonasQuery = new FindPersonasQuery({ counselorId: data.counselorId ? new UniqueEntityId(data.counselorId) : undefined });
     const personas: Personas[] = await this.queryBus.execute(query);
     return create(FindPersonasResponseSchema, {
       personas: personas?.map((persona) => SchemaCounselsMapper.toPersonaProto(persona)),

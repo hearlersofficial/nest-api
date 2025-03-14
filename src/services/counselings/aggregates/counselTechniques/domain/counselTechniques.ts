@@ -151,6 +151,12 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     if (isDefined(props.counselTechniqueStage) && props.counselTechniqueStage !== this.props.counselTechniqueStage) {
       this.props.counselTechniqueStage = props.counselTechniqueStage;
     }
+    if (props.prevTechniqueId !== undefined && props.prevTechniqueId !== this.props.prevTechniqueId) {
+      this.props.prevTechniqueId = props.prevTechniqueId;
+    }
+    if (props.nextTechniqueId !== undefined && props.nextTechniqueId !== this.props.nextTechniqueId) {
+      this.props.nextTechniqueId = props.nextTechniqueId;
+    }
     this.props.updatedAt = getNowDayjs();
   }
 

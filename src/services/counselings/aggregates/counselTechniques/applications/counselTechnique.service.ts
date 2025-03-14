@@ -26,6 +26,11 @@ export class CounselTechniqueService {
     return updatedCounselTechnique;
   }
 
+  async updateMany(counselTechniques: CounselTechniques[]): Promise<CounselTechniques[]> {
+    const updatedCounselTechniques = await this.counselTechniquePersistor.updateMany(counselTechniques);
+    return updatedCounselTechniques;
+  }
+
   async findOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques | null> {
     const counselTechnique = await this.counselTechniqueReader.findOne(counselTechniqueId);
     return counselTechnique;

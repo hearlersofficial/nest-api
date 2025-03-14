@@ -31,6 +31,12 @@ export class PsqlCounselTechniquesRepositoryAdaptor implements CounselTechniques
     return counselTechnique;
   }
 
+  async updateMany(counselTechniques: CounselTechniques[]): Promise<CounselTechniques[]> {
+    const counselTechniqueEntities = counselTechniques.map((counselTechnique) => PsqlCounselTechniquesMapper.toEntity(counselTechnique));
+    await this.counselTechniquesRepository.save(counselTechniqueEntities);
+    return counselTechniques;
+  }
+
   async findOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques | null> {
     const counselTechniqueEntity = await this.counselTechniquesRepository.findOne({
       where: { id: counselTechniqueId.getString() },

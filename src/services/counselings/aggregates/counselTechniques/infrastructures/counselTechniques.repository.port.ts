@@ -7,6 +7,7 @@ export const COUNSEL_TECHNIQUE_REPOSITORY = Symbol("COUNSEL_TECHNIQUE_REPOSITORY
 export interface CounselTechniquesRepositoryPort {
   create(counselTechnique: CounselTechniques): Promise<CounselTechniques>;
   update(counselTechnique: CounselTechniques): Promise<CounselTechniques>;
+  updateMany(counselTechniques: CounselTechniques[]): Promise<CounselTechniques[]>;
   findOne(counselTechniqueId: UniqueEntityId): Promise<CounselTechniques | null>;
   findFirst(props: FindFirstPropsInCounselTechniquesRepository): Promise<CounselTechniques | null>;
   findAll(): Promise<CounselTechniques[]>;

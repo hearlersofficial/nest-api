@@ -8,6 +8,10 @@ import { CreateCounselorCommand } from "~counselings/aggregates/counselors/appli
 import { UpdateCounselorCommand } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.command";
 import { CreateCounselTechniqueCommand } from "~counselings/aggregates/counselTechniques/applications/commands/CreateCounselTechnique/CreateCounselTechnique.command";
 import {
+  SaveCounselTechniqueSequenceCommand,
+  SaveCounselTechniqueSequenceCommandResponse,
+} from "~counselings/aggregates/counselTechniques/applications/commands/SaveCounselTechniqueSequence/SaveCounselTechniqueSequence.command";
+import {
   UpdateCounselTechniqueCommand,
   UpdateCounselTechniqueCommandProps,
 } from "~counselings/aggregates/counselTechniques/applications/commands/UpdateCounselTechnique/UpdateCounselTechnique.command";
@@ -61,6 +65,9 @@ import {
   ReactMessageRequest,
   ReactMessageResponse,
   ReactMessageResponseSchema,
+  SaveCounselTechniqueSequenceRequest,
+  SaveCounselTechniqueSequenceResponse,
+  SaveCounselTechniqueSequenceResponseSchema,
   UpdateContextRequest,
   UpdateContextResponse,
   UpdateContextResponseSchema,
@@ -197,6 +204,17 @@ export class GrpcCounselCommandController {
     const counselTechnique: CounselTechniques = await this.commandBus.execute(command);
     return create(UpdateCounselTechniqueResponseSchema, {
       counselTechnique: SchemaCounselsMapper.toCounselTechniqueProto(counselTechnique),
+    });
+  }
+
+  @GrpcMethod("CounselService", "SaveCounselTechniqueSequence")
+  async saveCounselTechniqueSequence(request: SaveCounselTechniqueSequenceRequest): Promise<SaveCounselTechniqueSequenceResponse> {
+    const command: SaveCounselTechniqueSequenceCommand = new SaveCounselTechniqueSequenceCommand({
+      counselTechniqueIds: request.counselTechniqueIds.map((id) => new UniqueEntityId(id)),
+    });
+    const { counselTechniques }: SaveCounselTechniqueSequenceCommandResponse = await this.commandBus.execute(command);
+    return create(SaveCounselTechniqueSequenceResponseSchema, {
+      counselTechniques: counselTechniques.map(SchemaCounselsMapper.toCounselTechniqueProto),
     });
   }
 

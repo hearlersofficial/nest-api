@@ -1,5 +1,6 @@
 import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/CounselTechniques.entity";
 import { CreateCounselTechniqueHandler } from "~counselings/aggregates/counselTechniques/applications/commands/CreateCounselTechnique/CreateCounselTechnique.handler";
+import { SaveCounselTechniqueSequenceHandler } from "~counselings/aggregates/counselTechniques/applications/commands/SaveCounselTechniqueSequence/SaveCounselTechniqueSequence.handler";
 import { UpdateCounselTechniqueHandler } from "~counselings/aggregates/counselTechniques/applications/commands/UpdateCounselTechnique/UpdateCounselTechnique.handler";
 import { CounselTechniqueService } from "~counselings/aggregates/counselTechniques/applications/counselTechnique.service";
 import { FindCounselTechniqueByIdHandler } from "~counselings/aggregates/counselTechniques/applications/queries/FindCounselTechniqueById/FindCounselTechniqueById.handler";
@@ -22,6 +23,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     UpdateCounselTechniqueHandler,
     FindCounselTechniqueByIdHandler,
     FindCounselTechniquesHandler,
+    SaveCounselTechniqueSequenceHandler,
     {
       provide: COUNSEL_TECHNIQUE_REPOSITORY,
       useClass: PsqlCounselTechniquesRepositoryAdaptor,

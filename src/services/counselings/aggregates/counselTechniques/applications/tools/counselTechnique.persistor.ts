@@ -22,4 +22,9 @@ export class CounselTechniquePersistor {
     const updatedCounselTechnique = await this.counselTechniqueRepository.update(counselTechnique);
     return updatedCounselTechnique;
   }
+
+  async updateMany(counselTechniques: CounselTechniques[]): Promise<CounselTechniques[]> {
+    const updatedCounselTechnqiues = await this.counselTechniqueRepository.updateMany(counselTechniques);
+    return updatedCounselTechnqiues;
+  }
 }

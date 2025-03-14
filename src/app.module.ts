@@ -1,4 +1,4 @@
-import { UsersServiceModule } from "~users/users.service.module";
+import { UsersServiceModule } from "~users/users-service.module";
 import { CounselsServiceModule } from "~counselings/counsels.service.module";
 
 import { Logger, Module, OnModuleInit } from "@nestjs/common";

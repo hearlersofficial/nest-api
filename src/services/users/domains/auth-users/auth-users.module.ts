@@ -1,0 +1,32 @@
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
+import { AuthUsersPersistor } from "~users/domains/auth-users/auth-users.persistor";
+import { AuthUsersReader } from "~users/domains/auth-users/auth-users.reader";
+import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
+import { AuthUsersRepository } from "~users/infrastructures/auth-users.repository";
+import { PsqlAuthUsersRepository } from "~users/infrastructures/psql-auth-users.repository";
+import { RepositoryAuthUsersPersistor } from "~users/infrastructures/repository-auth-users.persistor";
+import { RepositoryAuthUsersReader } from "~users/infrastructures/repository-auth-users.reader";
+
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+
+@Module({
+  imports: [TypeOrmModule.forFeature([AuthUsersEntity])],
+  providers: [
+    AuthUsersService,
+    {
+      provide: AuthUsersRepository,
+      useClass: PsqlAuthUsersRepository,
+    },
+    {
+      provide: AuthUsersReader,
+      useClass: RepositoryAuthUsersReader,
+    },
+    {
+      provide: AuthUsersPersistor,
+      useClass: RepositoryAuthUsersPersistor,
+    },
+  ],
+  exports: [AuthUsersService],
+})
+export class AuthUsersModule {}

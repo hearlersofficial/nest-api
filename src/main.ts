@@ -1,6 +1,6 @@
 import { AppModule } from "~/src/app.module";
 import { createMicroservices, serviceConfigs, ServiceType } from "~shared/core/presentations/Config";
-import { UsersServiceModule } from "~users/users.service.module";
+import { UsersServiceModule } from "~users/users-service.module";
 import { CounselsServiceModule } from "~counselings/counsels.service.module";
 
 import dayjs from "dayjs";

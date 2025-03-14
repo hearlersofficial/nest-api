@@ -1,0 +1,86 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { CollectDomainEvents } from "~shared/core/infrastructure/decorators/collect-domain-events.decorator";
+import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
+import { DomainEventCollector } from "~shared/core/infrastructure/events/domain-event-collector";
+import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
+import { AuthUsersRepository } from "~users/infrastructures/auth-users.repository";
+import { PsqlAuthUsersMapper } from "~users/infrastructures/mappers/psql.authUsers.mapper";
+import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
+
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
+
+@Injectable()
+@CollectDomainEvents()
+export class PsqlAuthUsersRepository extends AuthUsersRepository {
+  constructor(
+    @InjectRepository(AuthUsersEntity) private readonly authUsersRepository: Repository<AuthUsersEntity>,
+    domainEventCollector: DomainEventCollector,
+  ) {
+    super(domainEventCollector);
+  }
+
+  override async save(authUsers: AuthUsers): Promise<AuthUsers>;
+  override async save(authUsers: AuthUsers[]): Promise<AuthUsers[]>;
+  async save(authUsers: AuthUsers | AuthUsers[]): Promise<AuthUsers | AuthUsers[]> {
+    if (Array.isArray(authUsers)) {
+      await this.authUsersRepository.save(PsqlAuthUsersMapper.toEntities(authUsers));
+      return authUsers;
+    }
+    await this.authUsersRepository.save(PsqlAuthUsersMapper.toEntity(authUsers));
+    return authUsers;
+  }
+
+  override async findByAuthUserId(
+    authUserId: UniqueEntityId,
+    options?: FindOneOptions<AuthUsersEntity>,
+  ): Promise<AuthUsers | null> {
+    const findOneOptions: FindOneOptions<AuthUsersEntity> = options ?? {};
+    findOneOptions.where = {
+      ...findOneOptions.where,
+      id: authUserId.getString(),
+    };
+    const result = await this.authUsersRepository.findOne(findOneOptions);
+    return result ? PsqlAuthUsersMapper.toDomain(result) : null;
+  }
+
+  override async findByUserId(
+    userId: UniqueEntityId,
+    options?: FindOneOptions<AuthUsersEntity>,
+  ): Promise<AuthUsers | null> {
+    const findOneOptions: FindOneOptions<AuthUsersEntity> = options ?? {};
+    findOneOptions.where = {
+      ...findOneOptions.where,
+      userId: userId.getString(),
+    };
+    const result = await this.authUsersRepository.findOne(findOneOptions);
+    return result ? PsqlAuthUsersMapper.toDomain(result) : null;
+  }
+
+  override async findByChannelInfo(
+    channelInfo: {
+      uniqueId: string;
+      authChannel: AuthChannel;
+    },
+    options?: FindOneOptions<AuthUsersEntity>,
+  ): Promise<AuthUsers | null> {
+    const findOneOptions: FindOneOptions<AuthUsersEntity> = options ?? {};
+    switch (channelInfo.authChannel) {
+      case AuthChannel.KAKAO:
+        findOneOptions.where = {
+          ...findOneOptions.where,
+          authChannel: channelInfo.authChannel,
+          kakao: { uniqueId: channelInfo.uniqueId },
+        };
+        break;
+    }
+    const result = await this.authUsersRepository.findOne(findOneOptions);
+    return result ? PsqlAuthUsersMapper.toDomain(result) : null;
+  }
+
+  override async findMany(options?: FindManyOptions<AuthUsersEntity>): Promise<AuthUsers[]> {
+    const result = await this.authUsersRepository.find(options);
+    return PsqlAuthUsersMapper.toDomains(result);
+  }
+}

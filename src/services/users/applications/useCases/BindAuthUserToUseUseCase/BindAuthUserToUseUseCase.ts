@@ -1,8 +1,7 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { UpdateAuthUserUseCaseResponse } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/dto/UpdateAuthUserUseCase.response";
-import { UpdateAuthUserUseCase } from "~users/aggregates/authUsers/applications/useCases/UpdateAuthUserUseCase/UpdateAuthUserUseCase";
 import { BindAuthUserToUseUseCaseRequest } from "~users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.request";
 import { BindAuthUserToUseUseCaseResponse } from "~users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.response";
+import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
 
 import { Injectable } from "@nestjs/common";
 
@@ -10,17 +9,12 @@ import { Injectable } from "@nestjs/common";
 export class BindAuthUserToUseUseCase
   implements UseCase<BindAuthUserToUseUseCaseRequest, BindAuthUserToUseUseCaseResponse>
 {
-  constructor(private readonly updateAuthUserUseCase: UpdateAuthUserUseCase) {}
+  constructor(private readonly authUsersService: AuthUsersService) {}
 
   async execute(request: BindAuthUserToUseUseCaseRequest): Promise<BindAuthUserToUseUseCaseResponse> {
     const { user, authUser } = request;
     authUser.bindUser(user.id);
-    const updateAuthUserResponse: UpdateAuthUserUseCaseResponse = await this.updateAuthUserUseCase.execute({
-      toUpdateAuthUser: authUser,
-    });
-    if (!updateAuthUserResponse.ok) {
-      return { ok: false, error: updateAuthUserResponse.error };
-    }
-    return { ok: true, user, authUser };
+    await this.authUsersService.update(authUser);
+    return { ok: true, authUser };
   }
 }

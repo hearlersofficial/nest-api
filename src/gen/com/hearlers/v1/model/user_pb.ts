@@ -5,13 +5,18 @@
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
 import { file_google_protobuf_struct } from "@bufbuild/protobuf/wkt";
+
 import type { JsonObject, Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file com/hearlers/v1/model/user.proto.
  */
-export const file_com_hearlers_v1_model_user: GenFile = /*@__PURE__*/
-  fileDesc("CiBjb20vaGVhcmxlcnMvdjEvbW9kZWwvdXNlci5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsItgBCgRVc2VyEgoKAmlkGAEgASgJEhAKCG5pY2tuYW1lGAIgASgJEjgKDHVzZXJfcHJvZmlsZRgDIAEoCzIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5Vc2VyUHJvZmlsZRI8Cg91c2VyX3Byb2dyZXNzZXMYBCADKAsyIy5jb20uaGVhcmxlcnMudjEubW9kZWwuVXNlclByb2dyZXNzEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRISCgpkZWxldGVkX2F0GAcgASgJIvgBCgtVc2VyUHJvZmlsZRIVCg1wcm9maWxlX2ltYWdlGAEgASgJEhQKDHBob25lX251bWJlchgCIAEoCRItCgZnZW5kZXIYAyABKA4yHS5jb20uaGVhcmxlcnMudjEubW9kZWwuR2VuZGVyEhAKCGJpcnRoZGF5GAQgASgJEhQKDGludHJvZHVjdGlvbhgFIAEoCRIpCgRtYnRpGAYgASgOMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLk1idGkSEgoKY3JlYXRlZF9hdBgHIAEoCRISCgp1cGRhdGVkX2F0GAggASgJEhIKCmRlbGV0ZWRfYXQYCSABKAki0wEKDFVzZXJQcm9ncmVzcxI6Cg1wcm9ncmVzc190eXBlGAEgASgOMiMuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlByb2dyZXNzVHlwZRI1CgZzdGF0dXMYAiABKA4yJS5jb20uaGVhcmxlcnMudjEubW9kZWwuUHJvZ3Jlc3NTdGF0dXMSFAoMbGFzdF91cGRhdGVkGAMgASgJEhIKCmNyZWF0ZWRfYXQYBCABKAkSEgoKdXBkYXRlZF9hdBgFIAEoCRISCgpkZWxldGVkX2F0GAYgASgJIrECCgxVc2VyQWN0aXZpdHkSOgoNYWN0aXZpdHlfdHlwZRgBIAEoDjIjLmNvbS5oZWFybGVycy52MS5tb2RlbC5BY3Rpdml0eVR5cGUSLgoNYWN0aXZpdHlfZGF0YRgCIAEoCzIXLmdvb2dsZS5wcm90b2J1Zi5TdHJ1Y3QSNwoIcGxhdGZvcm0YAyABKA4yJS5jb20uaGVhcmxlcnMudjEubW9kZWwuRGV2aWNlUGxhdGZvcm0SEgoKaXBfYWRkcmVzcxgEIAEoCRISCgp1c2VyX2FnZW50GAUgASgJEhgKEGR1cmF0aW9uX3NlY29uZHMYBiABKAUSEgoKY3JlYXRlZF9hdBgHIAEoCRISCgp1cGRhdGVkX2F0GAggASgJEhIKCmRlbGV0ZWRfYXQYCSABKAkqRAoGR2VuZGVyEhYKEkdFTkRFUl9VTlNQRUNJRklFRBAAEg8KC0dFTkRFUl9NQUxFEAESEQoNR0VOREVSX0ZFTUFMRRACKq8BCg5Qcm9ncmVzc1N0YXR1cxIfChtQUk9HUkVTU19TVEFUVVNfVU5TUEVDSUZJRUQQABIfChtQUk9HUkVTU19TVEFUVVNfTk9UX1NUQVJURUQQARIfChtQUk9HUkVTU19TVEFUVVNfSU5fUFJPR1JFU1MQAhIdChlQUk9HUkVTU19TVEFUVVNfQ09NUExFVEVEEAMSGwoXUFJPR1JFU1NfU1RBVFVTX0JMT0NLRUQQBCprCgxQcm9ncmVzc1R5cGUSHQoZUFJPR1JFU1NfVFlQRV9VTlNQRUNJRklFRBAAEhwKGFBST0dSRVNTX1RZUEVfT05CT0FSRElORxABEh4KGlBST0dSRVNTX1RZUEVfVkVSSUZJQ0FUSU9OEAIqjAIKBE1idGkSFAoQTUJUSV9VTlNQRUNJRklFRBAAEg0KCU1CVElfRU5UUBABEg0KCU1CVElfRU5GUBACEg0KCU1CVElfRU5UShADEg0KCU1CVElfRU5GShAEEg0KCU1CVElfRVNUUBAFEg0KCU1CVElfRVNUShAGEg0KCU1CVElfRVNGUBAHEg0KCU1CVElfRVNGShAIEg0KCU1CVElfSU5UShAJEg0KCU1CVElfSU5GShAKEg0KCU1CVElfSU5UUBALEg0KCU1CVElfSU5GUBAMEg0KCU1CVElfSVNUUBANEg0KCU1CVElfSVNUShAOEg0KCU1CVElfSVNGUBAPEg0KCU1CVElfSVNGShAQKp0BCg5EZXZpY2VQbGF0Zm9ybRIfChtERVZJQ0VfUExBVEZPUk1fVU5TUEVDSUZJRUQQABIXChNERVZJQ0VfUExBVEZPUk1fV0VCEAESFwoTREVWSUNFX1BMQVRGT1JNX0lPUxACEhsKF0RFVklDRV9QTEFURk9STV9BTkRST0lEEAMSGwoXREVWSUNFX1BMQVRGT1JNX0RFU0tUT1AQBCrpBAoMQWN0aXZpdHlUeXBlEh0KGUFDVElWSVRZX1RZUEVfVU5TUEVDSUZJRUQQABIXChNBQ1RJVklUWV9UWVBFX0xPR0lOEAESGAoUQUNUSVZJVFlfVFlQRV9MT0dPVVQQAhIpCiVBQ1RJVklUWV9UWVBFX1VOTE9HSU5ORURfVVNFUl9DT01FX0lOEAMSNAowQUNUSVZJVFlfVFlQRV9VTkxPR0lOTkVEX1VTRVJfU1RBUlRFRF9DT1VOU0VMSU5HEAQSNQoxQUNUSVZJVFlfVFlQRV9VTkxPR0lOTkVEX1VTRVJfRklOSVNIRURfQ09VTlNFTElORxAFEiIKHkFDVElWSVRZX1RZUEVfT05CT0FSRElOR19TVEFSVBAGEiAKHEFDVElWSVRZX1RZUEVfT05CT0FSRElOR19FTkQQBxItCilBQ1RJVklUWV9UWVBFX1NFVF9DT05WRVJTQVRJT05fUFJFRkVSRU5DRRAIEiIKHkFDVElWSVRZX1RZUEVfQ09VTlNFTElOR19TVEFSVBAJEiAKHEFDVElWSVRZX1RZUEVfQ09VTlNFTElOR19FTkQQChIgChxBQ1RJVklUWV9UWVBFX1BST0ZJTEVfVVBEQVRFEAsSIQodQUNUSVZJVFlfVFlQRV9GRUVEQkFDS19TVUJNSVQQDBIkCiBBQ1RJVklUWV9UWVBFX1NVQlNDUklQVElPTl9TVEFSVBANEiUKIUFDVElWSVRZX1RZUEVfU1VCU0NSSVBUSU9OX0NBTkNFTBAOEiIKHkFDVElWSVRZX1RZUEVfUEFZTUVOVF9DT01QTEVURRAPQp4BChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQglVc2VyUHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw", [file_google_protobuf_struct]);
+export const file_com_hearlers_v1_model_user: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "CiBjb20vaGVhcmxlcnMvdjEvbW9kZWwvdXNlci5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIq4BCgRVc2VyEgoKAmlkGAEgASgJEhAKCG5pY2tuYW1lGAIgASgJEjgKDHVzZXJfcHJvZmlsZRgDIAEoCzIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5Vc2VyUHJvZmlsZRISCgpjcmVhdGVkX2F0GAUgASgJEhIKCnVwZGF0ZWRfYXQYBiABKAkSFwoKZGVsZXRlZF9hdBgHIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IowCCgtVc2VyUHJvZmlsZRIVCg1wcm9maWxlX2ltYWdlGAEgASgJEhQKDHBob25lX251bWJlchgCIAEoCRItCgZnZW5kZXIYAyABKA4yHS5jb20uaGVhcmxlcnMudjEubW9kZWwuR2VuZGVyEhAKCGJpcnRoZGF5GAQgASgJEhQKDGludHJvZHVjdGlvbhgFIAEoCRIpCgRtYnRpGAYgASgOMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLk1idGkSEgoKY3JlYXRlZF9hdBgHIAEoCRISCgp1cGRhdGVkX2F0GAggASgJEhcKCmRlbGV0ZWRfYXQYCSABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCLFAgoMVXNlckFjdGl2aXR5EjoKDWFjdGl2aXR5X3R5cGUYASABKA4yIy5jb20uaGVhcmxlcnMudjEubW9kZWwuQWN0aXZpdHlUeXBlEi4KDWFjdGl2aXR5X2RhdGEYAiABKAsyFy5nb29nbGUucHJvdG9idWYuU3RydWN0EjcKCHBsYXRmb3JtGAMgASgOMiUuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkRldmljZVBsYXRmb3JtEhIKCmlwX2FkZHJlc3MYBCABKAkSEgoKdXNlcl9hZ2VudBgFIAEoCRIYChBkdXJhdGlvbl9zZWNvbmRzGAYgASgFEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRIXCgpkZWxldGVkX2F0GAkgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQqRAoGR2VuZGVyEhYKEkdFTkRFUl9VTlNQRUNJRklFRBAAEg8KC0dFTkRFUl9NQUxFEAESEQoNR0VOREVSX0ZFTUFMRRACKowCCgRNYnRpEhQKEE1CVElfVU5TUEVDSUZJRUQQABINCglNQlRJX0VOVFAQARINCglNQlRJX0VORlAQAhINCglNQlRJX0VOVEoQAxINCglNQlRJX0VORkoQBBINCglNQlRJX0VTVFAQBRINCglNQlRJX0VTVEoQBhINCglNQlRJX0VTRlAQBxINCglNQlRJX0VTRkoQCBINCglNQlRJX0lOVEoQCRINCglNQlRJX0lORkoQChINCglNQlRJX0lOVFAQCxINCglNQlRJX0lORlAQDBINCglNQlRJX0lTVFAQDRINCglNQlRJX0lTVEoQDhINCglNQlRJX0lTRlAQDxINCglNQlRJX0lTRkoQECqdAQoORGV2aWNlUGxhdGZvcm0SHwobREVWSUNFX1BMQVRGT1JNX1VOU1BFQ0lGSUVEEAASFwoTREVWSUNFX1BMQVRGT1JNX1dFQhABEhcKE0RFVklDRV9QTEFURk9STV9JT1MQAhIbChdERVZJQ0VfUExBVEZPUk1fQU5EUk9JRBADEhsKF0RFVklDRV9QTEFURk9STV9ERVNLVE9QEAQq6QQKDEFjdGl2aXR5VHlwZRIdChlBQ1RJVklUWV9UWVBFX1VOU1BFQ0lGSUVEEAASFwoTQUNUSVZJVFlfVFlQRV9MT0dJThABEhgKFEFDVElWSVRZX1RZUEVfTE9HT1VUEAISKQolQUNUSVZJVFlfVFlQRV9VTkxPR0lOTkVEX1VTRVJfQ09NRV9JThADEjQKMEFDVElWSVRZX1RZUEVfVU5MT0dJTk5FRF9VU0VSX1NUQVJURURfQ09VTlNFTElORxAEEjUKMUFDVElWSVRZX1RZUEVfVU5MT0dJTk5FRF9VU0VSX0ZJTklTSEVEX0NPVU5TRUxJTkcQBRIiCh5BQ1RJVklUWV9UWVBFX09OQk9BUkRJTkdfU1RBUlQQBhIgChxBQ1RJVklUWV9UWVBFX09OQk9BUkRJTkdfRU5EEAcSLQopQUNUSVZJVFlfVFlQRV9TRVRfQ09OVkVSU0FUSU9OX1BSRUZFUkVOQ0UQCBIiCh5BQ1RJVklUWV9UWVBFX0NPVU5TRUxJTkdfU1RBUlQQCRIgChxBQ1RJVklUWV9UWVBFX0NPVU5TRUxJTkdfRU5EEAoSIAocQUNUSVZJVFlfVFlQRV9QUk9GSUxFX1VQREFURRALEiEKHUFDVElWSVRZX1RZUEVfRkVFREJBQ0tfU1VCTUlUEAwSJAogQUNUSVZJVFlfVFlQRV9TVUJTQ1JJUFRJT05fU1RBUlQQDRIlCiFBQ1RJVklUWV9UWVBFX1NVQlNDUklQVElPTl9DQU5DRUwQDhIiCh5BQ1RJVklUWV9UWVBFX1BBWU1FTlRfQ09NUExFVEUQD0KeAQoZY29tLmNvbS5oZWFybGVycy52MS5tb2RlbEIJVXNlclByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM",
+    [file_google_protobuf_struct],
+  );
 
 /**
  * @generated from message com.hearlers.v1.model.User
@@ -33,11 +38,6 @@ export type User = Message<"com.hearlers.v1.model.User"> & {
   userProfile?: UserProfile;
 
   /**
-   * @generated from field: repeated com.hearlers.v1.model.UserProgress user_progresses = 4;
-   */
-  userProgresses: UserProgress[];
-
-  /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: string created_at = 5;
@@ -54,7 +54,7 @@ export type User = Message<"com.hearlers.v1.model.User"> & {
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 7;
+   * @generated from field: optional string deleted_at = 7;
    */
   deletedAt: string;
 };
@@ -63,8 +63,7 @@ export type User = Message<"com.hearlers.v1.model.User"> & {
  * Describes the message com.hearlers.v1.model.User.
  * Use `create(UserSchema)` to create a new message.
  */
-export const UserSchema: GenMessage<User> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_user, 0);
+export const UserSchema: GenMessage<User> = /*@__PURE__*/ messageDesc(file_com_hearlers_v1_model_user, 0);
 
 /**
  * @generated from message com.hearlers.v1.model.UserProfile
@@ -119,7 +118,7 @@ export type UserProfile = Message<"com.hearlers.v1.model.UserProfile"> & {
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 9;
+   * @generated from field: optional string deleted_at = 9;
    */
   deletedAt: string;
 };
@@ -128,58 +127,7 @@ export type UserProfile = Message<"com.hearlers.v1.model.UserProfile"> & {
  * Describes the message com.hearlers.v1.model.UserProfile.
  * Use `create(UserProfileSchema)` to create a new message.
  */
-export const UserProfileSchema: GenMessage<UserProfile> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_user, 1);
-
-/**
- * @generated from message com.hearlers.v1.model.UserProgress
- */
-export type UserProgress = Message<"com.hearlers.v1.model.UserProgress"> & {
-  /**
-   * @generated from field: com.hearlers.v1.model.ProgressType progress_type = 1;
-   */
-  progressType: ProgressType;
-
-  /**
-   * @generated from field: com.hearlers.v1.model.ProgressStatus status = 2;
-   */
-  status: ProgressStatus;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string last_updated = 3;
-   */
-  lastUpdated: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 4;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 5;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string deleted_at = 6;
-   */
-  deletedAt: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.UserProgress.
- * Use `create(UserProgressSchema)` to create a new message.
- */
-export const UserProgressSchema: GenMessage<UserProgress> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_user, 2);
+export const UserProfileSchema: GenMessage<UserProfile> = /*@__PURE__*/ messageDesc(file_com_hearlers_v1_model_user, 1);
 
 /**
  * @generated from message com.hearlers.v1.model.UserActivity
@@ -231,8 +179,9 @@ export type UserActivity = Message<"com.hearlers.v1.model.UserActivity"> & {
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string deleted_at = 9;
+   * @generated from field: optional string deleted_at = 9;
    */
   deletedAt: string;
 };
@@ -241,8 +190,9 @@ export type UserActivity = Message<"com.hearlers.v1.model.UserActivity"> & {
  * Describes the message com.hearlers.v1.model.UserActivity.
  * Use `create(UserActivitySchema)` to create a new message.
  */
-export const UserActivitySchema: GenMessage<UserActivity> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_user, 3);
+export const UserActivitySchema: GenMessage<UserActivity> =
+  /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_user, 2);
 
 /**
  * @generated from enum com.hearlers.v1.model.Gender
@@ -267,70 +217,7 @@ export enum Gender {
 /**
  * Describes the enum com.hearlers.v1.model.Gender.
  */
-export const GenderSchema: GenEnum<Gender> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_user, 0);
-
-/**
- * @generated from enum com.hearlers.v1.model.ProgressStatus
- */
-export enum ProgressStatus {
-  /**
-   * @generated from enum value: PROGRESS_STATUS_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * @generated from enum value: PROGRESS_STATUS_NOT_STARTED = 1;
-   */
-  NOT_STARTED = 1,
-
-  /**
-   * @generated from enum value: PROGRESS_STATUS_IN_PROGRESS = 2;
-   */
-  IN_PROGRESS = 2,
-
-  /**
-   * @generated from enum value: PROGRESS_STATUS_COMPLETED = 3;
-   */
-  COMPLETED = 3,
-
-  /**
-   * @generated from enum value: PROGRESS_STATUS_BLOCKED = 4;
-   */
-  BLOCKED = 4,
-}
-
-/**
- * Describes the enum com.hearlers.v1.model.ProgressStatus.
- */
-export const ProgressStatusSchema: GenEnum<ProgressStatus> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_user, 1);
-
-/**
- * @generated from enum com.hearlers.v1.model.ProgressType
- */
-export enum ProgressType {
-  /**
-   * @generated from enum value: PROGRESS_TYPE_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * @generated from enum value: PROGRESS_TYPE_ONBOARDING = 1;
-   */
-  ONBOARDING = 1,
-
-  /**
-   * @generated from enum value: PROGRESS_TYPE_VERIFICATION = 2;
-   */
-  VERIFICATION = 2,
-}
-
-/**
- * Describes the enum com.hearlers.v1.model.ProgressType.
- */
-export const ProgressTypeSchema: GenEnum<ProgressType> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_user, 2);
+export const GenderSchema: GenEnum<Gender> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_user, 0);
 
 /**
  * @generated from enum com.hearlers.v1.model.Mbti
@@ -425,8 +312,7 @@ export enum Mbti {
 /**
  * Describes the enum com.hearlers.v1.model.Mbti.
  */
-export const MbtiSchema: GenEnum<Mbti> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_user, 3);
+export const MbtiSchema: GenEnum<Mbti> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_user, 1);
 
 /**
  * @generated from enum com.hearlers.v1.model.DevicePlatform
@@ -461,8 +347,7 @@ export enum DevicePlatform {
 /**
  * Describes the enum com.hearlers.v1.model.DevicePlatform.
  */
-export const DevicePlatformSchema: GenEnum<DevicePlatform> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_user, 4);
+export const DevicePlatformSchema: GenEnum<DevicePlatform> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_user, 2);
 
 /**
  * @generated from enum com.hearlers.v1.model.ActivityType
@@ -552,6 +437,4 @@ export enum ActivityType {
 /**
  * Describes the enum com.hearlers.v1.model.ActivityType.
  */
-export const ActivityTypeSchema: GenEnum<ActivityType> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_user, 5);
-
+export const ActivityTypeSchema: GenEnum<ActivityType> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_user, 3);

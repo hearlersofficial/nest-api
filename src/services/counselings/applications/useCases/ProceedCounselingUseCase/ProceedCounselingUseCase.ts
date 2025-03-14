@@ -57,10 +57,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
       // 상담 기법 변경
       const transitionCounselTechniqueResponse = await this.transitionCounselTechniqueUseCase.execute({ counsel });
       if (!transitionCounselTechniqueResponse.ok) {
-        throw new HttpStatusBasedRpcException(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          transitionCounselTechniqueResponse.error as string,
-        );
+        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, transitionCounselTechniqueResponse.error as string);
       }
       if (!transitionCounselTechniqueResponse.counsel) {
         throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Counsel not found");
@@ -98,10 +95,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     // 응답 생성
     const generateGptResponseResult = await this.generateGptResponseUseCase.execute({ prompts });
     if (!generateGptResponseResult.ok) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        generateGptResponseResult.error as string,
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, generateGptResponseResult.error as string);
     }
     const response = generateGptResponseResult.response;
     if (!isDefined(response)) {
@@ -130,9 +124,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
   }
 
   private checkCounselTechniqueChange(counselMessages: CounselMessages[], counselTechniqueId: UniqueEntityId): boolean {
-    const messageCountAtCurrentTechnique = counselMessages.filter(
-      (counselMessage) => counselMessage.counselTechniqueId === counselTechniqueId,
-    ).length;
+    const messageCountAtCurrentTechnique = counselMessages.filter((counselMessage) => counselMessage.counselTechniqueId.equals(counselTechniqueId)).length;
     return messageCountAtCurrentTechnique > this.MessageCountForNextPrompt;
   }
 }

@@ -1,5 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { Kakao } from "~users/domains/auth-users/models/kakao-domain";
+import { Kakao } from "~users/domains/auth-users/models/kakao";
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { advanceTo, clear } from "jest-date-mock";

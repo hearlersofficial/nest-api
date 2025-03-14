@@ -1,9 +1,9 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { UserMessageTokens } from "~users/domains/users/models/UserMessageTokens";
-import { UserProfiles } from "~users/domains/users/models/UserProfiles";
-import { Users, UsersProps } from "~users/domains/users/models/Users";
+import { UserMessageTokens } from "~users/domains/users/models/user-message-tokens";
+import { UserProfiles } from "~users/domains/users/models/use-profiles";
+import { Users, UsersProps } from "~users/domains/users/models/users-domain";
 import { PsqlUserMessageTokensMapper } from "~users/infrastructures/mappers/psql.userMessageTokens.mapper";
 import { PsqlUserProfilesMapper } from "~users/infrastructures/mappers/psql.userProfiles.mapper";
 

@@ -1,5 +1,5 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { Users, UsersNewProps } from "~users/domains/users/models/Users";
+import { Users, UsersNewProps } from "~users/domains/users/models/users-domain";
 import { UsersPersistor } from "~users/domains/users/users.persistor";
 import { UsersRepository } from "~users/infrastructures/users.repository";
 

@@ -4,7 +4,7 @@ import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/U
 import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { getNowDayjs } from "~shared/utils/Date.utils";
-import { Users } from "~users/domains/users/models/Users";
+import { Users } from "~users/domains/users/models/users-domain";
 import { PsqlUsersRepositoryAdaptor } from "~users/infrastructures/psql-users.repository";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";

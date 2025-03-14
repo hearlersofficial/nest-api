@@ -1,6 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { convertDayjs, getNowDayjs } from "~shared/utils/Date.utils";
-import { UserProfiles } from "~users/domains/users/models/UserProfiles";
+import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";

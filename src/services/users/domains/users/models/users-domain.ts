@@ -4,8 +4,8 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { generateUUID } from "~shared/utils/UUID.utils";
-import { UserMessageTokens } from "~users/domains/users/models/UserMessageTokens";
-import { UserProfiles } from "~users/domains/users/models/UserProfiles";
+import { UserProfiles } from "~users/domains/users/models/use-profiles";
+import { UserMessageTokens } from "~users/domains/users/models/user-message-tokens";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { Dayjs } from "dayjs";

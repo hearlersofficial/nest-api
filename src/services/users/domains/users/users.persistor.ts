@@ -1,4 +1,4 @@
-import { Users, UsersNewProps } from "~users/domains/users/models/Users";
+import { Users, UsersNewProps } from "~users/domains/users/models/users-domain";
 
 export abstract class UsersPersistor {
   abstract create(user: UsersNewProps): Promise<Users>;

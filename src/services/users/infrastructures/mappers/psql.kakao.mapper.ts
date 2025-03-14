@@ -1,7 +1,7 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KakaoEntity } from "~shared/core/infrastructure/entities/users/Kakao.entity";
-import { Kakao } from "~users/domains/auth-users/models/kakao-domain";
+import { Kakao } from "~users/domains/auth-users/models/kakao";
 
 import { InternalServerErrorException } from "@nestjs/common";
 import dayjs from "dayjs";

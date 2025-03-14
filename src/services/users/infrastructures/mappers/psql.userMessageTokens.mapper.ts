@@ -2,7 +2,7 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/users/UserMessageTokens.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { UserMessageTokens, UserMessageTokensProps } from "~users/domains/users/models/UserMessageTokens";
+import { UserMessageTokens, UserMessageTokensProps } from "~users/domains/users/models/user-message-tokens";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";

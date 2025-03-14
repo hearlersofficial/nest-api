@@ -1,7 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KakaoEntity } from "~shared/core/infrastructure/entities/users/Kakao.entity";
 import { formatDayjsToUtcString, getNowDayjs } from "~shared/utils/Date.utils";
-import { Kakao } from "~users/domains/auth-users/models/kakao-domain";
+import { Kakao } from "~users/domains/auth-users/models/kakao";
 import { PsqlKakaoMapper } from "~users/infrastructures/mappers/psql.kakao.mapper";
 
 import { fakerKO as faker } from "@faker-js/faker";

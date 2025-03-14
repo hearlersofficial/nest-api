@@ -1,11 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ConnectAuthChannelCommand } from "~users/applications/commands/ConnectAuthChannel.command";
-import { InitializeUserCommand } from "~users/applications/commands/InitializeUser.command";
-import { ReserveTokensCommand } from "~users/applications/commands/ReserveTokens.command";
-import { SaveRefreshTokenCommand } from "~users/applications/commands/SaveRefreshToken.command";
-import { UpdateAuthorityCommand } from "~users/applications/commands/UpdateAuthority.command";
-import { UpdateUserCommand } from "~users/applications/commands/UpdateUser.command";
-import { VerifyRefreshTokenCommand } from "~users/applications/commands/VerifyRefreshToken.command";
+import { AuthFacade } from "~users/applications/auth.facade";
+import { AuthUsersFacade } from "~users/applications/auth-users.facade";
+import { UsersFacade } from "~users/applications/users.facade";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
 import { Users } from "~users/domains/users/models/Users";
 import { SchemaAuthUsersMapper } from "~users/presentations/grpc/auth-users.mapper";
@@ -35,18 +31,20 @@ import {
 
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
-import { CommandBus } from "@nestjs/cqrs";
 import { GrpcMethod } from "@nestjs/microservices";
 import dayjs from "dayjs";
 
 @Controller("user")
 export class GrpcUserCommandController {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(
+    private readonly usersFacade: UsersFacade,
+    private readonly authUsersFacade: AuthUsersFacade,
+    private readonly authFacade: AuthFacade,
+  ) {}
 
   @GrpcMethod("UserService", "InitializeUser")
   async initializeUser(): Promise<InitializeUserResponse> {
-    const command: InitializeUserCommand = new InitializeUserCommand({});
-    const { user, authUser } = await this.commandBus.execute(command);
+    const { user, authUser } = await this.authFacade.initializeUser();
     return create(InitializeUserResponseSchema, {
       user: SchemaUsersMapper.toUserProto(user),
       authUser: SchemaAuthUsersMapper.toAuthUserProto(authUser),
@@ -56,12 +54,11 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "ConnectAuthChannel")
   async connectAuthChannel(request: ConnectAuthChannelRequest): Promise<ConnectAuthChannelResponse> {
     const { userId, authChannel, uniqueId } = request;
-    const command: ConnectAuthChannelCommand = new ConnectAuthChannelCommand({
+    const { authUser } = await this.authUsersFacade.connectAuthChannel({
       userId: new UniqueEntityId(userId),
       authChannel,
       uniqueId,
     });
-    const { authUser } = await this.commandBus.execute(command);
     return create(ConnectAuthChannelResponseSchema, {
       authUser: SchemaAuthUsersMapper.toAuthUserProto(authUser),
     });
@@ -70,12 +67,11 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "SaveRefreshToken")
   async saveRefreshToken(request: SaveRefreshTokenRequest): Promise<SaveRefreshTokenResponse> {
     const { userId, token, expiresAt } = request;
-    const command: SaveRefreshTokenCommand = new SaveRefreshTokenCommand({
+    await this.authUsersFacade.saveRefreshToken({
       userId: new UniqueEntityId(userId),
       token,
       expiresAt: dayjs(expiresAt),
     });
-    await this.commandBus.execute(command);
     return create(SaveRefreshTokenResponseSchema, {
       success: true,
     });
@@ -84,11 +80,10 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "VerifyRefreshToken")
   async verifyRefreshToken(request: VerifyRefreshTokenRequest): Promise<VerifyRefreshTokenResponse> {
     const { userId, token } = request;
-    const command: VerifyRefreshTokenCommand = new VerifyRefreshTokenCommand({
+    const { success } = await this.authUsersFacade.verifyRefreshToken({
       userId: new UniqueEntityId(userId),
       token,
     });
-    const { success } = await this.commandBus.execute(command);
     return create(VerifyRefreshTokenResponseSchema, {
       success,
     });
@@ -97,7 +92,7 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "UpdateUser")
   async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
     const { userId, nickname, profileImage, phoneNumber, gender, birthday, introduction, mbti } = request;
-    const command: UpdateUserCommand = new UpdateUserCommand({
+    const updatedUser: Users = await this.usersFacade.updateUser({
       userId: new UniqueEntityId(userId),
       nickname,
       profileImage,
@@ -107,16 +102,14 @@ export class GrpcUserCommandController {
       introduction,
       mbti,
     });
-    const updatedUser: Users = await this.commandBus.execute(command);
     return create(UpdateUserResponseSchema, { user: SchemaUsersMapper.toUserProto(updatedUser) });
   }
 
   @GrpcMethod("UserService", "ReserveTokens")
   async reserveTokens(request: ReserveTokensRequest): Promise<ReserveTokensResponse> {
-    const command: ReserveTokensCommand = new ReserveTokensCommand({
-      userId: new UniqueEntityId(request.userId),
-    });
-    const { remainingTokens, maxTokens, reserved } = await this.commandBus.execute(command);
+    const { remainingTokens, maxTokens, reserved } = await this.usersFacade.reserveTokens(
+      new UniqueEntityId(request.userId),
+    );
     return create(ReserveTokensResponseSchema, {
       remainingTokens,
       maxTokens,
@@ -127,11 +120,10 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "UpdateAuthority")
   async updateAuthority(request: UpdateAuthorityRequest): Promise<UpdateAuthorityResponse> {
     const { authUserId, authority } = request;
-    const command: UpdateAuthorityCommand = new UpdateAuthorityCommand({
+    const authUser: AuthUsers = await this.authUsersFacade.updateAuthority({
       authUserId: new UniqueEntityId(authUserId),
       authority,
     });
-    const authUser: AuthUsers = await this.commandBus.execute(command);
     return create(UpdateAuthorityResponseSchema, { authUser: SchemaAuthUsersMapper.toAuthUserProto(authUser) });
   }
 }

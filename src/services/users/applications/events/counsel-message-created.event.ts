@@ -6,7 +6,6 @@ import {
 
 import { toBinary } from "@bufbuild/protobuf";
 
-// 유저 도메인에서 사용할 클래스
 export class UsersCounselMessageCreatedEvent extends DomainEvent {
   static readonly topic = "counsel.message.created";
   public readonly payload: CounselMessageCreatedPayload;

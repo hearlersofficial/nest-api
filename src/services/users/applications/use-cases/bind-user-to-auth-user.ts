@@ -1,6 +1,8 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { BindAuthUserToUseUseCaseRequest } from "~users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.request";
-import { BindAuthUserToUseUseCaseResponse } from "~users/applications/useCases/BindAuthUserToUseUseCase/dto/BindAuthUserToUseUseCase.response";
+import {
+  BindAuthUserToUseUseCaseRequest,
+  BindAuthUserToUseUseCaseResponse,
+} from "~users/applications/use-cases/dtos/bind-user-to-auth-user.dto";
 import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
 
 import { Injectable } from "@nestjs/common";

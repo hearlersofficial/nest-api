@@ -3,19 +3,11 @@ import { DomainEventsModule } from "~shared/core/infrastructure/events/domain-ev
 import { DomainEventsInterceptor } from "~shared/core/infrastructure/interceptors/domain-events.interceptor";
 import { AllExceptionFilter } from "~shared/filters/GrpcExceptionFilter";
 import { LoggingInterceptor } from "~shared/interceptors/LoggingInterceptor";
-import { CheckRemainingTokensHandler } from "~users/applications/handlers/CheckRemainingTokens.handler";
-import { ConnectAuthChannelHandler } from "~users/applications/handlers/ConnectAuthChannel.handler";
-import { ConsumeTokensHandler } from "~users/applications/handlers/ConsumeTokens.handler";
-import { FindOneAuthUserHandler } from "~users/applications/handlers/FindOneAuthUser.handler";
-import { FindOneUserHandler } from "~users/applications/handlers/FindOneUser.handler";
-import { InitializeUserHandler } from "~users/applications/handlers/InitializeUser.handler";
-import { ReserveTokensHandler } from "~users/applications/handlers/ReserveTokens.handler";
-import { SaveRefreshTokenHandler } from "~users/applications/handlers/SaveRefreshToken.handler";
-import { UpdateAuthorityHandler } from "~users/applications/handlers/UpdateAuthority.handler";
-import { UpdateUserHandler } from "~users/applications/handlers/UpdateUser.handler";
-import { VerifyRefreshTokenHandler } from "~users/applications/handlers/VerifyRefreshToken.handler";
-import { BindAuthUserToUseUseCase } from "~users/applications/useCases/BindAuthUserToUseUseCase/BindAuthUserToUseUseCase";
-import { ConnectAuthChannelUseCase } from "~users/applications/useCases/ConnectAuthChannelUseCase/ConnectAuthChannelUseCase";
+import { AuthFacade } from "~users/applications/auth.facade";
+import { AuthUsersFacade } from "~users/applications/auth-users.facade";
+import { BindAuthUserToUseUseCase } from "~users/applications/use-cases/bind-user-to-auth-user";
+import { ConnectAuthChannelUseCase } from "~users/applications/use-cases/connect-auth-channel";
+import { UsersFacade } from "~users/applications/users.facade";
 import { AuthUsersModule } from "~users/domains/auth-users/auth-users.module";
 import { UsersModule } from "~users/domains/users/users.module";
 import { GrpcUserCommandController } from "~users/presentations/grpc/command/users-command.controller";
@@ -44,17 +36,9 @@ import { TypeOrmModule } from "@nestjs/typeorm";
   ],
   controllers: [GrpcUserCommandController, GrpcUserQueryController, UsersMessageController],
   providers: [
-    FindOneUserHandler,
-    UpdateUserHandler,
-    CheckRemainingTokensHandler,
-    ReserveTokensHandler,
-    ConsumeTokensHandler,
-    InitializeUserHandler,
-    ConnectAuthChannelHandler,
-    SaveRefreshTokenHandler,
-    VerifyRefreshTokenHandler,
-    UpdateAuthorityHandler,
-    FindOneAuthUserHandler,
+    UsersFacade,
+    AuthUsersFacade,
+    AuthFacade,
     BindAuthUserToUseUseCase,
     ConnectAuthChannelUseCase,
     {

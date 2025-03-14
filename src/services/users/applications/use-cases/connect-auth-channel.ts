@@ -1,6 +1,8 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { ConnectAuthChannelUseCaseRequest } from "~users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.request";
-import { ConnectAuthChannelUseCaseResponse } from "~users/applications/useCases/ConnectAuthChannelUseCase/dto/ConnectAuthChannelUseCase.response";
+import {
+  ConnectAuthChannelUseCaseRequest,
+  ConnectAuthChannelUseCaseResponse,
+} from "~users/applications/use-cases/dtos/connect-auth-channel.dto";
 import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
 import { UsersService } from "~users/domains/users/users.service";
 

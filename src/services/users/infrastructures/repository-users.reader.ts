@@ -1,4 +1,4 @@
-import { Users } from "~users/domains/users/models/Users";
+import { Users } from "~users/domains/users/models/users-domain";
 import {
   UsersCriteriaFindMany,
   UsersCriteriaFindOne,

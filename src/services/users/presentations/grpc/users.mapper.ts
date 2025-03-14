@@ -1,6 +1,6 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { UserProfiles } from "~users/domains/users/models/UserProfiles";
-import { Users } from "~users/domains/users/models/Users";
+import { UserProfiles } from "~users/domains/users/models/use-profiles";
+import { Users } from "~users/domains/users/models/users-domain";
 import { User, UserProfile, UserProfileSchema, UserSchema } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { create } from "@bufbuild/protobuf";

@@ -1,7 +1,7 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
-import { UserProfiles } from "~users/domains/users/models/UserProfiles";
+import { UserProfiles } from "~users/domains/users/models/use-profiles";
 
 import { InternalServerErrorException } from "@nestjs/common";
 import dayjs from "dayjs";

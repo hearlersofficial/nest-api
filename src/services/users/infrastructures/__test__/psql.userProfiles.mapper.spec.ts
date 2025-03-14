@@ -1,7 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
 import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
-import { UserProfiles } from "~users/domains/users/models/UserProfiles";
+import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { PsqlUserProfilesMapper } from "~users/infrastructures/mappers/psql.userProfiles.mapper";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 

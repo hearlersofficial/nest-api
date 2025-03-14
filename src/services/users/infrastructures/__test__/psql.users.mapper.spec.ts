@@ -7,7 +7,7 @@ import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
 import { convertDayjs, formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { UserProgresses } from "~users/domains/users/models/UserProgresses";
-import { Users } from "~users/domains/users/models/users-domain";
+import { Users } from "~users/domains/users/models/users-";
 import { PsqlUsersMapper } from "~users/infrastructures/mappers/psql.users.mapper";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";

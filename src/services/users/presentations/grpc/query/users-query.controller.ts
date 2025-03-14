@@ -1,7 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { AuthUsersFacade } from "~users/applications/auth-users.facade";
 import { UsersFacade } from "~users/applications/users.facade";
-import { Users } from "~users/domains/users/models/users-domain";
+import { Users } from "~users/domains/users/models/users";
 import { SchemaAuthUsersMapper } from "~users/presentations/grpc/auth-users.mapper";
 import { SchemaUsersMapper } from "~users/presentations/grpc/users.mapper";
 import {

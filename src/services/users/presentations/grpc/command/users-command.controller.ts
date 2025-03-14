@@ -3,7 +3,7 @@ import { AuthFacade } from "~users/applications/auth.facade";
 import { AuthUsersFacade } from "~users/applications/auth-users.facade";
 import { UsersFacade } from "~users/applications/users.facade";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
-import { Users } from "~users/domains/users/models/users-domain";
+import { Users } from "~users/domains/users/models/users";
 import { SchemaAuthUsersMapper } from "~users/presentations/grpc/auth-users.mapper";
 import { SchemaUsersMapper } from "~users/presentations/grpc/users.mapper";
 import {

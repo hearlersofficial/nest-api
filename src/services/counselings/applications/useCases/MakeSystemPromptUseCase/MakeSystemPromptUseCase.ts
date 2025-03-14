@@ -1,5 +1,4 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { isDefined } from "~shared/utils/Validate.utils";
 import { ContextService } from "~counselings/aggregates/contexts/applications/context.service";
 import { InstructionItemService } from "~counselings/aggregates/instructionItems/applications/instructionItem.service";
 import { InstructionService } from "~counselings/aggregates/instructions/applications/instruction.service";
@@ -12,9 +11,7 @@ import { Injectable } from "@nestjs/common";
 import { ChatCompletionSystemMessageParam } from "openai/resources";
 
 @Injectable()
-export class MakeSystemPromptUseCase
-  implements UseCase<MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse>
-{
+export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse> {
   constructor(
     private readonly personaService: PersonaService,
     private readonly contextService: ContextService,
@@ -46,10 +43,7 @@ export class MakeSystemPromptUseCase
       ids: instruction.instructionMaps.map((map) => map.instructionItemId),
     });
 
-    if (!isDefined(counselTechnique.toneId)) {
-      return { ok: false, error: "Tone not found" };
-    }
-    const tone = await this.toneService.findOne(counselTechnique.toneId);
+    const tone = await this.toneService.findOne(counselor.toneId);
     if (!tone) {
       return { ok: false, error: "Tone not found" };
     }

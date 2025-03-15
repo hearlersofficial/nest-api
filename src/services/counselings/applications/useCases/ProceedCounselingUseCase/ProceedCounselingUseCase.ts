@@ -1,6 +1,6 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 import { isDefined } from "~shared/utils/Validate.utils";
 import { CounselMessageService } from "~counselings/aggregates/counselMessages/applications/counselMessage.service";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
@@ -12,6 +12,7 @@ import { MakeSystemPromptUseCase } from "~counselings/applications/useCases/Make
 import { ProceedCounselingRequest } from "~counselings/applications/useCases/ProceedCounselingUseCase/dto/ProceedCounseling.request";
 import { ProceedCounselingResponse } from "~counselings/applications/useCases/ProceedCounselingUseCase/dto/ProceedCounseling.response";
 import { TransitionCounselTechniqueUseCase } from "~counselings/applications/useCases/TransitionCounselTechniqueUseCase/TransitionCounselTechniqueUseCase";
+import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { ChatCompletionMessageParam } from "openai/resources";
@@ -19,6 +20,7 @@ import { ChatCompletionMessageParam } from "openai/resources";
 @Injectable()
 export class ProceedCounselingUseCase implements UseCase<ProceedCounselingRequest, ProceedCounselingResponse> {
   private readonly MessageCountForNextPrompt = 200;
+  private readonly TimeDurationForPromptReset = 1000 * 60 * 60 * 6; // 6 hours
 
   constructor(
     private readonly counselService: CounselService,
@@ -34,15 +36,6 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     let counsel = request.counsel;
     const { userMessage } = request;
 
-    // 유저 메시지 생성
-    const createdUserMessage = await this.counselMessageService.create({
-      counselId: counsel.id,
-      userId: counsel.userId,
-      counselTechniqueId: counsel.counselTechniqueId,
-      message: userMessage,
-      isUserMessage: true,
-    });
-
     // 상담사 조회
     const counselor = await this.counselorService.findOne(counsel.counselorId);
     if (!counselor) {
@@ -52,9 +45,19 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     // 이전 대화 조회
     const counselMessages = await this.counselMessageService.findMany({ counselId: counsel.id });
 
-    // 상담기법 변경 여부 확인
-    if (this.checkCounselTechniqueChange(counselMessages, counsel.counselTechniqueId)) {
-      // 상담 기법 변경
+    // 상담기법 초기화 여부 확인
+    if (this.needCounselTechniqueReset(counselMessages[counselMessages.length - 1])) {
+      const firstCounselTechnique = await this.counselTechniqueService.findFirst({
+        stage: CounselTechniqueStage.INITIAL,
+      });
+      if (!firstCounselTechnique) {
+        throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "CounselTechnique not found");
+      }
+      counsel.updateCounselTechniqueId(firstCounselTechnique.id);
+      counsel = await this.counselService.update(counsel);
+    }
+    // 상담 기법 변경 여부 확인
+    else if (this.needCounselTechniqueTransition(counselMessages)) {
       const transitionCounselTechniqueResponse = await this.transitionCounselTechniqueUseCase.execute({ counsel });
       if (!transitionCounselTechniqueResponse.ok) {
         throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, transitionCounselTechniqueResponse.error as string);
@@ -86,6 +89,16 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Prompt not found");
     }
     prompts.push(prompt);
+
+    // 유저 메시지 생성
+    const createdUserMessage = await this.counselMessageService.create({
+      counselId: counsel.id,
+      userId: counsel.userId,
+      counselTechniqueId: counsel.counselTechniqueId,
+      message: userMessage,
+      isUserMessage: true,
+    });
+    counselMessages.push(createdUserMessage);
 
     // 이전 대화 추가
     counselMessages.forEach((counselMessage) => {
@@ -123,8 +136,22 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     };
   }
 
-  private checkCounselTechniqueChange(counselMessages: CounselMessages[], counselTechniqueId: UniqueEntityId): boolean {
-    const messageCountAtCurrentTechnique = counselMessages.filter((counselMessage) => counselMessage.counselTechniqueId.equals(counselTechniqueId)).length;
+  private needCounselTechniqueReset(lastCounselMessages: CounselMessages): boolean {
+    const lastMessageCreatedAt = lastCounselMessages.createdAt;
+    const now = getNowDayjs();
+    return now.diff(lastMessageCreatedAt) > this.TimeDurationForPromptReset;
+  }
+
+  private needCounselTechniqueTransition(counselMessages: CounselMessages[]): boolean {
+    let messageCountAtCurrentTechnique = 0;
+    const currentCounselTechniqueId = counselMessages[counselMessages.length - 1].counselTechniqueId;
+    for (let i = counselMessages.length - 1; i >= 0; i--) {
+      if (counselMessages[i].counselTechniqueId.equals(currentCounselTechniqueId)) {
+        messageCountAtCurrentTechnique++;
+      } else {
+        break;
+      }
+    }
     return messageCountAtCurrentTechnique > this.MessageCountForNextPrompt;
   }
 }

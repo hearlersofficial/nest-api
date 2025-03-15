@@ -73,11 +73,11 @@ export class CounselsEntity extends CoreEntity {
   })
   counselTechniqueId: string;
 
-  @ManyToOne(() => CounselorUserRelationshipsEntity, (counselorUserRelationship) => counselorUserRelationship.counsels)
-  @JoinColumn({ name: "counselor_user_relationship_id" })
-  counselorUserRelationship: CounselorUserRelationshipsEntity;
+  // @ManyToOne(() => CounselorUserRelationshipsEntity, (counselorUserRelationship) => counselorUserRelationship.counsels)
+  // @JoinColumn({ name: "counselor_user_relationship_id" })
+  // counselorUserRelationship: CounselorUserRelationshipsEntity;
 
-  @RelationId((counsels: CounselsEntity) => counsels.counselorUserRelationship)
+  // @RelationId((counsels: CounselsEntity) => counsels.counselorUserRelationship)
   @Column({ type: "bigint", name: "counselor_user_relationship_id" })
   counselorUserRelationshipId: string;
 

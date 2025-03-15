@@ -26,6 +26,6 @@ export class CounselorUserRelationshipsEntity extends CoreEntity {
   @Column({ type: "int", name: "rapport", comment: "상담사와의 관계 정도" })
   rapport: number;
 
-  @OneToMany(() => CounselsEntity, (counsel) => counsel.counselorUserRelationship)
-  counsels: CounselsEntity[];
+  // @OneToMany(() => CounselsEntity, (counsel) => counsel.counselorUserRelationship)
+  // counsels: CounselsEntity[];
 }

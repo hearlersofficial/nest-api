@@ -16,16 +16,16 @@ import { TypeOrmModule } from "@nestjs/typeorm";
   imports: [TypeOrmModule.forFeature([UsersEntity, UserProfilesEntity, UserMessageTokensEntity])],
   providers: [
     {
+      provide: UsersRepository,
+      useClass: PsqlUsersRepository,
+    },
+    {
       provide: UsersReader,
       useClass: RepositoryUsersReader,
     },
     {
       provide: UsersPersistor,
       useClass: RepositoryUsersPersistor,
-    },
-    {
-      provide: UsersRepository,
-      useClass: PsqlUsersRepository,
     },
     UsersService,
   ],

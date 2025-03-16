@@ -1,7 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CollectDomainEvents } from "~shared/core/infrastructure/decorators/collect-domain-events.decorator";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { DomainEventCollector } from "~shared/core/infrastructure/events/domain-event-collector";
 import { Users } from "~users/domains/users/models/users";
 import { PsqlUsersMapper } from "~users/infrastructures/mappers/psql.users.mapper";
 import { UsersRepository } from "~users/infrastructures/users.repository";
@@ -11,18 +9,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
 @Injectable()
-@CollectDomainEvents()
 export class PsqlUsersRepository extends UsersRepository {
   private readonly userFindOptionsRelation: FindOptionsRelations<UsersEntity> = {
     userProfiles: true,
     userMessageTokens: true,
   };
 
-  constructor(
-    @InjectRepository(UsersEntity) private readonly usersRepository: Repository<UsersEntity>,
-    domainEventCollector: DomainEventCollector,
-  ) {
-    super(domainEventCollector);
+  constructor(@InjectRepository(UsersEntity) private readonly usersRepository: Repository<UsersEntity>) {
+    super();
   }
 
   override async save(user: Users): Promise<Users>;

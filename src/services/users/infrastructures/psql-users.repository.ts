@@ -1,6 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { CollectDomainEvents } from "~shared/core/infrastructure/decorators/collect-domain-events.decorator";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { Users } from "~users/domains/users/models/users";
+import { Users } from "~users/domains/users/models/Users";
 import { PsqlUsersMapper } from "~users/infrastructures/mappers/psql.users.mapper";
 import { UsersRepository } from "~users/infrastructures/users.repository";
 
@@ -9,6 +10,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
 @Injectable()
+@CollectDomainEvents()
 export class PsqlUsersRepository extends UsersRepository {
   private readonly userFindOptionsRelation: FindOptionsRelations<UsersEntity> = {
     userProfiles: true,
@@ -37,6 +39,7 @@ export class PsqlUsersRepository extends UsersRepository {
       ...findOneOptions.where,
       id: userId.getString(),
     };
+    findOneOptions.relations = { ...findOneOptions.relations, ...this.userFindOptionsRelation };
     const user = await this.usersRepository.findOne(findOneOptions);
     return user ? PsqlUsersMapper.toDomain(user) : null;
   }
@@ -47,12 +50,14 @@ export class PsqlUsersRepository extends UsersRepository {
       ...findOneOptions.where,
       nickname,
     };
+    findOneOptions.relations = { ...findOneOptions.relations, ...this.userFindOptionsRelation };
     const user = await this.usersRepository.findOne(findOneOptions);
     return user ? PsqlUsersMapper.toDomain(user) : null;
   }
 
   override async findMany(options?: FindManyOptions<UsersEntity>): Promise<Users[]> {
     const findManyOptions: FindManyOptions<UsersEntity> = options ?? {};
+    findManyOptions.relations = { ...findManyOptions.relations, ...this.userFindOptionsRelation };
     const users = await this.usersRepository.find(findManyOptions);
     return PsqlUsersMapper.toDomains(users);
   }

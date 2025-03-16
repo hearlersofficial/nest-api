@@ -3,8 +3,9 @@ import { Users, UsersNewProps } from "~users/domains/users/models/users";
 import { UsersPersistor } from "~users/domains/users/users.persistor";
 import { UsersRepository } from "~users/infrastructures/users.repository";
 
-import { HttpStatus } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 
+@Injectable()
 export class RepositoryUsersPersistor extends UsersPersistor {
   constructor(private readonly userRepository: UsersRepository) {
     super();

@@ -1,6 +1,5 @@
 import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~shared/core/infrastructure/Config";
 import { DomainEventsModule } from "~shared/core/infrastructure/events/domain-events.module";
-import { DomainEventsInterceptor } from "~shared/core/infrastructure/interceptors/domain-events.interceptor";
 import { AllExceptionFilter } from "~shared/filters/GrpcExceptionFilter";
 import { LoggingInterceptor } from "~shared/interceptors/LoggingInterceptor";
 import { AuthFacade } from "~users/applications/auth.facade";
@@ -49,10 +48,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
     },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: DomainEventsInterceptor,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: DomainEventsInterceptor,
+    // },
   ],
 })
 export class UsersServiceModule implements OnModuleInit {

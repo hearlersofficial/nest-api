@@ -3,8 +3,9 @@ import { AuthUsersPersistor } from "~users/domains/auth-users/auth-users.persist
 import { AuthUsers, AuthUsersNewProps } from "~users/domains/auth-users/models/auth-users";
 import { AuthUsersRepository } from "~users/infrastructures/auth-users.repository";
 
-import { HttpStatus } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 
+@Injectable()
 export class RepositoryAuthUsersPersistor extends AuthUsersPersistor {
   constructor(private readonly authUserRepository: AuthUsersRepository) {
     super();

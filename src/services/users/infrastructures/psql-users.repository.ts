@@ -1,7 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CollectDomainEvents } from "~shared/core/infrastructure/decorators/collect-domain-events.decorator";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { Users } from "~users/domains/users/models/Users";
+import { Users } from "~users/domains/users/models/users";
 import { PsqlUsersMapper } from "~users/infrastructures/mappers/psql.users.mapper";
 import { UsersRepository } from "~users/infrastructures/users.repository";
 

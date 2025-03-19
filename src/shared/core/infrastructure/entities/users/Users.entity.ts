@@ -1,7 +1,7 @@
 import { CoreStatus } from "~shared/core/constants/status.constants";
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/CounselorUserRelationships.entity";
-import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/counsels/CounselorUserRelationships.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 import { UserActivitiesEntity } from "~shared/core/infrastructure/entities/users/UserActivities.entity";
 import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/users/UserMessageTokens.entity";

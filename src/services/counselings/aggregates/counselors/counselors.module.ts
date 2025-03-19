@@ -1,4 +1,4 @@
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/counsels/Counselors.entity";
 import { CreateCounselorHandler } from "~counselings/aggregates/counselors/applications/commands/CreateCounselor/CreateCounselor.handler";
 import { UpdateCounselorHandler } from "~counselings/aggregates/counselors/applications/commands/UpdateCounselor/UpdateCounselor.handler";
 import { CounselorService } from "~counselings/aggregates/counselors/applications/counselor.service";

@@ -1,5 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/counsels/Counselors.entity";
 import { Counselors, CounselorsProps } from "~counselings/aggregates/counselors/domain/counselors";
 
 import { InternalServerErrorException } from "@nestjs/common";

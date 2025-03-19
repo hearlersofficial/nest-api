@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/counsels/Counselors.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 

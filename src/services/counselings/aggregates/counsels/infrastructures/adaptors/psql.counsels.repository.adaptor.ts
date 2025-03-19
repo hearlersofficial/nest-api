@@ -1,12 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
-import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { Counsels } from "~counselings/aggregates/counsels/domain/Counsels";
 import { PsqlCounselsMapper } from "~counselings/aggregates/counsels/infrastructures/adaptors/mapper/psql.counsels.mapper";
-import {
-  CounselsRepositoryPort,
-  FindManyPropsInCounselsRepository,
-} from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
+import { CounselsRepositoryPort, FindManyPropsInCounselsRepository } from "~counselings/aggregates/counsels/infrastructures/counsels.repository.port";
 
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
@@ -58,9 +55,7 @@ export class PsqlCounselsRepositoryAdaptor implements CounselsRepositoryPort {
 
   async findAll(): Promise<Counsels[]> {
     const counselsEntities: CounselsEntity[] = await this.counselsRepository.find();
-    return counselsEntities
-      .map((counselEntity) => PsqlCounselsMapper.toDomain(counselEntity))
-      .filter((counsel) => counsel !== null);
+    return counselsEntities.map((counselEntity) => PsqlCounselsMapper.toDomain(counselEntity)).filter((counsel) => counsel !== null);
   }
 
   async findMany(props: FindManyPropsInCounselsRepository): Promise<Counsels[]> {

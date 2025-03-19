@@ -1,4 +1,4 @@
-import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/CounselMessages.entity";
+import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/counsels/CounselMessages.entity";
 import { ReactMessageHandler } from "~counselings/aggregates/counselMessages/applications/commands/ReactMessage/ReactMessage.handler";
 import { CounselMessageService } from "~counselings/aggregates/counselMessages/applications/counselMessage.service";
 import { FindMessagesHandler } from "~counselings/aggregates/counselMessages/applications/queries/FindMessages/FindMessages.handler";

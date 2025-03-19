@@ -1,6 +1,6 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/Counselors.entity";
-import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/counsels/Counselors.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";

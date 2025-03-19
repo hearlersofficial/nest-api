@@ -1,6 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
-import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/CounselMessages.entity";
+import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/counsels/CounselMessages.entity";
 import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
 import { PsqlCounselMessagesMapper } from "~counselings/aggregates/counselMessages/infrastructures/adaptors/mapper/psql.counselMessages.mapper";
 import {

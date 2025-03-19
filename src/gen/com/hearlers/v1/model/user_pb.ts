@@ -5,18 +5,13 @@
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
 import { file_google_protobuf_struct } from "@bufbuild/protobuf/wkt";
-
 import type { JsonObject, Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file com/hearlers/v1/model/user.proto.
  */
-export const file_com_hearlers_v1_model_user: GenFile =
-  /*@__PURE__*/
-  fileDesc(
-    "CiBjb20vaGVhcmxlcnMvdjEvbW9kZWwvdXNlci5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIq4BCgRVc2VyEgoKAmlkGAEgASgJEhAKCG5pY2tuYW1lGAIgASgJEjgKDHVzZXJfcHJvZmlsZRgDIAEoCzIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5Vc2VyUHJvZmlsZRISCgpjcmVhdGVkX2F0GAUgASgJEhIKCnVwZGF0ZWRfYXQYBiABKAkSFwoKZGVsZXRlZF9hdBgHIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IowCCgtVc2VyUHJvZmlsZRIVCg1wcm9maWxlX2ltYWdlGAEgASgJEhQKDHBob25lX251bWJlchgCIAEoCRItCgZnZW5kZXIYAyABKA4yHS5jb20uaGVhcmxlcnMudjEubW9kZWwuR2VuZGVyEhAKCGJpcnRoZGF5GAQgASgJEhQKDGludHJvZHVjdGlvbhgFIAEoCRIpCgRtYnRpGAYgASgOMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLk1idGkSEgoKY3JlYXRlZF9hdBgHIAEoCRISCgp1cGRhdGVkX2F0GAggASgJEhcKCmRlbGV0ZWRfYXQYCSABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCLFAgoMVXNlckFjdGl2aXR5EjoKDWFjdGl2aXR5X3R5cGUYASABKA4yIy5jb20uaGVhcmxlcnMudjEubW9kZWwuQWN0aXZpdHlUeXBlEi4KDWFjdGl2aXR5X2RhdGEYAiABKAsyFy5nb29nbGUucHJvdG9idWYuU3RydWN0EjcKCHBsYXRmb3JtGAMgASgOMiUuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkRldmljZVBsYXRmb3JtEhIKCmlwX2FkZHJlc3MYBCABKAkSEgoKdXNlcl9hZ2VudBgFIAEoCRIYChBkdXJhdGlvbl9zZWNvbmRzGAYgASgFEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRIXCgpkZWxldGVkX2F0GAkgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQqRAoGR2VuZGVyEhYKEkdFTkRFUl9VTlNQRUNJRklFRBAAEg8KC0dFTkRFUl9NQUxFEAESEQoNR0VOREVSX0ZFTUFMRRACKowCCgRNYnRpEhQKEE1CVElfVU5TUEVDSUZJRUQQABINCglNQlRJX0VOVFAQARINCglNQlRJX0VORlAQAhINCglNQlRJX0VOVEoQAxINCglNQlRJX0VORkoQBBINCglNQlRJX0VTVFAQBRINCglNQlRJX0VTVEoQBhINCglNQlRJX0VTRlAQBxINCglNQlRJX0VTRkoQCBINCglNQlRJX0lOVEoQCRINCglNQlRJX0lORkoQChINCglNQlRJX0lOVFAQCxINCglNQlRJX0lORlAQDBINCglNQlRJX0lTVFAQDRINCglNQlRJX0lTVEoQDhINCglNQlRJX0lTRlAQDxINCglNQlRJX0lTRkoQECqdAQoORGV2aWNlUGxhdGZvcm0SHwobREVWSUNFX1BMQVRGT1JNX1VOU1BFQ0lGSUVEEAASFwoTREVWSUNFX1BMQVRGT1JNX1dFQhABEhcKE0RFVklDRV9QTEFURk9STV9JT1MQAhIbChdERVZJQ0VfUExBVEZPUk1fQU5EUk9JRBADEhsKF0RFVklDRV9QTEFURk9STV9ERVNLVE9QEAQq6QQKDEFjdGl2aXR5VHlwZRIdChlBQ1RJVklUWV9UWVBFX1VOU1BFQ0lGSUVEEAASFwoTQUNUSVZJVFlfVFlQRV9MT0dJThABEhgKFEFDVElWSVRZX1RZUEVfTE9HT1VUEAISKQolQUNUSVZJVFlfVFlQRV9VTkxPR0lOTkVEX1VTRVJfQ09NRV9JThADEjQKMEFDVElWSVRZX1RZUEVfVU5MT0dJTk5FRF9VU0VSX1NUQVJURURfQ09VTlNFTElORxAEEjUKMUFDVElWSVRZX1RZUEVfVU5MT0dJTk5FRF9VU0VSX0ZJTklTSEVEX0NPVU5TRUxJTkcQBRIiCh5BQ1RJVklUWV9UWVBFX09OQk9BUkRJTkdfU1RBUlQQBhIgChxBQ1RJVklUWV9UWVBFX09OQk9BUkRJTkdfRU5EEAcSLQopQUNUSVZJVFlfVFlQRV9TRVRfQ09OVkVSU0FUSU9OX1BSRUZFUkVOQ0UQCBIiCh5BQ1RJVklUWV9UWVBFX0NPVU5TRUxJTkdfU1RBUlQQCRIgChxBQ1RJVklUWV9UWVBFX0NPVU5TRUxJTkdfRU5EEAoSIAocQUNUSVZJVFlfVFlQRV9QUk9GSUxFX1VQREFURRALEiEKHUFDVElWSVRZX1RZUEVfRkVFREJBQ0tfU1VCTUlUEAwSJAogQUNUSVZJVFlfVFlQRV9TVUJTQ1JJUFRJT05fU1RBUlQQDRIlCiFBQ1RJVklUWV9UWVBFX1NVQlNDUklQVElPTl9DQU5DRUwQDhIiCh5BQ1RJVklUWV9UWVBFX1BBWU1FTlRfQ09NUExFVEUQD0KeAQoZY29tLmNvbS5oZWFybGVycy52MS5tb2RlbEIJVXNlclByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM",
-    [file_google_protobuf_struct],
-  );
+export const file_com_hearlers_v1_model_user: GenFile = /*@__PURE__*/
+  fileDesc("CiBjb20vaGVhcmxlcnMvdjEvbW9kZWwvdXNlci5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIq4BCgRVc2VyEgoKAmlkGAEgASgJEhAKCG5pY2tuYW1lGAIgASgJEjgKDHVzZXJfcHJvZmlsZRgDIAEoCzIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5Vc2VyUHJvZmlsZRISCgpjcmVhdGVkX2F0GAUgASgJEhIKCnVwZGF0ZWRfYXQYBiABKAkSFwoKZGVsZXRlZF9hdBgHIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IowCCgtVc2VyUHJvZmlsZRIVCg1wcm9maWxlX2ltYWdlGAEgASgJEhQKDHBob25lX251bWJlchgCIAEoCRItCgZnZW5kZXIYAyABKA4yHS5jb20uaGVhcmxlcnMudjEubW9kZWwuR2VuZGVyEhAKCGJpcnRoZGF5GAQgASgJEhQKDGludHJvZHVjdGlvbhgFIAEoCRIpCgRtYnRpGAYgASgOMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLk1idGkSEgoKY3JlYXRlZF9hdBgHIAEoCRISCgp1cGRhdGVkX2F0GAggASgJEhcKCmRlbGV0ZWRfYXQYCSABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCLFAgoMVXNlckFjdGl2aXR5EjoKDWFjdGl2aXR5X3R5cGUYASABKA4yIy5jb20uaGVhcmxlcnMudjEubW9kZWwuQWN0aXZpdHlUeXBlEi4KDWFjdGl2aXR5X2RhdGEYAiABKAsyFy5nb29nbGUucHJvdG9idWYuU3RydWN0EjcKCHBsYXRmb3JtGAMgASgOMiUuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkRldmljZVBsYXRmb3JtEhIKCmlwX2FkZHJlc3MYBCABKAkSEgoKdXNlcl9hZ2VudBgFIAEoCRIYChBkdXJhdGlvbl9zZWNvbmRzGAYgASgFEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRIXCgpkZWxldGVkX2F0GAkgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQqRAoGR2VuZGVyEhYKEkdFTkRFUl9VTlNQRUNJRklFRBAAEg8KC0dFTkRFUl9NQUxFEAESEQoNR0VOREVSX0ZFTUFMRRACKowCCgRNYnRpEhQKEE1CVElfVU5TUEVDSUZJRUQQABINCglNQlRJX0VOVFAQARINCglNQlRJX0VORlAQAhINCglNQlRJX0VOVEoQAxINCglNQlRJX0VORkoQBBINCglNQlRJX0VTVFAQBRINCglNQlRJX0VTVEoQBhINCglNQlRJX0VTRlAQBxINCglNQlRJX0VTRkoQCBINCglNQlRJX0lOVEoQCRINCglNQlRJX0lORkoQChINCglNQlRJX0lOVFAQCxINCglNQlRJX0lORlAQDBINCglNQlRJX0lTVFAQDRINCglNQlRJX0lTVEoQDhINCglNQlRJX0lTRlAQDxINCglNQlRJX0lTRkoQECqdAQoORGV2aWNlUGxhdGZvcm0SHwobREVWSUNFX1BMQVRGT1JNX1VOU1BFQ0lGSUVEEAASFwoTREVWSUNFX1BMQVRGT1JNX1dFQhABEhcKE0RFVklDRV9QTEFURk9STV9JT1MQAhIbChdERVZJQ0VfUExBVEZPUk1fQU5EUk9JRBADEhsKF0RFVklDRV9QTEFURk9STV9ERVNLVE9QEAQq6QQKDEFjdGl2aXR5VHlwZRIdChlBQ1RJVklUWV9UWVBFX1VOU1BFQ0lGSUVEEAASFwoTQUNUSVZJVFlfVFlQRV9MT0dJThABEhgKFEFDVElWSVRZX1RZUEVfTE9HT1VUEAISKQolQUNUSVZJVFlfVFlQRV9VTkxPR0lOTkVEX1VTRVJfQ09NRV9JThADEjQKMEFDVElWSVRZX1RZUEVfVU5MT0dJTk5FRF9VU0VSX1NUQVJURURfQ09VTlNFTElORxAEEjUKMUFDVElWSVRZX1RZUEVfVU5MT0dJTk5FRF9VU0VSX0ZJTklTSEVEX0NPVU5TRUxJTkcQBRIiCh5BQ1RJVklUWV9UWVBFX09OQk9BUkRJTkdfU1RBUlQQBhIgChxBQ1RJVklUWV9UWVBFX09OQk9BUkRJTkdfRU5EEAcSLQopQUNUSVZJVFlfVFlQRV9TRVRfQ09OVkVSU0FUSU9OX1BSRUZFUkVOQ0UQCBIiCh5BQ1RJVklUWV9UWVBFX0NPVU5TRUxJTkdfU1RBUlQQCRIgChxBQ1RJVklUWV9UWVBFX0NPVU5TRUxJTkdfRU5EEAoSIAocQUNUSVZJVFlfVFlQRV9QUk9GSUxFX1VQREFURRALEiEKHUFDVElWSVRZX1RZUEVfRkVFREJBQ0tfU1VCTUlUEAwSJAogQUNUSVZJVFlfVFlQRV9TVUJTQ1JJUFRJT05fU1RBUlQQDRIlCiFBQ1RJVklUWV9UWVBFX1NVQlNDUklQVElPTl9DQU5DRUwQDhIiCh5BQ1RJVklUWV9UWVBFX1BBWU1FTlRfQ09NUExFVEUQD0KeAQoZY29tLmNvbS5oZWFybGVycy52MS5tb2RlbEIJVXNlclByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM", [file_google_protobuf_struct]);
 
 /**
  * @generated from message com.hearlers.v1.model.User
@@ -56,14 +51,15 @@ export type User = Message<"com.hearlers.v1.model.User"> & {
    *
    * @generated from field: optional string deleted_at = 7;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
  * Describes the message com.hearlers.v1.model.User.
  * Use `create(UserSchema)` to create a new message.
  */
-export const UserSchema: GenMessage<User> = /*@__PURE__*/ messageDesc(file_com_hearlers_v1_model_user, 0);
+export const UserSchema: GenMessage<User> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_user, 0);
 
 /**
  * @generated from message com.hearlers.v1.model.UserProfile
@@ -120,14 +116,15 @@ export type UserProfile = Message<"com.hearlers.v1.model.UserProfile"> & {
    *
    * @generated from field: optional string deleted_at = 9;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
  * Describes the message com.hearlers.v1.model.UserProfile.
  * Use `create(UserProfileSchema)` to create a new message.
  */
-export const UserProfileSchema: GenMessage<UserProfile> = /*@__PURE__*/ messageDesc(file_com_hearlers_v1_model_user, 1);
+export const UserProfileSchema: GenMessage<UserProfile> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_user, 1);
 
 /**
  * @generated from message com.hearlers.v1.model.UserActivity
@@ -179,19 +176,17 @@ export type UserActivity = Message<"com.hearlers.v1.model.UserActivity"> & {
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
    * @generated from field: optional string deleted_at = 9;
    */
-  deletedAt: string;
+  deletedAt?: string;
 };
 
 /**
  * Describes the message com.hearlers.v1.model.UserActivity.
  * Use `create(UserActivitySchema)` to create a new message.
  */
-export const UserActivitySchema: GenMessage<UserActivity> =
-  /*@__PURE__*/
+export const UserActivitySchema: GenMessage<UserActivity> = /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_model_user, 2);
 
 /**
@@ -217,7 +212,8 @@ export enum Gender {
 /**
  * Describes the enum com.hearlers.v1.model.Gender.
  */
-export const GenderSchema: GenEnum<Gender> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_user, 0);
+export const GenderSchema: GenEnum<Gender> = /*@__PURE__*/
+  enumDesc(file_com_hearlers_v1_model_user, 0);
 
 /**
  * @generated from enum com.hearlers.v1.model.Mbti
@@ -312,7 +308,8 @@ export enum Mbti {
 /**
  * Describes the enum com.hearlers.v1.model.Mbti.
  */
-export const MbtiSchema: GenEnum<Mbti> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_user, 1);
+export const MbtiSchema: GenEnum<Mbti> = /*@__PURE__*/
+  enumDesc(file_com_hearlers_v1_model_user, 1);
 
 /**
  * @generated from enum com.hearlers.v1.model.DevicePlatform
@@ -347,7 +344,8 @@ export enum DevicePlatform {
 /**
  * Describes the enum com.hearlers.v1.model.DevicePlatform.
  */
-export const DevicePlatformSchema: GenEnum<DevicePlatform> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_user, 2);
+export const DevicePlatformSchema: GenEnum<DevicePlatform> = /*@__PURE__*/
+  enumDesc(file_com_hearlers_v1_model_user, 2);
 
 /**
  * @generated from enum com.hearlers.v1.model.ActivityType
@@ -437,4 +435,6 @@ export enum ActivityType {
 /**
  * Describes the enum com.hearlers.v1.model.ActivityType.
  */
-export const ActivityTypeSchema: GenEnum<ActivityType> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_user, 3);
+export const ActivityTypeSchema: GenEnum<ActivityType> = /*@__PURE__*/
+  enumDesc(file_com_hearlers_v1_model_user, 3);
+

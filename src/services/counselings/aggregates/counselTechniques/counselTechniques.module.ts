@@ -1,4 +1,4 @@
-import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/CounselTechniques.entity";
+import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/counsels/CounselTechniques.entity";
 import { CreateCounselTechniqueHandler } from "~counselings/aggregates/counselTechniques/applications/commands/CreateCounselTechnique/CreateCounselTechnique.handler";
 import { SaveCounselTechniqueSequenceHandler } from "~counselings/aggregates/counselTechniques/applications/commands/SaveCounselTechniqueSequence/SaveCounselTechniqueSequence.handler";
 import { UpdateCounselTechniqueHandler } from "~counselings/aggregates/counselTechniques/applications/commands/UpdateCounselTechnique/UpdateCounselTechnique.handler";

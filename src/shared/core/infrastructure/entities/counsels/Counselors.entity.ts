@@ -1,6 +1,6 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/CounselorUserRelationships.entity";
-import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/counsels/CounselorUserRelationships.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { PersonaEntity } from "~shared/core/infrastructure/entities/prompts/Personas.entity";
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counsel_pb";

@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { ContextEntity } from "~shared/core/infrastructure/entities/prompts/Contexts.entity";
 import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";

@@ -1,5 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/CounselTechniques.entity";
+import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/counsels/CounselTechniques.entity";
 import { CounselTechniques } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
 import { PsqlCounselTechniquesMapper } from "~counselings/aggregates/counselTechniques/infrastructures/adaptors/mappers/psql.counselTechniques.mapper";
 import {

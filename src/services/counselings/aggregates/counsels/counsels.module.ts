@@ -1,4 +1,4 @@
-import { CounselsEntity } from "~shared/core/infrastructure/entities/Counsels.entity";
+import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { CounselService } from "~counselings/aggregates/counsels/applications/counsel.service";
 import { FindCounselByIdHandler } from "~counselings/aggregates/counsels/applications/queries/FindCounselById/FindCounselById.handler";
 import { FindCounselsHandler } from "~counselings/aggregates/counsels/applications/queries/FindCounsels/FindCounsels.handler";

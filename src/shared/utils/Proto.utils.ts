@@ -1,6 +1,6 @@
 import { fromBinary, Message } from "@bufbuild/protobuf";
 import { GenMessage } from "@bufbuild/protobuf/codegenv1";
-import { existsSync,readdirSync } from "fs";
+import { existsSync, readdirSync } from "fs";
 import { join } from "path";
 
 export const findProtoFiles = (dir: string): string[] => {
@@ -25,7 +25,6 @@ export const findProtoFiles = (dir: string): string[] => {
       }
     }
   }
-  console.log(files);
   return files;
 };
 export function kafkaPayloadToProtoMessage<T extends Message>(payload: string, schema: GenMessage<T>): T {

@@ -4,6 +4,8 @@ import { ReflectionService } from "@grpc/reflection";
 import { INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { GrpcOptions, Transport } from "@nestjs/microservices";
+import * as dotenv from "dotenv";
+dotenv.config({ path: [".env", ".env.dev"] });
 
 export enum ServiceType {
   APP = "APP",
@@ -14,21 +16,21 @@ export enum ServiceType {
 export const serviceConfigs = {
   [ServiceType.APP]: {
     packages: ["com.hearlers.v1.model", "com.hearlers.v1.service", "com.hearlers.v1.common"],
-    port: parseInt(process.env.GRPC_PORT || "50050"),
+    port: parseInt(process.env.GRPC_PORT || "50051"),
     host: process.env.GRPC_HOST || "localhost",
-    protoPath: process.cwd() + process.env.PROTO_PATH || "src/proto",
+    protoPath: process.cwd() + (process.env.PROTO_PATH || "/src/proto"),
   },
   [ServiceType.USERS]: {
     packages: ["com.hearlers.v1.model", "com.hearlers.v1.service", "com.hearlers.v1.common"],
     port: parseInt(process.env.GRPC_PORT || "50051"),
     host: process.env.GRPC_HOST || "localhost",
-    protoPath: process.cwd() + process.env.PROTO_PATH || "src/proto",
+    protoPath: process.cwd() + (process.env.PROTO_PATH || "/src/proto"),
   },
   [ServiceType.COUNSELINGS]: {
     packages: ["com.hearlers.v1.model", "com.hearlers.v1.service", "com.hearlers.v1.common"],
-    port: parseInt(process.env.GRPC_PORT || "50052"),
+    port: parseInt(process.env.GRPC_PORT || "50051"),
     host: process.env.GRPC_HOST || "localhost",
-    protoPath: process.cwd() + process.env.PROTO_PATH || "src/proto",
+    protoPath: process.cwd() + (process.env.PROTO_PATH || "/src/proto"),
   },
 };
 
@@ -41,7 +43,6 @@ export interface GrpcServiceConfig {
 
 export const createGrpcOptions = (serviceName: string, config: GrpcServiceConfig): GrpcOptions => {
   const protoFiles = findProtoFiles(config.protoPath);
-
   return {
     transport: Transport.GRPC,
     options: {
@@ -64,8 +65,6 @@ export async function createMicroservices(
   config: GrpcServiceConfig,
 ): Promise<INestApplication> {
   const app = await NestFactory.create(module);
-  console.log(config);
-  console.log(config.protoPath);
   app.connectMicroservice(createGrpcOptions(serviceName, config), { inheritAppConfig: true });
   app.connectMicroservice({
     transport: Transport.KAFKA,

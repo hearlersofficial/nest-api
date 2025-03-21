@@ -1,11 +1,11 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { PersonaEntity } from "~shared/core/infrastructure/entities/counselors/Personas.entity";
 import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/counsels/CounselorUserRelationships.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
-import { PersonaEntity } from "~shared/core/infrastructure/entities/prompts/Personas.entity";
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
-import { CounselorGender } from "~proto/com/hearlers/v1/model/counsel_pb";
+import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 
 @Entity({
   name: "counselors",
@@ -45,15 +45,16 @@ export class CounselorsEntity extends CoreEntity {
   })
   toneId: string;
 
+  @OneToOne(() => PersonaEntity, (persona) => persona.counselor, {
+    cascade: true,
+  })
+  @JoinColumn({ name: "persona_id" })
+  persona: PersonaEntity;
+
   @OneToMany(() => CounselsEntity, (counsel) => counsel.counselor, {
     cascade: true,
   })
   counsels: CounselsEntity[];
-
-  @OneToMany(() => PersonaEntity, (persona) => persona.counselor, {
-    cascade: true,
-  })
-  personas: PersonaEntity[];
 
   @OneToMany(() => CounselorUserRelationshipsEntity, (counselorUserRelationship) => counselorUserRelationship.counselor, {
     cascade: true,

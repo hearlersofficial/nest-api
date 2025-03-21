@@ -1,7 +1,7 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/counsels/Counselors.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
 
-import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 
 @Entity({
   name: "personas",
@@ -15,7 +15,7 @@ export class PersonaEntity extends CoreEntity {
   })
   body: string;
 
-  @ManyToOne(() => CounselorsEntity, (counselor) => counselor.personas)
+  @OneToOne(() => CounselorsEntity, (counselor) => counselor.persona)
   @JoinColumn({ name: "counselor_id" })
   counselor: CounselorsEntity;
 

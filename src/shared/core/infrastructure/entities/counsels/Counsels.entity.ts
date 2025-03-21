@@ -1,8 +1,8 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
 import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/counsels/CounselMessages.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/counsels/Counselors.entity";
 import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/counsels/CounselorUserRelationships.entity";
-import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/counsels/CounselTechniques.entity";
+import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";

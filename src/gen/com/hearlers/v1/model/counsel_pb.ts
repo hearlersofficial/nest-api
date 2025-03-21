@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/model/counsel.proto.
  */
 export const file_com_hearlers_v1_model_counsel: GenFile = /*@__PURE__*/
-  fileDesc("CiNjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbC5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIoACCgdDb3Vuc2VsEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEhQKDGxhc3RfbWVzc2FnZRgEIAEoCRIWCg5sYXN0X2NoYXRlZF9hdBgFIAEoCRIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgGIAEoCRImCh5jb3Vuc2Vsb3JfdXNlcl9yZWxhdGlvbnNoaXBfaWQYByABKAkSEgoKY3JlYXRlZF9hdBgIIAEoCRISCgp1cGRhdGVkX2F0GAkgASgJEhcKCmRlbGV0ZWRfYXQYCiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKlAgoOQ291bnNlbE1lc3NhZ2USCgoCaWQYASABKAkSEgoKY291bnNlbF9pZBgCIAEoCRIPCgdtZXNzYWdlGAMgASgJEhcKD2lzX3VzZXJfbWVzc2FnZRgEIAEoCBIXCgpyZWFjdGVkX2F0GAUgASgJSACIAQESRAoIcmVhY3Rpb24YBiABKA4yLS5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbE1lc3NhZ2VSZWFjdGlvbkgBiAEBEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRIXCgpkZWxldGVkX2F0GAkgASgJSAKIAQFCDQoLX3JlYWN0ZWRfYXRCCwoJX3JlYWN0aW9uQg0KC19kZWxldGVkX2F0Ip4CCglDb3Vuc2Vsb3ISCgoCaWQYASABKAkSDwoHdG9uZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhMKC2Rlc2NyaXB0aW9uGAQgASgJEjYKBmdlbmRlchgFIAEoDjImLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JHZW5kZXISFQoNaW50cm9fbWVzc2FnZRgGIAEoCRIYChByZXNwb25zZV9vcHRpb24xGAcgASgJEhgKEHJlc3BvbnNlX29wdGlvbjIYCCABKAkSEgoKY3JlYXRlZF9hdBgJIAEoCRISCgp1cGRhdGVkX2F0GAogASgJEhcKCmRlbGV0ZWRfYXQYCyABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCLfAgoQQ291bnNlbFRlY2huaXF1ZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhQKB3RvbmVfaWQYAyABKAlIAIgBARISCgpjb250ZXh0X2lkGAQgASgJEhYKDmluc3RydWN0aW9uX2lkGAUgASgJEk0KF2NvdW5zZWxfdGVjaG5pcXVlX3N0YWdlGAYgASgOMiwuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxUZWNobmlxdWVTdGFnZRImChluZXh0X2NvdW5zZWxfdGVjaG5pcXVlX2lkGAcgASgJSAGIAQESEgoKY3JlYXRlZF9hdBgIIAEoCRISCgp1cGRhdGVkX2F0GAkgASgJEhcKCmRlbGV0ZWRfYXQYCiABKAlIAogBAUIKCghfdG9uZV9pZEIcChpfbmV4dF9jb3Vuc2VsX3RlY2huaXF1ZV9pZEINCgtfZGVsZXRlZF9hdCKvAQoZQ291bnNlbG9yVXNlclJlbGF0aW9uc2hpcBIKCgJpZBgBIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAiABKAkSDwoHdXNlcl9pZBgDIAEoCRIPCgdyYXBwb3J0GAQgASgFEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRIXCgpkZWxldGVkX2F0GAcgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQiiQEKB1BlcnNvbmESCgoCaWQYASABKAkSDAoEYm9keRgCIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKXAQoHQ29udGV4dBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhQKDHBsYWNlaG9sZGVycxgDIAMoCRIMCgRib2R5GAQgASgJEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRIXCgpkZWxldGVkX2F0GAcgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQi7gEKC0luc3RydWN0aW9uEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSHQoQaW5pdGlhbF9zZW50ZW5jZRgDIAEoCUgAiAEBEkEKEWluc3RydWN0aW9uX2l0ZW1zGAQgAygLMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkluc3RydWN0aW9uSXRlbRISCgpjcmVhdGVkX2F0GAUgASgJEhIKCnVwZGF0ZWRfYXQYBiABKAkSFwoKZGVsZXRlZF9hdBgHIAEoCUgBiAEBQhMKEV9pbml0aWFsX3NlbnRlbmNlQg0KC19kZWxldGVkX2F0InsKD0luc3RydWN0aW9uSXRlbRIKCgJpZBgBIAEoCRIMCgRib2R5GAIgASgJEhIKCmNyZWF0ZWRfYXQYAyABKAkSEgoKdXBkYXRlZF9hdBgEIAEoCRIXCgpkZWxldGVkX2F0GAUgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQifgoEVG9uZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEgwKBGJvZHkYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCqLAQoWQ291bnNlbE1lc3NhZ2VSZWFjdGlvbhIoCiRDT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fVU5TUEVDSUZJRUQQABIhCh1DT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fTElLRRABEiQKIENPVU5TRUxfTUVTU0FHRV9SRUFDVElPTl9ESVNMSUtFEAIqhgEKD0NvdW5zZWxvckdlbmRlchIgChxDT1VOU0VMT1JfR0VOREVSX1VOU1BFQ0lGSUVEEAASGQoVQ09VTlNFTE9SX0dFTkRFUl9NQUxFEAESGwoXQ09VTlNFTE9SX0dFTkRFUl9GRU1BTEUQAhIZChVDT1VOU0VMT1JfR0VOREVSX05PTkUQAyqJAQoVQ291bnNlbFRlY2huaXF1ZVN0YWdlEicKI0NPVU5TRUxfVEVDSE5JUVVFX1NUQUdFX1VOU1BFQ0lGSUVEEAASIwofQ09VTlNFTF9URUNITklRVUVfU1RBR0VfSU5JVElBTBABEiIKHkNPVU5TRUxfVEVDSE5JUVVFX1NUQUdFX01JRERMRRACQqEBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQgxDb3Vuc2VsUHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw");
+  fileDesc("CiNjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbC5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIoACCgdDb3Vuc2VsEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEhQKDGxhc3RfbWVzc2FnZRgEIAEoCRIWCg5sYXN0X2NoYXRlZF9hdBgFIAEoCRIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgGIAEoCRImCh5jb3Vuc2Vsb3JfdXNlcl9yZWxhdGlvbnNoaXBfaWQYByABKAkSEgoKY3JlYXRlZF9hdBgIIAEoCRISCgp1cGRhdGVkX2F0GAkgASgJEhcKCmRlbGV0ZWRfYXQYCiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKlAgoOQ291bnNlbE1lc3NhZ2USCgoCaWQYASABKAkSEgoKY291bnNlbF9pZBgCIAEoCRIPCgdtZXNzYWdlGAMgASgJEhcKD2lzX3VzZXJfbWVzc2FnZRgEIAEoCBIXCgpyZWFjdGVkX2F0GAUgASgJSACIAQESRAoIcmVhY3Rpb24YBiABKA4yLS5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbE1lc3NhZ2VSZWFjdGlvbkgBiAEBEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRIXCgpkZWxldGVkX2F0GAkgASgJSAKIAQFCDQoLX3JlYWN0ZWRfYXRCCwoJX3JlYWN0aW9uQg0KC19kZWxldGVkX2F0Iq8BChlDb3Vuc2Vsb3JVc2VyUmVsYXRpb25zaGlwEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEg8KB3JhcHBvcnQYBCABKAUSEgoKY3JlYXRlZF9hdBgFIAEoCRISCgp1cGRhdGVkX2F0GAYgASgJEhcKCmRlbGV0ZWRfYXQYByABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCqLAQoWQ291bnNlbE1lc3NhZ2VSZWFjdGlvbhIoCiRDT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fVU5TUEVDSUZJRUQQABIhCh1DT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fTElLRRABEiQKIENPVU5TRUxfTUVTU0FHRV9SRUFDVElPTl9ESVNMSUtFEAJCoQEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCDENvdW5zZWxQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z");
 
 /**
  * @generated from message com.hearlers.v1.model.Counsel
@@ -52,16 +52,22 @@ export type Counsel = Message<"com.hearlers.v1.model.Counsel"> & {
   counselorUserRelationshipId: string;
 
   /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
    * @generated from field: string created_at = 8;
    */
   createdAt: string;
 
   /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
    * @generated from field: string updated_at = 9;
    */
   updatedAt: string;
 
   /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
    * @generated from field: optional string deleted_at = 10;
    */
   deletedAt?: string;
@@ -140,147 +146,6 @@ export const CounselMessageSchema: GenMessage<CounselMessage> = /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_model_counsel, 1);
 
 /**
- * @generated from message com.hearlers.v1.model.Counselor
- */
-export type Counselor = Message<"com.hearlers.v1.model.Counselor"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string tone_id = 2;
-   */
-  toneId: string;
-
-  /**
-   * @generated from field: string name = 3;
-   */
-  name: string;
-
-  /**
-   * @generated from field: string description = 4;
-   */
-  description: string;
-
-  /**
-   * @generated from field: com.hearlers.v1.model.CounselorGender gender = 5;
-   */
-  gender: CounselorGender;
-
-  /**
-   * @generated from field: string intro_message = 6;
-   */
-  introMessage: string;
-
-  /**
-   * @generated from field: string response_option1 = 7;
-   */
-  responseOption1: string;
-
-  /**
-   * @generated from field: string response_option2 = 8;
-   */
-  responseOption2: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 9;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 10;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 11;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.Counselor.
- * Use `create(CounselorSchema)` to create a new message.
- */
-export const CounselorSchema: GenMessage<Counselor> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel, 2);
-
-/**
- * @generated from message com.hearlers.v1.model.CounselTechnique
- */
-export type CounselTechnique = Message<"com.hearlers.v1.model.CounselTechnique"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string name = 2;
-   */
-  name: string;
-
-  /**
-   * @generated from field: optional string tone_id = 3;
-   */
-  toneId?: string;
-
-  /**
-   * @generated from field: string context_id = 4;
-   */
-  contextId: string;
-
-  /**
-   * @generated from field: string instruction_id = 5;
-   */
-  instructionId: string;
-
-  /**
-   * @generated from field: com.hearlers.v1.model.CounselTechniqueStage counsel_technique_stage = 6;
-   */
-  counselTechniqueStage: CounselTechniqueStage;
-
-  /**
-   * @generated from field: optional string next_counsel_technique_id = 7;
-   */
-  nextCounselTechniqueId?: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 8;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 9;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 10;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.CounselTechnique.
- * Use `create(CounselTechniqueSchema)` to create a new message.
- */
-export const CounselTechniqueSchema: GenMessage<CounselTechnique> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel, 3);
-
-/**
  * @generated from message com.hearlers.v1.model.CounselorUserRelationship
  */
 export type CounselorUserRelationship = Message<"com.hearlers.v1.model.CounselorUserRelationship"> & {
@@ -331,252 +196,7 @@ export type CounselorUserRelationship = Message<"com.hearlers.v1.model.Counselor
  * Use `create(CounselorUserRelationshipSchema)` to create a new message.
  */
 export const CounselorUserRelationshipSchema: GenMessage<CounselorUserRelationship> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel, 4);
-
-/**
- * @generated from message com.hearlers.v1.model.Persona
- */
-export type Persona = Message<"com.hearlers.v1.model.Persona"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string body = 2;
-   */
-  body: string;
-
-  /**
-   * @generated from field: string counselor_id = 3;
-   */
-  counselorId: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 4;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 5;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 6;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.Persona.
- * Use `create(PersonaSchema)` to create a new message.
- */
-export const PersonaSchema: GenMessage<Persona> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel, 5);
-
-/**
- * @generated from message com.hearlers.v1.model.Context
- */
-export type Context = Message<"com.hearlers.v1.model.Context"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string name = 2;
-   */
-  name: string;
-
-  /**
-   * @generated from field: repeated string placeholders = 3;
-   */
-  placeholders: string[];
-
-  /**
-   * @generated from field: string body = 4;
-   */
-  body: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 5;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 6;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 7;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.Context.
- * Use `create(ContextSchema)` to create a new message.
- */
-export const ContextSchema: GenMessage<Context> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel, 6);
-
-/**
- * @generated from message com.hearlers.v1.model.Instruction
- */
-export type Instruction = Message<"com.hearlers.v1.model.Instruction"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string name = 2;
-   */
-  name: string;
-
-  /**
-   * @generated from field: optional string initial_sentence = 3;
-   */
-  initialSentence?: string;
-
-  /**
-   * @generated from field: repeated com.hearlers.v1.model.InstructionItem instruction_items = 4;
-   */
-  instructionItems: InstructionItem[];
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 5;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 6;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 7;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.Instruction.
- * Use `create(InstructionSchema)` to create a new message.
- */
-export const InstructionSchema: GenMessage<Instruction> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel, 7);
-
-/**
- * @generated from message com.hearlers.v1.model.InstructionItem
- */
-export type InstructionItem = Message<"com.hearlers.v1.model.InstructionItem"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string body = 2;
-   */
-  body: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 3;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 4;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 5;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.InstructionItem.
- * Use `create(InstructionItemSchema)` to create a new message.
- */
-export const InstructionItemSchema: GenMessage<InstructionItem> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel, 8);
-
-/**
- * @generated from message com.hearlers.v1.model.Tone
- */
-export type Tone = Message<"com.hearlers.v1.model.Tone"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string name = 2;
-   */
-  name: string;
-
-  /**
-   * @generated from field: string body = 3;
-   */
-  body: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 4;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 5;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 6;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.Tone.
- * Use `create(ToneSchema)` to create a new message.
- */
-export const ToneSchema: GenMessage<Tone> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel, 9);
+  messageDesc(file_com_hearlers_v1_model_counsel, 2);
 
 /**
  * @generated from enum com.hearlers.v1.model.CounselMessageReaction
@@ -603,63 +223,4 @@ export enum CounselMessageReaction {
  */
 export const CounselMessageReactionSchema: GenEnum<CounselMessageReaction> = /*@__PURE__*/
   enumDesc(file_com_hearlers_v1_model_counsel, 0);
-
-/**
- * @generated from enum com.hearlers.v1.model.CounselorGender
- */
-export enum CounselorGender {
-  /**
-   * @generated from enum value: COUNSELOR_GENDER_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * @generated from enum value: COUNSELOR_GENDER_MALE = 1;
-   */
-  MALE = 1,
-
-  /**
-   * @generated from enum value: COUNSELOR_GENDER_FEMALE = 2;
-   */
-  FEMALE = 2,
-
-  /**
-   * @generated from enum value: COUNSELOR_GENDER_NONE = 3;
-   */
-  NONE = 3,
-}
-
-/**
- * Describes the enum com.hearlers.v1.model.CounselorGender.
- */
-export const CounselorGenderSchema: GenEnum<CounselorGender> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_counsel, 1);
-
-/**
- * @generated from enum com.hearlers.v1.model.CounselTechniqueStage
- */
-export enum CounselTechniqueStage {
-  /**
-   * @generated from enum value: COUNSEL_TECHNIQUE_STAGE_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * @generated from enum value: COUNSEL_TECHNIQUE_STAGE_INITIAL = 1;
-   */
-  INITIAL = 1,
-
-  /**
-   * COUNSEL_TECHNIQUE_STAGE_END = 3;
-   *
-   * @generated from enum value: COUNSEL_TECHNIQUE_STAGE_MIDDLE = 2;
-   */
-  MIDDLE = 2,
-}
-
-/**
- * Describes the enum com.hearlers.v1.model.CounselTechniqueStage.
- */
-export const CounselTechniqueStageSchema: GenEnum<CounselTechniqueStage> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_counsel, 2);
 

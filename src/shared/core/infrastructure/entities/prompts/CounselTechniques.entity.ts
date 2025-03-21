@@ -3,7 +3,6 @@ import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Co
 import { ContextEntity } from "~shared/core/infrastructure/entities/prompts/Contexts.entity";
 import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
-import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 
@@ -16,18 +15,17 @@ export class CounselTechniquesEntity extends CoreEntity {
   })
   name: string;
 
-  @ManyToOne(() => ToneEntity, (tone) => tone.counselTechniques, { nullable: true })
+  @ManyToOne(() => ToneEntity, (tone) => tone.counselTechniques)
   @JoinColumn({ name: "tone_id" })
-  tone: ToneEntity | null;
+  tone: ToneEntity;
 
   @RelationId((technique: CounselTechniquesEntity) => technique.tone)
   @Column({
     type: "bigint",
     name: "tone_id",
     comment: "톤 ID",
-    nullable: true,
   })
-  toneId: string | null;
+  toneId: string;
 
   @ManyToOne(() => ContextEntity, (context) => context.counselTechniques)
   @JoinColumn({ name: "context_id" })
@@ -52,14 +50,6 @@ export class CounselTechniquesEntity extends CoreEntity {
     comment: "지시사항 ID",
   })
   instructionId: string;
-
-  @Column({
-    type: "enum",
-    name: "counsel_technique_stage",
-    enum: CounselTechniqueStage,
-    comment: "상담 기법 단계",
-  })
-  counselTechniqueStage: CounselTechniqueStage;
 
   // 이전 노드를 가리키는 관계
   @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, { nullable: true })

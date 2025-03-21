@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/counsels/Counselors.entity";
+import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 

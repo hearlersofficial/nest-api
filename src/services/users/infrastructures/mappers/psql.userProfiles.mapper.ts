@@ -1,9 +1,10 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
 
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlUserProfilesMapper {
@@ -31,7 +32,7 @@ export class PsqlUserProfilesMapper {
     );
 
     if (userProfilesOrError.isFailure) {
-      throw new InternalServerErrorException(userProfilesOrError.errorValue);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, userProfilesOrError.errorValue);
     }
 
     return userProfilesOrError.value;

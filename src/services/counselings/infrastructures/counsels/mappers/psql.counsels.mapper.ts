@@ -1,8 +1,9 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/counsels";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlCounselsMapper {
@@ -25,7 +26,7 @@ export class PsqlCounselsMapper {
     const counselsOrError = Counsels.create(counselProps, new UniqueEntityId(entity.id));
 
     if (counselsOrError.isFailure) {
-      throw new InternalServerErrorException(counselsOrError.errorValue);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselsOrError.errorValue);
     }
 
     return counselsOrError.value;

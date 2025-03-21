@@ -2,11 +2,12 @@ import { CoreStatus } from "~shared/core/constants/status.constants";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { AuthUsers, AuthUsersProps } from "~users/domains/auth-users/models/auth-users";
 import { PsqlKakaoMapper } from "~users/infrastructures/mappers/psql.kakao.mapper";
 import { PsqlRefreshTokensMapper } from "~users/infrastructures/mappers/psql.refreshTokens.mapper";
 
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlAuthUsersMapper {
@@ -29,7 +30,7 @@ export class PsqlAuthUsersMapper {
     };
     const authUserOrError: Result<AuthUsers> = AuthUsers.create(authUsersProps, new UniqueEntityId(entity.id));
     if (authUserOrError.isFailure) {
-      throw new InternalServerErrorException(authUserOrError.errorValue);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, authUserOrError.errorValue);
     }
     return authUserOrError.value;
   }

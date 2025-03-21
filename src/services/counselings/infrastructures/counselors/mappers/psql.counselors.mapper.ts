@@ -1,9 +1,10 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { Counselors, CounselorsProps } from "~counselings/domains/counselors/models/counselors";
 import { PsqlPersonasMapper } from "~counselings/infrastructures/counselors/mappers/psql.persona.mapper";
 
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlCounselorsMapper {
@@ -14,7 +15,7 @@ export class PsqlCounselorsMapper {
 
     const persona = PsqlPersonasMapper.toDomain(entity.persona);
     if (!persona) {
-      throw new InternalServerErrorException("Persona is not joined");
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Persona is not joined");
     }
 
     const counselorProps: CounselorsProps = {
@@ -30,7 +31,7 @@ export class PsqlCounselorsMapper {
     const counselorsOrError = Counselors.create(counselorProps, new UniqueEntityId(entity.id));
 
     if (counselorsOrError.isFailure) {
-      throw new InternalServerErrorException(counselorsOrError.errorValue);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselorsOrError.errorValue);
     }
 
     return counselorsOrError.value;

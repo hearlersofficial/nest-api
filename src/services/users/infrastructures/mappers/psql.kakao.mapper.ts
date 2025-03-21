@@ -1,9 +1,10 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { KakaoEntity } from "~shared/core/infrastructure/entities/users/Kakao.entity";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { Kakao } from "~users/domains/auth-users/models/kakao";
 
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlKakaoMapper {
@@ -23,7 +24,7 @@ export class PsqlKakaoMapper {
     const kakaoOrError: Result<Kakao> = Kakao.create(kakaoProps, new UniqueEntityId(entity.id));
 
     if (kakaoOrError.isFailure) {
-      throw new InternalServerErrorException(kakaoOrError.errorValue);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, kakaoOrError.errorValue);
     }
 
     return kakaoOrError.value;

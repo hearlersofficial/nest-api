@@ -1,14 +1,16 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { RefreshTokenEntity } from "~shared/core/infrastructure/entities/users/RefreshTokens.entity";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { RefreshTokensVO } from "~users/domains/auth-users/models/refresh-tokens.vo";
 
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
+
 export class PsqlRefreshTokensMapper {
   static toVO(entity: RefreshTokenEntity): RefreshTokensVO {
     if (!entity) {
-      throw new InternalServerErrorException("refresh token entity is null");
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "refresh token entity is null");
     }
     const refreshTokenOrError: Result<RefreshTokensVO> = RefreshTokensVO.create({
       token: entity.token,
@@ -17,7 +19,7 @@ export class PsqlRefreshTokensMapper {
       updatedAt: dayjs(entity.updatedAt),
     });
     if (refreshTokenOrError.isFailure) {
-      throw new InternalServerErrorException(refreshTokenOrError.errorValue);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, refreshTokenOrError.errorValue);
     }
     return refreshTokenOrError.value;
   }

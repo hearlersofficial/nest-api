@@ -1,13 +1,14 @@
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { UserMessageTokens } from "~users/domains/users/models/user-message-tokens";
 import { Users, UsersProps } from "~users/domains/users/models/users";
 import { PsqlUserMessageTokensMapper } from "~users/infrastructures/mappers/psql.userMessageTokens.mapper";
 import { PsqlUserProfilesMapper } from "~users/infrastructures/mappers/psql.userProfiles.mapper";
 
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlUsersMapper {
@@ -19,7 +20,10 @@ export class PsqlUsersMapper {
     const userProfile: UserProfiles | null = PsqlUserProfilesMapper.toDomain(entity.userProfiles);
     const userMessageToken: UserMessageTokens | null = PsqlUserMessageTokensMapper.toDomain(entity.userMessageTokens);
     if (!userProfile || !userMessageToken) {
-      throw new InternalServerErrorException("User profile or user message token is not joined");
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        "User profile or user message token is not joined",
+      );
     }
 
     const userProps: UsersProps = {
@@ -33,7 +37,7 @@ export class PsqlUsersMapper {
     const usersOrError: Result<Users> = Users.create(userProps, new UniqueEntityId(entity.id));
 
     if (usersOrError.isFailure) {
-      throw new InternalServerErrorException(usersOrError.errorValue);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, usersOrError.errorValue);
     }
 
     return usersOrError.value;

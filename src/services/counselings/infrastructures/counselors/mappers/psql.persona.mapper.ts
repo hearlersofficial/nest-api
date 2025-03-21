@@ -1,8 +1,8 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PersonaEntity } from "~shared/core/infrastructure/entities/counselors/Personas.entity";
 import { Personas, PersonasProps } from "~counselings/domains/counselors/models/personas";
-
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlPersonasMapper {
@@ -21,7 +21,7 @@ export class PsqlPersonasMapper {
     const personasOrError = Personas.create(personaProps, new UniqueEntityId(entity.id));
 
     if (personasOrError.isFailure) {
-      throw new InternalServerErrorException(personasOrError.errorValue);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, personasOrError.errorValue);
     }
 
     return personasOrError.value;

@@ -1,21 +1,16 @@
-import { RpcExceptionCode } from "~shared/enums/RpcExceptionCode.enum";
 import { CustomRpcException, HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 
-import { ArgumentsHost, Catch, HttpStatus,Logger } from "@nestjs/common";
+import { status } from "@grpc/grpc-js";
+import { ArgumentsHost, Catch, HttpStatus, Logger } from "@nestjs/common";
 import { BaseRpcExceptionFilter, RpcException } from "@nestjs/microservices";
-
 @Catch()
 export class AllExceptionFilter extends BaseRpcExceptionFilter {
   private readonly logger = new Logger(AllExceptionFilter.name);
 
   catch(exception: any, host: ArgumentsHost) {
     if (exception instanceof CustomRpcException) {
-      const errorProto = exception.getErrorProto();
       this.logger.error(
-        `status: ${errorProto.status} ${HttpStatus[errorProto.status]} | code: ${errorProto.code} ${
-          RpcExceptionCode[errorProto.code]
-        } | ${errorProto.details}
-${exception.stack}`,
+        `code: ${Object.keys(status)[exception.getError().code]} | message: ${exception.getError().message}`,
       );
     } else if (exception instanceof RpcException) {
       this.logger.error(`${exception.stack}`);

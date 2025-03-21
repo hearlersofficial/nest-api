@@ -1,8 +1,12 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
-import { CounselTechniques, CounselTechniquesProps } from "~counselings/domains/counselTechniques/models/counselTechniques";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import {
+  CounselTechniques,
+  CounselTechniquesProps,
+} from "~counselings/domains/counselTechniques/models/counselTechniques";
 
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlCounselTechniquesMapper {
@@ -26,7 +30,7 @@ export class PsqlCounselTechniquesMapper {
     const counselTechniquesOrError = CounselTechniques.create(counselTechniqueProps, new UniqueEntityId(entity.id));
 
     if (counselTechniquesOrError.isFailure) {
-      throw new InternalServerErrorException(counselTechniquesOrError.errorValue);
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselTechniquesOrError.errorValue);
     }
 
     return counselTechniquesOrError.value;

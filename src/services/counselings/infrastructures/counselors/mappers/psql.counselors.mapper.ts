@@ -1,7 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
 import { Counselors, CounselorsProps } from "~counselings/domains/counselors/models/counselors";
-import { PsqlPersonasMapper } from "~counselings/infrastructures/mappers/psql.persona.mapper";
+import { PsqlPersonasMapper } from "~counselings/infrastructures/counselors/mappers/psql.persona.mapper";
 
 import { InternalServerErrorException } from "@nestjs/common";
 import dayjs from "dayjs";

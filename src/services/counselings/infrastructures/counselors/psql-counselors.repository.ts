@@ -1,8 +1,8 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
-import { CounselorsRepository } from "~counselings/infrastructures/counselors.repository";
-import { PsqlCounselorsMapper } from "~counselings/infrastructures/mappers/psql.counselors.mapper";
+import { CounselorsRepository } from "~counselings/infrastructures/counselors/counselors.repository";
+import { PsqlCounselorsMapper } from "~counselings/infrastructures/counselors/mappers/psql.counselors.mapper";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";

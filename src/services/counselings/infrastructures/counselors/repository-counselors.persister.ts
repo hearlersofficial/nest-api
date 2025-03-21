@@ -1,7 +1,7 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselorsPersister } from "~counselings/domains/counselors/counselors.persister";
 import { Counselors, CounselorsNewProps } from "~counselings/domains/counselors/models/counselors";
-import { CounselorsRepository } from "~counselings/infrastructures/counselors.repository";
+import { CounselorsRepository } from "~counselings/infrastructures/counselors/counselors.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 

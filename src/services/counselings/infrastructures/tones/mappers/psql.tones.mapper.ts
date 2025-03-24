@@ -1,12 +1,12 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
-import { Tones, TonesProps } from "~counselings/aggregates/tones/domain/tones";
+import { Tones, TonesProps } from "~counselings/domains/tones/models/tones";
 
 import { InternalServerErrorException } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlTonesMapper {
-  public static toDomain(entity: ToneEntity): Tones | null {
+  static toDomain(entity: ToneEntity): Tones | null {
     if (!entity) {
       return null;
     }
@@ -27,7 +27,14 @@ export class PsqlTonesMapper {
     return tonesOrError.value;
   }
 
-  public static toEntity(tones: Tones): ToneEntity {
+  static toDomains(entities: ToneEntity[]): Tones[] {
+    if (entities.length === 0) {
+      return [];
+    }
+    return entities.map((entity) => this.toDomain(entity)).filter((tone) => tone !== null);
+  }
+
+  static toEntity(tones: Tones): ToneEntity {
     const entity = new ToneEntity();
 
     entity.id = tones.id.getString();
@@ -38,5 +45,13 @@ export class PsqlTonesMapper {
     entity.deletedAt = tones.deletedAt ? tones.deletedAt.toISOString() : null;
 
     return entity;
+  }
+
+  static toEntities(tones: Tones[]): ToneEntity[] {
+    if (tones.length === 0) {
+      return [];
+    }
+
+    return tones.map((tone) => this.toEntity(tone));
   }
 }

@@ -1,11 +1,11 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ContextEntity } from "~shared/core/infrastructure/entities/prompts/Contexts.entity";
-import { Contexts, ContextsProps } from "~counselings/aggregates/contexts/domain/contexts";
+import { Contexts, ContextsProps } from "~counselings/domains/contexts/models/contexts";
 
 import { InternalServerErrorException } from "@nestjs/common";
 import dayjs from "dayjs";
 
-export class PsqlContextMapper {
+export class PsqlContextsMapper {
   static toDomain(entity: ContextEntity): Contexts | null {
     if (!entity) {
       return null;
@@ -28,6 +28,13 @@ export class PsqlContextMapper {
     return contextsOrError.value;
   }
 
+  static toDomains(entities: ContextEntity[]): Contexts[] {
+    if (entities.length === 0) {
+      return [];
+    }
+    return entities.map((entity) => this.toDomain(entity)).filter((context) => context !== null);
+  }
+
   static toEntity(contexts: Contexts): ContextEntity {
     const entity = new ContextEntity();
 
@@ -41,5 +48,13 @@ export class PsqlContextMapper {
     entity.deletedAt = contexts.deletedAt ? contexts.deletedAt.toISOString() : null;
 
     return entity;
+  }
+
+  static toEntities(contexts: Contexts[]): ContextEntity[] {
+    if (contexts.length === 0) {
+      return [];
+    }
+
+    return contexts.map((context) => this.toEntity(context));
   }
 }

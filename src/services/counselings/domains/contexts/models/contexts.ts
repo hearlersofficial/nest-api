@@ -66,7 +66,6 @@ export class Contexts extends AggregateRoot<ContextsProps> {
   }
 
   // Getters
-
   get name(): string {
     return this.props.name;
   }

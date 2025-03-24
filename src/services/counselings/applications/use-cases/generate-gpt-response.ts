@@ -1,14 +1,11 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { GenerateGptResponseUseCaseRequest } from "~counselings/applications/useCases/GenerateGptResponseUseCase/dto/GenerateGptResponse.request";
-import { GenerateGptResponseUseCaseResponse } from "~counselings/applications/useCases/GenerateGptResponseUseCase/dto/GenerateGptResponse.response";
+import { GenerateGptResponseUseCaseRequest, GenerateGptResponseUseCaseResponse } from "~counselings/applications/use-cases/dtos/generate-gpt-response.dto";
 
 import { Injectable } from "@nestjs/common";
 import OpenAI from "openai";
 
 @Injectable()
-export class GenerateGptResponseUseCase
-  implements UseCase<GenerateGptResponseUseCaseRequest, GenerateGptResponseUseCaseResponse>
-{
+export class GenerateGptResponseUseCase implements UseCase<GenerateGptResponseUseCaseRequest, GenerateGptResponseUseCaseResponse> {
   private openai: OpenAI;
 
   constructor() {

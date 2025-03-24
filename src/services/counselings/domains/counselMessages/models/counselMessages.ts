@@ -2,7 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
-import { CounselMessageCreatedEvent } from "~counselings/aggregates/counselMessages/domain/events/CounselMessageCreatedEvents";
+import { CounselMessageCreatedEvent } from "~counselings/domains/counselMessages/events/counselMessage-created.event";
 import { CounselMessageCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
@@ -81,7 +81,7 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
 
     // counselTechniqueId 검증
     if (this.props.counselTechniqueId === null || this.props.counselTechniqueId === undefined) {
-      return Result.fail<void>("[CounselMessages] 상담 기법법 ID는 필수입니다");
+      return Result.fail<void>("[CounselMessages] 상담 기법 ID는 필수입니다");
     }
 
     // message 검증
@@ -164,15 +164,6 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
       role: this.props.isUserMessage ? "user" : "assistant",
       content: this.props.message,
     };
-  }
-
-  public checkExtreme(): boolean {
-    return this.props.message.includes("왜 사는지");
-  }
-
-  public checkNeedBranch(): boolean {
-    const end_msg = "같이 더 이야기해보자.";
-    return this.props.message.includes(end_msg);
   }
 
   public react(reaction: CounselMessageReaction): Result<void> {

@@ -2,7 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
-import { CounselMessages } from "~counselings/aggregates/counselMessages/domain/CounselMessages";
+import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
 import { CounselCreatedEvent } from "~counselings/domains/counsels/events/counsel-created.event";
 import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
 

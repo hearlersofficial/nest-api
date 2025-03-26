@@ -2,7 +2,7 @@ import { InstructionItemEntity } from "~shared/core/infrastructure/entities/prom
 import { isDefined } from "~shared/utils/Validate.utils";
 import { InstructionItemsCriteriaFindMany } from "~counselings/domains/instructionItems/instructionItems.criteria";
 
-import { FindManyOptions, FindOptionsWhere, ILike } from "typeorm";
+import { FindManyOptions, FindOptionsWhere, ILike, In } from "typeorm";
 
 export class RepositoryInstructionItemCriteriaMapper {
   static toFindManyOptions(criteria: InstructionItemsCriteriaFindMany): FindManyOptions<InstructionItemEntity> {
@@ -10,6 +10,9 @@ export class RepositoryInstructionItemCriteriaMapper {
 
     if (isDefined(criteria.keyword)) {
       where.body = ILike(`%${criteria.keyword}%`);
+    }
+    if (isDefined(criteria.ids)) {
+      where.id = In(criteria.ids.map((id) => id.getString()));
     }
 
     return { where };

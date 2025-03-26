@@ -1,6 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { InstructionMapEntity } from "~shared/core/infrastructure/entities/prompts/InstructionMaps.entity";
-import { InstructionMaps, InstructionMapsProps } from "~counselings/aggregates/instructions/domain/instructionMaps";
+import { InstructionMaps, InstructionMapsProps } from "~counselings/domains/instructions/models/instructionMaps";
 
 import { InternalServerErrorException } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -28,6 +28,13 @@ export class PsqlInstructionMapsMapper {
     return instructionMapsOrError.value;
   }
 
+  static toDomains(entities: InstructionMapEntity[]): InstructionMaps[] {
+    if (entities.length === 0) {
+      return [];
+    }
+    return entities.map((entity) => this.toDomain(entity)).filter((instructionMaps) => instructionMaps !== null);
+  }
+
   static toEntity(instructionMaps: InstructionMaps): InstructionMapEntity {
     const entity = new InstructionMapEntity();
 
@@ -44,5 +51,13 @@ export class PsqlInstructionMapsMapper {
     entity.deletedAt = instructionMaps.deletedAt ? instructionMaps.deletedAt.toISOString() : null;
 
     return entity;
+  }
+
+  static toEntities(instructionMaps: InstructionMaps[]): InstructionMapEntity[] {
+    if (instructionMaps.length === 0) {
+      return [];
+    }
+
+    return instructionMaps.map((instructionMap) => this.toEntity(instructionMap));
   }
 }

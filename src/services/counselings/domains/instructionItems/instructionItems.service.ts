@@ -32,6 +32,17 @@ export class InstructionItemsService {
   }
 
   async findMany(props: InstructionItemsCriteriaFindMany): Promise<InstructionItems[]> {
-    return this.instructionItemsReader.findMany(props);
+    const instructionItems = await this.instructionItemsReader.findMany(props);
+    if (props.ids !== undefined) {
+      if (instructionItems.length !== props.ids.length) {
+        throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Instruction items not found");
+      }
+      // ids 순서대로 정렬
+      const indexMap = new Map(props.ids.map((id, index) => [id.getString(), index]));
+      instructionItems.sort(
+        (a, b) => (indexMap.get(a.id.getString()) ?? Number.MAX_SAFE_INTEGER) - (indexMap.get(b.id.getString()) ?? Number.MAX_SAFE_INTEGER),
+      );
+    }
+    return instructionItems;
   }
 }

@@ -1,7 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
-import { Instructions, InstructionsProps } from "~counselings/aggregates/instructions/domain/instructions";
-import { PsqlInstructionMapsMapper } from "~counselings/aggregates/instructions/infrastructures/adaptors/mappers/psql.instructionMaps.mapper";
+import { Instructions, InstructionsProps } from "~counselings/domains/instructions/models/instructions";
+import { PsqlInstructionMapsMapper } from "~counselings/infrastructures/instructions/mappers/psql.instructionMaps.mapper";
 
 import { InternalServerErrorException } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -32,6 +32,13 @@ export class PsqlInstructionsMapper {
     return instructionsOrError.value;
   }
 
+  static toDomains(entities: InstructionEntity[]): Instructions[] {
+    if (entities.length === 0) {
+      return [];
+    }
+    return entities.map((entity) => this.toDomain(entity)).filter((instructions) => instructions !== null);
+  }
+
   static toEntity(instructions: Instructions): InstructionEntity {
     const entity = new InstructionEntity();
 
@@ -41,14 +48,20 @@ export class PsqlInstructionsMapper {
 
     entity.name = instructions.name;
     entity.initialSentence = instructions.initialSentence ?? null;
-    entity.instructionMaps = instructions.instructionMaps.map((instructionMap) =>
-      PsqlInstructionMapsMapper.toEntity(instructionMap),
-    );
+    entity.instructionMaps = instructions.instructionMaps.map((instructionMap) => PsqlInstructionMapsMapper.toEntity(instructionMap));
 
     entity.createdAt = instructions.createdAt.toISOString();
     entity.updatedAt = instructions.updatedAt.toISOString();
     entity.deletedAt = instructions.deletedAt ? instructions.deletedAt.toISOString() : null;
 
     return entity;
+  }
+
+  static toEntities(instructions: Instructions[]): InstructionEntity[] {
+    if (instructions.length === 0) {
+      return [];
+    }
+
+    return instructions.map((instruction) => this.toEntity(instruction));
   }
 }

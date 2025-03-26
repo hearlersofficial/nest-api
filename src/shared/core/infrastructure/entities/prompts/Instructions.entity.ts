@@ -22,7 +22,9 @@ export class InstructionEntity extends CoreEntity {
   })
   initialSentence: string | null;
 
-  @OneToMany(() => InstructionMapEntity, (instructionMap) => instructionMap.instruction)
+  @OneToMany(() => InstructionMapEntity, (instructionMap) => instructionMap.instruction, {
+    cascade: true,
+  })
   instructionMaps: InstructionMapEntity[];
 
   @OneToMany(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.instruction)

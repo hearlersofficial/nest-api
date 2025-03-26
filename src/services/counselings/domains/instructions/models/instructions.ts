@@ -3,8 +3,8 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { isDefined } from "~shared/utils/Validate.utils";
-import { InstructionItems } from "~counselings/aggregates/instructionItems/domain/instructionItems";
-import { InstructionMaps } from "~counselings/aggregates/instructions/domain/instructionMaps";
+import { InstructionItems } from "~counselings/domains/instructionItems/models/instructionItems";
+import { InstructionMaps } from "~counselings/domains/instructions/models/instructionMaps";
 
 import { Dayjs } from "dayjs";
 

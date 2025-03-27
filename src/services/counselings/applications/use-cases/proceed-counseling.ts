@@ -109,7 +109,10 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     });
 
     // 상담 업데이트
-    counsel.saveLastMessage(createdSystemMessage);
+    const saveLastMessageResult = counsel.saveLastMessage(createdSystemMessage);
+    if (saveLastMessageResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, saveLastMessageResult.error as string);
+    }
     await this.counselService.update(counsel);
 
     return {

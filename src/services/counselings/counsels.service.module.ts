@@ -1,25 +1,26 @@
 import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~shared/core/infrastructure/Config";
 import { AllExceptionFilter } from "~shared/filters/GrpcExceptionFilter";
 import { LoggingInterceptor } from "~shared/interceptors/LoggingInterceptor";
-import { ContextsModule } from "~counselings/aggregates/contexts/contexts.module";
-import { CounselMessagesModule } from "~counselings/aggregates/counselMessages/counselMessages.module";
-import { CounselorsModule } from "~counselings/aggregates/counselors/counselors.module";
-import { CounselsModule } from "~counselings/aggregates/counsels/counsels.module";
-import { CounselTechniquesModule } from "~counselings/aggregates/counselTechniques/counselTechniques.module";
-import { InstructionItemsModule } from "~counselings/aggregates/instructionItems/instructionItems.module";
-import { InstructionsModule } from "~counselings/aggregates/instructions/instructions.module";
-import { PersonasModule } from "~counselings/aggregates/personas/personas.module";
-import { TonesModule } from "~counselings/aggregates/tones/tones.module";
-import { CreateCounselHandler } from "~counselings/applications/commands/CreateCounsel/CreateCounsel.handler";
-import { CreateInstructionHandler } from "~counselings/applications/commands/CreateInstruction/CreateInstruction.handler";
-import { CreateMessageHandler } from "~counselings/applications/commands/CreateMessage/CreateMessage.handler";
-import { UpdateInstructionHandler } from "~counselings/applications/commands/UpdateInstruction/UpdateInstruction.handler";
-import { FindInstructionByIdHandler } from "~counselings/applications/queries/FindInstructionById/FindInstructionById.handler";
-import { FindInstructionsHandler } from "~counselings/applications/queries/FindInstructions/FindInstructions.handler";
-import { GenerateGptResponseUseCase } from "~counselings/applications/useCases/GenerateGptResponseUseCase/GenerateGptResponseUseCase";
-import { MakeSystemPromptUseCase } from "~counselings/applications/useCases/MakeSystemPromptUseCase/MakeSystemPromptUseCase";
-import { ProceedCounselingUseCase } from "~counselings/applications/useCases/ProceedCounselingUseCase/ProceedCounselingUseCase";
-import { TransitionCounselTechniqueUseCase } from "~counselings/applications/useCases/TransitionCounselTechniqueUseCase/TransitionCounselTechniqueUseCase";
+import { ContextsFacade } from "~counselings/applications/contexts.facade";
+import { CounselMessagesFacade } from "~counselings/applications/counselMessages.facade";
+import { CounselorsFacade } from "~counselings/applications/counselors.facade";
+import { CounselsFacade } from "~counselings/applications/counsels.facade";
+import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
+import { InstructionItemsFacade } from "~counselings/applications/instructionItems.facade";
+import { InstructionsFacade } from "~counselings/applications/instructions.facade";
+import { TonesFacade } from "~counselings/applications/tones.facade";
+import { GenerateGptResponseUseCase } from "~counselings/applications/use-cases/generate-gpt-response";
+import { MakeSystemPromptUseCase } from "~counselings/applications/use-cases/make-system-prompt";
+import { ProceedCounselingUseCase } from "~counselings/applications/use-cases/proceed-counseling";
+import { TransitionCounselTechniqueUseCase } from "~counselings/applications/use-cases/transition-counselTechique";
+import { ContextsModule } from "~counselings/domains/contexts/contexts.module";
+import { CounselMessagesModule } from "~counselings/domains/counselMessages/counselMessages.module";
+import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
+import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
+import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
+import { InstructionItemsModule } from "~counselings/domains/instructionItems/instructionItems.module";
+import { InstructionsModule } from "~counselings/domains/instructions/instructions.module";
+import { TonesModule } from "~counselings/domains/tones/tones.module";
 import { GrpcCounselCommandController } from "~counselings/presentations/grpc/command/counsels.command.controller";
 import { GrpcCounselQueryController } from "~counselings/presentations/grpc/query/counsels.query.controller";
 
@@ -35,12 +36,12 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     CounselsModule,
     CounselMessagesModule,
     CounselorsModule,
-    PersonasModule,
     ContextsModule,
     InstructionsModule,
     InstructionItemsModule,
     TonesModule,
     CounselTechniquesModule,
+
     CqrsModule,
     ConfigModule.forRoot({
       envFilePath: [".env", ".env.dev"],
@@ -53,16 +54,20 @@ import { TypeOrmModule } from "@nestjs/typeorm";
   ],
   controllers: [GrpcCounselCommandController, GrpcCounselQueryController],
   providers: [
-    GenerateGptResponseUseCase,
-    MakeSystemPromptUseCase,
-    ProceedCounselingUseCase,
+    CounselsFacade,
+    CounselMessagesFacade,
+    CounselorsFacade,
+    ContextsFacade,
+    InstructionsFacade,
+    InstructionItemsFacade,
+    TonesFacade,
+    CounselTechniquesFacade,
+
     TransitionCounselTechniqueUseCase,
-    CreateCounselHandler,
-    CreateMessageHandler,
-    CreateInstructionHandler,
-    UpdateInstructionHandler,
-    FindInstructionByIdHandler,
-    FindInstructionsHandler,
+    MakeSystemPromptUseCase,
+    GenerateGptResponseUseCase,
+    ProceedCounselingUseCase,
+
     {
       provide: APP_FILTER,
       useClass: AllExceptionFilter,

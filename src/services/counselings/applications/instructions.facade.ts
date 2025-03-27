@@ -9,7 +9,7 @@ import { Instructions } from "~counselings/domains/instructions/models/instructi
 import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
-export class InstructionFacade {
+export class InstructionsFacade {
   constructor(private readonly instructionService: InstructionsService, private readonly instructionItemService: InstructionItemsService) {}
 
   async createInstruction(params: { name: string; initialSentence: string | null; instructionItemIds: UniqueEntityId[] }): Promise<InstructionWithItems> {

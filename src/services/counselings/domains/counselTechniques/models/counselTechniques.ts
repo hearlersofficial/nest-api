@@ -3,16 +3,14 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { isDefined } from "~shared/utils/Validate.utils";
-import { CounselTechniqueStage } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { Dayjs } from "dayjs";
 
 export interface CounselTechniquesNewProps {
   name: string;
-  toneId: UniqueEntityId | null;
+  toneId: UniqueEntityId;
   contextId: UniqueEntityId;
   instructionId: UniqueEntityId;
-  counselTechniqueStage: CounselTechniqueStage;
 }
 
 export interface CounselTechniquesProps extends CounselTechniquesNewProps {
@@ -71,15 +69,9 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
       return Result.fail<void>("[CounselTechniques] 지시사항 ID는 필수입니다");
     }
 
-    // counselTechniqueStage 검증
-    if (this.props.counselTechniqueStage === null || this.props.counselTechniqueStage === undefined) {
-      return Result.fail<void>("[CounselTechniques] 상담 기법 단계는 필수입니다");
-    }
-    if (!Object.values(CounselTechniqueStage).includes(this.props.counselTechniqueStage)) {
-      return Result.fail<void>("[CounselTechniques] 유효하지 않은 상담 기법 단계입니다");
-    }
-    if (this.props.counselTechniqueStage === CounselTechniqueStage.UNSPECIFIED) {
-      return Result.fail<void>("[CounselTechniques] 상담 기법 단계가 지정되지 않았습니다");
+    // toneId 검증
+    if (this.props.toneId === null || this.props.toneId === undefined) {
+      return Result.fail<void>("[CounselTechniques] 톤 ID는 필수입니다");
     }
 
     // 날짜 검증
@@ -98,7 +90,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     return this.props.name;
   }
 
-  get toneId(): UniqueEntityId | null {
+  get toneId(): UniqueEntityId {
     return this.props.toneId;
   }
 
@@ -108,10 +100,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
 
   get instructionId(): UniqueEntityId {
     return this.props.instructionId;
-  }
-
-  get counselTechniqueStage(): CounselTechniqueStage {
-    return this.props.counselTechniqueStage;
   }
 
   get nextTechniqueId(): UniqueEntityId | null {
@@ -139,7 +127,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     if (isDefined(props.name) && props.name !== this.props.name) {
       this.props.name = props.name;
     }
-    if (props.toneId !== undefined && props.toneId !== this.props.toneId) {
+    if (isDefined(props.toneId) && props.toneId !== this.props.toneId) {
       this.props.toneId = props.toneId;
     }
     if (isDefined(props.contextId) && props.contextId !== this.props.contextId) {
@@ -147,9 +135,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     }
     if (isDefined(props.instructionId) && props.instructionId !== this.props.instructionId) {
       this.props.instructionId = props.instructionId;
-    }
-    if (isDefined(props.counselTechniqueStage) && props.counselTechniqueStage !== this.props.counselTechniqueStage) {
-      this.props.counselTechniqueStage = props.counselTechniqueStage;
     }
     if (props.prevTechniqueId !== undefined && props.prevTechniqueId !== this.props.prevTechniqueId) {
       this.props.prevTechniqueId = props.prevTechniqueId;

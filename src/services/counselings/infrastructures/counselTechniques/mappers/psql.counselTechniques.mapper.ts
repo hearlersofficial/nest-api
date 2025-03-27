@@ -1,6 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/counsels/CounselTechniques.entity";
-import { CounselTechniques, CounselTechniquesProps } from "~counselings/aggregates/counselTechniques/domain/counselTechniques";
+import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
+import { CounselTechniques, CounselTechniquesProps } from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { InternalServerErrorException } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -13,10 +13,9 @@ export class PsqlCounselTechniquesMapper {
 
     const counselTechniqueProps: CounselTechniquesProps = {
       name: entity.name,
-      toneId: entity.toneId ? new UniqueEntityId(entity.toneId) : null,
+      toneId: new UniqueEntityId(entity.toneId),
       contextId: new UniqueEntityId(entity.contextId),
       instructionId: new UniqueEntityId(entity.instructionId),
-      counselTechniqueStage: entity.counselTechniqueStage,
       prevTechniqueId: entity.prevTechniqueId ? new UniqueEntityId(entity.prevTechniqueId) : null,
       nextTechniqueId: entity.nextTechniqueId ? new UniqueEntityId(entity.nextTechniqueId) : null,
       createdAt: dayjs(entity.createdAt),
@@ -32,6 +31,14 @@ export class PsqlCounselTechniquesMapper {
     return counselTechniquesOrError.value;
   }
 
+  static toDomains(entities: CounselTechniquesEntity[]): CounselTechniques[] {
+    if (entities.length === 0) {
+      return [];
+    }
+
+    return entities.map((entity) => this.toDomain(entity)).filter(Boolean) as CounselTechniques[];
+  }
+
   static toEntity(counselTechniques: CounselTechniques): CounselTechniquesEntity {
     const entity = new CounselTechniquesEntity();
 
@@ -40,10 +47,9 @@ export class PsqlCounselTechniquesMapper {
     }
 
     entity.name = counselTechniques.name;
-    entity.toneId = counselTechniques.toneId ? counselTechniques.toneId.getString() : null;
+    entity.toneId = counselTechniques.toneId.getString();
     entity.contextId = counselTechniques.contextId.getString();
     entity.instructionId = counselTechniques.instructionId.getString();
-    entity.counselTechniqueStage = counselTechniques.counselTechniqueStage;
     entity.prevTechniqueId = counselTechniques.prevTechniqueId ? counselTechniques.prevTechniqueId.getString() : null;
     entity.nextTechniqueId = counselTechniques.nextTechniqueId ? counselTechniques.nextTechniqueId.getString() : null;
 
@@ -52,5 +58,13 @@ export class PsqlCounselTechniquesMapper {
     entity.deletedAt = counselTechniques.deletedAt ? counselTechniques.deletedAt.toISOString() : null;
 
     return entity;
+  }
+
+  static toEntities(counselTechniques: CounselTechniques[]): CounselTechniquesEntity[] {
+    if (counselTechniques.length === 0) {
+      return [];
+    }
+
+    return counselTechniques.map((counsel) => this.toEntity(counsel));
   }
 }

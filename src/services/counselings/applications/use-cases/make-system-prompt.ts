@@ -1,11 +1,9 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { ContextService } from "~counselings/aggregates/contexts/applications/context.service";
-import { InstructionItemService } from "~counselings/aggregates/instructionItems/applications/instructionItem.service";
-import { InstructionService } from "~counselings/aggregates/instructions/applications/instruction.service";
-import { PersonaService } from "~counselings/aggregates/personas/applications/persona.service";
-import { ToneService } from "~counselings/aggregates/tones/applications/tone.service";
-import { MakeSystemPromptUseCaseRequest } from "~counselings/applications/useCases/MakeSystemPromptUseCase/dto/MakeSystemPrompt.request";
-import { MakeSystemPromptUseCaseResponse } from "~counselings/applications/useCases/MakeSystemPromptUseCase/dto/MakeSystemPrompt.response";
+import { MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse } from "~counselings/applications/use-cases/dtos/make-system-prompt.dto";
+import { ContextsService } from "~counselings/domains/contexts/contexts.service";
+import { InstructionItemsService } from "~counselings/domains/instructionItems/instructionItems.service";
+import { InstructionsService } from "~counselings/domains/instructions/instructions.service";
+import { TonesService } from "~counselings/domains/tones/tones.service";
 
 import { Injectable } from "@nestjs/common";
 import { ChatCompletionSystemMessageParam } from "openai/resources";
@@ -13,40 +11,25 @@ import { ChatCompletionSystemMessageParam } from "openai/resources";
 @Injectable()
 export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse> {
   constructor(
-    private readonly personaService: PersonaService,
-    private readonly contextService: ContextService,
-    private readonly instructionService: InstructionService,
-    private readonly instructionItemService: InstructionItemService,
-    private readonly toneService: ToneService,
+    private readonly contextService: ContextsService,
+    private readonly instructionService: InstructionsService,
+    private readonly instructionItemService: InstructionItemsService,
+    private readonly toneService: TonesService,
   ) {}
 
   async execute(request: MakeSystemPromptUseCaseRequest): Promise<MakeSystemPromptUseCaseResponse> {
-    const { counselTechnique, counselor } = request;
+    const { counselTechnique, counselor, userId } = request;
 
-    const personas = await this.personaService.findMany({ counselorId: counselor.id });
-    if (personas.length === 0) {
-      return { ok: false, error: "Personas not found" };
-    }
-    // TODO: persona 여러개 처리
-    const persona = personas[0];
+    const persona = counselor.persona;
 
-    const context = await this.contextService.findOne(counselTechnique.contextId);
-    if (!context) {
-      return { ok: false, error: "Context not found" };
-    }
+    const context = await this.contextService.getOne({ contextId: counselTechnique.contextId });
 
-    const instruction = await this.instructionService.findOne(counselTechnique.instructionId);
-    if (!instruction) {
-      return { ok: false, error: "Instruction not found" };
-    }
+    const instruction = await this.instructionService.getOne({ instructionId: counselTechnique.instructionId });
     const instructionItems = await this.instructionItemService.findMany({
       ids: instruction.instructionMaps.map((map) => map.instructionItemId),
     });
 
-    const tone = await this.toneService.findOne(counselor.toneId);
-    if (!tone) {
-      return { ok: false, error: "Tone not found" };
-    }
+    const tone = await this.toneService.getOne({ toneId: counselTechnique.toneId });
 
     const personaPromptResult = persona.getPrompt();
     if (personaPromptResult.isFailure) {

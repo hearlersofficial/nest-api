@@ -8,6 +8,7 @@ import { FindManyOptions, FindOneOptions } from "typeorm";
 @Injectable()
 export abstract class CounselTechniquesRepository {
   abstract findByCounselTechniqueId(counselTechniqueId: UniqueEntityId, options?: FindOneOptions<CounselTechniquesEntity>): Promise<CounselTechniques | null>;
+  abstract findByToneId(toneId: UniqueEntityId, options?: FindOneOptions<CounselTechniquesEntity>): Promise<CounselTechniques | null>;
   abstract findMany(options?: FindManyOptions<CounselTechniquesEntity>): Promise<CounselTechniques[]>;
   abstract save(counselTechnique: CounselTechniques): Promise<CounselTechniques>;
   abstract save(counselTechniques: CounselTechniques[]): Promise<CounselTechniques[]>;

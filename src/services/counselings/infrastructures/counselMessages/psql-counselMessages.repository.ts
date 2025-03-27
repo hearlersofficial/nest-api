@@ -29,6 +29,10 @@ export class PsqlCounselMessagesRepository extends CounselMessagesRepository {
 
   override async findMany(options?: FindManyOptions<CounselMessagesEntity>): Promise<CounselMessages[]> {
     const findManyOptions: FindManyOptions<CounselMessagesEntity> = options ?? {};
+    findManyOptions.order = {
+      ...findManyOptions.order,
+      createdAt: "ASC",
+    };
     const messages = await this.counselMessagesRepository.find(findManyOptions);
     return PsqlCounselMessagesMapper.toDomains(messages);
   }

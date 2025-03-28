@@ -1,5 +1,4 @@
-import { InstructionMapEntity } from "~shared/core/infrastructure/entities/prompts/InstructionMaps.entity";
-import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
+import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
 import { CounselTechniquesPersister } from "~counselings/domains/counselTechniques/counselTechniques.persister";
 import { CounselTechniquesReader } from "~counselings/domains/counselTechniques/counselTechniques.reader";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
@@ -12,7 +11,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InstructionEntity, InstructionMapEntity])],
+  imports: [TypeOrmModule.forFeature([CounselTechniquesEntity])],
   providers: [
     CounselTechniquesService,
     {

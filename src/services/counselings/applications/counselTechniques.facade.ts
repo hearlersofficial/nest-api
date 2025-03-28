@@ -8,9 +8,9 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 export class CounselTechniquesFacade {
   constructor(private readonly counselTechniquesService: CounselTechniquesService) {}
 
-  async createCounselTechnique(params: { name: string; toneId: UniqueEntityId; contextId: UniqueEntityId; instructionId: UniqueEntityId }) {
-    const { name, toneId, contextId, instructionId } = params;
-    return this.counselTechniquesService.create({ name, toneId, contextId, instructionId });
+  async createCounselTechnique(params: { name: string; toneId: UniqueEntityId; context: string; instruction: string }) {
+    const { name, toneId, context, instruction } = params;
+    return this.counselTechniquesService.create({ name, toneId, context, instruction });
   }
 
   async findCounselTechniques(params: { name?: string; toneId?: UniqueEntityId }) {
@@ -23,17 +23,11 @@ export class CounselTechniquesFacade {
     return this.counselTechniquesService.getOne({ counselTechniqueId });
   }
 
-  async updateCounselTechnique(params: {
-    counselTechniqueId: UniqueEntityId;
-    name?: string;
-    toneId?: UniqueEntityId;
-    contextId?: UniqueEntityId;
-    instructionId?: UniqueEntityId;
-  }) {
-    const { counselTechniqueId, name, toneId, contextId, instructionId } = params;
+  async updateCounselTechnique(params: { counselTechniqueId: UniqueEntityId; name?: string; toneId?: UniqueEntityId; context?: string; instruction?: string }) {
+    const { counselTechniqueId, name, toneId, context, instruction } = params;
     const technique = await this.counselTechniquesService.getOne({ counselTechniqueId });
 
-    technique.update({ name, toneId, contextId, instructionId });
+    technique.update({ name, toneId, context, instruction });
     return this.counselTechniquesService.update(technique);
   }
 

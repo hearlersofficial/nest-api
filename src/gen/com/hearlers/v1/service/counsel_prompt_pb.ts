@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
-import type { Context, CounselTechnique, Instruction, InstructionItem, Tone } from "../model/counsel_prompt_pb";
+import type { CounselTechnique, Tone } from "../model/counsel_prompt_pb";
 import { file_com_hearlers_v1_model_counsel_prompt } from "../model/counsel_prompt_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,502 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/service/counsel_prompt.proto.
  */
 export const file_com_hearlers_v1_service_counsel_prompt: GenFile = /*@__PURE__*/
-  fileDesc("Cixjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2VsX3Byb21wdC5wcm90bxIXY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UiSAoUQ3JlYXRlQ29udGV4dFJlcXVlc3QSDAoEbmFtZRgBIAEoCRIMCgRib2R5GAIgASgJEhQKDHBsYWNlaG9sZGVycxgDIAMoCSJIChVDcmVhdGVDb250ZXh0UmVzcG9uc2USLwoHY29udGV4dBgBIAEoCzIeLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db250ZXh0IjEKE0ZpbmRDb250ZXh0c1JlcXVlc3QSEQoEbmFtZRgBIAEoCUgAiAEBQgcKBV9uYW1lIkgKFEZpbmRDb250ZXh0c1Jlc3BvbnNlEjAKCGNvbnRleHRzGAEgAygLMh4uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvbnRleHQiLAoWRmluZENvbnRleHRCeUlkUmVxdWVzdBISCgpjb250ZXh0X2lkGAEgASgJIlsKF0ZpbmRDb250ZXh0QnlJZFJlc3BvbnNlEjQKB2NvbnRleHQYASABKAsyHi5jb20uaGVhcmxlcnMudjEubW9kZWwuQ29udGV4dEgAiAEBQgoKCF9jb250ZXh0IpIBChRVcGRhdGVDb250ZXh0UmVxdWVzdBISCgpjb250ZXh0X2lkGAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARIRCgRib2R5GAMgASgJSAGIAQESFAoMcGxhY2Vob2xkZXJzGAQgAygJEhgKEGhhc19wbGFjZWhvbGRlcnMYBSABKAhCBwoFX25hbWVCBwoFX2JvZHkiSAoVVXBkYXRlQ29udGV4dFJlc3BvbnNlEi8KB2NvbnRleHQYASABKAsyHi5jb20uaGVhcmxlcnMudjEubW9kZWwuQ29udGV4dCJ6ChhDcmVhdGVJbnN0cnVjdGlvblJlcXVlc3QSDAoEbmFtZRgBIAEoCRIdChBpbml0aWFsX3NlbnRlbmNlGAIgASgJSACIAQESHAoUaW5zdHJ1Y3Rpb25faXRlbV9pZHMYAyADKAlCEwoRX2luaXRpYWxfc2VudGVuY2UiVAoZQ3JlYXRlSW5zdHJ1Y3Rpb25SZXNwb25zZRI3CgtpbnN0cnVjdGlvbhgBIAEoCzIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5JbnN0cnVjdGlvbiI1ChdGaW5kSW5zdHJ1Y3Rpb25zUmVxdWVzdBIRCgRuYW1lGAEgASgJSACIAQFCBwoFX25hbWUiVAoYRmluZEluc3RydWN0aW9uc1Jlc3BvbnNlEjgKDGluc3RydWN0aW9ucxgBIAMoCzIiLmNvbS5oZWFybGVycy52MS5tb2RlbC5JbnN0cnVjdGlvbiI0ChpGaW5kSW5zdHJ1Y3Rpb25CeUlkUmVxdWVzdBIWCg5pbnN0cnVjdGlvbl9pZBgBIAEoCSJrChtGaW5kSW5zdHJ1Y3Rpb25CeUlkUmVzcG9uc2USPAoLaW5zdHJ1Y3Rpb24YASABKAsyIi5jb20uaGVhcmxlcnMudjEubW9kZWwuSW5zdHJ1Y3Rpb25IAIgBAUIOCgxfaW5zdHJ1Y3Rpb24i4AEKGFVwZGF0ZUluc3RydWN0aW9uUmVxdWVzdBIWCg5pbnN0cnVjdGlvbl9pZBgBIAEoCRIRCgRuYW1lGAIgASgJSACIAQESHQoQaW5pdGlhbF9zZW50ZW5jZRgDIAEoCUgBiAEBEhwKFGhhc19pbml0aWFsX3NlbnRlbmNlGAQgASgIEhwKFGluc3RydWN0aW9uX2l0ZW1faWRzGAUgAygJEiAKGGhhc19pbnN0cnVjdGlvbl9pdGVtX2lkcxgGIAEoCEIHCgVfbmFtZUITChFfaW5pdGlhbF9zZW50ZW5jZSJUChlVcGRhdGVJbnN0cnVjdGlvblJlc3BvbnNlEjcKC2luc3RydWN0aW9uGAEgASgLMiIuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkluc3RydWN0aW9uIiwKHENyZWF0ZUluc3RydWN0aW9uSXRlbVJlcXVlc3QSDAoEYm9keRgBIAEoCSJhCh1DcmVhdGVJbnN0cnVjdGlvbkl0ZW1SZXNwb25zZRJAChBpbnN0cnVjdGlvbl9pdGVtGAEgASgLMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkluc3RydWN0aW9uSXRlbSI/ChtGaW5kSW5zdHJ1Y3Rpb25JdGVtc1JlcXVlc3QSFAoHa2V5d29yZBgBIAEoCUgAiAEBQgoKCF9rZXl3b3JkImEKHEZpbmRJbnN0cnVjdGlvbkl0ZW1zUmVzcG9uc2USQQoRaW5zdHJ1Y3Rpb25faXRlbXMYASADKAsyJi5jb20uaGVhcmxlcnMudjEubW9kZWwuSW5zdHJ1Y3Rpb25JdGVtIj0KHkZpbmRJbnN0cnVjdGlvbkl0ZW1CeUlkUmVxdWVzdBIbChNpbnN0cnVjdGlvbl9pdGVtX2lkGAEgASgJIn0KH0ZpbmRJbnN0cnVjdGlvbkl0ZW1CeUlkUmVzcG9uc2USRQoQaW5zdHJ1Y3Rpb25faXRlbRgBIAEoCzImLmNvbS5oZWFybGVycy52MS5tb2RlbC5JbnN0cnVjdGlvbkl0ZW1IAIgBAUITChFfaW5zdHJ1Y3Rpb25faXRlbSJXChxVcGRhdGVJbnN0cnVjdGlvbkl0ZW1SZXF1ZXN0EhsKE2luc3RydWN0aW9uX2l0ZW1faWQYASABKAkSEQoEYm9keRgCIAEoCUgAiAEBQgcKBV9ib2R5ImEKHVVwZGF0ZUluc3RydWN0aW9uSXRlbVJlc3BvbnNlEkAKEGluc3RydWN0aW9uX2l0ZW0YASABKAsyJi5jb20uaGVhcmxlcnMudjEubW9kZWwuSW5zdHJ1Y3Rpb25JdGVtIi8KEUNyZWF0ZVRvbmVSZXF1ZXN0EgwKBG5hbWUYASABKAkSDAoEYm9keRgCIAEoCSI/ChJDcmVhdGVUb25lUmVzcG9uc2USKQoEdG9uZRgBIAEoCzIbLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lIi4KEEZpbmRUb25lc1JlcXVlc3QSEQoEbmFtZRgBIAEoCUgAiAEBQgcKBV9uYW1lIj8KEUZpbmRUb25lc1Jlc3BvbnNlEioKBXRvbmVzGAEgAygLMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlRvbmUiJgoTRmluZFRvbmVCeUlkUmVxdWVzdBIPCgd0b25lX2lkGAEgASgJIk8KFEZpbmRUb25lQnlJZFJlc3BvbnNlEi4KBHRvbmUYASABKAsyGy5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZUgAiAEBQgcKBV90b25lIlwKEVVwZGF0ZVRvbmVSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkSEQoEbmFtZRgCIAEoCUgAiAEBEhEKBGJvZHkYAyABKAlIAYgBAUIHCgVfbmFtZUIHCgVfYm9keSI/ChJVcGRhdGVUb25lUmVzcG9uc2USKQoEdG9uZRgBIAEoCzIbLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lImoKHUNyZWF0ZUNvdW5zZWxUZWNobmlxdWVSZXF1ZXN0EgwKBG5hbWUYASABKAkSDwoHdG9uZV9pZBgCIAEoCRISCgpjb250ZXh0X2lkGAMgASgJEhYKDmluc3RydWN0aW9uX2lkGAQgASgJImQKHkNyZWF0ZUNvdW5zZWxUZWNobmlxdWVSZXNwb25zZRJCChFjb3Vuc2VsX3RlY2huaXF1ZRgBIAEoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsVGVjaG5pcXVlIlwKHEZpbmRDb3Vuc2VsVGVjaG5pcXVlc1JlcXVlc3QSEQoEbmFtZRgBIAEoCUgAiAEBEhQKB3RvbmVfaWQYAiABKAlIAYgBAUIHCgVfbmFtZUIKCghfdG9uZV9pZCJkCh1GaW5kQ291bnNlbFRlY2huaXF1ZXNSZXNwb25zZRJDChJjb3Vuc2VsX3RlY2huaXF1ZXMYASADKAsyJy5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbFRlY2huaXF1ZSI/Ch9GaW5kQ291bnNlbFRlY2huaXF1ZUJ5SWRSZXF1ZXN0EhwKFGNvdW5zZWxfdGVjaG5pcXVlX2lkGAEgASgJIoEBCiBGaW5kQ291bnNlbFRlY2huaXF1ZUJ5SWRSZXNwb25zZRJHChFjb3Vuc2VsX3RlY2huaXF1ZRgBIAEoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsVGVjaG5pcXVlSACIAQFCFAoSX2NvdW5zZWxfdGVjaG5pcXVlItMBCh1VcGRhdGVDb3Vuc2VsVGVjaG5pcXVlUmVxdWVzdBIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgBIAEoCRIRCgRuYW1lGAIgASgJSACIAQESFAoHdG9uZV9pZBgDIAEoCUgBiAEBEhcKCmNvbnRleHRfaWQYBSABKAlIAogBARIbCg5pbnN0cnVjdGlvbl9pZBgGIAEoCUgDiAEBQgcKBV9uYW1lQgoKCF90b25lX2lkQg0KC19jb250ZXh0X2lkQhEKD19pbnN0cnVjdGlvbl9pZCJkCh5VcGRhdGVDb3Vuc2VsVGVjaG5pcXVlUmVzcG9uc2USQgoRY291bnNlbF90ZWNobmlxdWUYASABKAsyJy5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbFRlY2huaXF1ZSJECiNTYXZlQ291bnNlbFRlY2huaXF1ZVNlcXVlbmNlUmVxdWVzdBIdChVjb3Vuc2VsX3RlY2huaXF1ZV9pZHMYASADKAkiawokU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZVJlc3BvbnNlEkMKEmNvdW5zZWxfdGVjaG5pcXVlcxgBIAMoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsVGVjaG5pcXVlMuQUChRDb3Vuc2VsUHJvbXB0U2VydmljZRJuCg1DcmVhdGVDb250ZXh0Ei0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQ29udGV4dFJlcXVlc3QaLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb250ZXh0UmVzcG9uc2USawoMRmluZENvbnRleHRzEiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZENvbnRleHRzUmVxdWVzdBotLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRDb250ZXh0c1Jlc3BvbnNlEnQKD0ZpbmRDb250ZXh0QnlJZBIvLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRDb250ZXh0QnlJZFJlcXVlc3QaMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ29udGV4dEJ5SWRSZXNwb25zZRJuCg1VcGRhdGVDb250ZXh0Ei0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQ29udGV4dFJlcXVlc3QaLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVDb250ZXh0UmVzcG9uc2USegoRQ3JlYXRlSW5zdHJ1Y3Rpb24SMS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVJbnN0cnVjdGlvblJlcXVlc3QaMi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVJbnN0cnVjdGlvblJlc3BvbnNlEncKEEZpbmRJbnN0cnVjdGlvbnMSMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kSW5zdHJ1Y3Rpb25zUmVxdWVzdBoxLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRJbnN0cnVjdGlvbnNSZXNwb25zZRKAAQoTRmluZEluc3RydWN0aW9uQnlJZBIzLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRJbnN0cnVjdGlvbkJ5SWRSZXF1ZXN0GjQuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZEluc3RydWN0aW9uQnlJZFJlc3BvbnNlEnoKEVVwZGF0ZUluc3RydWN0aW9uEjEuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlSW5zdHJ1Y3Rpb25SZXF1ZXN0GjIuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlSW5zdHJ1Y3Rpb25SZXNwb25zZRKGAQoVQ3JlYXRlSW5zdHJ1Y3Rpb25JdGVtEjUuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlSW5zdHJ1Y3Rpb25JdGVtUmVxdWVzdBo2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZUluc3RydWN0aW9uSXRlbVJlc3BvbnNlEoMBChRGaW5kSW5zdHJ1Y3Rpb25JdGVtcxI0LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRJbnN0cnVjdGlvbkl0ZW1zUmVxdWVzdBo1LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRJbnN0cnVjdGlvbkl0ZW1zUmVzcG9uc2USjAEKF0ZpbmRJbnN0cnVjdGlvbkl0ZW1CeUlkEjcuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZEluc3RydWN0aW9uSXRlbUJ5SWRSZXF1ZXN0GjguY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZEluc3RydWN0aW9uSXRlbUJ5SWRSZXNwb25zZRKGAQoVVXBkYXRlSW5zdHJ1Y3Rpb25JdGVtEjUuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlSW5zdHJ1Y3Rpb25JdGVtUmVxdWVzdBo2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUluc3RydWN0aW9uSXRlbVJlc3BvbnNlEmUKCkNyZWF0ZVRvbmUSKi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVUb25lUmVxdWVzdBorLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZVRvbmVSZXNwb25zZRJiCglGaW5kVG9uZXMSKS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kVG9uZXNSZXF1ZXN0GiouY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFRvbmVzUmVzcG9uc2USawoMRmluZFRvbmVCeUlkEiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFRvbmVCeUlkUmVxdWVzdBotLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lQnlJZFJlc3BvbnNlEmUKClVwZGF0ZVRvbmUSKi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVUb25lUmVxdWVzdBorLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZVRvbmVSZXNwb25zZRKJAQoWQ3JlYXRlQ291bnNlbFRlY2huaXF1ZRI2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZUNvdW5zZWxUZWNobmlxdWVSZXF1ZXN0GjcuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQ291bnNlbFRlY2huaXF1ZVJlc3BvbnNlEoYBChVGaW5kQ291bnNlbFRlY2huaXF1ZXMSNS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbFRlY2huaXF1ZXNSZXF1ZXN0GjYuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZENvdW5zZWxUZWNobmlxdWVzUmVzcG9uc2USjwEKGEZpbmRDb3Vuc2VsVGVjaG5pcXVlQnlJZBI4LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRDb3Vuc2VsVGVjaG5pcXVlQnlJZFJlcXVlc3QaOS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbFRlY2huaXF1ZUJ5SWRSZXNwb25zZRKJAQoWVXBkYXRlQ291bnNlbFRlY2huaXF1ZRI2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUNvdW5zZWxUZWNobmlxdWVSZXF1ZXN0GjcuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQ291bnNlbFRlY2huaXF1ZVJlc3BvbnNlEpsBChxTYXZlQ291bnNlbFRlY2huaXF1ZVNlcXVlbmNlEjwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZVJlcXVlc3QaPS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5TYXZlQ291bnNlbFRlY2huaXF1ZVNlcXVlbmNlUmVzcG9uc2VCsQEKG2NvbS5jb20uaGVhcmxlcnMudjEuc2VydmljZUISQ291bnNlbFByb21wdFByb3RvUAGiAgRDSFZTqgIXQ29tLkhlYXJsZXJzLlYxLlNlcnZpY2XKAhdDb21cSGVhcmxlcnNcVjFcU2VydmljZeICI0NvbVxIZWFybGVyc1xWMVxTZXJ2aWNlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6OlNlcnZpY2ViBnByb3RvMw", [file_com_hearlers_v1_model_counsel_prompt]);
-
-/**
- * Context
- *
- * @generated from message com.hearlers.v1.service.CreateContextRequest
- */
-export type CreateContextRequest = Message<"com.hearlers.v1.service.CreateContextRequest"> & {
-  /**
-   * @generated from field: string name = 1;
-   */
-  name: string;
-
-  /**
-   * @generated from field: string body = 2;
-   */
-  body: string;
-
-  /**
-   * @generated from field: repeated string placeholders = 3;
-   */
-  placeholders: string[];
-};
-
-/**
- * Describes the message com.hearlers.v1.service.CreateContextRequest.
- * Use `create(CreateContextRequestSchema)` to create a new message.
- */
-export const CreateContextRequestSchema: GenMessage<CreateContextRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 0);
-
-/**
- * @generated from message com.hearlers.v1.service.CreateContextResponse
- */
-export type CreateContextResponse = Message<"com.hearlers.v1.service.CreateContextResponse"> & {
-  /**
-   * @generated from field: com.hearlers.v1.model.Context context = 1;
-   */
-  context?: Context;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.CreateContextResponse.
- * Use `create(CreateContextResponseSchema)` to create a new message.
- */
-export const CreateContextResponseSchema: GenMessage<CreateContextResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 1);
-
-/**
- * @generated from message com.hearlers.v1.service.FindContextsRequest
- */
-export type FindContextsRequest = Message<"com.hearlers.v1.service.FindContextsRequest"> & {
-  /**
-   * @generated from field: optional string name = 1;
-   */
-  name?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindContextsRequest.
- * Use `create(FindContextsRequestSchema)` to create a new message.
- */
-export const FindContextsRequestSchema: GenMessage<FindContextsRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 2);
-
-/**
- * @generated from message com.hearlers.v1.service.FindContextsResponse
- */
-export type FindContextsResponse = Message<"com.hearlers.v1.service.FindContextsResponse"> & {
-  /**
-   * @generated from field: repeated com.hearlers.v1.model.Context contexts = 1;
-   */
-  contexts: Context[];
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindContextsResponse.
- * Use `create(FindContextsResponseSchema)` to create a new message.
- */
-export const FindContextsResponseSchema: GenMessage<FindContextsResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 3);
-
-/**
- * @generated from message com.hearlers.v1.service.FindContextByIdRequest
- */
-export type FindContextByIdRequest = Message<"com.hearlers.v1.service.FindContextByIdRequest"> & {
-  /**
-   * @generated from field: string context_id = 1;
-   */
-  contextId: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindContextByIdRequest.
- * Use `create(FindContextByIdRequestSchema)` to create a new message.
- */
-export const FindContextByIdRequestSchema: GenMessage<FindContextByIdRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 4);
-
-/**
- * @generated from message com.hearlers.v1.service.FindContextByIdResponse
- */
-export type FindContextByIdResponse = Message<"com.hearlers.v1.service.FindContextByIdResponse"> & {
-  /**
-   * @generated from field: optional com.hearlers.v1.model.Context context = 1;
-   */
-  context?: Context;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindContextByIdResponse.
- * Use `create(FindContextByIdResponseSchema)` to create a new message.
- */
-export const FindContextByIdResponseSchema: GenMessage<FindContextByIdResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 5);
-
-/**
- * has_placeholders = false 일 경우 placeholders 를 수정하지 않음
- * has_placeholders = true && placeholders = [] 일 경우 placeholders 를 빈배열로 수정
- * has_placeholders = true && placeholders = ["new_placeholder"] 일 경우 placeholders 를 ["new_placeholder"] 로 수정
- *
- * @generated from message com.hearlers.v1.service.UpdateContextRequest
- */
-export type UpdateContextRequest = Message<"com.hearlers.v1.service.UpdateContextRequest"> & {
-  /**
-   * @generated from field: string context_id = 1;
-   */
-  contextId: string;
-
-  /**
-   * @generated from field: optional string name = 2;
-   */
-  name?: string;
-
-  /**
-   * @generated from field: optional string body = 3;
-   */
-  body?: string;
-
-  /**
-   * @generated from field: repeated string placeholders = 4;
-   */
-  placeholders: string[];
-
-  /**
-   * @generated from field: bool has_placeholders = 5;
-   */
-  hasPlaceholders: boolean;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.UpdateContextRequest.
- * Use `create(UpdateContextRequestSchema)` to create a new message.
- */
-export const UpdateContextRequestSchema: GenMessage<UpdateContextRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 6);
-
-/**
- * @generated from message com.hearlers.v1.service.UpdateContextResponse
- */
-export type UpdateContextResponse = Message<"com.hearlers.v1.service.UpdateContextResponse"> & {
-  /**
-   * @generated from field: com.hearlers.v1.model.Context context = 1;
-   */
-  context?: Context;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.UpdateContextResponse.
- * Use `create(UpdateContextResponseSchema)` to create a new message.
- */
-export const UpdateContextResponseSchema: GenMessage<UpdateContextResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 7);
-
-/**
- * Instruction
- *
- * @generated from message com.hearlers.v1.service.CreateInstructionRequest
- */
-export type CreateInstructionRequest = Message<"com.hearlers.v1.service.CreateInstructionRequest"> & {
-  /**
-   * @generated from field: string name = 1;
-   */
-  name: string;
-
-  /**
-   * @generated from field: optional string initial_sentence = 2;
-   */
-  initialSentence?: string;
-
-  /**
-   * @generated from field: repeated string instruction_item_ids = 3;
-   */
-  instructionItemIds: string[];
-};
-
-/**
- * Describes the message com.hearlers.v1.service.CreateInstructionRequest.
- * Use `create(CreateInstructionRequestSchema)` to create a new message.
- */
-export const CreateInstructionRequestSchema: GenMessage<CreateInstructionRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 8);
-
-/**
- * @generated from message com.hearlers.v1.service.CreateInstructionResponse
- */
-export type CreateInstructionResponse = Message<"com.hearlers.v1.service.CreateInstructionResponse"> & {
-  /**
-   * @generated from field: com.hearlers.v1.model.Instruction instruction = 1;
-   */
-  instruction?: Instruction;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.CreateInstructionResponse.
- * Use `create(CreateInstructionResponseSchema)` to create a new message.
- */
-export const CreateInstructionResponseSchema: GenMessage<CreateInstructionResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 9);
-
-/**
- * @generated from message com.hearlers.v1.service.FindInstructionsRequest
- */
-export type FindInstructionsRequest = Message<"com.hearlers.v1.service.FindInstructionsRequest"> & {
-  /**
-   * @generated from field: optional string name = 1;
-   */
-  name?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindInstructionsRequest.
- * Use `create(FindInstructionsRequestSchema)` to create a new message.
- */
-export const FindInstructionsRequestSchema: GenMessage<FindInstructionsRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 10);
-
-/**
- * @generated from message com.hearlers.v1.service.FindInstructionsResponse
- */
-export type FindInstructionsResponse = Message<"com.hearlers.v1.service.FindInstructionsResponse"> & {
-  /**
-   * @generated from field: repeated com.hearlers.v1.model.Instruction instructions = 1;
-   */
-  instructions: Instruction[];
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindInstructionsResponse.
- * Use `create(FindInstructionsResponseSchema)` to create a new message.
- */
-export const FindInstructionsResponseSchema: GenMessage<FindInstructionsResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 11);
-
-/**
- * @generated from message com.hearlers.v1.service.FindInstructionByIdRequest
- */
-export type FindInstructionByIdRequest = Message<"com.hearlers.v1.service.FindInstructionByIdRequest"> & {
-  /**
-   * @generated from field: string instruction_id = 1;
-   */
-  instructionId: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindInstructionByIdRequest.
- * Use `create(FindInstructionByIdRequestSchema)` to create a new message.
- */
-export const FindInstructionByIdRequestSchema: GenMessage<FindInstructionByIdRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 12);
-
-/**
- * @generated from message com.hearlers.v1.service.FindInstructionByIdResponse
- */
-export type FindInstructionByIdResponse = Message<"com.hearlers.v1.service.FindInstructionByIdResponse"> & {
-  /**
-   * @generated from field: optional com.hearlers.v1.model.Instruction instruction = 1;
-   */
-  instruction?: Instruction;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindInstructionByIdResponse.
- * Use `create(FindInstructionByIdResponseSchema)` to create a new message.
- */
-export const FindInstructionByIdResponseSchema: GenMessage<FindInstructionByIdResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 13);
-
-/**
- * has_initial_sentence = false 일 경우 initial_sentence 를 수정하지 않음
- * has_initial_sentence = true && initial_sentence = undefined 일 경우 initial_sentence 를 null 로 수정
- * has_initial_sentence = true && initial_sentence = "new_initial_sentence" 일 경우 initial_sentence 를 "new_initial_sentence" 로 수정
- * has_instruction_item_ids = false 일 경우 instruction_item_ids 를 수정하지 않음
- * has_instruction_item_ids = true && instruction_item_ids = [] 일 경우 instruction_item_ids 를 빈배열로 수정
- * has_instruction_item_ids = true && instruction_item_ids = ["new_instruction_item_id"] 일 경우 instruction_item_ids 를 ["new_instruction_item_id"] 로 수정
- *
- * @generated from message com.hearlers.v1.service.UpdateInstructionRequest
- */
-export type UpdateInstructionRequest = Message<"com.hearlers.v1.service.UpdateInstructionRequest"> & {
-  /**
-   * @generated from field: string instruction_id = 1;
-   */
-  instructionId: string;
-
-  /**
-   * @generated from field: optional string name = 2;
-   */
-  name?: string;
-
-  /**
-   * @generated from field: optional string initial_sentence = 3;
-   */
-  initialSentence?: string;
-
-  /**
-   * @generated from field: bool has_initial_sentence = 4;
-   */
-  hasInitialSentence: boolean;
-
-  /**
-   * @generated from field: repeated string instruction_item_ids = 5;
-   */
-  instructionItemIds: string[];
-
-  /**
-   * @generated from field: bool has_instruction_item_ids = 6;
-   */
-  hasInstructionItemIds: boolean;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.UpdateInstructionRequest.
- * Use `create(UpdateInstructionRequestSchema)` to create a new message.
- */
-export const UpdateInstructionRequestSchema: GenMessage<UpdateInstructionRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 14);
-
-/**
- * @generated from message com.hearlers.v1.service.UpdateInstructionResponse
- */
-export type UpdateInstructionResponse = Message<"com.hearlers.v1.service.UpdateInstructionResponse"> & {
-  /**
-   * @generated from field: com.hearlers.v1.model.Instruction instruction = 1;
-   */
-  instruction?: Instruction;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.UpdateInstructionResponse.
- * Use `create(UpdateInstructionResponseSchema)` to create a new message.
- */
-export const UpdateInstructionResponseSchema: GenMessage<UpdateInstructionResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 15);
-
-/**
- * InstructionItem
- *
- * @generated from message com.hearlers.v1.service.CreateInstructionItemRequest
- */
-export type CreateInstructionItemRequest = Message<"com.hearlers.v1.service.CreateInstructionItemRequest"> & {
-  /**
-   * @generated from field: string body = 1;
-   */
-  body: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.CreateInstructionItemRequest.
- * Use `create(CreateInstructionItemRequestSchema)` to create a new message.
- */
-export const CreateInstructionItemRequestSchema: GenMessage<CreateInstructionItemRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 16);
-
-/**
- * @generated from message com.hearlers.v1.service.CreateInstructionItemResponse
- */
-export type CreateInstructionItemResponse = Message<"com.hearlers.v1.service.CreateInstructionItemResponse"> & {
-  /**
-   * @generated from field: com.hearlers.v1.model.InstructionItem instruction_item = 1;
-   */
-  instructionItem?: InstructionItem;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.CreateInstructionItemResponse.
- * Use `create(CreateInstructionItemResponseSchema)` to create a new message.
- */
-export const CreateInstructionItemResponseSchema: GenMessage<CreateInstructionItemResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 17);
-
-/**
- * @generated from message com.hearlers.v1.service.FindInstructionItemsRequest
- */
-export type FindInstructionItemsRequest = Message<"com.hearlers.v1.service.FindInstructionItemsRequest"> & {
-  /**
-   * @generated from field: optional string keyword = 1;
-   */
-  keyword?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindInstructionItemsRequest.
- * Use `create(FindInstructionItemsRequestSchema)` to create a new message.
- */
-export const FindInstructionItemsRequestSchema: GenMessage<FindInstructionItemsRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 18);
-
-/**
- * @generated from message com.hearlers.v1.service.FindInstructionItemsResponse
- */
-export type FindInstructionItemsResponse = Message<"com.hearlers.v1.service.FindInstructionItemsResponse"> & {
-  /**
-   * @generated from field: repeated com.hearlers.v1.model.InstructionItem instruction_items = 1;
-   */
-  instructionItems: InstructionItem[];
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindInstructionItemsResponse.
- * Use `create(FindInstructionItemsResponseSchema)` to create a new message.
- */
-export const FindInstructionItemsResponseSchema: GenMessage<FindInstructionItemsResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 19);
-
-/**
- * @generated from message com.hearlers.v1.service.FindInstructionItemByIdRequest
- */
-export type FindInstructionItemByIdRequest = Message<"com.hearlers.v1.service.FindInstructionItemByIdRequest"> & {
-  /**
-   * @generated from field: string instruction_item_id = 1;
-   */
-  instructionItemId: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindInstructionItemByIdRequest.
- * Use `create(FindInstructionItemByIdRequestSchema)` to create a new message.
- */
-export const FindInstructionItemByIdRequestSchema: GenMessage<FindInstructionItemByIdRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 20);
-
-/**
- * @generated from message com.hearlers.v1.service.FindInstructionItemByIdResponse
- */
-export type FindInstructionItemByIdResponse = Message<"com.hearlers.v1.service.FindInstructionItemByIdResponse"> & {
-  /**
-   * @generated from field: optional com.hearlers.v1.model.InstructionItem instruction_item = 1;
-   */
-  instructionItem?: InstructionItem;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.FindInstructionItemByIdResponse.
- * Use `create(FindInstructionItemByIdResponseSchema)` to create a new message.
- */
-export const FindInstructionItemByIdResponseSchema: GenMessage<FindInstructionItemByIdResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 21);
-
-/**
- * @generated from message com.hearlers.v1.service.UpdateInstructionItemRequest
- */
-export type UpdateInstructionItemRequest = Message<"com.hearlers.v1.service.UpdateInstructionItemRequest"> & {
-  /**
-   * @generated from field: string instruction_item_id = 1;
-   */
-  instructionItemId: string;
-
-  /**
-   * @generated from field: optional string body = 2;
-   */
-  body?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.UpdateInstructionItemRequest.
- * Use `create(UpdateInstructionItemRequestSchema)` to create a new message.
- */
-export const UpdateInstructionItemRequestSchema: GenMessage<UpdateInstructionItemRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 22);
-
-/**
- * @generated from message com.hearlers.v1.service.UpdateInstructionItemResponse
- */
-export type UpdateInstructionItemResponse = Message<"com.hearlers.v1.service.UpdateInstructionItemResponse"> & {
-  /**
-   * @generated from field: com.hearlers.v1.model.InstructionItem instruction_item = 1;
-   */
-  instructionItem?: InstructionItem;
-};
-
-/**
- * Describes the message com.hearlers.v1.service.UpdateInstructionItemResponse.
- * Use `create(UpdateInstructionItemResponseSchema)` to create a new message.
- */
-export const UpdateInstructionItemResponseSchema: GenMessage<UpdateInstructionItemResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 23);
+  fileDesc("Cixjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2VsX3Byb21wdC5wcm90bxIXY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UiLwoRQ3JlYXRlVG9uZVJlcXVlc3QSDAoEbmFtZRgBIAEoCRIMCgRib2R5GAIgASgJIj8KEkNyZWF0ZVRvbmVSZXNwb25zZRIpCgR0b25lGAEgASgLMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlRvbmUiLgoQRmluZFRvbmVzUmVxdWVzdBIRCgRuYW1lGAEgASgJSACIAQFCBwoFX25hbWUiPwoRRmluZFRvbmVzUmVzcG9uc2USKgoFdG9uZXMYASADKAsyGy5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZSImChNGaW5kVG9uZUJ5SWRSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkiTwoURmluZFRvbmVCeUlkUmVzcG9uc2USLgoEdG9uZRgBIAEoCzIbLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lSACIAQFCBwoFX3RvbmUiXAoRVXBkYXRlVG9uZVJlcXVlc3QSDwoHdG9uZV9pZBgBIAEoCRIRCgRuYW1lGAIgASgJSACIAQESEQoEYm9keRgDIAEoCUgBiAEBQgcKBV9uYW1lQgcKBV9ib2R5Ij8KElVwZGF0ZVRvbmVSZXNwb25zZRIpCgR0b25lGAEgASgLMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlRvbmUiZAodQ3JlYXRlQ291bnNlbFRlY2huaXF1ZVJlcXVlc3QSDAoEbmFtZRgBIAEoCRIPCgd0b25lX2lkGAIgASgJEg8KB2NvbnRleHQYAyABKAkSEwoLaW5zdHJ1Y3Rpb24YBCABKAkiZAoeQ3JlYXRlQ291bnNlbFRlY2huaXF1ZVJlc3BvbnNlEkIKEWNvdW5zZWxfdGVjaG5pcXVlGAEgASgLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxUZWNobmlxdWUiXAocRmluZENvdW5zZWxUZWNobmlxdWVzUmVxdWVzdBIRCgRuYW1lGAEgASgJSACIAQESFAoHdG9uZV9pZBgCIAEoCUgBiAEBQgcKBV9uYW1lQgoKCF90b25lX2lkImQKHUZpbmRDb3Vuc2VsVGVjaG5pcXVlc1Jlc3BvbnNlEkMKEmNvdW5zZWxfdGVjaG5pcXVlcxgBIAMoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsVGVjaG5pcXVlIj8KH0ZpbmRDb3Vuc2VsVGVjaG5pcXVlQnlJZFJlcXVlc3QSHAoUY291bnNlbF90ZWNobmlxdWVfaWQYASABKAkigQEKIEZpbmRDb3Vuc2VsVGVjaG5pcXVlQnlJZFJlc3BvbnNlEkcKEWNvdW5zZWxfdGVjaG5pcXVlGAEgASgLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxUZWNobmlxdWVIAIgBAUIUChJfY291bnNlbF90ZWNobmlxdWUixwEKHVVwZGF0ZUNvdW5zZWxUZWNobmlxdWVSZXF1ZXN0EhwKFGNvdW5zZWxfdGVjaG5pcXVlX2lkGAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARIUCgd0b25lX2lkGAMgASgJSAGIAQESFAoHY29udGV4dBgEIAEoCUgCiAEBEhgKC2luc3RydWN0aW9uGAUgASgJSAOIAQFCBwoFX25hbWVCCgoIX3RvbmVfaWRCCgoIX2NvbnRleHRCDgoMX2luc3RydWN0aW9uImQKHlVwZGF0ZUNvdW5zZWxUZWNobmlxdWVSZXNwb25zZRJCChFjb3Vuc2VsX3RlY2huaXF1ZRgBIAEoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsVGVjaG5pcXVlIkQKI1NhdmVDb3Vuc2VsVGVjaG5pcXVlU2VxdWVuY2VSZXF1ZXN0Eh0KFWNvdW5zZWxfdGVjaG5pcXVlX2lkcxgBIAMoCSJrCiRTYXZlQ291bnNlbFRlY2huaXF1ZVNlcXVlbmNlUmVzcG9uc2USQwoSY291bnNlbF90ZWNobmlxdWVzGAEgAygLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxUZWNobmlxdWUyhgkKFENvdW5zZWxQcm9tcHRTZXJ2aWNlEmUKCkNyZWF0ZVRvbmUSKi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVUb25lUmVxdWVzdBorLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZVRvbmVSZXNwb25zZRJiCglGaW5kVG9uZXMSKS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kVG9uZXNSZXF1ZXN0GiouY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFRvbmVzUmVzcG9uc2USawoMRmluZFRvbmVCeUlkEiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFRvbmVCeUlkUmVxdWVzdBotLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lQnlJZFJlc3BvbnNlEmUKClVwZGF0ZVRvbmUSKi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVUb25lUmVxdWVzdBorLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZVRvbmVSZXNwb25zZRKJAQoWQ3JlYXRlQ291bnNlbFRlY2huaXF1ZRI2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZUNvdW5zZWxUZWNobmlxdWVSZXF1ZXN0GjcuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQ291bnNlbFRlY2huaXF1ZVJlc3BvbnNlEoYBChVGaW5kQ291bnNlbFRlY2huaXF1ZXMSNS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbFRlY2huaXF1ZXNSZXF1ZXN0GjYuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZENvdW5zZWxUZWNobmlxdWVzUmVzcG9uc2USjwEKGEZpbmRDb3Vuc2VsVGVjaG5pcXVlQnlJZBI4LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRDb3Vuc2VsVGVjaG5pcXVlQnlJZFJlcXVlc3QaOS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbFRlY2huaXF1ZUJ5SWRSZXNwb25zZRKJAQoWVXBkYXRlQ291bnNlbFRlY2huaXF1ZRI2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUNvdW5zZWxUZWNobmlxdWVSZXF1ZXN0GjcuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQ291bnNlbFRlY2huaXF1ZVJlc3BvbnNlEpsBChxTYXZlQ291bnNlbFRlY2huaXF1ZVNlcXVlbmNlEjwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZVJlcXVlc3QaPS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5TYXZlQ291bnNlbFRlY2huaXF1ZVNlcXVlbmNlUmVzcG9uc2VCsQEKG2NvbS5jb20uaGVhcmxlcnMudjEuc2VydmljZUISQ291bnNlbFByb21wdFByb3RvUAGiAgRDSFZTqgIXQ29tLkhlYXJsZXJzLlYxLlNlcnZpY2XKAhdDb21cSGVhcmxlcnNcVjFcU2VydmljZeICI0NvbVxIZWFybGVyc1xWMVxTZXJ2aWNlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6OlNlcnZpY2ViBnByb3RvMw", [file_com_hearlers_v1_model_counsel_prompt]);
 
 /**
  * Tone
@@ -531,7 +36,7 @@ export type CreateToneRequest = Message<"com.hearlers.v1.service.CreateToneReque
  * Use `create(CreateToneRequestSchema)` to create a new message.
  */
 export const CreateToneRequestSchema: GenMessage<CreateToneRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 24);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 0);
 
 /**
  * @generated from message com.hearlers.v1.service.CreateToneResponse
@@ -548,7 +53,7 @@ export type CreateToneResponse = Message<"com.hearlers.v1.service.CreateToneResp
  * Use `create(CreateToneResponseSchema)` to create a new message.
  */
 export const CreateToneResponseSchema: GenMessage<CreateToneResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 25);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 1);
 
 /**
  * @generated from message com.hearlers.v1.service.FindTonesRequest
@@ -565,7 +70,7 @@ export type FindTonesRequest = Message<"com.hearlers.v1.service.FindTonesRequest
  * Use `create(FindTonesRequestSchema)` to create a new message.
  */
 export const FindTonesRequestSchema: GenMessage<FindTonesRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 26);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 2);
 
 /**
  * @generated from message com.hearlers.v1.service.FindTonesResponse
@@ -582,7 +87,7 @@ export type FindTonesResponse = Message<"com.hearlers.v1.service.FindTonesRespon
  * Use `create(FindTonesResponseSchema)` to create a new message.
  */
 export const FindTonesResponseSchema: GenMessage<FindTonesResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 27);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 3);
 
 /**
  * @generated from message com.hearlers.v1.service.FindToneByIdRequest
@@ -599,7 +104,7 @@ export type FindToneByIdRequest = Message<"com.hearlers.v1.service.FindToneByIdR
  * Use `create(FindToneByIdRequestSchema)` to create a new message.
  */
 export const FindToneByIdRequestSchema: GenMessage<FindToneByIdRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 28);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 4);
 
 /**
  * @generated from message com.hearlers.v1.service.FindToneByIdResponse
@@ -616,7 +121,7 @@ export type FindToneByIdResponse = Message<"com.hearlers.v1.service.FindToneById
  * Use `create(FindToneByIdResponseSchema)` to create a new message.
  */
 export const FindToneByIdResponseSchema: GenMessage<FindToneByIdResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 29);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 5);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateToneRequest
@@ -643,7 +148,7 @@ export type UpdateToneRequest = Message<"com.hearlers.v1.service.UpdateToneReque
  * Use `create(UpdateToneRequestSchema)` to create a new message.
  */
 export const UpdateToneRequestSchema: GenMessage<UpdateToneRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 30);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 6);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateToneResponse
@@ -660,7 +165,7 @@ export type UpdateToneResponse = Message<"com.hearlers.v1.service.UpdateToneResp
  * Use `create(UpdateToneResponseSchema)` to create a new message.
  */
 export const UpdateToneResponseSchema: GenMessage<UpdateToneResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 31);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 7);
 
 /**
  * 상담 기법
@@ -679,14 +184,14 @@ export type CreateCounselTechniqueRequest = Message<"com.hearlers.v1.service.Cre
   toneId: string;
 
   /**
-   * @generated from field: string context_id = 3;
+   * @generated from field: string context = 3;
    */
-  contextId: string;
+  context: string;
 
   /**
-   * @generated from field: string instruction_id = 4;
+   * @generated from field: string instruction = 4;
    */
-  instructionId: string;
+  instruction: string;
 };
 
 /**
@@ -694,7 +199,7 @@ export type CreateCounselTechniqueRequest = Message<"com.hearlers.v1.service.Cre
  * Use `create(CreateCounselTechniqueRequestSchema)` to create a new message.
  */
 export const CreateCounselTechniqueRequestSchema: GenMessage<CreateCounselTechniqueRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 32);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 8);
 
 /**
  * @generated from message com.hearlers.v1.service.CreateCounselTechniqueResponse
@@ -711,7 +216,7 @@ export type CreateCounselTechniqueResponse = Message<"com.hearlers.v1.service.Cr
  * Use `create(CreateCounselTechniqueResponseSchema)` to create a new message.
  */
 export const CreateCounselTechniqueResponseSchema: GenMessage<CreateCounselTechniqueResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 33);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 9);
 
 /**
  * @generated from message com.hearlers.v1.service.FindCounselTechniquesRequest
@@ -733,7 +238,7 @@ export type FindCounselTechniquesRequest = Message<"com.hearlers.v1.service.Find
  * Use `create(FindCounselTechniquesRequestSchema)` to create a new message.
  */
 export const FindCounselTechniquesRequestSchema: GenMessage<FindCounselTechniquesRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 34);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 10);
 
 /**
  * @generated from message com.hearlers.v1.service.FindCounselTechniquesResponse
@@ -750,7 +255,7 @@ export type FindCounselTechniquesResponse = Message<"com.hearlers.v1.service.Fin
  * Use `create(FindCounselTechniquesResponseSchema)` to create a new message.
  */
 export const FindCounselTechniquesResponseSchema: GenMessage<FindCounselTechniquesResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 35);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 11);
 
 /**
  * @generated from message com.hearlers.v1.service.FindCounselTechniqueByIdRequest
@@ -767,7 +272,7 @@ export type FindCounselTechniqueByIdRequest = Message<"com.hearlers.v1.service.F
  * Use `create(FindCounselTechniqueByIdRequestSchema)` to create a new message.
  */
 export const FindCounselTechniqueByIdRequestSchema: GenMessage<FindCounselTechniqueByIdRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 36);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 12);
 
 /**
  * @generated from message com.hearlers.v1.service.FindCounselTechniqueByIdResponse
@@ -784,7 +289,7 @@ export type FindCounselTechniqueByIdResponse = Message<"com.hearlers.v1.service.
  * Use `create(FindCounselTechniqueByIdResponseSchema)` to create a new message.
  */
 export const FindCounselTechniqueByIdResponseSchema: GenMessage<FindCounselTechniqueByIdResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 37);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 13);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateCounselTechniqueRequest
@@ -806,14 +311,14 @@ export type UpdateCounselTechniqueRequest = Message<"com.hearlers.v1.service.Upd
   toneId?: string;
 
   /**
-   * @generated from field: optional string context_id = 5;
+   * @generated from field: optional string context = 4;
    */
-  contextId?: string;
+  context?: string;
 
   /**
-   * @generated from field: optional string instruction_id = 6;
+   * @generated from field: optional string instruction = 5;
    */
-  instructionId?: string;
+  instruction?: string;
 };
 
 /**
@@ -821,7 +326,7 @@ export type UpdateCounselTechniqueRequest = Message<"com.hearlers.v1.service.Upd
  * Use `create(UpdateCounselTechniqueRequestSchema)` to create a new message.
  */
 export const UpdateCounselTechniqueRequestSchema: GenMessage<UpdateCounselTechniqueRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 38);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 14);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateCounselTechniqueResponse
@@ -838,7 +343,7 @@ export type UpdateCounselTechniqueResponse = Message<"com.hearlers.v1.service.Up
  * Use `create(UpdateCounselTechniqueResponseSchema)` to create a new message.
  */
 export const UpdateCounselTechniqueResponseSchema: GenMessage<UpdateCounselTechniqueResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 39);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 15);
 
 /**
  * @generated from message com.hearlers.v1.service.SaveCounselTechniqueSequenceRequest
@@ -855,7 +360,7 @@ export type SaveCounselTechniqueSequenceRequest = Message<"com.hearlers.v1.servi
  * Use `create(SaveCounselTechniqueSequenceRequestSchema)` to create a new message.
  */
 export const SaveCounselTechniqueSequenceRequestSchema: GenMessage<SaveCounselTechniqueSequenceRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 40);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 16);
 
 /**
  * @generated from message com.hearlers.v1.service.SaveCounselTechniqueSequenceResponse
@@ -872,114 +377,12 @@ export type SaveCounselTechniqueSequenceResponse = Message<"com.hearlers.v1.serv
  * Use `create(SaveCounselTechniqueSequenceResponseSchema)` to create a new message.
  */
 export const SaveCounselTechniqueSequenceResponseSchema: GenMessage<SaveCounselTechniqueSequenceResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 41);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 17);
 
 /**
  * @generated from service com.hearlers.v1.service.CounselPromptService
  */
 export const CounselPromptService: GenService<{
-  /**
-   * Context
-   *
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.CreateContext
-   */
-  createContext: {
-    methodKind: "unary";
-    input: typeof CreateContextRequestSchema;
-    output: typeof CreateContextResponseSchema;
-  },
-  /**
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.FindContexts
-   */
-  findContexts: {
-    methodKind: "unary";
-    input: typeof FindContextsRequestSchema;
-    output: typeof FindContextsResponseSchema;
-  },
-  /**
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.FindContextById
-   */
-  findContextById: {
-    methodKind: "unary";
-    input: typeof FindContextByIdRequestSchema;
-    output: typeof FindContextByIdResponseSchema;
-  },
-  /**
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.UpdateContext
-   */
-  updateContext: {
-    methodKind: "unary";
-    input: typeof UpdateContextRequestSchema;
-    output: typeof UpdateContextResponseSchema;
-  },
-  /**
-   * Instruction
-   *
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.CreateInstruction
-   */
-  createInstruction: {
-    methodKind: "unary";
-    input: typeof CreateInstructionRequestSchema;
-    output: typeof CreateInstructionResponseSchema;
-  },
-  /**
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.FindInstructions
-   */
-  findInstructions: {
-    methodKind: "unary";
-    input: typeof FindInstructionsRequestSchema;
-    output: typeof FindInstructionsResponseSchema;
-  },
-  /**
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.FindInstructionById
-   */
-  findInstructionById: {
-    methodKind: "unary";
-    input: typeof FindInstructionByIdRequestSchema;
-    output: typeof FindInstructionByIdResponseSchema;
-  },
-  /**
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.UpdateInstruction
-   */
-  updateInstruction: {
-    methodKind: "unary";
-    input: typeof UpdateInstructionRequestSchema;
-    output: typeof UpdateInstructionResponseSchema;
-  },
-  /**
-   * InstructionItem
-   *
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.CreateInstructionItem
-   */
-  createInstructionItem: {
-    methodKind: "unary";
-    input: typeof CreateInstructionItemRequestSchema;
-    output: typeof CreateInstructionItemResponseSchema;
-  },
-  /**
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.FindInstructionItems
-   */
-  findInstructionItems: {
-    methodKind: "unary";
-    input: typeof FindInstructionItemsRequestSchema;
-    output: typeof FindInstructionItemsResponseSchema;
-  },
-  /**
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.FindInstructionItemById
-   */
-  findInstructionItemById: {
-    methodKind: "unary";
-    input: typeof FindInstructionItemByIdRequestSchema;
-    output: typeof FindInstructionItemByIdResponseSchema;
-  },
-  /**
-   * @generated from rpc com.hearlers.v1.service.CounselPromptService.UpdateInstructionItem
-   */
-  updateInstructionItem: {
-    methodKind: "unary";
-    input: typeof UpdateInstructionItemRequestSchema;
-    output: typeof UpdateInstructionItemResponseSchema;
-  },
   /**
    * Tone
    *

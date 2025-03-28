@@ -10,156 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/model/counsel_prompt.proto.
  */
 export const file_com_hearlers_v1_model_counsel_prompt: GenFile = /*@__PURE__*/
-  fileDesc("Cipjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbF9wcm9tcHQucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCKXAQoHQ29udGV4dBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhQKDHBsYWNlaG9sZGVycxgDIAMoCRIMCgRib2R5GAQgASgJEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRIXCgpkZWxldGVkX2F0GAcgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQi7gEKC0luc3RydWN0aW9uEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSHQoQaW5pdGlhbF9zZW50ZW5jZRgDIAEoCUgAiAEBEkEKEWluc3RydWN0aW9uX2l0ZW1zGAQgAygLMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkluc3RydWN0aW9uSXRlbRISCgpjcmVhdGVkX2F0GAUgASgJEhIKCnVwZGF0ZWRfYXQYBiABKAkSFwoKZGVsZXRlZF9hdBgHIAEoCUgBiAEBQhMKEV9pbml0aWFsX3NlbnRlbmNlQg0KC19kZWxldGVkX2F0InsKD0luc3RydWN0aW9uSXRlbRIKCgJpZBgBIAEoCRIMCgRib2R5GAIgASgJEhIKCmNyZWF0ZWRfYXQYAyABKAkSEgoKdXBkYXRlZF9hdBgEIAEoCRIXCgpkZWxldGVkX2F0GAUgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQifgoEVG9uZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEgwKBGJvZHkYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCL/AQoQQ291bnNlbFRlY2huaXF1ZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg8KB3RvbmVfaWQYAyABKAkSEgoKY29udGV4dF9pZBgEIAEoCRIWCg5pbnN0cnVjdGlvbl9pZBgFIAEoCRImChluZXh0X2NvdW5zZWxfdGVjaG5pcXVlX2lkGAcgASgJSACIAQESEgoKY3JlYXRlZF9hdBgIIAEoCRISCgp1cGRhdGVkX2F0GAkgASgJEhcKCmRlbGV0ZWRfYXQYCiABKAlIAYgBAUIcChpfbmV4dF9jb3Vuc2VsX3RlY2huaXF1ZV9pZEINCgtfZGVsZXRlZF9hdEKnAQoZY29tLmNvbS5oZWFybGVycy52MS5tb2RlbEISQ291bnNlbFByb21wdFByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM");
-
-/**
- * @generated from message com.hearlers.v1.model.Context
- */
-export type Context = Message<"com.hearlers.v1.model.Context"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string name = 2;
-   */
-  name: string;
-
-  /**
-   * @generated from field: repeated string placeholders = 3;
-   */
-  placeholders: string[];
-
-  /**
-   * @generated from field: string body = 4;
-   */
-  body: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 5;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 6;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 7;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.Context.
- * Use `create(ContextSchema)` to create a new message.
- */
-export const ContextSchema: GenMessage<Context> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 0);
-
-/**
- * @generated from message com.hearlers.v1.model.Instruction
- */
-export type Instruction = Message<"com.hearlers.v1.model.Instruction"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string name = 2;
-   */
-  name: string;
-
-  /**
-   * @generated from field: optional string initial_sentence = 3;
-   */
-  initialSentence?: string;
-
-  /**
-   * @generated from field: repeated com.hearlers.v1.model.InstructionItem instruction_items = 4;
-   */
-  instructionItems: InstructionItem[];
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 5;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 6;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 7;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.Instruction.
- * Use `create(InstructionSchema)` to create a new message.
- */
-export const InstructionSchema: GenMessage<Instruction> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 1);
-
-/**
- * @generated from message com.hearlers.v1.model.InstructionItem
- */
-export type InstructionItem = Message<"com.hearlers.v1.model.InstructionItem"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * @generated from field: string body = 2;
-   */
-  body: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 3;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 4;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 5;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.InstructionItem.
- * Use `create(InstructionItemSchema)` to create a new message.
- */
-export const InstructionItemSchema: GenMessage<InstructionItem> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 2);
+  fileDesc("Cipjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbF9wcm9tcHQucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCJ+CgRUb25lEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSDAoEYm9keRgDIAEoCRISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSFwoKZGVsZXRlZF9hdBgGIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IvkBChBDb3Vuc2VsVGVjaG5pcXVlEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSDwoHdG9uZV9pZBgDIAEoCRIPCgdjb250ZXh0GAQgASgJEhMKC2luc3RydWN0aW9uGAUgASgJEiYKGW5leHRfY291bnNlbF90ZWNobmlxdWVfaWQYByABKAlIAIgBARISCgpjcmVhdGVkX2F0GAggASgJEhIKCnVwZGF0ZWRfYXQYCSABKAkSFwoKZGVsZXRlZF9hdBgKIAEoCUgBiAEBQhwKGl9uZXh0X2NvdW5zZWxfdGVjaG5pcXVlX2lkQg0KC19kZWxldGVkX2F0QqcBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQhJDb3Vuc2VsUHJvbXB0UHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw");
 
 /**
  * @generated from message com.hearlers.v1.model.Tone
@@ -207,7 +58,7 @@ export type Tone = Message<"com.hearlers.v1.model.Tone"> & {
  * Use `create(ToneSchema)` to create a new message.
  */
 export const ToneSchema: GenMessage<Tone> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 3);
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 0);
 
 /**
  * @generated from message com.hearlers.v1.model.CounselTechnique
@@ -229,14 +80,14 @@ export type CounselTechnique = Message<"com.hearlers.v1.model.CounselTechnique">
   toneId: string;
 
   /**
-   * @generated from field: string context_id = 4;
+   * @generated from field: string context = 4;
    */
-  contextId: string;
+  context: string;
 
   /**
-   * @generated from field: string instruction_id = 5;
+   * @generated from field: string instruction = 5;
    */
-  instructionId: string;
+  instruction: string;
 
   /**
    * @generated from field: optional string next_counsel_technique_id = 7;
@@ -270,5 +121,5 @@ export type CounselTechnique = Message<"com.hearlers.v1.model.CounselTechnique">
  * Use `create(CounselTechniqueSchema)` to create a new message.
  */
 export const CounselTechniqueSchema: GenMessage<CounselTechnique> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 4);
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 1);
 

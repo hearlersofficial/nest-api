@@ -14,8 +14,8 @@ export class PsqlCounselTechniquesMapper {
     const counselTechniqueProps: CounselTechniquesProps = {
       name: entity.name,
       toneId: new UniqueEntityId(entity.toneId),
-      contextId: new UniqueEntityId(entity.contextId),
-      instructionId: new UniqueEntityId(entity.instructionId),
+      context: entity.context,
+      instruction: entity.instruction,
       prevTechniqueId: entity.prevTechniqueId ? new UniqueEntityId(entity.prevTechniqueId) : null,
       nextTechniqueId: entity.nextTechniqueId ? new UniqueEntityId(entity.nextTechniqueId) : null,
       createdAt: dayjs(entity.createdAt),
@@ -48,8 +48,8 @@ export class PsqlCounselTechniquesMapper {
 
     entity.name = counselTechniques.name;
     entity.toneId = counselTechniques.toneId.getString();
-    entity.contextId = counselTechniques.contextId.getString();
-    entity.instructionId = counselTechniques.instructionId.getString();
+    entity.context = counselTechniques.context;
+    entity.instruction = counselTechniques.instruction;
     entity.prevTechniqueId = counselTechniques.prevTechniqueId ? counselTechniques.prevTechniqueId.getString() : null;
     entity.nextTechniqueId = counselTechniques.nextTechniqueId ? counselTechniques.nextTechniqueId.getString() : null;
 

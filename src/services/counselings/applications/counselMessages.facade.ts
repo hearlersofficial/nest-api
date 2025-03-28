@@ -16,7 +16,7 @@ export class CounselMessagesFacade {
     private readonly counselService: CounselsService,
     private readonly proceedCounselingUseCase: ProceedCounselingUseCase,
   ) {}
-  async CreateMessage(params: { counselId: UniqueEntityId; message: string }): Promise<CreatedAndResponseMessages> {
+  async createMessage(params: { counselId: UniqueEntityId; message: string }): Promise<CreatedAndResponseMessages> {
     const { counselId, message } = params;
     const counsel = await this.counselService.getOne({ counselId });
     const proceedCounselingResult = await this.proceedCounselingUseCase.execute({

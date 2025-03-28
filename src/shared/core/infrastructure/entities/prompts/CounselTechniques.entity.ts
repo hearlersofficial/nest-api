@@ -1,7 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
-import { ContextEntity } from "~shared/core/infrastructure/entities/prompts/Contexts.entity";
-import { InstructionEntity } from "~shared/core/infrastructure/entities/prompts/Instructions.entity";
 import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
@@ -27,29 +25,19 @@ export class CounselTechniquesEntity extends CoreEntity {
   })
   toneId: string;
 
-  @ManyToOne(() => ContextEntity, (context) => context.counselTechniques)
-  @JoinColumn({ name: "context_id" })
-  context: ContextEntity;
-
-  @RelationId((technique: CounselTechniquesEntity) => technique.context)
   @Column({
-    type: "bigint",
-    name: "context_id",
-    comment: "컨텍스트 ID",
+    type: "text",
+    name: "context",
+    comment: "컨텍스트",
   })
-  contextId: string;
+  context: string;
 
-  @ManyToOne(() => InstructionEntity, (instruction) => instruction.counselTechniques)
-  @JoinColumn({ name: "instruction_id" })
-  instruction: InstructionEntity;
-
-  @RelationId((technique: CounselTechniquesEntity) => technique.instruction)
   @Column({
-    type: "bigint",
-    name: "instruction_id",
-    comment: "지시사항 ID",
+    type: "text",
+    name: "instruction",
+    comment: "지시사항",
   })
-  instructionId: string;
+  instruction: string;
 
   // 이전 노드를 가리키는 관계
   @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, { nullable: true })

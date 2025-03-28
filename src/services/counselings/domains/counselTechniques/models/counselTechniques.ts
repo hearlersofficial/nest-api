@@ -9,8 +9,8 @@ import { Dayjs } from "dayjs";
 export interface CounselTechniquesNewProps {
   name: string;
   toneId: UniqueEntityId;
-  contextId: UniqueEntityId;
-  instructionId: UniqueEntityId;
+  context: string;
+  instruction: string;
 }
 
 export interface CounselTechniquesProps extends CounselTechniquesNewProps {
@@ -59,14 +59,14 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
       return Result.fail<void>("[CounselTechniques] 이름은 필수입니다");
     }
 
-    // contextId 검증
-    if (this.props.contextId === null || this.props.contextId === undefined) {
-      return Result.fail<void>("[CounselTechniques] 컨텍스트 ID는 필수입니다");
+    // context 검증
+    if (this.props.context === null || this.props.context === undefined) {
+      return Result.fail<void>("[CounselTechniques] 컨텍스트는 필수입니다");
     }
 
-    // instructionId 검증
-    if (this.props.instructionId === null || this.props.instructionId === undefined) {
-      return Result.fail<void>("[CounselTechniques] 지시사항 ID는 필수입니다");
+    // instruction 검증
+    if (this.props.instruction === null || this.props.instruction === undefined) {
+      return Result.fail<void>("[CounselTechniques] 지시사항은 필수입니다");
     }
 
     // toneId 검증
@@ -94,12 +94,12 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     return this.props.toneId;
   }
 
-  get contextId(): UniqueEntityId {
-    return this.props.contextId;
+  get context(): string {
+    return this.props.context;
   }
 
-  get instructionId(): UniqueEntityId {
-    return this.props.instructionId;
+  get instruction(): string {
+    return this.props.instruction;
   }
 
   get nextTechniqueId(): UniqueEntityId | null {
@@ -130,11 +130,11 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     if (isDefined(props.toneId) && props.toneId !== this.props.toneId) {
       this.props.toneId = props.toneId;
     }
-    if (isDefined(props.contextId) && props.contextId !== this.props.contextId) {
-      this.props.contextId = props.contextId;
+    if (isDefined(props.context) && props.context !== this.props.context) {
+      this.props.context = props.context;
     }
-    if (isDefined(props.instructionId) && props.instructionId !== this.props.instructionId) {
-      this.props.instructionId = props.instructionId;
+    if (isDefined(props.instruction) && props.instruction !== this.props.instruction) {
+      this.props.instruction = props.instruction;
     }
     if (props.prevTechniqueId !== undefined && props.prevTechniqueId !== this.props.prevTechniqueId) {
       this.props.prevTechniqueId = props.prevTechniqueId;

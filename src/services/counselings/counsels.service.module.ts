@@ -1,28 +1,22 @@
 import { ClientsConfigs, KAFKA_CLIENT, TypeOrmConfigs } from "~shared/core/infrastructure/Config";
 import { AllExceptionFilter } from "~shared/filters/GrpcExceptionFilter";
 import { LoggingInterceptor } from "~shared/interceptors/LoggingInterceptor";
-import { ContextsFacade } from "~counselings/applications/contexts.facade";
 import { CounselMessagesFacade } from "~counselings/applications/counselMessages.facade";
 import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { CounselsFacade } from "~counselings/applications/counsels.facade";
 import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
-import { InstructionItemsFacade } from "~counselings/applications/instructionItems.facade";
-import { InstructionsFacade } from "~counselings/applications/instructions.facade";
 import { TonesFacade } from "~counselings/applications/tones.facade";
 import { GenerateGptResponseUseCase } from "~counselings/applications/use-cases/generate-gpt-response";
 import { MakeSystemPromptUseCase } from "~counselings/applications/use-cases/make-system-prompt";
 import { ProceedCounselingUseCase } from "~counselings/applications/use-cases/proceed-counseling";
 import { TransitionCounselTechniqueUseCase } from "~counselings/applications/use-cases/transition-counselTechique";
-import { ContextsModule } from "~counselings/domains/contexts/contexts.module";
 import { CounselMessagesModule } from "~counselings/domains/counselMessages/counselMessages.module";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
-import { InstructionItemsModule } from "~counselings/domains/instructionItems/instructionItems.module";
-import { InstructionsModule } from "~counselings/domains/instructions/instructions.module";
 import { TonesModule } from "~counselings/domains/tones/tones.module";
-import { GrpcCounselCommandController } from "~counselings/presentations/grpc/command/counsels.command.controller";
-import { GrpcCounselQueryController } from "~counselings/presentations/grpc/query/counsels.query.controller";
+import { GrpcCounselCommandController } from "~counselings/presentations/grpc/command/counsels-command.controller";
+import { GrpcCounselQueryController } from "~counselings/presentations/grpc/query/counsels-query.controller";
 
 import { Inject, Logger, Module, OnModuleInit } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
@@ -36,9 +30,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     CounselsModule,
     CounselMessagesModule,
     CounselorsModule,
-    ContextsModule,
-    InstructionsModule,
-    InstructionItemsModule,
     TonesModule,
     CounselTechniquesModule,
 
@@ -57,9 +48,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     CounselsFacade,
     CounselMessagesFacade,
     CounselorsFacade,
-    ContextsFacade,
-    InstructionsFacade,
-    InstructionItemsFacade,
     TonesFacade,
     CounselTechniquesFacade,
 

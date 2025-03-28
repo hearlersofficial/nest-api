@@ -15,7 +15,11 @@ import { CounselorsModule } from "~counselings/domains/counselors/counselors.mod
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
 import { TonesModule } from "~counselings/domains/tones/tones.module";
+import { GrpcCounselorCommandController } from "~counselings/presentations/grpc/command/counselors-command.controller";
+import { GrpcCounselPromptCommandController } from "~counselings/presentations/grpc/command/counselPrompts-command.controller";
 import { GrpcCounselCommandController } from "~counselings/presentations/grpc/command/counsels-command.controller";
+import { GrpcCounselorQueryController } from "~counselings/presentations/grpc/query/counselors-query.controller";
+import { GrpcCounselPromptQueryController } from "~counselings/presentations/grpc/query/counselPrompts-query.controller";
 import { GrpcCounselQueryController } from "~counselings/presentations/grpc/query/counsels-query.controller";
 
 import { Inject, Logger, Module, OnModuleInit } from "@nestjs/common";
@@ -43,7 +47,15 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       useClass: TypeOrmConfigs,
     }),
   ],
-  controllers: [GrpcCounselCommandController, GrpcCounselQueryController],
+  controllers: [
+    GrpcCounselCommandController,
+    GrpcCounselorCommandController,
+    GrpcCounselPromptCommandController,
+
+    GrpcCounselQueryController,
+    GrpcCounselorQueryController,
+    GrpcCounselPromptQueryController,
+  ],
   providers: [
     CounselsFacade,
     CounselMessagesFacade,

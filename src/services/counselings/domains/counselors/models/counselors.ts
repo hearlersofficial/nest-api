@@ -3,7 +3,7 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { isDefined } from "~shared/utils/Validate.utils";
-import { Bubble, BubbleList } from "~counselings/domains/counselors/models/const/Bubble.const";
+import { Bubble, BubbleList } from "~counselings/domains/counselors/models/const/bubble.const";
 import { Personas } from "~counselings/domains/counselors/models/personas";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 

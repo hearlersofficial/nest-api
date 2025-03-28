@@ -17,7 +17,6 @@ import { ChatCompletionMessageParam } from "openai/resources";
 
 @Injectable()
 export class ProceedCounselingUseCase implements UseCase<ProceedCounselingRequest, ProceedCounselingResponse> {
-  private readonly MessageCountForNextPrompt = 200;
   private readonly TimeDurationForPromptReset = 1000 * 60 * 60 * 6; // 6 hours
 
   constructor(
@@ -48,7 +47,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
       await this.counselService.update(counsel);
     }
     // 상담 기법 변경 여부 확인
-    else if (this.needCounselTechniqueTransition(counselMessages)) {
+    else if (await this.needCounselTechniqueTransition(counselMessages)) {
       const transitionCounselTechniqueResponse = await this.transitionCounselTechniqueUseCase.execute({ counsel });
       if (!transitionCounselTechniqueResponse.ok) {
         throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, transitionCounselTechniqueResponse.error as string);
@@ -129,15 +128,16 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     return now.diff(lastMessageCreatedAt) > this.TimeDurationForPromptReset;
   }
 
-  private needCounselTechniqueTransition(counselMessages: CounselMessages[]): boolean {
+  private async needCounselTechniqueTransition(counselMessages: CounselMessages[]): Promise<boolean> {
     let messageCountAtCurrentTechnique = 0;
     const currentCounselTechniqueId = counselMessages[counselMessages.length - 1].counselTechniqueId;
+    const currentCounselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId: currentCounselTechniqueId });
     for (let i = counselMessages.length - 1; i >= 0; i--) {
       if (!counselMessages[i].counselTechniqueId.equals(currentCounselTechniqueId)) {
         break;
       }
       messageCountAtCurrentTechnique++;
     }
-    return messageCountAtCurrentTechnique > this.MessageCountForNextPrompt;
+    return messageCountAtCurrentTechnique > currentCounselTechnique.messageThreshold;
   }
 }

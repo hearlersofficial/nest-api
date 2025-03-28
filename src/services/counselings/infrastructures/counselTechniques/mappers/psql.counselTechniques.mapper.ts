@@ -16,6 +16,7 @@ export class PsqlCounselTechniquesMapper {
       toneId: new UniqueEntityId(entity.toneId),
       context: entity.context,
       instruction: entity.instruction,
+      messageThreshold: entity.messageThreshold,
       prevTechniqueId: entity.prevTechniqueId ? new UniqueEntityId(entity.prevTechniqueId) : null,
       nextTechniqueId: entity.nextTechniqueId ? new UniqueEntityId(entity.nextTechniqueId) : null,
       createdAt: dayjs(entity.createdAt),
@@ -50,6 +51,8 @@ export class PsqlCounselTechniquesMapper {
     entity.toneId = counselTechniques.toneId.getString();
     entity.context = counselTechniques.context;
     entity.instruction = counselTechniques.instruction;
+    entity.messageThreshold = counselTechniques.messageThreshold;
+
     entity.prevTechniqueId = counselTechniques.prevTechniqueId ? counselTechniques.prevTechniqueId.getString() : null;
     entity.nextTechniqueId = counselTechniques.nextTechniqueId ? counselTechniques.nextTechniqueId.getString() : null;
 

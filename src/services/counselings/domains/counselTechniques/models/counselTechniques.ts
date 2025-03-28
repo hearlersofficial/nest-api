@@ -11,6 +11,7 @@ export interface CounselTechniquesNewProps {
   toneId: UniqueEntityId;
   context: string;
   instruction: string;
+  messageThreshold: number;
 }
 
 export interface CounselTechniquesProps extends CounselTechniquesNewProps {
@@ -74,6 +75,11 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
       return Result.fail<void>("[CounselTechniques] 톤 ID는 필수입니다");
     }
 
+    // messageThreshold 검증
+    if (this.props.messageThreshold === null || this.props.messageThreshold === undefined) {
+      return Result.fail<void>("[CounselTechniques] 전환에 필요한 메시지 수는 필수입니다");
+    }
+
     // 날짜 검증
     if (!this.props.createdAt) {
       return Result.fail<void>("[CounselTechniques] 생성 시간은 필수입니다");
@@ -100,6 +106,10 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
 
   get instruction(): string {
     return this.props.instruction;
+  }
+
+  get messageThreshold(): number {
+    return this.props.messageThreshold;
   }
 
   get nextTechniqueId(): UniqueEntityId | null {
@@ -135,6 +145,9 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     }
     if (isDefined(props.instruction) && props.instruction !== this.props.instruction) {
       this.props.instruction = props.instruction;
+    }
+    if (isDefined(props.messageThreshold) && props.messageThreshold !== this.props.messageThreshold) {
+      this.props.messageThreshold = props.messageThreshold;
     }
     if (props.prevTechniqueId !== undefined && props.prevTechniqueId !== this.props.prevTechniqueId) {
       this.props.prevTechniqueId = props.prevTechniqueId;

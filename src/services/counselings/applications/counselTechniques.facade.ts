@@ -1,6 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
+import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 
@@ -8,9 +9,9 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 export class CounselTechniquesFacade {
   constructor(private readonly counselTechniquesService: CounselTechniquesService) {}
 
-  async createCounselTechnique(params: { name: string; toneId: UniqueEntityId; context: string; instruction: string }) {
-    const { name, toneId, context, instruction } = params;
-    return this.counselTechniquesService.create({ name, toneId, context, instruction });
+  async createCounselTechnique(params: { name: string; toneId: UniqueEntityId; context: string; instruction: string; messageThreshold: number }) {
+    const { name, toneId, context, instruction, messageThreshold } = params;
+    return this.counselTechniquesService.create({ name, toneId, context, instruction, messageThreshold });
   }
 
   async findCounselTechniques(params: { name?: string; toneId?: UniqueEntityId }) {
@@ -23,49 +24,49 @@ export class CounselTechniquesFacade {
     return this.counselTechniquesService.getOne({ counselTechniqueId });
   }
 
-  async updateCounselTechnique(params: { counselTechniqueId: UniqueEntityId; name?: string; toneId?: UniqueEntityId; context?: string; instruction?: string }) {
-    const { counselTechniqueId, name, toneId, context, instruction } = params;
+  async updateCounselTechnique(params: {
+    counselTechniqueId: UniqueEntityId;
+    name?: string;
+    context?: string;
+    instruction?: string;
+    messageThreshold?: number;
+  }) {
+    const { counselTechniqueId, name, context, instruction, messageThreshold } = params;
     const technique = await this.counselTechniquesService.getOne({ counselTechniqueId });
 
-    technique.update({ name, toneId, context, instruction });
+    technique.update({ name, context, instruction, messageThreshold });
     return this.counselTechniquesService.update(technique);
   }
 
-  async saveCounselTechniqueSequence(params: { counselTechniqueIds: UniqueEntityId[] }) {
-    const { counselTechniqueIds } = params;
+  async saveCounselTechniqueSequence(params: { toneId: UniqueEntityId; counselTechniqueIds: UniqueEntityId[] }) {
+    const { toneId, counselTechniqueIds } = params;
 
-    // 상답 기법 조회
-    const counselTechniques = await this.counselTechniquesService.findMany({ ids: counselTechniqueIds });
-    if (counselTechniques.length !== counselTechniqueIds.length) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel techniques not found");
-    }
+    // 해당 톤의 기법들 조회
+    const existingTechniques = await this.counselTechniquesService.findMany({ toneId });
 
-    // 기존 연결 해제
-    for (const counselTechnique of counselTechniques) {
-      if (counselTechnique.prevTechniqueId !== null) {
-        const prevTechnique = await this.counselTechniquesService.findOne({ counselTechniqueId: counselTechnique.prevTechniqueId });
-        if (prevTechnique !== null) {
-          prevTechnique.update({ nextTechniqueId: null });
-          await this.counselTechniquesService.update(prevTechnique);
-        }
+    // 기존 기법목록 삭제
+    existingTechniques.forEach((technique) => {
+      technique.delete();
+    });
+
+    // 빠른 조회를 위한 Map 생성
+    const techniqueMap = new Map(existingTechniques.map((t) => [t.id.getString(), t]));
+
+    const newTechniques: CounselTechniques[] = [];
+    // id에 따라 새로운 기법목록 생성
+    for (const [index, techniqueId] of counselTechniqueIds.entries()) {
+      const technique = techniqueMap.get(techniqueId.getString());
+      if (!technique) {
+        throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Technique not found");
       }
-      if (counselTechnique.nextTechniqueId !== null) {
-        const nextTechnique = await this.counselTechniquesService.findOne({ counselTechniqueId: counselTechnique.nextTechniqueId });
-        if (nextTechnique !== null) {
-          nextTechnique.update({ prevTechniqueId: null });
-          await this.counselTechniquesService.update(nextTechnique);
-        }
-      }
+      technique.restore();
+      technique.update({ prevTechniqueId: counselTechniqueIds[index - 1] ?? null });
+      technique.update({ nextTechniqueId: counselTechniqueIds[index + 1] ?? null });
+      newTechniques.push(technique);
     }
 
-    // 새로운 리스트 생성
-    for (const [index, counselTechnique] of counselTechniques.entries()) {
-      counselTechnique.update({ prevTechniqueId: counselTechniques[index - 1]?.id ?? null });
-      counselTechnique.update({ nextTechniqueId: counselTechniques[index + 1]?.id ?? null });
-    }
+    await this.counselTechniquesService.updateMany(existingTechniques);
 
-    await this.counselTechniquesService.updateMany(counselTechniques);
-
-    return { counselTechniques };
+    return newTechniques;
   }
 }

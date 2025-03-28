@@ -39,8 +39,15 @@ export class CounselTechniquesEntity extends CoreEntity {
   })
   instruction: string;
 
+  @Column({
+    type: "int",
+    name: "message_threshold",
+    comment: "전환에 필요한 메시지 수",
+  })
+  messageThreshold: number;
+
   // 이전 노드를 가리키는 관계
-  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, { nullable: true })
+  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, { nullable: true, createForeignKeyConstraints: false })
   @JoinColumn({ name: "prev_technique_id" })
   prevTechnique: CounselTechniquesEntity | null;
 
@@ -54,7 +61,7 @@ export class CounselTechniquesEntity extends CoreEntity {
   prevTechniqueId: string | null;
 
   // 다음 노드를 가리키는 관계
-  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.prevTechnique, { nullable: true })
+  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.prevTechnique, { nullable: true, createForeignKeyConstraints: false })
   @JoinColumn({ name: "next_technique_id" })
   nextTechnique: CounselTechniquesEntity | null;
 

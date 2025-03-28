@@ -48,7 +48,6 @@ export class CounselorsEntity extends CoreEntity {
   @OneToOne(() => PersonaEntity, (persona) => persona.counselor, {
     cascade: true,
   })
-  @JoinColumn({ name: "persona_id" })
   persona: PersonaEntity;
 
   @OneToMany(() => CounselsEntity, (counsel) => counsel.counselor, {

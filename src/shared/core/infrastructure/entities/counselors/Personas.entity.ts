@@ -15,7 +15,10 @@ export class PersonaEntity extends CoreEntity {
   })
   body: string;
 
-  @OneToOne(() => CounselorsEntity, (counselor) => counselor.persona)
+  @OneToOne(() => CounselorsEntity, (counselor) => counselor.persona, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
   @JoinColumn({ name: "counselor_id" })
   counselor: CounselorsEntity;
 

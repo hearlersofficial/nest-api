@@ -52,7 +52,6 @@ import { ClientKafka, ClientsModule } from "@nestjs/microservices";
     MakeSystemPromptUseCase,
     GenerateGptResponseUseCase,
     ProceedCounselingUseCase,
-    TransitionCounselTechniqueUseCase,
   ],
 })
 export class CounselsServiceModule implements OnModuleInit, OnModuleDestroy {

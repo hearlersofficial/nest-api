@@ -43,7 +43,8 @@ export class GrpcCounselQueryController {
 
   @GrpcMethod("CounselService", "FindMessages")
   async findMessages(data: FindMessagesRequest): Promise<FindMessagesResponse> {
-    const counselMessages = await this.counselMessagesFacade.findMessages({ counselId: new UniqueEntityId(data.counselId) });
+    const { counselId } = data;
+    const counselMessages = await this.counselMessagesFacade.findMessages({ counselId: new UniqueEntityId(counselId) });
     return create(FindMessagesResponseSchema, {
       counselMessages: counselMessages.map((message) => SchemaCounselsMapper.toCounselMessageProto(message)),
     });

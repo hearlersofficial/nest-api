@@ -38,7 +38,7 @@ export class GrpcCounselorCommandController {
     const { counselorId, toneId, name, description, counselorGender, persona } = request;
     const counselor = await this.counselorsFacade.updateCounselor({
       counselorId: new UniqueEntityId(counselorId),
-      toneId: new UniqueEntityId(toneId),
+      toneId: toneId ? new UniqueEntityId(toneId) : undefined,
       name,
       description,
       counselorGender,

@@ -46,7 +46,7 @@ export class GrpcCounselPromptQueryController {
   @GrpcMethod("CounselPromptService", "FindCounselTechniques")
   async findCounselTechniques(data: FindCounselTechniquesRequest): Promise<FindCounselTechniquesResponse> {
     const { name, toneId } = data;
-    const techniques = await this.counselTechniquesFacade.findCounselTechniques({ name, toneId: new UniqueEntityId(toneId) });
+    const techniques = await this.counselTechniquesFacade.findCounselTechniques({ name, toneId: toneId ? new UniqueEntityId(toneId) : undefined });
     return create(FindCounselTechniquesResponseSchema, {
       counselTechniques: techniques.map((technique) => SchemaCounselPromptsMapper.toCounselTechniqueProto(technique)),
     });

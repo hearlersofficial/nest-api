@@ -21,7 +21,7 @@ export class GrpcCounselorQueryController {
   @GrpcMethod("CounselorService", "FindCounselors")
   async findCounselors(data: FindCounselorsRequest): Promise<FindCounselorsResponse> {
     const { toneId } = data;
-    const counselors = await this.counselorsFacade.findCounselors({ toneId: new UniqueEntityId(toneId) });
+    const counselors = await this.counselorsFacade.findCounselors({ toneId: toneId ? new UniqueEntityId(toneId) : undefined });
     return create(FindCounselorsResponseSchema, {
       counselors: counselors.map((counselor) => SchemaCounselorsMapper.toCounselorProto(counselor)),
     });

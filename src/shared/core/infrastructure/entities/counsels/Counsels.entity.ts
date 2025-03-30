@@ -3,6 +3,7 @@ import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselor
 import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/counsels/CounselMessages.entity";
 import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/counsels/CounselorUserRelationships.entity";
 import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
+import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
@@ -57,6 +58,21 @@ export class CounselsEntity extends CoreEntity {
     comment: "상담사 ID",
   })
   counselorId: string;
+
+  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.counsels, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn({ name: "prompt_version_id" })
+  promptVersion: PromptVersionEntity;
+
+  @RelationId((counsels: CounselsEntity) => counsels.promptVersion)
+  @Column({
+    type: "bigint",
+    name: "prompt_version_id",
+    comment: "프롬프트 버전 ID",
+  })
+  promptVersionId: string;
 
   @ManyToOne(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.counsels, {
     onDelete: "CASCADE",

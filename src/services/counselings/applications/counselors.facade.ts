@@ -4,11 +4,13 @@ import { Counselors } from "~counselings/domains/counselors/models/counselors";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { Injectable } from "@nestjs/common";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselorsFacade {
   constructor(private readonly counselorsService: CounselorsService) {}
 
+  @Transactional()
   async createCounselor(params: {
     toneId: UniqueEntityId;
     name: string;
@@ -32,6 +34,7 @@ export class CounselorsFacade {
     return this.counselorsService.getOne({ counselorId });
   }
 
+  @Transactional()
   async updateCounselor(params: {
     counselorId: UniqueEntityId;
     toneId?: UniqueEntityId;

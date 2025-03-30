@@ -2,11 +2,13 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { TonesService } from "~counselings/domains/tones/tones.service";
 
 import { Injectable } from "@nestjs/common";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class TonesFacade {
   constructor(private readonly tonesService: TonesService) {}
 
+  @Transactional()
   async createTone(params: { name: string; body: string }) {
     const { name, body } = params;
     return this.tonesService.create({ name, body });
@@ -22,6 +24,7 @@ export class TonesFacade {
     return this.tonesService.getOne({ toneId });
   }
 
+  @Transactional()
   async updateTone(params: { toneId: UniqueEntityId; name?: string; body?: string }) {
     const { toneId, name, body } = params;
     const tone = await this.tonesService.getOne({ toneId });

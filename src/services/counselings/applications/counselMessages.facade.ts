@@ -8,6 +8,7 @@ import { CounselsService } from "~counselings/domains/counsels/counsels.service"
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselMessagesFacade {
@@ -16,6 +17,8 @@ export class CounselMessagesFacade {
     private readonly counselService: CounselsService,
     private readonly proceedCounselingUseCase: ProceedCounselingUseCase,
   ) {}
+
+  @Transactional()
   async createMessage(params: { counselId: UniqueEntityId; message: string }): Promise<CreatedAndResponseMessages> {
     const { counselId, message } = params;
     const counsel = await this.counselService.getOne({ counselId });
@@ -38,6 +41,7 @@ export class CounselMessagesFacade {
     return this.counselMessagesService.findMany({ counselId });
   }
 
+  @Transactional()
   async reactMessage(params: { counselMessageId: UniqueEntityId; reaction: CounselMessageReaction }) {
     const { counselMessageId, reaction } = params;
     const message = await this.counselMessagesService.getOne({ counselMessageId });

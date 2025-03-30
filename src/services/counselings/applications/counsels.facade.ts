@@ -11,6 +11,7 @@ import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselsFacade {
@@ -24,6 +25,7 @@ export class CounselsFacade {
     private readonly proceedCounselingUseCase: ProceedCounselingUseCase,
   ) {}
 
+  @Transactional()
   async createCounsel(params: {
     userId: UniqueEntityId;
     counselorId: UniqueEntityId;

@@ -1,5 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { Tones, TonesProps } from "~counselings/domains/tones/models/tones";
 
@@ -14,7 +14,7 @@ export class PsqlTonesMapper {
 
     const toneProps: TonesProps = {
       name: entity.name,
-      body: entity.body,
+      description: entity.description,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
@@ -40,7 +40,7 @@ export class PsqlTonesMapper {
 
     entity.id = tones.id.getString();
     entity.name = tones.name;
-    entity.body = tones.body;
+    entity.description = tones.description;
     entity.createdAt = tones.createdAt.toISOString();
     entity.updatedAt = tones.updatedAt.toISOString();
     entity.deletedAt = tones.deletedAt ? tones.deletedAt.toISOString() : null;

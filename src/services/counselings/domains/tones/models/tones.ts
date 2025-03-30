@@ -8,7 +8,7 @@ import { Dayjs } from "dayjs";
 
 export interface TonesNewProps {
   name: string;
-  body: string;
+  description: string;
 }
 
 export interface TonesProps extends TonesNewProps {
@@ -51,8 +51,8 @@ export class Tones extends AggregateRoot<TonesProps> {
     if (isDefined(props.name)) {
       this.props.name = props.name;
     }
-    if (isDefined(props.body)) {
-      this.props.body = props.body;
+    if (isDefined(props.description)) {
+      this.props.description = props.description;
     }
     this.props.updatedAt = getNowDayjs();
   }
@@ -63,9 +63,9 @@ export class Tones extends AggregateRoot<TonesProps> {
       return Result.fail<void>("[Tones] 이름은 필수입니다");
     }
 
-    // body 검증
-    if (this.props.body === null || this.props.body === undefined) {
-      return Result.fail<void>("[Tones] 본문은 필수입니다");
+    // description 검증
+    if (this.props.description === null || this.props.description === undefined) {
+      return Result.fail<void>("[Tones] 설명은 필수입니다");
     }
 
     // 날짜 검증
@@ -83,8 +83,8 @@ export class Tones extends AggregateRoot<TonesProps> {
     return this.props.name;
   }
 
-  get body(): string {
-    return this.props.body;
+  get description(): string {
+    return this.props.description;
   }
 
   get createdAt(): Dayjs {
@@ -100,11 +100,6 @@ export class Tones extends AggregateRoot<TonesProps> {
   }
 
   // Methods
-  public getPrompt(): Result<string> {
-    const prompt = `<Tone>\n${this.props.body}`;
-    return Result.ok<string>(prompt);
-  }
-
   public delete(): void {
     this.props.deletedAt = getNowDayjs();
   }

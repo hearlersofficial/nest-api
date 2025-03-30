@@ -1,5 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
 import { Tones } from "~counselings/domains/tones/models/tones";
 
 import { Injectable } from "@nestjs/common";

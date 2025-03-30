@@ -133,11 +133,15 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     const currentCounselTechniqueId = counselMessages[counselMessages.length - 1].counselTechniqueId;
     const currentCounselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId: currentCounselTechniqueId });
     for (let i = counselMessages.length - 1; i >= 0; i--) {
-      if (!counselMessages[i].counselTechniqueId.equals(currentCounselTechniqueId)) {
+      const message = counselMessages[i];
+      if (!message.isUserMessage) {
+        continue;
+      }
+      if (!message.counselTechniqueId.equals(currentCounselTechniqueId)) {
         break;
       }
       messageCountAtCurrentTechnique++;
     }
-    return messageCountAtCurrentTechnique > currentCounselTechnique.messageThreshold;
+    return messageCountAtCurrentTechnique >= currentCounselTechnique.messageThreshold;
   }
 }

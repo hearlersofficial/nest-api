@@ -1,6 +1,7 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
-import { ToneEntity } from "~shared/core/infrastructure/entities/prompts/Tones.entity";
+import { PromptByTonesEntity } from "~shared/core/infrastructure/entities/prompts/PromptByTones.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 
@@ -48,19 +49,9 @@ export class CounselTechniquesEntity extends CoreEntity {
 
   // 이전 노드를 가리키는 관계
   @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, { nullable: true, createForeignKeyConstraints: false })
-  @JoinColumn({ name: "prev_technique_id" })
   prevTechnique: CounselTechniquesEntity | null;
 
-  @RelationId((technique: CounselTechniquesEntity) => technique.prevTechnique)
-  @Column({
-    type: "bigint",
-    name: "prev_technique_id",
-    comment: "이전 노드 ID",
-    nullable: true,
-  })
-  prevTechniqueId: string | null;
-
-  // 다음 노드를 가리키는 관계
+  // 다음 노드를 가리키는 관계(소유측)
   @OneToOne(() => CounselTechniquesEntity, (technique) => technique.prevTechnique, { nullable: true, createForeignKeyConstraints: false })
   @JoinColumn({ name: "next_technique_id" })
   nextTechnique: CounselTechniquesEntity | null;
@@ -78,4 +69,9 @@ export class CounselTechniquesEntity extends CoreEntity {
     cascade: true,
   })
   counsels: CounselsEntity[];
+
+  @OneToMany(() => PromptByTonesEntity, (promptByTones) => promptByTones.firstCounselTechnique, {
+    cascade: true,
+  })
+  promptByTones: PromptByTonesEntity[];
 }

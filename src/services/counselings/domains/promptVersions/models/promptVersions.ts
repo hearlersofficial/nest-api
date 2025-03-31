@@ -230,6 +230,9 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
   }
 
   public updatePromptByCounselor(counselorId: UniqueEntityId, personaPromptId: UniqueEntityId): Result<void> {
+    if (!this.props.isTemporary) {
+      return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
+    }
     for (const promptByCounselor of this.props.promptByCounselors) {
       if (promptByCounselor.counselorId.equals(counselorId)) {
         promptByCounselor.update({ personaPromptId });
@@ -250,6 +253,9 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok<void>();
   }
   public updatePromptByTone(toneId: UniqueEntityId, tonePromptId: UniqueEntityId, firstCounselTechniqueId: UniqueEntityId): Result<void> {
+    if (!this.props.isTemporary) {
+      return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
+    }
     for (const promptByTone of this.props.promptByTones) {
       if (promptByTone.toneId.equals(toneId)) {
         promptByTone.update({ tonePromptId, firstCounselTechniqueId });

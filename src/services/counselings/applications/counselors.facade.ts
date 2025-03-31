@@ -11,17 +11,9 @@ export class CounselorsFacade {
   constructor(private readonly counselorsService: CounselorsService) {}
 
   @Transactional()
-  async createCounselor(params: {
-    toneId: UniqueEntityId;
-    name: string;
-    description: string;
-    counselorGender: CounselorGender;
-    persona: string;
-  }): Promise<Counselors> {
-    const { toneId, name, description, counselorGender, persona } = params;
-    const counselor = await this.counselorsService.create({ toneId, name, description, gender: counselorGender });
-    counselor.updatePersona(persona);
-    return this.counselorsService.update(counselor);
+  async createCounselor(params: { toneId: UniqueEntityId; name: string; description: string; counselorGender: CounselorGender }): Promise<Counselors> {
+    const { toneId, name, description, counselorGender } = params;
+    return this.counselorsService.create({ toneId, name, description, gender: counselorGender });
   }
 
   async findCounselors(params: { toneId?: UniqueEntityId }): Promise<Counselors[]> {
@@ -41,15 +33,10 @@ export class CounselorsFacade {
     name?: string;
     description?: string;
     counselorGender?: CounselorGender;
-    persona?: string;
   }): Promise<Counselors> {
-    const { counselorId, toneId, name, description, counselorGender, persona } = params;
+    const { counselorId, toneId, name, description, counselorGender } = params;
     const counselor = await this.counselorsService.getOne({ counselorId });
-
     counselor.update({ toneId, name, description, gender: counselorGender });
-    if (persona) {
-      counselor.updatePersona(persona);
-    }
     return this.counselorsService.update(counselor);
   }
 }

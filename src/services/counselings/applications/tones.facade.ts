@@ -9,9 +9,9 @@ export class TonesFacade {
   constructor(private readonly tonesService: TonesService) {}
 
   @Transactional()
-  async createTone(params: { name: string; body: string }) {
-    const { name, body } = params;
-    return this.tonesService.create({ name, body });
+  async createTone(params: { name: string; description: string }) {
+    const { name, description } = params;
+    return this.tonesService.create({ name, description });
   }
 
   async findTones(params: { name?: string }) {
@@ -25,11 +25,11 @@ export class TonesFacade {
   }
 
   @Transactional()
-  async updateTone(params: { toneId: UniqueEntityId; name?: string; body?: string }) {
-    const { toneId, name, body } = params;
+  async updateTone(params: { toneId: UniqueEntityId; name?: string; description?: string }) {
+    const { toneId, name, description } = params;
     const tone = await this.tonesService.getOne({ toneId });
 
-    tone.update({ name, body });
+    tone.update({ name, description });
     return this.tonesService.update(tone);
   }
 }

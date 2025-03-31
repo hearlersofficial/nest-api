@@ -212,38 +212,50 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.deletedAt = null;
   }
 
-  public activate(): void {
+  public activate(): Result<void> {
+    if (this.props.isTemporary) {
+      return Result.fail<void>("[PromptVersions] Temporary PromptVersion cannot be activated.");
+    }
     this.props.isActive = true;
     this.props.updatedAt = getNowDayjs();
+    return Result.ok<void>();
   }
 
-  public deactivate(): void {
+  public deactivate(): Result<void> {
+    if (!this.isActive) {
+      return Result.fail<void>("[PromptVersions] PromptVersion is already inactive.");
+    }
     this.props.isActive = false;
     this.props.updatedAt = getNowDayjs();
+    return Result.ok<void>();
   }
 
-  public saveVersion(name: string, description: string): void {
-    this.props.name = name;
-    this.props.description = description;
+  public saveVersion(props: { name: string; description: string }): Result<void> {
+    if (!this.props.isTemporary) {
+      return Result.fail<void>("[PromptVersions] Only temporary versions can be saved.");
+    }
+    this.props.name = props.name;
+    this.props.description = props.description;
     this.props.isTemporary = false;
     this.props.updatedAt = getNowDayjs();
+    return Result.ok<void>();
   }
 
-  public updatePromptByCounselor(counselorId: UniqueEntityId, personaPromptId: UniqueEntityId): Result<void> {
+  public updatePromptByCounselor(props: { counselorId: UniqueEntityId; personaPromptId: UniqueEntityId }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
     for (const promptByCounselor of this.props.promptByCounselors) {
-      if (promptByCounselor.counselorId.equals(counselorId)) {
-        promptByCounselor.update({ personaPromptId });
+      if (promptByCounselor.counselorId.equals(props.counselorId)) {
+        promptByCounselor.update({ personaPromptId: props.personaPromptId });
         this.props.updatedAt = getNowDayjs();
         return Result.ok<void>();
       }
     }
     const newPromptByCounselor = PromptByCounselors.createNew({
       promptVersionId: this.id,
-      counselorId,
-      personaPromptId,
+      counselorId: props.counselorId,
+      personaPromptId: props.personaPromptId,
     });
     if (newPromptByCounselor.isFailure) {
       return Result.fail<void>(newPromptByCounselor.error as string);
@@ -252,22 +264,22 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
   }
-  public updatePromptByTone(toneId: UniqueEntityId, tonePromptId: UniqueEntityId, firstCounselTechniqueId: UniqueEntityId): Result<void> {
+  public updatePromptByTone(props: { toneId: UniqueEntityId; tonePromptId?: UniqueEntityId; firstCounselTechniqueId?: UniqueEntityId }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
     for (const promptByTone of this.props.promptByTones) {
-      if (promptByTone.toneId.equals(toneId)) {
-        promptByTone.update({ tonePromptId, firstCounselTechniqueId });
+      if (promptByTone.toneId.equals(props.toneId)) {
+        promptByTone.update({ tonePromptId: props.tonePromptId, firstCounselTechniqueId: props.firstCounselTechniqueId });
         this.props.updatedAt = getNowDayjs();
         return Result.ok<void>();
       }
     }
     const newPromptByTone = PromptByTones.createNew({
       promptVersionId: this.id,
-      toneId,
-      tonePromptId,
-      firstCounselTechniqueId,
+      toneId: props.toneId,
+      tonePromptId: props.tonePromptId ?? null,
+      firstCounselTechniqueId: props.firstCounselTechniqueId ?? null,
     });
     if (newPromptByTone.isFailure) {
       return Result.fail<void>(newPromptByTone.error as string);

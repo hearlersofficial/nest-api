@@ -8,8 +8,8 @@ import { Dayjs } from "dayjs";
 export interface PromptByTonesNewProps {
   promptVersionId: UniqueEntityId;
   toneId: UniqueEntityId;
-  tonePromptId: UniqueEntityId;
-  firstCounselTechniqueId: UniqueEntityId;
+  tonePromptId: UniqueEntityId | null;
+  firstCounselTechniqueId: UniqueEntityId | null;
 }
 
 export interface PromptByTonesProps extends PromptByTonesNewProps {
@@ -57,16 +57,6 @@ export class PromptByTones extends DomainEntity<PromptByTonesProps> {
       return Result.fail<void>("[PromptByTones] ToneId는 필수입니다");
     }
 
-    // tonePromptId 검증
-    if (this.props.tonePromptId === null || this.props.tonePromptId === undefined) {
-      return Result.fail<void>("[PromptByTones] TonePromptId는 필수입니다");
-    }
-
-    // firstCounselTechniqueId 검증
-    if (this.props.firstCounselTechniqueId === null || this.props.firstCounselTechniqueId === undefined) {
-      return Result.fail<void>("[PromptByTones] FirstCounselTechniqueId는 필수입니다");
-    }
-
     // 날짜 검증
     if (this.props.createdAt === null || this.props.createdAt === undefined) {
       return Result.fail<void>("[PromptByTones] 생성 시간은 필수입니다");
@@ -87,11 +77,11 @@ export class PromptByTones extends DomainEntity<PromptByTonesProps> {
     return this.props.toneId;
   }
 
-  get tonePromptId(): UniqueEntityId {
+  get tonePromptId(): UniqueEntityId | null {
     return this.props.tonePromptId;
   }
 
-  get firstCounselTechniqueId(): UniqueEntityId {
+  get firstCounselTechniqueId(): UniqueEntityId | null {
     return this.props.firstCounselTechniqueId;
   }
 

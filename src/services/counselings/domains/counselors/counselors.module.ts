@@ -1,5 +1,4 @@
 import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
-import { PersonaEntity } from "~shared/core/infrastructure/entities/counselors/Personas.entity";
 import { CounselorsPersister } from "~counselings/domains/counselors/counselors.persister";
 import { CounselorsReader } from "~counselings/domains/counselors/counselors.reader";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
@@ -12,7 +11,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CounselorsEntity, PersonaEntity])],
+  imports: [TypeOrmModule.forFeature([CounselorsEntity])],
   providers: [
     CounselorsService,
     {

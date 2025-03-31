@@ -4,7 +4,6 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { isDefined } from "~shared/utils/Validate.utils";
 import { Bubble, BubbleList } from "~counselings/domains/counselors/models/const/bubble.const";
-import { Personas } from "~counselings/domains/counselors/models/personas";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { Dayjs } from "dayjs";
@@ -17,7 +16,6 @@ export interface CounselorsNewProps {
 }
 
 export interface CounselorsProps extends CounselorsNewProps {
-  persona: Personas;
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -43,11 +41,6 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     return this.create(
       {
         ...newProps,
-        // 기본 Persona 생성
-        persona: Personas.createNew({
-          body: "This is an automatically set persona. Modification is required.",
-          counselorId: newId,
-        }).value,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -89,15 +82,6 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
       return Result.fail<void>("[Counselors] 톤 ID는 필수입니다");
     }
 
-    // Personas 검증
-    const personaValidateResult = this.props.persona.validateDomain();
-    if (personaValidateResult.isFailure) {
-      return Result.fail<void>(personaValidateResult.error as string);
-    }
-    if (!this.props.persona.counselorId.equals(this.id)) {
-      return Result.fail<void>("[Counselors] Persona의 상담사 ID가 일치하지 않습니다");
-    }
-
     // 날짜 검증
     if (!this.props.createdAt) {
       return Result.fail<void>("[Counselors] 생성 시간은 필수입니다");
@@ -124,10 +108,6 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
 
   get toneId(): UniqueEntityId {
     return this.props.toneId;
-  }
-
-  get persona(): Personas {
-    return this.props.persona;
   }
 
   get bubble(): Bubble {
@@ -162,10 +142,6 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
       this.props.gender = props.gender;
     }
     this.props.updatedAt = getNowDayjs();
-  }
-
-  public updatePersona(body: string): void {
-    this.props.persona.update({ body });
   }
 
   public delete(): void {

@@ -16,7 +16,6 @@ export interface CounselTechniquesNewProps {
 
 export interface CounselTechniquesProps extends CounselTechniquesNewProps {
   nextTechniqueId: UniqueEntityId | null;
-  prevTechniqueId: UniqueEntityId | null;
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -43,7 +42,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
       {
         ...newProps,
         nextTechniqueId: null,
-        prevTechniqueId: null,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -116,10 +114,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     return this.props.nextTechniqueId;
   }
 
-  get prevTechniqueId(): UniqueEntityId | null {
-    return this.props.prevTechniqueId;
-  }
-
   get createdAt(): Dayjs {
     return this.props.createdAt;
   }
@@ -148,9 +142,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     }
     if (isDefined(props.messageThreshold) && props.messageThreshold !== this.props.messageThreshold) {
       this.props.messageThreshold = props.messageThreshold;
-    }
-    if (props.prevTechniqueId !== undefined && props.prevTechniqueId !== this.props.prevTechniqueId) {
-      this.props.prevTechniqueId = props.prevTechniqueId;
     }
     if (props.nextTechniqueId !== undefined && props.nextTechniqueId !== this.props.nextTechniqueId) {
       this.props.nextTechniqueId = props.nextTechniqueId;

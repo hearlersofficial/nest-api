@@ -276,4 +276,41 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
   }
+
+  public clonePrompts(promptVersion: PromptVersions): Result<void> {
+    this.props.isTemporary = true;
+    this.props.isActive = false;
+    this.props.name = "Temporary name";
+    this.props.description = "Temporary description";
+    this.props.promptByCounselors = [];
+    this.props.promptByTones = [];
+    this.props.updatedAt = getNowDayjs();
+
+    for (const promptByCounselor of promptVersion.promptByCounselors) {
+      const clonedPromptByCounselor = PromptByCounselors.createNew({
+        promptVersionId: this.id,
+        counselorId: promptByCounselor.counselorId,
+        personaPromptId: promptByCounselor.personaPromptId,
+      });
+      if (clonedPromptByCounselor.isFailure) {
+        return Result.fail<void>(clonedPromptByCounselor.error as string);
+      }
+      this.props.promptByCounselors.push(clonedPromptByCounselor.value);
+    }
+
+    for (const promptByTone of promptVersion.promptByTones) {
+      const clonedPromptByTone = PromptByTones.createNew({
+        promptVersionId: this.id,
+        toneId: promptByTone.toneId,
+        tonePromptId: promptByTone.tonePromptId,
+        firstCounselTechniqueId: promptByTone.firstCounselTechniqueId,
+      });
+      if (clonedPromptByTone.isFailure) {
+        return Result.fail<void>(clonedPromptByTone.error as string);
+      }
+      this.props.promptByTones.push(clonedPromptByTone.value);
+    }
+
+    return Result.ok<void>();
+  }
 }

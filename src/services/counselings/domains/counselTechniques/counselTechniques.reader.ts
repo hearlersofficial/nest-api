@@ -7,6 +7,5 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export abstract class CounselTechniquesReader {
   abstract findOne(props: { counselTechniqueId: UniqueEntityId }): Promise<CounselTechniques | null>;
-  abstract findFirst(props: { toneId: UniqueEntityId }): Promise<CounselTechniques | null>;
   abstract findMany(props: CounselTechniquesCriteriaFindMany): Promise<CounselTechniques[]>;
 }

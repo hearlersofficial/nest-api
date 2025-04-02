@@ -16,6 +16,7 @@ export interface CounselTechniquesNewProps {
 
 export interface CounselTechniquesProps extends CounselTechniquesNewProps {
   nextTechniqueId: UniqueEntityId | null;
+  isTemporary: boolean;
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -42,6 +43,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
       {
         ...newProps,
         nextTechniqueId: null,
+        isTemporary: true,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -76,6 +78,9 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     // messageThreshold 검증
     if (this.props.messageThreshold === null || this.props.messageThreshold === undefined) {
       return Result.fail<void>("[CounselTechniques] 전환에 필요한 메시지 수는 필수입니다");
+    }
+    if (this.props.messageThreshold < 0) {
+      return Result.fail<void>("[CounselTechniques] 전환에 필요한 메시지 수는 0보다 커야 합니다");
     }
 
     // 날짜 검증
@@ -114,6 +119,10 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     return this.props.nextTechniqueId;
   }
 
+  get isTemporary(): boolean {
+    return this.props.isTemporary;
+  }
+
   get createdAt(): Dayjs {
     return this.props.createdAt;
   }
@@ -127,7 +136,10 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
   }
 
   // Methods
-  public update(props: Partial<CounselTechniquesProps>): void {
+  public update(props: Partial<CounselTechniquesProps>): Result<void> {
+    if (!this.props.isTemporary) {
+      return Result.fail<void>("[CounselTechniques] 임시 상태의 기법만 수정할 수 있습니다");
+    }
     if (isDefined(props.name) && props.name !== this.props.name) {
       this.props.name = props.name;
     }
@@ -146,7 +158,11 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     if (props.nextTechniqueId !== undefined && props.nextTechniqueId !== this.props.nextTechniqueId) {
       this.props.nextTechniqueId = props.nextTechniqueId;
     }
+    if (isDefined(props.isTemporary) && props.isTemporary !== this.props.isTemporary) {
+      this.props.isTemporary = props.isTemporary;
+    }
     this.props.updatedAt = getNowDayjs();
+    return Result.ok<void>();
   }
 
   public delete(): void {

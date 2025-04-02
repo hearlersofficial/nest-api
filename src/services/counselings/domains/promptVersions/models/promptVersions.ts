@@ -264,6 +264,12 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
   }
+
+  public getPromptByCounselor(counselorId: UniqueEntityId): Result<{ personaPromptId: UniqueEntityId }> {
+    const promptByCounselor = this.props.promptByCounselors.find((promptByCounselor) => promptByCounselor.counselorId.equals(counselorId));
+    return promptByCounselor ? Result.ok({ personaPromptId: promptByCounselor.personaPromptId }) : Result.fail("Prompt by counselor not found");
+  }
+
   public updatePromptByTone(props: { toneId: UniqueEntityId; tonePromptId?: UniqueEntityId; firstCounselTechniqueId?: UniqueEntityId }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
@@ -287,6 +293,13 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.promptByTones.push(newPromptByTone.value);
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
+  }
+
+  public getPromptByTone(toneId: UniqueEntityId): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
+    const promptByTone = this.props.promptByTones.find((promptByTone) => promptByTone.toneId.equals(toneId));
+    return promptByTone
+      ? Result.ok({ tonePromptId: promptByTone.tonePromptId, firstCounselTechniqueId: promptByTone.firstCounselTechniqueId })
+      : Result.fail("Prompt by tone not found");
   }
 
   public clonePrompts(promptVersion: PromptVersions): Result<void> {

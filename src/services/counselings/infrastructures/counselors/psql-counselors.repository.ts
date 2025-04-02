@@ -6,14 +6,10 @@ import { PsqlCounselorsMapper } from "~counselings/infrastructures/counselors/ma
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
+import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()
 export class PsqlCounselorsRepository extends CounselorsRepository {
-  private readonly counselorFindOptionsRelation: FindOptionsRelations<CounselorsEntity> = {
-    persona: true,
-  };
-
   constructor(@InjectRepository(CounselorsEntity) private readonly counselorsRepository: Repository<CounselorsEntity>) {
     super();
   }
@@ -24,14 +20,12 @@ export class PsqlCounselorsRepository extends CounselorsRepository {
       ...findOneOptions.where,
       id: counselorId.getString(),
     };
-    findOneOptions.relations = { ...findOneOptions.relations, ...this.counselorFindOptionsRelation };
     const counselor = await this.counselorsRepository.findOne(findOneOptions);
     return counselor ? PsqlCounselorsMapper.toDomain(counselor) : null;
   }
 
   override async findMany(options?: FindManyOptions<CounselorsEntity>): Promise<Counselors[]> {
     const findManyOptions: FindManyOptions<CounselorsEntity> = options ?? {};
-    findManyOptions.relations = { ...findManyOptions.relations, ...this.counselorFindOptionsRelation };
     const counselors = await this.counselorsRepository.find(findManyOptions);
     return PsqlCounselorsMapper.toDomains(counselors);
   }

@@ -17,10 +17,6 @@ export class RepositoryCounselTechniquesReader extends CounselTechniquesReader {
     return this.counselTechniquesRepository.findByCounselTechniqueId(props.counselTechniqueId);
   }
 
-  override async findFirst(props: { toneId: UniqueEntityId }): Promise<CounselTechniques | null> {
-    return this.counselTechniquesRepository.findByToneId(props.toneId);
-  }
-
   override async findMany(props: CounselTechniquesCriteriaFindMany): Promise<CounselTechniques[]> {
     const typeormOptions = RepositoryCounselTechniqueCriteriaMapper.toFindManyOptions(props);
     return this.counselTechniquesRepository.findMany(typeormOptions);

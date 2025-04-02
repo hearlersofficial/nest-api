@@ -1,10 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import {
-  CounselTechniques,
-  CounselTechniquesProps,
-} from "~counselings/domains/counselTechniques/models/counselTechniques";
+import { CounselTechniques, CounselTechniquesProps } from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -21,8 +18,8 @@ export class PsqlCounselTechniquesMapper {
       context: entity.context,
       instruction: entity.instruction,
       messageThreshold: entity.messageThreshold,
-      prevTechniqueId: entity.prevTechniqueId ? new UniqueEntityId(entity.prevTechniqueId) : null,
       nextTechniqueId: entity.nextTechniqueId ? new UniqueEntityId(entity.nextTechniqueId) : null,
+      isTemporary: entity.isTemporary,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
@@ -57,8 +54,8 @@ export class PsqlCounselTechniquesMapper {
     entity.instruction = counselTechniques.instruction;
     entity.messageThreshold = counselTechniques.messageThreshold;
 
-    entity.prevTechniqueId = counselTechniques.prevTechniqueId ? counselTechniques.prevTechniqueId.getString() : null;
     entity.nextTechniqueId = counselTechniques.nextTechniqueId ? counselTechniques.nextTechniqueId.getString() : null;
+    entity.isTemporary = counselTechniques.isTemporary;
 
     entity.createdAt = counselTechniques.createdAt.toISOString();
     entity.updatedAt = counselTechniques.updatedAt.toISOString();

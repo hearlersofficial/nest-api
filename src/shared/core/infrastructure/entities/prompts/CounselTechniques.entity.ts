@@ -47,6 +47,13 @@ export class CounselTechniquesEntity extends CoreEntity {
   })
   messageThreshold: number;
 
+  @Column({
+    type: "boolean",
+    name: "is_temporary",
+    comment: "임시 여부",
+  })
+  isTemporary: boolean;
+
   // 이전 노드를 가리키는 관계
   @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, { nullable: true, createForeignKeyConstraints: false })
   prevTechnique: CounselTechniquesEntity | null;

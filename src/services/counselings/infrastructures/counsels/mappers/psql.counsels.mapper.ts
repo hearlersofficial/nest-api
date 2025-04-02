@@ -1,7 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
-import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/counsels";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -16,6 +16,7 @@ export class PsqlCounselsMapper {
       userId: new UniqueEntityId(entity.userId),
       counselorId: new UniqueEntityId(entity.counselorId),
       counselTechniqueId: new UniqueEntityId(entity.counselTechniqueId),
+      promptVersionId: new UniqueEntityId(entity.promptVersionId),
       counselorUserRelationshipId: new UniqueEntityId(entity.counselorUserRelationshipId),
       lastChatedAt: entity.lastChatedAt ? dayjs(entity.lastChatedAt) : null,
       lastMessage: entity.lastMessage,
@@ -46,6 +47,7 @@ export class PsqlCounselsMapper {
     entity.userId = counsels.userId.getString();
     entity.counselorId = counsels.counselorId.getString();
     entity.counselTechniqueId = counsels.counselTechniqueId.getString();
+    entity.promptVersionId = counsels.promptVersionId.getString();
     entity.counselorUserRelationshipId = counsels.counselorUserRelationshipId.getString();
 
     entity.lastChatedAt = counsels.lastChatedAt ? counsels.lastChatedAt.toISOString() : null;

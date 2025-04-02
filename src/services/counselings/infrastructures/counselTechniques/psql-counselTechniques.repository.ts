@@ -6,7 +6,7 @@ import { PsqlCounselTechniquesMapper } from "~counselings/infrastructures/counse
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindManyOptions, FindOneOptions, IsNull, Repository } from "typeorm";
+import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()
 export class PsqlCounselTechniquesRepository extends CounselTechniquesRepository {
@@ -25,21 +25,6 @@ export class PsqlCounselTechniquesRepository extends CounselTechniquesRepository
     findOneOptions.where = {
       ...findOneOptions.where,
       id: counselTechniqueId.getString(),
-    };
-    const counselTechnique = await this.counselTechniquesRepository.findOne(findOneOptions);
-    return counselTechnique ? PsqlCounselTechniquesMapper.toDomain(counselTechnique) : null;
-  }
-
-  override async findByToneId(toneId: UniqueEntityId, options?: FindOneOptions<CounselTechniquesEntity>): Promise<CounselTechniques | null> {
-    const findOneOptions: FindOneOptions<CounselTechniquesEntity> = options ?? {};
-    findOneOptions.where = {
-      ...findOneOptions.where,
-      toneId: toneId.getString(),
-      prevTechnique: IsNull(),
-    };
-    findOneOptions.order = {
-      ...findOneOptions.order,
-      updatedAt: "DESC", // 가장 최근에 생성 및 수정된 기법 가져오기
     };
     const counselTechnique = await this.counselTechniquesRepository.findOne(findOneOptions);
     return counselTechnique ? PsqlCounselTechniquesMapper.toDomain(counselTechnique) : null;

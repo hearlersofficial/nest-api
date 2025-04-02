@@ -26,32 +26,36 @@ export class PromptByTonesEntity extends CoreEntity {
   @ManyToOne(() => TonePromptEntity, (tonePrompt) => tonePrompt.promptByTones, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
+    nullable: true,
   })
   @JoinColumn({ name: "tone_prompt_id" })
-  tonePrompt: TonePromptEntity;
+  tonePrompt: TonePromptEntity | null;
 
   @RelationId((promptByTones: PromptByTonesEntity) => promptByTones.tonePrompt)
   @Column({
     type: "bigint",
     name: "tone_prompt_id",
     comment: "톤 프롬프트 ID",
+    nullable: true,
   })
-  tonePromptId: string;
+  tonePromptId: string | null;
 
   @ManyToOne(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.promptByTones, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
+    nullable: true,
   })
   @JoinColumn({ name: "first_counsel_technique_id" })
-  firstCounselTechnique: CounselTechniquesEntity;
+  firstCounselTechnique: CounselTechniquesEntity | null;
 
   @RelationId((promptByTones: PromptByTonesEntity) => promptByTones.firstCounselTechnique)
   @Column({
     type: "bigint",
     name: "first_counsel_technique_id",
     comment: "첫 번째 상담 기법 ID",
+    nullable: true,
   })
-  firstCounselTechniqueId: string;
+  firstCounselTechniqueId: string | null;
 
   @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.promptByTones, {
     onDelete: "CASCADE",

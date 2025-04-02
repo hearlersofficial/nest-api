@@ -1,6 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { GetTemporaryPromptVersionUseCase } from "~counselings/applications/use-cases/get-temporary-prompt-version";
+import { ValidatePromptVersionUseCase } from "~counselings/applications/use-cases/validate-prompt-version";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
@@ -12,6 +13,7 @@ export class PromptVersionsFacade {
   constructor(
     private readonly promptVersionsService: PromptVersionsService,
     private readonly getTemporaryPromptVersionUseCase: GetTemporaryPromptVersionUseCase,
+    private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase,
   ) {}
   async findPromptVersions(params: { name?: string }): Promise<PromptVersions[]> {
     const { name } = params;
@@ -58,6 +60,13 @@ export class PromptVersionsFacade {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Temporary version creation failed");
     }
     const temporaryVersion = temporaryVersionResult.temporaryVersion;
+
+    // 모든 톤과 상담사에 대한 프롬프트가 존재하는지 검증
+    const validatePromptVersionResult = await this.validatePromptVersionUseCase.execute({ promptVersion: temporaryVersion });
+    if (!validatePromptVersionResult.ok) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, validatePromptVersionResult.error as string);
+    }
+
     const saveVersionResult = temporaryVersion.saveVersion({ name, description });
     if (saveVersionResult.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, saveVersionResult.error as string);

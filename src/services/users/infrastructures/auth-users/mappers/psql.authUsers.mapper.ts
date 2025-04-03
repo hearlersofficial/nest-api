@@ -4,8 +4,8 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { AuthUsers, AuthUsersProps } from "~users/domains/auth-users/models/auth-users";
-import { PsqlKakaoMapper } from "~users/infrastructures/mappers/psql.kakao.mapper";
-import { PsqlRefreshTokensMapper } from "~users/infrastructures/mappers/psql.refreshTokens.mapper";
+import { PsqlKakaoMapper } from "~users/infrastructures/auth-users/mappers/psql.kakao.mapper";
+import { PsqlRefreshTokensMapper } from "~users/infrastructures/users/mappers/psql-refresh-token.mapper";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";

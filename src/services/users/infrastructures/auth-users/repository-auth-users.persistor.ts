@@ -1,7 +1,7 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { AuthUsersPersistor } from "~users/domains/auth-users/auth-users.persistor";
 import { AuthUsers, AuthUsersNewProps } from "~users/domains/auth-users/models/auth-users";
-import { AuthUsersRepository } from "~users/infrastructures/auth-users.repository";
+import { AuthUsersRepository } from "~users/infrastructures/auth-users/auth-users.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 

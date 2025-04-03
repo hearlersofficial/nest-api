@@ -5,8 +5,8 @@ import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { UserMessageTokens } from "~users/domains/users/models/user-message-tokens";
 import { Users, UsersProps } from "~users/domains/users/models/users";
-import { PsqlUserMessageTokensMapper } from "~users/infrastructures/mappers/psql.userMessageTokens.mapper";
-import { PsqlUserProfilesMapper } from "~users/infrastructures/mappers/psql.userProfiles.mapper";
+import { PsqlUserMessageTokensMapper } from "~users/infrastructures/users/mappers/psql-user-message-token.mapper";
+import { PsqlUserProfilesMapper } from "~users/infrastructures/users/mappers/psql-user-profile.mapper";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";

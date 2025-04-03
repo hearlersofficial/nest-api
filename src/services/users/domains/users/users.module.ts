@@ -4,10 +4,10 @@ import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.en
 import { UsersPersistor } from "~users/domains/users/users.persistor";
 import { UsersReader } from "~users/domains/users/users.reader";
 import { UsersService } from "~users/domains/users/users.service";
-import { PsqlUsersRepository } from "~users/infrastructures/psql-users.repository";
-import { RepositoryUsersPersistor } from "~users/infrastructures/repository-users.persistor";
-import { RepositoryUsersReader } from "~users/infrastructures/repository-users.reader";
-import { UsersRepository } from "~users/infrastructures/users.repository";
+import { PsqlUsersRepository } from "~users/infrastructures/users/psql-users.repository";
+import { RepositoryUsersPersistor } from "~users/infrastructures/users/repository-users.persistor";
+import { RepositoryUsersReader } from "~users/infrastructures/users/repository-users.reader";
+import { UsersRepository } from "~users/infrastructures/users/users.repository";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";

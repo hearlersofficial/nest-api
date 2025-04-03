@@ -3,7 +3,7 @@ import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/us
 import { TokenResetInterval } from "~shared/enums/TokenResetInterval.enum";
 import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserMessageTokens } from "~users/domains/users/models/user-message-tokens";
-import { PsqlUserMessageTokensMapper } from "~users/infrastructures/mappers/psql.userMessageTokens.mapper";
+import { PsqlUserMessageTokensMapper } from "~users/infrastructures/users/mappers/psql-user-message-token.mapper";
 
 import { fakerKO as faker } from "@faker-js/faker";
 

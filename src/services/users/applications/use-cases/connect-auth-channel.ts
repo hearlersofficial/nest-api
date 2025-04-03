@@ -17,7 +17,7 @@ export class ConnectAuthChannelUseCase
   async execute(request: ConnectAuthChannelUseCaseRequest): Promise<ConnectAuthChannelUseCaseResponse> {
     const { userId, channelInfo } = request;
 
-    const authUser = await this.authUsersService.getOne({ uniqueCriteria: { type: "authUser", id: userId } });
+    const authUser = await this.authUsersService.getOne({ uniqueCriteria: { type: "user", id: userId } });
     const user = await this.usersService.getOne({ uniqueCriteria: { type: "user", id: userId } });
 
     authUser.connectAuthChannel(channelInfo.authChannel, channelInfo.uniqueId);

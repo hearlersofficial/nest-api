@@ -2,45 +2,50 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { RefreshTokenEntity } from "~shared/core/infrastructure/entities/users/RefreshTokens.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { RefreshTokensVO } from "~users/domains/auth-users/models/refresh-tokens.vo";
+import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlRefreshTokensMapper {
-  static toVO(entity: RefreshTokenEntity): RefreshTokensVO {
+  static toDomain(entity: RefreshTokenEntity): RefreshTokens {
     if (!entity) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "refresh token entity is null");
     }
-    const refreshTokenOrError: Result<RefreshTokensVO> = RefreshTokensVO.create({
-      token: entity.token,
-      expiresAt: dayjs(entity.expiresAt),
-      createdAt: dayjs(entity.createdAt),
-      updatedAt: dayjs(entity.updatedAt),
-    });
+    const refreshTokenOrError: Result<RefreshTokens> = RefreshTokens.create(
+      {
+        token: entity.token,
+        expiresAt: dayjs(entity.expiresAt),
+        createdAt: dayjs(entity.createdAt),
+        updatedAt: dayjs(entity.updatedAt),
+        deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
+      },
+      new UniqueEntityId(entity.id),
+    );
     if (refreshTokenOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, refreshTokenOrError.errorValue);
     }
     return refreshTokenOrError.value;
   }
 
-  static toVOs(entities: RefreshTokenEntity[] = []): RefreshTokensVO[] {
-    return entities.map((entity) => PsqlRefreshTokensMapper.toVO(entity));
+  static toDomains(entities: RefreshTokenEntity[] = []): RefreshTokens[] {
+    return entities.map((entity) => PsqlRefreshTokensMapper.toDomain(entity));
   }
 
-  static toEntity(refreshTokenVO: RefreshTokensVO, authUserId: UniqueEntityId): RefreshTokenEntity {
+  static toEntity(domain: RefreshTokens, authUserId: UniqueEntityId): RefreshTokenEntity {
     const entity = new RefreshTokenEntity();
 
+    entity.id = domain.id.getString();
     entity.authUserId = authUserId.getString();
-    entity.token = refreshTokenVO.token;
-    entity.expiresAt = refreshTokenVO.expiresAt.toISOString();
-    entity.createdAt = refreshTokenVO.createdAt.toISOString();
-    entity.updatedAt = refreshTokenVO.updatedAt.toISOString();
+    entity.token = domain.token;
+    entity.expiresAt = domain.expiresAt.toISOString();
+    entity.createdAt = domain.createdAt.toISOString();
+    entity.updatedAt = domain.updatedAt.toISOString();
 
     return entity;
   }
 
-  static toEntities(refreshTokensVOs: RefreshTokensVO[] = [], authUserId: UniqueEntityId): RefreshTokenEntity[] {
-    return refreshTokensVOs.map((refreshTokenVO) => this.toEntity(refreshTokenVO, authUserId));
+  static toEntities(domains: RefreshTokens[] = [], authUserId: UniqueEntityId): RefreshTokenEntity[] {
+    return domains.map((domain) => this.toEntity(domain, authUserId));
   }
 }

@@ -26,7 +26,7 @@ export class PsqlAuthUsersMapper {
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
-      refreshTokens: PsqlRefreshTokensMapper.toVOs(entity.refreshTokens),
+      refreshTokens: entity.refreshTokens ? PsqlRefreshTokensMapper.toDomains(entity.refreshTokens) : [],
     };
     const authUserOrError: Result<AuthUsers> = AuthUsers.create(authUsersProps, new UniqueEntityId(entity.id));
     if (authUserOrError.isFailure) {

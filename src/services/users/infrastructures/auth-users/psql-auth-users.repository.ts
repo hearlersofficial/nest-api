@@ -7,13 +7,17 @@ import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
+import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
 @Injectable()
 export class PsqlAuthUsersRepository extends AuthUsersRepository {
   constructor(@InjectRepository(AuthUsersEntity) private readonly authUsersRepository: Repository<AuthUsersEntity>) {
     super();
   }
+  DEFAULT_RELATION: FindOptionsRelations<AuthUsersEntity> = {
+    kakao: true,
+    refreshTokens: true,
+  };
 
   override async save(authUsers: AuthUsers): Promise<AuthUsers>;
   override async save(authUsers: AuthUsers[]): Promise<AuthUsers[]>;
@@ -35,7 +39,11 @@ export class PsqlAuthUsersRepository extends AuthUsersRepository {
       ...findOneOptions.where,
       id: authUserId.getString(),
     };
-    const result = await this.authUsersRepository.findOne(findOneOptions);
+
+    const result = await this.authUsersRepository.findOne({
+      ...findOneOptions,
+      relations: { ...findOneOptions.relations, ...this.DEFAULT_RELATION },
+    });
     return result ? PsqlAuthUsersMapper.toDomain(result) : null;
   }
 
@@ -48,7 +56,10 @@ export class PsqlAuthUsersRepository extends AuthUsersRepository {
       ...findOneOptions.where,
       userId: userId.getString(),
     };
-    const result = await this.authUsersRepository.findOne(findOneOptions);
+    const result = await this.authUsersRepository.findOne({
+      ...findOneOptions,
+      relations: { ...findOneOptions.relations, ...this.DEFAULT_RELATION },
+    });
     return result ? PsqlAuthUsersMapper.toDomain(result) : null;
   }
 
@@ -69,12 +80,18 @@ export class PsqlAuthUsersRepository extends AuthUsersRepository {
         };
         break;
     }
-    const result = await this.authUsersRepository.findOne(findOneOptions);
+    const result = await this.authUsersRepository.findOne({
+      ...findOneOptions,
+      relations: { ...findOneOptions.relations, ...this.DEFAULT_RELATION },
+    });
     return result ? PsqlAuthUsersMapper.toDomain(result) : null;
   }
 
   override async findMany(options?: FindManyOptions<AuthUsersEntity>): Promise<AuthUsers[]> {
-    const result = await this.authUsersRepository.find(options);
+    const result = await this.authUsersRepository.find({
+      ...options,
+      relations: { ...options?.relations, ...this.DEFAULT_RELATION },
+    });
     return PsqlAuthUsersMapper.toDomains(result);
   }
 }

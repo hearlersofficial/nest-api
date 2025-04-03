@@ -12,6 +12,7 @@ export class RepositoryAuthUsersCriteriaMapper {
   /**
    * 도메인 findOne 필터를 TypeORM FindOneOptions로 변  환
    */
+
   static toFindOneOptions(options?: AuthUsersCriteriaFindOne): FindOneOptions<AuthUsersEntity> {
     if (!isDefined(options)) {
       return {};

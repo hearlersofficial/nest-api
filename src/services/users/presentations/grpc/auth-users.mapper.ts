@@ -1,6 +1,6 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
-import { RefreshTokensVO } from "~users/domains/auth-users/models/refresh-tokens.vo";
+import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 import {
   AuthChannel,
   AuthUser,
@@ -54,7 +54,7 @@ export class SchemaAuthUsersMapper {
         return undefined;
     }
   }
-  static toRefreshTokenProto(refreshToken: RefreshTokensVO): RefreshToken {
+  static toRefreshTokenProto(refreshToken: RefreshTokens): RefreshToken {
     if (!refreshToken) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to map refreshToken to proto");
     }
@@ -66,7 +66,7 @@ export class SchemaAuthUsersMapper {
     });
   }
 
-  static toRefreshTokenProtos(refreshTokens: RefreshTokensVO[]): RefreshToken[] {
+  static toRefreshTokenProtos(refreshTokens: RefreshTokens[]): RefreshToken[] {
     if (!refreshTokens) return [];
     return refreshTokens.map(this.toRefreshTokenProto);
   }

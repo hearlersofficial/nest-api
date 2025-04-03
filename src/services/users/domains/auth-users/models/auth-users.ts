@@ -4,7 +4,7 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { Kakao } from "~users/domains/auth-users/models/kakao";
-import { RefreshTokensVO } from "~users/domains/auth-users/models/refresh-tokens.vo";
+import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Dayjs } from "dayjs";
@@ -21,7 +21,7 @@ export interface AuthUsersProps extends AuthUsersNewProps {
   userId: UniqueEntityId | null;
   lastLoginAt: Dayjs;
   kakao: Kakao | null;
-  refreshTokens: RefreshTokensVO[];
+  refreshTokens: RefreshTokens[];
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -88,7 +88,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     return this.props.kakao;
   }
 
-  get refreshTokens(): RefreshTokensVO[] {
+  get refreshTokens(): RefreshTokens[] {
     return this.props.refreshTokens;
   }
 
@@ -156,45 +156,43 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     this.props.updatedAt = getNowDayjs();
   }
 
-  public findRefreshToken(refreshToken: string): Result<RefreshTokensVO> {
+  public findRefreshToken(refreshToken: string): Result<RefreshTokens> {
     const refreshTokenVO = this.props.refreshTokens.find((token) => token.token === refreshToken);
     if (!refreshTokenVO) {
-      return Result.fail<RefreshTokensVO>(REFRESH_TOKEN_NOT_FOUND);
+      return Result.fail<RefreshTokens>(REFRESH_TOKEN_NOT_FOUND);
     }
-    return Result.ok<RefreshTokensVO>(refreshTokenVO);
+    return Result.ok<RefreshTokens>(refreshTokenVO);
   }
 
-  public saveRefreshToken(refreshToken: string, expiresAt: Dayjs): Result<RefreshTokensVO> {
-    const refreshTokenVOResult = RefreshTokensVO.create({
+  public saveRefreshToken(refreshToken: string, expiresAt: Dayjs): Result<RefreshTokens> {
+    const refreshTokenVOResult = RefreshTokens.createNew({
       token: refreshToken,
       expiresAt,
-      createdAt: getNowDayjs(),
-      updatedAt: getNowDayjs(),
     });
     if (refreshTokenVOResult.isFailure) {
-      return Result.fail<RefreshTokensVO>(refreshTokenVOResult.error as string);
+      return Result.fail<RefreshTokens>(refreshTokenVOResult.error as string);
     }
     const refreshTokenVO = refreshTokenVOResult.value;
     this.props.refreshTokens.push(refreshTokenVO);
     this.expireRefreshTokens();
     this.updateLastLoginAt();
-    return Result.ok<RefreshTokensVO>(refreshTokenVO);
+    return Result.ok<RefreshTokens>(refreshTokenVO);
   }
 
-  public verifyRefreshToken(refreshToken: string): Result<RefreshTokensVO> {
+  public verifyRefreshToken(refreshToken: string): Result<RefreshTokens> {
     const findRefreshTokenResult = this.findRefreshToken(refreshToken);
     if (findRefreshTokenResult.isFailure) {
-      return Result.fail<RefreshTokensVO>(findRefreshTokenResult.error as string);
+      return Result.fail<RefreshTokens>(findRefreshTokenResult.error as string);
     }
     const refreshTokenVO = findRefreshTokenResult.value;
     if (refreshTokenVO.isExpired()) {
-      return Result.fail<RefreshTokensVO>(REFRESH_TOKEN_EXPIRED);
+      return Result.fail<RefreshTokens>(REFRESH_TOKEN_EXPIRED);
     }
     this.removeRefreshToken(refreshTokenVO);
-    return Result.ok<RefreshTokensVO>(refreshTokenVO);
+    return Result.ok<RefreshTokens>(refreshTokenVO);
   }
 
-  private removeRefreshToken(refreshTokenVO: RefreshTokensVO): void {
+  private removeRefreshToken(refreshTokenVO: RefreshTokens): void {
     this.props.refreshTokens = this.props.refreshTokens.filter((token) => token.token !== refreshTokenVO.token);
   }
 

@@ -33,10 +33,7 @@ export class PsqlKakaoMapper {
   static toEntity(kakao: Kakao): KakaoEntity {
     const entity = new KakaoEntity();
 
-    if (!kakao.id.isNewIdentifier()) {
-      entity.id = kakao.id.getString();
-    }
-
+    entity.id = kakao.id.getString();
     entity.authUserId = kakao.authUserId.getString();
     entity.uniqueId = kakao.uniqueId;
     entity.createdAt = kakao.createdAt.toISOString();

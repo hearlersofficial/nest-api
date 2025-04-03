@@ -45,7 +45,7 @@ export class AuthUsersFacade {
     uniqueId: string;
   }): Promise<{ authUser: AuthUsers }> {
     const { userId, authChannel, uniqueId } = params;
-    const authUser = await this.authUsersService.getOne({ uniqueCriteria: { type: "authUser", id: userId } });
+    const authUser = await this.authUsersService.getOne({ uniqueCriteria: { type: "user", id: userId } });
 
     const connectAuthChannelResult: Result<void> = authUser.connectAuthChannel(authChannel, uniqueId);
     if (connectAuthChannelResult.isFailure) {

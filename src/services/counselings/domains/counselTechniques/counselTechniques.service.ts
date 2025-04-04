@@ -49,4 +49,24 @@ export class CounselTechniquesService {
     }
     return counselTechniques;
   }
+
+  async getOrdered(props: { firstCounselTechniqueId: UniqueEntityId }): Promise<CounselTechniques[]> {
+    const visited = new Set<string>();
+    const counselTechniques = await this.getNextCounselTechniques(props.firstCounselTechniqueId, visited);
+    return counselTechniques;
+  }
+
+  private async getNextCounselTechniques(firstCounselTechniqueId: UniqueEntityId, visited: Set<string>): Promise<CounselTechniques[]> {
+    if (visited.has(firstCounselTechniqueId.getString())) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Circular reference detected in counsel techniques.");
+    }
+    visited.add(firstCounselTechniqueId.getString());
+
+    const firstCounselTechnique = await this.getOne({ counselTechniqueId: firstCounselTechniqueId });
+    if (!firstCounselTechnique.nextTechniqueId) {
+      return [firstCounselTechnique];
+    }
+    const nextCounselTechniques = await this.getNextCounselTechniques(firstCounselTechnique.nextTechniqueId, visited);
+    return [firstCounselTechnique, ...nextCounselTechniques];
+  }
 }

@@ -1,6 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { GetTemporaryPromptVersionUseCase } from "~counselings/applications/use-cases/get-temporary-prompt-version";
 import { ValidatePromptVersionUseCase } from "~counselings/applications/use-cases/validate-prompt-version";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
@@ -10,11 +9,7 @@ import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class PromptVersionsFacade {
-  constructor(
-    private readonly promptVersionsService: PromptVersionsService,
-    private readonly getTemporaryPromptVersionUseCase: GetTemporaryPromptVersionUseCase,
-    private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase,
-  ) {}
+  constructor(private readonly promptVersionsService: PromptVersionsService, private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase) {}
   async findPromptVersions(params: { name?: string }): Promise<PromptVersions[]> {
     const { name } = params;
     return this.promptVersionsService.findMany({ name, isTemporary: false });
@@ -28,11 +23,7 @@ export class PromptVersionsFacade {
   // 현재 수정중인 임시버전 조회
   @Transactional()
   async getTemporaryPromptVersion(): Promise<PromptVersions> {
-    const temporaryVersionResult = await this.getTemporaryPromptVersionUseCase.execute({});
-    if (!temporaryVersionResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Temporary version creation failed");
-    }
-    return temporaryVersionResult.temporaryVersion;
+    return this.promptVersionsService.getTemporaryOne();
   }
 
   // 기존 버전을 임시버전으로 불러오기
@@ -41,11 +32,7 @@ export class PromptVersionsFacade {
   async loadExistingPromptVersion(params: { promptVersionId: UniqueEntityId }): Promise<PromptVersions> {
     const { promptVersionId } = params;
     const promptVersion = await this.promptVersionsService.getOne({ promptVersionId });
-    const temporaryVersionResult = await this.getTemporaryPromptVersionUseCase.execute({});
-    if (!temporaryVersionResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Temporary version creation failed");
-    }
-    const temporaryVersion = temporaryVersionResult.temporaryVersion;
+    const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
     temporaryVersion.clonePrompts(promptVersion);
     await this.promptVersionsService.update(temporaryVersion);
     return temporaryVersion;
@@ -55,11 +42,8 @@ export class PromptVersionsFacade {
   @Transactional()
   async saveTemporaryVersion(params: { name: string; description: string }): Promise<PromptVersions> {
     const { name, description } = params;
-    const temporaryVersionResult = await this.getTemporaryPromptVersionUseCase.execute({});
-    if (!temporaryVersionResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Temporary version creation failed");
-    }
-    const temporaryVersion = temporaryVersionResult.temporaryVersion;
+
+    const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
 
     // 모든 톤과 상담사에 대한 프롬프트가 존재하는지 검증
     const validatePromptVersionResult = await this.validatePromptVersionUseCase.execute({ promptVersion: temporaryVersion });

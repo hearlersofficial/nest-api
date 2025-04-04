@@ -34,4 +34,22 @@ export class PromptVersionsService {
   async findMany(props: PromptVersionsCriteriaFindMany): Promise<PromptVersions[]> {
     return this.promptVersionsReader.findMany(props);
   }
+
+  async getTemporaryOne(): Promise<PromptVersions> {
+    const existingTemporaryVersions = await this.findMany({ isTemporary: true });
+    if (existingTemporaryVersions.length > 0) {
+      return existingTemporaryVersions[0];
+    }
+
+    // 수정중인 임시버전이 없을 경우 새롭게 생성
+    const newTemporaryVersion = await this.create({});
+
+    // 활성화 버전이 있을 경우 해당 내용 복사
+    const activeVersion = await this.findMany({ isActive: true });
+    if (activeVersion.length > 0) {
+      newTemporaryVersion.clonePrompts(activeVersion[0]);
+      await this.update(newTemporaryVersion);
+    }
+    return newTemporaryVersion;
+  }
 }

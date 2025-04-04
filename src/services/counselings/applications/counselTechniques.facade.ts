@@ -1,7 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { GetOrderedCounselTechniquesUseCase } from "~counselings/applications/use-cases/get-ordered-counselTechniques";
-import { GetTemporaryPromptVersionUseCase } from "~counselings/applications/use-cases/get-temporary-prompt-version";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
@@ -11,12 +9,7 @@ import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselTechniquesFacade {
-  constructor(
-    private readonly counselTechniquesService: CounselTechniquesService,
-    private readonly promptVersionsService: PromptVersionsService,
-    private readonly getTemporaryPromptVersionUseCase: GetTemporaryPromptVersionUseCase,
-    private readonly getOrderedCounselTechniquesUseCase: GetOrderedCounselTechniquesUseCase,
-  ) {}
+  constructor(private readonly counselTechniquesService: CounselTechniquesService, private readonly promptVersionsService: PromptVersionsService) {}
 
   /*
   기법 생성
@@ -47,11 +40,8 @@ export class CounselTechniquesFacade {
 
   async findOrderedCounselTechniques(params: { firstCounselTechniqueId: UniqueEntityId }): Promise<CounselTechniques[]> {
     const { firstCounselTechniqueId } = params;
-    const orderedTechniquesResult = await this.getOrderedCounselTechniquesUseCase.execute({ firstCounselTechniqueId });
-    if (!orderedTechniquesResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to get ordered techniques");
-    }
-    return orderedTechniquesResult.counselTechniques;
+    const orderedTechniques = await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId });
+    return orderedTechniques;
   }
 
   /*
@@ -73,11 +63,7 @@ export class CounselTechniquesFacade {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Cannot update a temporary technique");
     }
 
-    const temporaryVersionResult = await this.getTemporaryPromptVersionUseCase.execute({});
-    if (!temporaryVersionResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Temporary version creation failed");
-    }
-    const temporaryVersion = temporaryVersionResult.temporaryVersion;
+    const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
     const toneId = technique.toneId;
     const promptByToneResult = temporaryVersion.getPromptByTone(toneId);
     if (promptByToneResult.isFailure) {
@@ -87,11 +73,7 @@ export class CounselTechniquesFacade {
     if (!firstCounselTechniqueId) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No first counsel technique found");
     }
-    const orderedTechniquesResult = await this.getOrderedCounselTechniquesUseCase.execute({ firstCounselTechniqueId });
-    if (!orderedTechniquesResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to get ordered techniques");
-    }
-    const orderedTechniques = orderedTechniquesResult.counselTechniques;
+    const orderedTechniques = await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId });
     if (orderedTechniques.filter((technique) => technique.id.equals(counselTechniqueId)).length === 0) {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Counsel technique not found in the ordered techniques");
     }
@@ -143,11 +125,7 @@ export class CounselTechniquesFacade {
   async saveCounselTechniqueSequence(params: { toneId: UniqueEntityId; counselTechniqueIds: UniqueEntityId[] }) {
     const { toneId, counselTechniqueIds } = params;
 
-    const temporaryVersionResult = await this.getTemporaryPromptVersionUseCase.execute({});
-    if (!temporaryVersionResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Temporary version creation failed");
-    }
-    const temporaryVersion = temporaryVersionResult.temporaryVersion;
+    const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
     const promptByToneResult = temporaryVersion.getPromptByTone(toneId);
     if (promptByToneResult.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No Prompt found for the tone");
@@ -156,18 +134,14 @@ export class CounselTechniquesFacade {
     if (!firstCounselTechniqueId) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No first counsel technique found");
     }
-    const orderedTechniquesResult = await this.getOrderedCounselTechniquesUseCase.execute({ firstCounselTechniqueId });
-    if (!orderedTechniquesResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to get ordered techniques");
-    }
-    const orderedTechniques = orderedTechniquesResult.counselTechniques;
+    const orderedTechniques = await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId });
 
     const techniques = await this.counselTechniquesService.findMany({ ids: counselTechniqueIds });
 
     const newOrderedTechniques: CounselTechniques[] = [];
     const remainTechniques: CounselTechniques[] = [];
 
-    // 구조적 공유 가능한 부분 탐색색
+    // 구조적 공유 가능한 부분 탐색
     const { firstIdx, secondIdx } = this.findSharedTechniquesIdx(orderedTechniques, techniques);
     remainTechniques.push(...orderedTechniques.slice(firstIdx));
 
@@ -175,7 +149,7 @@ export class CounselTechniquesFacade {
       if (index >= secondIdx) {
         break;
       }
-      // 임시기법은 바로 연결결
+      // 임시기법은 바로 연결
       if (technique.isTemporary) {
         technique.update({
           isTemporary: false,

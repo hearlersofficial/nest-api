@@ -1,18 +1,18 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { PromptByTonesEntity } from "~shared/core/infrastructure/entities/prompts/PromptByTones.entity";
+import { ToneScopedPromptsEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { PromptByTones, PromptByTonesProps } from "~counselings/domains/promptVersions/models/promptByTones";
+import { ToneScopedPrompts, ToneScopedPromptsProps } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
-export class PsqlPromptByTonesMapper {
-  static toDomain(entity: PromptByTonesEntity): PromptByTones | null {
+export class PsqlToneScopedPromptsMapper {
+  static toDomain(entity: ToneScopedPromptsEntity): ToneScopedPrompts | null {
     if (!entity) {
       return null;
     }
 
-    const promptByTonesProps: PromptByTonesProps = {
+    const toneScopedPromptProps: ToneScopedPromptsProps = {
       promptVersionId: new UniqueEntityId(entity.promptVersionId),
       toneId: new UniqueEntityId(entity.toneId),
       tonePromptId: entity.tonePromptId ? new UniqueEntityId(entity.tonePromptId) : null,
@@ -22,25 +22,25 @@ export class PsqlPromptByTonesMapper {
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
 
-    const promptByTonesOrError = PromptByTones.create(promptByTonesProps, new UniqueEntityId(entity.id));
+    const toneScopedPromptOrError = ToneScopedPrompts.create(toneScopedPromptProps, new UniqueEntityId(entity.id));
 
-    if (promptByTonesOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, promptByTonesOrError.errorValue);
+    if (toneScopedPromptOrError.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, toneScopedPromptOrError.errorValue);
     }
 
-    return promptByTonesOrError.value;
+    return toneScopedPromptOrError.value;
   }
 
-  static toDomains(entities: PromptByTonesEntity[]): PromptByTones[] {
+  static toDomains(entities: ToneScopedPromptsEntity[]): ToneScopedPrompts[] {
     if (entities.length === 0) {
       return [];
     }
 
-    return entities.map((entity) => this.toDomain(entity)).filter(Boolean) as PromptByTones[];
+    return entities.map((entity) => this.toDomain(entity)).filter(Boolean) as ToneScopedPrompts[];
   }
 
-  static toEntity(promptByTones: PromptByTones): PromptByTonesEntity {
-    const entity = new PromptByTonesEntity();
+  static toEntity(promptByTones: ToneScopedPrompts): ToneScopedPromptsEntity {
+    const entity = new ToneScopedPromptsEntity();
 
     if (!promptByTones.id.isNewIdentifier()) {
       entity.id = promptByTones.id.getString();
@@ -58,7 +58,7 @@ export class PsqlPromptByTonesMapper {
     return entity;
   }
 
-  static toEntities(promptByTones: PromptByTones[]): PromptByTonesEntity[] {
+  static toEntities(promptByTones: ToneScopedPrompts[]): ToneScopedPromptsEntity[] {
     if (promptByTones.length === 0) {
       return [];
     }

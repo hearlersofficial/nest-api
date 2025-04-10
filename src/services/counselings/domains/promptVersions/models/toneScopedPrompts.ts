@@ -5,34 +5,34 @@ import { getNowDayjs } from "~shared/utils/Date.utils";
 
 import { Dayjs } from "dayjs";
 
-export interface PromptByTonesNewProps {
+export interface ToneScopedPromptsNewProps {
   promptVersionId: UniqueEntityId;
   toneId: UniqueEntityId;
   tonePromptId: UniqueEntityId | null;
   firstCounselTechniqueId: UniqueEntityId | null;
 }
 
-export interface PromptByTonesProps extends PromptByTonesNewProps {
+export interface ToneScopedPromptsProps extends ToneScopedPromptsNewProps {
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
 }
 
-export class PromptByTones extends DomainEntity<PromptByTonesProps> {
-  private constructor(props: PromptByTonesProps, id: UniqueEntityId) {
+export class ToneScopedPrompts extends DomainEntity<ToneScopedPromptsProps> {
+  private constructor(props: ToneScopedPromptsProps, id: UniqueEntityId) {
     super(props, id);
   }
 
-  public static create(props: PromptByTonesProps, id: UniqueEntityId): Result<PromptByTones> {
-    const promptByTones = new PromptByTones(props, id);
-    const validateResult = promptByTones.validateDomain();
+  public static create(props: ToneScopedPromptsProps, id: UniqueEntityId): Result<ToneScopedPrompts> {
+    const toneScopedPrompt = new ToneScopedPrompts(props, id);
+    const validateResult = toneScopedPrompt.validateDomain();
     if (validateResult.isFailure) {
-      return Result.fail<PromptByTones>(validateResult.error as string);
+      return Result.fail<ToneScopedPrompts>(validateResult.error as string);
     }
-    return Result.ok<PromptByTones>(promptByTones);
+    return Result.ok<ToneScopedPrompts>(toneScopedPrompt);
   }
 
-  public static createNew(newProps: PromptByTonesNewProps): Result<PromptByTones> {
+  public static createNew(newProps: ToneScopedPromptsNewProps): Result<ToneScopedPrompts> {
     const now = getNowDayjs();
     const newId = new UniqueEntityId();
     return this.create(
@@ -49,20 +49,20 @@ export class PromptByTones extends DomainEntity<PromptByTonesProps> {
   validateDomain(): Result<void> {
     // promptVersionId 검증
     if (this.props.promptVersionId === null || this.props.promptVersionId === undefined) {
-      return Result.fail<void>("[PromptByTones] PromptVersionId는 필수입니다");
+      return Result.fail<void>("[ToneScopedPrompts] PromptVersionId는 필수입니다");
     }
 
     // toneId 검증
     if (this.props.toneId === null || this.props.toneId === undefined) {
-      return Result.fail<void>("[PromptByTones] ToneId는 필수입니다");
+      return Result.fail<void>("[ToneScopedPrompts] ToneId는 필수입니다");
     }
 
     // 날짜 검증
     if (this.props.createdAt === null || this.props.createdAt === undefined) {
-      return Result.fail<void>("[PromptByTones] 생성 시간은 필수입니다");
+      return Result.fail<void>("[ToneScopedPrompts] 생성 시간은 필수입니다");
     }
     if (this.props.updatedAt === null || this.props.updatedAt === undefined) {
-      return Result.fail<void>("[PromptByTones] 수정 시간은 필수입니다");
+      return Result.fail<void>("[ToneScopedPrompts] 수정 시간은 필수입니다");
     }
 
     return Result.ok();
@@ -106,7 +106,7 @@ export class PromptByTones extends DomainEntity<PromptByTonesProps> {
     this.props.deletedAt = null;
   }
 
-  public update(props: Partial<PromptByTonesProps>): void {
+  public update(props: Partial<ToneScopedPromptsProps>): void {
     if (props.tonePromptId !== undefined && props.tonePromptId !== this.props.tonePromptId) {
       this.props.tonePromptId = props.tonePromptId;
     }

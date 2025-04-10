@@ -35,6 +35,22 @@ export class PromptVersionsService {
     return this.promptVersionsReader.findMany(props);
   }
 
+  async findActiveOne(): Promise<PromptVersions | null> {
+    const existingActiveVersions = await this.findMany({ isActive: true });
+    if (existingActiveVersions.length > 0) {
+      return existingActiveVersions[0];
+    }
+    return null;
+  }
+
+  async getActiveOne(): Promise<PromptVersions> {
+    const activeVersion = await this.findActiveOne();
+    if (!activeVersion) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Active PromptVersion not found");
+    }
+    return activeVersion;
+  }
+
   async getTemporaryOne(): Promise<PromptVersions> {
     const existingTemporaryVersions = await this.findMany({ isTemporary: true });
     if (existingTemporaryVersions.length > 0) {
@@ -45,9 +61,9 @@ export class PromptVersionsService {
     const newTemporaryVersion = await this.create({});
 
     // 활성화 버전이 있을 경우 해당 내용 복사
-    const activeVersion = await this.findMany({ isActive: true });
-    if (activeVersion.length > 0) {
-      newTemporaryVersion.clonePrompts(activeVersion[0]);
+    const activeVersion = await this.findActiveOne();
+    if (activeVersion) {
+      newTemporaryVersion.clonePrompts(activeVersion);
       await this.update(newTemporaryVersion);
     }
     return newTemporaryVersion;

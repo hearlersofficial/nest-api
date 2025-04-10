@@ -1,11 +1,11 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { PromptByCounselors } from "~counselings/domains/promptVersions/models/promptByCounselors";
-import { PromptByTones } from "~counselings/domains/promptVersions/models/promptByTones";
+import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 import { PromptVersions, PromptVersionsProps } from "~counselings/domains/promptVersions/models/promptVersions";
-import { PsqlPromptByCounselorsMapper } from "~counselings/infrastructures/promptVersions/mappers/psql.promptByCounselors.mapper";
-import { PsqlPromptByTonesMapper } from "~counselings/infrastructures/promptVersions/mappers/psql.promptByTones.mapper";
+import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
+import { PsqlCounselorScopedPromptsMapper } from "~counselings/infrastructures/promptVersions/mappers/psql.counselorScopedPrompts.mapper";
+import { PsqlToneScopedPromptsMapper } from "~counselings/infrastructures/promptVersions/mappers/psql.toneScopedPrompts.mapper";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -16,14 +16,14 @@ export class PsqlPromptVersionsMapper {
       return null;
     }
 
-    const promptByCounselors: PromptByCounselors[] = PsqlPromptByCounselorsMapper.toDomains(entity.promptByCounselors);
-    const promptByTones: PromptByTones[] = PsqlPromptByTonesMapper.toDomains(entity.promptByTones);
+    const counselorScopedPrompts: CounselorScopedPrompts[] = PsqlCounselorScopedPromptsMapper.toDomains(entity.counselorScopedPrompts);
+    const toneScopedPrompts: ToneScopedPrompts[] = PsqlToneScopedPromptsMapper.toDomains(entity.toneScopedPrompts);
 
     const promptVersionsProps: PromptVersionsProps = {
       name: entity.name,
       description: entity.description,
-      promptByCounselors: promptByCounselors,
-      promptByTones: promptByTones,
+      counselorScopedPrompts,
+      toneScopedPrompts,
       isActive: entity.isActive,
       isTemporary: entity.isTemporary,
       createdAt: dayjs(entity.createdAt),
@@ -52,8 +52,8 @@ export class PsqlPromptVersionsMapper {
       entity.id = promptVersions.id.getString();
     }
 
-    entity.promptByCounselors = PsqlPromptByCounselorsMapper.toEntities(promptVersions.promptByCounselors);
-    entity.promptByTones = PsqlPromptByTonesMapper.toEntities(promptVersions.promptByTones);
+    entity.counselorScopedPrompts = PsqlCounselorScopedPromptsMapper.toEntities(promptVersions.counselorScopedPrompts);
+    entity.toneScopedPrompts = PsqlToneScopedPromptsMapper.toEntities(promptVersions.toneScopedPrompts);
 
     entity.name = promptVersions.name;
     entity.description = promptVersions.description;

@@ -2,8 +2,8 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
-import { PromptByCounselors } from "~counselings/domains/promptVersions/models/promptByCounselors";
-import { PromptByTones } from "~counselings/domains/promptVersions/models/promptByTones";
+import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
+import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
 
 import { Dayjs } from "dayjs";
 
@@ -12,8 +12,8 @@ export interface PromptVersionsNewProps {}
 export interface PromptVersionsProps extends PromptVersionsNewProps {
   name: string;
   description: string;
-  promptByCounselors: PromptByCounselors[];
-  promptByTones: PromptByTones[];
+  counselorScopedPrompts: CounselorScopedPrompts[];
+  toneScopedPrompts: ToneScopedPrompts[];
   isActive: boolean;
   isTemporary: boolean;
 
@@ -44,8 +44,8 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
         ...newProps,
         name: "Default Name",
         description: "Default Description",
-        promptByCounselors: [],
-        promptByTones: [],
+        counselorScopedPrompts: [],
+        toneScopedPrompts: [],
         isActive: false,
         isTemporary: true,
         createdAt: now,
@@ -66,8 +66,8 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
       {
         name: "Temporary name",
         description: "Temporary description",
-        promptByCounselors: [],
-        promptByTones: [],
+        counselorScopedPrompts: [],
+        toneScopedPrompts: [],
         isActive: false,
         isTemporary: true,
         createdAt: now,
@@ -81,29 +81,29 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
     const clonedVersion = clonedVersionResult.value;
 
-    for (const promptByCounselor of promptVersion.promptByCounselors) {
-      const clonedPromptByCounselor = PromptByCounselors.createNew({
+    for (const counselorScopedPrompt of promptVersion.counselorScopedPrompts) {
+      const clonedPromptByCounselor = CounselorScopedPrompts.createNew({
         promptVersionId: clonedVersion.id,
-        counselorId: promptByCounselor.counselorId,
-        personaPromptId: promptByCounselor.personaPromptId,
+        counselorId: counselorScopedPrompt.counselorId,
+        personaPromptId: counselorScopedPrompt.personaPromptId,
       });
       if (clonedPromptByCounselor.isFailure) {
         return Result.fail<PromptVersions>(clonedPromptByCounselor.error as string);
       }
-      clonedVersion.props.promptByCounselors.push(clonedPromptByCounselor.value);
+      clonedVersion.props.counselorScopedPrompts.push(clonedPromptByCounselor.value);
     }
 
-    for (const promptByTone of promptVersion.promptByTones) {
-      const clonedPromptByTone = PromptByTones.createNew({
+    for (const toneScopedPrompt of promptVersion.toneScopedPrompts) {
+      const clonedPromptByTone = ToneScopedPrompts.createNew({
         promptVersionId: clonedVersion.id,
-        toneId: promptByTone.toneId,
-        tonePromptId: promptByTone.tonePromptId,
-        firstCounselTechniqueId: promptByTone.firstCounselTechniqueId,
+        toneId: toneScopedPrompt.toneId,
+        tonePromptId: toneScopedPrompt.tonePromptId,
+        firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId,
       });
       if (clonedPromptByTone.isFailure) {
         return Result.fail<PromptVersions>(clonedPromptByTone.error as string);
       }
-      clonedVersion.props.promptByTones.push(clonedPromptByTone.value);
+      clonedVersion.props.toneScopedPrompts.push(clonedPromptByTone.value);
     }
 
     return Result.ok<PromptVersions>(clonedVersion);
@@ -137,20 +137,20 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
       return Result.fail<void>("[PromptVersions] isTemporary가 true일 경우 isActive는 false여야 합니다");
     }
 
-    // promptByCounselors 검증
-    if (this.props.promptByCounselors.length > 0) {
-      for (const promptByCounselor of this.props.promptByCounselors) {
-        if (!promptByCounselor.promptVersionId.equals(this.id)) {
-          return Result.fail<void>("[PromptVersions] PromptByCounselors의 ID가 일치하지 않습니다");
+    // counselorScopedPrompts 검증
+    if (this.props.counselorScopedPrompts.length > 0) {
+      for (const counselorScopedPrompt of this.props.counselorScopedPrompts) {
+        if (!counselorScopedPrompt.promptVersionId.equals(this.id)) {
+          return Result.fail<void>("[PromptVersions] CounselorScopedPrompts의 ID가 일치하지 않습니다");
         }
       }
     }
 
-    // promptByTones 검증
-    if (this.props.promptByTones.length > 0) {
-      for (const promptByTone of this.props.promptByTones) {
-        if (!promptByTone.promptVersionId.equals(this.id)) {
-          return Result.fail<void>("[PromptVersions] PromptByTones의 ID가 일치하지 않습니다");
+    // toneScopedPrompts 검증
+    if (this.props.toneScopedPrompts.length > 0) {
+      for (const toneScopedPrompt of this.props.toneScopedPrompts) {
+        if (!toneScopedPrompt.promptVersionId.equals(this.id)) {
+          return Result.fail<void>("[PromptVersions] ToneScopedPrompts의 ID가 일치하지 않습니다");
         }
       }
     }
@@ -175,12 +175,12 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return this.props.description;
   }
 
-  get promptByCounselors(): PromptByCounselors[] {
-    return this.props.promptByCounselors;
+  get counselorScopedPrompts(): CounselorScopedPrompts[] {
+    return this.props.counselorScopedPrompts;
   }
 
-  get promptByTones(): PromptByTones[] {
-    return this.props.promptByTones;
+  get toneScopedPrompts(): ToneScopedPrompts[] {
+    return this.props.toneScopedPrompts;
   }
 
   get isActive(): boolean {
@@ -241,64 +241,64 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok<void>();
   }
 
-  public updatePromptByCounselor(props: { counselorId: UniqueEntityId; personaPromptId: UniqueEntityId }): Result<void> {
+  public updateCounselorScopedPrompt(props: { counselorId: UniqueEntityId; personaPromptId: UniqueEntityId }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
-    for (const promptByCounselor of this.props.promptByCounselors) {
-      if (promptByCounselor.counselorId.equals(props.counselorId)) {
-        promptByCounselor.update({ personaPromptId: props.personaPromptId });
+    for (const counselorScopedPrompt of this.props.counselorScopedPrompts) {
+      if (counselorScopedPrompt.counselorId.equals(props.counselorId)) {
+        counselorScopedPrompt.update({ personaPromptId: props.personaPromptId });
         this.props.updatedAt = getNowDayjs();
         return Result.ok<void>();
       }
     }
-    const newPromptByCounselor = PromptByCounselors.createNew({
+    const newCounselorScopedPrompt = CounselorScopedPrompts.createNew({
       promptVersionId: this.id,
       counselorId: props.counselorId,
       personaPromptId: props.personaPromptId,
     });
-    if (newPromptByCounselor.isFailure) {
-      return Result.fail<void>(newPromptByCounselor.error as string);
+    if (newCounselorScopedPrompt.isFailure) {
+      return Result.fail<void>(newCounselorScopedPrompt.error as string);
     }
-    this.props.promptByCounselors.push(newPromptByCounselor.value);
+    this.props.counselorScopedPrompts.push(newCounselorScopedPrompt.value);
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
   }
 
-  public getPromptByCounselor(counselorId: UniqueEntityId): Result<{ personaPromptId: UniqueEntityId }> {
-    const promptByCounselor = this.props.promptByCounselors.find((promptByCounselor) => promptByCounselor.counselorId.equals(counselorId));
-    return promptByCounselor ? Result.ok({ personaPromptId: promptByCounselor.personaPromptId }) : Result.fail("Prompt by counselor not found");
+  public getCounselorScopedPrompt(counselorId: UniqueEntityId): Result<{ personaPromptId: UniqueEntityId }> {
+    const counselorScopedPrompt = this.props.counselorScopedPrompts.find((counselorScopedPrompt) => counselorScopedPrompt.counselorId.equals(counselorId));
+    return counselorScopedPrompt ? Result.ok({ personaPromptId: counselorScopedPrompt.personaPromptId }) : Result.fail("Prompt by counselor not found");
   }
 
-  public updatePromptByTone(props: { toneId: UniqueEntityId; tonePromptId?: UniqueEntityId; firstCounselTechniqueId?: UniqueEntityId }): Result<void> {
+  public updateToneScopedPrompt(props: { toneId: UniqueEntityId; tonePromptId?: UniqueEntityId; firstCounselTechniqueId?: UniqueEntityId }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
-    for (const promptByTone of this.props.promptByTones) {
-      if (promptByTone.toneId.equals(props.toneId)) {
-        promptByTone.update({ tonePromptId: props.tonePromptId, firstCounselTechniqueId: props.firstCounselTechniqueId });
+    for (const toneScopedPrompt of this.props.toneScopedPrompts) {
+      if (toneScopedPrompt.toneId.equals(props.toneId)) {
+        toneScopedPrompt.update({ tonePromptId: props.tonePromptId, firstCounselTechniqueId: props.firstCounselTechniqueId });
         this.props.updatedAt = getNowDayjs();
         return Result.ok<void>();
       }
     }
-    const newPromptByTone = PromptByTones.createNew({
+    const newToneScopedPrompt = ToneScopedPrompts.createNew({
       promptVersionId: this.id,
       toneId: props.toneId,
       tonePromptId: props.tonePromptId ?? null,
       firstCounselTechniqueId: props.firstCounselTechniqueId ?? null,
     });
-    if (newPromptByTone.isFailure) {
-      return Result.fail<void>(newPromptByTone.error as string);
+    if (newToneScopedPrompt.isFailure) {
+      return Result.fail<void>(newToneScopedPrompt.error as string);
     }
-    this.props.promptByTones.push(newPromptByTone.value);
+    this.props.toneScopedPrompts.push(newToneScopedPrompt.value);
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
   }
 
-  public getPromptByTone(toneId: UniqueEntityId): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
-    const promptByTone = this.props.promptByTones.find((promptByTone) => promptByTone.toneId.equals(toneId));
-    return promptByTone
-      ? Result.ok({ tonePromptId: promptByTone.tonePromptId, firstCounselTechniqueId: promptByTone.firstCounselTechniqueId })
+  public getToneScopedPrompt(toneId: UniqueEntityId): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
+    const toneScopedPrompt = this.props.toneScopedPrompts.find((toneScopedPrompt) => toneScopedPrompt.toneId.equals(toneId));
+    return toneScopedPrompt
+      ? Result.ok({ tonePromptId: toneScopedPrompt.tonePromptId, firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId })
       : Result.fail("Prompt by tone not found");
   }
 
@@ -307,33 +307,33 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.isActive = false;
     this.props.name = "Temporary name";
     this.props.description = "Temporary description";
-    this.props.promptByCounselors = [];
-    this.props.promptByTones = [];
+    this.props.counselorScopedPrompts = [];
+    this.props.toneScopedPrompts = [];
     this.props.updatedAt = getNowDayjs();
 
-    for (const promptByCounselor of promptVersion.promptByCounselors) {
-      const clonedPromptByCounselor = PromptByCounselors.createNew({
+    for (const counselorScopedPrompt of promptVersion.counselorScopedPrompts) {
+      const clonedCounselorScopedPrompt = CounselorScopedPrompts.createNew({
         promptVersionId: this.id,
-        counselorId: promptByCounselor.counselorId,
-        personaPromptId: promptByCounselor.personaPromptId,
+        counselorId: counselorScopedPrompt.counselorId,
+        personaPromptId: counselorScopedPrompt.personaPromptId,
       });
-      if (clonedPromptByCounselor.isFailure) {
-        return Result.fail<void>(clonedPromptByCounselor.error as string);
+      if (clonedCounselorScopedPrompt.isFailure) {
+        return Result.fail<void>(clonedCounselorScopedPrompt.error as string);
       }
-      this.props.promptByCounselors.push(clonedPromptByCounselor.value);
+      this.props.counselorScopedPrompts.push(clonedCounselorScopedPrompt.value);
     }
 
-    for (const promptByTone of promptVersion.promptByTones) {
-      const clonedPromptByTone = PromptByTones.createNew({
+    for (const toneScopedPrompt of promptVersion.toneScopedPrompts) {
+      const clonedToneScopedPrompt = ToneScopedPrompts.createNew({
         promptVersionId: this.id,
-        toneId: promptByTone.toneId,
-        tonePromptId: promptByTone.tonePromptId,
-        firstCounselTechniqueId: promptByTone.firstCounselTechniqueId,
+        toneId: toneScopedPrompt.toneId,
+        tonePromptId: toneScopedPrompt.tonePromptId,
+        firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId,
       });
-      if (clonedPromptByTone.isFailure) {
-        return Result.fail<void>(clonedPromptByTone.error as string);
+      if (clonedToneScopedPrompt.isFailure) {
+        return Result.fail<void>(clonedToneScopedPrompt.error as string);
       }
-      this.props.promptByTones.push(clonedPromptByTone.value);
+      this.props.toneScopedPrompts.push(clonedToneScopedPrompt.value);
     }
 
     return Result.ok<void>();

@@ -11,8 +11,8 @@ import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } fro
 @Injectable()
 export class PsqlPromptVersionsRepository extends PromptVersionsRepository {
   private readonly promptVersionsFindOptionsRelation: FindOptionsRelations<PromptVersionEntity> = {
-    promptByCounselors: true,
-    promptByTones: true,
+    counselorScopedPrompts: true,
+    toneScopedPrompts: true,
   };
 
   constructor(

@@ -32,6 +32,9 @@ export class PromptVersionsFacade {
   async loadExistingPromptVersion(params: { promptVersionId: UniqueEntityId }): Promise<PromptVersions> {
     const { promptVersionId } = params;
     const promptVersion = await this.promptVersionsService.getOne({ promptVersionId });
+    if (promptVersion.isTemporary) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Cannot load a temporary version");
+    }
     const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
     temporaryVersion.clonePrompts(promptVersion);
     await this.promptVersionsService.update(temporaryVersion);

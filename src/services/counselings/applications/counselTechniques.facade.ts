@@ -28,11 +28,6 @@ export class CounselTechniquesFacade {
     return this.counselTechniquesService.create({ name, toneId, context, instruction, messageThreshold });
   }
 
-  async findCounselTechniques(params: { name?: string; toneId?: UniqueEntityId }): Promise<CounselTechniques[]> {
-    const { name, toneId } = params;
-    return this.counselTechniquesService.findMany({ name, toneId });
-  }
-
   async findCounselTechniqueById(params: { counselTechniqueId: UniqueEntityId }): Promise<CounselTechniques> {
     const { counselTechniqueId } = params;
     return this.counselTechniquesService.getOne({ counselTechniqueId });
@@ -65,11 +60,11 @@ export class CounselTechniquesFacade {
 
     const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
     const toneId = technique.toneId;
-    const promptByToneResult = temporaryVersion.getPromptByTone(toneId);
-    if (promptByToneResult.isFailure) {
+    const toneScopedPromptResult = temporaryVersion.getToneScopedPrompt(toneId);
+    if (toneScopedPromptResult.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No Prompt found for the tone");
     }
-    const { firstCounselTechniqueId } = promptByToneResult.value;
+    const { firstCounselTechniqueId } = toneScopedPromptResult.value;
     if (!firstCounselTechniqueId) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No first counsel technique found");
     }
@@ -106,7 +101,7 @@ export class CounselTechniquesFacade {
     const finalTechniques = [...newOrderedTechniques, ...remainTechniques];
 
     // 임시 버전 수정
-    temporaryVersion.updatePromptByTone({
+    temporaryVersion.updateToneScopedPrompt({
       toneId,
       firstCounselTechniqueId: finalTechniques[0].id,
     });
@@ -126,11 +121,11 @@ export class CounselTechniquesFacade {
     const { toneId, counselTechniqueIds } = params;
 
     const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
-    const promptByToneResult = temporaryVersion.getPromptByTone(toneId);
-    if (promptByToneResult.isFailure) {
+    const toneScopedPromptResult = temporaryVersion.getToneScopedPrompt(toneId);
+    if (toneScopedPromptResult.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No Prompt found for the tone");
     }
-    const { firstCounselTechniqueId } = promptByToneResult.value;
+    const { firstCounselTechniqueId } = toneScopedPromptResult.value;
     if (!firstCounselTechniqueId) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No first counsel technique found");
     }
@@ -178,7 +173,7 @@ export class CounselTechniquesFacade {
     const finalTechniques = [...newOrderedTechniques, ...remainTechniques];
 
     // 임시 버전 수정
-    temporaryVersion.updatePromptByTone({
+    temporaryVersion.updateToneScopedPrompt({
       toneId,
       firstCounselTechniqueId: finalTechniques[0].id,
     });

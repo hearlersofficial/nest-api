@@ -15,25 +15,25 @@ export class ValidatePromptVersionUseCase implements UseCase<ValidatePromptVersi
 
     const tones = await this.tonesService.findMany({});
     for (const tone of tones) {
-      const promptByTone = promptVersion.promptByTones.find((prompt) => prompt.toneId.equals(tone.id));
-      if (!promptByTone) {
+      const toneScopedPrompt = promptVersion.toneScopedPrompts.find((prompt) => prompt.toneId.equals(tone.id));
+      if (!toneScopedPrompt) {
         throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `Prompt by tone not found for toneId: ${tone.id}`);
       }
-      if (!promptByTone.tonePromptId) {
+      if (!toneScopedPrompt.tonePromptId) {
         throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `Tone prompt not found for toneId: ${tone.id}`);
       }
-      if (!promptByTone.firstCounselTechniqueId) {
+      if (!toneScopedPrompt.firstCounselTechniqueId) {
         throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `First counsel technique not found for toneId: ${tone.id}`);
       }
     }
 
     const counselors = await this.counselorsService.findMany({});
     for (const counselor of counselors) {
-      const promptByCounselor = promptVersion.promptByCounselors.find((prompt) => prompt.counselorId.equals(counselor.id));
-      if (!promptByCounselor) {
+      const counselorScopedPrompt = promptVersion.counselorScopedPrompts.find((prompt) => prompt.counselorId.equals(counselor.id));
+      if (!counselorScopedPrompt) {
         throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `Prompt by counselor not found for counselorId: ${counselor.id}`);
       }
-      if (!promptByCounselor.personaPromptId) {
+      if (!counselorScopedPrompt.personaPromptId) {
         throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `Persona prompt not found for counselorId: ${counselor.id}`);
       }
     }

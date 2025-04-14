@@ -3,15 +3,22 @@ import { CounselMessagesFacade } from "~counselings/applications/counselMessages
 import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { CounselsFacade } from "~counselings/applications/counsels.facade";
 import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
+import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
+import { PromptVersionsFacade } from "~counselings/applications/promptVersions.facade";
+import { TonePromptsFacade } from "~counselings/applications/tonePrompts.facade";
 import { TonesFacade } from "~counselings/applications/tones.facade";
 import { GenerateGptResponseUseCase } from "~counselings/applications/use-cases/generate-gpt-response";
 import { MakeSystemPromptUseCase } from "~counselings/applications/use-cases/make-system-prompt";
 import { ProceedCounselingUseCase } from "~counselings/applications/use-cases/proceed-counseling";
 import { TransitionCounselTechniqueUseCase } from "~counselings/applications/use-cases/transition-counselTechique";
+import { ValidatePromptVersionUseCase } from "~counselings/applications/use-cases/validate-prompt-version";
 import { CounselMessagesModule } from "~counselings/domains/counselMessages/counselMessages.module";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
+import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
+import { PromptVersionsModule } from "~counselings/domains/promptVersions/promptVersions.module";
+import { TonePromptsModule } from "~counselings/domains/tonePrompts/tonePrompts.module";
 import { TonesModule } from "~counselings/domains/tones/tones.module";
 import { GrpcCounselorCommandController } from "~counselings/presentations/grpc/command/counselors-command.controller";
 import { GrpcCounselPromptCommandController } from "~counselings/presentations/grpc/command/counselPrompts-command.controller";
@@ -31,6 +38,9 @@ import { ClientKafka, ClientsModule } from "@nestjs/microservices";
     CounselMessagesModule,
     CounselorsModule,
     TonesModule,
+    PromptVersionsModule,
+    PersonaPromptsModule,
+    TonePromptsModule,
     CounselTechniquesModule,
     ClientsModule.registerAsync({ clients: [{ useClass: ClientsConfigs, name: KAFKA_CLIENT }], isGlobal: true }),
   ],
@@ -47,11 +57,15 @@ import { ClientKafka, ClientsModule } from "@nestjs/microservices";
     CounselMessagesFacade,
     CounselorsFacade,
     TonesFacade,
+    PromptVersionsFacade,
+    PersonaPromptsFacade,
+    TonePromptsFacade,
     CounselTechniquesFacade,
     TransitionCounselTechniqueUseCase,
     MakeSystemPromptUseCase,
     GenerateGptResponseUseCase,
     ProceedCounselingUseCase,
+    ValidatePromptVersionUseCase,
   ],
 })
 export class CounselsServiceModule implements OnModuleInit, OnModuleDestroy {

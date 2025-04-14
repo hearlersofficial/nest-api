@@ -9,6 +9,7 @@ import { CounselorsService } from "~counselings/domains/counselors/counselors.se
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
+import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { Transactional } from "typeorm-transactional";
@@ -22,6 +23,7 @@ export class CounselsFacade {
     private readonly counselorService: CounselorsService,
     private readonly counselTechniqueService: CounselTechniquesService,
     private readonly counselMessagesService: CounselMessagesService,
+    private readonly promptVersionsService: PromptVersionsService,
     private readonly proceedCounselingUseCase: ProceedCounselingUseCase,
   ) {}
 
@@ -34,12 +36,26 @@ export class CounselsFacade {
   }): Promise<CounselWithMessages> {
     const { userId, counselorId, introMessage, responseMessage } = params;
 
+    const activeVersion = await this.promptVersionsService.getActiveOne();
+
     const counselor = await this.counselorService.getOne({ counselorId });
-    const firstCounselTechnique = await this.counselTechniqueService.getFirst({ toneId: counselor.toneId });
+    const toneId = counselor.toneId;
+
+    const toneScopedPromptResult = activeVersion.getToneScopedPrompt(toneId);
+    if (toneScopedPromptResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, toneScopedPromptResult.error as string);
+    }
+    const toneScopedPrompt = toneScopedPromptResult.value;
+    const firstCounselTechniqueId = toneScopedPrompt.firstCounselTechniqueId;
+    if (!firstCounselTechniqueId) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "First counsel technique not found");
+    }
+
     const createdCounsel = await this.counselsService.create({
       userId,
       counselorId,
-      counselTechniqueId: firstCounselTechnique.id,
+      counselTechniqueId: firstCounselTechniqueId,
+      promptVersionId: activeVersion.id,
       // TODO: 의미있는 값 넣기
       counselorUserRelationshipId: new UniqueEntityId(),
     });

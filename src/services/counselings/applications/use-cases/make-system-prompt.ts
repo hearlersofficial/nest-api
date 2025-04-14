@@ -1,24 +1,28 @@
 import { UseCase } from "~shared/core/applications/UseCase";
 import { MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse } from "~counselings/applications/use-cases/dtos/make-system-prompt.dto";
-import { TonesService } from "~counselings/domains/tones/tones.service";
+import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
+import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
+import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 
 import { Injectable } from "@nestjs/common";
 import { ChatCompletionSystemMessageParam } from "openai/resources";
 
 @Injectable()
 export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse> {
-  constructor(private readonly toneService: TonesService) {}
+  constructor(
+    private readonly personaPromptService: PersonaPromptsService,
+    private readonly tonePromptService: TonePromptsService,
+    private readonly counselTechniqueService: CounselTechniquesService,
+  ) {}
 
   async execute(request: MakeSystemPromptUseCaseRequest): Promise<MakeSystemPromptUseCaseResponse> {
-    const { counselTechnique, counselor, userId } = request;
+    const { personaPromptId, tonePromptId, counselTechniqueId, userId } = request;
 
-    const persona = counselor.persona.body;
-
+    const persona = (await this.personaPromptService.getOne({ personaPromptId })).body;
+    const tone = (await this.tonePromptService.getOne({ tonePromptId })).body;
+    const counselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId });
     const context = counselTechnique.context;
-
     const instruction = counselTechnique.instruction;
-
-    const tone = (await this.toneService.getOne({ toneId: counselTechnique.toneId })).body;
 
     // TODO: contextVariables 처리
 

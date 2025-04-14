@@ -11,6 +11,7 @@ import { CounselMessages } from "~counselings/domains/counselMessages/models/cou
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
+import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { ChatCompletionMessageParam } from "openai/resources";
@@ -24,6 +25,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     private readonly counselMessageService: CounselMessagesService,
     private readonly counselTechniqueService: CounselTechniquesService,
     private readonly counselorService: CounselorsService,
+    private readonly promptVersionsService: PromptVersionsService,
     private readonly transitionCounselTechniqueUseCase: TransitionCounselTechniqueUseCase,
     private readonly makeSystemPromptUseCase: MakeSystemPromptUseCase,
     private readonly generateGptResponseUseCase: GenerateGptResponseUseCase,
@@ -38,12 +40,26 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     // 이전 대화 조회
     const counselMessages = await this.counselMessageService.findMany({ counselId: counsel.id });
 
+    // 프롬프트 버전 조회
+    const promptVersion = await this.promptVersionsService.getOne({ promptVersionId: counsel.promptVersionId });
+    const counselorScopedPromptResult = promptVersion.getCounselorScopedPrompt(counselor.id);
+    if (counselorScopedPromptResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselorScopedPromptResult.error as string);
+    }
+    const counselorScopedPrompt = counselorScopedPromptResult.value;
+    const toneScopedPromptResult = promptVersion.getToneScopedPrompt(counselor.toneId);
+    if (toneScopedPromptResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, toneScopedPromptResult.error as string);
+    }
+    const toneScopedPrompt = toneScopedPromptResult.value;
+
     // 상담기법 초기화 여부 확인
     if (this.needCounselTechniqueReset(counselMessages[counselMessages.length - 1])) {
-      const firstCounselTechnique = await this.counselTechniqueService.getFirst({
-        toneId: counselor.toneId,
-      });
-      counsel.updateCounselTechniqueId(firstCounselTechnique.id);
+      const firstCounselTechniqueId = toneScopedPrompt.firstCounselTechniqueId;
+      if (!firstCounselTechniqueId) {
+        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "First counsel technique not found");
+      }
+      counsel.updateCounselTechniqueId(firstCounselTechniqueId);
       await this.counselService.update(counsel);
     }
     // 상담 기법 변경 여부 확인
@@ -53,15 +69,18 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
         throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, transitionCounselTechniqueResponse.error as string);
       }
     }
-
-    // 상담 기법 조회
-    const counselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId: counsel.counselTechniqueId });
+    const personaPromptId = counselorScopedPrompt.personaPromptId;
+    const tonePromptId = toneScopedPrompt.tonePromptId;
+    if (!tonePromptId) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Tone prompt ID not found");
+    }
 
     const prompts: ChatCompletionMessageParam[] = [];
     // 시스템 프롬프트 생성
     const makeSystemPromptResult = await this.makeSystemPromptUseCase.execute({
-      counselTechnique,
-      counselor,
+      personaPromptId,
+      tonePromptId,
+      counselTechniqueId: counsel.counselTechniqueId,
       userId: counsel.userId,
     });
     if (!makeSystemPromptResult.ok) {

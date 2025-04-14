@@ -25,7 +25,7 @@ export class TonePromptsFacade {
       toneId,
       body,
     });
-    temporaryVersion.updatePromptByTone({
+    temporaryVersion.updateToneScopedPrompt({
       toneId,
       tonePromptId: newTonePrompt.id,
     });

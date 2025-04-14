@@ -26,7 +26,7 @@ export class PersonaPromptsFacade {
       counselorId,
       body,
     });
-    temporaryVersion.updatePromptByCounselor({
+    temporaryVersion.updateCounselorScopedPrompt({
       counselorId,
       personaPromptId: newPersonaPrompt.id,
     });

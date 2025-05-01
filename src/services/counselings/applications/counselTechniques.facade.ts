@@ -122,15 +122,9 @@ export class CounselTechniquesFacade {
 
     const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
     const toneScopedPromptResult = temporaryVersion.getToneScopedPrompt(toneId);
-    if (toneScopedPromptResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No Prompt found for the tone");
-    }
-    const { firstCounselTechniqueId } = toneScopedPromptResult.value;
-    if (!firstCounselTechniqueId) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No first counsel technique found");
-    }
-    const orderedTechniques = await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId });
+    const firstCounselTechniqueId = toneScopedPromptResult.isSuccess ? toneScopedPromptResult.value.firstCounselTechniqueId : null;
 
+    const orderedTechniques: CounselTechniques[] = firstCounselTechniqueId ? await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId }) : [];
     const techniques = await this.counselTechniquesService.findMany({ ids: counselTechniqueIds });
 
     const newOrderedTechniques: CounselTechniques[] = [];

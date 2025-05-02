@@ -10,12 +10,12 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/model/counsel_prompt.proto.
  */
 export const file_com_hearlers_v1_model_counsel_prompt: GenFile = /*@__PURE__*/
-  fileDesc("Cipjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbF9wcm9tcHQucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCJ+CgRUb25lEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSDAoEYm9keRgDIAEoCRISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSFwoKZGVsZXRlZF9hdBgGIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IpQCChBDb3Vuc2VsVGVjaG5pcXVlEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSDwoHdG9uZV9pZBgDIAEoCRIPCgdjb250ZXh0GAQgASgJEhMKC2luc3RydWN0aW9uGAUgASgJEhkKEW1lc3NhZ2VfdGhyZXNob2xkGAYgASgFEiYKGW5leHRfY291bnNlbF90ZWNobmlxdWVfaWQYByABKAlIAIgBARISCgpjcmVhdGVkX2F0GAggASgJEhIKCnVwZGF0ZWRfYXQYCSABKAkSFwoKZGVsZXRlZF9hdBgKIAEoCUgBiAEBQhwKGl9uZXh0X2NvdW5zZWxfdGVjaG5pcXVlX2lkQg0KC19kZWxldGVkX2F0QqcBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQhJDb3Vuc2VsUHJvbXB0UHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw");
+  fileDesc("Cipjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbF9wcm9tcHQucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCLkAgoNUHJvbXB0VmVyc2lvbhIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhEKCWlzX2FjdGl2ZRgEIAEoCBIUCgxpc190ZW1wb3JhcnkYBSABKAgSFQoNaXNfYm9va21hcmtlZBgGIAEoCBJOChhjb3Vuc2Vsb3Jfc2NvcGVkX3Byb21wdHMYByADKAsyLC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yU2NvcGVkUHJvbXB0EkQKE3RvbmVfc2NvcGVkX3Byb21wdHMYCCADKAsyJy5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZVNjb3BlZFByb21wdBISCgpjcmVhdGVkX2F0GAkgASgJEhIKCnVwZGF0ZWRfYXQYCiABKAkSFwoKZGVsZXRlZF9hdBgLIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IpgBChVDb3Vuc2Vsb3JTY29wZWRQcm9tcHQSFAoMY291bnNlbG9yX2lkGAEgASgJEhkKEXBlcnNvbmFfcHJvbXB0X2lkGAIgASgJEhIKCmNyZWF0ZWRfYXQYAyABKAkSEgoKdXBkYXRlZF9hdBgEIAEoCRIXCgpkZWxldGVkX2F0GAUgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQi6wEKEFRvbmVTY29wZWRQcm9tcHQSDwoHdG9uZV9pZBgBIAEoCRIbCg50b25lX3Byb21wdF9pZBgCIAEoCUgAiAEBEicKGmZpcnN0X2NvdW5zZWxfdGVjaG5pcXVlX2lkGAMgASgJSAGIAQESEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAogBAUIRCg9fdG9uZV9wcm9tcHRfaWRCHQobX2ZpcnN0X2NvdW5zZWxfdGVjaG5pcXVlX2lkQg0KC19kZWxldGVkX2F0Io8BCg1QZXJzb25hUHJvbXB0EgoKAmlkGAEgASgJEgwKBGJvZHkYAiABKAkSFAoMY291bnNlbG9yX2lkGAMgASgJEhIKCmNyZWF0ZWRfYXQYBCABKAkSEgoKdXBkYXRlZF9hdBgFIAEoCRIXCgpkZWxldGVkX2F0GAYgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQihwEKClRvbmVQcm9tcHQSCgoCaWQYASABKAkSDAoEYm9keRgCIAEoCRIPCgd0b25lX2lkGAMgASgJEhIKCmNyZWF0ZWRfYXQYBCABKAkSEgoKdXBkYXRlZF9hdBgFIAEoCRIXCgpkZWxldGVkX2F0GAYgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQiqgIKEENvdW5zZWxUZWNobmlxdWUSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIPCgd0b25lX2lkGAMgASgJEg8KB2NvbnRleHQYBCABKAkSEwoLaW5zdHJ1Y3Rpb24YBSABKAkSGQoRbWVzc2FnZV90aHJlc2hvbGQYBiABKAUSFAoMaXNfdGVtcG9yYXJ5GAcgASgIEiYKGW5leHRfY291bnNlbF90ZWNobmlxdWVfaWQYCCABKAlIAIgBARISCgpjcmVhdGVkX2F0GAkgASgJEhIKCnVwZGF0ZWRfYXQYCiABKAkSFwoKZGVsZXRlZF9hdBgLIAEoCUgBiAEBQhwKGl9uZXh0X2NvdW5zZWxfdGVjaG5pcXVlX2lkQg0KC19kZWxldGVkX2F0IqQBChVQcm9tcHRBY3RpdmF0ZUhpc3RvcnkSCgoCaWQYASABKAkSGQoRcHJvbXB0X3ZlcnNpb25faWQYAiABKAkSFAoMYWN0aXZhdGVkX2F0GAMgASgJEhIKCmNyZWF0ZWRfYXQYBCABKAkSEgoKdXBkYXRlZF9hdBgFIAEoCRIXCgpkZWxldGVkX2F0GAYgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXRCpwEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCEkNvdW5zZWxQcm9tcHRQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z");
 
 /**
- * @generated from message com.hearlers.v1.model.Tone
+ * @generated from message com.hearlers.v1.model.PromptVersion
  */
-export type Tone = Message<"com.hearlers.v1.model.Tone"> & {
+export type PromptVersion = Message<"com.hearlers.v1.model.PromptVersion"> & {
   /**
    * @generated from field: string id = 1;
    */
@@ -27,9 +27,125 @@ export type Tone = Message<"com.hearlers.v1.model.Tone"> & {
   name: string;
 
   /**
-   * @generated from field: string body = 3;
+   * @generated from field: string description = 3;
    */
-  body: string;
+  description: string;
+
+  /**
+   * @generated from field: bool is_active = 4;
+   */
+  isActive: boolean;
+
+  /**
+   * @generated from field: bool is_temporary = 5;
+   */
+  isTemporary: boolean;
+
+  /**
+   * @generated from field: bool is_bookmarked = 6;
+   */
+  isBookmarked: boolean;
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.CounselorScopedPrompt counselor_scoped_prompts = 7;
+   */
+  counselorScopedPrompts: CounselorScopedPrompt[];
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.ToneScopedPrompt tone_scoped_prompts = 8;
+   */
+  toneScopedPrompts: ToneScopedPrompt[];
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string created_at = 9;
+   */
+  createdAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string updated_at = 10;
+   */
+  updatedAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: optional string deleted_at = 11;
+   */
+  deletedAt?: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.model.PromptVersion.
+ * Use `create(PromptVersionSchema)` to create a new message.
+ */
+export const PromptVersionSchema: GenMessage<PromptVersion> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 0);
+
+/**
+ * @generated from message com.hearlers.v1.model.CounselorScopedPrompt
+ */
+export type CounselorScopedPrompt = Message<"com.hearlers.v1.model.CounselorScopedPrompt"> & {
+  /**
+   * @generated from field: string counselor_id = 1;
+   */
+  counselorId: string;
+
+  /**
+   * @generated from field: string persona_prompt_id = 2;
+   */
+  personaPromptId: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string created_at = 3;
+   */
+  createdAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string updated_at = 4;
+   */
+  updatedAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: optional string deleted_at = 5;
+   */
+  deletedAt?: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.model.CounselorScopedPrompt.
+ * Use `create(CounselorScopedPromptSchema)` to create a new message.
+ */
+export const CounselorScopedPromptSchema: GenMessage<CounselorScopedPrompt> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 1);
+
+/**
+ * @generated from message com.hearlers.v1.model.ToneScopedPrompt
+ */
+export type ToneScopedPrompt = Message<"com.hearlers.v1.model.ToneScopedPrompt"> & {
+  /**
+   * @generated from field: string tone_id = 1;
+   */
+  toneId: string;
+
+  /**
+   * @generated from field: optional string tone_prompt_id = 2;
+   */
+  tonePromptId?: string;
+
+  /**
+   * @generated from field: optional string first_counsel_technique_id = 3;
+   */
+  firstCounselTechniqueId?: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
@@ -54,11 +170,107 @@ export type Tone = Message<"com.hearlers.v1.model.Tone"> & {
 };
 
 /**
- * Describes the message com.hearlers.v1.model.Tone.
- * Use `create(ToneSchema)` to create a new message.
+ * Describes the message com.hearlers.v1.model.ToneScopedPrompt.
+ * Use `create(ToneScopedPromptSchema)` to create a new message.
  */
-export const ToneSchema: GenMessage<Tone> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 0);
+export const ToneScopedPromptSchema: GenMessage<ToneScopedPrompt> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 2);
+
+/**
+ * @generated from message com.hearlers.v1.model.PersonaPrompt
+ */
+export type PersonaPrompt = Message<"com.hearlers.v1.model.PersonaPrompt"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string body = 2;
+   */
+  body: string;
+
+  /**
+   * @generated from field: string counselor_id = 3;
+   */
+  counselorId: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string created_at = 4;
+   */
+  createdAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string updated_at = 5;
+   */
+  updatedAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: optional string deleted_at = 6;
+   */
+  deletedAt?: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.model.PersonaPrompt.
+ * Use `create(PersonaPromptSchema)` to create a new message.
+ */
+export const PersonaPromptSchema: GenMessage<PersonaPrompt> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 3);
+
+/**
+ * @generated from message com.hearlers.v1.model.TonePrompt
+ */
+export type TonePrompt = Message<"com.hearlers.v1.model.TonePrompt"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string body = 2;
+   */
+  body: string;
+
+  /**
+   * @generated from field: string tone_id = 3;
+   */
+  toneId: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string created_at = 4;
+   */
+  createdAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string updated_at = 5;
+   */
+  updatedAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: optional string deleted_at = 6;
+   */
+  deletedAt?: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.model.TonePrompt.
+ * Use `create(TonePromptSchema)` to create a new message.
+ */
+export const TonePromptSchema: GenMessage<TonePrompt> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 4);
 
 /**
  * @generated from message com.hearlers.v1.model.CounselTechnique
@@ -95,28 +307,33 @@ export type CounselTechnique = Message<"com.hearlers.v1.model.CounselTechnique">
   messageThreshold: number;
 
   /**
-   * @generated from field: optional string next_counsel_technique_id = 7;
+   * @generated from field: bool is_temporary = 7;
+   */
+  isTemporary: boolean;
+
+  /**
+   * @generated from field: optional string next_counsel_technique_id = 8;
    */
   nextCounselTechniqueId?: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string created_at = 8;
+   * @generated from field: string created_at = 9;
    */
   createdAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string updated_at = 9;
+   * @generated from field: string updated_at = 10;
    */
   updatedAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: optional string deleted_at = 10;
+   * @generated from field: optional string deleted_at = 11;
    */
   deletedAt?: string;
 };
@@ -126,5 +343,55 @@ export type CounselTechnique = Message<"com.hearlers.v1.model.CounselTechnique">
  * Use `create(CounselTechniqueSchema)` to create a new message.
  */
 export const CounselTechniqueSchema: GenMessage<CounselTechnique> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 1);
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 5);
+
+/**
+ * @generated from message com.hearlers.v1.model.PromptActivateHistory
+ */
+export type PromptActivateHistory = Message<"com.hearlers.v1.model.PromptActivateHistory"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string prompt_version_id = 2;
+   */
+  promptVersionId: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string activated_at = 3;
+   */
+  activatedAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string created_at = 4;
+   */
+  createdAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: string updated_at = 5;
+   */
+  updatedAt: string;
+
+  /**
+   * ISO 8601 (2024-12-29T12:34:56.000Z)
+   *
+   * @generated from field: optional string deleted_at = 6;
+   */
+  deletedAt?: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.model.PromptActivateHistory.
+ * Use `create(PromptActivateHistorySchema)` to create a new message.
+ */
+export const PromptActivateHistorySchema: GenMessage<PromptActivateHistory> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 6);
 

@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/model/counsel.proto.
  */
 export const file_com_hearlers_v1_model_counsel: GenFile = /*@__PURE__*/
-  fileDesc("CiNjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbC5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIoACCgdDb3Vuc2VsEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEhQKDGxhc3RfbWVzc2FnZRgEIAEoCRIWCg5sYXN0X2NoYXRlZF9hdBgFIAEoCRIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgGIAEoCRImCh5jb3Vuc2Vsb3JfdXNlcl9yZWxhdGlvbnNoaXBfaWQYByABKAkSEgoKY3JlYXRlZF9hdBgIIAEoCRISCgp1cGRhdGVkX2F0GAkgASgJEhcKCmRlbGV0ZWRfYXQYCiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKlAgoOQ291bnNlbE1lc3NhZ2USCgoCaWQYASABKAkSEgoKY291bnNlbF9pZBgCIAEoCRIPCgdtZXNzYWdlGAMgASgJEhcKD2lzX3VzZXJfbWVzc2FnZRgEIAEoCBIXCgpyZWFjdGVkX2F0GAUgASgJSACIAQESRAoIcmVhY3Rpb24YBiABKA4yLS5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbE1lc3NhZ2VSZWFjdGlvbkgBiAEBEhIKCmNyZWF0ZWRfYXQYByABKAkSEgoKdXBkYXRlZF9hdBgIIAEoCRIXCgpkZWxldGVkX2F0GAkgASgJSAKIAQFCDQoLX3JlYWN0ZWRfYXRCCwoJX3JlYWN0aW9uQg0KC19kZWxldGVkX2F0Iq8BChlDb3Vuc2Vsb3JVc2VyUmVsYXRpb25zaGlwEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEg8KB3JhcHBvcnQYBCABKAUSEgoKY3JlYXRlZF9hdBgFIAEoCRISCgp1cGRhdGVkX2F0GAYgASgJEhcKCmRlbGV0ZWRfYXQYByABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCqLAQoWQ291bnNlbE1lc3NhZ2VSZWFjdGlvbhIoCiRDT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fVU5TUEVDSUZJRUQQABIhCh1DT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fTElLRRABEiQKIENPVU5TRUxfTUVTU0FHRV9SRUFDVElPTl9ESVNMSUtFEAJCoQEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCDENvdW5zZWxQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z");
+  fileDesc("CiNjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbC5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIskCCgdDb3Vuc2VsEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEhkKDGxhc3RfbWVzc2FnZRgEIAEoCUgAiAEBEhsKDmxhc3RfY2hhdGVkX2F0GAUgASgJSAGIAQESGQoRcHJvbXB0X3ZlcnNpb25faWQYBiABKAkSHAoUY291bnNlbF90ZWNobmlxdWVfaWQYByABKAkSJgoeY291bnNlbG9yX3VzZXJfcmVsYXRpb25zaGlwX2lkGAggASgJEhIKCmNyZWF0ZWRfYXQYCSABKAkSEgoKdXBkYXRlZF9hdBgKIAEoCRIXCgpkZWxldGVkX2F0GAsgASgJSAKIAQFCDwoNX2xhc3RfbWVzc2FnZUIRCg9fbGFzdF9jaGF0ZWRfYXRCDQoLX2RlbGV0ZWRfYXQipQIKDkNvdW5zZWxNZXNzYWdlEgoKAmlkGAEgASgJEhIKCmNvdW5zZWxfaWQYAiABKAkSDwoHbWVzc2FnZRgDIAEoCRIXCg9pc191c2VyX21lc3NhZ2UYBCABKAgSFwoKcmVhY3RlZF9hdBgFIAEoCUgAiAEBEkQKCHJlYWN0aW9uGAYgASgOMi0uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxNZXNzYWdlUmVhY3Rpb25IAYgBARISCgpjcmVhdGVkX2F0GAcgASgJEhIKCnVwZGF0ZWRfYXQYCCABKAkSFwoKZGVsZXRlZF9hdBgJIAEoCUgCiAEBQg0KC19yZWFjdGVkX2F0QgsKCV9yZWFjdGlvbkINCgtfZGVsZXRlZF9hdCKvAQoZQ291bnNlbG9yVXNlclJlbGF0aW9uc2hpcBIKCgJpZBgBIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAiABKAkSDwoHdXNlcl9pZBgDIAEoCRIPCgdyYXBwb3J0GAQgASgFEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRIXCgpkZWxldGVkX2F0GAcgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQqiwEKFkNvdW5zZWxNZXNzYWdlUmVhY3Rpb24SKAokQ09VTlNFTF9NRVNTQUdFX1JFQUNUSU9OX1VOU1BFQ0lGSUVEEAASIQodQ09VTlNFTF9NRVNTQUdFX1JFQUNUSU9OX0xJS0UQARIkCiBDT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fRElTTElLRRACQqEBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQgxDb3Vuc2VsUHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw");
 
 /**
  * @generated from message com.hearlers.v1.model.Counsel
@@ -32,43 +32,48 @@ export type Counsel = Message<"com.hearlers.v1.model.Counsel"> & {
   userId: string;
 
   /**
-   * @generated from field: string last_message = 4;
+   * @generated from field: optional string last_message = 4;
    */
-  lastMessage: string;
+  lastMessage?: string;
 
   /**
-   * @generated from field: string last_chated_at = 5;
+   * @generated from field: optional string last_chated_at = 5;
    */
-  lastChatedAt: string;
+  lastChatedAt?: string;
 
   /**
-   * @generated from field: string counsel_technique_id = 6;
+   * @generated from field: string prompt_version_id = 6;
+   */
+  promptVersionId: string;
+
+  /**
+   * @generated from field: string counsel_technique_id = 7;
    */
   counselTechniqueId: string;
 
   /**
-   * @generated from field: string counselor_user_relationship_id = 7;
+   * @generated from field: string counselor_user_relationship_id = 8;
    */
   counselorUserRelationshipId: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string created_at = 8;
+   * @generated from field: string created_at = 9;
    */
   createdAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string updated_at = 9;
+   * @generated from field: string updated_at = 10;
    */
   updatedAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: optional string deleted_at = 10;
+   * @generated from field: optional string deleted_at = 11;
    */
   deletedAt?: string;
 };

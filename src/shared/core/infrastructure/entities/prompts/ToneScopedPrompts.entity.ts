@@ -6,16 +6,16 @@ import { TonePromptEntity } from "~shared/core/infrastructure/entities/prompts/T
 
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
-@Entity({ name: "prompt_by_tones", comment: "톤별 프롬프트" })
-export class PromptByTonesEntity extends CoreEntity {
-  @ManyToOne(() => ToneEntity, (tone) => tone.promptByTones, {
+@Entity({ name: "tone_scoped_prompts", comment: "톤별 프롬프트" })
+export class ToneScopedPromptEntity extends CoreEntity {
+  @ManyToOne(() => ToneEntity, (tone) => tone.toneScopedPrompts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "tone_id" })
   tone: ToneEntity;
 
-  @RelationId((promptByTones: PromptByTonesEntity) => promptByTones.tone)
+  @RelationId((toneScopedPrompt: ToneScopedPromptEntity) => toneScopedPrompt.tone)
   @Column({
     type: "bigint",
     name: "tone_id",
@@ -23,7 +23,7 @@ export class PromptByTonesEntity extends CoreEntity {
   })
   toneId: string;
 
-  @ManyToOne(() => TonePromptEntity, (tonePrompt) => tonePrompt.promptByTones, {
+  @ManyToOne(() => TonePromptEntity, (tonePrompt) => tonePrompt.toneScopedPrompts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
     nullable: true,
@@ -31,7 +31,7 @@ export class PromptByTonesEntity extends CoreEntity {
   @JoinColumn({ name: "tone_prompt_id" })
   tonePrompt: TonePromptEntity | null;
 
-  @RelationId((promptByTones: PromptByTonesEntity) => promptByTones.tonePrompt)
+  @RelationId((toneScopedPrompt: ToneScopedPromptEntity) => toneScopedPrompt.tonePrompt)
   @Column({
     type: "bigint",
     name: "tone_prompt_id",
@@ -40,7 +40,7 @@ export class PromptByTonesEntity extends CoreEntity {
   })
   tonePromptId: string | null;
 
-  @ManyToOne(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.promptByTones, {
+  @ManyToOne(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.toneScopedPrompts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
     nullable: true,
@@ -48,7 +48,7 @@ export class PromptByTonesEntity extends CoreEntity {
   @JoinColumn({ name: "first_counsel_technique_id" })
   firstCounselTechnique: CounselTechniquesEntity | null;
 
-  @RelationId((promptByTones: PromptByTonesEntity) => promptByTones.firstCounselTechnique)
+  @RelationId((toneScopedPrompt: ToneScopedPromptEntity) => toneScopedPrompt.firstCounselTechnique)
   @Column({
     type: "bigint",
     name: "first_counsel_technique_id",
@@ -57,14 +57,14 @@ export class PromptByTonesEntity extends CoreEntity {
   })
   firstCounselTechniqueId: string | null;
 
-  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.promptByTones, {
+  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.toneScopedPrompts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "prompt_version_id" })
   promptVersion: PromptVersionEntity;
 
-  @RelationId((promptByTones: PromptByTonesEntity) => promptByTones.promptVersion)
+  @RelationId((toneScopedPrompt: ToneScopedPromptEntity) => toneScopedPrompt.promptVersion)
   @Column({ type: "bigint", name: "prompt_version_id" })
   promptVersionId: string;
 }

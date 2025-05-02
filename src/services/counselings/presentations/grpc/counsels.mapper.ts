@@ -8,10 +8,11 @@ export class SchemaCounselsMapper {
   static toCounselProto(counsel: Counsels): Counsel {
     return create(CounselSchema, {
       id: counsel.id.getString(),
-      userId: counsel.userId.getString(),
       counselorId: counsel.counselorId.getString(),
+      userId: counsel.userId.getString(),
       lastMessage: counsel.lastMessage ?? undefined,
       lastChatedAt: counsel.lastChatedAt ? counsel.lastChatedAt.toISOString() : undefined,
+      promptVersionId: counsel.promptVersionId.getString(),
       counselTechniqueId: counsel.counselTechniqueId.getString(),
       counselorUserRelationshipId: counsel.counselorUserRelationshipId.getString(),
       createdAt: counsel.createdAt.toISOString(),

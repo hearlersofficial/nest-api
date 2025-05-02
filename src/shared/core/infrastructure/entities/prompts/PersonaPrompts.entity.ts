@@ -1,6 +1,6 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
-import { PromptByCounselorsEntity } from "~shared/core/infrastructure/entities/prompts/PromptByCounselors.entity";
+import { CounselorScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/CounselorScopedPrompts.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
@@ -27,8 +27,8 @@ export class PersonaPromptEntity extends CoreEntity {
   @Column({ type: "bigint", name: "counselor_id" })
   counselorId: string;
 
-  @OneToMany(() => PromptByCounselorsEntity, (promptByCounselors) => promptByCounselors.personaPrompt, {
+  @OneToMany(() => CounselorScopedPromptEntity, (counselorScopedPrompt) => counselorScopedPrompt.personaPrompt, {
     cascade: true,
   })
-  promptByCounselors: PromptByCounselorsEntity[];
+  counselorScopedPrompts: CounselorScopedPromptEntity[];
 }

@@ -1,18 +1,85 @@
 import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
-import { Tones } from "~counselings/domains/tones/models/tones";
-import { CounselTechnique, CounselTechniqueSchema, Tone, ToneSchema } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
+import { PersonaPrompts } from "~counselings/domains/personaPrompts/models/personaPrompts";
+import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
+import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
+import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
+import { TonePrompts } from "~counselings/domains/tonePrompts/models/tonePrompts";
+import {
+  CounselorScopedPrompt,
+  CounselorScopedPromptSchema,
+  CounselTechnique,
+  CounselTechniqueSchema,
+  PersonaPrompt,
+  PersonaPromptSchema,
+  PromptVersion,
+  PromptVersionSchema,
+  TonePrompt,
+  TonePromptSchema,
+  ToneScopedPrompt,
+  ToneScopedPromptSchema,
+} from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { create } from "@bufbuild/protobuf";
 
 export class SchemaCounselPromptsMapper {
-  static toToneProto(tone: Tones): Tone {
-    return create(ToneSchema, {
-      id: tone.id.getString(),
-      name: tone.name,
-      body: tone.body,
-      createdAt: tone.createdAt.toISOString(),
-      updatedAt: tone.updatedAt.toISOString(),
-      deletedAt: tone.deletedAt ? tone.deletedAt.toISOString() : undefined,
+  static toPromptVersionProto(promptVersion: PromptVersions): PromptVersion {
+    return create(PromptVersionSchema, {
+      id: promptVersion.id.getString(),
+      name: promptVersion.name,
+      description: promptVersion.description,
+      isActive: promptVersion.isActive,
+      isTemporary: promptVersion.isTemporary,
+      // isBookmarked: promptVersion.isBookmarked,
+      counselorScopedPrompts: promptVersion.counselorScopedPrompts.map((counselorScopedPrompt) =>
+        SchemaCounselPromptsMapper.toCounselorScopedPromptProto(counselorScopedPrompt),
+      ),
+      toneScopedPrompts: promptVersion.toneScopedPrompts.map((toneScopedPrompt) => SchemaCounselPromptsMapper.toToneScopedPromptProto(toneScopedPrompt)),
+      createdAt: promptVersion.createdAt.toISOString(),
+      updatedAt: promptVersion.updatedAt.toISOString(),
+      deletedAt: promptVersion.deletedAt ? promptVersion.deletedAt.toISOString() : undefined,
+    });
+  }
+
+  static toCounselorScopedPromptProto(counselorScopedPrompt: CounselorScopedPrompts): CounselorScopedPrompt {
+    return create(CounselorScopedPromptSchema, {
+      counselorId: counselorScopedPrompt.counselorId.getString(),
+      personaPromptId: counselorScopedPrompt.personaPromptId.getString(),
+      createdAt: counselorScopedPrompt.createdAt.toISOString(),
+      updatedAt: counselorScopedPrompt.updatedAt.toISOString(),
+      deletedAt: counselorScopedPrompt.deletedAt ? counselorScopedPrompt.deletedAt.toISOString() : undefined,
+    });
+  }
+
+  static toToneScopedPromptProto(toneScopedPrompt: ToneScopedPrompts): ToneScopedPrompt {
+    return create(ToneScopedPromptSchema, {
+      toneId: toneScopedPrompt.toneId.getString(),
+      tonePromptId: toneScopedPrompt.tonePromptId ? toneScopedPrompt.tonePromptId.getString() : undefined,
+      firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId ? toneScopedPrompt.firstCounselTechniqueId.getString() : undefined,
+      createdAt: toneScopedPrompt.createdAt.toISOString(),
+      updatedAt: toneScopedPrompt.updatedAt.toISOString(),
+      deletedAt: toneScopedPrompt.deletedAt ? toneScopedPrompt.deletedAt.toISOString() : undefined,
+    });
+  }
+
+  static toPersonaPromptProto(personaPrompt: PersonaPrompts): PersonaPrompt {
+    return create(PersonaPromptSchema, {
+      id: personaPrompt.id.getString(),
+      body: personaPrompt.body,
+      counselorId: personaPrompt.counselorId.getString(),
+      createdAt: personaPrompt.createdAt.toISOString(),
+      updatedAt: personaPrompt.updatedAt.toISOString(),
+      deletedAt: personaPrompt.deletedAt ? personaPrompt.deletedAt.toISOString() : undefined,
+    });
+  }
+
+  static toTonePromptProto(tonePrompt: TonePrompts): TonePrompt {
+    return create(TonePromptSchema, {
+      id: tonePrompt.id.getString(),
+      body: tonePrompt.body,
+      toneId: tonePrompt.toneId.getString(),
+      createdAt: tonePrompt.createdAt.toISOString(),
+      updatedAt: tonePrompt.updatedAt.toISOString(),
+      deletedAt: tonePrompt.deletedAt ? tonePrompt.deletedAt.toISOString() : undefined,
     });
   }
 
@@ -24,10 +91,13 @@ export class SchemaCounselPromptsMapper {
       context: counselTechnique.context,
       instruction: counselTechnique.instruction,
       messageThreshold: counselTechnique.messageThreshold,
+      isTemporary: counselTechnique.isTemporary,
       nextCounselTechniqueId: counselTechnique.nextTechniqueId ? counselTechnique.nextTechniqueId.getString() : undefined,
       createdAt: counselTechnique.createdAt.toISOString(),
       updatedAt: counselTechnique.updatedAt.toISOString(),
       deletedAt: counselTechnique.deletedAt ? counselTechnique.deletedAt.toISOString() : undefined,
     });
   }
+
+  // TODO: PromptActivateHistory
 }

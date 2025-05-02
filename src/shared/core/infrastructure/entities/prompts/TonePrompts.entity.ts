@@ -1,6 +1,6 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
-import { PromptByTonesEntity } from "~shared/core/infrastructure/entities/prompts/PromptByTones.entity";
+import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
@@ -27,8 +27,8 @@ export class TonePromptEntity extends CoreEntity {
   @Column({ type: "bigint", name: "tone_id" })
   toneId: string;
 
-  @OneToMany(() => PromptByTonesEntity, (promptByTones) => promptByTones.tonePrompt, {
+  @OneToMany(() => ToneScopedPromptEntity, (toneScopedPrompt) => toneScopedPrompt.tonePrompt, {
     cascade: true,
   })
-  promptByTones: PromptByTonesEntity[];
+  toneScopedPrompts: ToneScopedPromptEntity[];
 }

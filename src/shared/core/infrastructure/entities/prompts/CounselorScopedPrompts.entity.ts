@@ -5,16 +5,16 @@ import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompt
 
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
-@Entity({ name: "prompt_by_counselors", comment: "상담사별 프롬프트" })
-export class PromptByCounselorsEntity extends CoreEntity {
-  @ManyToOne(() => CounselorsEntity, (counselor) => counselor.promptByCounselors, {
+@Entity({ name: "counselor_scoped_prompts", comment: "상담사별 프롬프트" })
+export class CounselorScopedPromptEntity extends CoreEntity {
+  @ManyToOne(() => CounselorsEntity, (counselor) => counselor.counselorScopedPrompts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "counselor_id" })
   counselor: CounselorsEntity;
 
-  @RelationId((promptByCounselors: PromptByCounselorsEntity) => promptByCounselors.counselor)
+  @RelationId((counselorScopedPrompt: CounselorScopedPromptEntity) => counselorScopedPrompt.counselor)
   @Column({
     type: "bigint",
     name: "counselor_id",
@@ -22,14 +22,14 @@ export class PromptByCounselorsEntity extends CoreEntity {
   })
   counselorId: string;
 
-  @ManyToOne(() => PersonaPromptEntity, (personaPrompt) => personaPrompt.promptByCounselors, {
+  @ManyToOne(() => PersonaPromptEntity, (personaPrompt) => personaPrompt.counselorScopedPrompts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "persona_prompt_id" })
   personaPrompt: PersonaPromptEntity;
 
-  @RelationId((promptByCounselors: PromptByCounselorsEntity) => promptByCounselors.personaPrompt)
+  @RelationId((counselorScopedPrompt: CounselorScopedPromptEntity) => counselorScopedPrompt.personaPrompt)
   @Column({
     type: "bigint",
     name: "persona_prompt_id",
@@ -37,14 +37,14 @@ export class PromptByCounselorsEntity extends CoreEntity {
   })
   personaPromptId: string;
 
-  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.promptByCounselors, {
+  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.counselorScopedPrompts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "prompt_version_id" })
   promptVersion: PromptVersionEntity;
 
-  @RelationId((promptByCounselors: PromptByCounselorsEntity) => promptByCounselors.promptVersion)
+  @RelationId((counselorScopedPrompt: CounselorScopedPromptEntity) => counselorScopedPrompt.promptVersion)
   @Column({ type: "bigint", name: "prompt_version_id" })
   promptVersionId: string;
 }

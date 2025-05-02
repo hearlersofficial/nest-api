@@ -1,7 +1,7 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
-import { PromptByCounselorsEntity } from "~shared/core/infrastructure/entities/prompts/PromptByCounselors.entity";
-import { PromptByTonesEntity } from "~shared/core/infrastructure/entities/prompts/PromptByTones.entity";
+import { CounselorScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/CounselorScopedPrompts.entity";
+import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
 
 import { Column, Entity, OneToMany } from "typeorm";
 
@@ -35,15 +35,15 @@ export class PromptVersionEntity extends CoreEntity {
   })
   isTemporary: boolean;
 
-  @OneToMany(() => PromptByCounselorsEntity, (promptByCounselor) => promptByCounselor.promptVersion, {
+  @OneToMany(() => CounselorScopedPromptEntity, (counselorScopedPrompt) => counselorScopedPrompt.promptVersion, {
     cascade: true,
   })
-  promptByCounselors: PromptByCounselorsEntity[];
+  counselorScopedPrompts: CounselorScopedPromptEntity[];
 
-  @OneToMany(() => PromptByTonesEntity, (promptByTones) => promptByTones.promptVersion, {
+  @OneToMany(() => ToneScopedPromptEntity, (toneScopedPrompt) => toneScopedPrompt.promptVersion, {
     cascade: true,
   })
-  promptByTones: PromptByTonesEntity[];
+  toneScopedPrompts: ToneScopedPromptEntity[];
 
   @OneToMany(() => CounselsEntity, (counsel) => counsel.promptVersion, {
     cascade: true,

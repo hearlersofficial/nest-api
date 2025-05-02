@@ -1,5 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ToneScopedPromptsEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
+import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { ToneScopedPrompts, ToneScopedPromptsProps } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
 
@@ -7,7 +7,7 @@ import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlToneScopedPromptsMapper {
-  static toDomain(entity: ToneScopedPromptsEntity): ToneScopedPrompts | null {
+  static toDomain(entity: ToneScopedPromptEntity): ToneScopedPrompts | null {
     if (!entity) {
       return null;
     }
@@ -31,7 +31,7 @@ export class PsqlToneScopedPromptsMapper {
     return toneScopedPromptOrError.value;
   }
 
-  static toDomains(entities: ToneScopedPromptsEntity[]): ToneScopedPrompts[] {
+  static toDomains(entities: ToneScopedPromptEntity[]): ToneScopedPrompts[] {
     if (entities.length === 0) {
       return [];
     }
@@ -39,8 +39,8 @@ export class PsqlToneScopedPromptsMapper {
     return entities.map((entity) => this.toDomain(entity)).filter(Boolean) as ToneScopedPrompts[];
   }
 
-  static toEntity(promptByTones: ToneScopedPrompts): ToneScopedPromptsEntity {
-    const entity = new ToneScopedPromptsEntity();
+  static toEntity(promptByTones: ToneScopedPrompts): ToneScopedPromptEntity {
+    const entity = new ToneScopedPromptEntity();
 
     if (!promptByTones.id.isNewIdentifier()) {
       entity.id = promptByTones.id.getString();
@@ -58,7 +58,7 @@ export class PsqlToneScopedPromptsMapper {
     return entity;
   }
 
-  static toEntities(promptByTones: ToneScopedPrompts[]): ToneScopedPromptsEntity[] {
+  static toEntities(promptByTones: ToneScopedPrompts[]): ToneScopedPromptEntity[] {
     if (promptByTones.length === 0) {
       return [];
     }

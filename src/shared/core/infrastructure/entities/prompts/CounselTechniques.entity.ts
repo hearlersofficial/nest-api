@@ -1,7 +1,7 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
-import { PromptByTonesEntity } from "~shared/core/infrastructure/entities/prompts/PromptByTones.entity";
+import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 
@@ -77,8 +77,8 @@ export class CounselTechniquesEntity extends CoreEntity {
   })
   counsels: CounselsEntity[];
 
-  @OneToMany(() => PromptByTonesEntity, (promptByTones) => promptByTones.firstCounselTechnique, {
+  @OneToMany(() => ToneScopedPromptEntity, (toneScopedPrompt) => toneScopedPrompt.firstCounselTechnique, {
     cascade: true,
   })
-  promptByTones: PromptByTonesEntity[];
+  toneScopedPrompts: ToneScopedPromptEntity[];
 }

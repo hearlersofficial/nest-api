@@ -16,6 +16,7 @@ export const file_com_hearlers_v1_service_counsel: GenFile = /*@__PURE__*/
 
 /**
  * 상담
+ * 현재 활성화된 프롬프트 버전 적용
  *
  * @generated from message com.hearlers.v1.service.CreateCounselRequest
  */

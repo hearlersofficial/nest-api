@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
-import type { Counselor, CounselorGender } from "../model/counselor_pb";
+import type { Counselor, CounselorGender, Tone } from "../model/counselor_pb";
 import { file_com_hearlers_v1_model_counselor } from "../model/counselor_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/service/counselor.proto.
  */
 export const file_com_hearlers_v1_service_counselor: GenFile = /*@__PURE__*/
-  fileDesc("Cidjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2Vsb3IucHJvdG8SF2NvbS5oZWFybGVycy52MS5zZXJ2aWNlIp8BChZDcmVhdGVDb3Vuc2Vsb3JSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRJAChBjb3Vuc2Vsb3JfZ2VuZGVyGAQgASgOMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvckdlbmRlchIPCgdwZXJzb25hGAUgASgJIk4KF0NyZWF0ZUNvdW5zZWxvclJlc3BvbnNlEjMKCWNvdW5zZWxvchgBIAEoCzIgLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3IiOQoVRmluZENvdW5zZWxvcnNSZXF1ZXN0EhQKB3RvbmVfaWQYASABKAlIAIgBAUIKCghfdG9uZV9pZCJOChZGaW5kQ291bnNlbG9yc1Jlc3BvbnNlEjQKCmNvdW5zZWxvcnMYASADKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yIjAKGEZpbmRDb3Vuc2Vsb3JCeUlkUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkiYwoZRmluZENvdW5zZWxvckJ5SWRSZXNwb25zZRI4Cgljb3Vuc2Vsb3IYASABKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9ySACIAQFCDAoKX2NvdW5zZWxvciKUAgoWVXBkYXRlQ291bnNlbG9yUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkSFAoHdG9uZV9pZBgCIAEoCUgAiAEBEhEKBG5hbWUYAyABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgEIAEoCUgCiAEBEkUKEGNvdW5zZWxvcl9nZW5kZXIYBSABKA4yJi5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yR2VuZGVySAOIAQESFAoHcGVyc29uYRgGIAEoCUgEiAEBQgoKCF90b25lX2lkQgcKBV9uYW1lQg4KDF9kZXNjcmlwdGlvbkITChFfY291bnNlbG9yX2dlbmRlckIKCghfcGVyc29uYSJOChdVcGRhdGVDb3Vuc2Vsb3JSZXNwb25zZRIzCgljb3Vuc2Vsb3IYASABKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yMu0DChBDb3Vuc2Vsb3JTZXJ2aWNlEnQKD0NyZWF0ZUNvdW5zZWxvchIvLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZUNvdW5zZWxvclJlcXVlc3QaMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb3Vuc2Vsb3JSZXNwb25zZRJxCg5GaW5kQ291bnNlbG9ycxIuLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRDb3Vuc2Vsb3JzUmVxdWVzdBovLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRDb3Vuc2Vsb3JzUmVzcG9uc2USegoRRmluZENvdW5zZWxvckJ5SWQSMS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbG9yQnlJZFJlcXVlc3QaMi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbG9yQnlJZFJlc3BvbnNlEnQKD1VwZGF0ZUNvdW5zZWxvchIvLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUNvdW5zZWxvclJlcXVlc3QaMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVDb3Vuc2Vsb3JSZXNwb25zZUKtAQobY29tLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlQg5Db3Vuc2Vsb3JQcm90b1ABogIEQ0hWU6oCF0NvbS5IZWFybGVycy5WMS5TZXJ2aWNlygIXQ29tXEhlYXJsZXJzXFYxXFNlcnZpY2XiAiNDb21cSGVhcmxlcnNcVjFcU2VydmljZVxHUEJNZXRhZGF0YeoCGkNvbTo6SGVhcmxlcnM6OlYxOjpTZXJ2aWNlYgZwcm90bzM", [file_com_hearlers_v1_model_counselor]);
+  fileDesc("Cidjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2Vsb3IucHJvdG8SF2NvbS5oZWFybGVycy52MS5zZXJ2aWNlIo4BChZDcmVhdGVDb3Vuc2Vsb3JSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRJAChBjb3Vuc2Vsb3JfZ2VuZGVyGAQgASgOMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvckdlbmRlciJOChdDcmVhdGVDb3Vuc2Vsb3JSZXNwb25zZRIzCgljb3Vuc2Vsb3IYASABKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yIjkKFUZpbmRDb3Vuc2Vsb3JzUmVxdWVzdBIUCgd0b25lX2lkGAEgASgJSACIAQFCCgoIX3RvbmVfaWQiTgoWRmluZENvdW5zZWxvcnNSZXNwb25zZRI0Cgpjb3Vuc2Vsb3JzGAEgAygLMiAuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvciIwChhGaW5kQ291bnNlbG9yQnlJZFJlcXVlc3QSFAoMY291bnNlbG9yX2lkGAEgASgJImMKGUZpbmRDb3Vuc2Vsb3JCeUlkUmVzcG9uc2USOAoJY291bnNlbG9yGAEgASgLMiAuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvckgAiAEBQgwKCl9jb3Vuc2Vsb3Ii8gEKFlVwZGF0ZUNvdW5zZWxvclJlcXVlc3QSFAoMY291bnNlbG9yX2lkGAEgASgJEhQKB3RvbmVfaWQYAiABKAlIAIgBARIRCgRuYW1lGAMgASgJSAGIAQESGAoLZGVzY3JpcHRpb24YBCABKAlIAogBARJFChBjb3Vuc2Vsb3JfZ2VuZGVyGAUgASgOMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvckdlbmRlckgDiAEBQgoKCF90b25lX2lkQgcKBV9uYW1lQg4KDF9kZXNjcmlwdGlvbkITChFfY291bnNlbG9yX2dlbmRlciJOChdVcGRhdGVDb3Vuc2Vsb3JSZXNwb25zZRIzCgljb3Vuc2Vsb3IYASABKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yIjYKEUNyZWF0ZVRvbmVSZXF1ZXN0EgwKBG5hbWUYASABKAkSEwoLZGVzY3JpcHRpb24YAiABKAkiPwoSQ3JlYXRlVG9uZVJlc3BvbnNlEikKBHRvbmUYASABKAsyGy5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZSIuChBGaW5kVG9uZXNSZXF1ZXN0EhEKBG5hbWUYASABKAlIAIgBAUIHCgVfbmFtZSI/ChFGaW5kVG9uZXNSZXNwb25zZRIqCgV0b25lcxgBIAMoCzIbLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lIiYKE0ZpbmRUb25lQnlJZFJlcXVlc3QSDwoHdG9uZV9pZBgBIAEoCSJPChRGaW5kVG9uZUJ5SWRSZXNwb25zZRIuCgR0b25lGAEgASgLMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlRvbmVIAIgBAUIHCgVfdG9uZSJqChFVcGRhdGVUb25lUmVxdWVzdBIPCgd0b25lX2lkGAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARIYCgtkZXNjcmlwdGlvbhgDIAEoCUgBiAEBQgcKBV9uYW1lQg4KDF9kZXNjcmlwdGlvbiI/ChJVcGRhdGVUb25lUmVzcG9uc2USKQoEdG9uZRgBIAEoCzIbLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lMowHChBDb3Vuc2Vsb3JTZXJ2aWNlEnQKD0NyZWF0ZUNvdW5zZWxvchIvLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZUNvdW5zZWxvclJlcXVlc3QaMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb3Vuc2Vsb3JSZXNwb25zZRJxCg5GaW5kQ291bnNlbG9ycxIuLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRDb3Vuc2Vsb3JzUmVxdWVzdBovLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRDb3Vuc2Vsb3JzUmVzcG9uc2USegoRRmluZENvdW5zZWxvckJ5SWQSMS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbG9yQnlJZFJlcXVlc3QaMi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbG9yQnlJZFJlc3BvbnNlEnQKD1VwZGF0ZUNvdW5zZWxvchIvLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUNvdW5zZWxvclJlcXVlc3QaMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVDb3Vuc2Vsb3JSZXNwb25zZRJlCgpDcmVhdGVUb25lEiouY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlVG9uZVJlcXVlc3QaKy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVUb25lUmVzcG9uc2USYgoJRmluZFRvbmVzEikuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFRvbmVzUmVxdWVzdBoqLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lc1Jlc3BvbnNlEmsKDEZpbmRUb25lQnlJZBIsLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lQnlJZFJlcXVlc3QaLS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kVG9uZUJ5SWRSZXNwb25zZRJlCgpVcGRhdGVUb25lEiouY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlVG9uZVJlcXVlc3QaKy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVUb25lUmVzcG9uc2VCrQEKG2NvbS5jb20uaGVhcmxlcnMudjEuc2VydmljZUIOQ291bnNlbG9yUHJvdG9QAaICBENIVlOqAhdDb20uSGVhcmxlcnMuVjEuU2VydmljZcoCF0NvbVxIZWFybGVyc1xWMVxTZXJ2aWNl4gIjQ29tXEhlYXJsZXJzXFYxXFNlcnZpY2VcR1BCTWV0YWRhdGHqAhpDb206OkhlYXJsZXJzOjpWMTo6U2VydmljZWIGcHJvdG8z", [file_com_hearlers_v1_model_counselor]);
 
 /**
  * 상담사
@@ -39,11 +39,6 @@ export type CreateCounselorRequest = Message<"com.hearlers.v1.service.CreateCoun
    * @generated from field: com.hearlers.v1.model.CounselorGender counselor_gender = 4;
    */
   counselorGender: CounselorGender;
-
-  /**
-   * @generated from field: string persona = 5;
-   */
-  persona: string;
 };
 
 /**
@@ -166,11 +161,6 @@ export type UpdateCounselorRequest = Message<"com.hearlers.v1.service.UpdateCoun
    * @generated from field: optional com.hearlers.v1.model.CounselorGender counselor_gender = 5;
    */
   counselorGender?: CounselorGender;
-
-  /**
-   * @generated from field: optional string persona = 6;
-   */
-  persona?: string;
 };
 
 /**
@@ -196,6 +186,159 @@ export type UpdateCounselorResponse = Message<"com.hearlers.v1.service.UpdateCou
  */
 export const UpdateCounselorResponseSchema: GenMessage<UpdateCounselorResponse> = /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 7);
+
+/**
+ * 톤
+ *
+ * @generated from message com.hearlers.v1.service.CreateToneRequest
+ */
+export type CreateToneRequest = Message<"com.hearlers.v1.service.CreateToneRequest"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string description = 2;
+   */
+  description: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.CreateToneRequest.
+ * Use `create(CreateToneRequestSchema)` to create a new message.
+ */
+export const CreateToneRequestSchema: GenMessage<CreateToneRequest> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counselor, 8);
+
+/**
+ * @generated from message com.hearlers.v1.service.CreateToneResponse
+ */
+export type CreateToneResponse = Message<"com.hearlers.v1.service.CreateToneResponse"> & {
+  /**
+   * @generated from field: com.hearlers.v1.model.Tone tone = 1;
+   */
+  tone?: Tone;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.CreateToneResponse.
+ * Use `create(CreateToneResponseSchema)` to create a new message.
+ */
+export const CreateToneResponseSchema: GenMessage<CreateToneResponse> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counselor, 9);
+
+/**
+ * @generated from message com.hearlers.v1.service.FindTonesRequest
+ */
+export type FindTonesRequest = Message<"com.hearlers.v1.service.FindTonesRequest"> & {
+  /**
+   * @generated from field: optional string name = 1;
+   */
+  name?: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.FindTonesRequest.
+ * Use `create(FindTonesRequestSchema)` to create a new message.
+ */
+export const FindTonesRequestSchema: GenMessage<FindTonesRequest> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counselor, 10);
+
+/**
+ * @generated from message com.hearlers.v1.service.FindTonesResponse
+ */
+export type FindTonesResponse = Message<"com.hearlers.v1.service.FindTonesResponse"> & {
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.Tone tones = 1;
+   */
+  tones: Tone[];
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.FindTonesResponse.
+ * Use `create(FindTonesResponseSchema)` to create a new message.
+ */
+export const FindTonesResponseSchema: GenMessage<FindTonesResponse> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counselor, 11);
+
+/**
+ * @generated from message com.hearlers.v1.service.FindToneByIdRequest
+ */
+export type FindToneByIdRequest = Message<"com.hearlers.v1.service.FindToneByIdRequest"> & {
+  /**
+   * @generated from field: string tone_id = 1;
+   */
+  toneId: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.FindToneByIdRequest.
+ * Use `create(FindToneByIdRequestSchema)` to create a new message.
+ */
+export const FindToneByIdRequestSchema: GenMessage<FindToneByIdRequest> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counselor, 12);
+
+/**
+ * @generated from message com.hearlers.v1.service.FindToneByIdResponse
+ */
+export type FindToneByIdResponse = Message<"com.hearlers.v1.service.FindToneByIdResponse"> & {
+  /**
+   * @generated from field: optional com.hearlers.v1.model.Tone tone = 1;
+   */
+  tone?: Tone;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.FindToneByIdResponse.
+ * Use `create(FindToneByIdResponseSchema)` to create a new message.
+ */
+export const FindToneByIdResponseSchema: GenMessage<FindToneByIdResponse> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counselor, 13);
+
+/**
+ * @generated from message com.hearlers.v1.service.UpdateToneRequest
+ */
+export type UpdateToneRequest = Message<"com.hearlers.v1.service.UpdateToneRequest"> & {
+  /**
+   * @generated from field: string tone_id = 1;
+   */
+  toneId: string;
+
+  /**
+   * @generated from field: optional string name = 2;
+   */
+  name?: string;
+
+  /**
+   * @generated from field: optional string description = 3;
+   */
+  description?: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.UpdateToneRequest.
+ * Use `create(UpdateToneRequestSchema)` to create a new message.
+ */
+export const UpdateToneRequestSchema: GenMessage<UpdateToneRequest> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counselor, 14);
+
+/**
+ * @generated from message com.hearlers.v1.service.UpdateToneResponse
+ */
+export type UpdateToneResponse = Message<"com.hearlers.v1.service.UpdateToneResponse"> & {
+  /**
+   * @generated from field: com.hearlers.v1.model.Tone tone = 1;
+   */
+  tone?: Tone;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.UpdateToneResponse.
+ * Use `create(UpdateToneResponseSchema)` to create a new message.
+ */
+export const UpdateToneResponseSchema: GenMessage<UpdateToneResponse> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counselor, 15);
 
 /**
  * @generated from service com.hearlers.v1.service.CounselorService
@@ -234,6 +377,40 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof UpdateCounselorRequestSchema;
     output: typeof UpdateCounselorResponseSchema;
+  },
+  /**
+   * 톤
+   *
+   * @generated from rpc com.hearlers.v1.service.CounselorService.CreateTone
+   */
+  createTone: {
+    methodKind: "unary";
+    input: typeof CreateToneRequestSchema;
+    output: typeof CreateToneResponseSchema;
+  },
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.FindTones
+   */
+  findTones: {
+    methodKind: "unary";
+    input: typeof FindTonesRequestSchema;
+    output: typeof FindTonesResponseSchema;
+  },
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.FindToneById
+   */
+  findToneById: {
+    methodKind: "unary";
+    input: typeof FindToneByIdRequestSchema;
+    output: typeof FindToneByIdResponseSchema;
+  },
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.UpdateTone
+   */
+  updateTone: {
+    methodKind: "unary";
+    input: typeof UpdateToneRequestSchema;
+    output: typeof UpdateToneResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_com_hearlers_v1_service_counselor, 0);

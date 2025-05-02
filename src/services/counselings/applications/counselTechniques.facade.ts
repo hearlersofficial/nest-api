@@ -127,6 +127,12 @@ export class CounselTechniquesFacade {
     const orderedTechniques: CounselTechniques[] = firstCounselTechniqueId ? await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId }) : [];
     const techniques = await this.counselTechniquesService.findMany({ ids: counselTechniqueIds });
 
+    for (const technique of techniques) {
+      if (technique.toneId.equals(toneId) === false) {
+        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "ToneId mismatch");
+      }
+    }
+
     const newOrderedTechniques: CounselTechniques[] = [];
     const remainTechniques: CounselTechniques[] = [];
 

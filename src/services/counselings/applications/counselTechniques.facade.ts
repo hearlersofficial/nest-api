@@ -69,15 +69,44 @@ export class CounselTechniquesFacade {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No first counsel technique found");
     }
     const orderedTechniques = await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId });
-    if (orderedTechniques.filter((technique) => technique.id.equals(counselTechniqueId)).length === 0) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Counsel technique not found in the ordered techniques");
+
+    const updateIndex = orderedTechniques.findIndex((technique) => technique.id.equals(counselTechniqueId));
+    if (updateIndex === -1) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel technique not found in original techniques");
     }
+
+    const techniquesToRecreate = orderedTechniques.slice(0, updateIndex + 1);
+    const techniquesToKeep = orderedTechniques.slice(updateIndex + 1);
+
+    const newOrderedTechniques: CounselTechniques[] = [];
+    let nextTechniqueId: UniqueEntityId | null = techniquesToKeep.length > 0 ? techniquesToKeep[0].id : null;
 
     // 수정할 기법까지는 새롭게 생성(nextTechniqueId 변경)
     // 그 이후 기법들은 기존 기법을 사용(구조적 공유)
-    const newOrderedTechniques: CounselTechniques[] = [];
-    const remainTechniques: CounselTechniques[] = [];
-    for (const [index, technique] of orderedTechniques.entries()) {
+    // 기법들은 역순으로 생성하여 연결
+
+    // 먼저 대상 기법(마지막 기법)을 처리
+    const targetTechnique = techniquesToRecreate[techniquesToRecreate.length - 1];
+
+    const newTargetTechnique = await this.counselTechniquesService.create({
+      name: name ?? targetTechnique.name,
+      toneId: targetTechnique.toneId,
+      context: context ?? targetTechnique.context,
+      instruction: instruction ?? targetTechnique.instruction,
+      messageThreshold: messageThreshold ?? targetTechnique.messageThreshold,
+    });
+
+    newTargetTechnique.update({
+      isTemporary: false,
+      nextTechniqueId: nextTechniqueId,
+    });
+
+    nextTechniqueId = newTargetTechnique.id;
+    newOrderedTechniques.unshift(newTargetTechnique);
+
+    for (let i = techniquesToRecreate.length - 2; i >= 0; i--) {
+      const technique = techniquesToRecreate[i];
+
       const newTechnique = await this.counselTechniquesService.create({
         name: technique.name,
         toneId: technique.toneId,
@@ -85,20 +114,18 @@ export class CounselTechniquesFacade {
         instruction: technique.instruction,
         messageThreshold: technique.messageThreshold,
       });
+
       newTechnique.update({
         isTemporary: false,
-        nextTechniqueId: orderedTechniques[index + 1]?.id ?? null,
+        nextTechniqueId: nextTechniqueId,
       });
-      newOrderedTechniques.push(newTechnique);
-      if (technique.id.equals(counselTechniqueId)) {
-        newTechnique.update({ name, context, instruction, messageThreshold });
-        remainTechniques.push(...orderedTechniques.slice(index + 1));
-        break;
-      }
+
+      nextTechniqueId = newTechnique.id;
+      newOrderedTechniques.unshift(newTechnique);
     }
     await this.counselTechniquesService.updateMany(newOrderedTechniques);
 
-    const finalTechniques = [...newOrderedTechniques, ...remainTechniques];
+    const finalTechniques = [...newOrderedTechniques, ...techniquesToKeep];
 
     // 임시 버전 수정
     temporaryVersion.updateToneScopedPrompt({

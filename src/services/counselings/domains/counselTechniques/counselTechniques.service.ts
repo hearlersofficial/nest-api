@@ -69,4 +69,74 @@ export class CounselTechniquesService {
     const nextCounselTechniques = await this.getNextCounselTechniques(firstCounselTechnique.nextTechniqueId, visited);
     return [firstCounselTechnique, ...nextCounselTechniques];
   }
+
+  async updateCounselTechnique(
+    originalTechniques: CounselTechniques[],
+    updateParams: {
+      counselTechniqueId: UniqueEntityId;
+      name?: string;
+      context?: string;
+      instruction?: string;
+      messageThreshold?: number;
+    },
+  ): Promise<CounselTechniques[]> {
+    const { counselTechniqueId, name, context, instruction, messageThreshold } = updateParams;
+
+    // 유지할 부분 및 새롭게 생성할 부분 구분 (구조적 공유)
+    const updateIndex = originalTechniques.findIndex((technique) => technique.id.equals(counselTechniqueId));
+    if (updateIndex === -1) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel technique not found in original techniques");
+    }
+    const techniquesToRecreate = originalTechniques.slice(0, updateIndex + 1);
+    const techniquesToKeep = originalTechniques.slice(updateIndex + 1);
+
+    const newOrderedTechniques: CounselTechniques[] = [];
+    let nextTechniqueId: UniqueEntityId | null = techniquesToKeep.length > 0 ? techniquesToKeep[0].id : null;
+
+    // 먼저 대상 기법 처리
+    const targetTechnique = techniquesToRecreate[techniquesToRecreate.length - 1];
+    const newTargetTechnique = await this.create({
+      name: name ?? targetTechnique.name,
+      toneId: targetTechnique.toneId,
+      context: context ?? targetTechnique.context,
+      instruction: instruction ?? targetTechnique.instruction,
+      messageThreshold: messageThreshold ?? targetTechnique.messageThreshold,
+    });
+
+    newTargetTechnique.update({
+      isTemporary: false,
+      nextTechniqueId: nextTechniqueId,
+    });
+
+    nextTechniqueId = newTargetTechnique.id;
+    newOrderedTechniques.unshift(newTargetTechnique);
+
+    // 이전 기법들을 역순으로 생성하여 연결
+    for (let i = techniquesToRecreate.length - 2; i >= 0; i--) {
+      const technique = techniquesToRecreate[i];
+
+      const newTechnique = await this.create({
+        name: technique.name,
+        toneId: technique.toneId,
+        context: technique.context,
+        instruction: technique.instruction,
+        messageThreshold: technique.messageThreshold,
+      });
+
+      newTechnique.update({
+        isTemporary: false,
+        nextTechniqueId: nextTechniqueId,
+      });
+
+      nextTechniqueId = newTechnique.id;
+      newOrderedTechniques.unshift(newTechnique);
+    }
+    await this.updateMany(newOrderedTechniques);
+
+    // 최종 기법 리스트 생성
+    // - 새롭게 생성된 기법들 + 기존 기법들
+    const finalTechniques = [...newOrderedTechniques, ...techniquesToKeep];
+
+    return finalTechniques;
+  }
 }

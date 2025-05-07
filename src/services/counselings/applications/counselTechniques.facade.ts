@@ -105,44 +105,7 @@ export class CounselTechniquesFacade {
       }
     }
 
-    const newOrderedTechniques: CounselTechniques[] = [];
-    const remainTechniques: CounselTechniques[] = [];
-
-    // 구조적 공유 가능한 부분 탐색
-    const { firstIdx, secondIdx } = this.findSharedTechniquesIdx(orderedTechniques, techniques);
-    remainTechniques.push(...orderedTechniques.slice(firstIdx));
-
-    for (const [index, technique] of techniques.entries()) {
-      if (index >= secondIdx) {
-        break;
-      }
-      // 임시기법은 바로 연결
-      if (technique.isTemporary) {
-        technique.update({
-          isTemporary: false,
-          nextTechniqueId: techniques[index + 1]?.id ?? null,
-        });
-        newOrderedTechniques.push(technique);
-        continue;
-      }
-
-      // 기존 기법은 새롭게 복사하여 생성 및 연결
-      const newTechnique = await this.counselTechniquesService.create({
-        name: technique.name,
-        toneId: technique.toneId,
-        context: technique.context,
-        instruction: technique.instruction,
-        messageThreshold: technique.messageThreshold,
-      });
-      newTechnique.update({
-        isTemporary: false,
-        nextTechniqueId: techniques[index + 1]?.id ?? null,
-      });
-      newOrderedTechniques.push(newTechnique);
-    }
-    await this.counselTechniquesService.updateMany(newOrderedTechniques);
-
-    const finalTechniques = [...newOrderedTechniques, ...remainTechniques];
+    const finalTechniques = await this.counselTechniquesService.saveCounselTechniqueSequence(orderedTechniques, techniques);
 
     // 임시 버전 수정
     temporaryVersion.updateToneScopedPrompt({
@@ -152,18 +115,5 @@ export class CounselTechniquesFacade {
     await this.promptVersionsService.update(temporaryVersion);
 
     return finalTechniques;
-  }
-
-  private findSharedTechniquesIdx(firstTechniques: CounselTechniques[], secondTechniques: CounselTechniques[]): { firstIdx: number; secondIdx: number } {
-    let i = firstTechniques.length - 1;
-    let j = secondTechniques.length - 1;
-
-    while (i >= 0 && j >= 0 && firstTechniques[i].id.equals(secondTechniques[j].id)) {
-      i--;
-      j--;
-    }
-    const firstIdx = i + 1;
-    const secondIdx = j + 1;
-    return { firstIdx, secondIdx };
   }
 }

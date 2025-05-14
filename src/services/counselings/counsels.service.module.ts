@@ -1,4 +1,5 @@
 import { ClientsConfigs, KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
+import { ImageStorageConfig } from "~shared/core/infrastructure/image-storage";
 import { CounselMessagesFacade } from "~counselings/applications/counselMessages.facade";
 import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { CounselsFacade } from "~counselings/applications/counsels.facade";
@@ -53,6 +54,9 @@ import { ClientKafka, ClientsModule } from "@nestjs/microservices";
     GrpcCounselPromptQueryController,
   ],
   providers: [
+    ImageStorageConfig.register({
+      prefix: "counselings",
+    }),
     CounselsFacade,
     CounselMessagesFacade,
     CounselorsFacade,

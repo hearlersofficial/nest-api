@@ -1,4 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { ImageStorageService } from "~shared/core/infrastructure/image-storage";
+import { SchemaPresignedUrlMapper } from "~shared/core/presentations/presigned-url.mapper";
 import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { TonesFacade } from "~counselings/applications/tones.facade";
 import { SchemaCounselorsMapper } from "~counselings/presentations/grpc/counselors.mapper";
@@ -9,6 +11,9 @@ import {
   CreateToneRequest,
   CreateToneResponse,
   CreateToneResponseSchema,
+  GenerateCounselorImageUrlRequest,
+  GenerateCounselorImageUrlResponse,
+  GenerateCounselorImageUrlResponseSchema,
   UpdateCounselorRequest,
   UpdateCounselorResponse,
   UpdateCounselorResponseSchema,
@@ -18,12 +23,18 @@ import {
 } from "~proto/com/hearlers/v1/service/counselor_pb";
 
 import { create } from "@bufbuild/protobuf";
-import { Controller } from "@nestjs/common";
+import { Controller, Logger } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 
 @Controller("counselor")
 export class GrpcCounselorCommandController {
-  constructor(private readonly counselorsFacade: CounselorsFacade, private readonly tonesFacade: TonesFacade) {}
+  private readonly logger = new Logger(GrpcCounselorCommandController.name);
+
+  constructor(
+    private readonly counselorsFacade: CounselorsFacade,
+    private readonly tonesFacade: TonesFacade,
+    private readonly imageStorageService: ImageStorageService,
+  ) {}
 
   // Counselor
   @GrpcMethod("CounselorService", "CreateCounselor")
@@ -79,5 +90,37 @@ export class GrpcCounselorCommandController {
     return create(UpdateToneResponseSchema, {
       tone: SchemaCounselorsMapper.toToneProto(tone),
     });
+  }
+
+  @GrpcMethod("CounselorService", "GenerateCounselorImageUrl")
+  async generateCounselorImageUrl(
+    request: GenerateCounselorImageUrlRequest,
+  ): Promise<GenerateCounselorImageUrlResponse> {
+    const { counselorId, extension } = request;
+    this.logger.log(`Generating counselor image URL for counselorId: ${counselorId} with extension: ${extension}`);
+
+    try {
+      // 상담사 이미지를 위한 프리사인드 URL 생성 (이제 extension 사용)
+      const presignedUrl = await this.imageStorageService.getSignedUrlForUpload(
+        `${counselorId}`, // 기본 파일명 (확장자는 extension으로 지정)
+        {
+          useCase: "counselor-profiles", // 유스케이스 디렉토리
+          entityId: counselorId, // 상담사 ID
+          generateUniqueFileName: true, // 고유 파일명 생성
+          extension, // proto에서 온 extension 열거형 사용
+        },
+      );
+
+      this.logger.log(`Generated upload URL: ${presignedUrl.getUploadUrl().substring(0, 50)}...`);
+      this.logger.log(`Image will be stored at: ${presignedUrl.getFilePath()}`);
+
+      // PresignedUrl을 Proto 객체로 변환하여 반환
+      return create(GenerateCounselorImageUrlResponseSchema, {
+        presignedUrl: SchemaPresignedUrlMapper.toPresignedUrlProto(presignedUrl),
+      });
+    } catch (error) {
+      this.logger.error(`Error generating counselor image URL: ${error.message}`, error.stack);
+      throw error;
+    }
   }
 }

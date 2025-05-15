@@ -1,5 +1,6 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
+import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
@@ -45,5 +46,48 @@ export class CounselorsFacade {
     const counselor = await this.counselorsService.getOne({ counselorId });
     counselor.update({ toneId, name, description, profileImage, gender: counselorGender });
     return this.counselorsService.update(counselor);
+  }
+
+  @Transactional()
+  async createBubble(params: {
+    counselorId: UniqueEntityId;
+    question: string;
+    responseOption1: string;
+    responseOption2: string;
+  }): Promise<Bubbles> {
+    const { counselorId, question, responseOption1, responseOption2 } = params;
+    return this.counselorsService.createBubble({ counselorId, question, responseOption1, responseOption2 });
+  }
+
+  async findBubbles(params: { counselorId: UniqueEntityId }): Promise<Bubbles[]> {
+    const { counselorId } = params;
+    return this.counselorsService.findBubbles({ counselorId });
+  }
+
+  async findRandomBubble(params: { counselorId: UniqueEntityId }): Promise<Bubbles> {
+    const { counselorId } = params;
+    return this.counselorsService.findRandomBubble(counselorId);
+  }
+
+  async findBubbleById(params: { bubbleId: UniqueEntityId }): Promise<Bubbles | null> {
+    const { bubbleId } = params;
+    return this.counselorsService.findBubbleById(bubbleId);
+  }
+
+  async updateBubble(params: {
+    bubbleId: UniqueEntityId;
+    counselorId: UniqueEntityId;
+    question?: string;
+    responseOption1?: string;
+    responseOption2?: string;
+  }): Promise<Bubbles> {
+    const { bubbleId, counselorId, question, responseOption1, responseOption2 } = params;
+    return this.counselorsService.updateBubble({ bubbleId, counselorId, question, responseOption1, responseOption2 });
+  }
+
+  async deleteBubble(params: { counselorId: UniqueEntityId; bubbleId: UniqueEntityId }): Promise<void> {
+    const { counselorId, bubbleId } = params;
+    await this.counselorsService.deleteBubble({ counselorId, bubbleId });
+    return;
   }
 }

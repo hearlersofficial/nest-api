@@ -4,3 +4,7 @@ export type CounselorsCriteriaFindMany = {
   name?: string;
   toneId?: UniqueEntityId;
 };
+
+export type FindManyBubblesCriteria = {
+  counselorId: UniqueEntityId;
+};

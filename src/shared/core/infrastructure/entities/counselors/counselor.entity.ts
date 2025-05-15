@@ -1,5 +1,7 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
+import { BubbleEntity } from "~shared/core/infrastructure/entities/counselors/bubble.entity";
+import { EpisodeEntity } from "~shared/core/infrastructure/entities/counselors/episode.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
 import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/counsels/CounselorUserRelationships.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { CounselorScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/CounselorScopedPrompts.entity";
@@ -11,7 +13,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "ty
 @Entity({
   name: "counselors",
 })
-export class CounselorsEntity extends CoreEntity {
+export class CounselorEntity extends CoreEntity {
   @Column({
     type: "varchar",
     name: "name",
@@ -34,17 +36,34 @@ export class CounselorsEntity extends CoreEntity {
   })
   description: string;
 
+  @Column({
+    type: "varchar",
+    name: "profile_image",
+    comment: "상담사 프로필 이미지",
+  })
+  profileImage: string;
+
   @ManyToOne(() => ToneEntity, (tone) => tone.counselors)
   @JoinColumn({ name: "tone_id" })
   tone: ToneEntity;
 
-  @RelationId((counselor: CounselorsEntity) => counselor.tone)
+  @RelationId((counselor: CounselorEntity) => counselor.tone)
   @Column({
     type: "bigint",
     name: "tone_id",
     comment: "톤 ID",
   })
   toneId: string;
+
+  @OneToMany(() => BubbleEntity, (bubble) => bubble.counselor, {
+    cascade: true,
+  })
+  bubbles: BubbleEntity[];
+
+  @OneToMany(() => EpisodeEntity, (episode) => episode.counselor, {
+    cascade: true,
+  })
+  episodes: EpisodeEntity[];
 
   @OneToMany(() => PersonaPromptEntity, (personaPrompt) => personaPrompt.counselor, {
     cascade: true,
@@ -61,8 +80,12 @@ export class CounselorsEntity extends CoreEntity {
   })
   counsels: CounselsEntity[];
 
-  @OneToMany(() => CounselorUserRelationshipsEntity, (counselorUserRelationship) => counselorUserRelationship.counselor, {
-    cascade: true,
-  })
+  @OneToMany(
+    () => CounselorUserRelationshipsEntity,
+    (counselorUserRelationship) => counselorUserRelationship.counselor,
+    {
+      cascade: true,
+    },
+  )
   counselorUserRelationships: CounselorUserRelationshipsEntity[];
 }

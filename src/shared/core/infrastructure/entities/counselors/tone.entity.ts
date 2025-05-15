@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
+import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
 import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
 import { TonePromptEntity } from "~shared/core/infrastructure/entities/prompts/TonePrompts.entity";
 import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
@@ -29,10 +29,10 @@ export class ToneEntity extends CoreEntity {
   })
   counselTechniques: CounselTechniquesEntity[];
 
-  @OneToMany(() => CounselorsEntity, (counselor) => counselor.tone, {
+  @OneToMany(() => CounselorEntity, (counselor) => counselor.tone, {
     cascade: true,
   })
-  counselors: CounselorsEntity[];
+  counselors: CounselorEntity[];
 
   @OneToMany(() => TonePromptEntity, (tonePrompt) => tonePrompt.tone, {
     cascade: true,

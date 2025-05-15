@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
+import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 
@@ -7,9 +7,9 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "ty
 
 @Entity({ name: "counselor_user_relationships", comment: "유저별로 개인화된 개별 상담사와의 관계" })
 export class CounselorUserRelationshipsEntity extends CoreEntity {
-  @ManyToOne(() => CounselorsEntity, (counselor) => counselor.counselorUserRelationships)
+  @ManyToOne(() => CounselorEntity, (counselor) => counselor.counselorUserRelationships)
   @JoinColumn({ name: "counselor_id" })
-  counselor: CounselorsEntity;
+  counselor: CounselorEntity;
 
   @RelationId((counselorUserRelationship: CounselorUserRelationshipsEntity) => counselorUserRelationship.counselor)
   @Column({ type: "bigint", name: "counselor_id" })

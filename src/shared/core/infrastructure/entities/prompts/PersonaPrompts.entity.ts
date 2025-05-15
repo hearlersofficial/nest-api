@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
+import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
 import { CounselorScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/CounselorScopedPrompts.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
@@ -16,12 +16,12 @@ export class PersonaPromptEntity extends CoreEntity {
   })
   body: string;
 
-  @ManyToOne(() => CounselorsEntity, (counselor) => counselor.personaPrompts, {
+  @ManyToOne(() => CounselorEntity, (counselor) => counselor.personaPrompts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "counselor_id" })
-  counselor: CounselorsEntity;
+  counselor: CounselorEntity;
 
   @RelationId((personaPrompt: PersonaPromptEntity) => personaPrompt.counselor)
   @Column({ type: "bigint", name: "counselor_id" })

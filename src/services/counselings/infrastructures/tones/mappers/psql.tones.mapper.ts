@@ -1,5 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { Tones, TonesProps } from "~counselings/domains/tones/models/tones";
 

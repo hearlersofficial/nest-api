@@ -1,4 +1,4 @@
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
 import { TonesPersister } from "~counselings/domains/tones/tones.persister";
 import { TonesReader } from "~counselings/domains/tones/tones.reader";
 import { TonesService } from "~counselings/domains/tones/tones.service";

@@ -11,9 +11,15 @@ export class CounselorsFacade {
   constructor(private readonly counselorsService: CounselorsService) {}
 
   @Transactional()
-  async createCounselor(params: { toneId: UniqueEntityId; name: string; description: string; counselorGender: CounselorGender }): Promise<Counselors> {
-    const { toneId, name, description, counselorGender } = params;
-    return this.counselorsService.create({ toneId, name, description, gender: counselorGender });
+  async createCounselor(params: {
+    toneId: UniqueEntityId;
+    name: string;
+    description: string;
+    profileImage: string;
+    counselorGender: CounselorGender;
+  }): Promise<Counselors> {
+    const { toneId, name, description, profileImage, counselorGender } = params;
+    return this.counselorsService.create({ toneId, name, description, profileImage, gender: counselorGender });
   }
 
   async findCounselors(params: { toneId?: UniqueEntityId }): Promise<Counselors[]> {

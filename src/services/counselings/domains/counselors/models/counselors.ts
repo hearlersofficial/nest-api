@@ -3,7 +3,6 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { isDefined } from "~shared/utils/Validate.utils";
-import { Bubble, BubbleList } from "~counselings/domains/counselors/models/const/bubble.const";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { Dayjs } from "dayjs";
@@ -13,6 +12,7 @@ export interface CounselorsNewProps {
   gender: CounselorGender;
   description: string;
   toneId: UniqueEntityId;
+  profileImage: string;
 }
 
 export interface CounselorsProps extends CounselorsNewProps {
@@ -106,13 +106,12 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     return this.props.description;
   }
 
-  get toneId(): UniqueEntityId {
-    return this.props.toneId;
+  get profileImage(): string {
+    return this.props.profileImage;
   }
 
-  get bubble(): Bubble {
-    const bubble = BubbleList[Math.floor(Math.random() * BubbleList.length)];
-    return bubble;
+  get toneId(): UniqueEntityId {
+    return this.props.toneId;
   }
 
   get createdAt(): Dayjs {

@@ -6,16 +6,12 @@ import { create } from "@bufbuild/protobuf";
 
 export class SchemaCounselorsMapper {
   static toCounselorProto(counselor: Counselors): Counselor {
-    const bubble = counselor.bubble;
     return create(CounselorSchema, {
       id: counselor.id.getString(),
       toneId: counselor.toneId.getString(),
       name: counselor.name,
       description: counselor.description,
       gender: counselor.gender,
-      introMessage: bubble.introMessage,
-      responseOption1: bubble.responseOption1,
-      responseOption2: bubble.responseOption2,
       createdAt: counselor.createdAt.toISOString(),
       updatedAt: counselor.updatedAt.toISOString(),
       deletedAt: counselor.deletedAt ? counselor.deletedAt.toISOString() : undefined,

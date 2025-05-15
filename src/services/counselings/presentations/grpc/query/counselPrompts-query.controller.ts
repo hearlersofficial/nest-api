@@ -1,6 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
 import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
+import { PromptActivateHistoryFacade } from "~counselings/applications/promptActivateHistory.facade";
 import { PromptVersionsFacade } from "~counselings/applications/promptVersions.facade";
 import { TonePromptsFacade } from "~counselings/applications/tonePrompts.facade";
 import { SchemaCounselPromptsMapper } from "~counselings/presentations/grpc/counselPrompts.mapper";
@@ -14,6 +15,9 @@ import {
   FindPersonaPromptByIdRequest,
   FindPersonaPromptByIdResponse,
   FindPersonaPromptByIdResponseSchema,
+  FindPromptActivateHistoriesRequest,
+  FindPromptActivateHistoriesResponse,
+  FindPromptActivateHistoriesResponseSchema,
   FindPromptVersionByIdRequest,
   FindPromptVersionByIdResponse,
   FindPromptVersionByIdResponseSchema,
@@ -39,6 +43,7 @@ export class GrpcCounselPromptQueryController {
     private readonly promptVersionsFacade: PromptVersionsFacade,
     private readonly personaPromptsFacade: PersonaPromptsFacade,
     private readonly tonePromptsFacade: TonePromptsFacade,
+    private readonly promptActivateHistoryService: PromptActivateHistoryFacade,
   ) {}
 
   // Prompt Version
@@ -115,5 +120,15 @@ export class GrpcCounselPromptQueryController {
     });
   }
 
-  // TODO: Prompt Activate History
+  // Prompt Activate History
+  @GrpcMethod("CounselPromptService", "FindPromptActivateHistories")
+  async findPromptActivateHistories(request: FindPromptActivateHistoriesRequest): Promise<FindPromptActivateHistoriesResponse> {
+    const { promptVersionId } = request;
+    const histories = await this.promptActivateHistoryService.findPromptActivateHistories({
+      promptVersionId: promptVersionId ? new UniqueEntityId(promptVersionId) : undefined,
+    });
+    return create(FindPromptActivateHistoriesResponseSchema, {
+      promptActivateHistories: histories.map((history) => SchemaCounselPromptsMapper.toPromptActivateHistoryProto(history)),
+    });
+  }
 }

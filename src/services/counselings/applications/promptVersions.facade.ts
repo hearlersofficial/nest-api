@@ -1,6 +1,8 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
+import { getNowDayjs } from "~shared/utils/Date.utils";
 import { ValidatePromptVersionUseCase } from "~counselings/applications/use-cases/validate-prompt-version";
+import { PromptActivateHistoryService } from "~counselings/domains/promptActivateHistory/promptActivateHistory.service";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
@@ -9,7 +11,11 @@ import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class PromptVersionsFacade {
-  constructor(private readonly promptVersionsService: PromptVersionsService, private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase) {}
+  constructor(
+    private readonly promptVersionsService: PromptVersionsService,
+    private readonly promptActivateHistoryService: PromptActivateHistoryService,
+    private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase,
+  ) {}
   async findPromptVersions(params: { name?: string }): Promise<PromptVersions[]> {
     const { name } = params;
     return this.promptVersionsService.findMany({ name, isTemporary: false });
@@ -59,6 +65,12 @@ export class PromptVersionsFacade {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, saveVersionResult.error as string);
     }
     await this.promptVersionsService.update(temporaryVersion);
+
+    // 활성화 기록 생성
+    await this.promptActivateHistoryService.create({
+      promptVersionId: temporaryVersion.id,
+      activatedAt: getNowDayjs(),
+    });
     return temporaryVersion;
   }
 

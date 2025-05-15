@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
 
@@ -55,11 +55,17 @@ export class CounselTechniquesEntity extends CoreEntity {
   isTemporary: boolean;
 
   // 이전 노드를 가리키는 관계
-  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, { nullable: true, createForeignKeyConstraints: false })
+  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, {
+    nullable: true,
+    createForeignKeyConstraints: false,
+  })
   prevTechnique: CounselTechniquesEntity | null;
 
   // 다음 노드를 가리키는 관계(소유측)
-  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.prevTechnique, { nullable: true, createForeignKeyConstraints: false })
+  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.prevTechnique, {
+    nullable: true,
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: "next_technique_id" })
   nextTechnique: CounselTechniquesEntity | null;
 

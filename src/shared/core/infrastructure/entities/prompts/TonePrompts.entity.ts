@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
 import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";

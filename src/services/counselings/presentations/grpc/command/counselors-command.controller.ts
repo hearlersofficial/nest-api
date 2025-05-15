@@ -39,9 +39,10 @@ export class GrpcCounselorCommandController {
   // Counselor
   @GrpcMethod("CounselorService", "CreateCounselor")
   async createCounselor(request: CreateCounselorRequest): Promise<CreateCounselorResponse> {
-    const { toneId, name, description, counselorGender } = request;
+    const { toneId, name, description, profileImage, counselorGender } = request;
     const counselor = await this.counselorsFacade.createCounselor({
       toneId: new UniqueEntityId(toneId),
+      profileImage,
       name,
       description,
       counselorGender,

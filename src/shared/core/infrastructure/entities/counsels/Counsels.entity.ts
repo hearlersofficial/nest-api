@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
+import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
 import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/counsels/CounselMessages.entity";
 import { CounselorUserRelationshipsEntity } from "~shared/core/infrastructure/entities/counsels/CounselorUserRelationships.entity";
 import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
@@ -44,12 +44,12 @@ export class CounselsEntity extends CoreEntity {
   })
   userId: string;
 
-  @ManyToOne(() => CounselorsEntity, (counselor) => counselor.counsels, {
+  @ManyToOne(() => CounselorEntity, (counselor) => counselor.counsels, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "counselor_id" })
-  counselor: CounselorsEntity;
+  counselor: CounselorEntity;
 
   @RelationId((counsels: CounselsEntity) => counsels.counselor)
   @Column({

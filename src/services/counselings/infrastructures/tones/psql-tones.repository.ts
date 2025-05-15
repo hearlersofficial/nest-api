@@ -1,5 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
 import { Tones } from "~counselings/domains/tones/models/tones";
 import { PsqlTonesMapper } from "~counselings/infrastructures/tones/mappers/psql.tones.mapper";
 import { TonesRepository } from "~counselings/infrastructures/tones/tones.repository";

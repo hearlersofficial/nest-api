@@ -1,4 +1,4 @@
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/Tones.entity";
+import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
 import { isDefined } from "~shared/utils/Validate.utils";
 import { TonesCriteriaFindMany } from "~counselings/domains/tones/tones.criteria";
 

@@ -1,5 +1,5 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
-import { CounselorsEntity } from "~shared/core/infrastructure/entities/counselors/Counselors.entity";
+import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
 import { PersonaPromptEntity } from "~shared/core/infrastructure/entities/prompts/PersonaPrompts.entity";
 import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
 
@@ -7,12 +7,12 @@ import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "counselor_scoped_prompts", comment: "상담사별 프롬프트" })
 export class CounselorScopedPromptEntity extends CoreEntity {
-  @ManyToOne(() => CounselorsEntity, (counselor) => counselor.counselorScopedPrompts, {
+  @ManyToOne(() => CounselorEntity, (counselor) => counselor.counselorScopedPrompts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "counselor_id" })
-  counselor: CounselorsEntity;
+  counselor: CounselorEntity;
 
   @RelationId((counselorScopedPrompt: CounselorScopedPromptEntity) => counselorScopedPrompt.counselor)
   @Column({

@@ -127,7 +127,9 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
   }
 
   // Methods
-  public update(props: Partial<CounselorsProps>): void {
+  public update(
+    props: Partial<Pick<CounselorsProps, "toneId" | "name" | "description" | "gender" | "profileImage">>,
+  ): void {
     if (isDefined(props.toneId)) {
       this.props.toneId = props.toneId;
     }
@@ -139,6 +141,9 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     }
     if (isDefined(props.gender)) {
       this.props.gender = props.gender;
+    }
+    if (isDefined(props.profileImage)) {
+      this.props.profileImage = props.profileImage;
     }
     this.props.updatedAt = getNowDayjs();
   }

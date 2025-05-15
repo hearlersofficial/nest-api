@@ -40,6 +40,7 @@ export class CounselorEntity extends CoreEntity {
     type: "varchar",
     name: "profile_image",
     comment: "상담사 프로필 이미지",
+    default: "",
   })
   profileImage: string;
 

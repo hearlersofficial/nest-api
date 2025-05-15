@@ -1,9 +1,8 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
-import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "counselor_user_relationships", comment: "유저별로 개인화된 개별 상담사와의 관계" })
 export class CounselorUserRelationshipsEntity extends CoreEntity {

@@ -3,12 +3,21 @@ import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { TonesFacade } from "~counselings/applications/tones.facade";
 import { SchemaCounselorsMapper } from "~counselings/presentations/grpc/counselors.mapper";
 import {
+  FindBubbleByIdRequest,
+  FindBubbleByIdResponse,
+  FindBubbleByIdResponseSchema,
+  FindBubblesRequest,
+  FindBubblesResponse,
+  FindBubblesResponseSchema,
   FindCounselorByIdRequest,
   FindCounselorByIdResponse,
   FindCounselorByIdResponseSchema,
   FindCounselorsRequest,
   FindCounselorsResponse,
   FindCounselorsResponseSchema,
+  FindRandomBubbleRequest,
+  FindRandomBubbleResponse,
+  FindRandomBubbleResponseSchema,
   FindToneByIdRequest,
   FindToneByIdResponse,
   FindToneByIdResponseSchema,
@@ -66,6 +75,39 @@ export class GrpcCounselorQueryController {
     });
     return create(FindToneByIdResponseSchema, {
       tone: tone ? SchemaCounselorsMapper.toToneProto(tone) : undefined,
+    });
+  }
+
+  @GrpcMethod("CounselorService", "FindBubbles")
+  async findBubbles(request: FindBubblesRequest): Promise<FindBubblesResponse> {
+    const { counselorId } = request;
+    const bubbles = await this.counselorsFacade.findBubbles({
+      counselorId: new UniqueEntityId(counselorId),
+    });
+    return create(FindBubblesResponseSchema, {
+      bubbles: bubbles.map((bubble) => SchemaCounselorsMapper.toBubbleProto(bubble)),
+    });
+  }
+
+  @GrpcMethod("CounselorService", "FindBubbleById")
+  async findBubbleById(request: FindBubbleByIdRequest): Promise<FindBubbleByIdResponse> {
+    const { bubbleId } = request;
+    const bubble = await this.counselorsFacade.findBubbleById({
+      bubbleId: new UniqueEntityId(bubbleId),
+    });
+    return create(FindBubbleByIdResponseSchema, {
+      bubble: bubble ? SchemaCounselorsMapper.toBubbleProto(bubble) : undefined,
+    });
+  }
+
+  @GrpcMethod("CounselorService", "FindRandomBubble")
+  async findRandomBubble(request: FindRandomBubbleRequest): Promise<FindRandomBubbleResponse> {
+    const { counselorId } = request;
+    const bubble = await this.counselorsFacade.findRandomBubble({
+      counselorId: new UniqueEntityId(counselorId),
+    });
+    return create(FindRandomBubbleResponseSchema, {
+      bubble: bubble ? SchemaCounselorsMapper.toBubbleProto(bubble) : undefined,
     });
   }
 }

@@ -5,15 +5,24 @@ import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { TonesFacade } from "~counselings/applications/tones.facade";
 import { SchemaCounselorsMapper } from "~counselings/presentations/grpc/counselors.mapper";
 import {
+  CreateBubbleRequest,
+  CreateBubbleResponse,
+  CreateBubbleResponseSchema,
   CreateCounselorRequest,
   CreateCounselorResponse,
   CreateCounselorResponseSchema,
   CreateToneRequest,
   CreateToneResponse,
   CreateToneResponseSchema,
+  DeleteBubbleRequest,
+  DeleteBubbleResponse,
+  DeleteBubbleResponseSchema,
   GenerateCounselorImageUrlRequest,
   GenerateCounselorImageUrlResponse,
   GenerateCounselorImageUrlResponseSchema,
+  UpdateBubbleRequest,
+  UpdateBubbleResponse,
+  UpdateBubbleResponseSchema,
   UpdateCounselorRequest,
   UpdateCounselorResponse,
   UpdateCounselorResponseSchema,
@@ -124,5 +133,44 @@ export class GrpcCounselorCommandController {
       this.logger.error(`Error generating counselor image URL: ${error.message}`, error.stack);
       throw error;
     }
+  }
+
+  @GrpcMethod("CounselorService", "CreateBubble")
+  async createBubble(request: CreateBubbleRequest): Promise<CreateBubbleResponse> {
+    const { counselorId, question, responseOption1, responseOption2 } = request;
+    const bubble = await this.counselorsFacade.createBubble({
+      counselorId: new UniqueEntityId(counselorId),
+      question,
+      responseOption1,
+      responseOption2,
+    });
+    return create(CreateBubbleResponseSchema, {
+      bubble: SchemaCounselorsMapper.toBubbleProto(bubble),
+    });
+  }
+
+  @GrpcMethod("CounselorService", "UpdateBubble")
+  async updateBubble(request: UpdateBubbleRequest): Promise<UpdateBubbleResponse> {
+    const { bubbleId, counselorId, question, responseOption1, responseOption2 } = request;
+    const bubble = await this.counselorsFacade.updateBubble({
+      bubbleId: new UniqueEntityId(bubbleId),
+      counselorId: new UniqueEntityId(counselorId),
+      question,
+      responseOption1,
+      responseOption2,
+    });
+    return create(UpdateBubbleResponseSchema, {
+      bubble: SchemaCounselorsMapper.toBubbleProto(bubble),
+    });
+  }
+
+  @GrpcMethod("CounselorService", "DeleteBubble")
+  async deleteBubble(request: DeleteBubbleRequest): Promise<DeleteBubbleResponse> {
+    const { bubbleId, counselorId } = request;
+    await this.counselorsFacade.deleteBubble({
+      bubbleId: new UniqueEntityId(bubbleId),
+      counselorId: new UniqueEntityId(counselorId),
+    });
+    return create(DeleteBubbleResponseSchema, {});
   }
 }

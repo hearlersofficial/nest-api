@@ -2,6 +2,7 @@ import { DomainEntity } from "~shared/core/domain/DomainEntity";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { isDefined } from "~shared/utils/Validate.utils";
 
 import { Dayjs } from "dayjs";
 
@@ -41,6 +42,22 @@ export class Bubbles extends DomainEntity<BubblesProps> {
       },
       newId,
     );
+  }
+
+  public update(
+    props: Partial<Pick<BubblesProps, "question" | "responseOption1" | "responseOption2">>,
+  ): Result<Bubbles> {
+    const { question, responseOption1, responseOption2 } = props;
+    this.props.question = isDefined(question) ? question : this.props.question;
+    this.props.responseOption1 = isDefined(responseOption1) ? responseOption1 : this.props.responseOption1;
+    this.props.responseOption2 = isDefined(responseOption2) ? responseOption2 : this.props.responseOption2;
+    this.props.updatedAt = getNowDayjs();
+    return Result.ok<Bubbles>(this);
+  }
+
+  public delete(): Result<Bubbles> {
+    this.props.deletedAt = getNowDayjs();
+    return Result.ok<Bubbles>(this);
   }
 
   // Getters

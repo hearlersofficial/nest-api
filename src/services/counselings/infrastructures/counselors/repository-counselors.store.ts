@@ -1,12 +1,13 @@
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { CounselorsPersister } from "~counselings/domains/counselors/counselors.persister";
+import { CounselorsStore } from "~counselings/domains/counselors/counselors.store";
+import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors, CounselorsNewProps } from "~counselings/domains/counselors/models/counselors";
 import { CounselorsRepository } from "~counselings/infrastructures/counselors/counselors.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
-export class RepositoryCounselorsPersister extends CounselorsPersister {
+export class RepositoryCounselorsStore extends CounselorsStore {
   constructor(private readonly counselorRepository: CounselorsRepository) {
     super();
   }
@@ -25,5 +26,9 @@ export class RepositoryCounselorsPersister extends CounselorsPersister {
 
   override async updateMany(counselors: Counselors[]): Promise<Counselors[]> {
     return this.counselorRepository.save(counselors);
+  }
+
+  override async storeBubble(counselor: Counselors, bubble: Bubbles): Promise<Bubbles> {
+    return this.counselorRepository.saveBubble(counselor, bubble);
   }
 }

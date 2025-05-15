@@ -38,11 +38,12 @@ export class CounselorsFacade {
     toneId?: UniqueEntityId;
     name?: string;
     description?: string;
+    profileImage?: string;
     counselorGender?: CounselorGender;
   }): Promise<Counselors> {
-    const { counselorId, toneId, name, description, counselorGender } = params;
+    const { counselorId, toneId, name, description, profileImage, counselorGender } = params;
     const counselor = await this.counselorsService.getOne({ counselorId });
-    counselor.update({ toneId, name, description, gender: counselorGender });
+    counselor.update({ toneId, name, description, profileImage, gender: counselorGender });
     return this.counselorsService.update(counselor);
   }
 }

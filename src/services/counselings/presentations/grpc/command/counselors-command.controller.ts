@@ -54,12 +54,13 @@ export class GrpcCounselorCommandController {
 
   @GrpcMethod("CounselorService", "UpdateCounselor")
   async updateCounselor(request: UpdateCounselorRequest): Promise<UpdateCounselorResponse> {
-    const { counselorId, toneId, name, description, counselorGender } = request;
+    const { counselorId, toneId, name, description, profileImage, counselorGender } = request;
     const counselor = await this.counselorsFacade.updateCounselor({
       counselorId: new UniqueEntityId(counselorId),
       toneId: toneId ? new UniqueEntityId(toneId) : undefined,
       name,
       description,
+      profileImage,
       counselorGender,
     });
     return create(UpdateCounselorResponseSchema, {

@@ -1,5 +1,6 @@
 import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
 import { PersonaPrompts } from "~counselings/domains/personaPrompts/models/personaPrompts";
+import { PromptActivateHistories } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
@@ -11,6 +12,8 @@ import {
   CounselTechniqueSchema,
   PersonaPrompt,
   PersonaPromptSchema,
+  PromptActivateHistory,
+  PromptActivateHistorySchema,
   PromptVersion,
   PromptVersionSchema,
   TonePrompt,
@@ -99,5 +102,15 @@ export class SchemaCounselPromptsMapper {
     });
   }
 
-  // TODO: PromptActivateHistory
+  // PromptActivateHistory
+  static toPromptActivateHistoryProto(promptActivateHistory: PromptActivateHistories): PromptActivateHistory {
+    return create(PromptActivateHistorySchema, {
+      id: promptActivateHistory.id.getString(),
+      promptVersionId: promptActivateHistory.promptVersionId.getString(),
+      activatedAt: promptActivateHistory.activatedAt.toISOString(),
+      createdAt: promptActivateHistory.createdAt.toISOString(),
+      updatedAt: promptActivateHistory.updatedAt.toISOString(),
+      deletedAt: promptActivateHistory.deletedAt ? promptActivateHistory.deletedAt.toISOString() : undefined,
+    });
+  }
 }

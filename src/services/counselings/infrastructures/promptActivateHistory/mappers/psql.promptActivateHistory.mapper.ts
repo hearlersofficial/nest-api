@@ -1,0 +1,53 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { PromptActivateHistoryEntity } from "~shared/core/infrastructure/entities/prompts/PromptActivateHistory.entity";
+import { PromptActivateHistories, PromptActivateHistoriesProps } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+
+import dayjs from "dayjs";
+
+export class PsqlPromptActivateHistoryMapper {
+  static toDomain(entity: PromptActivateHistoryEntity): PromptActivateHistories | null {
+    if (!entity) {
+      return null;
+    }
+    const promptActivateHistoriesProps: PromptActivateHistoriesProps = {
+      promptVersionId: new UniqueEntityId(entity.promptVersionId),
+      activatedAt: dayjs(entity.activatedAt),
+      createdAt: dayjs(entity.createdAt),
+      updatedAt: dayjs(entity.updatedAt),
+      deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
+    };
+    const promptActivateHistoryOrError = PromptActivateHistories.create(promptActivateHistoriesProps, new UniqueEntityId(entity.id));
+    if (promptActivateHistoryOrError.isFailure) {
+      throw new Error(promptActivateHistoryOrError.errorValue);
+    }
+    return promptActivateHistoryOrError.value;
+  }
+
+  static toDomains(entities: PromptActivateHistoryEntity[]): PromptActivateHistories[] {
+    if (entities.length === 0) {
+      return [];
+    }
+    return entities.map((entity) => this.toDomain(entity)).filter((promptActivateHistory) => promptActivateHistory !== null);
+  }
+
+  static toEntity(promptActivateHistory: PromptActivateHistories): PromptActivateHistoryEntity {
+    const entity = new PromptActivateHistoryEntity();
+
+    if (!promptActivateHistory.id.isNewIdentifier()) {
+      entity.id = promptActivateHistory.id.getString();
+    }
+    entity.promptVersionId = promptActivateHistory.promptVersionId.getString();
+    entity.activatedAt = promptActivateHistory.activatedAt.toISOString();
+    entity.createdAt = promptActivateHistory.createdAt.toISOString();
+    entity.updatedAt = promptActivateHistory.updatedAt.toISOString();
+    entity.deletedAt = promptActivateHistory.deletedAt ? promptActivateHistory.deletedAt.toISOString() : null;
+    return entity;
+  }
+
+  static toEntities(promptActivateHistory: PromptActivateHistories[]): PromptActivateHistoryEntity[] {
+    if (promptActivateHistory.length === 0) {
+      return [];
+    }
+    return promptActivateHistory.map((history) => this.toEntity(history));
+  }
+}

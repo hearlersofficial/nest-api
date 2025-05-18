@@ -1,6 +1,7 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { CounselorScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/CounselorScopedPrompts.entity";
+import { PromptActivateHistoryEntity } from "~shared/core/infrastructure/entities/prompts/PromptActivateHistory.entity";
 import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
 
 import { Column, Entity, OneToMany } from "typeorm";
@@ -49,4 +50,9 @@ export class PromptVersionEntity extends CoreEntity {
     cascade: true,
   })
   counsels: CounselsEntity[];
+
+  @OneToMany(() => PromptActivateHistoryEntity, (promptActivateHistory) => promptActivateHistory.promptVersion, {
+    cascade: true,
+  })
+  promptActivateHistories: PromptActivateHistoryEntity[];
 }

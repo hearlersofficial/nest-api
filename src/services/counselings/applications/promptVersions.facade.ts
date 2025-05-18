@@ -65,12 +65,6 @@ export class PromptVersionsFacade {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, saveVersionResult.error as string);
     }
     await this.promptVersionsService.update(temporaryVersion);
-
-    // 활성화 기록 생성
-    await this.promptActivateHistoryService.create({
-      promptVersionId: temporaryVersion.id,
-      activatedAt: getNowDayjs(),
-    });
     return temporaryVersion;
   }
 
@@ -94,6 +88,11 @@ export class PromptVersionsFacade {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, activateResult.error as string);
     }
     await this.promptVersionsService.update(promptVersion);
+    // 활성화 기록 생성
+    await this.promptActivateHistoryService.create({
+      promptVersionId: promptVersion.id,
+      activatedAt: getNowDayjs(),
+    });
     return promptVersion;
   }
 }

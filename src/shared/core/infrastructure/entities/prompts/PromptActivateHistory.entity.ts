@@ -1,11 +1,20 @@
 import { CoreEntity } from "~shared/core/infrastructure/entities/Core.entity";
+import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
 
-import { Column, Entity } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "prompt_activate_history", comment: "프롬프트 활성화 이력" })
 export class PromptActivateHistoryEntity extends CoreEntity {
+  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.promptActivateHistories, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn({ name: "prompt_version_id" })
+  promptVersion: PromptVersionEntity;
+
+  @RelationId((promptActivateHistory: PromptActivateHistoryEntity) => promptActivateHistory.promptVersion)
   @Column({
-    type: "varchar",
+    type: "bigint",
     name: "prompt_version_id",
     comment: "프롬프트 버전 ID",
   })

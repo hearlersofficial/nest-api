@@ -26,6 +26,9 @@ import {
   UpdatePersonaPromptRequest,
   UpdatePersonaPromptResponse,
   UpdatePersonaPromptResponseSchema,
+  UpdatePromptVersionRequest,
+  UpdatePromptVersionResponse,
+  UpdatePromptVersionResponseSchema,
   UpdateTonePromptRequest,
   UpdateTonePromptResponse,
   UpdateTonePromptResponseSchema,
@@ -58,8 +61,8 @@ export class GrpcCounselPromptCommandController {
 
   @GrpcMethod("CounselPromptService", "SaveTemporaryVersion")
   async saveTemporaryVersion(request: SaveTemporaryVersionRequest): Promise<SaveTemporaryVersionResponse> {
-    const { name, description } = request;
-    const promptVersion = await this.promptVersionsFacade.saveTemporaryVersion({ name, description });
+    const { name, description, isBookmarked } = request;
+    const promptVersion = await this.promptVersionsFacade.saveTemporaryVersion({ name, description, isBookmarked });
     return create(SaveTemporaryVersionResponseSchema, {
       promptVersion: SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion),
     });
@@ -72,6 +75,20 @@ export class GrpcCounselPromptCommandController {
       promptVersionId: new UniqueEntityId(promptVersionId),
     });
     return create(ActivatePromptVersionResponseSchema, {
+      promptVersion: SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion),
+    });
+  }
+
+  @GrpcMethod("CounselPromptService", "UpdatePromptVersion")
+  async updatePromptVersion(request: UpdatePromptVersionRequest): Promise<UpdatePromptVersionResponse> {
+    const { promptVersionId, name, description, isBookmarked } = request;
+    const promptVersion = await this.promptVersionsFacade.updatePromptVersion({
+      promptVersionId: new UniqueEntityId(promptVersionId),
+      name,
+      description,
+      isBookmarked,
+    });
+    return create(UpdatePromptVersionResponseSchema, {
       promptVersion: SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion),
     });
   }

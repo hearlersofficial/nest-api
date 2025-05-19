@@ -16,6 +16,7 @@ export interface PromptVersionsProps extends PromptVersionsNewProps {
   toneScopedPrompts: ToneScopedPrompts[];
   isActive: boolean;
   isTemporary: boolean;
+  isBookmarked: boolean;
 
   createdAt: Dayjs;
   updatedAt: Dayjs;
@@ -48,6 +49,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
         toneScopedPrompts: [],
         isActive: false,
         isTemporary: true,
+        isBookmarked: false,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -70,6 +72,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
         toneScopedPrompts: [],
         isActive: false,
         isTemporary: true,
+        isBookmarked: false,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -137,6 +140,11 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
       return Result.fail<void>("[PromptVersions] isTemporary가 true일 경우 isActive는 false여야 합니다");
     }
 
+    // isBookmarked 검증
+    if (this.props.isBookmarked === null || this.props.isBookmarked === undefined) {
+      return Result.fail<void>("[PromptVersions] isBookmarked는 필수입니다");
+    }
+
     // counselorScopedPrompts 검증
     if (this.props.counselorScopedPrompts.length > 0) {
       for (const counselorScopedPrompt of this.props.counselorScopedPrompts) {
@@ -191,6 +199,10 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return this.props.isTemporary;
   }
 
+  get isBookmarked(): boolean {
+    return this.props.isBookmarked;
+  }
+
   get createdAt(): Dayjs {
     return this.props.createdAt;
   }
@@ -230,12 +242,13 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok<void>();
   }
 
-  public saveVersion(props: { name: string; description: string }): Result<void> {
+  public saveVersion(props: { name: string; description: string; isBookmarked: boolean }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be saved.");
     }
     this.props.name = props.name;
     this.props.description = props.description;
+    this.props.isBookmarked = props.isBookmarked;
     this.props.isTemporary = false;
     this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
@@ -336,6 +349,20 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
       this.props.toneScopedPrompts.push(clonedToneScopedPrompt.value);
     }
 
+    return Result.ok<void>();
+  }
+
+  public updateBasicInfo(props: { name?: string; description?: string; isBookmarked?: boolean }): Result<void> {
+    if (props.name !== undefined) {
+      this.props.name = props.name;
+    }
+    if (props.description !== undefined) {
+      this.props.description = props.description;
+    }
+    if (props.isBookmarked !== undefined) {
+      this.props.isBookmarked = props.isBookmarked;
+    }
+    this.props.updatedAt = getNowDayjs();
     return Result.ok<void>();
   }
 }

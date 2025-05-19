@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file com/hearlers/v1/service/counsel_prompt.proto.
  */
 export const file_com_hearlers_v1_service_counsel_prompt: GenFile = /*@__PURE__*/
-  fileDesc("Cixjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2VsX3Byb21wdC5wcm90bxIXY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UiNwoZRmluZFByb21wdFZlcnNpb25zUmVxdWVzdBIRCgRuYW1lGAEgASgJSACIAQFCBwoFX25hbWUiWwoaRmluZFByb21wdFZlcnNpb25zUmVzcG9uc2USPQoPcHJvbXB0X3ZlcnNpb25zGAEgAygLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlByb21wdFZlcnNpb24iOQocRmluZFByb21wdFZlcnNpb25CeUlkUmVxdWVzdBIZChFwcm9tcHRfdmVyc2lvbl9pZBgBIAEoCSJ1Ch1GaW5kUHJvbXB0VmVyc2lvbkJ5SWRSZXNwb25zZRJBCg5wcm9tcHRfdmVyc2lvbhgBIAEoCzIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Qcm9tcHRWZXJzaW9uSACIAQFCEQoPX3Byb21wdF92ZXJzaW9uIh0KG0ZpbmRUZW1wb3JhcnlWZXJzaW9uUmVxdWVzdCJ0ChxGaW5kVGVtcG9yYXJ5VmVyc2lvblJlc3BvbnNlEkEKDnByb21wdF92ZXJzaW9uGAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlByb21wdFZlcnNpb25IAIgBAUIRCg9fcHJvbXB0X3ZlcnNpb24iPQogTG9hZEV4aXN0aW5nUHJvbXB0VmVyc2lvblJlcXVlc3QSGQoRcHJvbXB0X3ZlcnNpb25faWQYASABKAkieQohTG9hZEV4aXN0aW5nUHJvbXB0VmVyc2lvblJlc3BvbnNlEkEKDnByb21wdF92ZXJzaW9uGAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlByb21wdFZlcnNpb25IAIgBAUIRCg9fcHJvbXB0X3ZlcnNpb24iQAobU2F2ZVRlbXBvcmFyeVZlcnNpb25SZXF1ZXN0EgwKBG5hbWUYASABKAkSEwoLZGVzY3JpcHRpb24YAiABKAkidAocU2F2ZVRlbXBvcmFyeVZlcnNpb25SZXNwb25zZRJBCg5wcm9tcHRfdmVyc2lvbhgBIAEoCzIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Qcm9tcHRWZXJzaW9uSACIAQFCEQoPX3Byb21wdF92ZXJzaW9uIjkKHEFjdGl2YXRlUHJvbXB0VmVyc2lvblJlcXVlc3QSGQoRcHJvbXB0X3ZlcnNpb25faWQYASABKAkidQodQWN0aXZhdGVQcm9tcHRWZXJzaW9uUmVzcG9uc2USQQoOcHJvbXB0X3ZlcnNpb24YASABKAsyJC5jb20uaGVhcmxlcnMudjEubW9kZWwuUHJvbXB0VmVyc2lvbkgAiAEBQhEKD19wcm9tcHRfdmVyc2lvbiI5ChxGaW5kUGVyc29uYVByb21wdEJ5SWRSZXF1ZXN0EhkKEXBlcnNvbmFfcHJvbXB0X2lkGAEgASgJInUKHUZpbmRQZXJzb25hUHJvbXB0QnlJZFJlc3BvbnNlEkEKDnBlcnNvbmFfcHJvbXB0GAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlBlcnNvbmFQcm9tcHRIAIgBAUIRCg9fcGVyc29uYV9wcm9tcHQiQAoaVXBkYXRlUGVyc29uYVByb21wdFJlcXVlc3QSFAoMY291bnNlbG9yX2lkGAEgASgJEgwKBGJvZHkYAiABKAkicwobVXBkYXRlUGVyc29uYVByb21wdFJlc3BvbnNlEkEKDnBlcnNvbmFfcHJvbXB0GAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlBlcnNvbmFQcm9tcHRIAIgBAUIRCg9fcGVyc29uYV9wcm9tcHQiMwoZRmluZFRvbmVQcm9tcHRCeUlkUmVxdWVzdBIWCg50b25lX3Byb21wdF9pZBgBIAEoCSJpChpGaW5kVG9uZVByb21wdEJ5SWRSZXNwb25zZRI7Cgt0b25lX3Byb21wdBgBIAEoCzIhLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lUHJvbXB0SACIAQFCDgoMX3RvbmVfcHJvbXB0IjgKF1VwZGF0ZVRvbmVQcm9tcHRSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkSDAoEYm9keRgCIAEoCSJnChhVcGRhdGVUb25lUHJvbXB0UmVzcG9uc2USOwoLdG9uZV9wcm9tcHQYASABKAsyIS5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZVByb21wdEgAiAEBQg4KDF90b25lX3Byb21wdCJ/Ch1DcmVhdGVDb3Vuc2VsVGVjaG5pcXVlUmVxdWVzdBIMCgRuYW1lGAEgASgJEg8KB3RvbmVfaWQYAiABKAkSDwoHY29udGV4dBgDIAEoCRITCgtpbnN0cnVjdGlvbhgEIAEoCRIZChFtZXNzYWdlX3RocmVzaG9sZBgFIAEoBSJkCh5DcmVhdGVDb3Vuc2VsVGVjaG5pcXVlUmVzcG9uc2USQgoRY291bnNlbF90ZWNobmlxdWUYASABKAsyJy5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbFRlY2huaXF1ZSJJCiNGaW5kT3JkZXJlZENvdW5zZWxUZWNobmlxdWVzUmVxdWVzdBIiChpmaXJzdF9jb3Vuc2VsX3RlY2huaXF1ZV9pZBgBIAEoCSJrCiRGaW5kT3JkZXJlZENvdW5zZWxUZWNobmlxdWVzUmVzcG9uc2USQwoSY291bnNlbF90ZWNobmlxdWVzGAEgAygLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxUZWNobmlxdWUiPwofRmluZENvdW5zZWxUZWNobmlxdWVCeUlkUmVxdWVzdBIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgBIAEoCSKBAQogRmluZENvdW5zZWxUZWNobmlxdWVCeUlkUmVzcG9uc2USRwoRY291bnNlbF90ZWNobmlxdWUYASABKAsyJy5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbFRlY2huaXF1ZUgAiAEBQhQKEl9jb3Vuc2VsX3RlY2huaXF1ZSLbAQodVXBkYXRlQ291bnNlbFRlY2huaXF1ZVJlcXVlc3QSHAoUY291bnNlbF90ZWNobmlxdWVfaWQYASABKAkSEQoEbmFtZRgCIAEoCUgAiAEBEhQKB2NvbnRleHQYAyABKAlIAYgBARIYCgtpbnN0cnVjdGlvbhgEIAEoCUgCiAEBEh4KEW1lc3NhZ2VfdGhyZXNob2xkGAUgASgFSAOIAQFCBwoFX25hbWVCCgoIX2NvbnRleHRCDgoMX2luc3RydWN0aW9uQhQKEl9tZXNzYWdlX3RocmVzaG9sZCJlCh5VcGRhdGVDb3Vuc2VsVGVjaG5pcXVlUmVzcG9uc2USQwoSY291bnNlbF90ZWNobmlxdWVzGAEgAygLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxUZWNobmlxdWUiVQojU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZVJlcXVlc3QSDwoHdG9uZV9pZBgBIAEoCRIdChVjb3Vuc2VsX3RlY2huaXF1ZV9pZHMYAiADKAkiawokU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZVJlc3BvbnNlEkMKEmNvdW5zZWxfdGVjaG5pcXVlcxgBIAMoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsVGVjaG5pcXVlIloKIkZpbmRQcm9tcHRBY3RpdmF0ZUhpc3Rvcmllc1JlcXVlc3QSHgoRcHJvbXB0X3ZlcnNpb25faWQYASABKAlIAIgBAUIUChJfcHJvbXB0X3ZlcnNpb25faWQidgojRmluZFByb21wdEFjdGl2YXRlSGlzdG9yaWVzUmVzcG9uc2USTwoZcHJvbXB0X2FjdGl2YXRlX2hpc3RvcmllcxgBIAMoCzIsLmNvbS5oZWFybGVycy52MS5tb2RlbC5Qcm9tcHRBY3RpdmF0ZUhpc3RvcnkyzREKFENvdW5zZWxQcm9tcHRTZXJ2aWNlEn0KEkZpbmRQcm9tcHRWZXJzaW9ucxIyLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRQcm9tcHRWZXJzaW9uc1JlcXVlc3QaMy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kUHJvbXB0VmVyc2lvbnNSZXNwb25zZRKGAQoVRmluZFByb21wdFZlcnNpb25CeUlkEjUuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFByb21wdFZlcnNpb25CeUlkUmVxdWVzdBo2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRQcm9tcHRWZXJzaW9uQnlJZFJlc3BvbnNlEoMBChRGaW5kVGVtcG9yYXJ5VmVyc2lvbhI0LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUZW1wb3JhcnlWZXJzaW9uUmVxdWVzdBo1LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUZW1wb3JhcnlWZXJzaW9uUmVzcG9uc2USkgEKGUxvYWRFeGlzdGluZ1Byb21wdFZlcnNpb24SOS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5Mb2FkRXhpc3RpbmdQcm9tcHRWZXJzaW9uUmVxdWVzdBo6LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkxvYWRFeGlzdGluZ1Byb21wdFZlcnNpb25SZXNwb25zZRKDAQoUU2F2ZVRlbXBvcmFyeVZlcnNpb24SNC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5TYXZlVGVtcG9yYXJ5VmVyc2lvblJlcXVlc3QaNS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5TYXZlVGVtcG9yYXJ5VmVyc2lvblJlc3BvbnNlEoYBChVBY3RpdmF0ZVByb21wdFZlcnNpb24SNS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5BY3RpdmF0ZVByb21wdFZlcnNpb25SZXF1ZXN0GjYuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQWN0aXZhdGVQcm9tcHRWZXJzaW9uUmVzcG9uc2UShgEKFUZpbmRQZXJzb25hUHJvbXB0QnlJZBI1LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRQZXJzb25hUHJvbXB0QnlJZFJlcXVlc3QaNi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kUGVyc29uYVByb21wdEJ5SWRSZXNwb25zZRKAAQoTVXBkYXRlUGVyc29uYVByb21wdBIzLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZVBlcnNvbmFQcm9tcHRSZXF1ZXN0GjQuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlUGVyc29uYVByb21wdFJlc3BvbnNlEn0KEkZpbmRUb25lUHJvbXB0QnlJZBIyLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lUHJvbXB0QnlJZFJlcXVlc3QaMy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kVG9uZVByb21wdEJ5SWRSZXNwb25zZRJ3ChBVcGRhdGVUb25lUHJvbXB0EjAuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlVG9uZVByb21wdFJlcXVlc3QaMS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVUb25lUHJvbXB0UmVzcG9uc2USiQEKFkNyZWF0ZUNvdW5zZWxUZWNobmlxdWUSNi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb3Vuc2VsVGVjaG5pcXVlUmVxdWVzdBo3LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZUNvdW5zZWxUZWNobmlxdWVSZXNwb25zZRKbAQocRmluZE9yZGVyZWRDb3Vuc2VsVGVjaG5pcXVlcxI8LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRPcmRlcmVkQ291bnNlbFRlY2huaXF1ZXNSZXF1ZXN0Gj0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZE9yZGVyZWRDb3Vuc2VsVGVjaG5pcXVlc1Jlc3BvbnNlEo8BChhGaW5kQ291bnNlbFRlY2huaXF1ZUJ5SWQSOC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbFRlY2huaXF1ZUJ5SWRSZXF1ZXN0GjkuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZENvdW5zZWxUZWNobmlxdWVCeUlkUmVzcG9uc2USiQEKFlVwZGF0ZUNvdW5zZWxUZWNobmlxdWUSNi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVDb3Vuc2VsVGVjaG5pcXVlUmVxdWVzdBo3LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUNvdW5zZWxUZWNobmlxdWVSZXNwb25zZRKbAQocU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZRI8LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlNhdmVDb3Vuc2VsVGVjaG5pcXVlU2VxdWVuY2VSZXF1ZXN0Gj0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZVJlc3BvbnNlEpgBChtGaW5kUHJvbXB0QWN0aXZhdGVIaXN0b3JpZXMSOy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kUHJvbXB0QWN0aXZhdGVIaXN0b3JpZXNSZXF1ZXN0GjwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFByb21wdEFjdGl2YXRlSGlzdG9yaWVzUmVzcG9uc2VCsQEKG2NvbS5jb20uaGVhcmxlcnMudjEuc2VydmljZUISQ291bnNlbFByb21wdFByb3RvUAGiAgRDSFZTqgIXQ29tLkhlYXJsZXJzLlYxLlNlcnZpY2XKAhdDb21cSGVhcmxlcnNcVjFcU2VydmljZeICI0NvbVxIZWFybGVyc1xWMVxTZXJ2aWNlXEdQQk1ldGFkYXRh6gIaQ29tOjpIZWFybGVyczo6VjE6OlNlcnZpY2ViBnByb3RvMw", [file_com_hearlers_v1_model_counsel_prompt]);
+  fileDesc("Cixjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2VsX3Byb21wdC5wcm90bxIXY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UiZQoZRmluZFByb21wdFZlcnNpb25zUmVxdWVzdBIRCgRuYW1lGAEgASgJSACIAQESGgoNaXNfYm9va21hcmtlZBgCIAEoCEgBiAEBQgcKBV9uYW1lQhAKDl9pc19ib29rbWFya2VkIlsKGkZpbmRQcm9tcHRWZXJzaW9uc1Jlc3BvbnNlEj0KD3Byb21wdF92ZXJzaW9ucxgBIAMoCzIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Qcm9tcHRWZXJzaW9uIjkKHEZpbmRQcm9tcHRWZXJzaW9uQnlJZFJlcXVlc3QSGQoRcHJvbXB0X3ZlcnNpb25faWQYASABKAkidQodRmluZFByb21wdFZlcnNpb25CeUlkUmVzcG9uc2USQQoOcHJvbXB0X3ZlcnNpb24YASABKAsyJC5jb20uaGVhcmxlcnMudjEubW9kZWwuUHJvbXB0VmVyc2lvbkgAiAEBQhEKD19wcm9tcHRfdmVyc2lvbiIdChtGaW5kVGVtcG9yYXJ5VmVyc2lvblJlcXVlc3QidAocRmluZFRlbXBvcmFyeVZlcnNpb25SZXNwb25zZRJBCg5wcm9tcHRfdmVyc2lvbhgBIAEoCzIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Qcm9tcHRWZXJzaW9uSACIAQFCEQoPX3Byb21wdF92ZXJzaW9uIhoKGEZpbmRBY3RpdmVWZXJzaW9uUmVxdWVzdCJxChlGaW5kQWN0aXZlVmVyc2lvblJlc3BvbnNlEkEKDnByb21wdF92ZXJzaW9uGAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlByb21wdFZlcnNpb25IAIgBAUIRCg9fcHJvbXB0X3ZlcnNpb24iPQogTG9hZEV4aXN0aW5nUHJvbXB0VmVyc2lvblJlcXVlc3QSGQoRcHJvbXB0X3ZlcnNpb25faWQYASABKAkieQohTG9hZEV4aXN0aW5nUHJvbXB0VmVyc2lvblJlc3BvbnNlEkEKDnByb21wdF92ZXJzaW9uGAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlByb21wdFZlcnNpb25IAIgBAUIRCg9fcHJvbXB0X3ZlcnNpb24iVwobU2F2ZVRlbXBvcmFyeVZlcnNpb25SZXF1ZXN0EgwKBG5hbWUYASABKAkSEwoLZGVzY3JpcHRpb24YAiABKAkSFQoNaXNfYm9va21hcmtlZBgDIAEoCCJ0ChxTYXZlVGVtcG9yYXJ5VmVyc2lvblJlc3BvbnNlEkEKDnByb21wdF92ZXJzaW9uGAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlByb21wdFZlcnNpb25IAIgBAUIRCg9fcHJvbXB0X3ZlcnNpb24iqwEKGlVwZGF0ZVByb21wdFZlcnNpb25SZXF1ZXN0EhkKEXByb21wdF92ZXJzaW9uX2lkGAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARIYCgtkZXNjcmlwdGlvbhgDIAEoCUgBiAEBEhoKDWlzX2Jvb2ttYXJrZWQYBCABKAhIAogBAUIHCgVfbmFtZUIOCgxfZGVzY3JpcHRpb25CEAoOX2lzX2Jvb2ttYXJrZWQicwobVXBkYXRlUHJvbXB0VmVyc2lvblJlc3BvbnNlEkEKDnByb21wdF92ZXJzaW9uGAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlByb21wdFZlcnNpb25IAIgBAUIRCg9fcHJvbXB0X3ZlcnNpb24iOQocQWN0aXZhdGVQcm9tcHRWZXJzaW9uUmVxdWVzdBIZChFwcm9tcHRfdmVyc2lvbl9pZBgBIAEoCSJ1Ch1BY3RpdmF0ZVByb21wdFZlcnNpb25SZXNwb25zZRJBCg5wcm9tcHRfdmVyc2lvbhgBIAEoCzIkLmNvbS5oZWFybGVycy52MS5tb2RlbC5Qcm9tcHRWZXJzaW9uSACIAQFCEQoPX3Byb21wdF92ZXJzaW9uIjkKG0RlbGV0ZVByb21wdFZlcnNpb25zUmVxdWVzdBIaChJwcm9tcHRfdmVyc2lvbl9pZHMYASADKAkiHgocRGVsZXRlUHJvbXB0VmVyc2lvbnNSZXNwb25zZSI5ChxGaW5kUGVyc29uYVByb21wdEJ5SWRSZXF1ZXN0EhkKEXBlcnNvbmFfcHJvbXB0X2lkGAEgASgJInUKHUZpbmRQZXJzb25hUHJvbXB0QnlJZFJlc3BvbnNlEkEKDnBlcnNvbmFfcHJvbXB0GAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlBlcnNvbmFQcm9tcHRIAIgBAUIRCg9fcGVyc29uYV9wcm9tcHQiQAoaVXBkYXRlUGVyc29uYVByb21wdFJlcXVlc3QSFAoMY291bnNlbG9yX2lkGAEgASgJEgwKBGJvZHkYAiABKAkicwobVXBkYXRlUGVyc29uYVByb21wdFJlc3BvbnNlEkEKDnBlcnNvbmFfcHJvbXB0GAEgASgLMiQuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlBlcnNvbmFQcm9tcHRIAIgBAUIRCg9fcGVyc29uYV9wcm9tcHQiMwoZRmluZFRvbmVQcm9tcHRCeUlkUmVxdWVzdBIWCg50b25lX3Byb21wdF9pZBgBIAEoCSJpChpGaW5kVG9uZVByb21wdEJ5SWRSZXNwb25zZRI7Cgt0b25lX3Byb21wdBgBIAEoCzIhLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lUHJvbXB0SACIAQFCDgoMX3RvbmVfcHJvbXB0IjgKF1VwZGF0ZVRvbmVQcm9tcHRSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkSDAoEYm9keRgCIAEoCSJnChhVcGRhdGVUb25lUHJvbXB0UmVzcG9uc2USOwoLdG9uZV9wcm9tcHQYASABKAsyIS5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZVByb21wdEgAiAEBQg4KDF90b25lX3Byb21wdCJ/Ch1DcmVhdGVDb3Vuc2VsVGVjaG5pcXVlUmVxdWVzdBIMCgRuYW1lGAEgASgJEg8KB3RvbmVfaWQYAiABKAkSDwoHY29udGV4dBgDIAEoCRITCgtpbnN0cnVjdGlvbhgEIAEoCRIZChFtZXNzYWdlX3RocmVzaG9sZBgFIAEoBSJkCh5DcmVhdGVDb3Vuc2VsVGVjaG5pcXVlUmVzcG9uc2USQgoRY291bnNlbF90ZWNobmlxdWUYASABKAsyJy5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbFRlY2huaXF1ZSJJCiNGaW5kT3JkZXJlZENvdW5zZWxUZWNobmlxdWVzUmVxdWVzdBIiChpmaXJzdF9jb3Vuc2VsX3RlY2huaXF1ZV9pZBgBIAEoCSJrCiRGaW5kT3JkZXJlZENvdW5zZWxUZWNobmlxdWVzUmVzcG9uc2USQwoSY291bnNlbF90ZWNobmlxdWVzGAEgAygLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxUZWNobmlxdWUiPwofRmluZENvdW5zZWxUZWNobmlxdWVCeUlkUmVxdWVzdBIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgBIAEoCSKBAQogRmluZENvdW5zZWxUZWNobmlxdWVCeUlkUmVzcG9uc2USRwoRY291bnNlbF90ZWNobmlxdWUYASABKAsyJy5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbFRlY2huaXF1ZUgAiAEBQhQKEl9jb3Vuc2VsX3RlY2huaXF1ZSLbAQodVXBkYXRlQ291bnNlbFRlY2huaXF1ZVJlcXVlc3QSHAoUY291bnNlbF90ZWNobmlxdWVfaWQYASABKAkSEQoEbmFtZRgCIAEoCUgAiAEBEhQKB2NvbnRleHQYAyABKAlIAYgBARIYCgtpbnN0cnVjdGlvbhgEIAEoCUgCiAEBEh4KEW1lc3NhZ2VfdGhyZXNob2xkGAUgASgFSAOIAQFCBwoFX25hbWVCCgoIX2NvbnRleHRCDgoMX2luc3RydWN0aW9uQhQKEl9tZXNzYWdlX3RocmVzaG9sZCJlCh5VcGRhdGVDb3Vuc2VsVGVjaG5pcXVlUmVzcG9uc2USQwoSY291bnNlbF90ZWNobmlxdWVzGAEgAygLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxUZWNobmlxdWUiVQojU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZVJlcXVlc3QSDwoHdG9uZV9pZBgBIAEoCRIdChVjb3Vuc2VsX3RlY2huaXF1ZV9pZHMYAiADKAkiawokU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZVJlc3BvbnNlEkMKEmNvdW5zZWxfdGVjaG5pcXVlcxgBIAMoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2VsVGVjaG5pcXVlIloKIkZpbmRQcm9tcHRBY3RpdmF0ZUhpc3Rvcmllc1JlcXVlc3QSHgoRcHJvbXB0X3ZlcnNpb25faWQYASABKAlIAIgBAUIUChJfcHJvbXB0X3ZlcnNpb25faWQidgojRmluZFByb21wdEFjdGl2YXRlSGlzdG9yaWVzUmVzcG9uc2USTwoZcHJvbXB0X2FjdGl2YXRlX2hpc3RvcmllcxgBIAMoCzIsLmNvbS5oZWFybGVycy52MS5tb2RlbC5Qcm9tcHRBY3RpdmF0ZUhpc3Rvcnky0hQKFENvdW5zZWxQcm9tcHRTZXJ2aWNlEn0KEkZpbmRQcm9tcHRWZXJzaW9ucxIyLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRQcm9tcHRWZXJzaW9uc1JlcXVlc3QaMy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kUHJvbXB0VmVyc2lvbnNSZXNwb25zZRKGAQoVRmluZFByb21wdFZlcnNpb25CeUlkEjUuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFByb21wdFZlcnNpb25CeUlkUmVxdWVzdBo2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRQcm9tcHRWZXJzaW9uQnlJZFJlc3BvbnNlEoMBChRGaW5kVGVtcG9yYXJ5VmVyc2lvbhI0LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUZW1wb3JhcnlWZXJzaW9uUmVxdWVzdBo1LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUZW1wb3JhcnlWZXJzaW9uUmVzcG9uc2USegoRRmluZEFjdGl2ZVZlcnNpb24SMS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQWN0aXZlVmVyc2lvblJlcXVlc3QaMi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQWN0aXZlVmVyc2lvblJlc3BvbnNlEpIBChlMb2FkRXhpc3RpbmdQcm9tcHRWZXJzaW9uEjkuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuTG9hZEV4aXN0aW5nUHJvbXB0VmVyc2lvblJlcXVlc3QaOi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5Mb2FkRXhpc3RpbmdQcm9tcHRWZXJzaW9uUmVzcG9uc2USgwEKFFNhdmVUZW1wb3JhcnlWZXJzaW9uEjQuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuU2F2ZVRlbXBvcmFyeVZlcnNpb25SZXF1ZXN0GjUuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuU2F2ZVRlbXBvcmFyeVZlcnNpb25SZXNwb25zZRKAAQoTVXBkYXRlUHJvbXB0VmVyc2lvbhIzLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZVByb21wdFZlcnNpb25SZXF1ZXN0GjQuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlUHJvbXB0VmVyc2lvblJlc3BvbnNlEoYBChVBY3RpdmF0ZVByb21wdFZlcnNpb24SNS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5BY3RpdmF0ZVByb21wdFZlcnNpb25SZXF1ZXN0GjYuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQWN0aXZhdGVQcm9tcHRWZXJzaW9uUmVzcG9uc2USgwEKFERlbGV0ZVByb21wdFZlcnNpb25zEjQuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRGVsZXRlUHJvbXB0VmVyc2lvbnNSZXF1ZXN0GjUuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRGVsZXRlUHJvbXB0VmVyc2lvbnNSZXNwb25zZRKGAQoVRmluZFBlcnNvbmFQcm9tcHRCeUlkEjUuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFBlcnNvbmFQcm9tcHRCeUlkUmVxdWVzdBo2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRQZXJzb25hUHJvbXB0QnlJZFJlc3BvbnNlEoABChNVcGRhdGVQZXJzb25hUHJvbXB0EjMuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlUGVyc29uYVByb21wdFJlcXVlc3QaNC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVQZXJzb25hUHJvbXB0UmVzcG9uc2USfQoSRmluZFRvbmVQcm9tcHRCeUlkEjIuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFRvbmVQcm9tcHRCeUlkUmVxdWVzdBozLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lUHJvbXB0QnlJZFJlc3BvbnNlEncKEFVwZGF0ZVRvbmVQcm9tcHQSMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVUb25lUHJvbXB0UmVxdWVzdBoxLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZVRvbmVQcm9tcHRSZXNwb25zZRKJAQoWQ3JlYXRlQ291bnNlbFRlY2huaXF1ZRI2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkNyZWF0ZUNvdW5zZWxUZWNobmlxdWVSZXF1ZXN0GjcuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQ291bnNlbFRlY2huaXF1ZVJlc3BvbnNlEpsBChxGaW5kT3JkZXJlZENvdW5zZWxUZWNobmlxdWVzEjwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZE9yZGVyZWRDb3Vuc2VsVGVjaG5pcXVlc1JlcXVlc3QaPS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kT3JkZXJlZENvdW5zZWxUZWNobmlxdWVzUmVzcG9uc2USjwEKGEZpbmRDb3Vuc2VsVGVjaG5pcXVlQnlJZBI4LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRDb3Vuc2VsVGVjaG5pcXVlQnlJZFJlcXVlc3QaOS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbFRlY2huaXF1ZUJ5SWRSZXNwb25zZRKJAQoWVXBkYXRlQ291bnNlbFRlY2huaXF1ZRI2LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUNvdW5zZWxUZWNobmlxdWVSZXF1ZXN0GjcuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQ291bnNlbFRlY2huaXF1ZVJlc3BvbnNlEpsBChxTYXZlQ291bnNlbFRlY2huaXF1ZVNlcXVlbmNlEjwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuU2F2ZUNvdW5zZWxUZWNobmlxdWVTZXF1ZW5jZVJlcXVlc3QaPS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5TYXZlQ291bnNlbFRlY2huaXF1ZVNlcXVlbmNlUmVzcG9uc2USmAEKG0ZpbmRQcm9tcHRBY3RpdmF0ZUhpc3RvcmllcxI7LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRQcm9tcHRBY3RpdmF0ZUhpc3Rvcmllc1JlcXVlc3QaPC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kUHJvbXB0QWN0aXZhdGVIaXN0b3JpZXNSZXNwb25zZUKxAQobY29tLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlQhJDb3Vuc2VsUHJvbXB0UHJvdG9QAaICBENIVlOqAhdDb20uSGVhcmxlcnMuVjEuU2VydmljZcoCF0NvbVxIZWFybGVyc1xWMVxTZXJ2aWNl4gIjQ29tXEhlYXJsZXJzXFYxXFNlcnZpY2VcR1BCTWV0YWRhdGHqAhpDb206OkhlYXJsZXJzOjpWMTo6U2VydmljZWIGcHJvdG8z", [file_com_hearlers_v1_model_counsel_prompt]);
 
 /**
  * prompt version
@@ -24,6 +24,11 @@ export type FindPromptVersionsRequest = Message<"com.hearlers.v1.service.FindPro
    * @generated from field: optional string name = 1;
    */
   name?: string;
+
+  /**
+   * @generated from field: optional bool is_bookmarked = 2;
+   */
+  isBookmarked?: boolean;
 };
 
 /**
@@ -118,6 +123,36 @@ export const FindTemporaryVersionResponseSchema: GenMessage<FindTemporaryVersion
   messageDesc(file_com_hearlers_v1_service_counsel_prompt, 5);
 
 /**
+ * @generated from message com.hearlers.v1.service.FindActiveVersionRequest
+ */
+export type FindActiveVersionRequest = Message<"com.hearlers.v1.service.FindActiveVersionRequest"> & {
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.FindActiveVersionRequest.
+ * Use `create(FindActiveVersionRequestSchema)` to create a new message.
+ */
+export const FindActiveVersionRequestSchema: GenMessage<FindActiveVersionRequest> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 6);
+
+/**
+ * @generated from message com.hearlers.v1.service.FindActiveVersionResponse
+ */
+export type FindActiveVersionResponse = Message<"com.hearlers.v1.service.FindActiveVersionResponse"> & {
+  /**
+   * @generated from field: optional com.hearlers.v1.model.PromptVersion prompt_version = 1;
+   */
+  promptVersion?: PromptVersion;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.FindActiveVersionResponse.
+ * Use `create(FindActiveVersionResponseSchema)` to create a new message.
+ */
+export const FindActiveVersionResponseSchema: GenMessage<FindActiveVersionResponse> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 7);
+
+/**
  * 저장된 버전을 임시버전으로 복사
  *
  * @generated from message com.hearlers.v1.service.LoadExistingPromptVersionRequest
@@ -134,7 +169,7 @@ export type LoadExistingPromptVersionRequest = Message<"com.hearlers.v1.service.
  * Use `create(LoadExistingPromptVersionRequestSchema)` to create a new message.
  */
 export const LoadExistingPromptVersionRequestSchema: GenMessage<LoadExistingPromptVersionRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 6);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 8);
 
 /**
  * @generated from message com.hearlers.v1.service.LoadExistingPromptVersionResponse
@@ -151,7 +186,7 @@ export type LoadExistingPromptVersionResponse = Message<"com.hearlers.v1.service
  * Use `create(LoadExistingPromptVersionResponseSchema)` to create a new message.
  */
 export const LoadExistingPromptVersionResponseSchema: GenMessage<LoadExistingPromptVersionResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 7);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 9);
 
 /**
  * 임시버전 저장
@@ -168,6 +203,11 @@ export type SaveTemporaryVersionRequest = Message<"com.hearlers.v1.service.SaveT
    * @generated from field: string description = 2;
    */
   description: string;
+
+  /**
+   * @generated from field: bool is_bookmarked = 3;
+   */
+  isBookmarked: boolean;
 };
 
 /**
@@ -175,7 +215,7 @@ export type SaveTemporaryVersionRequest = Message<"com.hearlers.v1.service.SaveT
  * Use `create(SaveTemporaryVersionRequestSchema)` to create a new message.
  */
 export const SaveTemporaryVersionRequestSchema: GenMessage<SaveTemporaryVersionRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 8);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 10);
 
 /**
  * @generated from message com.hearlers.v1.service.SaveTemporaryVersionResponse
@@ -192,7 +232,58 @@ export type SaveTemporaryVersionResponse = Message<"com.hearlers.v1.service.Save
  * Use `create(SaveTemporaryVersionResponseSchema)` to create a new message.
  */
 export const SaveTemporaryVersionResponseSchema: GenMessage<SaveTemporaryVersionResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 9);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 11);
+
+/**
+ * 버전 수정
+ *
+ * @generated from message com.hearlers.v1.service.UpdatePromptVersionRequest
+ */
+export type UpdatePromptVersionRequest = Message<"com.hearlers.v1.service.UpdatePromptVersionRequest"> & {
+  /**
+   * @generated from field: string prompt_version_id = 1;
+   */
+  promptVersionId: string;
+
+  /**
+   * @generated from field: optional string name = 2;
+   */
+  name?: string;
+
+  /**
+   * @generated from field: optional string description = 3;
+   */
+  description?: string;
+
+  /**
+   * @generated from field: optional bool is_bookmarked = 4;
+   */
+  isBookmarked?: boolean;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.UpdatePromptVersionRequest.
+ * Use `create(UpdatePromptVersionRequestSchema)` to create a new message.
+ */
+export const UpdatePromptVersionRequestSchema: GenMessage<UpdatePromptVersionRequest> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 12);
+
+/**
+ * @generated from message com.hearlers.v1.service.UpdatePromptVersionResponse
+ */
+export type UpdatePromptVersionResponse = Message<"com.hearlers.v1.service.UpdatePromptVersionResponse"> & {
+  /**
+   * @generated from field: optional com.hearlers.v1.model.PromptVersion prompt_version = 1;
+   */
+  promptVersion?: PromptVersion;
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.UpdatePromptVersionResponse.
+ * Use `create(UpdatePromptVersionResponseSchema)` to create a new message.
+ */
+export const UpdatePromptVersionResponseSchema: GenMessage<UpdatePromptVersionResponse> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 13);
 
 /**
  * 저장된 버전 활성화(서비스 반영)
@@ -213,7 +304,7 @@ export type ActivatePromptVersionRequest = Message<"com.hearlers.v1.service.Acti
  * Use `create(ActivatePromptVersionRequestSchema)` to create a new message.
  */
 export const ActivatePromptVersionRequestSchema: GenMessage<ActivatePromptVersionRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 10);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 14);
 
 /**
  * @generated from message com.hearlers.v1.service.ActivatePromptVersionResponse
@@ -230,7 +321,39 @@ export type ActivatePromptVersionResponse = Message<"com.hearlers.v1.service.Act
  * Use `create(ActivatePromptVersionResponseSchema)` to create a new message.
  */
 export const ActivatePromptVersionResponseSchema: GenMessage<ActivatePromptVersionResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 11);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 15);
+
+/**
+ * 삭제
+ *
+ * @generated from message com.hearlers.v1.service.DeletePromptVersionsRequest
+ */
+export type DeletePromptVersionsRequest = Message<"com.hearlers.v1.service.DeletePromptVersionsRequest"> & {
+  /**
+   * @generated from field: repeated string prompt_version_ids = 1;
+   */
+  promptVersionIds: string[];
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.DeletePromptVersionsRequest.
+ * Use `create(DeletePromptVersionsRequestSchema)` to create a new message.
+ */
+export const DeletePromptVersionsRequestSchema: GenMessage<DeletePromptVersionsRequest> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 16);
+
+/**
+ * @generated from message com.hearlers.v1.service.DeletePromptVersionsResponse
+ */
+export type DeletePromptVersionsResponse = Message<"com.hearlers.v1.service.DeletePromptVersionsResponse"> & {
+};
+
+/**
+ * Describes the message com.hearlers.v1.service.DeletePromptVersionsResponse.
+ * Use `create(DeletePromptVersionsResponseSchema)` to create a new message.
+ */
+export const DeletePromptVersionsResponseSchema: GenMessage<DeletePromptVersionsResponse> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 17);
 
 /**
  * persona prompt
@@ -250,7 +373,7 @@ export type FindPersonaPromptByIdRequest = Message<"com.hearlers.v1.service.Find
  * Use `create(FindPersonaPromptByIdRequestSchema)` to create a new message.
  */
 export const FindPersonaPromptByIdRequestSchema: GenMessage<FindPersonaPromptByIdRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 12);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 18);
 
 /**
  * @generated from message com.hearlers.v1.service.FindPersonaPromptByIdResponse
@@ -267,7 +390,7 @@ export type FindPersonaPromptByIdResponse = Message<"com.hearlers.v1.service.Fin
  * Use `create(FindPersonaPromptByIdResponseSchema)` to create a new message.
  */
 export const FindPersonaPromptByIdResponseSchema: GenMessage<FindPersonaPromptByIdResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 13);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 19);
 
 /**
  * 임시버전에서 수정
@@ -291,7 +414,7 @@ export type UpdatePersonaPromptRequest = Message<"com.hearlers.v1.service.Update
  * Use `create(UpdatePersonaPromptRequestSchema)` to create a new message.
  */
 export const UpdatePersonaPromptRequestSchema: GenMessage<UpdatePersonaPromptRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 14);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 20);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdatePersonaPromptResponse
@@ -308,7 +431,7 @@ export type UpdatePersonaPromptResponse = Message<"com.hearlers.v1.service.Updat
  * Use `create(UpdatePersonaPromptResponseSchema)` to create a new message.
  */
 export const UpdatePersonaPromptResponseSchema: GenMessage<UpdatePersonaPromptResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 15);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 21);
 
 /**
  * tone prompt
@@ -328,7 +451,7 @@ export type FindTonePromptByIdRequest = Message<"com.hearlers.v1.service.FindTon
  * Use `create(FindTonePromptByIdRequestSchema)` to create a new message.
  */
 export const FindTonePromptByIdRequestSchema: GenMessage<FindTonePromptByIdRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 16);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 22);
 
 /**
  * @generated from message com.hearlers.v1.service.FindTonePromptByIdResponse
@@ -345,7 +468,7 @@ export type FindTonePromptByIdResponse = Message<"com.hearlers.v1.service.FindTo
  * Use `create(FindTonePromptByIdResponseSchema)` to create a new message.
  */
 export const FindTonePromptByIdResponseSchema: GenMessage<FindTonePromptByIdResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 17);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 23);
 
 /**
  * 임시버전에서 수정
@@ -369,7 +492,7 @@ export type UpdateTonePromptRequest = Message<"com.hearlers.v1.service.UpdateTon
  * Use `create(UpdateTonePromptRequestSchema)` to create a new message.
  */
 export const UpdateTonePromptRequestSchema: GenMessage<UpdateTonePromptRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 18);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 24);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateTonePromptResponse
@@ -386,7 +509,7 @@ export type UpdateTonePromptResponse = Message<"com.hearlers.v1.service.UpdateTo
  * Use `create(UpdateTonePromptResponseSchema)` to create a new message.
  */
 export const UpdateTonePromptResponseSchema: GenMessage<UpdateTonePromptResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 19);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 25);
 
 /**
  * counsel technique
@@ -428,7 +551,7 @@ export type CreateCounselTechniqueRequest = Message<"com.hearlers.v1.service.Cre
  * Use `create(CreateCounselTechniqueRequestSchema)` to create a new message.
  */
 export const CreateCounselTechniqueRequestSchema: GenMessage<CreateCounselTechniqueRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 20);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 26);
 
 /**
  * @generated from message com.hearlers.v1.service.CreateCounselTechniqueResponse
@@ -445,7 +568,7 @@ export type CreateCounselTechniqueResponse = Message<"com.hearlers.v1.service.Cr
  * Use `create(CreateCounselTechniqueResponseSchema)` to create a new message.
  */
 export const CreateCounselTechniqueResponseSchema: GenMessage<CreateCounselTechniqueResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 21);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 27);
 
 /**
  * @generated from message com.hearlers.v1.service.FindOrderedCounselTechniquesRequest
@@ -462,7 +585,7 @@ export type FindOrderedCounselTechniquesRequest = Message<"com.hearlers.v1.servi
  * Use `create(FindOrderedCounselTechniquesRequestSchema)` to create a new message.
  */
 export const FindOrderedCounselTechniquesRequestSchema: GenMessage<FindOrderedCounselTechniquesRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 22);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 28);
 
 /**
  * @generated from message com.hearlers.v1.service.FindOrderedCounselTechniquesResponse
@@ -479,7 +602,7 @@ export type FindOrderedCounselTechniquesResponse = Message<"com.hearlers.v1.serv
  * Use `create(FindOrderedCounselTechniquesResponseSchema)` to create a new message.
  */
 export const FindOrderedCounselTechniquesResponseSchema: GenMessage<FindOrderedCounselTechniquesResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 23);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 29);
 
 /**
  * @generated from message com.hearlers.v1.service.FindCounselTechniqueByIdRequest
@@ -496,7 +619,7 @@ export type FindCounselTechniqueByIdRequest = Message<"com.hearlers.v1.service.F
  * Use `create(FindCounselTechniqueByIdRequestSchema)` to create a new message.
  */
 export const FindCounselTechniqueByIdRequestSchema: GenMessage<FindCounselTechniqueByIdRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 24);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 30);
 
 /**
  * @generated from message com.hearlers.v1.service.FindCounselTechniqueByIdResponse
@@ -513,7 +636,7 @@ export type FindCounselTechniqueByIdResponse = Message<"com.hearlers.v1.service.
  * Use `create(FindCounselTechniqueByIdResponseSchema)` to create a new message.
  */
 export const FindCounselTechniqueByIdResponseSchema: GenMessage<FindCounselTechniqueByIdResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 25);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 31);
 
 /**
  * 임시버전에서 수정
@@ -554,7 +677,7 @@ export type UpdateCounselTechniqueRequest = Message<"com.hearlers.v1.service.Upd
  * Use `create(UpdateCounselTechniqueRequestSchema)` to create a new message.
  */
 export const UpdateCounselTechniqueRequestSchema: GenMessage<UpdateCounselTechniqueRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 26);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 32);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateCounselTechniqueResponse
@@ -571,7 +694,7 @@ export type UpdateCounselTechniqueResponse = Message<"com.hearlers.v1.service.Up
  * Use `create(UpdateCounselTechniqueResponseSchema)` to create a new message.
  */
 export const UpdateCounselTechniqueResponseSchema: GenMessage<UpdateCounselTechniqueResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 27);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 33);
 
 /**
  * 임시버전에서 수정
@@ -597,7 +720,7 @@ export type SaveCounselTechniqueSequenceRequest = Message<"com.hearlers.v1.servi
  * Use `create(SaveCounselTechniqueSequenceRequestSchema)` to create a new message.
  */
 export const SaveCounselTechniqueSequenceRequestSchema: GenMessage<SaveCounselTechniqueSequenceRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 28);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 34);
 
 /**
  * @generated from message com.hearlers.v1.service.SaveCounselTechniqueSequenceResponse
@@ -614,7 +737,7 @@ export type SaveCounselTechniqueSequenceResponse = Message<"com.hearlers.v1.serv
  * Use `create(SaveCounselTechniqueSequenceResponseSchema)` to create a new message.
  */
 export const SaveCounselTechniqueSequenceResponseSchema: GenMessage<SaveCounselTechniqueSequenceResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 29);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 35);
 
 /**
  * prompt activate history
@@ -633,7 +756,7 @@ export type FindPromptActivateHistoriesRequest = Message<"com.hearlers.v1.servic
  * Use `create(FindPromptActivateHistoriesRequestSchema)` to create a new message.
  */
 export const FindPromptActivateHistoriesRequestSchema: GenMessage<FindPromptActivateHistoriesRequest> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 30);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 36);
 
 /**
  * @generated from message com.hearlers.v1.service.FindPromptActivateHistoriesResponse
@@ -650,7 +773,7 @@ export type FindPromptActivateHistoriesResponse = Message<"com.hearlers.v1.servi
  * Use `create(FindPromptActivateHistoriesResponseSchema)` to create a new message.
  */
 export const FindPromptActivateHistoriesResponseSchema: GenMessage<FindPromptActivateHistoriesResponse> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 31);
+  messageDesc(file_com_hearlers_v1_service_counsel_prompt, 37);
 
 /**
  * @generated from service com.hearlers.v1.service.CounselPromptService
@@ -683,6 +806,14 @@ export const CounselPromptService: GenService<{
     output: typeof FindTemporaryVersionResponseSchema;
   },
   /**
+   * @generated from rpc com.hearlers.v1.service.CounselPromptService.FindActiveVersion
+   */
+  findActiveVersion: {
+    methodKind: "unary";
+    input: typeof FindActiveVersionRequestSchema;
+    output: typeof FindActiveVersionResponseSchema;
+  },
+  /**
    * @generated from rpc com.hearlers.v1.service.CounselPromptService.LoadExistingPromptVersion
    */
   loadExistingPromptVersion: {
@@ -699,12 +830,28 @@ export const CounselPromptService: GenService<{
     output: typeof SaveTemporaryVersionResponseSchema;
   },
   /**
+   * @generated from rpc com.hearlers.v1.service.CounselPromptService.UpdatePromptVersion
+   */
+  updatePromptVersion: {
+    methodKind: "unary";
+    input: typeof UpdatePromptVersionRequestSchema;
+    output: typeof UpdatePromptVersionResponseSchema;
+  },
+  /**
    * @generated from rpc com.hearlers.v1.service.CounselPromptService.ActivatePromptVersion
    */
   activatePromptVersion: {
     methodKind: "unary";
     input: typeof ActivatePromptVersionRequestSchema;
     output: typeof ActivatePromptVersionResponseSchema;
+  },
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselPromptService.DeletePromptVersions
+   */
+  deletePromptVersions: {
+    methodKind: "unary";
+    input: typeof DeletePromptVersionsRequestSchema;
+    output: typeof DeletePromptVersionsResponseSchema;
   },
   /**
    * persona prompt

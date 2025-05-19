@@ -14,6 +14,7 @@ export class PromptVersionsFacade {
   constructor(
     private readonly promptVersionsService: PromptVersionsService,
     private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase,
+    private readonly promptActivateHistoryService: PromptActivateHistoryService,
   ) {}
   async findPromptVersions(params: { name?: string; isBookmarked?: boolean }): Promise<PromptVersions[]> {
     const { name, isBookmarked } = params;
@@ -126,21 +127,17 @@ export class PromptVersionsFacade {
     return promptVersion;
   }
 
-  // 버전 수정
+  // 버전 삭제
   @Transactional()
-  async updatePromptVersion(params: {
-    promptVersionId: UniqueEntityId;
-    name?: string;
-    description?: string;
-    isBookmarked?: boolean;
-  }): Promise<PromptVersions> {
-    const { promptVersionId, name, description, isBookmarked } = params;
-    const promptVersion = await this.promptVersionsService.getOne({ promptVersionId });
-    const updateResult = promptVersion.updateBasicInfo({ name, description, isBookmarked });
-    if (updateResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateResult.error as string);
+  async deletePromptVersions(params: { promptVersionIds: UniqueEntityId[] }): Promise<void> {
+    const { promptVersionIds } = params;
+    const promptVersions = await this.promptVersionsService.getMany({ ids: promptVersionIds });
+    for (const promptVersion of promptVersions) {
+      const deleteResult = promptVersion.delete();
+      if (deleteResult.isFailure) {
+        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, deleteResult.error as string);
+      }
     }
-    await this.promptVersionsService.update(promptVersion);
-    return promptVersion;
+    await this.promptVersionsService.updateMany(promptVersions);
   }
 }

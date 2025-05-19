@@ -19,6 +19,10 @@ export class PromptVersionsService {
     return this.promptVersionsPersister.update(promptVersion);
   }
 
+  async updateMany(promptVersions: PromptVersions[]): Promise<PromptVersions[]> {
+    return this.promptVersionsPersister.updateMany(promptVersions);
+  }
+
   async findOne(props: { promptVersionId: UniqueEntityId }): Promise<PromptVersions | null> {
     return this.promptVersionsReader.findOne(props);
   }
@@ -33,6 +37,23 @@ export class PromptVersionsService {
 
   async findMany(props: PromptVersionsCriteriaFindMany): Promise<PromptVersions[]> {
     return this.promptVersionsReader.findMany(props);
+  }
+
+  async getMany(props: PromptVersionsCriteriaFindMany): Promise<PromptVersions[]> {
+    const promptVersions = await this.findMany(props);
+    // ID 값들로만 조회할 때 존재여부 검증
+    if (
+      props.ids !== undefined &&
+      props.name === undefined &&
+      props.isActive === undefined &&
+      props.isTemporary === undefined &&
+      props.isBookmarked === undefined
+    ) {
+      if (promptVersions.length !== new Set(props.ids).size) {
+        throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PromptVersion not found");
+      }
+    }
+    return promptVersions;
   }
 
   async findActiveOne(): Promise<PromptVersions | null> {

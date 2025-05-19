@@ -26,6 +26,7 @@ export class PromptVersionEntity extends CoreEntity {
     type: "boolean",
     name: "is_active",
     comment: "활성 상태",
+    default: false,
   })
   isActive: boolean;
 
@@ -33,8 +34,17 @@ export class PromptVersionEntity extends CoreEntity {
     type: "boolean",
     name: "is_temporary",
     comment: "임시 상태",
+    default: true,
   })
   isTemporary: boolean;
+
+  @Column({
+    type: "boolean",
+    name: "is_bookmarked",
+    comment: "북마크 상태",
+    default: false,
+  })
+  isBookmarked: boolean;
 
   @OneToMany(() => CounselorScopedPromptEntity, (counselorScopedPrompt) => counselorScopedPrompt.promptVersion, {
     cascade: true,

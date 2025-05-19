@@ -13,8 +13,12 @@ import type { Message } from "@bufbuild/protobuf";
 /**
  * Describes the file com/hearlers/v1/service/counselor.proto.
  */
-export const file_com_hearlers_v1_service_counselor: GenFile = /*@__PURE__*/
-  fileDesc("Cidjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2Vsb3IucHJvdG8SF2NvbS5oZWFybGVycy52MS5zZXJ2aWNlIqUBChZDcmVhdGVDb3Vuc2Vsb3JSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIVCg1wcm9maWxlX2ltYWdlGAQgASgJEkAKEGNvdW5zZWxvcl9nZW5kZXIYBSABKA4yJi5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yR2VuZGVyIk4KF0NyZWF0ZUNvdW5zZWxvclJlc3BvbnNlEjMKCWNvdW5zZWxvchgBIAEoCzIgLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3IiOQoVRmluZENvdW5zZWxvcnNSZXF1ZXN0EhQKB3RvbmVfaWQYASABKAlIAIgBAUIKCghfdG9uZV9pZCJOChZGaW5kQ291bnNlbG9yc1Jlc3BvbnNlEjQKCmNvdW5zZWxvcnMYASADKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yIjAKGEZpbmRDb3Vuc2Vsb3JCeUlkUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkiYwoZRmluZENvdW5zZWxvckJ5SWRSZXNwb25zZRI4Cgljb3Vuc2Vsb3IYASABKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9ySACIAQFCDAoKX2NvdW5zZWxvciKgAgoWVXBkYXRlQ291bnNlbG9yUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkSFAoHdG9uZV9pZBgCIAEoCUgAiAEBEhEKBG5hbWUYAyABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgEIAEoCUgCiAEBEhoKDXByb2ZpbGVfaW1hZ2UYBSABKAlIA4gBARJFChBjb3Vuc2Vsb3JfZ2VuZGVyGAYgASgOMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvckdlbmRlckgEiAEBQgoKCF90b25lX2lkQgcKBV9uYW1lQg4KDF9kZXNjcmlwdGlvbkIQCg5fcHJvZmlsZV9pbWFnZUITChFfY291bnNlbG9yX2dlbmRlciJOChdVcGRhdGVDb3Vuc2Vsb3JSZXNwb25zZRIzCgljb3Vuc2Vsb3IYASABKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yIm4KIEdlbmVyYXRlQ291bnNlbG9ySW1hZ2VVcmxSZXF1ZXN0EhQKDGNvdW5zZWxvcl9pZBgBIAEoCRI0CglleHRlbnNpb24YAiABKA4yIS5jb20uaGVhcmxlcnMudjEuY29tbW9uLkV4dGVuc2lvbiJgCiFHZW5lcmF0ZUNvdW5zZWxvckltYWdlVXJsUmVzcG9uc2USOwoNcHJlc2lnbmVkX3VybBgBIAEoCzIkLmNvbS5oZWFybGVycy52MS5jb21tb24uUHJlc2lnbmVkVXJsInEKE0NyZWF0ZUJ1YmJsZVJlcXVlc3QSFAoMY291bnNlbG9yX2lkGAEgASgJEhAKCHF1ZXN0aW9uGAIgASgJEhgKEHJlc3BvbnNlX29wdGlvbjEYAyABKAkSGAoQcmVzcG9uc2Vfb3B0aW9uMhgEIAEoCSJFChRDcmVhdGVCdWJibGVSZXNwb25zZRItCgZidWJibGUYASABKAsyHS5jb20uaGVhcmxlcnMudjEubW9kZWwuQnViYmxlIioKEkZpbmRCdWJibGVzUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkiRQoTRmluZEJ1YmJsZXNSZXNwb25zZRIuCgdidWJibGVzGAEgAygLMh0uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkJ1YmJsZSIqChVGaW5kQnViYmxlQnlJZFJlcXVlc3QSEQoJYnViYmxlX2lkGAEgASgJIkcKFkZpbmRCdWJibGVCeUlkUmVzcG9uc2USLQoGYnViYmxlGAEgASgLMh0uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkJ1YmJsZSIvChdGaW5kUmFuZG9tQnViYmxlUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkiSQoYRmluZFJhbmRvbUJ1YmJsZVJlc3BvbnNlEi0KBmJ1YmJsZRgBIAEoCzIdLmNvbS5oZWFybGVycy52MS5tb2RlbC5CdWJibGUitAEKE1VwZGF0ZUJ1YmJsZVJlcXVlc3QSEQoJYnViYmxlX2lkGAEgASgJEhUKCHF1ZXN0aW9uGAIgASgJSACIAQESHQoQcmVzcG9uc2Vfb3B0aW9uMRgDIAEoCUgBiAEBEh0KEHJlc3BvbnNlX29wdGlvbjIYBCABKAlIAogBAUILCglfcXVlc3Rpb25CEwoRX3Jlc3BvbnNlX29wdGlvbjFCEwoRX3Jlc3BvbnNlX29wdGlvbjIiRQoUVXBkYXRlQnViYmxlUmVzcG9uc2USLQoGYnViYmxlGAEgASgLMh0uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkJ1YmJsZSIoChNEZWxldGVCdWJibGVSZXF1ZXN0EhEKCWJ1YmJsZV9pZBgBIAEoCSInChREZWxldGVCdWJibGVSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIr4BChRDcmVhdGVFcGlzb2RlUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkSDQoFdGl0bGUYAiABKAkSIgoacmVxdWlyZWRfcmFwcG9ydF90aHJlc2hvbGQYAyABKAUSFAoMaXNfdGVtcG9yYXJ5GAQgASgIEkcKCmN1dF9zY2VuZXMYBSADKAsyMy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5TYXZlRXBpc29kZUN1dFNjZW5lUmVxdWVzdCJIChVDcmVhdGVFcGlzb2RlUmVzcG9uc2USLwoHZXBpc29kZRgBIAEoCzIeLmNvbS5oZWFybGVycy52MS5tb2RlbC5FcGlzb2RlIisKE0ZpbmRFcGlzb2Rlc1JlcXVlc3QSFAoMY291bnNlbG9yX2lkGAEgASgJIkgKFEZpbmRFcGlzb2Rlc1Jlc3BvbnNlEjAKCGVwaXNvZGVzGAEgAygLMh4uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkVwaXNvZGUiLAoWRmluZEVwaXNvZGVCeUlkUmVxdWVzdBISCgplcGlzb2RlX2lkGAEgASgJIkoKF0ZpbmRFcGlzb2RlQnlJZFJlc3BvbnNlEi8KB2VwaXNvZGUYASABKAsyHi5jb20uaGVhcmxlcnMudjEubW9kZWwuRXBpc29kZSKnAgoUVXBkYXRlRXBpc29kZVJlcXVlc3QSEgoKZXBpc29kZV9pZBgBIAEoCRISCgV0aXRsZRgCIAEoCUgAiAEBEhQKB2NvbnRlbnQYAyABKAlIAYgBARInChpyZXF1aXJlZF9yYXBwb3J0X3RocmVzaG9sZBgEIAEoBUgCiAEBEhkKDGlzX3RlbXBvcmFyeRgFIAEoCEgDiAEBEkcKCmN1dF9zY2VuZXMYBiADKAsyMy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5TYXZlRXBpc29kZUN1dFNjZW5lUmVxdWVzdEIICgZfdGl0bGVCCgoIX2NvbnRlbnRCHQobX3JlcXVpcmVkX3JhcHBvcnRfdGhyZXNob2xkQg8KDV9pc190ZW1wb3JhcnkiSAoVVXBkYXRlRXBpc29kZVJlc3BvbnNlEi8KB2VwaXNvZGUYASABKAsyHi5jb20uaGVhcmxlcnMudjEubW9kZWwuRXBpc29kZSKOAQoaU2F2ZUVwaXNvZGVDdXRTY2VuZVJlcXVlc3QSDwoCaWQYASABKAlIAIgBARISCgplcGlzb2RlX2lkGAIgASgJEg8KB3NwZWFrZXIYAyABKAkSDwoHY29udGVudBgEIAEoCRITCgtvcmRlcl9pbmRleBgFIAEoBRINCgVpbWFnZRgGIAEoCUIFCgNfaWQiawofR2VuZXJhdGVDdXRTY2VuZUltYWdlVXJsUmVxdWVzdBISCgplcGlzb2RlX2lkGAEgASgJEjQKCWV4dGVuc2lvbhgCIAEoDjIhLmNvbS5oZWFybGVycy52MS5jb21tb24uRXh0ZW5zaW9uIl8KIEdlbmVyYXRlQ3V0U2NlbmVJbWFnZVVybFJlc3BvbnNlEjsKDXByZXNpZ25lZF91cmwYASABKAsyJC5jb20uaGVhcmxlcnMudjEuY29tbW9uLlByZXNpZ25lZFVybCI2ChFDcmVhdGVUb25lUmVxdWVzdBIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJIj8KEkNyZWF0ZVRvbmVSZXNwb25zZRIpCgR0b25lGAEgASgLMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlRvbmUiLgoQRmluZFRvbmVzUmVxdWVzdBIRCgRuYW1lGAEgASgJSACIAQFCBwoFX25hbWUiPwoRRmluZFRvbmVzUmVzcG9uc2USKgoFdG9uZXMYASADKAsyGy5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZSImChNGaW5kVG9uZUJ5SWRSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkiTwoURmluZFRvbmVCeUlkUmVzcG9uc2USLgoEdG9uZRgBIAEoCzIbLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lSACIAQFCBwoFX3RvbmUiagoRVXBkYXRlVG9uZVJlcXVlc3QSDwoHdG9uZV9pZBgBIAEoCRIRCgRuYW1lGAIgASgJSACIAQESGAoLZGVzY3JpcHRpb24YAyABKAlIAYgBAUIHCgVfbmFtZUIOCgxfZGVzY3JpcHRpb24iPwoSVXBkYXRlVG9uZVJlc3BvbnNlEikKBHRvbmUYASABKAsyGy5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZTKTEgoQQ291bnNlbG9yU2VydmljZRJ0Cg9DcmVhdGVDb3Vuc2Vsb3ISLy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb3Vuc2Vsb3JSZXF1ZXN0GjAuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQ291bnNlbG9yUmVzcG9uc2UScQoORmluZENvdW5zZWxvcnMSLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbG9yc1JlcXVlc3QaLy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbG9yc1Jlc3BvbnNlEnoKEUZpbmRDb3Vuc2Vsb3JCeUlkEjEuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZENvdW5zZWxvckJ5SWRSZXF1ZXN0GjIuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZENvdW5zZWxvckJ5SWRSZXNwb25zZRJ0Cg9VcGRhdGVDb3Vuc2Vsb3ISLy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVDb3Vuc2Vsb3JSZXF1ZXN0GjAuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQ291bnNlbG9yUmVzcG9uc2USkgEKGUdlbmVyYXRlQ291bnNlbG9ySW1hZ2VVcmwSOS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5HZW5lcmF0ZUNvdW5zZWxvckltYWdlVXJsUmVxdWVzdBo6LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdlbmVyYXRlQ291bnNlbG9ySW1hZ2VVcmxSZXNwb25zZRJrCgxDcmVhdGVCdWJibGUSLC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVCdWJibGVSZXF1ZXN0Gi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQnViYmxlUmVzcG9uc2USaAoLRmluZEJ1YmJsZXMSKy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQnViYmxlc1JlcXVlc3QaLC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQnViYmxlc1Jlc3BvbnNlEnEKDkZpbmRCdWJibGVCeUlkEi4uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZEJ1YmJsZUJ5SWRSZXF1ZXN0Gi8uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZEJ1YmJsZUJ5SWRSZXNwb25zZRJ3ChBGaW5kUmFuZG9tQnViYmxlEjAuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFJhbmRvbUJ1YmJsZVJlcXVlc3QaMS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kUmFuZG9tQnViYmxlUmVzcG9uc2USawoMVXBkYXRlQnViYmxlEiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQnViYmxlUmVxdWVzdBotLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUJ1YmJsZVJlc3BvbnNlEmsKDERlbGV0ZUJ1YmJsZRIsLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkRlbGV0ZUJ1YmJsZVJlcXVlc3QaLS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5EZWxldGVCdWJibGVSZXNwb25zZRJuCg1DcmVhdGVFcGlzb2RlEi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlRXBpc29kZVJlcXVlc3QaLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVFcGlzb2RlUmVzcG9uc2USawoMRmluZEVwaXNvZGVzEiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZEVwaXNvZGVzUmVxdWVzdBotLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRFcGlzb2Rlc1Jlc3BvbnNlEnQKD0ZpbmRFcGlzb2RlQnlJZBIvLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRFcGlzb2RlQnlJZFJlcXVlc3QaMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kRXBpc29kZUJ5SWRSZXNwb25zZRJuCg1VcGRhdGVFcGlzb2RlEi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlRXBpc29kZVJlcXVlc3QaLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVFcGlzb2RlUmVzcG9uc2USjwEKGEdlbmVyYXRlQ3V0U2NlbmVJbWFnZVVybBI4LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdlbmVyYXRlQ3V0U2NlbmVJbWFnZVVybFJlcXVlc3QaOS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5HZW5lcmF0ZUN1dFNjZW5lSW1hZ2VVcmxSZXNwb25zZRJlCgpDcmVhdGVUb25lEiouY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlVG9uZVJlcXVlc3QaKy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVUb25lUmVzcG9uc2USYgoJRmluZFRvbmVzEikuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFRvbmVzUmVxdWVzdBoqLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lc1Jlc3BvbnNlEmsKDEZpbmRUb25lQnlJZBIsLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lQnlJZFJlcXVlc3QaLS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kVG9uZUJ5SWRSZXNwb25zZRJlCgpVcGRhdGVUb25lEiouY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlVG9uZVJlcXVlc3QaKy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVUb25lUmVzcG9uc2VCrQEKG2NvbS5jb20uaGVhcmxlcnMudjEuc2VydmljZUIOQ291bnNlbG9yUHJvdG9QAaICBENIVlOqAhdDb20uSGVhcmxlcnMuVjEuU2VydmljZcoCF0NvbVxIZWFybGVyc1xWMVxTZXJ2aWNl4gIjQ29tXEhlYXJsZXJzXFYxXFNlcnZpY2VcR1BCTWV0YWRhdGHqAhpDb206OkhlYXJsZXJzOjpWMTo6U2VydmljZWIGcHJvdG8z", [file_com_hearlers_v1_model_counselor, file_com_hearlers_v1_common_presigned_url]);
+export const file_com_hearlers_v1_service_counselor: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "Cidjb20vaGVhcmxlcnMvdjEvc2VydmljZS9jb3Vuc2Vsb3IucHJvdG8SF2NvbS5oZWFybGVycy52MS5zZXJ2aWNlIqUBChZDcmVhdGVDb3Vuc2Vsb3JSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIVCg1wcm9maWxlX2ltYWdlGAQgASgJEkAKEGNvdW5zZWxvcl9nZW5kZXIYBSABKA4yJi5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yR2VuZGVyIk4KF0NyZWF0ZUNvdW5zZWxvclJlc3BvbnNlEjMKCWNvdW5zZWxvchgBIAEoCzIgLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3IiOQoVRmluZENvdW5zZWxvcnNSZXF1ZXN0EhQKB3RvbmVfaWQYASABKAlIAIgBAUIKCghfdG9uZV9pZCJOChZGaW5kQ291bnNlbG9yc1Jlc3BvbnNlEjQKCmNvdW5zZWxvcnMYASADKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yIjAKGEZpbmRDb3Vuc2Vsb3JCeUlkUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkiYwoZRmluZENvdW5zZWxvckJ5SWRSZXNwb25zZRI4Cgljb3Vuc2Vsb3IYASABKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9ySACIAQFCDAoKX2NvdW5zZWxvciKgAgoWVXBkYXRlQ291bnNlbG9yUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkSFAoHdG9uZV9pZBgCIAEoCUgAiAEBEhEKBG5hbWUYAyABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgEIAEoCUgCiAEBEhoKDXByb2ZpbGVfaW1hZ2UYBSABKAlIA4gBARJFChBjb3Vuc2Vsb3JfZ2VuZGVyGAYgASgOMiYuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvckdlbmRlckgEiAEBQgoKCF90b25lX2lkQgcKBV9uYW1lQg4KDF9kZXNjcmlwdGlvbkIQCg5fcHJvZmlsZV9pbWFnZUITChFfY291bnNlbG9yX2dlbmRlciJOChdVcGRhdGVDb3Vuc2Vsb3JSZXNwb25zZRIzCgljb3Vuc2Vsb3IYASABKAsyIC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yIm4KIEdlbmVyYXRlQ291bnNlbG9ySW1hZ2VVcmxSZXF1ZXN0EhQKDGNvdW5zZWxvcl9pZBgBIAEoCRI0CglleHRlbnNpb24YAiABKA4yIS5jb20uaGVhcmxlcnMudjEuY29tbW9uLkV4dGVuc2lvbiJgCiFHZW5lcmF0ZUNvdW5zZWxvckltYWdlVXJsUmVzcG9uc2USOwoNcHJlc2lnbmVkX3VybBgBIAEoCzIkLmNvbS5oZWFybGVycy52MS5jb21tb24uUHJlc2lnbmVkVXJsInEKE0NyZWF0ZUJ1YmJsZVJlcXVlc3QSFAoMY291bnNlbG9yX2lkGAEgASgJEhAKCHF1ZXN0aW9uGAIgASgJEhgKEHJlc3BvbnNlX29wdGlvbjEYAyABKAkSGAoQcmVzcG9uc2Vfb3B0aW9uMhgEIAEoCSJFChRDcmVhdGVCdWJibGVSZXNwb25zZRItCgZidWJibGUYASABKAsyHS5jb20uaGVhcmxlcnMudjEubW9kZWwuQnViYmxlIioKEkZpbmRCdWJibGVzUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkiRQoTRmluZEJ1YmJsZXNSZXNwb25zZRIuCgdidWJibGVzGAEgAygLMh0uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkJ1YmJsZSJAChVGaW5kQnViYmxlQnlJZFJlcXVlc3QSEQoJYnViYmxlX2lkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCSJHChZGaW5kQnViYmxlQnlJZFJlc3BvbnNlEi0KBmJ1YmJsZRgBIAEoCzIdLmNvbS5oZWFybGVycy52MS5tb2RlbC5CdWJibGUiLwoXRmluZFJhbmRvbUJ1YmJsZVJlcXVlc3QSFAoMY291bnNlbG9yX2lkGAEgASgJIkkKGEZpbmRSYW5kb21CdWJibGVSZXNwb25zZRItCgZidWJibGUYASABKAsyHS5jb20uaGVhcmxlcnMudjEubW9kZWwuQnViYmxlIsoBChNVcGRhdGVCdWJibGVSZXF1ZXN0EhEKCWJ1YmJsZV9pZBgBIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAiABKAkSFQoIcXVlc3Rpb24YAyABKAlIAIgBARIdChByZXNwb25zZV9vcHRpb24xGAQgASgJSAGIAQESHQoQcmVzcG9uc2Vfb3B0aW9uMhgFIAEoCUgCiAEBQgsKCV9xdWVzdGlvbkITChFfcmVzcG9uc2Vfb3B0aW9uMUITChFfcmVzcG9uc2Vfb3B0aW9uMiJFChRVcGRhdGVCdWJibGVSZXNwb25zZRItCgZidWJibGUYASABKAsyHS5jb20uaGVhcmxlcnMudjEubW9kZWwuQnViYmxlIj4KE0RlbGV0ZUJ1YmJsZVJlcXVlc3QSEQoJYnViYmxlX2lkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCSInChREZWxldGVCdWJibGVSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIr4BChRDcmVhdGVFcGlzb2RlUmVxdWVzdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkSDQoFdGl0bGUYAiABKAkSIgoacmVxdWlyZWRfcmFwcG9ydF90aHJlc2hvbGQYAyABKAUSFAoMaXNfdGVtcG9yYXJ5GAQgASgIEkcKCmN1dF9zY2VuZXMYBSADKAsyMy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5TYXZlRXBpc29kZUN1dFNjZW5lUmVxdWVzdCJIChVDcmVhdGVFcGlzb2RlUmVzcG9uc2USLwoHZXBpc29kZRgBIAEoCzIeLmNvbS5oZWFybGVycy52MS5tb2RlbC5FcGlzb2RlIisKE0ZpbmRFcGlzb2Rlc1JlcXVlc3QSFAoMY291bnNlbG9yX2lkGAEgASgJIkgKFEZpbmRFcGlzb2Rlc1Jlc3BvbnNlEjAKCGVwaXNvZGVzGAEgAygLMh4uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkVwaXNvZGUiLAoWRmluZEVwaXNvZGVCeUlkUmVxdWVzdBISCgplcGlzb2RlX2lkGAEgASgJIkoKF0ZpbmRFcGlzb2RlQnlJZFJlc3BvbnNlEi8KB2VwaXNvZGUYASABKAsyHi5jb20uaGVhcmxlcnMudjEubW9kZWwuRXBpc29kZSKnAgoUVXBkYXRlRXBpc29kZVJlcXVlc3QSEgoKZXBpc29kZV9pZBgBIAEoCRISCgV0aXRsZRgCIAEoCUgAiAEBEhQKB2NvbnRlbnQYAyABKAlIAYgBARInChpyZXF1aXJlZF9yYXBwb3J0X3RocmVzaG9sZBgEIAEoBUgCiAEBEhkKDGlzX3RlbXBvcmFyeRgFIAEoCEgDiAEBEkcKCmN1dF9zY2VuZXMYBiADKAsyMy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5TYXZlRXBpc29kZUN1dFNjZW5lUmVxdWVzdEIICgZfdGl0bGVCCgoIX2NvbnRlbnRCHQobX3JlcXVpcmVkX3JhcHBvcnRfdGhyZXNob2xkQg8KDV9pc190ZW1wb3JhcnkiSAoVVXBkYXRlRXBpc29kZVJlc3BvbnNlEi8KB2VwaXNvZGUYASABKAsyHi5jb20uaGVhcmxlcnMudjEubW9kZWwuRXBpc29kZSKOAQoaU2F2ZUVwaXNvZGVDdXRTY2VuZVJlcXVlc3QSDwoCaWQYASABKAlIAIgBARISCgplcGlzb2RlX2lkGAIgASgJEg8KB3NwZWFrZXIYAyABKAkSDwoHY29udGVudBgEIAEoCRITCgtvcmRlcl9pbmRleBgFIAEoBRINCgVpbWFnZRgGIAEoCUIFCgNfaWQiawofR2VuZXJhdGVDdXRTY2VuZUltYWdlVXJsUmVxdWVzdBISCgplcGlzb2RlX2lkGAEgASgJEjQKCWV4dGVuc2lvbhgCIAEoDjIhLmNvbS5oZWFybGVycy52MS5jb21tb24uRXh0ZW5zaW9uIl8KIEdlbmVyYXRlQ3V0U2NlbmVJbWFnZVVybFJlc3BvbnNlEjsKDXByZXNpZ25lZF91cmwYASABKAsyJC5jb20uaGVhcmxlcnMudjEuY29tbW9uLlByZXNpZ25lZFVybCI2ChFDcmVhdGVUb25lUmVxdWVzdBIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJIj8KEkNyZWF0ZVRvbmVSZXNwb25zZRIpCgR0b25lGAEgASgLMhsuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlRvbmUiLgoQRmluZFRvbmVzUmVxdWVzdBIRCgRuYW1lGAEgASgJSACIAQFCBwoFX25hbWUiPwoRRmluZFRvbmVzUmVzcG9uc2USKgoFdG9uZXMYASADKAsyGy5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZSImChNGaW5kVG9uZUJ5SWRSZXF1ZXN0Eg8KB3RvbmVfaWQYASABKAkiTwoURmluZFRvbmVCeUlkUmVzcG9uc2USLgoEdG9uZRgBIAEoCzIbLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lSACIAQFCBwoFX3RvbmUiagoRVXBkYXRlVG9uZVJlcXVlc3QSDwoHdG9uZV9pZBgBIAEoCRIRCgRuYW1lGAIgASgJSACIAQESGAoLZGVzY3JpcHRpb24YAyABKAlIAYgBAUIHCgVfbmFtZUIOCgxfZGVzY3JpcHRpb24iPwoSVXBkYXRlVG9uZVJlc3BvbnNlEikKBHRvbmUYASABKAsyGy5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZTKTEgoQQ291bnNlbG9yU2VydmljZRJ0Cg9DcmVhdGVDb3Vuc2Vsb3ISLy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVDb3Vuc2Vsb3JSZXF1ZXN0GjAuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQ291bnNlbG9yUmVzcG9uc2UScQoORmluZENvdW5zZWxvcnMSLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbG9yc1JlcXVlc3QaLy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQ291bnNlbG9yc1Jlc3BvbnNlEnoKEUZpbmRDb3Vuc2Vsb3JCeUlkEjEuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZENvdW5zZWxvckJ5SWRSZXF1ZXN0GjIuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZENvdW5zZWxvckJ5SWRSZXNwb25zZRJ0Cg9VcGRhdGVDb3Vuc2Vsb3ISLy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVDb3Vuc2Vsb3JSZXF1ZXN0GjAuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQ291bnNlbG9yUmVzcG9uc2USkgEKGUdlbmVyYXRlQ291bnNlbG9ySW1hZ2VVcmwSOS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5HZW5lcmF0ZUNvdW5zZWxvckltYWdlVXJsUmVxdWVzdBo6LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdlbmVyYXRlQ291bnNlbG9ySW1hZ2VVcmxSZXNwb25zZRJrCgxDcmVhdGVCdWJibGUSLC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVCdWJibGVSZXF1ZXN0Gi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlQnViYmxlUmVzcG9uc2USaAoLRmluZEJ1YmJsZXMSKy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQnViYmxlc1JlcXVlc3QaLC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kQnViYmxlc1Jlc3BvbnNlEnEKDkZpbmRCdWJibGVCeUlkEi4uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZEJ1YmJsZUJ5SWRSZXF1ZXN0Gi8uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZEJ1YmJsZUJ5SWRSZXNwb25zZRJ3ChBGaW5kUmFuZG9tQnViYmxlEjAuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFJhbmRvbUJ1YmJsZVJlcXVlc3QaMS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kUmFuZG9tQnViYmxlUmVzcG9uc2USawoMVXBkYXRlQnViYmxlEiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlQnViYmxlUmVxdWVzdBotLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLlVwZGF0ZUJ1YmJsZVJlc3BvbnNlEmsKDERlbGV0ZUJ1YmJsZRIsLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkRlbGV0ZUJ1YmJsZVJlcXVlc3QaLS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5EZWxldGVCdWJibGVSZXNwb25zZRJuCg1DcmVhdGVFcGlzb2RlEi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlRXBpc29kZVJlcXVlc3QaLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVFcGlzb2RlUmVzcG9uc2USawoMRmluZEVwaXNvZGVzEiwuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZEVwaXNvZGVzUmVxdWVzdBotLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRFcGlzb2Rlc1Jlc3BvbnNlEnQKD0ZpbmRFcGlzb2RlQnlJZBIvLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRFcGlzb2RlQnlJZFJlcXVlc3QaMC5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kRXBpc29kZUJ5SWRSZXNwb25zZRJuCg1VcGRhdGVFcGlzb2RlEi0uY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlRXBpc29kZVJlcXVlc3QaLi5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVFcGlzb2RlUmVzcG9uc2USjwEKGEdlbmVyYXRlQ3V0U2NlbmVJbWFnZVVybBI4LmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkdlbmVyYXRlQ3V0U2NlbmVJbWFnZVVybFJlcXVlc3QaOS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5HZW5lcmF0ZUN1dFNjZW5lSW1hZ2VVcmxSZXNwb25zZRJlCgpDcmVhdGVUb25lEiouY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuQ3JlYXRlVG9uZVJlcXVlc3QaKy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5DcmVhdGVUb25lUmVzcG9uc2USYgoJRmluZFRvbmVzEikuY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuRmluZFRvbmVzUmVxdWVzdBoqLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lc1Jlc3BvbnNlEmsKDEZpbmRUb25lQnlJZBIsLmNvbS5oZWFybGVycy52MS5zZXJ2aWNlLkZpbmRUb25lQnlJZFJlcXVlc3QaLS5jb20uaGVhcmxlcnMudjEuc2VydmljZS5GaW5kVG9uZUJ5SWRSZXNwb25zZRJlCgpVcGRhdGVUb25lEiouY29tLmhlYXJsZXJzLnYxLnNlcnZpY2UuVXBkYXRlVG9uZVJlcXVlc3QaKy5jb20uaGVhcmxlcnMudjEuc2VydmljZS5VcGRhdGVUb25lUmVzcG9uc2VCrQEKG2NvbS5jb20uaGVhcmxlcnMudjEuc2VydmljZUIOQ291bnNlbG9yUHJvdG9QAaICBENIVlOqAhdDb20uSGVhcmxlcnMuVjEuU2VydmljZcoCF0NvbVxIZWFybGVyc1xWMVxTZXJ2aWNl4gIjQ29tXEhlYXJsZXJzXFYxXFNlcnZpY2VcR1BCTWV0YWRhdGHqAhpDb206OkhlYXJsZXJzOjpWMTo6U2VydmljZWIGcHJvdG8z",
+    [file_com_hearlers_v1_model_counselor, file_com_hearlers_v1_common_presigned_url],
+  );
 
 /**
  * 상담사
@@ -44,6 +48,12 @@ export type CreateCounselorRequest = Message<"com.hearlers.v1.service.CreateCoun
 
   /**
    * @generated from field: com.hearlers.v1.model.CounselorGender counselor_gender = 5;
+   * @generated from field: string profile_image = 4;
+   */
+  profileImage: string;
+
+  /**
+   * @generated from field: com.hearlers.v1.model.CounselorGender counselor_gender = 5;
    */
   counselorGender: CounselorGender;
 };
@@ -52,7 +62,8 @@ export type CreateCounselorRequest = Message<"com.hearlers.v1.service.CreateCoun
  * Describes the message com.hearlers.v1.service.CreateCounselorRequest.
  * Use `create(CreateCounselorRequestSchema)` to create a new message.
  */
-export const CreateCounselorRequestSchema: GenMessage<CreateCounselorRequest> = /*@__PURE__*/
+export const CreateCounselorRequestSchema: GenMessage<CreateCounselorRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 0);
 
 /**
@@ -69,7 +80,8 @@ export type CreateCounselorResponse = Message<"com.hearlers.v1.service.CreateCou
  * Describes the message com.hearlers.v1.service.CreateCounselorResponse.
  * Use `create(CreateCounselorResponseSchema)` to create a new message.
  */
-export const CreateCounselorResponseSchema: GenMessage<CreateCounselorResponse> = /*@__PURE__*/
+export const CreateCounselorResponseSchema: GenMessage<CreateCounselorResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 1);
 
 /**
@@ -86,7 +98,8 @@ export type FindCounselorsRequest = Message<"com.hearlers.v1.service.FindCounsel
  * Describes the message com.hearlers.v1.service.FindCounselorsRequest.
  * Use `create(FindCounselorsRequestSchema)` to create a new message.
  */
-export const FindCounselorsRequestSchema: GenMessage<FindCounselorsRequest> = /*@__PURE__*/
+export const FindCounselorsRequestSchema: GenMessage<FindCounselorsRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 2);
 
 /**
@@ -103,7 +116,8 @@ export type FindCounselorsResponse = Message<"com.hearlers.v1.service.FindCounse
  * Describes the message com.hearlers.v1.service.FindCounselorsResponse.
  * Use `create(FindCounselorsResponseSchema)` to create a new message.
  */
-export const FindCounselorsResponseSchema: GenMessage<FindCounselorsResponse> = /*@__PURE__*/
+export const FindCounselorsResponseSchema: GenMessage<FindCounselorsResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 3);
 
 /**
@@ -120,7 +134,8 @@ export type FindCounselorByIdRequest = Message<"com.hearlers.v1.service.FindCoun
  * Describes the message com.hearlers.v1.service.FindCounselorByIdRequest.
  * Use `create(FindCounselorByIdRequestSchema)` to create a new message.
  */
-export const FindCounselorByIdRequestSchema: GenMessage<FindCounselorByIdRequest> = /*@__PURE__*/
+export const FindCounselorByIdRequestSchema: GenMessage<FindCounselorByIdRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 4);
 
 /**
@@ -137,7 +152,8 @@ export type FindCounselorByIdResponse = Message<"com.hearlers.v1.service.FindCou
  * Describes the message com.hearlers.v1.service.FindCounselorByIdResponse.
  * Use `create(FindCounselorByIdResponseSchema)` to create a new message.
  */
-export const FindCounselorByIdResponseSchema: GenMessage<FindCounselorByIdResponse> = /*@__PURE__*/
+export const FindCounselorByIdResponseSchema: GenMessage<FindCounselorByIdResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 5);
 
 /**
@@ -171,6 +187,12 @@ export type UpdateCounselorRequest = Message<"com.hearlers.v1.service.UpdateCoun
 
   /**
    * @generated from field: optional com.hearlers.v1.model.CounselorGender counselor_gender = 6;
+   * @generated from field: optional string profile_image = 5;
+   */
+  profileImage?: string;
+
+  /**
+   * @generated from field: optional com.hearlers.v1.model.CounselorGender counselor_gender = 6;
    */
   counselorGender?: CounselorGender;
 };
@@ -179,7 +201,8 @@ export type UpdateCounselorRequest = Message<"com.hearlers.v1.service.UpdateCoun
  * Describes the message com.hearlers.v1.service.UpdateCounselorRequest.
  * Use `create(UpdateCounselorRequestSchema)` to create a new message.
  */
-export const UpdateCounselorRequestSchema: GenMessage<UpdateCounselorRequest> = /*@__PURE__*/
+export const UpdateCounselorRequestSchema: GenMessage<UpdateCounselorRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 6);
 
 /**
@@ -196,7 +219,8 @@ export type UpdateCounselorResponse = Message<"com.hearlers.v1.service.UpdateCou
  * Describes the message com.hearlers.v1.service.UpdateCounselorResponse.
  * Use `create(UpdateCounselorResponseSchema)` to create a new message.
  */
-export const UpdateCounselorResponseSchema: GenMessage<UpdateCounselorResponse> = /*@__PURE__*/
+export const UpdateCounselorResponseSchema: GenMessage<UpdateCounselorResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 7);
 
 /**
@@ -218,7 +242,8 @@ export type GenerateCounselorImageUrlRequest = Message<"com.hearlers.v1.service.
  * Describes the message com.hearlers.v1.service.GenerateCounselorImageUrlRequest.
  * Use `create(GenerateCounselorImageUrlRequestSchema)` to create a new message.
  */
-export const GenerateCounselorImageUrlRequestSchema: GenMessage<GenerateCounselorImageUrlRequest> = /*@__PURE__*/
+export const GenerateCounselorImageUrlRequestSchema: GenMessage<GenerateCounselorImageUrlRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 8);
 
 /**
@@ -235,7 +260,8 @@ export type GenerateCounselorImageUrlResponse = Message<"com.hearlers.v1.service
  * Describes the message com.hearlers.v1.service.GenerateCounselorImageUrlResponse.
  * Use `create(GenerateCounselorImageUrlResponseSchema)` to create a new message.
  */
-export const GenerateCounselorImageUrlResponseSchema: GenMessage<GenerateCounselorImageUrlResponse> = /*@__PURE__*/
+export const GenerateCounselorImageUrlResponseSchema: GenMessage<GenerateCounselorImageUrlResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 9);
 
 /**
@@ -269,7 +295,8 @@ export type CreateBubbleRequest = Message<"com.hearlers.v1.service.CreateBubbleR
  * Describes the message com.hearlers.v1.service.CreateBubbleRequest.
  * Use `create(CreateBubbleRequestSchema)` to create a new message.
  */
-export const CreateBubbleRequestSchema: GenMessage<CreateBubbleRequest> = /*@__PURE__*/
+export const CreateBubbleRequestSchema: GenMessage<CreateBubbleRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 10);
 
 /**
@@ -286,7 +313,8 @@ export type CreateBubbleResponse = Message<"com.hearlers.v1.service.CreateBubble
  * Describes the message com.hearlers.v1.service.CreateBubbleResponse.
  * Use `create(CreateBubbleResponseSchema)` to create a new message.
  */
-export const CreateBubbleResponseSchema: GenMessage<CreateBubbleResponse> = /*@__PURE__*/
+export const CreateBubbleResponseSchema: GenMessage<CreateBubbleResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 11);
 
 /**
@@ -303,7 +331,8 @@ export type FindBubblesRequest = Message<"com.hearlers.v1.service.FindBubblesReq
  * Describes the message com.hearlers.v1.service.FindBubblesRequest.
  * Use `create(FindBubblesRequestSchema)` to create a new message.
  */
-export const FindBubblesRequestSchema: GenMessage<FindBubblesRequest> = /*@__PURE__*/
+export const FindBubblesRequestSchema: GenMessage<FindBubblesRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 12);
 
 /**
@@ -320,7 +349,8 @@ export type FindBubblesResponse = Message<"com.hearlers.v1.service.FindBubblesRe
  * Describes the message com.hearlers.v1.service.FindBubblesResponse.
  * Use `create(FindBubblesResponseSchema)` to create a new message.
  */
-export const FindBubblesResponseSchema: GenMessage<FindBubblesResponse> = /*@__PURE__*/
+export const FindBubblesResponseSchema: GenMessage<FindBubblesResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 13);
 
 /**
@@ -331,13 +361,19 @@ export type FindBubbleByIdRequest = Message<"com.hearlers.v1.service.FindBubbleB
    * @generated from field: string bubble_id = 1;
    */
   bubbleId: string;
+
+  /**
+   * @generated from field: string counselor_id = 2;
+   */
+  counselorId: string;
 };
 
 /**
  * Describes the message com.hearlers.v1.service.FindBubbleByIdRequest.
  * Use `create(FindBubbleByIdRequestSchema)` to create a new message.
  */
-export const FindBubbleByIdRequestSchema: GenMessage<FindBubbleByIdRequest> = /*@__PURE__*/
+export const FindBubbleByIdRequestSchema: GenMessage<FindBubbleByIdRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 14);
 
 /**
@@ -354,7 +390,8 @@ export type FindBubbleByIdResponse = Message<"com.hearlers.v1.service.FindBubble
  * Describes the message com.hearlers.v1.service.FindBubbleByIdResponse.
  * Use `create(FindBubbleByIdResponseSchema)` to create a new message.
  */
-export const FindBubbleByIdResponseSchema: GenMessage<FindBubbleByIdResponse> = /*@__PURE__*/
+export const FindBubbleByIdResponseSchema: GenMessage<FindBubbleByIdResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 15);
 
 /**
@@ -371,7 +408,8 @@ export type FindRandomBubbleRequest = Message<"com.hearlers.v1.service.FindRando
  * Describes the message com.hearlers.v1.service.FindRandomBubbleRequest.
  * Use `create(FindRandomBubbleRequestSchema)` to create a new message.
  */
-export const FindRandomBubbleRequestSchema: GenMessage<FindRandomBubbleRequest> = /*@__PURE__*/
+export const FindRandomBubbleRequestSchema: GenMessage<FindRandomBubbleRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 16);
 
 /**
@@ -388,7 +426,8 @@ export type FindRandomBubbleResponse = Message<"com.hearlers.v1.service.FindRand
  * Describes the message com.hearlers.v1.service.FindRandomBubbleResponse.
  * Use `create(FindRandomBubbleResponseSchema)` to create a new message.
  */
-export const FindRandomBubbleResponseSchema: GenMessage<FindRandomBubbleResponse> = /*@__PURE__*/
+export const FindRandomBubbleResponseSchema: GenMessage<FindRandomBubbleResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 17);
 
 /**
@@ -401,17 +440,22 @@ export type UpdateBubbleRequest = Message<"com.hearlers.v1.service.UpdateBubbleR
   bubbleId: string;
 
   /**
-   * @generated from field: optional string question = 2;
+   * @generated from field: string counselor_id = 2;
+   */
+  counselorId: string;
+
+  /**
+   * @generated from field: optional string question = 3;
    */
   question?: string;
 
   /**
-   * @generated from field: optional string response_option1 = 3;
+   * @generated from field: optional string response_option1 = 4;
    */
   responseOption1?: string;
 
   /**
-   * @generated from field: optional string response_option2 = 4;
+   * @generated from field: optional string response_option2 = 5;
    */
   responseOption2?: string;
 };
@@ -420,7 +464,8 @@ export type UpdateBubbleRequest = Message<"com.hearlers.v1.service.UpdateBubbleR
  * Describes the message com.hearlers.v1.service.UpdateBubbleRequest.
  * Use `create(UpdateBubbleRequestSchema)` to create a new message.
  */
-export const UpdateBubbleRequestSchema: GenMessage<UpdateBubbleRequest> = /*@__PURE__*/
+export const UpdateBubbleRequestSchema: GenMessage<UpdateBubbleRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 18);
 
 /**
@@ -437,7 +482,8 @@ export type UpdateBubbleResponse = Message<"com.hearlers.v1.service.UpdateBubble
  * Describes the message com.hearlers.v1.service.UpdateBubbleResponse.
  * Use `create(UpdateBubbleResponseSchema)` to create a new message.
  */
-export const UpdateBubbleResponseSchema: GenMessage<UpdateBubbleResponse> = /*@__PURE__*/
+export const UpdateBubbleResponseSchema: GenMessage<UpdateBubbleResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 19);
 
 /**
@@ -448,13 +494,19 @@ export type DeleteBubbleRequest = Message<"com.hearlers.v1.service.DeleteBubbleR
    * @generated from field: string bubble_id = 1;
    */
   bubbleId: string;
+
+  /**
+   * @generated from field: string counselor_id = 2;
+   */
+  counselorId: string;
 };
 
 /**
  * Describes the message com.hearlers.v1.service.DeleteBubbleRequest.
  * Use `create(DeleteBubbleRequestSchema)` to create a new message.
  */
-export const DeleteBubbleRequestSchema: GenMessage<DeleteBubbleRequest> = /*@__PURE__*/
+export const DeleteBubbleRequestSchema: GenMessage<DeleteBubbleRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 20);
 
 /**
@@ -471,7 +523,8 @@ export type DeleteBubbleResponse = Message<"com.hearlers.v1.service.DeleteBubble
  * Describes the message com.hearlers.v1.service.DeleteBubbleResponse.
  * Use `create(DeleteBubbleResponseSchema)` to create a new message.
  */
-export const DeleteBubbleResponseSchema: GenMessage<DeleteBubbleResponse> = /*@__PURE__*/
+export const DeleteBubbleResponseSchema: GenMessage<DeleteBubbleResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 21);
 
 /**
@@ -510,7 +563,8 @@ export type CreateEpisodeRequest = Message<"com.hearlers.v1.service.CreateEpisod
  * Describes the message com.hearlers.v1.service.CreateEpisodeRequest.
  * Use `create(CreateEpisodeRequestSchema)` to create a new message.
  */
-export const CreateEpisodeRequestSchema: GenMessage<CreateEpisodeRequest> = /*@__PURE__*/
+export const CreateEpisodeRequestSchema: GenMessage<CreateEpisodeRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 22);
 
 /**
@@ -527,7 +581,8 @@ export type CreateEpisodeResponse = Message<"com.hearlers.v1.service.CreateEpiso
  * Describes the message com.hearlers.v1.service.CreateEpisodeResponse.
  * Use `create(CreateEpisodeResponseSchema)` to create a new message.
  */
-export const CreateEpisodeResponseSchema: GenMessage<CreateEpisodeResponse> = /*@__PURE__*/
+export const CreateEpisodeResponseSchema: GenMessage<CreateEpisodeResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 23);
 
 /**
@@ -544,7 +599,8 @@ export type FindEpisodesRequest = Message<"com.hearlers.v1.service.FindEpisodesR
  * Describes the message com.hearlers.v1.service.FindEpisodesRequest.
  * Use `create(FindEpisodesRequestSchema)` to create a new message.
  */
-export const FindEpisodesRequestSchema: GenMessage<FindEpisodesRequest> = /*@__PURE__*/
+export const FindEpisodesRequestSchema: GenMessage<FindEpisodesRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 24);
 
 /**
@@ -561,7 +617,8 @@ export type FindEpisodesResponse = Message<"com.hearlers.v1.service.FindEpisodes
  * Describes the message com.hearlers.v1.service.FindEpisodesResponse.
  * Use `create(FindEpisodesResponseSchema)` to create a new message.
  */
-export const FindEpisodesResponseSchema: GenMessage<FindEpisodesResponse> = /*@__PURE__*/
+export const FindEpisodesResponseSchema: GenMessage<FindEpisodesResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 25);
 
 /**
@@ -578,7 +635,8 @@ export type FindEpisodeByIdRequest = Message<"com.hearlers.v1.service.FindEpisod
  * Describes the message com.hearlers.v1.service.FindEpisodeByIdRequest.
  * Use `create(FindEpisodeByIdRequestSchema)` to create a new message.
  */
-export const FindEpisodeByIdRequestSchema: GenMessage<FindEpisodeByIdRequest> = /*@__PURE__*/
+export const FindEpisodeByIdRequestSchema: GenMessage<FindEpisodeByIdRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 26);
 
 /**
@@ -595,7 +653,8 @@ export type FindEpisodeByIdResponse = Message<"com.hearlers.v1.service.FindEpiso
  * Describes the message com.hearlers.v1.service.FindEpisodeByIdResponse.
  * Use `create(FindEpisodeByIdResponseSchema)` to create a new message.
  */
-export const FindEpisodeByIdResponseSchema: GenMessage<FindEpisodeByIdResponse> = /*@__PURE__*/
+export const FindEpisodeByIdResponseSchema: GenMessage<FindEpisodeByIdResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 27);
 
 /**
@@ -637,7 +696,8 @@ export type UpdateEpisodeRequest = Message<"com.hearlers.v1.service.UpdateEpisod
  * Describes the message com.hearlers.v1.service.UpdateEpisodeRequest.
  * Use `create(UpdateEpisodeRequestSchema)` to create a new message.
  */
-export const UpdateEpisodeRequestSchema: GenMessage<UpdateEpisodeRequest> = /*@__PURE__*/
+export const UpdateEpisodeRequestSchema: GenMessage<UpdateEpisodeRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 28);
 
 /**
@@ -654,7 +714,8 @@ export type UpdateEpisodeResponse = Message<"com.hearlers.v1.service.UpdateEpiso
  * Describes the message com.hearlers.v1.service.UpdateEpisodeResponse.
  * Use `create(UpdateEpisodeResponseSchema)` to create a new message.
  */
-export const UpdateEpisodeResponseSchema: GenMessage<UpdateEpisodeResponse> = /*@__PURE__*/
+export const UpdateEpisodeResponseSchema: GenMessage<UpdateEpisodeResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 29);
 
 /**
@@ -700,7 +761,8 @@ export type SaveEpisodeCutSceneRequest = Message<"com.hearlers.v1.service.SaveEp
  * Describes the message com.hearlers.v1.service.SaveEpisodeCutSceneRequest.
  * Use `create(SaveEpisodeCutSceneRequestSchema)` to create a new message.
  */
-export const SaveEpisodeCutSceneRequestSchema: GenMessage<SaveEpisodeCutSceneRequest> = /*@__PURE__*/
+export const SaveEpisodeCutSceneRequestSchema: GenMessage<SaveEpisodeCutSceneRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 30);
 
 /**
@@ -722,7 +784,8 @@ export type GenerateCutSceneImageUrlRequest = Message<"com.hearlers.v1.service.G
  * Describes the message com.hearlers.v1.service.GenerateCutSceneImageUrlRequest.
  * Use `create(GenerateCutSceneImageUrlRequestSchema)` to create a new message.
  */
-export const GenerateCutSceneImageUrlRequestSchema: GenMessage<GenerateCutSceneImageUrlRequest> = /*@__PURE__*/
+export const GenerateCutSceneImageUrlRequestSchema: GenMessage<GenerateCutSceneImageUrlRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 31);
 
 /**
@@ -739,7 +802,8 @@ export type GenerateCutSceneImageUrlResponse = Message<"com.hearlers.v1.service.
  * Describes the message com.hearlers.v1.service.GenerateCutSceneImageUrlResponse.
  * Use `create(GenerateCutSceneImageUrlResponseSchema)` to create a new message.
  */
-export const GenerateCutSceneImageUrlResponseSchema: GenMessage<GenerateCutSceneImageUrlResponse> = /*@__PURE__*/
+export const GenerateCutSceneImageUrlResponseSchema: GenMessage<GenerateCutSceneImageUrlResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 32);
 
 /**
@@ -763,8 +827,10 @@ export type CreateToneRequest = Message<"com.hearlers.v1.service.CreateToneReque
  * Describes the message com.hearlers.v1.service.CreateToneRequest.
  * Use `create(CreateToneRequestSchema)` to create a new message.
  */
-export const CreateToneRequestSchema: GenMessage<CreateToneRequest> = /*@__PURE__*/
+export const CreateToneRequestSchema: GenMessage<CreateToneRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 33);
+messageDesc(file_com_hearlers_v1_service_counselor, 33);
 
 /**
  * @generated from message com.hearlers.v1.service.CreateToneResponse
@@ -780,8 +846,10 @@ export type CreateToneResponse = Message<"com.hearlers.v1.service.CreateToneResp
  * Describes the message com.hearlers.v1.service.CreateToneResponse.
  * Use `create(CreateToneResponseSchema)` to create a new message.
  */
-export const CreateToneResponseSchema: GenMessage<CreateToneResponse> = /*@__PURE__*/
+export const CreateToneResponseSchema: GenMessage<CreateToneResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 34);
+messageDesc(file_com_hearlers_v1_service_counselor, 34);
 
 /**
  * @generated from message com.hearlers.v1.service.FindTonesRequest
@@ -797,8 +865,10 @@ export type FindTonesRequest = Message<"com.hearlers.v1.service.FindTonesRequest
  * Describes the message com.hearlers.v1.service.FindTonesRequest.
  * Use `create(FindTonesRequestSchema)` to create a new message.
  */
-export const FindTonesRequestSchema: GenMessage<FindTonesRequest> = /*@__PURE__*/
+export const FindTonesRequestSchema: GenMessage<FindTonesRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 35);
+messageDesc(file_com_hearlers_v1_service_counselor, 35);
 
 /**
  * @generated from message com.hearlers.v1.service.FindTonesResponse
@@ -814,8 +884,10 @@ export type FindTonesResponse = Message<"com.hearlers.v1.service.FindTonesRespon
  * Describes the message com.hearlers.v1.service.FindTonesResponse.
  * Use `create(FindTonesResponseSchema)` to create a new message.
  */
-export const FindTonesResponseSchema: GenMessage<FindTonesResponse> = /*@__PURE__*/
+export const FindTonesResponseSchema: GenMessage<FindTonesResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 36);
+messageDesc(file_com_hearlers_v1_service_counselor, 36);
 
 /**
  * @generated from message com.hearlers.v1.service.FindToneByIdRequest
@@ -831,8 +903,10 @@ export type FindToneByIdRequest = Message<"com.hearlers.v1.service.FindToneByIdR
  * Describes the message com.hearlers.v1.service.FindToneByIdRequest.
  * Use `create(FindToneByIdRequestSchema)` to create a new message.
  */
-export const FindToneByIdRequestSchema: GenMessage<FindToneByIdRequest> = /*@__PURE__*/
+export const FindToneByIdRequestSchema: GenMessage<FindToneByIdRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 37);
+messageDesc(file_com_hearlers_v1_service_counselor, 37);
 
 /**
  * @generated from message com.hearlers.v1.service.FindToneByIdResponse
@@ -848,8 +922,10 @@ export type FindToneByIdResponse = Message<"com.hearlers.v1.service.FindToneById
  * Describes the message com.hearlers.v1.service.FindToneByIdResponse.
  * Use `create(FindToneByIdResponseSchema)` to create a new message.
  */
-export const FindToneByIdResponseSchema: GenMessage<FindToneByIdResponse> = /*@__PURE__*/
+export const FindToneByIdResponseSchema: GenMessage<FindToneByIdResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 38);
+messageDesc(file_com_hearlers_v1_service_counselor, 38);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateToneRequest
@@ -875,8 +951,10 @@ export type UpdateToneRequest = Message<"com.hearlers.v1.service.UpdateToneReque
  * Describes the message com.hearlers.v1.service.UpdateToneRequest.
  * Use `create(UpdateToneRequestSchema)` to create a new message.
  */
-export const UpdateToneRequestSchema: GenMessage<UpdateToneRequest> = /*@__PURE__*/
+export const UpdateToneRequestSchema: GenMessage<UpdateToneRequest> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 39);
+messageDesc(file_com_hearlers_v1_service_counselor, 39);
 
 /**
  * @generated from message com.hearlers.v1.service.UpdateToneResponse
@@ -892,8 +970,10 @@ export type UpdateToneResponse = Message<"com.hearlers.v1.service.UpdateToneResp
  * Describes the message com.hearlers.v1.service.UpdateToneResponse.
  * Use `create(UpdateToneResponseSchema)` to create a new message.
  */
-export const UpdateToneResponseSchema: GenMessage<UpdateToneResponse> = /*@__PURE__*/
+export const UpdateToneResponseSchema: GenMessage<UpdateToneResponse> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_service_counselor, 40);
+messageDesc(file_com_hearlers_v1_service_counselor, 40);
 
 /**
  * @generated from service com.hearlers.v1.service.CounselorService
@@ -908,7 +988,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof CreateCounselorRequestSchema;
     output: typeof CreateCounselorResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.FindCounselors
    */
@@ -916,7 +996,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof FindCounselorsRequestSchema;
     output: typeof FindCounselorsResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.FindCounselorById
    */
@@ -924,7 +1004,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof FindCounselorByIdRequestSchema;
     output: typeof FindCounselorByIdResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.UpdateCounselor
    */
@@ -932,7 +1012,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof UpdateCounselorRequestSchema;
     output: typeof UpdateCounselorResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.GenerateCounselorImageUrl
    */
@@ -940,7 +1020,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof GenerateCounselorImageUrlRequestSchema;
     output: typeof GenerateCounselorImageUrlResponseSchema;
-  },
+  };
   /**
    * 버블
    *
@@ -950,7 +1030,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof CreateBubbleRequestSchema;
     output: typeof CreateBubbleResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.FindBubbles
    */
@@ -958,7 +1038,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof FindBubblesRequestSchema;
     output: typeof FindBubblesResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.FindBubbleById
    */
@@ -966,7 +1046,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof FindBubbleByIdRequestSchema;
     output: typeof FindBubbleByIdResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.FindRandomBubble
    */
@@ -974,7 +1054,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof FindRandomBubbleRequestSchema;
     output: typeof FindRandomBubbleResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.UpdateBubble
    */
@@ -982,7 +1062,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof UpdateBubbleRequestSchema;
     output: typeof UpdateBubbleResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.DeleteBubble
    */
@@ -990,7 +1070,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof DeleteBubbleRequestSchema;
     output: typeof DeleteBubbleResponseSchema;
-  },
+  };
   /**
    * 에피소드
    *
@@ -1000,7 +1080,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof CreateEpisodeRequestSchema;
     output: typeof CreateEpisodeResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.FindEpisodes
    */
@@ -1008,7 +1088,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof FindEpisodesRequestSchema;
     output: typeof FindEpisodesResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.FindEpisodeById
    */
@@ -1016,7 +1096,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof FindEpisodeByIdRequestSchema;
     output: typeof FindEpisodeByIdResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.UpdateEpisode
    */
@@ -1024,7 +1104,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof UpdateEpisodeRequestSchema;
     output: typeof UpdateEpisodeResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.GenerateCutSceneImageUrl
    */
@@ -1032,7 +1112,107 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof GenerateCutSceneImageUrlRequestSchema;
     output: typeof GenerateCutSceneImageUrlResponseSchema;
-  },
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.GenerateCounselorImageUrl
+   */
+  generateCounselorImageUrl: {
+    methodKind: "unary";
+    input: typeof GenerateCounselorImageUrlRequestSchema;
+    output: typeof GenerateCounselorImageUrlResponseSchema;
+  };
+  /**
+   * 버블
+   *
+   * @generated from rpc com.hearlers.v1.service.CounselorService.CreateBubble
+   */
+  createBubble: {
+    methodKind: "unary";
+    input: typeof CreateBubbleRequestSchema;
+    output: typeof CreateBubbleResponseSchema;
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.FindBubbles
+   */
+  findBubbles: {
+    methodKind: "unary";
+    input: typeof FindBubblesRequestSchema;
+    output: typeof FindBubblesResponseSchema;
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.FindBubbleById
+   */
+  findBubbleById: {
+    methodKind: "unary";
+    input: typeof FindBubbleByIdRequestSchema;
+    output: typeof FindBubbleByIdResponseSchema;
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.FindRandomBubble
+   */
+  findRandomBubble: {
+    methodKind: "unary";
+    input: typeof FindRandomBubbleRequestSchema;
+    output: typeof FindRandomBubbleResponseSchema;
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.UpdateBubble
+   */
+  updateBubble: {
+    methodKind: "unary";
+    input: typeof UpdateBubbleRequestSchema;
+    output: typeof UpdateBubbleResponseSchema;
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.DeleteBubble
+   */
+  deleteBubble: {
+    methodKind: "unary";
+    input: typeof DeleteBubbleRequestSchema;
+    output: typeof DeleteBubbleResponseSchema;
+  };
+  /**
+   * 에피소드
+   *
+   * @generated from rpc com.hearlers.v1.service.CounselorService.CreateEpisode
+   */
+  createEpisode: {
+    methodKind: "unary";
+    input: typeof CreateEpisodeRequestSchema;
+    output: typeof CreateEpisodeResponseSchema;
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.FindEpisodes
+   */
+  findEpisodes: {
+    methodKind: "unary";
+    input: typeof FindEpisodesRequestSchema;
+    output: typeof FindEpisodesResponseSchema;
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.FindEpisodeById
+   */
+  findEpisodeById: {
+    methodKind: "unary";
+    input: typeof FindEpisodeByIdRequestSchema;
+    output: typeof FindEpisodeByIdResponseSchema;
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.UpdateEpisode
+   */
+  updateEpisode: {
+    methodKind: "unary";
+    input: typeof UpdateEpisodeRequestSchema;
+    output: typeof UpdateEpisodeResponseSchema;
+  };
+  /**
+   * @generated from rpc com.hearlers.v1.service.CounselorService.GenerateCutSceneImageUrl
+   */
+  generateCutSceneImageUrl: {
+    methodKind: "unary";
+    input: typeof GenerateCutSceneImageUrlRequestSchema;
+    output: typeof GenerateCutSceneImageUrlResponseSchema;
+  };
   /**
    * 톤
    *
@@ -1042,7 +1222,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof CreateToneRequestSchema;
     output: typeof CreateToneResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.FindTones
    */
@@ -1050,7 +1230,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof FindTonesRequestSchema;
     output: typeof FindTonesResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.FindToneById
    */
@@ -1058,7 +1238,7 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof FindToneByIdRequestSchema;
     output: typeof FindToneByIdResponseSchema;
-  },
+  };
   /**
    * @generated from rpc com.hearlers.v1.service.CounselorService.UpdateTone
    */
@@ -1066,7 +1246,5 @@ export const CounselorService: GenService<{
     methodKind: "unary";
     input: typeof UpdateToneRequestSchema;
     output: typeof UpdateToneResponseSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_com_hearlers_v1_service_counselor, 0);
-
+  };
+}> = /*@__PURE__*/ serviceDesc(file_com_hearlers_v1_service_counselor, 0);

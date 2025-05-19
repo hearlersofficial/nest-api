@@ -6,6 +6,9 @@ import { PromptVersionsFacade } from "~counselings/applications/promptVersions.f
 import { TonePromptsFacade } from "~counselings/applications/tonePrompts.facade";
 import { SchemaCounselPromptsMapper } from "~counselings/presentations/grpc/counselPrompts.mapper";
 import {
+  FindActiveVersionRequest,
+  FindActiveVersionResponse,
+  FindActiveVersionResponseSchema,
   FindCounselTechniqueByIdRequest,
   FindCounselTechniqueByIdResponse,
   FindCounselTechniqueByIdResponseSchema,
@@ -49,8 +52,8 @@ export class GrpcCounselPromptQueryController {
   // Prompt Version
   @GrpcMethod("CounselPromptService", "FindPromptVersions")
   async findPromptVersions(request: FindPromptVersionsRequest): Promise<FindPromptVersionsResponse> {
-    const { name } = request;
-    const promptVersions = await this.promptVersionsFacade.findPromptVersions({ name });
+    const { name, isBookmarked } = request;
+    const promptVersions = await this.promptVersionsFacade.findPromptVersions({ name, isBookmarked });
     return create(FindPromptVersionsResponseSchema, {
       promptVersions: promptVersions.map((version) => SchemaCounselPromptsMapper.toPromptVersionProto(version)),
     });
@@ -71,6 +74,14 @@ export class GrpcCounselPromptQueryController {
   async findTemporaryVersion(request: FindTemporaryVersionRequest): Promise<FindTemporaryVersionResponse> {
     const promptVersion = await this.promptVersionsFacade.getTemporaryPromptVersion();
     return create(FindTemporaryVersionResponseSchema, {
+      promptVersion: promptVersion ? SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion) : undefined,
+    });
+  }
+
+  @GrpcMethod("CounselPromptService", "FindActiveVersion")
+  async findActiveVersion(request: FindActiveVersionRequest): Promise<FindActiveVersionResponse> {
+    const promptVersion = await this.promptVersionsFacade.findActivePromptVersion();
+    return create(FindActiveVersionResponseSchema, {
       promptVersion: promptVersion ? SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion) : undefined,
     });
   }

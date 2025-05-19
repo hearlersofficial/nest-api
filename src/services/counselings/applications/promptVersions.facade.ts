@@ -13,12 +13,11 @@ import { Transactional } from "typeorm-transactional";
 export class PromptVersionsFacade {
   constructor(
     private readonly promptVersionsService: PromptVersionsService,
-    private readonly promptActivateHistoryService: PromptActivateHistoryService,
     private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase,
   ) {}
-  async findPromptVersions(params: { name?: string }): Promise<PromptVersions[]> {
-    const { name } = params;
-    return this.promptVersionsService.findMany({ name, isTemporary: false });
+  async findPromptVersions(params: { name?: string; isBookmarked?: boolean }): Promise<PromptVersions[]> {
+    const { name, isBookmarked } = params;
+    return this.promptVersionsService.findMany({ name, isBookmarked, isTemporary: false });
   }
 
   async findPromptVersionById(params: { promptVersionId: UniqueEntityId }): Promise<PromptVersions> {
@@ -30,6 +29,10 @@ export class PromptVersionsFacade {
   @Transactional()
   async getTemporaryPromptVersion(): Promise<PromptVersions> {
     return this.promptVersionsService.getTemporaryOne();
+  }
+
+  async findActivePromptVersion(): Promise<PromptVersions | null> {
+    return this.promptVersionsService.findActiveOne();
   }
 
   // 기존 버전을 임시버전으로 불러오기
@@ -49,18 +52,27 @@ export class PromptVersionsFacade {
 
   // 임시버전 저장
   @Transactional()
-  async saveTemporaryVersion(params: { name: string; description: string }): Promise<PromptVersions> {
-    const { name, description } = params;
+  async saveTemporaryVersion(params: {
+    name: string;
+    description: string;
+    isBookmarked: boolean;
+  }): Promise<PromptVersions> {
+    const { name, description, isBookmarked } = params;
 
     const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
 
     // 모든 톤과 상담사에 대한 프롬프트가 존재하는지 검증
-    const validatePromptVersionResult = await this.validatePromptVersionUseCase.execute({ promptVersion: temporaryVersion });
+    const validatePromptVersionResult = await this.validatePromptVersionUseCase.execute({
+      promptVersion: temporaryVersion,
+    });
     if (!validatePromptVersionResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, validatePromptVersionResult.error as string);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        validatePromptVersionResult.error as string,
+      );
     }
 
-    const saveVersionResult = temporaryVersion.saveVersion({ name, description });
+    const saveVersionResult = temporaryVersion.saveVersion({ name, description, isBookmarked });
     if (saveVersionResult.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, saveVersionResult.error as string);
     }
@@ -93,6 +105,42 @@ export class PromptVersionsFacade {
       promptVersionId: promptVersion.id,
       activatedAt: getNowDayjs(),
     });
+    return promptVersion;
+  }
+
+  // 버전 수정
+  @Transactional()
+  async updatePromptVersion(params: {
+    promptVersionId: UniqueEntityId;
+    name?: string;
+    description?: string;
+    isBookmarked?: boolean;
+  }): Promise<PromptVersions> {
+    const { promptVersionId, name, description, isBookmarked } = params;
+    const promptVersion = await this.promptVersionsService.getOne({ promptVersionId });
+    const updateResult = promptVersion.updateBasicInfo({ name, description, isBookmarked });
+    if (updateResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateResult.error as string);
+    }
+    await this.promptVersionsService.update(promptVersion);
+    return promptVersion;
+  }
+
+  // 버전 수정
+  @Transactional()
+  async updatePromptVersion(params: {
+    promptVersionId: UniqueEntityId;
+    name?: string;
+    description?: string;
+    isBookmarked?: boolean;
+  }): Promise<PromptVersions> {
+    const { promptVersionId, name, description, isBookmarked } = params;
+    const promptVersion = await this.promptVersionsService.getOne({ promptVersionId });
+    const updateResult = promptVersion.updateBasicInfo({ name, description, isBookmarked });
+    if (updateResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateResult.error as string);
+    }
+    await this.promptVersionsService.update(promptVersion);
     return promptVersion;
   }
 }

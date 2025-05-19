@@ -11,6 +11,9 @@ import {
   CreateCounselTechniqueRequest,
   CreateCounselTechniqueResponse,
   CreateCounselTechniqueResponseSchema,
+  DeletePromptVersionsRequest,
+  DeletePromptVersionsResponse,
+  DeletePromptVersionsResponseSchema,
   LoadExistingPromptVersionRequest,
   LoadExistingPromptVersionResponse,
   LoadExistingPromptVersionResponseSchema,
@@ -91,6 +94,15 @@ export class GrpcCounselPromptCommandController {
     return create(UpdatePromptVersionResponseSchema, {
       promptVersion: SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion),
     });
+  }
+
+  @GrpcMethod("CounselPromptService", "DeletePromptVersions")
+  async deletePromptVersions(request: DeletePromptVersionsRequest): Promise<DeletePromptVersionsResponse> {
+    const { promptVersionIds } = request;
+    await this.promptVersionsFacade.deletePromptVersions({
+      promptVersionIds: promptVersionIds.map((id) => new UniqueEntityId(id)),
+    });
+    return create(DeletePromptVersionsResponseSchema, {});
   }
 
   // Persona Prompt

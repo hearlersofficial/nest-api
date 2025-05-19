@@ -32,7 +32,7 @@ export class SchemaCounselPromptsMapper {
       description: promptVersion.description,
       isActive: promptVersion.isActive,
       isTemporary: promptVersion.isTemporary,
-      // isBookmarked: promptVersion.isBookmarked,
+      isBookmarked: promptVersion.isBookmarked,
       counselorScopedPrompts: promptVersion.counselorScopedPrompts.map((counselorScopedPrompt) =>
         SchemaCounselPromptsMapper.toCounselorScopedPromptProto(counselorScopedPrompt),
       ),

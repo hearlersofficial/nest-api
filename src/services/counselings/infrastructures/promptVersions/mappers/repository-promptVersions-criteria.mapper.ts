@@ -1,7 +1,7 @@
 import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
 import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
 
-import { FindManyOptions, FindOptionsWhere, ILike } from "typeorm";
+import { FindManyOptions, FindOptionsWhere, ILike, In } from "typeorm";
 
 export class RepositoryPromptVersionCriteriaMapper {
   static toFindManyOptions(criteria: PromptVersionsCriteriaFindMany): FindManyOptions<PromptVersionEntity> {
@@ -18,6 +18,9 @@ export class RepositoryPromptVersionCriteriaMapper {
     }
     if (criteria.isBookmarked !== undefined) {
       where.isBookmarked = criteria.isBookmarked;
+    }
+    if (criteria.ids !== undefined) {
+      where.id = In(criteria.ids.map((id) => id.getString()));
     }
 
     return { where };

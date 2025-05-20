@@ -221,12 +221,12 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
       return Result.fail<void>("[PromptVersions] Active PromptVersion cannot be deleted.");
     }
     this.props.deletedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public restore(): Result<void> {
     this.props.deletedAt = null;
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public activate(): Result<void> {
@@ -389,6 +389,6 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
       this.props.isBookmarked = props.isBookmarked;
     }
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 }

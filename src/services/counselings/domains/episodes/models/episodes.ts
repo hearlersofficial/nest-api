@@ -11,7 +11,7 @@ export interface EpisodesNewProps {
   title: string;
   requiredRapportThreshold: number;
   isTemporary: boolean;
-  cutScenes: EpisodeCutScenesNewProps[];
+  cutScenes: Omit<EpisodeCutScenesNewProps, "episodeId">[];
 }
 
 export interface EpisodesProps extends EpisodesNewProps {
@@ -34,7 +34,9 @@ export class Episodes extends AggregateRoot<EpisodesProps> {
   public static createNew(newProps: EpisodesNewProps): Result<Episodes> {
     const now = getNowDayjs();
     const newId = new UniqueEntityId();
-    const cutSceneResults = newProps.cutScenes?.map((cutScene) => EpisodeCutScenes.createNew(cutScene));
+    const cutSceneResults = newProps.cutScenes?.map((cutScene) =>
+      EpisodeCutScenes.createNew({ ...cutScene, episodeId: newId }),
+    );
     if (Result.getFailResultIfExist(cutSceneResults)) {
       return Result.fail<Episodes>("Cut scenes are invalid");
     }

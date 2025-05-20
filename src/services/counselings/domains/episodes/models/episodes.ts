@@ -2,6 +2,7 @@ import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { EpisodeCutScenes } from "~counselings/domains/episodes/models/episode-cut-scenes";
 
 import { Dayjs } from "dayjs";
@@ -42,6 +43,30 @@ export class Episodes extends AggregateRoot<EpisodesProps> {
       },
       newId,
     );
+  }
+
+  public update(
+    props: Partial<Pick<EpisodesProps, "title" | "requiredRapportThreshold" | "isTemporary">>,
+  ): Result<Episodes> {
+    const { title, requiredRapportThreshold, isTemporary } = props;
+    this.props.title = isDefined(title) ? title : this.props.title;
+    this.props.requiredRapportThreshold = isDefined(requiredRapportThreshold)
+      ? requiredRapportThreshold
+      : this.props.requiredRapportThreshold;
+    this.props.isTemporary = isDefined(isTemporary) ? isTemporary : this.props.isTemporary;
+    this.props.updatedAt = getNowDayjs();
+    return Result.ok<Episodes>(this);
+  }
+
+  public updateCutScenes(cutScenes: EpisodeCutScenes[]): Result<Episodes> {
+    this.props.cutScenes = cutScenes;
+    this.props.updatedAt = getNowDayjs();
+    return Result.ok<Episodes>(this);
+  }
+
+  public delete(): Result<Episodes> {
+    this.props.deletedAt = getNowDayjs();
+    return Result.ok<Episodes>(this);
   }
 
   // Getters

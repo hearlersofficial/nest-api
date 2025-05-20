@@ -2,6 +2,7 @@ import { DomainEntity } from "~shared/core/domain/DomainEntity";
 import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { Dayjs } from "dayjs";
@@ -9,7 +10,7 @@ import { Dayjs } from "dayjs";
 export interface EpisodeCutScenesNewProps {
   episodeId: UniqueEntityId;
   speaker: Speaker;
-  title: string;
+  content: string;
   orderIndex: number;
   image: string;
 }
@@ -44,6 +45,23 @@ export class EpisodeCutScenes extends DomainEntity<EpisodeCutScenesProps> {
     );
   }
 
+  public update(
+    props: Partial<Pick<EpisodeCutScenesProps, "speaker" | "content" | "orderIndex" | "image">>,
+  ): Result<EpisodeCutScenes> {
+    const { speaker, content, orderIndex, image } = props;
+    this.props.speaker = isDefined(speaker) ? speaker : this.props.speaker;
+    this.props.content = isDefined(content) ? content : this.props.content;
+    this.props.orderIndex = isDefined(orderIndex) ? orderIndex : this.props.orderIndex;
+    this.props.image = isDefined(image) ? image : this.props.image;
+    this.props.updatedAt = getNowDayjs();
+    return Result.ok<EpisodeCutScenes>(this);
+  }
+
+  public delete(): Result<EpisodeCutScenes> {
+    this.props.deletedAt = getNowDayjs();
+    return Result.ok<EpisodeCutScenes>(this);
+  }
+
   // Getters
   get episodeId(): UniqueEntityId {
     return this.props.episodeId;
@@ -53,8 +71,8 @@ export class EpisodeCutScenes extends DomainEntity<EpisodeCutScenesProps> {
     return this.props.speaker;
   }
 
-  get title(): string {
-    return this.props.title;
+  get content(): string {
+    return this.props.content;
   }
 
   get orderIndex(): number {

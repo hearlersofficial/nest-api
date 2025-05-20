@@ -62,7 +62,7 @@ export class PromptActivateHistories extends AggregateRoot<PromptActivateHistori
     if (this.props.updatedAt === null || this.props.updatedAt === undefined) {
       return Result.fail<void>("[PromptActivateHistories] 수정 시간은 필수입니다");
     }
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters

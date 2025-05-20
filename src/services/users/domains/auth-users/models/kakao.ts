@@ -54,7 +54,7 @@ export class Kakao extends DomainEntity<KakaoProps> {
       return Result.fail<void>("[Kakao] 수정 시간은 필수입니다");
     }
 
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters

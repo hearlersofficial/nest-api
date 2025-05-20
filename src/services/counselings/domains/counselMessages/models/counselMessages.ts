@@ -71,42 +71,42 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
   validateDomain(): Result<void> {
     // counselId 검증
     if (this.props.counselId === null || this.props.counselId === undefined) {
-      return Result.fail<void>("[CounselMessages] 상담 ID는 필수입니다");
+      return Result.fail("[CounselMessages] 상담 ID는 필수입니다");
     }
 
     // userId 검증
     if (this.props.userId === null || this.props.userId === undefined) {
-      return Result.fail<void>("[CounselMessages] 사용자 ID는 필수입니다");
+      return Result.fail("[CounselMessages] 사용자 ID는 필수입니다");
     }
 
     // counselTechniqueId 검증
     if (this.props.counselTechniqueId === null || this.props.counselTechniqueId === undefined) {
-      return Result.fail<void>("[CounselMessages] 상담 기법 ID는 필수입니다");
+      return Result.fail("[CounselMessages] 상담 기법 ID는 필수입니다");
     }
 
     // message 검증
     if (this.props.message === null || this.props.message === undefined) {
-      return Result.fail<void>("[CounselMessages] 메시지 내용은 필수입니다");
+      return Result.fail("[CounselMessages] 메시지 내용은 필수입니다");
     }
     // gpt 응답은 80자 초과 가능
     if (this.props.isUserMessage && this.props.message.length > 80) {
-      return Result.fail<void>("[CounselMessages] 메시지 내용은 80자를 초과할 수 없습니다");
+      return Result.fail("[CounselMessages] 메시지 내용은 80자를 초과할 수 없습니다");
     }
 
     // isUserMessage 검증
     if (this.props.isUserMessage === null || this.props.isUserMessage === undefined) {
-      return Result.fail<void>("[CounselMessages] 사용자 메시지 여부는 필수입니다");
+      return Result.fail("[CounselMessages] 사용자 메시지 여부는 필수입니다");
     }
 
     // 날짜 검증
     if (!this.props.createdAt) {
-      return Result.fail<void>("[CounselMessages] 생성 시간은 필수입니다");
+      return Result.fail("[CounselMessages] 생성 시간은 필수입니다");
     }
     if (!this.props.updatedAt) {
-      return Result.fail<void>("[CounselMessages] 수정 시간은 필수입니다");
+      return Result.fail("[CounselMessages] 수정 시간은 필수입니다");
     }
 
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters
@@ -168,15 +168,15 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
 
   public react(reaction: CounselMessageReaction): Result<void> {
     if (this.props.isUserMessage) {
-      return Result.fail<void>("[CounselMessages] 사용자 메시지에는 반응할 수 없습니다");
+      return Result.fail("[CounselMessages] 사용자 메시지에는 반응할 수 없습니다");
     }
     if (this.props.reactedAt) {
-      return Result.fail<void>("[CounselMessages] 이미 좋아요 또는 싫어요를 누른 메시지입니다");
+      return Result.fail("[CounselMessages] 이미 좋아요 또는 싫어요를 누른 메시지입니다");
     }
     this.props.reactedAt = getNowDayjs();
     this.props.reaction = reaction;
 
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 }

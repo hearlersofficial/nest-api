@@ -91,7 +91,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
       return Result.fail<void>("[CounselTechniques] 수정 시간은 필수입니다");
     }
 
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters
@@ -162,7 +162,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
       this.props.isTemporary = props.isTemporary;
     }
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public delete(): void {

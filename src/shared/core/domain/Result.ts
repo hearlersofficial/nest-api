@@ -1,16 +1,14 @@
 export class Result<T> {
   private readonly _value?: T;
   public readonly error?: string;
-
-  public isSuccess: boolean;
-  public isFailure: boolean;
+  public readonly isSuccess: boolean;
+  public readonly isFailure: boolean;
 
   private constructor(isSuccess: boolean, error?: string, value?: T) {
     this.isSuccess = isSuccess;
     this.isFailure = !isSuccess;
     this.error = error;
     this._value = value;
-
     Object.freeze(this);
   }
 
@@ -18,7 +16,6 @@ export class Result<T> {
     if (!this.isSuccess) {
       throw new Error(this.error);
     }
-
     return this._value as T;
   }
 
@@ -26,21 +23,47 @@ export class Result<T> {
     return this.error ?? "unspecified error";
   }
 
-  public static ok<U>(value?: U): Result<U> {
-    return new Result<U>(true, undefined, value);
+  public static ok<U>(value: U): Result<U> & {
+    isSuccess: true;
+    isFailure: false;
+    value: U;
+    error?: undefined;
+  } {
+    return new Result<U>(true, undefined, value) as any;
   }
 
-  public static fail<U>(error: string): Result<U> {
-    return new Result<U>(false, error);
+  public static fail<U = never>(
+    error: string,
+  ): Result<U> & {
+    isSuccess: false;
+    isFailure: true;
+    error: string;
+    value?: undefined;
+  } {
+    return new Result<U>(false, error) as any;
   }
 
-  public static getFailResultIfExist(results: Result<unknown>[]): Result<unknown> | null {
+  public static getFailResultIfExist(results: Result<unknown>[]):
+    | (Result<unknown> & {
+        isSuccess: false;
+        isFailure: true;
+        error: string;
+        value?: undefined;
+      })
+    | null {
     for (const result of results) {
       if (result.isFailure) {
-        return result;
+        return result as any;
       }
     }
-
     return null;
+  }
+
+  public isFailureResult(): this is Result<T> & { error: string } {
+    return this.isFailure;
+  }
+
+  public isSuccessResult(): this is Result<T> & { value: T } {
+    return this.isSuccess;
   }
 }

@@ -1,0 +1,21 @@
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { EpisodesReader } from "~counselings/domains/episodes/episodes.reader";
+import { Episodes } from "~counselings/domains/episodes/models/episodes";
+import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
+
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
+export class RepositoryEpisodesReader extends EpisodesReader {
+  constructor(private readonly episodesRepository: EpisodesRepository) {
+    super();
+  }
+
+  override async findEpisodesByCounselorId(counselorId: UniqueEntityId, withTemporary: boolean): Promise<Episodes[]> {
+    return this.episodesRepository.findMany({ counselorId, isTemporary: withTemporary });
+  }
+
+  override async findEpisodeById(episodeId: UniqueEntityId, withTemporary: boolean): Promise<Episodes | null> {
+    return this.episodesRepository.findOne({ episodeId, isTemporary: withTemporary });
+  }
+}

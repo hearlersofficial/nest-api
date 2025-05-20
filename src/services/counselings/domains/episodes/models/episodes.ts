@@ -3,19 +3,19 @@ import { Result } from "~shared/core/domain/Result";
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { isDefined } from "~shared/utils/Validate.utils";
-import { EpisodeCutScenes } from "~counselings/domains/episodes/models/episode-cut-scenes";
+import { EpisodeCutScenes, EpisodeCutScenesNewProps } from "~counselings/domains/episodes/models/episode-cut-scenes";
 
 import { Dayjs } from "dayjs";
-
 export interface EpisodesNewProps {
   counselorId: UniqueEntityId;
   title: string;
   requiredRapportThreshold: number;
   isTemporary: boolean;
-  cutScenes: EpisodeCutScenes[];
+  cutScenes: EpisodeCutScenesNewProps[];
 }
 
 export interface EpisodesProps extends EpisodesNewProps {
+  cutScenes: EpisodeCutScenes[];
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -34,9 +34,15 @@ export class Episodes extends AggregateRoot<EpisodesProps> {
   public static createNew(newProps: EpisodesNewProps): Result<Episodes> {
     const now = getNowDayjs();
     const newId = new UniqueEntityId();
+    const cutSceneResults = newProps.cutScenes?.map((cutScene) => EpisodeCutScenes.createNew(cutScene));
+    if (Result.getFailResultIfExist(cutSceneResults)) {
+      return Result.fail<Episodes>("Cut scenes are invalid");
+    }
+    const cutScenes = cutSceneResults.map((result) => result.value);
     return this.create(
       {
         ...newProps,
+        cutScenes,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,

@@ -1,18 +1,10 @@
-import { EpisodeEntity } from "~shared/core/infrastructure/entities/counselors/episode.entity";
-import { EpisodeCutSceneEntity } from "~shared/core/infrastructure/entities/counselors/episode-cut-scene.entity";
+import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { Episodes } from "~counselings/domains/episodes/models/episodes";
 
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
 
 @Injectable()
-export class EpisodesReader {
-  constructor(
-    @InjectRepository(EpisodeEntity)
-    private readonly episodeRepository: Repository<EpisodeEntity>,
-    @InjectRepository(EpisodeCutSceneEntity)
-    private readonly episodeCutSceneRepository: Repository<EpisodeCutSceneEntity>,
-  ) {}
-
-  // 여기에 조회 관련 메서드 추가 가능
+export abstract class EpisodesReader {
+  abstract findEpisodeById(episodeId: UniqueEntityId, withTemporary: boolean): Promise<Episodes | null>;
+  abstract findEpisodesByCounselorId(counselorId: UniqueEntityId, withTemporary: boolean): Promise<Episodes[]>;
 }

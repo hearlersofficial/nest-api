@@ -4,6 +4,7 @@ import { CounselMessagesFacade } from "~counselings/applications/counselMessages
 import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { CounselsFacade } from "~counselings/applications/counsels.facade";
 import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
+import { EpisodesFacade } from "~counselings/applications/episodes.facade";
 import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
 import { PromptActivateHistoryFacade } from "~counselings/applications/promptActivateHistory.facade";
 import { PromptVersionsFacade } from "~counselings/applications/promptVersions.facade";
@@ -18,6 +19,7 @@ import { CounselMessagesModule } from "~counselings/domains/counselMessages/coun
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
+import { EpisodesModule } from "~counselings/domains/episodes/episodes.module";
 import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
 import { PromptActivateHistoryModule } from "~counselings/domains/promptActivateHistory/promptActivateHistory.module";
 import { PromptVersionsModule } from "~counselings/domains/promptVersions/promptVersions.module";
@@ -26,9 +28,11 @@ import { TonesModule } from "~counselings/domains/tones/tones.module";
 import { GrpcCounselorCommandController } from "~counselings/presentations/grpc/command/counselors-command.controller";
 import { GrpcCounselPromptCommandController } from "~counselings/presentations/grpc/command/counselPrompts-command.controller";
 import { GrpcCounselCommandController } from "~counselings/presentations/grpc/command/counsels-command.controller";
+import { GrpcEpisodeCommandController } from "~counselings/presentations/grpc/command/episodes-command.controller";
 import { GrpcCounselorQueryController } from "~counselings/presentations/grpc/query/counselors-query.controller";
 import { GrpcCounselPromptQueryController } from "~counselings/presentations/grpc/query/counselPrompts-query.controller";
 import { GrpcCounselQueryController } from "~counselings/presentations/grpc/query/counsels-query.controller";
+import { GrpcEpisodeQueryController } from "~counselings/presentations/grpc/query/episodes-query.controller";
 
 import { Inject, Logger, Module, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
@@ -41,6 +45,7 @@ import { ClientKafka, ClientsModule } from "@nestjs/microservices";
     CounselMessagesModule,
     CounselorsModule,
     TonesModule,
+    EpisodesModule,
     PromptVersionsModule,
     PersonaPromptsModule,
     TonePromptsModule,
@@ -55,6 +60,8 @@ import { ClientKafka, ClientsModule } from "@nestjs/microservices";
     GrpcCounselQueryController,
     GrpcCounselorQueryController,
     GrpcCounselPromptQueryController,
+    GrpcEpisodeCommandController,
+    GrpcEpisodeQueryController,
   ],
   providers: [
     ImageStorageConfig.register({
@@ -68,6 +75,7 @@ import { ClientKafka, ClientsModule } from "@nestjs/microservices";
     PersonaPromptsFacade,
     TonePromptsFacade,
     CounselTechniquesFacade,
+    EpisodesFacade,
     PromptActivateHistoryFacade,
     TransitionCounselTechniqueUseCase,
     MakeSystemPromptUseCase,

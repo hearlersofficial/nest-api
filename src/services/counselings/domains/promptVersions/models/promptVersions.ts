@@ -235,7 +235,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
     this.props.isActive = true;
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public deactivate(): Result<void> {
@@ -244,7 +244,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
     this.props.isActive = false;
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public saveVersion(props: { name: string; description: string; isBookmarked: boolean }): Result<void> {
@@ -256,10 +256,13 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.isBookmarked = props.isBookmarked;
     this.props.isTemporary = false;
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
-  public updateCounselorScopedPrompt(props: { counselorId: UniqueEntityId; personaPromptId: UniqueEntityId }): Result<void> {
+  public updateCounselorScopedPrompt(props: {
+    counselorId: UniqueEntityId;
+    personaPromptId: UniqueEntityId;
+  }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
@@ -267,7 +270,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
       if (counselorScopedPrompt.counselorId.equals(props.counselorId)) {
         counselorScopedPrompt.update({ personaPromptId: props.personaPromptId });
         this.props.updatedAt = getNowDayjs();
-        return Result.ok<void>();
+        return Result.ok();
       }
     }
     const newCounselorScopedPrompt = CounselorScopedPrompts.createNew({
@@ -280,23 +283,34 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
     this.props.counselorScopedPrompts.push(newCounselorScopedPrompt.value);
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public getCounselorScopedPrompt(counselorId: UniqueEntityId): Result<{ personaPromptId: UniqueEntityId }> {
-    const counselorScopedPrompt = this.props.counselorScopedPrompts.find((counselorScopedPrompt) => counselorScopedPrompt.counselorId.equals(counselorId));
-    return counselorScopedPrompt ? Result.ok({ personaPromptId: counselorScopedPrompt.personaPromptId }) : Result.fail("Prompt by counselor not found");
+    const counselorScopedPrompt = this.props.counselorScopedPrompts.find((counselorScopedPrompt) =>
+      counselorScopedPrompt.counselorId.equals(counselorId),
+    );
+    return counselorScopedPrompt
+      ? Result.ok({ personaPromptId: counselorScopedPrompt.personaPromptId })
+      : Result.fail("Prompt by counselor not found");
   }
 
-  public updateToneScopedPrompt(props: { toneId: UniqueEntityId; tonePromptId?: UniqueEntityId; firstCounselTechniqueId?: UniqueEntityId }): Result<void> {
+  public updateToneScopedPrompt(props: {
+    toneId: UniqueEntityId;
+    tonePromptId?: UniqueEntityId;
+    firstCounselTechniqueId?: UniqueEntityId;
+  }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
     for (const toneScopedPrompt of this.props.toneScopedPrompts) {
       if (toneScopedPrompt.toneId.equals(props.toneId)) {
-        toneScopedPrompt.update({ tonePromptId: props.tonePromptId, firstCounselTechniqueId: props.firstCounselTechniqueId });
+        toneScopedPrompt.update({
+          tonePromptId: props.tonePromptId,
+          firstCounselTechniqueId: props.firstCounselTechniqueId,
+        });
         this.props.updatedAt = getNowDayjs();
-        return Result.ok<void>();
+        return Result.ok();
       }
     }
     const newToneScopedPrompt = ToneScopedPrompts.createNew({
@@ -310,13 +324,20 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
     this.props.toneScopedPrompts.push(newToneScopedPrompt.value);
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
-  public getToneScopedPrompt(toneId: UniqueEntityId): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
-    const toneScopedPrompt = this.props.toneScopedPrompts.find((toneScopedPrompt) => toneScopedPrompt.toneId.equals(toneId));
+  public getToneScopedPrompt(
+    toneId: UniqueEntityId,
+  ): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
+    const toneScopedPrompt = this.props.toneScopedPrompts.find((toneScopedPrompt) =>
+      toneScopedPrompt.toneId.equals(toneId),
+    );
     return toneScopedPrompt
-      ? Result.ok({ tonePromptId: toneScopedPrompt.tonePromptId, firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId })
+      ? Result.ok({
+          tonePromptId: toneScopedPrompt.tonePromptId,
+          firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId,
+        })
       : Result.fail("Prompt by tone not found");
   }
 
@@ -354,7 +375,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
       this.props.toneScopedPrompts.push(clonedToneScopedPrompt.value);
     }
 
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public updateBasicInfo(props: { name?: string; description?: string; isBookmarked?: boolean }): Result<void> {

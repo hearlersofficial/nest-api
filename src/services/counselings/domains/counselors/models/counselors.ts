@@ -52,45 +52,45 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
   validateDomain(): Result<void> {
     // name 검증
     if (this.props.name === null || this.props.name === undefined) {
-      return Result.fail<void>("[Counselors] 상담사 이름은 필수입니다");
+      return Result.fail("[Counselors] 상담사 이름은 필수입니다");
     }
     if (this.props.name.length < 1) {
-      return Result.fail<void>("[Counselors] 상담사 이름은 최소 1자 이상이어야 합니다");
+      return Result.fail("[Counselors] 상담사 이름은 최소 1자 이상이어야 합니다");
     }
 
     // gender 검증
     if (this.props.gender === null || this.props.gender === undefined) {
-      return Result.fail<void>("[Counselors] 성별은 필수입니다");
+      return Result.fail("[Counselors] 성별은 필수입니다");
     }
     if (!Object.values(CounselorGender).includes(this.props.gender)) {
-      return Result.fail<void>("[Counselors] 유효하지 않은 성별입니다");
+      return Result.fail("[Counselors] 유효하지 않은 성별입니다");
     }
     if (this.props.gender === CounselorGender.UNSPECIFIED) {
-      return Result.fail<void>("[Counselors] 성별이 지정되지 않았습니다");
+      return Result.fail("[Counselors] 성별이 지정되지 않았습니다");
     }
 
     // description 검증
     if (this.props.description === null || this.props.description === undefined) {
-      return Result.fail<void>("[Counselors] 상담사 소개는 필수입니다");
+      return Result.fail("[Counselors] 상담사 소개는 필수입니다");
     }
     if (this.props.description.length < 1) {
-      return Result.fail<void>("[Counselors] 상담사 소개는 최소 1자 이상이어야 합니다");
+      return Result.fail("[Counselors] 상담사 소개는 최소 1자 이상이어야 합니다");
     }
 
     // toneId 검증
     if (this.props.toneId === null || this.props.toneId === undefined) {
-      return Result.fail<void>("[Counselors] 톤 ID는 필수입니다");
+      return Result.fail("[Counselors] 톤 ID는 필수입니다");
     }
 
     // 날짜 검증
     if (!this.props.createdAt) {
-      return Result.fail<void>("[Counselors] 생성 시간은 필수입니다");
+      return Result.fail("[Counselors] 생성 시간은 필수입니다");
     }
     if (!this.props.updatedAt) {
-      return Result.fail<void>("[Counselors] 수정 시간은 필수입니다");
+      return Result.fail("[Counselors] 수정 시간은 필수입니다");
     }
 
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters

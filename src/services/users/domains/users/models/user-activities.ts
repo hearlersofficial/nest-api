@@ -76,7 +76,7 @@ export class UserActivities extends DomainEntity<UserActivitiesProps> {
       return Result.fail<void>("[UserActivities] 수정 시간은 필수입니다");
     }
 
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters
@@ -138,7 +138,7 @@ export class UserActivities extends DomainEntity<UserActivitiesProps> {
     }
 
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public delete(): void {

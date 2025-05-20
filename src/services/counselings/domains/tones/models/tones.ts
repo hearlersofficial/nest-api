@@ -75,7 +75,7 @@ export class Tones extends AggregateRoot<TonesProps> {
     if (!this.props.updatedAt) {
       return Result.fail<void>("[Tones] 수정 시간은 필수입니다");
     }
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters

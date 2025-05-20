@@ -53,7 +53,7 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
   }
 
   public validateDomain(): Result<void> {
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters
@@ -101,7 +101,7 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
   public resetTokens(): Result<void> {
     this.props.remainingTokens = this.props.maxTokens;
     this.props.lastReset = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public hasRemainingTokens(): boolean {
@@ -125,13 +125,13 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
   public reserveTokens(): Result<void> {
     this.props.reserved = true;
     this.props.reservedTimeout = getNowDayjs().add(60, "second");
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public releaseTokens(): Result<void> {
     this.props.reserved = false;
     this.props.reservedTimeout = null;
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // QUESTION: FIND ONE USER -> 토큰 소모체크 후 소모 vs 토큰 소모와 소모체크 별도로 분리후 소모는 메서드 없이 db 바로 소모
@@ -145,7 +145,7 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
     // }
     this.releaseTokens();
     this.props.remainingTokens -= tokens;
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public isResetTime(): boolean {
@@ -164,6 +164,6 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
   public updateMaxTokens(maxTokens: number): Result<void> {
     this.props.maxTokens = maxTokens;
     this.props.remainingTokens = maxTokens;
-    return Result.ok<void>();
+    return Result.ok();
   }
 }

@@ -22,14 +22,11 @@ export class Result<T> {
   get errorValue(): string {
     return this.error ?? "unspecified error";
   }
+  public static ok(): Result<void> & { isSuccess: true; isFailure: false; value: void; error?: undefined };
+  public static ok<U>(value: U): Result<U> & { isSuccess: true; isFailure: false; value: U; error?: undefined };
 
-  public static ok<U>(value: U): Result<U> & {
-    isSuccess: true;
-    isFailure: false;
-    value: U;
-    error?: undefined;
-  } {
-    return new Result<U>(true, undefined, value) as any;
+  public static ok(value?: unknown): any {
+    return new Result(true, undefined, value);
   }
 
   public static fail<U = never>(

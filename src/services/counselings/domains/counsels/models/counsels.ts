@@ -68,38 +68,38 @@ export class Counsels extends AggregateRoot<CounselsProps> {
   validateDomain(): Result<void> {
     // counselorId 검증
     if (this.props.counselorId === null || this.props.counselorId === undefined) {
-      return Result.fail<void>("[Counsels] 상담사 ID는 필수입니다");
+      return Result.fail("[Counsels] 상담사 ID는 필수입니다");
     }
 
     // userId 검증
     if (this.props.userId === null || this.props.userId === undefined) {
-      return Result.fail<void>("[Counsels] 사용자 ID는 필수입니다");
+      return Result.fail("[Counsels] 사용자 ID는 필수입니다");
     }
 
     // counselTechniqueId 검증
     if (this.props.counselTechniqueId === null || this.props.counselTechniqueId === undefined) {
-      return Result.fail<void>("[Counsels] 상담 기법 ID는 필수입니다");
+      return Result.fail("[Counsels] 상담 기법 ID는 필수입니다");
     }
 
     // promptVersionId 검증
     if (this.props.promptVersionId === null || this.props.promptVersionId === undefined) {
-      return Result.fail<void>("[Counsels] 프롬프트 버전 ID는 필수입니다");
+      return Result.fail("[Counsels] 프롬프트 버전 ID는 필수입니다");
     }
 
     // counselorUserRelationshipId 검증
     if (this.props.counselorUserRelationshipId === null || this.props.counselorUserRelationshipId === undefined) {
-      return Result.fail<void>("[Counsels] 상담사-사용자 관계 ID는 필수입니다");
+      return Result.fail("[Counsels] 상담사-사용자 관계 ID는 필수입니다");
     }
 
     // 날짜 검증
     if (!this.props.createdAt) {
-      return Result.fail<void>("[Counsels] 생성 시간은 필수입니다");
+      return Result.fail("[Counsels] 생성 시간은 필수입니다");
     }
     if (!this.props.updatedAt) {
-      return Result.fail<void>("[Counsels] 수정 시간은 필수입니다");
+      return Result.fail("[Counsels] 수정 시간은 필수입니다");
     }
 
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters
@@ -146,17 +146,17 @@ export class Counsels extends AggregateRoot<CounselsProps> {
   // Methods
   public saveLastMessage(counselMessage: CounselMessages): Result<void> {
     if (!counselMessage.counselId.equals(this.id)) {
-      return Result.fail<void>("[Counsels] 메시지의 상담 ID가 일치하지 않습니다");
+      return Result.fail("[Counsels] 메시지의 상담 ID가 일치하지 않습니다");
     }
     this.props.lastMessage = counselMessage.message;
     this.props.lastChatedAt = counselMessage.createdAt;
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public updateCounselTechniqueId(counselTechniqueId: UniqueEntityId): Result<void> {
     this.props.counselTechniqueId = counselTechniqueId;
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public delete(): void {

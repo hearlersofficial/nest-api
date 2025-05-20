@@ -68,7 +68,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     if (!this.props.authChannel) {
       return Result.fail<void>("인증 채널은 필수입니다.");
     }
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters
@@ -130,7 +130,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
         return Result.fail<void>("Invalid auth channel");
     }
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public bindUser(userId: UniqueEntityId): void {
@@ -142,13 +142,13 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
   public inactive(): Result<void> {
     this.props.status = CoreStatus.INACTIVE;
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public update(props: Partial<AuthUsersProps>): Result<void> {
     this.props = { ...this.props, ...props };
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public updateLastLoginAt(): void {

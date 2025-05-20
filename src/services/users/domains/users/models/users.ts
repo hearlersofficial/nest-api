@@ -80,13 +80,13 @@ export class Users extends AggregateRoot<UsersProps> {
       }
     }
 
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public updateNickname(nickname: string): Result<void> {
     this.props.nickname = nickname;
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   // Getters

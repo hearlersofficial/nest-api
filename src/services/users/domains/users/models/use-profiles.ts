@@ -79,7 +79,7 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
       return Result.fail<void>("[UserProfiles] 수정 시간은 필수입니다");
     }
 
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   private validatePhoneNumber(phoneNumber: string): boolean {
@@ -137,7 +137,7 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
       this.props.mbti = props.mbti;
     }
     this.props.updatedAt = getNowDayjs();
-    return Result.ok<void>();
+    return Result.ok();
   }
 
   public delete(): void {

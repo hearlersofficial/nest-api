@@ -18,6 +18,7 @@ export class UpdateEpisodeCommand {
 }
 
 export class SaveEpisodeCutSceneCommand {
+  id?: UniqueEntityId;
   speaker: Speaker;
   content: string;
   orderIndex: number;

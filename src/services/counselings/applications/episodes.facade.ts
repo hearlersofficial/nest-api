@@ -1,7 +1,14 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { isDefined } from "~shared/utils/Validate.utils";
 import { EpisodesService } from "~counselings/domains/episodes/episodes.service";
-import { EpisodeCutScenes, EpisodeCutScenesNewProps } from "~counselings/domains/episodes/models/episode-cut-scenes";
-import { Episodes, EpisodesNewProps } from "~counselings/domains/episodes/models/episodes";
+import {
+  EpisodeCutScenes,
+  EpisodeCutScenesNewProps,
+} from "~counselings/domains/episodes/models/episode-cut-scenes";
+import {
+  Episodes,
+  EpisodesNewProps,
+} from "~counselings/domains/episodes/models/episodes";
 import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { Injectable } from "@nestjs/common";
@@ -24,7 +31,13 @@ export class EpisodesFacade {
       image: string;
     }[];
   }): Promise<Episodes> {
-    const { counselorId, title, requiredRapportThreshold, isTemporary, cutScenes } = params;
+    const {
+      counselorId,
+      title,
+      requiredRapportThreshold,
+      isTemporary,
+      cutScenes,
+    } = params;
     const newProps: EpisodesNewProps = {
       counselorId,
       title,
@@ -37,12 +50,21 @@ export class EpisodesFacade {
     return this.episodesService.create(newProps);
   }
 
-  async findEpisodes(params: { counselorId: UniqueEntityId; withTemporary?: boolean }): Promise<Episodes[]> {
+  async findEpisodes(params: {
+    counselorId: UniqueEntityId;
+    withTemporary?: boolean;
+  }): Promise<Episodes[]> {
     const { counselorId, withTemporary = false } = params;
-    return this.episodesService.findEpisodesByCounselorId(counselorId, withTemporary);
+    return this.episodesService.findEpisodesByCounselorId(
+      counselorId,
+      withTemporary
+    );
   }
 
-  async findEpisodeById(params: { episodeId: UniqueEntityId; withTemporary?: boolean }): Promise<Episodes | null> {
+  async findEpisodeById(params: {
+    episodeId: UniqueEntityId;
+    withTemporary?: boolean;
+  }): Promise<Episodes | null> {
     const { episodeId, withTemporary = false } = params;
     return this.episodesService.findEpisodeById(episodeId, withTemporary);
   }
@@ -61,17 +83,29 @@ export class EpisodesFacade {
       image: string;
     }[];
   }): Promise<Episodes> {
-    const { episodeId, title, requiredRapportThreshold, isTemporary, cutScenes } = params;
+    const {
+      episodeId,
+      title,
+      requiredRapportThreshold,
+      isTemporary,
+      cutScenes,
+    } = params;
     const episode = await this.episodesService.getEpisodeById(episodeId, true);
 
-    if (title || requiredRapportThreshold !== undefined || isTemporary !== undefined) {
+    if (
+      isDefined(title) &&
+      isDefined(requiredRapportThreshold) &&
+      isDefined(isTemporary)
+    ) {
       episode.update({ title, requiredRapportThreshold, isTemporary });
     }
 
     if (cutScenes) {
       const updatedCutScenes = cutScenes.map((cutScene) => {
         if (cutScene.id) {
-          const existingCutScene = episode.cutScenes.find((cs) => cs.id.getString() === cutScene.id);
+          const existingCutScene = episode.cutScenes.find(
+            (cs) => cs.id.getString() === cutScene.id
+          );
           if (existingCutScene) {
             existingCutScene.update({
               speaker: cutScene.speaker,

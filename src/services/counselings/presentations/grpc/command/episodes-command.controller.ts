@@ -44,12 +44,13 @@ export class GrpcEpisodeCommandController {
       title,
       requiredRapportThreshold,
       isTemporary: isTemporary ?? false,
-      cutScenes: cutScenes.map((cutScene) => ({
-        speaker: cutScene.speaker,
-        content: cutScene.content,
-        orderIndex: cutScene.orderIndex,
-        image: cutScene.image,
-      })),
+      cutScenes:
+        cutScenes?.map((cutScene) => ({
+          speaker: cutScene.speaker,
+          content: cutScene.content,
+          orderIndex: cutScene.orderIndex,
+          image: cutScene.image,
+        })) || [],
     });
     return create(CreateEpisodeResponseSchema, {
       episode: SchemaEpisodesMapper.toEpisodeProto(episode),

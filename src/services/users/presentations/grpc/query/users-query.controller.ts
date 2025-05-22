@@ -31,18 +31,31 @@ import { GrpcMethod } from "@nestjs/microservices";
 
 @Controller("user")
 export class GrpcUserQueryController {
-  constructor(private readonly userFacade: UsersFacade, private readonly authUsersFacade: AuthUsersFacade) {}
+  constructor(
+    private readonly userFacade: UsersFacade,
+    private readonly authUsersFacade: AuthUsersFacade
+  ) {}
 
   @GrpcMethod("UserService", "FindUserByUserId")
-  async findUserByUserId(data: FindUserByUserIdRequest): Promise<FindUserByUserIdResponse> {
-    const user: Users = await this.userFacade.findOneUser({ userId: new UniqueEntityId(data.userId) });
+  async findUserByUserId(
+    data: FindUserByUserIdRequest
+  ): Promise<FindUserByUserIdResponse> {
+    const user: Users = await this.userFacade.findOneUser({
+      userId: new UniqueEntityId(data.userId),
+    });
 
-    return create(FindUserByUserIdResponseSchema, { user: SchemaUsersMapper.toUserProto(user) });
+    return create(FindUserByUserIdResponseSchema, {
+      user: SchemaUsersMapper.toUserProto(user),
+    });
   }
 
   @GrpcMethod("UserService", "FindUserByNickname")
-  async findUserByNickname(data: FindUserByNicknameRequest): Promise<FindUserByNicknameResponse> {
-    const user: Users = await this.userFacade.findOneUser({ nickname: data.nickname });
+  async findUserByNickname(
+    data: FindUserByNicknameRequest
+  ): Promise<FindUserByNicknameResponse> {
+    const user: Users = await this.userFacade.findOneUser({
+      nickname: data.nickname,
+    });
 
     return create(FindUserByNicknameResponseSchema, {
       user: SchemaUsersMapper.toUserProto(user),
@@ -50,7 +63,9 @@ export class GrpcUserQueryController {
   }
 
   @GrpcMethod("UserService", "FindAuthUserByAuthUserId")
-  async findAuthUserByAuthUserId(data: FindAuthUserByAuthUserIdRequest): Promise<FindAuthUserByAuthUserIdResponse> {
+  async findAuthUserByAuthUserId(
+    data: FindAuthUserByAuthUserIdRequest
+  ): Promise<FindAuthUserByAuthUserIdResponse> {
     const authUser = await this.authUsersFacade.findOneAuthUser({
       authUserId: new UniqueEntityId(data.authUserId),
     });
@@ -61,7 +76,9 @@ export class GrpcUserQueryController {
   }
 
   @GrpcMethod("UserService", "FindAuthUserByUserId")
-  async findAuthUserByUserId(data: FindAuthUserByUserIdRequest): Promise<FindAuthUserByUserIdResponse> {
+  async findAuthUserByUserId(
+    data: FindAuthUserByUserIdRequest
+  ): Promise<FindAuthUserByUserIdResponse> {
     const authUser = await this.authUsersFacade.findOneAuthUser({
       userId: new UniqueEntityId(data.userId),
     });
@@ -72,7 +89,9 @@ export class GrpcUserQueryController {
   }
 
   @GrpcMethod("UserService", "FindAuthUserByChannelInfo")
-  async findAuthUserByChannelInfo(data: FindAuthUserByChannelInfoRequest): Promise<FindAuthUserByChannelInfoResponse> {
+  async findAuthUserByChannelInfo(
+    data: FindAuthUserByChannelInfoRequest
+  ): Promise<FindAuthUserByChannelInfoResponse> {
     const authUser = await this.authUsersFacade.findOneAuthUser({
       authChannel: data.authChannel,
       uniqueId: data.uniqueId,
@@ -84,10 +103,13 @@ export class GrpcUserQueryController {
   }
 
   @GrpcMethod("UserService", "CheckRemainingTokens")
-  async checkRemainingTokens(data: CheckRemainingTokensRequest): Promise<CheckRemainingTokensResponse> {
-    const { remainingTokens, maxTokens, reserved } = await this.userFacade.checkRemainingTokens(
-      new UniqueEntityId(data.userId),
-    );
+  async checkRemainingTokens(
+    data: CheckRemainingTokensRequest
+  ): Promise<CheckRemainingTokensResponse> {
+    const { remainingTokens, maxTokens, reserved } =
+      await this.userFacade.checkRemainingTokens(
+        new UniqueEntityId(data.userId)
+      );
 
     return create(CheckRemainingTokensResponseSchema, {
       remainingTokens,

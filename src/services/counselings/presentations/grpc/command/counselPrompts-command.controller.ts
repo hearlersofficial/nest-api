@@ -1,4 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { ProtoRequest } from "~shared/utils/Rpc.utils";
 import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
 import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
 import { PromptVersionsFacade } from "~counselings/applications/promptVersions.facade";
@@ -6,33 +7,43 @@ import { TonePromptsFacade } from "~counselings/applications/tonePrompts.facade"
 import { SchemaCounselPromptsMapper } from "~counselings/presentations/grpc/counselPrompts.mapper";
 import {
   ActivatePromptVersionRequest,
+  ActivatePromptVersionRequestSchema,
   ActivatePromptVersionResponse,
   ActivatePromptVersionResponseSchema,
   CreateCounselTechniqueRequest,
+  CreateCounselTechniqueRequestSchema,
   CreateCounselTechniqueResponse,
   CreateCounselTechniqueResponseSchema,
   DeletePromptVersionsRequest,
+  DeletePromptVersionsRequestSchema,
   DeletePromptVersionsResponse,
   DeletePromptVersionsResponseSchema,
   LoadExistingPromptVersionRequest,
+  LoadExistingPromptVersionRequestSchema,
   LoadExistingPromptVersionResponse,
   LoadExistingPromptVersionResponseSchema,
   SaveCounselTechniqueSequenceRequest,
+  SaveCounselTechniqueSequenceRequestSchema,
   SaveCounselTechniqueSequenceResponse,
   SaveCounselTechniqueSequenceResponseSchema,
   SaveTemporaryVersionRequest,
+  SaveTemporaryVersionRequestSchema,
   SaveTemporaryVersionResponse,
   SaveTemporaryVersionResponseSchema,
   UpdateCounselTechniqueRequest,
+  UpdateCounselTechniqueRequestSchema,
   UpdateCounselTechniqueResponse,
   UpdateCounselTechniqueResponseSchema,
   UpdatePersonaPromptRequest,
+  UpdatePersonaPromptRequestSchema,
   UpdatePersonaPromptResponse,
   UpdatePersonaPromptResponseSchema,
   UpdatePromptVersionRequest,
+  UpdatePromptVersionRequestSchema,
   UpdatePromptVersionResponse,
   UpdatePromptVersionResponseSchema,
   UpdateTonePromptRequest,
+  UpdateTonePromptRequestSchema,
   UpdateTonePromptResponse,
   UpdateTonePromptResponseSchema,
 } from "~proto/com/hearlers/v1/service/counsel_prompt_pb";
@@ -52,6 +63,7 @@ export class GrpcCounselPromptCommandController {
 
   // Prompt Version
   @GrpcMethod("CounselPromptService", "LoadExistingPromptVersion")
+  @ProtoRequest(LoadExistingPromptVersionRequestSchema)
   async loadExistingPromptVersion(
     request: LoadExistingPromptVersionRequest
   ): Promise<LoadExistingPromptVersionResponse> {
@@ -67,6 +79,7 @@ export class GrpcCounselPromptCommandController {
   }
 
   @GrpcMethod("CounselPromptService", "SaveTemporaryVersion")
+  @ProtoRequest(SaveTemporaryVersionRequestSchema)
   async saveTemporaryVersion(
     request: SaveTemporaryVersionRequest
   ): Promise<SaveTemporaryVersionResponse> {
@@ -83,6 +96,7 @@ export class GrpcCounselPromptCommandController {
   }
 
   @GrpcMethod("CounselPromptService", "ActivatePromptVersion")
+  @ProtoRequest(ActivatePromptVersionRequestSchema)
   async activatePromptVersion(
     request: ActivatePromptVersionRequest
   ): Promise<ActivatePromptVersionResponse> {
@@ -99,6 +113,7 @@ export class GrpcCounselPromptCommandController {
   }
 
   @GrpcMethod("CounselPromptService", "UpdatePromptVersion")
+  @ProtoRequest(UpdatePromptVersionRequestSchema)
   async updatePromptVersion(
     request: UpdatePromptVersionRequest
   ): Promise<UpdatePromptVersionResponse> {
@@ -116,6 +131,7 @@ export class GrpcCounselPromptCommandController {
   }
 
   @GrpcMethod("CounselPromptService", "DeletePromptVersions")
+  @ProtoRequest(DeletePromptVersionsRequestSchema)
   async deletePromptVersions(
     request: DeletePromptVersionsRequest
   ): Promise<DeletePromptVersionsResponse> {
@@ -128,6 +144,7 @@ export class GrpcCounselPromptCommandController {
 
   // Persona Prompt
   @GrpcMethod("CounselPromptService", "UpdatePersonaPrompt")
+  @ProtoRequest(UpdatePersonaPromptRequestSchema)
   async updatePersonaPrompt(
     request: UpdatePersonaPromptRequest
   ): Promise<UpdatePersonaPromptResponse> {
@@ -144,6 +161,7 @@ export class GrpcCounselPromptCommandController {
 
   // Tone Prompt
   @GrpcMethod("CounselPromptService", "UpdateTonePrompt")
+  @ProtoRequest(UpdateTonePromptRequestSchema)
   async updateTonePrompt(
     request: UpdateTonePromptRequest
   ): Promise<UpdateTonePromptResponse> {
@@ -159,6 +177,7 @@ export class GrpcCounselPromptCommandController {
 
   // Counsel Technique
   @GrpcMethod("CounselPromptService", "CreateCounselTechnique")
+  @ProtoRequest(CreateCounselTechniqueRequestSchema)
   async createCounselTechnique(
     request: CreateCounselTechniqueRequest
   ): Promise<CreateCounselTechniqueResponse> {
@@ -179,6 +198,7 @@ export class GrpcCounselPromptCommandController {
   }
 
   @GrpcMethod("CounselPromptService", "UpdateCounselTechnique")
+  @ProtoRequest(UpdateCounselTechniqueRequestSchema)
   async updateCounselTechnique(
     request: UpdateCounselTechniqueRequest
   ): Promise<UpdateCounselTechniqueResponse> {
@@ -200,6 +220,7 @@ export class GrpcCounselPromptCommandController {
   }
 
   @GrpcMethod("CounselPromptService", "SaveCounselTechniqueSequence")
+  @ProtoRequest(SaveCounselTechniqueSequenceRequestSchema)
   async saveCounselTechniqueSequence(
     request: SaveCounselTechniqueSequenceRequest
   ): Promise<SaveCounselTechniqueSequenceResponse> {

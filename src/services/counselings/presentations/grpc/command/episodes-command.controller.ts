@@ -1,16 +1,20 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ImageStorageService } from "~shared/core/infrastructure/image-storage";
 import { SchemaPresignedUrlMapper } from "~shared/core/presentations/presigned-url.mapper";
+import { ProtoRequest } from "~shared/utils/Rpc.utils";
 import { EpisodesFacade } from "~counselings/applications/episodes.facade";
 import { SchemaEpisodesMapper } from "~counselings/presentations/grpc/episodes.mapper";
 import {
   CreateEpisodeRequest,
+  CreateEpisodeRequestSchema,
   CreateEpisodeResponse,
   CreateEpisodeResponseSchema,
   GenerateCutSceneImageUrlRequest,
+  GenerateCutSceneImageUrlRequestSchema,
   GenerateCutSceneImageUrlResponse,
   GenerateCutSceneImageUrlResponseSchema,
   UpdateEpisodeRequest,
+  UpdateEpisodeRequestSchema,
   UpdateEpisodeResponse,
   UpdateEpisodeResponseSchema,
 } from "~proto/com/hearlers/v1/service/counselor_pb";
@@ -29,6 +33,7 @@ export class GrpcEpisodeCommandController {
   ) {}
 
   @GrpcMethod("CounselorService", "CreateEpisode")
+  @ProtoRequest(CreateEpisodeRequestSchema)
   async createEpisode(
     request: CreateEpisodeRequest
   ): Promise<CreateEpisodeResponse> {
@@ -39,6 +44,8 @@ export class GrpcEpisodeCommandController {
       isTemporary,
       cutScenes,
     } = request;
+    console.log(request);
+
     const episode = await this.episodesFacade.createEpisode({
       counselorId: new UniqueEntityId(counselorId),
       title,
@@ -58,6 +65,7 @@ export class GrpcEpisodeCommandController {
   }
 
   @GrpcMethod("CounselorService", "UpdateEpisode")
+  @ProtoRequest(UpdateEpisodeRequestSchema)
   async updateEpisode(
     request: UpdateEpisodeRequest
   ): Promise<UpdateEpisodeResponse> {
@@ -87,6 +95,7 @@ export class GrpcEpisodeCommandController {
   }
 
   @GrpcMethod("CounselorService", "GenerateCutSceneImageUrl")
+  @ProtoRequest(GenerateCutSceneImageUrlRequestSchema)
   async generateCutSceneImageUrl(
     request: GenerateCutSceneImageUrlRequest
   ): Promise<GenerateCutSceneImageUrlResponse> {

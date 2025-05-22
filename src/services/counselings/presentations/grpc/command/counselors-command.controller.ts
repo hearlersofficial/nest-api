@@ -1,32 +1,41 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ImageStorageService } from "~shared/core/infrastructure/image-storage";
 import { SchemaPresignedUrlMapper } from "~shared/core/presentations/presigned-url.mapper";
+import { ProtoRequest } from "~shared/utils/Rpc.utils";
 import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { TonesFacade } from "~counselings/applications/tones.facade";
 import { SchemaCounselorsMapper } from "~counselings/presentations/grpc/counselors.mapper";
 import {
   CreateBubbleRequest,
+  CreateBubbleRequestSchema,
   CreateBubbleResponse,
   CreateBubbleResponseSchema,
   CreateCounselorRequest,
+  CreateCounselorRequestSchema,
   CreateCounselorResponse,
   CreateCounselorResponseSchema,
   CreateToneRequest,
+  CreateToneRequestSchema,
   CreateToneResponse,
   CreateToneResponseSchema,
   DeleteBubbleRequest,
+  DeleteBubbleRequestSchema,
   DeleteBubbleResponse,
   DeleteBubbleResponseSchema,
   GenerateCounselorImageUrlRequest,
+  GenerateCounselorImageUrlRequestSchema,
   GenerateCounselorImageUrlResponse,
   GenerateCounselorImageUrlResponseSchema,
   UpdateBubbleRequest,
+  UpdateBubbleRequestSchema,
   UpdateBubbleResponse,
   UpdateBubbleResponseSchema,
   UpdateCounselorRequest,
+  UpdateCounselorRequestSchema,
   UpdateCounselorResponse,
   UpdateCounselorResponseSchema,
   UpdateToneRequest,
+  UpdateToneRequestSchema,
   UpdateToneResponse,
   UpdateToneResponseSchema,
 } from "~proto/com/hearlers/v1/service/counselor_pb";
@@ -42,13 +51,17 @@ export class GrpcCounselorCommandController {
   constructor(
     private readonly counselorsFacade: CounselorsFacade,
     private readonly tonesFacade: TonesFacade,
-    private readonly imageStorageService: ImageStorageService,
+    private readonly imageStorageService: ImageStorageService
   ) {}
 
   // Counselor
   @GrpcMethod("CounselorService", "CreateCounselor")
-  async createCounselor(request: CreateCounselorRequest): Promise<CreateCounselorResponse> {
-    const { toneId, name, description, profileImage, counselorGender } = request;
+  @ProtoRequest(CreateCounselorRequestSchema)
+  async createCounselor(
+    request: CreateCounselorRequest
+  ): Promise<CreateCounselorResponse> {
+    const { toneId, name, description, profileImage, counselorGender } =
+      request;
     const counselor = await this.counselorsFacade.createCounselor({
       toneId: new UniqueEntityId(toneId),
       profileImage,
@@ -62,8 +75,18 @@ export class GrpcCounselorCommandController {
   }
 
   @GrpcMethod("CounselorService", "UpdateCounselor")
-  async updateCounselor(request: UpdateCounselorRequest): Promise<UpdateCounselorResponse> {
-    const { counselorId, toneId, name, description, profileImage, counselorGender } = request;
+  @ProtoRequest(UpdateCounselorRequestSchema)
+  async updateCounselor(
+    request: UpdateCounselorRequest
+  ): Promise<UpdateCounselorResponse> {
+    const {
+      counselorId,
+      toneId,
+      name,
+      description,
+      profileImage,
+      counselorGender,
+    } = request;
     const counselor = await this.counselorsFacade.updateCounselor({
       counselorId: new UniqueEntityId(counselorId),
       toneId: toneId ? new UniqueEntityId(toneId) : undefined,
@@ -79,6 +102,7 @@ export class GrpcCounselorCommandController {
 
   // Tone
   @GrpcMethod("CounselorService", "CreateTone")
+  @ProtoRequest(CreateToneRequestSchema)
   async createTone(request: CreateToneRequest): Promise<CreateToneResponse> {
     const { name, description } = request;
     const tone = await this.tonesFacade.createTone({
@@ -91,6 +115,7 @@ export class GrpcCounselorCommandController {
   }
 
   @GrpcMethod("CounselorService", "UpdateTone")
+  @ProtoRequest(UpdateToneRequestSchema)
   async updateTone(request: UpdateToneRequest): Promise<UpdateToneResponse> {
     const { toneId, name, description } = request;
     const tone = await this.tonesFacade.updateTone({
@@ -104,11 +129,14 @@ export class GrpcCounselorCommandController {
   }
 
   @GrpcMethod("CounselorService", "GenerateCounselorImageUrl")
+  @ProtoRequest(GenerateCounselorImageUrlRequestSchema)
   async generateCounselorImageUrl(
-    request: GenerateCounselorImageUrlRequest,
+    request: GenerateCounselorImageUrlRequest
   ): Promise<GenerateCounselorImageUrlResponse> {
     const { counselorId, extension } = request;
-    this.logger.log(`Generating counselor image URL for counselorId: ${counselorId} with extension: ${extension}`);
+    this.logger.log(
+      `Generating counselor image URL for counselorId: ${counselorId} with extension: ${extension}`
+    );
 
     try {
       // 상담사 이미지를 위한 프리사인드 URL 생성 (이제 extension 사용)
@@ -119,24 +147,35 @@ export class GrpcCounselorCommandController {
           entityId: counselorId, // 상담사 ID
           generateUniqueFileName: true, // 고유 파일명 생성
           extension, // proto에서 온 extension 열거형 사용
-        },
+        }
       );
 
-      this.logger.log(`Generated upload URL: ${presignedUrl.getUploadUrl().substring(0, 50)}...`);
+      this.logger.log(
+        `Generated upload URL: ${presignedUrl
+          .getUploadUrl()
+          .substring(0, 50)}...`
+      );
       this.logger.log(`Image will be stored at: ${presignedUrl.getFilePath()}`);
 
       // PresignedUrl을 Proto 객체로 변환하여 반환
       return create(GenerateCounselorImageUrlResponseSchema, {
-        presignedUrl: SchemaPresignedUrlMapper.toPresignedUrlProto(presignedUrl),
+        presignedUrl:
+          SchemaPresignedUrlMapper.toPresignedUrlProto(presignedUrl),
       });
     } catch (error) {
-      this.logger.error(`Error generating counselor image URL: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error generating counselor image URL: ${error.message}`,
+        error.stack
+      );
       throw error;
     }
   }
 
   @GrpcMethod("CounselorService", "CreateBubble")
-  async createBubble(request: CreateBubbleRequest): Promise<CreateBubbleResponse> {
+  @ProtoRequest(CreateBubbleRequestSchema)
+  async createBubble(
+    request: CreateBubbleRequest
+  ): Promise<CreateBubbleResponse> {
     const { counselorId, question, responseOption1, responseOption2 } = request;
     const bubble = await this.counselorsFacade.createBubble({
       counselorId: new UniqueEntityId(counselorId),
@@ -150,8 +189,17 @@ export class GrpcCounselorCommandController {
   }
 
   @GrpcMethod("CounselorService", "UpdateBubble")
-  async updateBubble(request: UpdateBubbleRequest): Promise<UpdateBubbleResponse> {
-    const { bubbleId, counselorId, question, responseOption1, responseOption2 } = request;
+  @ProtoRequest(UpdateBubbleRequestSchema)
+  async updateBubble(
+    request: UpdateBubbleRequest
+  ): Promise<UpdateBubbleResponse> {
+    const {
+      bubbleId,
+      counselorId,
+      question,
+      responseOption1,
+      responseOption2,
+    } = request;
     const bubble = await this.counselorsFacade.updateBubble({
       bubbleId: new UniqueEntityId(bubbleId),
       counselorId: new UniqueEntityId(counselorId),
@@ -165,7 +213,10 @@ export class GrpcCounselorCommandController {
   }
 
   @GrpcMethod("CounselorService", "DeleteBubble")
-  async deleteBubble(request: DeleteBubbleRequest): Promise<DeleteBubbleResponse> {
+  @ProtoRequest(DeleteBubbleRequestSchema)
+  async deleteBubble(
+    request: DeleteBubbleRequest
+  ): Promise<DeleteBubbleResponse> {
     const { bubbleId, counselorId } = request;
     await this.counselorsFacade.deleteBubble({
       bubbleId: new UniqueEntityId(bubbleId),

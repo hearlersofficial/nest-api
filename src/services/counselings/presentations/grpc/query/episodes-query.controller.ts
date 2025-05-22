@@ -1,11 +1,14 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { ProtoRequest } from "~shared/utils/Rpc.utils";
 import { EpisodesFacade } from "~counselings/applications/episodes.facade";
 import { SchemaEpisodesMapper } from "~counselings/presentations/grpc/episodes.mapper";
 import {
   FindEpisodeByIdRequest,
+  FindEpisodeByIdRequestSchema,
   FindEpisodeByIdResponse,
   FindEpisodeByIdResponseSchema,
   FindEpisodesRequest,
+  FindEpisodesRequestSchema,
   FindEpisodesResponse,
   FindEpisodesResponseSchema,
 } from "~proto/com/hearlers/v1/service/counselor_pb";
@@ -13,12 +16,12 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
-
 @Controller("episodes")
 export class GrpcEpisodeQueryController {
   constructor(private readonly episodesFacade: EpisodesFacade) {}
 
   @GrpcMethod("CounselorService", "FindEpisodes")
+  @ProtoRequest(FindEpisodesRequestSchema)
   async findEpisodes(
     request: FindEpisodesRequest
   ): Promise<FindEpisodesResponse> {
@@ -35,6 +38,7 @@ export class GrpcEpisodeQueryController {
   }
 
   @GrpcMethod("CounselorService", "FindEpisodeById")
+  @ProtoRequest(FindEpisodeByIdRequestSchema)
   async findEpisodeById(
     request: FindEpisodeByIdRequest
   ): Promise<FindEpisodeByIdResponse> {

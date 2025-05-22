@@ -1,6 +1,6 @@
+import { create } from "@bufbuild/protobuf";
 import { status } from "@grpc/grpc-js";
 import { HttpStatus } from "@nestjs/common"; // NestJS HTTP 상태 코드
-
 // gRPC 오류 코드를 HTTP 상태 코드로 변환하는 함수
 export function grpcToHttpStatus(code: status): HttpStatus {
   switch (code) {
@@ -65,4 +65,19 @@ export function httpStatusToGrpc(httpStatus: HttpStatus): status {
     default:
       return status.UNKNOWN; // 기본값
   }
+}
+
+export function ProtoRequest(schema: any, paramIdx = 0) {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+  ) {
+    const original = descriptor.value;
+    descriptor.value = function (...args: any[]) {
+      args[paramIdx] = create(schema, args[paramIdx]); // bufbuild용
+      return original.apply(this, args);
+    };
+    return descriptor;
+  };
 }

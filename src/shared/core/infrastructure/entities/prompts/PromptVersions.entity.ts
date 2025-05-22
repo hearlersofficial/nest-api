@@ -3,6 +3,7 @@ import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Co
 import { CounselorScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/CounselorScopedPrompts.entity";
 import { PromptActivateHistoryEntity } from "~shared/core/infrastructure/entities/prompts/PromptActivateHistory.entity";
 import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
+import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { Column, Entity, OneToMany } from "typeorm";
 
@@ -45,6 +46,15 @@ export class PromptVersionEntity extends CoreEntity {
     default: false,
   })
   isBookmarked: boolean;
+
+  @Column({
+    type: "enum",
+    name: "gpt_model",
+    comment: "GPT 모델",
+    enum: GPTModel,
+    default: GPTModel.GPT_4O,
+  })
+  gptModel: GPTModel;
 
   @OneToMany(() => CounselorScopedPromptEntity, (counselorScopedPrompt) => counselorScopedPrompt.promptVersion, {
     cascade: true,

@@ -108,7 +108,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     });
 
     // 응답 생성
-    const generateGptResponseResult = await this.generateGptResponseUseCase.execute({ prompts });
+    const generateGptResponseResult = await this.generateGptResponseUseCase.execute({ prompts, model: promptVersion.gptModel });
     if (!generateGptResponseResult.ok) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, generateGptResponseResult.error as string);
     }

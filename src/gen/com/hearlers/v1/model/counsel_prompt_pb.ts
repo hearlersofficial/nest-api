@@ -2,15 +2,16 @@
 // @generated from file com/hearlers/v1/model/counsel_prompt.proto (package com.hearlers.v1.model, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
-import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
+import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
+import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
+import { file_google_protobuf_wrappers } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file com/hearlers/v1/model/counsel_prompt.proto.
  */
 export const file_com_hearlers_v1_model_counsel_prompt: GenFile = /*@__PURE__*/
-  fileDesc("Cipjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbF9wcm9tcHQucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCLkAgoNUHJvbXB0VmVyc2lvbhIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhEKCWlzX2FjdGl2ZRgEIAEoCBIUCgxpc190ZW1wb3JhcnkYBSABKAgSFQoNaXNfYm9va21hcmtlZBgGIAEoCBJOChhjb3Vuc2Vsb3Jfc2NvcGVkX3Byb21wdHMYByADKAsyLC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ291bnNlbG9yU2NvcGVkUHJvbXB0EkQKE3RvbmVfc2NvcGVkX3Byb21wdHMYCCADKAsyJy5jb20uaGVhcmxlcnMudjEubW9kZWwuVG9uZVNjb3BlZFByb21wdBISCgpjcmVhdGVkX2F0GAkgASgJEhIKCnVwZGF0ZWRfYXQYCiABKAkSFwoKZGVsZXRlZF9hdBgLIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IpgBChVDb3Vuc2Vsb3JTY29wZWRQcm9tcHQSFAoMY291bnNlbG9yX2lkGAEgASgJEhkKEXBlcnNvbmFfcHJvbXB0X2lkGAIgASgJEhIKCmNyZWF0ZWRfYXQYAyABKAkSEgoKdXBkYXRlZF9hdBgEIAEoCRIXCgpkZWxldGVkX2F0GAUgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQi6wEKEFRvbmVTY29wZWRQcm9tcHQSDwoHdG9uZV9pZBgBIAEoCRIbCg50b25lX3Byb21wdF9pZBgCIAEoCUgAiAEBEicKGmZpcnN0X2NvdW5zZWxfdGVjaG5pcXVlX2lkGAMgASgJSAGIAQESEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAogBAUIRCg9fdG9uZV9wcm9tcHRfaWRCHQobX2ZpcnN0X2NvdW5zZWxfdGVjaG5pcXVlX2lkQg0KC19kZWxldGVkX2F0Io8BCg1QZXJzb25hUHJvbXB0EgoKAmlkGAEgASgJEgwKBGJvZHkYAiABKAkSFAoMY291bnNlbG9yX2lkGAMgASgJEhIKCmNyZWF0ZWRfYXQYBCABKAkSEgoKdXBkYXRlZF9hdBgFIAEoCRIXCgpkZWxldGVkX2F0GAYgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQihwEKClRvbmVQcm9tcHQSCgoCaWQYASABKAkSDAoEYm9keRgCIAEoCRIPCgd0b25lX2lkGAMgASgJEhIKCmNyZWF0ZWRfYXQYBCABKAkSEgoKdXBkYXRlZF9hdBgFIAEoCRIXCgpkZWxldGVkX2F0GAYgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQiqgIKEENvdW5zZWxUZWNobmlxdWUSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIPCgd0b25lX2lkGAMgASgJEg8KB2NvbnRleHQYBCABKAkSEwoLaW5zdHJ1Y3Rpb24YBSABKAkSGQoRbWVzc2FnZV90aHJlc2hvbGQYBiABKAUSFAoMaXNfdGVtcG9yYXJ5GAcgASgIEiYKGW5leHRfY291bnNlbF90ZWNobmlxdWVfaWQYCCABKAlIAIgBARISCgpjcmVhdGVkX2F0GAkgASgJEhIKCnVwZGF0ZWRfYXQYCiABKAkSFwoKZGVsZXRlZF9hdBgLIAEoCUgBiAEBQhwKGl9uZXh0X2NvdW5zZWxfdGVjaG5pcXVlX2lkQg0KC19kZWxldGVkX2F0IqQBChVQcm9tcHRBY3RpdmF0ZUhpc3RvcnkSCgoCaWQYASABKAkSGQoRcHJvbXB0X3ZlcnNpb25faWQYAiABKAkSFAoMYWN0aXZhdGVkX2F0GAMgASgJEhIKCmNyZWF0ZWRfYXQYBCABKAkSEgoKdXBkYXRlZF9hdBgFIAEoCRIXCgpkZWxldGVkX2F0GAYgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXRCpwEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCEkNvdW5zZWxQcm9tcHRQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z");
+  fileDesc("Cipjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbF9wcm9tcHQucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCKYAwoNUHJvbXB0VmVyc2lvbhIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhEKCWlzX2FjdGl2ZRgEIAEoCBIUCgxpc190ZW1wb3JhcnkYBSABKAgSFQoNaXNfYm9va21hcmtlZBgGIAEoCBIyCglncHRfbW9kZWwYByABKA4yHy5jb20uaGVhcmxlcnMudjEubW9kZWwuR1BUTW9kZWwSTgoYY291bnNlbG9yX3Njb3BlZF9wcm9tcHRzGAggAygLMiwuY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxvclNjb3BlZFByb21wdBJEChN0b25lX3Njb3BlZF9wcm9tcHRzGAkgAygLMicuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlRvbmVTY29wZWRQcm9tcHQSEgoKY3JlYXRlZF9hdBgKIAEoCRISCgp1cGRhdGVkX2F0GAsgASgJEhcKCmRlbGV0ZWRfYXQYDCABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKYAQoVQ291bnNlbG9yU2NvcGVkUHJvbXB0EhQKDGNvdW5zZWxvcl9pZBgBIAEoCRIZChFwZXJzb25hX3Byb21wdF9pZBgCIAEoCRISCgpjcmVhdGVkX2F0GAMgASgJEhIKCnVwZGF0ZWRfYXQYBCABKAkSFwoKZGVsZXRlZF9hdBgFIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IusBChBUb25lU2NvcGVkUHJvbXB0Eg8KB3RvbmVfaWQYASABKAkSGwoOdG9uZV9wcm9tcHRfaWQYAiABKAlIAIgBARInChpmaXJzdF9jb3Vuc2VsX3RlY2huaXF1ZV9pZBgDIAEoCUgBiAEBEhIKCmNyZWF0ZWRfYXQYBCABKAkSEgoKdXBkYXRlZF9hdBgFIAEoCRIXCgpkZWxldGVkX2F0GAYgASgJSAKIAQFCEQoPX3RvbmVfcHJvbXB0X2lkQh0KG19maXJzdF9jb3Vuc2VsX3RlY2huaXF1ZV9pZEINCgtfZGVsZXRlZF9hdCKPAQoNUGVyc29uYVByb21wdBIKCgJpZBgBIAEoCRIMCgRib2R5GAIgASgJEhQKDGNvdW5zZWxvcl9pZBgDIAEoCRISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSFwoKZGVsZXRlZF9hdBgGIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IocBCgpUb25lUHJvbXB0EgoKAmlkGAEgASgJEgwKBGJvZHkYAiABKAkSDwoHdG9uZV9pZBgDIAEoCRISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSFwoKZGVsZXRlZF9hdBgGIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0IqoCChBDb3Vuc2VsVGVjaG5pcXVlEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSDwoHdG9uZV9pZBgDIAEoCRIPCgdjb250ZXh0GAQgASgJEhMKC2luc3RydWN0aW9uGAUgASgJEhkKEW1lc3NhZ2VfdGhyZXNob2xkGAYgASgFEhQKDGlzX3RlbXBvcmFyeRgHIAEoCBImChluZXh0X2NvdW5zZWxfdGVjaG5pcXVlX2lkGAggASgJSACIAQESEgoKY3JlYXRlZF9hdBgJIAEoCRISCgp1cGRhdGVkX2F0GAogASgJEhcKCmRlbGV0ZWRfYXQYCyABKAlIAYgBAUIcChpfbmV4dF9jb3Vuc2VsX3RlY2huaXF1ZV9pZEINCgtfZGVsZXRlZF9hdCKkAQoVUHJvbXB0QWN0aXZhdGVIaXN0b3J5EgoKAmlkGAEgASgJEhkKEXByb21wdF92ZXJzaW9uX2lkGAIgASgJEhQKDGFjdGl2YXRlZF9hdBgDIAEoCRISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSFwoKZGVsZXRlZF9hdBgGIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0Kk4KCEdQVE1vZGVsEhgKFEdQVE1PREVMX1VOU1BFQ0lGSUVEEAASEQoNR1BUXzNfNV9UVVJCTxABEgkKBUdQVF80EAISCgoGR1BUXzRPEANCpwEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCEkNvdW5zZWxQcm9tcHRQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z", [file_google_protobuf_wrappers]);
 
 /**
  * @generated from message com.hearlers.v1.model.PromptVersion
@@ -47,33 +48,38 @@ export type PromptVersion = Message<"com.hearlers.v1.model.PromptVersion"> & {
   isBookmarked: boolean;
 
   /**
-   * @generated from field: repeated com.hearlers.v1.model.CounselorScopedPrompt counselor_scoped_prompts = 7;
+   * @generated from field: com.hearlers.v1.model.GPTModel gpt_model = 7;
+   */
+  gptModel: GPTModel;
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.CounselorScopedPrompt counselor_scoped_prompts = 8;
    */
   counselorScopedPrompts: CounselorScopedPrompt[];
 
   /**
-   * @generated from field: repeated com.hearlers.v1.model.ToneScopedPrompt tone_scoped_prompts = 8;
+   * @generated from field: repeated com.hearlers.v1.model.ToneScopedPrompt tone_scoped_prompts = 9;
    */
   toneScopedPrompts: ToneScopedPrompt[];
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string created_at = 9;
+   * @generated from field: string created_at = 10;
    */
   createdAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string updated_at = 10;
+   * @generated from field: string updated_at = 11;
    */
   updatedAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: optional string deleted_at = 11;
+   * @generated from field: optional string deleted_at = 12;
    */
   deletedAt?: string;
 };
@@ -394,4 +400,35 @@ export type PromptActivateHistory = Message<"com.hearlers.v1.model.PromptActivat
  */
 export const PromptActivateHistorySchema: GenMessage<PromptActivateHistory> = /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_model_counsel_prompt, 6);
+
+/**
+ * @generated from enum com.hearlers.v1.model.GPTModel
+ */
+export enum GPTModel {
+  /**
+   * @generated from enum value: GPTMODEL_UNSPECIFIED = 0;
+   */
+  GPTMODEL_UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: GPT_3_5_TURBO = 1;
+   */
+  GPT_3_5_TURBO = 1,
+
+  /**
+   * @generated from enum value: GPT_4 = 2;
+   */
+  GPT_4 = 2,
+
+  /**
+   * @generated from enum value: GPT_4O = 3;
+   */
+  GPT_4O = 3,
+}
+
+/**
+ * Describes the enum com.hearlers.v1.model.GPTModel.
+ */
+export const GPTModelSchema: GenEnum<GPTModel> = /*@__PURE__*/
+  enumDesc(file_com_hearlers_v1_model_counsel_prompt, 0);
 

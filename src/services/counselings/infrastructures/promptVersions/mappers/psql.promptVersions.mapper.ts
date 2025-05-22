@@ -35,6 +35,7 @@ export class PsqlPromptVersionsMapper {
       isActive: entity.isActive,
       isTemporary: entity.isTemporary,
       isBookmarked: entity.isBookmarked,
+      gptModel: entity.gptModel,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
@@ -76,6 +77,7 @@ export class PsqlPromptVersionsMapper {
     entity.isActive = promptVersions.isActive;
     entity.isTemporary = promptVersions.isTemporary;
     entity.isBookmarked = promptVersions.isBookmarked;
+    entity.gptModel = promptVersions.gptModel;
 
     entity.createdAt = promptVersions.createdAt.toISOString();
     entity.updatedAt = promptVersions.updatedAt.toISOString();

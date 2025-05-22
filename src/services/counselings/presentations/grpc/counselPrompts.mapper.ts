@@ -44,6 +44,7 @@ export class SchemaCounselPromptsMapper {
       isActive: promptVersion.isActive,
       isTemporary: promptVersion.isTemporary,
       isBookmarked: promptVersion.isBookmarked,
+      gptModel: promptVersion.gptModel,
       counselorScopedPrompts: promptVersion.counselorScopedPrompts.map(
         (counselorScopedPrompt) =>
           SchemaCounselPromptsMapper.toCounselorScopedPromptProto(

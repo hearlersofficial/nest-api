@@ -4,6 +4,7 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
+import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { Dayjs } from "dayjs";
 
@@ -17,6 +18,7 @@ export interface PromptVersionsProps extends PromptVersionsNewProps {
   isActive: boolean;
   isTemporary: boolean;
   isBookmarked: boolean;
+  gptModel: GPTModel;
 
   createdAt: Dayjs;
   updatedAt: Dayjs;
@@ -50,6 +52,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
         isActive: false,
         isTemporary: true,
         isBookmarked: false,
+        gptModel: GPTModel.GPT_4O,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -73,6 +76,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
         isActive: false,
         isTemporary: true,
         isBookmarked: false,
+        gptModel: promptVersion.gptModel,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -145,6 +149,11 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
       return Result.fail<void>("[PromptVersions] isBookmarked는 필수입니다");
     }
 
+    // gptModel 검증
+    if (this.props.gptModel === null || this.props.gptModel === undefined) {
+      return Result.fail<void>("[PromptVersions] gptModel은 필수입니다");
+    }
+
     // counselorScopedPrompts 검증
     if (this.props.counselorScopedPrompts.length > 0) {
       for (const counselorScopedPrompt of this.props.counselorScopedPrompts) {
@@ -203,6 +212,10 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return this.props.isBookmarked;
   }
 
+  get gptModel(): GPTModel {
+    return this.props.gptModel;
+  }
+
   get createdAt(): Dayjs {
     return this.props.createdAt;
   }
@@ -247,22 +260,20 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok();
   }
 
-  public saveVersion(props: { name: string; description: string; isBookmarked: boolean }): Result<void> {
+  public saveVersion(props: { name: string; description: string; isBookmarked: boolean; gptModel: GPTModel }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be saved.");
     }
     this.props.name = props.name;
     this.props.description = props.description;
     this.props.isBookmarked = props.isBookmarked;
+    this.props.gptModel = props.gptModel;
     this.props.isTemporary = false;
     this.props.updatedAt = getNowDayjs();
     return Result.ok();
   }
 
-  public updateCounselorScopedPrompt(props: {
-    counselorId: UniqueEntityId;
-    personaPromptId: UniqueEntityId;
-  }): Result<void> {
+  public updateCounselorScopedPrompt(props: { counselorId: UniqueEntityId; personaPromptId: UniqueEntityId }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
@@ -287,19 +298,11 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
   }
 
   public getCounselorScopedPrompt(counselorId: UniqueEntityId): Result<{ personaPromptId: UniqueEntityId }> {
-    const counselorScopedPrompt = this.props.counselorScopedPrompts.find((counselorScopedPrompt) =>
-      counselorScopedPrompt.counselorId.equals(counselorId),
-    );
-    return counselorScopedPrompt
-      ? Result.ok({ personaPromptId: counselorScopedPrompt.personaPromptId })
-      : Result.fail("Prompt by counselor not found");
+    const counselorScopedPrompt = this.props.counselorScopedPrompts.find((counselorScopedPrompt) => counselorScopedPrompt.counselorId.equals(counselorId));
+    return counselorScopedPrompt ? Result.ok({ personaPromptId: counselorScopedPrompt.personaPromptId }) : Result.fail("Prompt by counselor not found");
   }
 
-  public updateToneScopedPrompt(props: {
-    toneId: UniqueEntityId;
-    tonePromptId?: UniqueEntityId;
-    firstCounselTechniqueId?: UniqueEntityId;
-  }): Result<void> {
+  public updateToneScopedPrompt(props: { toneId: UniqueEntityId; tonePromptId?: UniqueEntityId; firstCounselTechniqueId?: UniqueEntityId }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
@@ -327,12 +330,8 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok();
   }
 
-  public getToneScopedPrompt(
-    toneId: UniqueEntityId,
-  ): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
-    const toneScopedPrompt = this.props.toneScopedPrompts.find((toneScopedPrompt) =>
-      toneScopedPrompt.toneId.equals(toneId),
-    );
+  public getToneScopedPrompt(toneId: UniqueEntityId): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
+    const toneScopedPrompt = this.props.toneScopedPrompts.find((toneScopedPrompt) => toneScopedPrompt.toneId.equals(toneId));
     return toneScopedPrompt
       ? Result.ok({
           tonePromptId: toneScopedPrompt.tonePromptId,
@@ -378,7 +377,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok();
   }
 
-  public updateBasicInfo(props: { name?: string; description?: string; isBookmarked?: boolean }): Result<void> {
+  public updateBasicInfo(props: { name?: string; description?: string; isBookmarked?: boolean; gptModel?: GPTModel }): Result<void> {
     if (props.name !== undefined) {
       this.props.name = props.name;
     }
@@ -387,6 +386,9 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
     if (props.isBookmarked !== undefined) {
       this.props.isBookmarked = props.isBookmarked;
+    }
+    if (props.gptModel !== undefined) {
+      this.props.gptModel = props.gptModel;
     }
     this.props.updatedAt = getNowDayjs();
     return Result.ok();

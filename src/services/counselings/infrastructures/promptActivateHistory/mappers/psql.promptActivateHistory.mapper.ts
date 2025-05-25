@@ -1,11 +1,21 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PromptActivateHistoryEntity } from "~shared/core/infrastructure/entities/prompts/PromptActivateHistory.entity";
-import { PromptActivateHistories, PromptActivateHistoriesProps } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+import {
+  PromptActivateHistories,
+  PromptActivateHistoriesProps,
+} from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 
 import dayjs from "dayjs";
 
 export class PsqlPromptActivateHistoryMapper {
-  static toDomain(entity: PromptActivateHistoryEntity): PromptActivateHistories | null {
+  static toDomain(entity: null): null;
+  static toDomain(entity: PromptActivateHistoryEntity): PromptActivateHistories;
+  static toDomain(
+    entity: PromptActivateHistoryEntity | null
+  ): PromptActivateHistories | null;
+  static toDomain(
+    entity: PromptActivateHistoryEntity | null
+  ): PromptActivateHistories | null {
     if (!entity) {
       return null;
     }
@@ -16,21 +26,25 @@ export class PsqlPromptActivateHistoryMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const promptActivateHistoryOrError = PromptActivateHistories.create(promptActivateHistoriesProps, new UniqueEntityId(entity.id));
+    const promptActivateHistoryOrError = PromptActivateHistories.create(
+      promptActivateHistoriesProps,
+      new UniqueEntityId(entity.id)
+    );
     if (promptActivateHistoryOrError.isFailure) {
       throw new Error(promptActivateHistoryOrError.errorValue);
     }
     return promptActivateHistoryOrError.value;
   }
 
-  static toDomains(entities: PromptActivateHistoryEntity[]): PromptActivateHistories[] {
-    if (entities.length === 0) {
-      return [];
-    }
-    return entities.map((entity) => this.toDomain(entity)).filter((promptActivateHistory) => promptActivateHistory !== null);
+  static toDomains(
+    entities: PromptActivateHistoryEntity[]
+  ): PromptActivateHistories[] {
+    return (entities ?? []).map((entity) => this.toDomain(entity));
   }
 
-  static toEntity(promptActivateHistory: PromptActivateHistories): PromptActivateHistoryEntity {
+  static toEntity(
+    promptActivateHistory: PromptActivateHistories
+  ): PromptActivateHistoryEntity {
     const entity = new PromptActivateHistoryEntity();
 
     if (!promptActivateHistory.id.isNewIdentifier()) {
@@ -40,14 +54,17 @@ export class PsqlPromptActivateHistoryMapper {
     entity.activatedAt = promptActivateHistory.activatedAt.toISOString();
     entity.createdAt = promptActivateHistory.createdAt.toISOString();
     entity.updatedAt = promptActivateHistory.updatedAt.toISOString();
-    entity.deletedAt = promptActivateHistory.deletedAt ? promptActivateHistory.deletedAt.toISOString() : null;
+    entity.deletedAt = promptActivateHistory.deletedAt
+      ? promptActivateHistory.deletedAt.toISOString()
+      : null;
     return entity;
   }
 
-  static toEntities(promptActivateHistory: PromptActivateHistories[]): PromptActivateHistoryEntity[] {
-    if (promptActivateHistory.length === 0) {
-      return [];
-    }
-    return promptActivateHistory.map((history) => this.toEntity(history));
+  static toEntities(
+    promptActivateHistory: PromptActivateHistories[]
+  ): PromptActivateHistoryEntity[] {
+    return (promptActivateHistory ?? []).map((history) =>
+      this.toEntity(history)
+    );
   }
 }

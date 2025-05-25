@@ -2,14 +2,23 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { BubbleEntity } from "~shared/core/infrastructure/entities/counselors/bubble.entity";
 import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { Bubbles, BubblesProps } from "~counselings/domains/counselors/models/bubbles";
-import { Counselors, CounselorsProps } from "~counselings/domains/counselors/models/counselors";
+import {
+  Bubbles,
+  BubblesProps,
+} from "~counselings/domains/counselors/models/bubbles";
+import {
+  Counselors,
+  CounselorsProps,
+} from "~counselings/domains/counselors/models/counselors";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlCounselorsMapper {
-  static toDomain(entity: CounselorEntity): Counselors | null {
+  static toDomain(entity: null): null;
+  static toDomain(entity: CounselorEntity): Counselors;
+  static toDomain(entity: CounselorEntity | null): Counselors | null;
+  static toDomain(entity: CounselorEntity | null): Counselors | null {
     if (!entity) {
       return null;
     }
@@ -24,20 +33,23 @@ export class PsqlCounselorsMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const counselorsOrError = Counselors.create(counselorProps, new UniqueEntityId(entity.id));
+    const counselorsOrError = Counselors.create(
+      counselorProps,
+      new UniqueEntityId(entity.id)
+    );
 
     if (counselorsOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselorsOrError.errorValue);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        counselorsOrError.errorValue
+      );
     }
 
     return counselorsOrError.value;
   }
 
   static toDomains(entities: CounselorEntity[]): Counselors[] {
-    if (entities.length === 0) {
-      return [];
-    }
-    return entities.map((entity) => this.toDomain(entity)).filter((counselor) => counselor !== null);
+    return (entities ?? []).map((entity) => this.toDomain(entity));
   }
 
   static toEntity(counselors: Counselors): CounselorEntity {
@@ -51,16 +63,15 @@ export class PsqlCounselorsMapper {
     entity.profileImage = counselors.profileImage;
     entity.createdAt = counselors.createdAt.toISOString();
     entity.updatedAt = counselors.updatedAt.toISOString();
-    entity.deletedAt = counselors.deletedAt ? counselors.deletedAt.toISOString() : null;
+    entity.deletedAt = counselors.deletedAt
+      ? counselors.deletedAt.toISOString()
+      : null;
 
     return entity;
   }
 
   static toEntities(counselors: Counselors[]): CounselorEntity[] {
-    if (counselors.length === 0) {
-      return [];
-    }
-    return counselors.map((counselor) => this.toEntity(counselor));
+    return (counselors ?? []).map((counselor) => this.toEntity(counselor));
   }
 
   static toBubbleDomain(entity: BubbleEntity): Bubbles;
@@ -78,20 +89,23 @@ export class PsqlCounselorsMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const bubblesOrError = Bubbles.create(bubbleProps, new UniqueEntityId(entity.id));
+    const bubblesOrError = Bubbles.create(
+      bubbleProps,
+      new UniqueEntityId(entity.id)
+    );
 
     if (bubblesOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, bubblesOrError.errorValue);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        bubblesOrError.errorValue
+      );
     }
 
     return bubblesOrError.value;
   }
 
   static toBubbleDomains(entities: BubbleEntity[]): Bubbles[] {
-    if (entities.length === 0) {
-      return [];
-    }
-    return entities.map((entity) => this.toBubbleDomain(entity)).filter((bubble) => bubble !== null);
+    return (entities ?? []).map((entity) => this.toBubbleDomain(entity));
   }
 
   static toBubbleEntity(counselor: Counselors, bubble: Bubbles): BubbleEntity {

@@ -1,13 +1,23 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselorScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/CounselorScopedPrompts.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { CounselorScopedPrompts, CounselorScopedPromptsProps } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
+import {
+  CounselorScopedPrompts,
+  CounselorScopedPromptsProps,
+} from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlCounselorScopedPromptsMapper {
-  static toDomain(entity: CounselorScopedPromptEntity): CounselorScopedPrompts | null {
+  static toDomain(entity: null): null;
+  static toDomain(entity: CounselorScopedPromptEntity): CounselorScopedPrompts;
+  static toDomain(
+    entity: CounselorScopedPromptEntity | null
+  ): CounselorScopedPrompts | null;
+  static toDomain(
+    entity: CounselorScopedPromptEntity | null
+  ): CounselorScopedPrompts | null {
     if (!entity) {
       return null;
     }
@@ -21,24 +31,30 @@ export class PsqlCounselorScopedPromptsMapper {
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
 
-    const counselorScopedPromptOrError = CounselorScopedPrompts.create(counselorScopedPromptsProps, new UniqueEntityId(entity.id));
+    const counselorScopedPromptOrError = CounselorScopedPrompts.create(
+      counselorScopedPromptsProps,
+      new UniqueEntityId(entity.id)
+    );
 
     if (counselorScopedPromptOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselorScopedPromptOrError.errorValue);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        counselorScopedPromptOrError.errorValue
+      );
     }
 
     return counselorScopedPromptOrError.value;
   }
 
-  static toDomains(entities: CounselorScopedPromptEntity[]): CounselorScopedPrompts[] {
-    if (entities.length === 0) {
-      return [];
-    }
-
-    return entities.map((entity) => this.toDomain(entity)).filter(Boolean) as CounselorScopedPrompts[];
+  static toDomains(
+    entities: CounselorScopedPromptEntity[]
+  ): CounselorScopedPrompts[] {
+    return (entities ?? []).map((entity) => this.toDomain(entity));
   }
 
-  static toEntity(counselorScopedPrompt: CounselorScopedPrompts): CounselorScopedPromptEntity {
+  static toEntity(
+    counselorScopedPrompt: CounselorScopedPrompts
+  ): CounselorScopedPromptEntity {
     const entity = new CounselorScopedPromptEntity();
 
     if (!counselorScopedPrompt.id.isNewIdentifier()) {
@@ -51,16 +67,16 @@ export class PsqlCounselorScopedPromptsMapper {
 
     entity.createdAt = counselorScopedPrompt.createdAt.toISOString();
     entity.updatedAt = counselorScopedPrompt.updatedAt.toISOString();
-    entity.deletedAt = counselorScopedPrompt.deletedAt ? counselorScopedPrompt.deletedAt.toISOString() : null;
+    entity.deletedAt = counselorScopedPrompt.deletedAt
+      ? counselorScopedPrompt.deletedAt.toISOString()
+      : null;
 
     return entity;
   }
 
-  static toEntities(promptByCounselors: CounselorScopedPrompts[]): CounselorScopedPromptEntity[] {
-    if (promptByCounselors.length === 0) {
-      return [];
-    }
-
-    return promptByCounselors.map((prompt) => this.toEntity(prompt));
+  static toEntities(
+    promptByCounselors: CounselorScopedPrompts[]
+  ): CounselorScopedPromptEntity[] {
+    return (promptByCounselors ?? []).map((prompt) => this.toEntity(prompt));
   }
 }

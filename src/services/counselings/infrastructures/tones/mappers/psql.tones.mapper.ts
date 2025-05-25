@@ -7,7 +7,10 @@ import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlTonesMapper {
-  static toDomain(entity: ToneEntity): Tones | null {
+  static toDomain(entity: null): null;
+  static toDomain(entity: ToneEntity): Tones;
+  static toDomain(entity: ToneEntity | null): Tones | null;
+  static toDomain(entity: ToneEntity | null): Tones | null {
     if (!entity) {
       return null;
     }
@@ -22,17 +25,17 @@ export class PsqlTonesMapper {
     const tonesOrError = Tones.create(toneProps, new UniqueEntityId(entity.id));
 
     if (tonesOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, tonesOrError.errorValue);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        tonesOrError.errorValue
+      );
     }
 
     return tonesOrError.value;
   }
 
   static toDomains(entities: ToneEntity[]): Tones[] {
-    if (entities.length === 0) {
-      return [];
-    }
-    return entities.map((entity) => this.toDomain(entity)).filter((tone) => tone !== null);
+    return (entities ?? []).map((entity) => this.toDomain(entity));
   }
 
   static toEntity(tones: Tones): ToneEntity {
@@ -49,10 +52,6 @@ export class PsqlTonesMapper {
   }
 
   static toEntities(tones: Tones[]): ToneEntity[] {
-    if (tones.length === 0) {
-      return [];
-    }
-
-    return tones.map((tone) => this.toEntity(tone));
+    return (tones ?? []).map((tone) => this.toEntity(tone));
   }
 }

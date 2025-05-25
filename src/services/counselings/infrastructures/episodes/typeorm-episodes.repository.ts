@@ -10,7 +10,10 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class TypeormEpisodesRepository extends EpisodesRepository {
-  constructor(@InjectRepository(EpisodeEntity) private readonly episodesRepository: Repository<EpisodeEntity>) {
+  constructor(
+    @InjectRepository(EpisodeEntity)
+    private readonly episodesRepository: Repository<EpisodeEntity>
+  ) {
     super();
   }
 
@@ -25,6 +28,9 @@ export class TypeormEpisodesRepository extends EpisodesRepository {
         counselorId: where.counselorId?.getString(),
         isTemporary: where.isTemporary,
       },
+      relations: {
+        cutScenes: true,
+      },
     });
     if (!episode) {
       return null;
@@ -33,11 +39,17 @@ export class TypeormEpisodesRepository extends EpisodesRepository {
     return PsqlEpisodesMapper.toDomain(episode);
   }
 
-  override async findMany(where: { counselorId?: UniqueEntityId; isTemporary?: boolean }): Promise<Episodes[]> {
+  override async findMany(where: {
+    counselorId?: UniqueEntityId;
+    isTemporary?: boolean;
+  }): Promise<Episodes[]> {
     const episodes = await this.episodesRepository.find({
       where: {
         counselorId: where.counselorId?.getString(),
         isTemporary: where.isTemporary,
+      },
+      relations: {
+        cutScenes: true,
       },
     });
     return PsqlEpisodesMapper.toDomains(episodes);
@@ -45,7 +57,9 @@ export class TypeormEpisodesRepository extends EpisodesRepository {
 
   override async save(episode: Episodes): Promise<Episodes>;
   override async save(episodes: Episodes[]): Promise<Episodes[]>;
-  override async save(episode: Episodes | Episodes[]): Promise<Episodes | Episodes[]> {
+  override async save(
+    episode: Episodes | Episodes[]
+  ): Promise<Episodes | Episodes[]> {
     if (Array.isArray(episode)) {
       const entities = episode.map((e) => PsqlEpisodesMapper.toEntity(e));
       const savedEpisodes = await this.episodesRepository.save(entities);

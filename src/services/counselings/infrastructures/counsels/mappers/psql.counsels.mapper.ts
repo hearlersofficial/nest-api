@@ -1,13 +1,19 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/counsels";
+import {
+  Counsels,
+  CounselsProps,
+} from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlCounselsMapper {
-  static toDomain(entity: CounselsEntity): Counsels | null {
+  static toDomain(entity: null): null;
+  static toDomain(entity: CounselsEntity): Counsels;
+  static toDomain(entity: CounselsEntity | null): Counsels | null;
+  static toDomain(entity: CounselsEntity | null): Counsels | null {
     if (!entity) {
       return null;
     }
@@ -17,27 +23,32 @@ export class PsqlCounselsMapper {
       counselorId: new UniqueEntityId(entity.counselorId),
       counselTechniqueId: new UniqueEntityId(entity.counselTechniqueId),
       promptVersionId: new UniqueEntityId(entity.promptVersionId),
-      counselorUserRelationshipId: new UniqueEntityId(entity.counselorUserRelationshipId),
+      counselorUserRelationshipId: new UniqueEntityId(
+        entity.counselorUserRelationshipId
+      ),
       lastChatedAt: entity.lastChatedAt ? dayjs(entity.lastChatedAt) : null,
       lastMessage: entity.lastMessage,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const counselsOrError = Counsels.create(counselProps, new UniqueEntityId(entity.id));
+    const counselsOrError = Counsels.create(
+      counselProps,
+      new UniqueEntityId(entity.id)
+    );
 
     if (counselsOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselsOrError.errorValue);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        counselsOrError.errorValue
+      );
     }
 
     return counselsOrError.value;
   }
 
   static toDomains(entities: CounselsEntity[]): Counsels[] {
-    if (entities.length === 0) {
-      return [];
-    }
-    return entities.map((entity) => this.toDomain(entity)).filter((counsel) => counsel !== null);
+    return (entities ?? []).map((entity) => this.toDomain(entity));
   }
 
   static toEntity(counsels: Counsels): CounselsEntity {
@@ -48,23 +59,24 @@ export class PsqlCounselsMapper {
     entity.counselorId = counsels.counselorId.getString();
     entity.counselTechniqueId = counsels.counselTechniqueId.getString();
     entity.promptVersionId = counsels.promptVersionId.getString();
-    entity.counselorUserRelationshipId = counsels.counselorUserRelationshipId.getString();
+    entity.counselorUserRelationshipId =
+      counsels.counselorUserRelationshipId.getString();
 
-    entity.lastChatedAt = counsels.lastChatedAt ? counsels.lastChatedAt.toISOString() : null;
+    entity.lastChatedAt = counsels.lastChatedAt
+      ? counsels.lastChatedAt.toISOString()
+      : null;
     entity.lastMessage = counsels.lastMessage;
 
     entity.createdAt = counsels.createdAt.toISOString();
     entity.updatedAt = counsels.updatedAt.toISOString();
-    entity.deletedAt = counsels.deletedAt ? counsels.deletedAt.toISOString() : null;
+    entity.deletedAt = counsels.deletedAt
+      ? counsels.deletedAt.toISOString()
+      : null;
 
     return entity;
   }
 
   static toEntities(counsels: Counsels[]): CounselsEntity[] {
-    if (counsels.length === 0) {
-      return [];
-    }
-
-    return counsels.map((counsel) => this.toEntity(counsel));
+    return (counsels ?? []).map((counsel) => this.toEntity(counsel));
   }
 }

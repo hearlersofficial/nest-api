@@ -13,7 +13,13 @@ import {
 import { create } from "@bufbuild/protobuf";
 
 export class SchemaCounselorsMapper {
-  static toCounselorProto(counselor: Counselors): Counselor {
+  static toCounselorProto(counselor: null): null;
+  static toCounselorProto(counselor: Counselors): Counselor;
+  static toCounselorProto(counselor: Counselors | null): Counselor | null;
+  static toCounselorProto(counselor: Counselors | null): Counselor | null {
+    if (!counselor) {
+      return null;
+    }
     return create(CounselorSchema, {
       id: counselor.id.getString(),
       toneId: counselor.toneId.getString(),
@@ -22,11 +28,19 @@ export class SchemaCounselorsMapper {
       gender: counselor.gender,
       createdAt: counselor.createdAt.toISOString(),
       updatedAt: counselor.updatedAt.toISOString(),
-      deletedAt: counselor.deletedAt ? counselor.deletedAt.toISOString() : undefined,
+      deletedAt: counselor.deletedAt
+        ? counselor.deletedAt.toISOString()
+        : undefined,
     });
   }
 
-  static toToneProto(tone: Tones): Tone {
+  static toToneProto(tone: null): null;
+  static toToneProto(tone: Tones): Tone;
+  static toToneProto(tone: Tones | null): Tone | null;
+  static toToneProto(tone: Tones | null): Tone | null {
+    if (!tone) {
+      return null;
+    }
     return create(ToneSchema, {
       id: tone.id.getString(),
       name: tone.name,
@@ -37,7 +51,13 @@ export class SchemaCounselorsMapper {
     });
   }
 
-  static toBubbleProto(bubble: Bubbles): Bubble {
+  static toBubbleProto(bubble: null): null;
+  static toBubbleProto(bubble: Bubbles): Bubble;
+  static toBubbleProto(bubble: Bubbles | null): Bubble | null;
+  static toBubbleProto(bubble: Bubbles | null): Bubble | null {
+    if (!bubble) {
+      return null;
+    }
     return create(BubbleSchema, {
       id: bubble.id.getString(),
       question: bubble.question,

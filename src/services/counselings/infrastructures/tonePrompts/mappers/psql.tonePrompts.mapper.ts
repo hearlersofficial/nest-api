@@ -1,13 +1,19 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { TonePromptEntity } from "~shared/core/infrastructure/entities/prompts/TonePrompts.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { TonePrompts, TonePromptsProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
+import {
+  TonePrompts,
+  TonePromptsProps,
+} from "~counselings/domains/tonePrompts/models/tonePrompts";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
 
 export class PsqlTonePromptsMapper {
-  static toDomain(entity: TonePromptEntity): TonePrompts | null {
+  static toDomain(entity: null): null;
+  static toDomain(entity: TonePromptEntity): TonePrompts;
+  static toDomain(entity: TonePromptEntity | null): TonePrompts | null;
+  static toDomain(entity: TonePromptEntity | null): TonePrompts | null {
     if (!entity) {
       return null;
     }
@@ -18,18 +24,21 @@ export class PsqlTonePromptsMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const tonePromptsOrError = TonePrompts.create(tonePromptProps, new UniqueEntityId(entity.id));
+    const tonePromptsOrError = TonePrompts.create(
+      tonePromptProps,
+      new UniqueEntityId(entity.id)
+    );
     if (tonePromptsOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, tonePromptsOrError.errorValue);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        tonePromptsOrError.errorValue
+      );
     }
     return tonePromptsOrError.value;
   }
 
   static toDomains(entities: TonePromptEntity[]): TonePrompts[] {
-    if (entities.length === 0) {
-      return [];
-    }
-    return entities.map((entity) => this.toDomain(entity)).filter((tonePrompt) => tonePrompt !== null);
+    return (entities ?? []).map((entity) => this.toDomain(entity));
   }
 
   static toEntity(tonePrompts: TonePrompts): TonePromptEntity {
@@ -42,14 +51,13 @@ export class PsqlTonePromptsMapper {
     entity.body = tonePrompts.body;
     entity.createdAt = tonePrompts.createdAt.toISOString();
     entity.updatedAt = tonePrompts.updatedAt.toISOString();
-    entity.deletedAt = tonePrompts.deletedAt ? tonePrompts.deletedAt.toISOString() : null;
+    entity.deletedAt = tonePrompts.deletedAt
+      ? tonePrompts.deletedAt.toISOString()
+      : null;
     return entity;
   }
 
   static toEntities(tonePrompts: TonePrompts[]): TonePromptEntity[] {
-    if (tonePrompts.length === 0) {
-      return [];
-    }
-    return tonePrompts.map((prompt) => this.toEntity(prompt));
+    return (tonePrompts ?? []).map((prompt) => this.toEntity(prompt));
   }
 }

@@ -43,8 +43,8 @@ export class GrpcCounselCommandController {
       });
     return create(CreateCounselResponseSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),
-      counselMessages: counselMessages.map(
-        SchemaCounselsMapper.toCounselMessageProto
+      counselMessages: (counselMessages ?? []).map((counselMessage) =>
+        SchemaCounselsMapper.toCounselMessageProto(counselMessage)
       ),
     });
   }

@@ -44,7 +44,6 @@ export class GrpcEpisodeCommandController {
       isTemporary,
       cutScenes,
     } = request;
-    console.log(request);
 
     const episode = await this.episodesFacade.createEpisode({
       counselorId: new UniqueEntityId(counselorId),

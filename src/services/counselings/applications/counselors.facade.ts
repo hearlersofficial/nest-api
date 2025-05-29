@@ -1,10 +1,11 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()
@@ -70,7 +71,10 @@ export class CounselorsFacade {
     });
     const validateResult = counselor.validateDomain();
     if (validateResult.isFailureResult()) {
-      throw new BadRequestException(validateResult.error);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.BAD_REQUEST,
+        validateResult.error
+      );
     }
     return this.counselorsService.update(counselor);
   }

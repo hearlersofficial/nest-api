@@ -26,6 +26,7 @@ export class SchemaCounselorsMapper {
       name: counselor.name,
       description: counselor.description,
       gender: counselor.gender,
+      profileImage: counselor.profileImage,
       createdAt: counselor.createdAt.toISOString(),
       updatedAt: counselor.updatedAt.toISOString(),
       deletedAt: counselor.deletedAt

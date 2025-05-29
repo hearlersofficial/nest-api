@@ -1,8 +1,12 @@
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { EpisodesStore } from "~counselings/domains/episodes/episodes.store";
-import { Episodes, EpisodesNewProps } from "~counselings/domains/episodes/models/episodes";
+import {
+  Episodes,
+  EpisodesNewProps,
+} from "~counselings/domains/episodes/models/episodes";
 import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
 
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class RepositoryEpisodesStore extends EpisodesStore {
@@ -12,8 +16,11 @@ export class RepositoryEpisodesStore extends EpisodesStore {
 
   override async create(newProps: EpisodesNewProps): Promise<Episodes> {
     const episode = Episodes.createNew(newProps);
-    if (episode.isFailure) {
-      throw new BadRequestException(episode.error);
+    if (episode.isFailureResult()) {
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.BAD_REQUEST,
+        episode.error
+      );
     }
     return this.episodesRepository.save(episode.value);
   }

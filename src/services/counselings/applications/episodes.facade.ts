@@ -1,4 +1,5 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { isDefined } from "~shared/utils/Validate.utils";
 import { EpisodesService } from "~counselings/domains/episodes/episodes.service";
 import {
@@ -11,7 +12,7 @@ import {
 } from "~counselings/domains/episodes/models/episodes";
 import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()
@@ -100,7 +101,10 @@ export class EpisodesFacade {
       episode.update({ title, requiredRapportThreshold, isTemporary });
       const validateResult = episode.validateDomain();
       if (validateResult.isFailureResult()) {
-        throw new BadRequestException(validateResult.error);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.BAD_REQUEST,
+          validateResult.error
+        );
       }
     }
 
@@ -118,7 +122,10 @@ export class EpisodesFacade {
               image: cutScene.image,
             });
             if (updatedCutScene.isFailureResult()) {
-              throw new BadRequestException(updatedCutScene.error);
+              throw new HttpStatusBasedRpcException(
+                HttpStatus.BAD_REQUEST,
+                updatedCutScene.error
+              );
             }
             return updatedCutScene.value;
           }
@@ -129,7 +136,10 @@ export class EpisodesFacade {
         };
         const newCutScene = EpisodeCutScenes.createNew(newCutSceneProps);
         if (newCutScene.isFailureResult()) {
-          throw new BadRequestException(newCutScene.error);
+          throw new HttpStatusBasedRpcException(
+            HttpStatus.BAD_REQUEST,
+            newCutScene.error
+          );
         }
         return newCutScene.value;
       });

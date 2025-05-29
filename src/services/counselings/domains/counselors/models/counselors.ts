@@ -26,7 +26,10 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     super(props, id);
   }
 
-  public static create(props: CounselorsProps, id: UniqueEntityId): Result<Counselors> {
+  public static create(
+    props: CounselorsProps,
+    id: UniqueEntityId
+  ): Result<Counselors> {
     const counselors = new Counselors(props, id);
     const validateResult = counselors.validateDomain();
     if (validateResult.isFailure) {
@@ -45,48 +48,55 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
         updatedAt: now,
         deletedAt: null,
       },
-      newId,
+      newId
     );
   }
 
   validateDomain(): Result<void> {
     // name 검증
-    if (this.props.name === null || this.props.name === undefined) {
+    if (!isDefined(this.props.name)) {
       return Result.fail("[Counselors] 상담사 이름은 필수입니다");
     }
-    if (this.props.name.length < 1) {
-      return Result.fail("[Counselors] 상담사 이름은 최소 1자 이상이어야 합니다");
+    if (this.props.name.length < 1 || this.props.name.length > 20) {
+      return Result.fail(
+        "[Counselors] 상담사 이름은 최소 1자 이상, 최대 20자 이하여야 합니다"
+      );
     }
 
     // gender 검증
-    if (this.props.gender === null || this.props.gender === undefined) {
+    if (!isDefined(this.props.gender)) {
       return Result.fail("[Counselors] 성별은 필수입니다");
     }
-    if (!Object.values(CounselorGender).includes(this.props.gender)) {
+    if (
+      !Object.values(CounselorGender).includes(this.props.gender) ||
+      this.props.gender === CounselorGender.UNSPECIFIED
+    ) {
       return Result.fail("[Counselors] 유효하지 않은 성별입니다");
-    }
-    if (this.props.gender === CounselorGender.UNSPECIFIED) {
-      return Result.fail("[Counselors] 성별이 지정되지 않았습니다");
     }
 
     // description 검증
-    if (this.props.description === null || this.props.description === undefined) {
+    if (!isDefined(this.props.description)) {
       return Result.fail("[Counselors] 상담사 소개는 필수입니다");
     }
-    if (this.props.description.length < 1) {
-      return Result.fail("[Counselors] 상담사 소개는 최소 1자 이상이어야 합니다");
+    if (
+      this.props.description.length < 1 ||
+      this.props.description.length > 100
+    ) {
+      return Result.fail(
+        "[Counselors] 상담사 소개는 최소 1자 이상, 최대 100자 이하여야 합니다"
+      );
     }
 
     // toneId 검증
-    if (this.props.toneId === null || this.props.toneId === undefined) {
+    if (!isDefined(this.props.toneId)) {
       return Result.fail("[Counselors] 톤 ID는 필수입니다");
     }
 
     // 날짜 검증
-    if (!this.props.createdAt) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail("[Counselors] 생성 시간은 필수입니다");
     }
-    if (!this.props.updatedAt) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail("[Counselors] 수정 시간은 필수입니다");
     }
 
@@ -128,7 +138,12 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
 
   // Methods
   public update(
-    props: Partial<Pick<CounselorsProps, "toneId" | "name" | "description" | "gender" | "profileImage">>,
+    props: Partial<
+      Pick<
+        CounselorsProps,
+        "toneId" | "name" | "description" | "gender" | "profileImage"
+      >
+    >
   ): void {
     if (isDefined(props.toneId)) {
       this.props.toneId = props.toneId;

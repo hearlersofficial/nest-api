@@ -25,8 +25,15 @@ export class Bubbles extends DomainEntity<BubblesProps> {
     super(props, id);
   }
 
-  public static create(props: BubblesProps, id: UniqueEntityId): Result<Bubbles> {
+  public static create(
+    props: BubblesProps,
+    id: UniqueEntityId
+  ): Result<Bubbles> {
     const bubbles = new Bubbles(props, id);
+    const result = bubbles.validateDomain();
+    if (result.isFailureResult()) {
+      return Result.fail(result.error);
+    }
     return Result.ok<Bubbles>(bubbles);
   }
 
@@ -40,18 +47,41 @@ export class Bubbles extends DomainEntity<BubblesProps> {
         updatedAt: now,
         deletedAt: null,
       },
-      newId,
+      newId
     );
   }
 
+  public validateDomain(): Result<void> {
+    if (!isDefined(this.props.question)) {
+      return Result.fail<void>("[Bubbles] 질문은 필수입니다");
+    }
+    if (!isDefined(this.props.responseOption1)) {
+      return Result.fail<void>("[Bubbles] 응답 옵션 1은 필수입니다");
+    }
+    if (!isDefined(this.props.responseOption2)) {
+      return Result.fail<void>("[Bubbles] 응답 옵션 2는 필수입니다");
+    }
+    return Result.ok();
+  }
+
   public update(
-    props: Partial<Pick<BubblesProps, "question" | "responseOption1" | "responseOption2">>,
+    props: Partial<
+      Pick<BubblesProps, "question" | "responseOption1" | "responseOption2">
+    >
   ): Result<Bubbles> {
     const { question, responseOption1, responseOption2 } = props;
     this.props.question = isDefined(question) ? question : this.props.question;
-    this.props.responseOption1 = isDefined(responseOption1) ? responseOption1 : this.props.responseOption1;
-    this.props.responseOption2 = isDefined(responseOption2) ? responseOption2 : this.props.responseOption2;
+    this.props.responseOption1 = isDefined(responseOption1)
+      ? responseOption1
+      : this.props.responseOption1;
+    this.props.responseOption2 = isDefined(responseOption2)
+      ? responseOption2
+      : this.props.responseOption2;
     this.props.updatedAt = getNowDayjs();
+    const result = this.validateDomain();
+    if (result.isFailureResult()) {
+      return Result.fail(result.error);
+    }
     return Result.ok<Bubbles>(this);
   }
 

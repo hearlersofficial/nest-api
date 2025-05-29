@@ -26,12 +26,21 @@ export class EpisodeCutScenes extends DomainEntity<EpisodeCutScenesProps> {
     super(props, id);
   }
 
-  public static create(props: EpisodeCutScenesProps, id: UniqueEntityId): Result<EpisodeCutScenes> {
+  public static create(
+    props: EpisodeCutScenesProps,
+    id: UniqueEntityId
+  ): Result<EpisodeCutScenes> {
     const episodeCutScenes = new EpisodeCutScenes(props, id);
+    const result = episodeCutScenes.validateDomain();
+    if (result.isFailureResult()) {
+      return Result.fail(result.error);
+    }
     return Result.ok<EpisodeCutScenes>(episodeCutScenes);
   }
 
-  public static createNew(newProps: EpisodeCutScenesNewProps): Result<EpisodeCutScenes> {
+  public static createNew(
+    newProps: EpisodeCutScenesNewProps
+  ): Result<EpisodeCutScenes> {
     const now = getNowDayjs();
     const newId = new UniqueEntityId();
     return this.create(
@@ -41,19 +50,63 @@ export class EpisodeCutScenes extends DomainEntity<EpisodeCutScenesProps> {
         updatedAt: now,
         deletedAt: null,
       },
-      newId,
+      newId
     );
   }
 
+  public validateDomain(): Result<void> {
+    if (!isDefined(this.props.episodeId)) {
+      return Result.fail<void>("[EpisodeCutScenes] 에피소드 ID는 필수입니다");
+    }
+    if (
+      !isDefined(this.props.speaker) ||
+      this.props.speaker === Speaker.UNSPECIFIED
+    ) {
+      return Result.fail<void>(
+        "[EpisodeCutScenes] 발화자는 필수로 명시해야 합니다"
+      );
+    }
+    if (!isDefined(this.props.content)) {
+      return Result.fail<void>("[EpisodeCutScenes] 내용은 필수입니다");
+    }
+    if (!isDefined(this.props.orderIndex)) {
+      return Result.fail<void>("[EpisodeCutScenes] 순서는 필수입니다");
+    }
+    if (!isDefined(this.props.image)) {
+      return Result.fail<void>("[EpisodeCutScenes] 이미지는 필수입니다");
+    }
+    if (
+      (this.props.orderIndex < 0 || !Number.isInteger(this.props.orderIndex)) &&
+      typeof this.props.orderIndex === "number"
+    ) {
+      return Result.fail<void>(
+        "[EpisodeCutScenes] 순서는 0 이상 정수여야 합니다"
+      );
+    }
+    return Result.ok<void>(undefined);
+  }
+
   public update(
-    props: Partial<Pick<EpisodeCutScenesProps, "speaker" | "content" | "orderIndex" | "image">>,
+    props: Partial<
+      Pick<
+        EpisodeCutScenesProps,
+        "speaker" | "content" | "orderIndex" | "image"
+      >
+    >
   ): Result<EpisodeCutScenes> {
     const { speaker, content, orderIndex, image } = props;
     this.props.speaker = isDefined(speaker) ? speaker : this.props.speaker;
     this.props.content = isDefined(content) ? content : this.props.content;
-    this.props.orderIndex = isDefined(orderIndex) ? orderIndex : this.props.orderIndex;
+    this.props.orderIndex = isDefined(orderIndex)
+      ? orderIndex
+      : this.props.orderIndex;
     this.props.image = isDefined(image) ? image : this.props.image;
     this.props.updatedAt = getNowDayjs();
+
+    const result = this.validateDomain();
+    if (result.isFailureResult()) {
+      return Result.fail(result.error);
+    }
     return Result.ok<EpisodeCutScenes>(this);
   }
 

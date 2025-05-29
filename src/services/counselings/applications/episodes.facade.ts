@@ -11,7 +11,7 @@ import {
 } from "~counselings/domains/episodes/models/episodes";
 import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()
@@ -98,6 +98,10 @@ export class EpisodesFacade {
       isDefined(isTemporary)
     ) {
       episode.update({ title, requiredRapportThreshold, isTemporary });
+      const validateResult = episode.validateDomain();
+      if (validateResult.isFailureResult()) {
+        throw new BadRequestException(validateResult.error);
+      }
     }
 
     if (cutScenes) {
@@ -107,20 +111,27 @@ export class EpisodesFacade {
             (cs) => cs.id.getString() === cutScene.id
           );
           if (existingCutScene) {
-            existingCutScene.update({
+            const updatedCutScene = existingCutScene.update({
               speaker: cutScene.speaker,
               content: cutScene.content,
               orderIndex: cutScene.orderIndex,
               image: cutScene.image,
             });
-            return existingCutScene;
+            if (updatedCutScene.isFailureResult()) {
+              throw new BadRequestException(updatedCutScene.error);
+            }
+            return updatedCutScene.value;
           }
         }
         const newCutSceneProps: EpisodeCutScenesNewProps = {
           ...cutScene,
           episodeId: episode.id,
         };
-        return EpisodeCutScenes.createNew(newCutSceneProps).value;
+        const newCutScene = EpisodeCutScenes.createNew(newCutSceneProps);
+        if (newCutScene.isFailureResult()) {
+          throw new BadRequestException(newCutScene.error);
+        }
+        return newCutScene.value;
       });
 
       episode.updateCutScenes(updatedCutScenes);

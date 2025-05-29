@@ -8,7 +8,6 @@ import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb"
 
 import { create } from "@bufbuild/protobuf";
 import { Dayjs } from "dayjs";
-import { ChatCompletionAssistantMessageParam, ChatCompletionUserMessageParam } from "openai/resources";
 
 export interface CounselMessagesNewProps {
   counselId: UniqueEntityId;
@@ -157,13 +156,6 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
 
   public restore(): void {
     this.props.deletedAt = null;
-  }
-
-  public makePrompt(): ChatCompletionUserMessageParam | ChatCompletionAssistantMessageParam {
-    return {
-      role: this.props.isUserMessage ? "user" : "assistant",
-      content: this.props.message,
-    };
   }
 
   public react(reaction: CounselMessageReaction): Result<void> {

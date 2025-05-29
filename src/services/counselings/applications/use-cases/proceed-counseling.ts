@@ -3,7 +3,6 @@ import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { isDefined } from "~shared/utils/Validate.utils";
 import { ProceedCounselingRequest, ProceedCounselingResponse } from "~counselings/applications/use-cases/dtos/proceed-counseling.dto";
-import { GenerateGptResponseUseCase } from "~counselings/applications/use-cases/generate-gpt-response";
 import { MakeSystemPromptUseCase } from "~counselings/applications/use-cases/make-system-prompt";
 import { TransitionCounselTechniqueUseCase } from "~counselings/applications/use-cases/transition-counselTechique";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
@@ -11,10 +10,11 @@ import { CounselMessages } from "~counselings/domains/counselMessages/models/cou
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
+import { LlmService } from "~counselings/domains/llm/llm.service";
+import { LlmRequest } from "~counselings/domains/llm/models/llm-request";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { ChatCompletionMessageParam } from "openai/resources";
 
 @Injectable()
 export class ProceedCounselingUseCase implements UseCase<ProceedCounselingRequest, ProceedCounselingResponse> {
@@ -26,9 +26,9 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     private readonly counselTechniqueService: CounselTechniquesService,
     private readonly counselorService: CounselorsService,
     private readonly promptVersionsService: PromptVersionsService,
+    private readonly llmService: LlmService,
     private readonly transitionCounselTechniqueUseCase: TransitionCounselTechniqueUseCase,
     private readonly makeSystemPromptUseCase: MakeSystemPromptUseCase,
-    private readonly generateGptResponseUseCase: GenerateGptResponseUseCase,
   ) {}
 
   async execute(request: ProceedCounselingRequest): Promise<ProceedCounselingResponse> {
@@ -75,7 +75,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Tone prompt ID not found");
     }
 
-    const prompts: ChatCompletionMessageParam[] = [];
+    const prompts: LlmRequest[] = [];
     // 시스템 프롬프트 생성
     const makeSystemPromptResult = await this.makeSystemPromptUseCase.execute({
       personaPromptId,
@@ -104,16 +104,13 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
 
     // 이전 대화 추가
     counselMessages.forEach((counselMessage) => {
-      prompts.push(counselMessage.makePrompt());
+      const chatPrompt = this.llmService.createLlmRequest(counselMessage.isUserMessage ? "user" : "assistant", counselMessage.message);
+      prompts.push(chatPrompt);
     });
 
     // 응답 생성
-    const generateGptResponseResult = await this.generateGptResponseUseCase.execute({ prompts, model: promptVersion.gptModel });
-    if (!generateGptResponseResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, generateGptResponseResult.error as string);
-    }
-    const response = generateGptResponseResult.response;
-    if (!isDefined(response)) {
+    const llmResponse = await this.llmService.generateResponse(prompts);
+    if (llmResponse.content === null) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Generate GPT Response failed");
     }
 
@@ -122,7 +119,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
       counselId: counsel.id,
       userId: counsel.userId,
       counselTechniqueId: counsel.counselTechniqueId,
-      message: response,
+      message: llmResponse.content,
       isUserMessage: false,
     });
 

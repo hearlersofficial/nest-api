@@ -1,6 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { ProtoRequest } from "~shared/utils/Rpc.utils";
 import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
+import { LlmFacade } from "~counselings/applications/llm.facade";
 import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
 import { PromptVersionsFacade } from "~counselings/applications/promptVersions.facade";
 import { TonePromptsFacade } from "~counselings/applications/tonePrompts.facade";
@@ -30,6 +31,10 @@ import {
   SaveTemporaryVersionRequestSchema,
   SaveTemporaryVersionResponse,
   SaveTemporaryVersionResponseSchema,
+  SetGptModelRequest,
+  SetGptModelRequestSchema,
+  SetGptModelResponse,
+  SetGptModelResponseSchema,
   UpdateCounselTechniqueRequest,
   UpdateCounselTechniqueRequestSchema,
   UpdateCounselTechniqueResponse,
@@ -59,6 +64,7 @@ export class GrpcCounselPromptCommandController {
     private readonly promptVersionsFacade: PromptVersionsFacade,
     private readonly personaPromptsFacade: PersonaPromptsFacade,
     private readonly tonePromptsFacade: TonePromptsFacade,
+    private readonly llmFacade: LlmFacade,
   ) {}
 
   // Prompt Version
@@ -198,6 +204,16 @@ export class GrpcCounselPromptCommandController {
     });
     return create(SaveCounselTechniqueSequenceResponseSchema, {
       counselTechniques: counselTechniques.map((technique) => SchemaCounselPromptsMapper.toCounselTechniqueProto(technique)),
+    });
+  }
+
+  @GrpcMethod("CounselPromptService", "SetGptModel")
+  @ProtoRequest(SetGptModelRequestSchema)
+  async setGptModel(request: SetGptModelRequest): Promise<SetGptModelResponse> {
+    const { gptModel } = request;
+    const setModel = await this.llmFacade.setModel(gptModel);
+    return create(SetGptModelResponseSchema, {
+      gptModel: setModel,
     });
   }
 }

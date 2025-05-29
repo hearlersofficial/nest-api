@@ -5,12 +5,12 @@ import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { CounselsFacade } from "~counselings/applications/counsels.facade";
 import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
 import { EpisodesFacade } from "~counselings/applications/episodes.facade";
+import { LlmFacade } from "~counselings/applications/llm.facade";
 import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
 import { PromptActivateHistoryFacade } from "~counselings/applications/promptActivateHistory.facade";
 import { PromptVersionsFacade } from "~counselings/applications/promptVersions.facade";
 import { TonePromptsFacade } from "~counselings/applications/tonePrompts.facade";
 import { TonesFacade } from "~counselings/applications/tones.facade";
-import { GenerateGptResponseUseCase } from "~counselings/applications/use-cases/generate-gpt-response";
 import { MakeSystemPromptUseCase } from "~counselings/applications/use-cases/make-system-prompt";
 import { ProceedCounselingUseCase } from "~counselings/applications/use-cases/proceed-counseling";
 import { TransitionCounselTechniqueUseCase } from "~counselings/applications/use-cases/transition-counselTechique";
@@ -20,6 +20,7 @@ import { CounselorsModule } from "~counselings/domains/counselors/counselors.mod
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
 import { EpisodesModule } from "~counselings/domains/episodes/episodes.module";
+import { LlmModule } from "~counselings/domains/llm/llm.module";
 import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
 import { PromptActivateHistoryModule } from "~counselings/domains/promptActivateHistory/promptActivateHistory.module";
 import { PromptVersionsModule } from "~counselings/domains/promptVersions/promptVersions.module";
@@ -51,6 +52,7 @@ import { ClientKafka, ClientsModule } from "@nestjs/microservices";
     TonePromptsModule,
     CounselTechniquesModule,
     PromptActivateHistoryModule,
+    LlmModule,
     ClientsModule.registerAsync({ clients: [{ useClass: ClientsConfigs, name: KAFKA_CLIENT }], isGlobal: true }),
   ],
   controllers: [
@@ -77,9 +79,9 @@ import { ClientKafka, ClientsModule } from "@nestjs/microservices";
     CounselTechniquesFacade,
     EpisodesFacade,
     PromptActivateHistoryFacade,
+    LlmFacade,
     TransitionCounselTechniqueUseCase,
     MakeSystemPromptUseCase,
-    GenerateGptResponseUseCase,
     ProceedCounselingUseCase,
     ValidatePromptVersionUseCase,
   ],

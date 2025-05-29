@@ -1,11 +1,12 @@
 import { UseCase } from "~shared/core/applications/UseCase";
 import { MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse } from "~counselings/applications/use-cases/dtos/make-system-prompt.dto";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
+import { LlmService } from "~counselings/domains/llm/llm.service";
+import { LlmRequest } from "~counselings/domains/llm/models/llm-request";
 import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 
 import { Injectable } from "@nestjs/common";
-import { ChatCompletionSystemMessageParam } from "openai/resources";
 
 @Injectable()
 export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse> {
@@ -13,6 +14,7 @@ export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseR
     private readonly personaPromptService: PersonaPromptsService,
     private readonly tonePromptService: TonePromptsService,
     private readonly counselTechniqueService: CounselTechniquesService,
+    private readonly llmService: LlmService,
   ) {}
 
   async execute(request: MakeSystemPromptUseCaseRequest): Promise<MakeSystemPromptUseCaseResponse> {
@@ -34,10 +36,7 @@ export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseR
 
     const content = [personaPrompt, contextPrompt, instructionPrompt, tonePrompt].join("\n\n");
 
-    const prompt: ChatCompletionSystemMessageParam = {
-      role: "system",
-      content,
-    };
+    const prompt: LlmRequest = this.llmService.createLlmRequest("system", content);
 
     return { ok: true, prompt };
   }

@@ -47,8 +47,9 @@ export class Episodes extends AggregateRoot<EpisodesProps> {
     const cutSceneResults = newProps.cutScenes?.map((cutScene) =>
       EpisodeCutScenes.createNew({ ...cutScene, episodeId: newId })
     );
-    if (Result.getFailResultIfExist(cutSceneResults)) {
-      return Result.fail<Episodes>("Cut scenes are invalid");
+    const cutSceneResult = Result.getFailResultIfExist(cutSceneResults);
+    if (cutSceneResult) {
+      return Result.fail(cutSceneResult.error);
     }
     const cutScenes = cutSceneResults.map((result) => result.value);
     return this.create(

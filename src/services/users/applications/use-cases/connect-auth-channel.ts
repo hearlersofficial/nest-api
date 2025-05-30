@@ -12,7 +12,10 @@ import { Injectable } from "@nestjs/common";
 export class ConnectAuthChannelUseCase
   implements UseCase<ConnectAuthChannelUseCaseRequest, ConnectAuthChannelUseCaseResponse>
 {
-  constructor(private readonly usersService: UsersService, private readonly authUsersService: AuthUsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authUsersService: AuthUsersService,
+  ) {}
 
   async execute(request: ConnectAuthChannelUseCaseRequest): Promise<ConnectAuthChannelUseCaseResponse> {
     const { userId, channelInfo } = request;

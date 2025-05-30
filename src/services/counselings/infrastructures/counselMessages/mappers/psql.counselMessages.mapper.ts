@@ -1,10 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/counsels/CounselMessages.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import {
-  CounselMessages,
-  CounselMessagesProps,
-} from "~counselings/domains/counselMessages/models/counselMessages";
+import { CounselMessages, CounselMessagesProps } from "~counselings/domains/counselMessages/models/counselMessages";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -13,9 +10,7 @@ export class PsqlCounselMessagesMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: CounselMessagesEntity): CounselMessages;
   static toDomain(entity: CounselMessagesEntity | null): CounselMessages | null;
-  static toDomain(
-    entity: CounselMessagesEntity | null
-  ): CounselMessages | null {
+  static toDomain(entity: CounselMessagesEntity | null): CounselMessages | null {
     if (!entity) {
       return null;
     }
@@ -34,16 +29,10 @@ export class PsqlCounselMessagesMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const counselMessagesOrError = CounselMessages.create(
-      counselMessageProps,
-      new UniqueEntityId(entity.id)
-    );
+    const counselMessagesOrError = CounselMessages.create(counselMessageProps, new UniqueEntityId(entity.id));
 
     if (counselMessagesOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        counselMessagesOrError.errorValue
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselMessagesOrError.errorValue);
     }
 
     return counselMessagesOrError.value;
@@ -62,24 +51,16 @@ export class PsqlCounselMessagesMapper {
     entity.counselTechniqueId = counselMessages.counselTechniqueId.getString();
     entity.message = counselMessages.message;
     entity.isUserMessage = counselMessages.isUserMessage;
-    entity.reactedAt = counselMessages.reactedAt
-      ? counselMessages.reactedAt.toISOString()
-      : null;
+    entity.reactedAt = counselMessages.reactedAt ? counselMessages.reactedAt.toISOString() : null;
     entity.reaction = counselMessages.reaction;
     entity.createdAt = counselMessages.createdAt.toISOString();
     entity.updatedAt = counselMessages.updatedAt.toISOString();
-    entity.deletedAt = counselMessages.deletedAt
-      ? counselMessages.deletedAt.toISOString()
-      : null;
+    entity.deletedAt = counselMessages.deletedAt ? counselMessages.deletedAt.toISOString() : null;
 
     return entity;
   }
 
-  static toEntities(
-    counselMessages: CounselMessages[]
-  ): CounselMessagesEntity[] {
-    return (counselMessages ?? []).map((counselMessage) =>
-      this.toEntity(counselMessage)
-    );
+  static toEntities(counselMessages: CounselMessages[]): CounselMessagesEntity[] {
+    return (counselMessages ?? []).map((counselMessage) => this.toEntity(counselMessage));
   }
 }

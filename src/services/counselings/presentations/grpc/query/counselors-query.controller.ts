@@ -42,39 +42,31 @@ import { GrpcMethod } from "@nestjs/microservices";
 export class GrpcCounselorQueryController {
   constructor(
     private readonly counselorsFacade: CounselorsFacade,
-    private readonly tonesFacade: TonesFacade
+    private readonly tonesFacade: TonesFacade,
   ) {}
 
   // Counselor
   @GrpcMethod("CounselorService", "FindCounselors")
   @ProtoRequest(FindCounselorsRequestSchema)
-  async findCounselors(
-    request: FindCounselorsRequest
-  ): Promise<FindCounselorsResponse> {
+  async findCounselors(request: FindCounselorsRequest): Promise<FindCounselorsResponse> {
     const { toneId } = request;
     const counselors = await this.counselorsFacade.findCounselors({
       toneId: toneId ? new UniqueEntityId(toneId) : undefined,
     });
     return create(FindCounselorsResponseSchema, {
-      counselors: counselors.map((counselor) =>
-        SchemaCounselorsMapper.toCounselorProto(counselor)
-      ),
+      counselors: counselors.map((counselor) => SchemaCounselorsMapper.toCounselorProto(counselor)),
     });
   }
 
   @GrpcMethod("CounselorService", "FindCounselorById")
   @ProtoRequest(FindCounselorByIdRequestSchema)
-  async findCounselorById(
-    request: FindCounselorByIdRequest
-  ): Promise<FindCounselorByIdResponse> {
+  async findCounselorById(request: FindCounselorByIdRequest): Promise<FindCounselorByIdResponse> {
     const { counselorId } = request;
     const counselor = await this.counselorsFacade.findCounselorById({
       counselorId: new UniqueEntityId(counselorId),
     });
     return create(FindCounselorByIdResponseSchema, {
-      counselor: counselor
-        ? SchemaCounselorsMapper.toCounselorProto(counselor)
-        : undefined,
+      counselor: counselor ? SchemaCounselorsMapper.toCounselorProto(counselor) : undefined,
     });
   }
 
@@ -91,9 +83,7 @@ export class GrpcCounselorQueryController {
 
   @GrpcMethod("CounselorService", "FindToneById")
   @ProtoRequest(FindToneByIdRequestSchema)
-  async findToneById(
-    request: FindToneByIdRequest
-  ): Promise<FindToneByIdResponse> {
+  async findToneById(request: FindToneByIdRequest): Promise<FindToneByIdResponse> {
     const { toneId } = request;
     const tone = await this.tonesFacade.findToneById({
       toneId: new UniqueEntityId(toneId),
@@ -111,17 +101,13 @@ export class GrpcCounselorQueryController {
       counselorId: new UniqueEntityId(counselorId),
     });
     return create(FindBubblesResponseSchema, {
-      bubbles: bubbles.map((bubble) =>
-        SchemaCounselorsMapper.toBubbleProto(bubble)
-      ),
+      bubbles: bubbles.map((bubble) => SchemaCounselorsMapper.toBubbleProto(bubble)),
     });
   }
 
   @GrpcMethod("CounselorService", "FindBubbleById")
   @ProtoRequest(FindBubbleByIdRequestSchema)
-  async findBubbleById(
-    request: FindBubbleByIdRequest
-  ): Promise<FindBubbleByIdResponse> {
+  async findBubbleById(request: FindBubbleByIdRequest): Promise<FindBubbleByIdResponse> {
     const { bubbleId } = request;
     const bubble = await this.counselorsFacade.findBubbleById({
       bubbleId: new UniqueEntityId(bubbleId),
@@ -133,9 +119,7 @@ export class GrpcCounselorQueryController {
 
   @GrpcMethod("CounselorService", "FindRandomBubble")
   @ProtoRequest(FindRandomBubbleRequestSchema)
-  async findRandomBubble(
-    request: FindRandomBubbleRequest
-  ): Promise<FindRandomBubbleResponse> {
+  async findRandomBubble(request: FindRandomBubbleRequest): Promise<FindRandomBubbleResponse> {
     const { counselorId } = request;
     const bubble = await this.counselorsFacade.findRandomBubble({
       counselorId: new UniqueEntityId(counselorId),

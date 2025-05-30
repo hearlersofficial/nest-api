@@ -9,7 +9,10 @@ import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselTechniquesFacade {
-  constructor(private readonly counselTechniquesService: CounselTechniquesService, private readonly promptVersionsService: PromptVersionsService) {}
+  constructor(
+    private readonly counselTechniquesService: CounselTechniquesService,
+    private readonly promptVersionsService: PromptVersionsService,
+  ) {}
 
   /*
   기법 생성
@@ -33,7 +36,9 @@ export class CounselTechniquesFacade {
     return this.counselTechniquesService.getOne({ counselTechniqueId });
   }
 
-  async findOrderedCounselTechniques(params: { firstCounselTechniqueId: UniqueEntityId }): Promise<CounselTechniques[]> {
+  async findOrderedCounselTechniques(params: {
+    firstCounselTechniqueId: UniqueEntityId;
+  }): Promise<CounselTechniques[]> {
     const { firstCounselTechniqueId } = params;
     const orderedTechniques = await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId });
     return orderedTechniques;
@@ -94,9 +99,13 @@ export class CounselTechniquesFacade {
 
     const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
     const toneScopedPromptResult = temporaryVersion.getToneScopedPrompt(toneId);
-    const firstCounselTechniqueId = toneScopedPromptResult.isSuccess ? toneScopedPromptResult.value.firstCounselTechniqueId : null;
+    const firstCounselTechniqueId = toneScopedPromptResult.isSuccess
+      ? toneScopedPromptResult.value.firstCounselTechniqueId
+      : null;
 
-    const orderedTechniques: CounselTechniques[] = firstCounselTechniqueId ? await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId }) : [];
+    const orderedTechniques: CounselTechniques[] = firstCounselTechniqueId
+      ? await this.counselTechniquesService.getOrdered({ firstCounselTechniqueId })
+      : [];
     const techniques = await this.counselTechniquesService.findMany({ ids: counselTechniqueIds });
 
     for (const technique of techniques) {
@@ -105,7 +114,10 @@ export class CounselTechniquesFacade {
       }
     }
 
-    const finalTechniques = await this.counselTechniquesService.saveCounselTechniqueSequence(orderedTechniques, techniques);
+    const finalTechniques = await this.counselTechniquesService.saveCounselTechniqueSequence(
+      orderedTechniques,
+      techniques,
+    );
 
     // 임시 버전 수정
     temporaryVersion.updateToneScopedPrompt({

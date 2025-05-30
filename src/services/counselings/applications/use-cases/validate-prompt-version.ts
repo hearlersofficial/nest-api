@@ -1,14 +1,22 @@
 import { UseCase } from "~shared/core/applications/UseCase";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { ValidatePromptVersionRequest, ValidatePromptVersionResponse } from "~counselings/applications/use-cases/dtos/validate-prompt-version.dto";
+import {
+  ValidatePromptVersionRequest,
+  ValidatePromptVersionResponse,
+} from "~counselings/applications/use-cases/dtos/validate-prompt-version.dto";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { TonesService } from "~counselings/domains/tones/tones.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
-export class ValidatePromptVersionUseCase implements UseCase<ValidatePromptVersionRequest, ValidatePromptVersionResponse> {
-  constructor(private readonly tonesService: TonesService, private readonly counselorsService: CounselorsService) {}
+export class ValidatePromptVersionUseCase
+  implements UseCase<ValidatePromptVersionRequest, ValidatePromptVersionResponse>
+{
+  constructor(
+    private readonly tonesService: TonesService,
+    private readonly counselorsService: CounselorsService,
+  ) {}
 
   async execute(request: ValidatePromptVersionRequest): Promise<ValidatePromptVersionResponse> {
     const { promptVersion } = request;
@@ -17,24 +25,41 @@ export class ValidatePromptVersionUseCase implements UseCase<ValidatePromptVersi
     for (const tone of tones) {
       const toneScopedPrompt = promptVersion.toneScopedPrompts.find((prompt) => prompt.toneId.equals(tone.id));
       if (!toneScopedPrompt) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `Prompt by tone not found for toneId: ${tone.id.getString()}`);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.BAD_REQUEST,
+          `Prompt by tone not found for toneId: ${tone.id.getString()}`,
+        );
       }
       if (!toneScopedPrompt.tonePromptId) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `Tone prompt not found for toneId: ${tone.id.getString()}`);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.BAD_REQUEST,
+          `Tone prompt not found for toneId: ${tone.id.getString()}`,
+        );
       }
       if (!toneScopedPrompt.firstCounselTechniqueId) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `First counsel technique not found for toneId: ${tone.id.getString()}`);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.BAD_REQUEST,
+          `First counsel technique not found for toneId: ${tone.id.getString()}`,
+        );
       }
     }
 
     const counselors = await this.counselorsService.findMany({});
     for (const counselor of counselors) {
-      const counselorScopedPrompt = promptVersion.counselorScopedPrompts.find((prompt) => prompt.counselorId.equals(counselor.id));
+      const counselorScopedPrompt = promptVersion.counselorScopedPrompts.find((prompt) =>
+        prompt.counselorId.equals(counselor.id),
+      );
       if (!counselorScopedPrompt) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `Prompt by counselor not found for counselorId: ${counselor.id.getString()}`);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.BAD_REQUEST,
+          `Prompt by counselor not found for counselorId: ${counselor.id.getString()}`,
+        );
       }
       if (!counselorScopedPrompt.personaPromptId) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `Persona prompt not found for counselorId: ${counselor.id.getString()}`);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.BAD_REQUEST,
+          `Persona prompt not found for counselorId: ${counselor.id.getString()}`,
+        );
       }
     }
 

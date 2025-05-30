@@ -29,6 +29,8 @@ describe("Result", (): void => {
     const secondFailValue = `${firstFailValue} ${faker.lorem.words()}`;
 
     expect(Result.getFailResultIfExist([Result.ok(successValue), Result.ok(successValue)])).toBeNull();
-    expect(Result.getFailResultIfExist([Result.ok(successValue), Result.fail(firstFailValue), Result.fail(secondFailValue)])).toEqual(Result.fail(firstFailValue));
+    expect(
+      Result.getFailResultIfExist([Result.ok(successValue), Result.fail(firstFailValue), Result.fail(secondFailValue)]),
+    ).toEqual(Result.fail(firstFailValue));
   });
 });

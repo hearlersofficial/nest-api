@@ -29,9 +29,7 @@ export class SchemaCounselorsMapper {
       profileImage: counselor.profileImage,
       createdAt: counselor.createdAt.toISOString(),
       updatedAt: counselor.updatedAt.toISOString(),
-      deletedAt: counselor.deletedAt
-        ? counselor.deletedAt.toISOString()
-        : undefined,
+      deletedAt: counselor.deletedAt ? counselor.deletedAt.toISOString() : undefined,
     });
   }
 

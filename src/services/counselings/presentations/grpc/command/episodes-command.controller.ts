@@ -29,21 +29,13 @@ export class GrpcEpisodeCommandController {
 
   constructor(
     private readonly episodesFacade: EpisodesFacade,
-    private readonly imageStorageService: ImageStorageService
+    private readonly imageStorageService: ImageStorageService,
   ) {}
 
   @GrpcMethod("CounselorService", "CreateEpisode")
   @ProtoRequest(CreateEpisodeRequestSchema)
-  async createEpisode(
-    request: CreateEpisodeRequest
-  ): Promise<CreateEpisodeResponse> {
-    const {
-      counselorId,
-      title,
-      requiredRapportThreshold,
-      isTemporary,
-      cutScenes,
-    } = request;
+  async createEpisode(request: CreateEpisodeRequest): Promise<CreateEpisodeResponse> {
+    const { counselorId, title, requiredRapportThreshold, isTemporary, cutScenes } = request;
 
     const episode = await this.episodesFacade.createEpisode({
       counselorId: new UniqueEntityId(counselorId),
@@ -65,16 +57,8 @@ export class GrpcEpisodeCommandController {
 
   @GrpcMethod("CounselorService", "UpdateEpisode")
   @ProtoRequest(UpdateEpisodeRequestSchema)
-  async updateEpisode(
-    request: UpdateEpisodeRequest
-  ): Promise<UpdateEpisodeResponse> {
-    const {
-      episodeId,
-      title,
-      requiredRapportThreshold,
-      isTemporary,
-      cutScenes,
-    } = request;
+  async updateEpisode(request: UpdateEpisodeRequest): Promise<UpdateEpisodeResponse> {
+    const { episodeId, title, requiredRapportThreshold, isTemporary, cutScenes } = request;
     const episode = await this.episodesFacade.updateEpisode({
       episodeId: new UniqueEntityId(episodeId),
       title,
@@ -95,41 +79,26 @@ export class GrpcEpisodeCommandController {
 
   @GrpcMethod("CounselorService", "GenerateCutSceneImageUrl")
   @ProtoRequest(GenerateCutSceneImageUrlRequestSchema)
-  async generateCutSceneImageUrl(
-    request: GenerateCutSceneImageUrlRequest
-  ): Promise<GenerateCutSceneImageUrlResponse> {
+  async generateCutSceneImageUrl(request: GenerateCutSceneImageUrlRequest): Promise<GenerateCutSceneImageUrlResponse> {
     const { episodeId, extension } = request;
-    this.logger.log(
-      `Generating cut scene image URL for episodeId: ${episodeId} with extension: ${extension}`
-    );
+    this.logger.log(`Generating cut scene image URL for episodeId: ${episodeId} with extension: ${extension}`);
 
     try {
-      const presignedUrl = await this.imageStorageService.getSignedUrlForUpload(
-        `${episodeId}`,
-        {
-          useCase: "episode-cut-scenes",
-          entityId: episodeId,
-          generateUniqueFileName: true,
-          extension,
-        }
-      );
+      const presignedUrl = await this.imageStorageService.getSignedUrlForUpload(`${episodeId}`, {
+        useCase: "episode-cut-scenes",
+        entityId: episodeId,
+        generateUniqueFileName: true,
+        extension,
+      });
 
-      this.logger.log(
-        `Generated upload URL: ${presignedUrl
-          .getUploadUrl()
-          .substring(0, 50)}...`
-      );
+      this.logger.log(`Generated upload URL: ${presignedUrl.getUploadUrl().substring(0, 50)}...`);
       this.logger.log(`Image will be stored at: ${presignedUrl.getFilePath()}`);
 
       return create(GenerateCutSceneImageUrlResponseSchema, {
-        presignedUrl:
-          SchemaPresignedUrlMapper.toPresignedUrlProto(presignedUrl),
+        presignedUrl: SchemaPresignedUrlMapper.toPresignedUrlProto(presignedUrl),
       });
     } catch (error) {
-      this.logger.error(
-        `Error generating cut scene image URL: ${error.message}`,
-        error.stack
-      );
+      this.logger.error(`Error generating cut scene image URL: ${error.message}`, error.stack);
       throw error;
     }
   }

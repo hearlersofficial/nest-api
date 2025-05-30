@@ -17,7 +17,10 @@ export class PsqlPersonaPromptsRepository extends PersonaPromptsRepository {
     super();
   }
 
-  override async findByPersonaPromptId(personaPromptId: UniqueEntityId, options?: FindOneOptions<PersonaPromptEntity>): Promise<PersonaPrompts | null> {
+  override async findByPersonaPromptId(
+    personaPromptId: UniqueEntityId,
+    options?: FindOneOptions<PersonaPromptEntity>,
+  ): Promise<PersonaPrompts | null> {
     const findOneOptions: FindOneOptions<PersonaPromptEntity> = options ?? {};
     findOneOptions.where = {
       ...findOneOptions.where,

@@ -25,10 +25,7 @@ export class Bubbles extends DomainEntity<BubblesProps> {
     super(props, id);
   }
 
-  public static create(
-    props: BubblesProps,
-    id: UniqueEntityId
-  ): Result<Bubbles> {
+  public static create(props: BubblesProps, id: UniqueEntityId): Result<Bubbles> {
     const bubbles = new Bubbles(props, id);
     const result = bubbles.validateDomain();
     if (result.isFailureResult()) {
@@ -47,7 +44,7 @@ export class Bubbles extends DomainEntity<BubblesProps> {
         updatedAt: now,
         deletedAt: null,
       },
-      newId
+      newId,
     );
   }
 
@@ -65,18 +62,12 @@ export class Bubbles extends DomainEntity<BubblesProps> {
   }
 
   public update(
-    props: Partial<
-      Pick<BubblesProps, "question" | "responseOption1" | "responseOption2">
-    >
+    props: Partial<Pick<BubblesProps, "question" | "responseOption1" | "responseOption2">>,
   ): Result<Bubbles> {
     const { question, responseOption1, responseOption2 } = props;
     this.props.question = isDefined(question) ? question : this.props.question;
-    this.props.responseOption1 = isDefined(responseOption1)
-      ? responseOption1
-      : this.props.responseOption1;
-    this.props.responseOption2 = isDefined(responseOption2)
-      ? responseOption2
-      : this.props.responseOption2;
+    this.props.responseOption1 = isDefined(responseOption1) ? responseOption1 : this.props.responseOption1;
+    this.props.responseOption2 = isDefined(responseOption2) ? responseOption2 : this.props.responseOption2;
     this.props.updatedAt = getNowDayjs();
     const result = this.validateDomain();
     if (result.isFailureResult()) {

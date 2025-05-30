@@ -25,56 +25,44 @@ import { GrpcMethod } from "@nestjs/microservices";
 export class GrpcCounselCommandController {
   constructor(
     private readonly counselsFacade: CounselsFacade,
-    private readonly counselMessagesFacade: CounselMessagesFacade
+    private readonly counselMessagesFacade: CounselMessagesFacade,
   ) {}
 
   @GrpcMethod("CounselService", "CreateCounsel")
   @ProtoRequest(CreateCounselRequestSchema)
-  async createCounsel(
-    request: CreateCounselRequest
-  ): Promise<CreateCounselResponse> {
+  async createCounsel(request: CreateCounselRequest): Promise<CreateCounselResponse> {
     const { userId, counselorId, introMessage, responseMessage } = request;
-    const { counsel, counselMessages } =
-      await this.counselsFacade.createCounsel({
-        userId: new UniqueEntityId(userId),
-        counselorId: new UniqueEntityId(counselorId),
-        introMessage,
-        responseMessage,
-      });
+    const { counsel, counselMessages } = await this.counselsFacade.createCounsel({
+      userId: new UniqueEntityId(userId),
+      counselorId: new UniqueEntityId(counselorId),
+      introMessage,
+      responseMessage,
+    });
     return create(CreateCounselResponseSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),
       counselMessages: (counselMessages ?? []).map((counselMessage) =>
-        SchemaCounselsMapper.toCounselMessageProto(counselMessage)
+        SchemaCounselsMapper.toCounselMessageProto(counselMessage),
       ),
     });
   }
 
   @GrpcMethod("CounselService", "CreateMessage")
   @ProtoRequest(CreateMessageRequestSchema)
-  async createCounselMessage(
-    request: CreateMessageRequest
-  ): Promise<CreateMessageResponse> {
+  async createCounselMessage(request: CreateMessageRequest): Promise<CreateMessageResponse> {
     const { counselId, message } = request;
-    const { createdCounselMessage, counselorResponseMessage } =
-      await this.counselMessagesFacade.createMessage({
-        counselId: new UniqueEntityId(counselId),
-        message,
-      });
+    const { createdCounselMessage, counselorResponseMessage } = await this.counselMessagesFacade.createMessage({
+      counselId: new UniqueEntityId(counselId),
+      message,
+    });
     return create(CreateMessageResponseSchema, {
-      createdCounselMessage: SchemaCounselsMapper.toCounselMessageProto(
-        createdCounselMessage
-      ),
-      counselorResponseMessage: SchemaCounselsMapper.toCounselMessageProto(
-        counselorResponseMessage
-      ),
+      createdCounselMessage: SchemaCounselsMapper.toCounselMessageProto(createdCounselMessage),
+      counselorResponseMessage: SchemaCounselsMapper.toCounselMessageProto(counselorResponseMessage),
     });
   }
 
   @GrpcMethod("CounselService", "ReactMessage")
   @ProtoRequest(ReactMessageRequestSchema)
-  async reactCounselMessage(
-    request: ReactMessageRequest
-  ): Promise<ReactMessageResponse> {
+  async reactCounselMessage(request: ReactMessageRequest): Promise<ReactMessageResponse> {
     const { messageId, reaction } = request;
     const counselMessage = await this.counselMessagesFacade.reactMessage({
       counselMessageId: new UniqueEntityId(messageId),
@@ -82,8 +70,7 @@ export class GrpcCounselCommandController {
     });
 
     return create(ReactMessageResponseSchema, {
-      counselMessage:
-        SchemaCounselsMapper.toCounselMessageProto(counselMessage),
+      counselMessage: SchemaCounselsMapper.toCounselMessageProto(counselMessage),
     });
   }
 }

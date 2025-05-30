@@ -2,14 +2,8 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { BubbleEntity } from "~shared/core/infrastructure/entities/counselors/bubble.entity";
 import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import {
-  Bubbles,
-  BubblesProps,
-} from "~counselings/domains/counselors/models/bubbles";
-import {
-  Counselors,
-  CounselorsProps,
-} from "~counselings/domains/counselors/models/counselors";
+import { Bubbles, BubblesProps } from "~counselings/domains/counselors/models/bubbles";
+import { Counselors, CounselorsProps } from "~counselings/domains/counselors/models/counselors";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -33,16 +27,10 @@ export class PsqlCounselorsMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const counselorsOrError = Counselors.create(
-      counselorProps,
-      new UniqueEntityId(entity.id)
-    );
+    const counselorsOrError = Counselors.create(counselorProps, new UniqueEntityId(entity.id));
 
     if (counselorsOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        counselorsOrError.errorValue
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselorsOrError.errorValue);
     }
 
     return counselorsOrError.value;
@@ -63,9 +51,7 @@ export class PsqlCounselorsMapper {
     entity.profileImage = counselors.profileImage;
     entity.createdAt = counselors.createdAt.toISOString();
     entity.updatedAt = counselors.updatedAt.toISOString();
-    entity.deletedAt = counselors.deletedAt
-      ? counselors.deletedAt.toISOString()
-      : null;
+    entity.deletedAt = counselors.deletedAt ? counselors.deletedAt.toISOString() : null;
 
     return entity;
   }
@@ -89,16 +75,10 @@ export class PsqlCounselorsMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const bubblesOrError = Bubbles.create(
-      bubbleProps,
-      new UniqueEntityId(entity.id)
-    );
+    const bubblesOrError = Bubbles.create(bubbleProps, new UniqueEntityId(entity.id));
 
     if (bubblesOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        bubblesOrError.errorValue
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, bubblesOrError.errorValue);
     }
 
     return bubblesOrError.value;

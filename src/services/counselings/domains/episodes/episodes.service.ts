@@ -9,7 +9,10 @@ import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class EpisodesService {
-  constructor(private readonly episodesReader: EpisodesReader, private readonly episodesStore: EpisodesStore) {}
+  constructor(
+    private readonly episodesReader: EpisodesReader,
+    private readonly episodesStore: EpisodesStore,
+  ) {}
 
   @Transactional()
   async create(newProps: EpisodesNewProps): Promise<Episodes> {

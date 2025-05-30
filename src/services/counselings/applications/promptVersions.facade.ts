@@ -60,7 +60,12 @@ export class PromptVersionsFacade {
 
   // 임시버전 저장
   @Transactional()
-  async saveTemporaryVersion(params: { name: string; description: string; isBookmarked: boolean; gptModel: GPTModel }): Promise<PromptVersions> {
+  async saveTemporaryVersion(params: {
+    name: string;
+    description: string;
+    isBookmarked: boolean;
+    gptModel: GPTModel;
+  }): Promise<PromptVersions> {
     const { name, description, isBookmarked, gptModel } = params;
 
     const temporaryVersion = await this.promptVersionsService.getTemporaryOne();
@@ -70,7 +75,10 @@ export class PromptVersionsFacade {
       promptVersion: temporaryVersion,
     });
     if (!validatePromptVersionResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, validatePromptVersionResult.error as string);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        validatePromptVersionResult.error as string,
+      );
     }
 
     const saveVersionResult = temporaryVersion.saveVersion({

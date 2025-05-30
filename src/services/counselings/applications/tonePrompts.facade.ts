@@ -8,7 +8,10 @@ import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class TonePromptsFacade {
-  constructor(private readonly tonePromptsService: TonePromptsService, private readonly promptVersionsService: PromptVersionsService) {}
+  constructor(
+    private readonly tonePromptsService: TonePromptsService,
+    private readonly promptVersionsService: PromptVersionsService,
+  ) {}
   async findTonePromptById(params: { tonePromptId: UniqueEntityId }): Promise<TonePrompts> {
     const { tonePromptId } = params;
     return this.tonePromptsService.getOne({ tonePromptId });

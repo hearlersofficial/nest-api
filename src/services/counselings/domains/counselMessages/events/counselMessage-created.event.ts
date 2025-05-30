@@ -1,5 +1,8 @@
 import { DomainEvent } from "~shared/core/domain/events/DomainEvent";
-import { CounselMessageCreatedPayload, CounselMessageCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
+import {
+  CounselMessageCreatedPayload,
+  CounselMessageCreatedPayloadSchema,
+} from "~proto/com/hearlers/v1/message/counsel_pb";
 
 import { toBinary } from "@bufbuild/protobuf";
 

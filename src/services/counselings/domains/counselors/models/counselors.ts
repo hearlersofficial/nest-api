@@ -26,10 +26,7 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     super(props, id);
   }
 
-  public static create(
-    props: CounselorsProps,
-    id: UniqueEntityId
-  ): Result<Counselors> {
+  public static create(props: CounselorsProps, id: UniqueEntityId): Result<Counselors> {
     const counselors = new Counselors(props, id);
     const validateResult = counselors.validateDomain();
     if (validateResult.isFailure) {
@@ -48,7 +45,7 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
         updatedAt: now,
         deletedAt: null,
       },
-      newId
+      newId,
     );
   }
 
@@ -58,9 +55,7 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
       return Result.fail("[Counselors] 상담사 이름은 필수입니다");
     }
     if (this.props.name.length < 1 || this.props.name.length > 20) {
-      return Result.fail(
-        "[Counselors] 상담사 이름은 최소 1자 이상, 최대 20자 이하여야 합니다"
-      );
+      return Result.fail("[Counselors] 상담사 이름은 최소 1자 이상, 최대 20자 이하여야 합니다");
     }
 
     // gender 검증
@@ -78,13 +73,8 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     if (!isDefined(this.props.description)) {
       return Result.fail("[Counselors] 상담사 소개는 필수입니다");
     }
-    if (
-      this.props.description.length < 1 ||
-      this.props.description.length > 100
-    ) {
-      return Result.fail(
-        "[Counselors] 상담사 소개는 최소 1자 이상, 최대 100자 이하여야 합니다"
-      );
+    if (this.props.description.length < 1 || this.props.description.length > 100) {
+      return Result.fail("[Counselors] 상담사 소개는 최소 1자 이상, 최대 100자 이하여야 합니다");
     }
 
     // toneId 검증
@@ -138,12 +128,7 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
 
   // Methods
   public update(
-    props: Partial<
-      Pick<
-        CounselorsProps,
-        "toneId" | "name" | "description" | "gender" | "profileImage"
-      >
-    >
+    props: Partial<Pick<CounselorsProps, "toneId" | "name" | "description" | "gender" | "profileImage">>,
   ): void {
     if (isDefined(props.toneId)) {
       this.props.toneId = props.toneId;

@@ -11,20 +11,14 @@ export class RepositoryEpisodesReader extends EpisodesReader {
     super();
   }
 
-  override async findEpisodesByCounselorId(
-    counselorId: UniqueEntityId,
-    withTemporary: boolean
-  ): Promise<Episodes[]> {
+  override async findEpisodesByCounselorId(counselorId: UniqueEntityId, withTemporary: boolean): Promise<Episodes[]> {
     return this.episodesRepository.findMany({
       counselorId,
       isTemporary: withTemporary ? undefined : false,
     });
   }
 
-  override async findEpisodeById(
-    episodeId: UniqueEntityId,
-    withTemporary: boolean
-  ): Promise<Episodes | null> {
+  override async findEpisodeById(episodeId: UniqueEntityId, withTemporary: boolean): Promise<Episodes | null> {
     return this.episodesRepository.findOne({
       episodeId,
       isTemporary: withTemporary ? undefined : false,

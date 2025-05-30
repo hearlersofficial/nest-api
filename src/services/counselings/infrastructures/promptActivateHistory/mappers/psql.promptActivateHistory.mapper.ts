@@ -10,12 +10,8 @@ import dayjs from "dayjs";
 export class PsqlPromptActivateHistoryMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: PromptActivateHistoryEntity): PromptActivateHistories;
-  static toDomain(
-    entity: PromptActivateHistoryEntity | null
-  ): PromptActivateHistories | null;
-  static toDomain(
-    entity: PromptActivateHistoryEntity | null
-  ): PromptActivateHistories | null {
+  static toDomain(entity: PromptActivateHistoryEntity | null): PromptActivateHistories | null;
+  static toDomain(entity: PromptActivateHistoryEntity | null): PromptActivateHistories | null {
     if (!entity) {
       return null;
     }
@@ -28,7 +24,7 @@ export class PsqlPromptActivateHistoryMapper {
     };
     const promptActivateHistoryOrError = PromptActivateHistories.create(
       promptActivateHistoriesProps,
-      new UniqueEntityId(entity.id)
+      new UniqueEntityId(entity.id),
     );
     if (promptActivateHistoryOrError.isFailure) {
       throw new Error(promptActivateHistoryOrError.errorValue);
@@ -36,15 +32,11 @@ export class PsqlPromptActivateHistoryMapper {
     return promptActivateHistoryOrError.value;
   }
 
-  static toDomains(
-    entities: PromptActivateHistoryEntity[]
-  ): PromptActivateHistories[] {
+  static toDomains(entities: PromptActivateHistoryEntity[]): PromptActivateHistories[] {
     return (entities ?? []).map((entity) => this.toDomain(entity));
   }
 
-  static toEntity(
-    promptActivateHistory: PromptActivateHistories
-  ): PromptActivateHistoryEntity {
+  static toEntity(promptActivateHistory: PromptActivateHistories): PromptActivateHistoryEntity {
     const entity = new PromptActivateHistoryEntity();
 
     if (!promptActivateHistory.id.isNewIdentifier()) {
@@ -54,17 +46,11 @@ export class PsqlPromptActivateHistoryMapper {
     entity.activatedAt = promptActivateHistory.activatedAt.toISOString();
     entity.createdAt = promptActivateHistory.createdAt.toISOString();
     entity.updatedAt = promptActivateHistory.updatedAt.toISOString();
-    entity.deletedAt = promptActivateHistory.deletedAt
-      ? promptActivateHistory.deletedAt.toISOString()
-      : null;
+    entity.deletedAt = promptActivateHistory.deletedAt ? promptActivateHistory.deletedAt.toISOString() : null;
     return entity;
   }
 
-  static toEntities(
-    promptActivateHistory: PromptActivateHistories[]
-  ): PromptActivateHistoryEntity[] {
-    return (promptActivateHistory ?? []).map((history) =>
-      this.toEntity(history)
-    );
+  static toEntities(promptActivateHistory: PromptActivateHistories[]): PromptActivateHistoryEntity[] {
+    return (promptActivateHistory ?? []).map((history) => this.toEntity(history));
   }
 }

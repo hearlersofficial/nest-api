@@ -38,7 +38,9 @@ export class PsqlCounselTechniquesRepository extends CounselTechniquesRepository
 
   override async save(counselTechnique: CounselTechniques): Promise<CounselTechniques>;
   override async save(counselTechniques: CounselTechniques[]): Promise<CounselTechniques[]>;
-  async save(counselTechnique: CounselTechniques | CounselTechniques[]): Promise<CounselTechniques | CounselTechniques[]> {
+  async save(
+    counselTechnique: CounselTechniques | CounselTechniques[],
+  ): Promise<CounselTechniques | CounselTechniques[]> {
     if (Array.isArray(counselTechnique)) {
       await this.counselTechniquesRepository.save(PsqlCounselTechniquesMapper.toEntities(counselTechnique));
       return counselTechnique;

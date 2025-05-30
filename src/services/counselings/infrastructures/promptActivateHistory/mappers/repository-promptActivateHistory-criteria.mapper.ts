@@ -4,7 +4,9 @@ import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/prom
 import { FindManyOptions, FindOptionsWhere, LessThan } from "typeorm";
 
 export class RepositoryPromptActivateHistoryCriteriaMapper {
-  static toFindManyOptions(criteria: PromptActivateHistoryCriteriaFindMany): FindManyOptions<PromptActivateHistoryEntity> {
+  static toFindManyOptions(
+    criteria: PromptActivateHistoryCriteriaFindMany,
+  ): FindManyOptions<PromptActivateHistoryEntity> {
     const where: FindOptionsWhere<PromptActivateHistoryEntity> = {};
 
     if (criteria.promptVersionId) {

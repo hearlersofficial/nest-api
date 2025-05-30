@@ -110,7 +110,10 @@ export class ToneScopedPrompts extends DomainEntity<ToneScopedPromptsProps> {
     if (props.tonePromptId !== undefined && props.tonePromptId !== this.props.tonePromptId) {
       this.props.tonePromptId = props.tonePromptId;
     }
-    if (props.firstCounselTechniqueId !== undefined && props.firstCounselTechniqueId !== this.props.firstCounselTechniqueId) {
+    if (
+      props.firstCounselTechniqueId !== undefined &&
+      props.firstCounselTechniqueId !== this.props.firstCounselTechniqueId
+    ) {
       this.props.firstCounselTechniqueId = props.firstCounselTechniqueId;
     }
     this.props.updatedAt = getNowDayjs();

@@ -2,14 +2,8 @@ import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { EpisodeEntity } from "~shared/core/infrastructure/entities/counselors/episode.entity";
 import { EpisodeCutSceneEntity } from "~shared/core/infrastructure/entities/counselors/episode-cut-scene.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import {
-  EpisodeCutScenes,
-  EpisodeCutScenesProps,
-} from "~counselings/domains/episodes/models/episode-cut-scenes";
-import {
-  Episodes,
-  EpisodesProps,
-} from "~counselings/domains/episodes/models/episodes";
+import { EpisodeCutScenes, EpisodeCutScenesProps } from "~counselings/domains/episodes/models/episode-cut-scenes";
+import { Episodes, EpisodesProps } from "~counselings/domains/episodes/models/episodes";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -28,23 +22,15 @@ export class PsqlEpisodesMapper {
       title: entity.title,
       requiredRapportThreshold: entity.requiredRapportThreshold,
       isTemporary: entity.isTemporary,
-      cutScenes: (entity.cutScenes ?? []).map((cutScene) =>
-        this.toCutSceneDomain(cutScene)
-      ),
+      cutScenes: (entity.cutScenes ?? []).map((cutScene) => this.toCutSceneDomain(cutScene)),
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const episodesOrError = Episodes.create(
-      episodeProps,
-      new UniqueEntityId(entity.id)
-    );
+    const episodesOrError = Episodes.create(episodeProps, new UniqueEntityId(entity.id));
 
     if (episodesOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        episodesOrError.errorValue
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, episodesOrError.errorValue);
     }
 
     return episodesOrError.value;
@@ -54,9 +40,7 @@ export class PsqlEpisodesMapper {
     if (entities.length === 0) {
       return [];
     }
-    return entities
-      .map((entity) => this.toDomain(entity))
-      .filter((episode) => episode !== null);
+    return entities.map((entity) => this.toDomain(entity)).filter((episode) => episode !== null);
   }
 
   static toEntity(episode: Episodes): EpisodeEntity {
@@ -67,14 +51,10 @@ export class PsqlEpisodesMapper {
     entity.title = episode.title;
     entity.requiredRapportThreshold = episode.requiredRapportThreshold;
     entity.isTemporary = episode.isTemporary;
-    entity.cutScenes = (episode.cutScenes ?? []).map((cutScene) =>
-      this.toCutSceneEntity(episode, cutScene)
-    );
+    entity.cutScenes = (episode.cutScenes ?? []).map((cutScene) => this.toCutSceneEntity(episode, cutScene));
     entity.createdAt = episode.createdAt.toISOString();
     entity.updatedAt = episode.updatedAt.toISOString();
-    entity.deletedAt = episode.deletedAt
-      ? episode.deletedAt.toISOString()
-      : null;
+    entity.deletedAt = episode.deletedAt ? episode.deletedAt.toISOString() : null;
 
     return entity;
   }
@@ -85,12 +65,8 @@ export class PsqlEpisodesMapper {
 
   static toCutSceneDomain(entity: null): null;
   static toCutSceneDomain(entity: EpisodeCutSceneEntity): EpisodeCutScenes;
-  static toCutSceneDomain(
-    entity: EpisodeCutSceneEntity | null
-  ): EpisodeCutScenes | null;
-  static toCutSceneDomain(
-    entity: EpisodeCutSceneEntity | null
-  ): EpisodeCutScenes | null {
+  static toCutSceneDomain(entity: EpisodeCutSceneEntity | null): EpisodeCutScenes | null;
+  static toCutSceneDomain(entity: EpisodeCutSceneEntity | null): EpisodeCutScenes | null {
     if (!entity) {
       return null;
     }
@@ -105,31 +81,20 @@ export class PsqlEpisodesMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const cutScenesOrError = EpisodeCutScenes.create(
-      cutSceneProps,
-      new UniqueEntityId(entity.id)
-    );
+    const cutScenesOrError = EpisodeCutScenes.create(cutSceneProps, new UniqueEntityId(entity.id));
 
     if (cutScenesOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        cutScenesOrError.errorValue
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, cutScenesOrError.errorValue);
     }
 
     return cutScenesOrError.value;
   }
 
-  static toCutSceneDomains(
-    entities: EpisodeCutSceneEntity[]
-  ): EpisodeCutScenes[] {
+  static toCutSceneDomains(entities: EpisodeCutSceneEntity[]): EpisodeCutScenes[] {
     return (entities ?? []).map((entity) => this.toCutSceneDomain(entity));
   }
 
-  static toCutSceneEntity(
-    episode: Episodes,
-    cutScene: EpisodeCutScenes
-  ): EpisodeCutSceneEntity {
+  static toCutSceneEntity(episode: Episodes, cutScene: EpisodeCutScenes): EpisodeCutSceneEntity {
     const entity = new EpisodeCutSceneEntity();
 
     entity.id = cutScene.id.getString();
@@ -140,9 +105,7 @@ export class PsqlEpisodesMapper {
     entity.image = cutScene.image;
     entity.createdAt = cutScene.createdAt.toISOString();
     entity.updatedAt = cutScene.updatedAt.toISOString();
-    entity.deletedAt = cutScene.deletedAt
-      ? cutScene.deletedAt.toISOString()
-      : null;
+    entity.deletedAt = cutScene.deletedAt ? cutScene.deletedAt.toISOString() : null;
 
     return entity;
   }

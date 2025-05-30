@@ -7,7 +7,10 @@ import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()
 export abstract class PromptVersionsRepository {
-  abstract findByPromptVersionId(promptVersionId: UniqueEntityId, options?: FindOneOptions<PromptVersionEntity>): Promise<PromptVersions | null>;
+  abstract findByPromptVersionId(
+    promptVersionId: UniqueEntityId,
+    options?: FindOneOptions<PromptVersionEntity>,
+  ): Promise<PromptVersions | null>;
   abstract findMany(options?: FindManyOptions<PromptVersionEntity>): Promise<PromptVersions[]>;
   abstract save(promptVersion: PromptVersions): Promise<PromptVersions>;
   abstract save(promptVersions: PromptVersions[]): Promise<PromptVersions[]>;

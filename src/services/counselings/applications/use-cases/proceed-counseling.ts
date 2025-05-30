@@ -2,7 +2,10 @@ import { UseCase } from "~shared/core/applications/UseCase";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { getNowDayjs } from "~shared/utils/Date.utils";
 import { isDefined } from "~shared/utils/Validate.utils";
-import { ProceedCounselingRequest, ProceedCounselingResponse } from "~counselings/applications/use-cases/dtos/proceed-counseling.dto";
+import {
+  ProceedCounselingRequest,
+  ProceedCounselingResponse,
+} from "~counselings/applications/use-cases/dtos/proceed-counseling.dto";
 import { MakeSystemPromptUseCase } from "~counselings/applications/use-cases/make-system-prompt";
 import { TransitionCounselTechniqueUseCase } from "~counselings/applications/use-cases/transition-counselTechique";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
@@ -44,7 +47,10 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     const promptVersion = await this.promptVersionsService.getOne({ promptVersionId: counsel.promptVersionId });
     const counselorScopedPromptResult = promptVersion.getCounselorScopedPrompt(counselor.id);
     if (counselorScopedPromptResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselorScopedPromptResult.error as string);
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        counselorScopedPromptResult.error as string,
+      );
     }
     const counselorScopedPrompt = counselorScopedPromptResult.value;
     const toneScopedPromptResult = promptVersion.getToneScopedPrompt(counselor.toneId);
@@ -66,7 +72,10 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     else if (await this.needCounselTechniqueTransition(counselMessages)) {
       const transitionCounselTechniqueResponse = await this.transitionCounselTechniqueUseCase.execute({ counsel });
       if (!transitionCounselTechniqueResponse.ok) {
-        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, transitionCounselTechniqueResponse.error as string);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          transitionCounselTechniqueResponse.error as string,
+        );
       }
     }
     const personaPromptId = counselorScopedPrompt.personaPromptId;
@@ -104,7 +113,10 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
 
     // 이전 대화 추가
     counselMessages.forEach((counselMessage) => {
-      const chatPrompt = this.llmService.createLlmRequest(counselMessage.isUserMessage ? "user" : "assistant", counselMessage.message);
+      const chatPrompt = this.llmService.createLlmRequest(
+        counselMessage.isUserMessage ? "user" : "assistant",
+        counselMessage.message,
+      );
       prompts.push(chatPrompt);
     });
 
@@ -147,7 +159,9 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
   private async needCounselTechniqueTransition(counselMessages: CounselMessages[]): Promise<boolean> {
     let messageCountAtCurrentTechnique = 0;
     const currentCounselTechniqueId = counselMessages[counselMessages.length - 1].counselTechniqueId;
-    const currentCounselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId: currentCounselTechniqueId });
+    const currentCounselTechnique = await this.counselTechniqueService.getOne({
+      counselTechniqueId: currentCounselTechniqueId,
+    });
     for (let i = counselMessages.length - 1; i >= 0; i--) {
       const message = counselMessages[i];
       if (!message.isUserMessage) {

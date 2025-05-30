@@ -12,12 +12,8 @@ import dayjs from "dayjs";
 export class PsqlCounselTechniquesMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: CounselTechniquesEntity): CounselTechniques;
-  static toDomain(
-    entity: CounselTechniquesEntity | null
-  ): CounselTechniques | null;
-  static toDomain(
-    entity: CounselTechniquesEntity | null
-  ): CounselTechniques | null {
+  static toDomain(entity: CounselTechniquesEntity | null): CounselTechniques | null;
+  static toDomain(entity: CounselTechniquesEntity | null): CounselTechniques | null {
     if (!entity) {
       return null;
     }
@@ -28,24 +24,16 @@ export class PsqlCounselTechniquesMapper {
       context: entity.context,
       instruction: entity.instruction,
       messageThreshold: entity.messageThreshold,
-      nextTechniqueId: entity.nextTechniqueId
-        ? new UniqueEntityId(entity.nextTechniqueId)
-        : null,
+      nextTechniqueId: entity.nextTechniqueId ? new UniqueEntityId(entity.nextTechniqueId) : null,
       isTemporary: entity.isTemporary,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const counselTechniquesOrError = CounselTechniques.create(
-      counselTechniqueProps,
-      new UniqueEntityId(entity.id)
-    );
+    const counselTechniquesOrError = CounselTechniques.create(counselTechniqueProps, new UniqueEntityId(entity.id));
 
     if (counselTechniquesOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        counselTechniquesOrError.errorValue
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselTechniquesOrError.errorValue);
     }
 
     return counselTechniquesOrError.value;
@@ -55,9 +43,7 @@ export class PsqlCounselTechniquesMapper {
     return (entities ?? []).map((entity) => this.toDomain(entity));
   }
 
-  static toEntity(
-    counselTechniques: CounselTechniques
-  ): CounselTechniquesEntity {
+  static toEntity(counselTechniques: CounselTechniques): CounselTechniquesEntity {
     const entity = new CounselTechniquesEntity();
 
     if (!counselTechniques.id.isNewIdentifier()) {
@@ -70,23 +56,17 @@ export class PsqlCounselTechniquesMapper {
     entity.instruction = counselTechniques.instruction;
     entity.messageThreshold = counselTechniques.messageThreshold;
 
-    entity.nextTechniqueId = counselTechniques.nextTechniqueId
-      ? counselTechniques.nextTechniqueId.getString()
-      : null;
+    entity.nextTechniqueId = counselTechniques.nextTechniqueId ? counselTechniques.nextTechniqueId.getString() : null;
     entity.isTemporary = counselTechniques.isTemporary;
 
     entity.createdAt = counselTechniques.createdAt.toISOString();
     entity.updatedAt = counselTechniques.updatedAt.toISOString();
-    entity.deletedAt = counselTechniques.deletedAt
-      ? counselTechniques.deletedAt.toISOString()
-      : null;
+    entity.deletedAt = counselTechniques.deletedAt ? counselTechniques.deletedAt.toISOString() : null;
 
     return entity;
   }
 
-  static toEntities(
-    counselTechniques: CounselTechniques[]
-  ): CounselTechniquesEntity[] {
+  static toEntities(counselTechniques: CounselTechniques[]): CounselTechniquesEntity[] {
     return (counselTechniques ?? []).map((counsel) => this.toEntity(counsel));
   }
 }

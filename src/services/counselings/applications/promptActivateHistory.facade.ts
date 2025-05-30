@@ -9,12 +9,17 @@ import { Dayjs } from "dayjs";
 export class PromptActivateHistoryFacade {
   constructor(private readonly promptActivateHistoryService: PromptActivateHistoryService) {}
 
-  async findPromptActivateHistoryById(params: { promptActivateHistoryId: UniqueEntityId }): Promise<PromptActivateHistories> {
+  async findPromptActivateHistoryById(params: {
+    promptActivateHistoryId: UniqueEntityId;
+  }): Promise<PromptActivateHistories> {
     const { promptActivateHistoryId } = params;
     return this.promptActivateHistoryService.getOne({ promptActivateHistoryId });
   }
 
-  async findPromptActivateHistories(params: { promptVersionId?: UniqueEntityId; activatedAtBefore?: Dayjs }): Promise<PromptActivateHistories[]> {
+  async findPromptActivateHistories(params: {
+    promptVersionId?: UniqueEntityId;
+    activatedAtBefore?: Dayjs;
+  }): Promise<PromptActivateHistories[]> {
     const { promptVersionId, activatedAtBefore } = params;
     return this.promptActivateHistoryService.findMany({ promptVersionId, activatedAtBefore });
   }

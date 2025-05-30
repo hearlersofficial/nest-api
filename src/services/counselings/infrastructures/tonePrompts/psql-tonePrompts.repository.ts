@@ -17,7 +17,10 @@ export class PsqlTonePromptsRepository extends TonePromptsRepository {
     super();
   }
 
-  override async findByTonePromptId(tonePromptId: UniqueEntityId, options?: FindOneOptions<TonePromptEntity>): Promise<TonePrompts | null> {
+  override async findByTonePromptId(
+    tonePromptId: UniqueEntityId,
+    options?: FindOneOptions<TonePromptEntity>,
+  ): Promise<TonePrompts | null> {
     const findOneOptions: FindOneOptions<TonePromptEntity> = options ?? {};
     findOneOptions.where = {
       ...findOneOptions.where,

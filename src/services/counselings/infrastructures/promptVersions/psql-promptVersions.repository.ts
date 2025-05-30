@@ -22,7 +22,10 @@ export class PsqlPromptVersionsRepository extends PromptVersionsRepository {
     super();
   }
 
-  override async findByPromptVersionId(promptVersionId: UniqueEntityId, options?: FindOneOptions<PromptVersionEntity>): Promise<PromptVersions | null> {
+  override async findByPromptVersionId(
+    promptVersionId: UniqueEntityId,
+    options?: FindOneOptions<PromptVersionEntity>,
+  ): Promise<PromptVersions | null> {
     const findOneOptions: FindOneOptions<PromptVersionEntity> = options ?? {};
     findOneOptions.where = {
       ...findOneOptions.where,

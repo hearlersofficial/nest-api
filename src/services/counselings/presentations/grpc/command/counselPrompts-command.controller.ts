@@ -70,7 +70,9 @@ export class GrpcCounselPromptCommandController {
   // Prompt Version
   @GrpcMethod("CounselPromptService", "LoadExistingPromptVersion")
   @ProtoRequest(LoadExistingPromptVersionRequestSchema)
-  async loadExistingPromptVersion(request: LoadExistingPromptVersionRequest): Promise<LoadExistingPromptVersionResponse> {
+  async loadExistingPromptVersion(
+    request: LoadExistingPromptVersionRequest,
+  ): Promise<LoadExistingPromptVersionResponse> {
     const { promptVersionId } = request;
     const promptVersion = await this.promptVersionsFacade.loadExistingPromptVersion({
       promptVersionId: new UniqueEntityId(promptVersionId),
@@ -196,14 +198,18 @@ export class GrpcCounselPromptCommandController {
 
   @GrpcMethod("CounselPromptService", "SaveCounselTechniqueSequence")
   @ProtoRequest(SaveCounselTechniqueSequenceRequestSchema)
-  async saveCounselTechniqueSequence(request: SaveCounselTechniqueSequenceRequest): Promise<SaveCounselTechniqueSequenceResponse> {
+  async saveCounselTechniqueSequence(
+    request: SaveCounselTechniqueSequenceRequest,
+  ): Promise<SaveCounselTechniqueSequenceResponse> {
     const { toneId, counselTechniqueIds } = request;
     const counselTechniques = await this.counselTechniquesFacade.saveCounselTechniqueSequence({
       toneId: new UniqueEntityId(toneId),
       counselTechniqueIds: counselTechniqueIds.map((id) => new UniqueEntityId(id)),
     });
     return create(SaveCounselTechniqueSequenceResponseSchema, {
-      counselTechniques: counselTechniques.map((technique) => SchemaCounselPromptsMapper.toCounselTechniqueProto(technique)),
+      counselTechniques: counselTechniques.map((technique) =>
+        SchemaCounselPromptsMapper.toCounselTechniqueProto(technique),
+      ),
     });
   }
 

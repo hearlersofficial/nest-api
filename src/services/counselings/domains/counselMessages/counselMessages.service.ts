@@ -9,7 +9,10 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class CounselMessagesService {
-  constructor(private readonly counselMessagesReader: CounselMessagesReader, private readonly counselMessagesPersister: CounselMessagesPersister) {}
+  constructor(
+    private readonly counselMessagesReader: CounselMessagesReader,
+    private readonly counselMessagesPersister: CounselMessagesPersister,
+  ) {}
 
   async create(newProps: CounselMessagesNewProps): Promise<CounselMessages> {
     return this.counselMessagesPersister.create(newProps);

@@ -23,25 +23,17 @@ export class SchemaEpisodesMapper {
       title: episode.title,
       requiredRapportThreshold: episode.requiredRapportThreshold,
       isTemporary: episode.isTemporary,
-      cutScenes: (episode.cutScenes ?? []).map((cutScene) =>
-        SchemaEpisodesMapper.toEpisodeCutSceneProto(cutScene)
-      ),
+      cutScenes: (episode.cutScenes ?? []).map((cutScene) => SchemaEpisodesMapper.toEpisodeCutSceneProto(cutScene)),
       createdAt: episode.createdAt.toISOString(),
       updatedAt: episode.updatedAt.toISOString(),
-      deletedAt: episode.deletedAt
-        ? episode.deletedAt.toISOString()
-        : undefined,
+      deletedAt: episode.deletedAt ? episode.deletedAt.toISOString() : undefined,
     });
   }
 
   static toEpisodeCutSceneProto(cutScene: null): null;
   static toEpisodeCutSceneProto(cutScene: EpisodeCutScenes): EpisodeCutScene;
-  static toEpisodeCutSceneProto(
-    cutScene: EpisodeCutScenes | null
-  ): EpisodeCutScene | null;
-  static toEpisodeCutSceneProto(
-    cutScene: EpisodeCutScenes | null
-  ): EpisodeCutScene | null {
+  static toEpisodeCutSceneProto(cutScene: EpisodeCutScenes | null): EpisodeCutScene | null;
+  static toEpisodeCutSceneProto(cutScene: EpisodeCutScenes | null): EpisodeCutScene | null {
     if (!cutScene) {
       return null;
     }
@@ -54,9 +46,7 @@ export class SchemaEpisodesMapper {
       image: cutScene.image,
       createdAt: cutScene.createdAt.toISOString(),
       updatedAt: cutScene.updatedAt.toISOString(),
-      deletedAt: cutScene.deletedAt
-        ? cutScene.deletedAt.toISOString()
-        : undefined,
+      deletedAt: cutScene.deletedAt ? cutScene.deletedAt.toISOString() : undefined,
     });
   }
 }

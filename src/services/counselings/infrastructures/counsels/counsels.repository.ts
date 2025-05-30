@@ -7,7 +7,10 @@ import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()
 export abstract class CounselsRepository {
-  abstract findByCounselId(counselId: UniqueEntityId, options?: FindOneOptions<CounselsEntity>): Promise<Counsels | null>;
+  abstract findByCounselId(
+    counselId: UniqueEntityId,
+    options?: FindOneOptions<CounselsEntity>,
+  ): Promise<Counsels | null>;
   abstract findMany(options?: FindManyOptions<CounselsEntity>): Promise<Counsels[]>;
   abstract save(counsel: Counsels): Promise<Counsels>;
   abstract save(counsels: Counsels[]): Promise<Counsels[]>;

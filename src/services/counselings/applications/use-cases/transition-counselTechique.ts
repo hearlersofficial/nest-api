@@ -9,17 +9,26 @@ import { CounselTechniquesService } from "~counselings/domains/counselTechniques
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class TransitionCounselTechniqueUseCase implements UseCase<TransitionCounselTechniqueRequest, TransitionCounselTechniqueResponse> {
-  constructor(private readonly counselService: CounselsService, private readonly counselTechniqueService: CounselTechniquesService) {}
+export class TransitionCounselTechniqueUseCase
+  implements UseCase<TransitionCounselTechniqueRequest, TransitionCounselTechniqueResponse>
+{
+  constructor(
+    private readonly counselService: CounselsService,
+    private readonly counselTechniqueService: CounselTechniquesService,
+  ) {}
 
   async execute(request: TransitionCounselTechniqueRequest): Promise<TransitionCounselTechniqueResponse> {
     const { counsel } = request;
 
-    const currentCounselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId: counsel.counselTechniqueId });
+    const currentCounselTechnique = await this.counselTechniqueService.getOne({
+      counselTechniqueId: counsel.counselTechniqueId,
+    });
 
     // 다음 프롬프트가 정해진 경우
     if (currentCounselTechnique.nextTechniqueId) {
-      const nextCounselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId: currentCounselTechnique.nextTechniqueId });
+      const nextCounselTechnique = await this.counselTechniqueService.getOne({
+        counselTechniqueId: currentCounselTechnique.nextTechniqueId,
+      });
 
       counsel.updateCounselTechniqueId(nextCounselTechnique.id);
       await this.counselService.update(counsel);

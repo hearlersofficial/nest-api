@@ -138,13 +138,17 @@ export class GrpcCounselPromptQueryController {
   // Counsel Technique
   @GrpcMethod("CounselPromptService", "FindOrderedCounselTechniques")
   @ProtoRequest(FindOrderedCounselTechniquesRequestSchema)
-  async findOrderedCounselTechniques(request: FindOrderedCounselTechniquesRequest): Promise<FindOrderedCounselTechniquesResponse> {
+  async findOrderedCounselTechniques(
+    request: FindOrderedCounselTechniquesRequest,
+  ): Promise<FindOrderedCounselTechniquesResponse> {
     const { firstCounselTechniqueId } = request;
     const counselTechniques = await this.counselTechniquesFacade.findOrderedCounselTechniques({
       firstCounselTechniqueId: new UniqueEntityId(firstCounselTechniqueId),
     });
     return create(FindOrderedCounselTechniquesResponseSchema, {
-      counselTechniques: counselTechniques.map((technique) => SchemaCounselPromptsMapper.toCounselTechniqueProto(technique)),
+      counselTechniques: counselTechniques.map((technique) =>
+        SchemaCounselPromptsMapper.toCounselTechniqueProto(technique),
+      ),
     });
   }
 
@@ -163,13 +167,17 @@ export class GrpcCounselPromptQueryController {
   // Prompt Activate History
   @GrpcMethod("CounselPromptService", "FindPromptActivateHistories")
   @ProtoRequest(FindPromptActivateHistoriesRequestSchema)
-  async findPromptActivateHistories(request: FindPromptActivateHistoriesRequest): Promise<FindPromptActivateHistoriesResponse> {
+  async findPromptActivateHistories(
+    request: FindPromptActivateHistoriesRequest,
+  ): Promise<FindPromptActivateHistoriesResponse> {
     const { promptVersionId } = request;
     const histories = await this.promptActivateHistoryService.findPromptActivateHistories({
       promptVersionId: promptVersionId ? new UniqueEntityId(promptVersionId) : undefined,
     });
     return create(FindPromptActivateHistoriesResponseSchema, {
-      promptActivateHistories: histories.map((history) => SchemaCounselPromptsMapper.toPromptActivateHistoryProto(history)),
+      promptActivateHistories: histories.map((history) =>
+        SchemaCounselPromptsMapper.toPromptActivateHistoryProto(history),
+      ),
     });
   }
 

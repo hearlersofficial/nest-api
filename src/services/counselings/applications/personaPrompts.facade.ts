@@ -8,7 +8,10 @@ import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class PersonaPromptsFacade {
-  constructor(private readonly personaPromptsService: PersonaPromptsService, private readonly promptVersionsService: PromptVersionsService) {}
+  constructor(
+    private readonly personaPromptsService: PersonaPromptsService,
+    private readonly promptVersionsService: PromptVersionsService,
+  ) {}
 
   async findPersonaPromptById(params: { personaPromptId: UniqueEntityId }): Promise<PersonaPrompts> {
     const { personaPromptId } = params;

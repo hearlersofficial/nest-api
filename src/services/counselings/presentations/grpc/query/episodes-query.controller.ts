@@ -22,35 +22,27 @@ export class GrpcEpisodeQueryController {
 
   @GrpcMethod("CounselorService", "FindEpisodes")
   @ProtoRequest(FindEpisodesRequestSchema)
-  async findEpisodes(
-    request: FindEpisodesRequest
-  ): Promise<FindEpisodesResponse> {
+  async findEpisodes(request: FindEpisodesRequest): Promise<FindEpisodesResponse> {
     const { counselorId, withTemporary } = request;
     const episodes = await this.episodesFacade.findEpisodes({
       counselorId: new UniqueEntityId(counselorId),
       withTemporary,
     });
     return create(FindEpisodesResponseSchema, {
-      episodes: episodes.map((episode) =>
-        SchemaEpisodesMapper.toEpisodeProto(episode)
-      ),
+      episodes: episodes.map((episode) => SchemaEpisodesMapper.toEpisodeProto(episode)),
     });
   }
 
   @GrpcMethod("CounselorService", "FindEpisodeById")
   @ProtoRequest(FindEpisodeByIdRequestSchema)
-  async findEpisodeById(
-    request: FindEpisodeByIdRequest
-  ): Promise<FindEpisodeByIdResponse> {
+  async findEpisodeById(request: FindEpisodeByIdRequest): Promise<FindEpisodeByIdResponse> {
     const { episodeId, withTemporary } = request;
     const episode = await this.episodesFacade.findEpisodeById({
       episodeId: new UniqueEntityId(episodeId),
       withTemporary,
     });
     return create(FindEpisodeByIdResponseSchema, {
-      episode: episode
-        ? SchemaEpisodesMapper.toEpisodeProto(episode)
-        : undefined,
+      episode: episode ? SchemaEpisodesMapper.toEpisodeProto(episode) : undefined,
     });
   }
 }

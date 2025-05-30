@@ -9,7 +9,10 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class PersonaPromptsService {
-  constructor(private readonly personaPromptsReader: PersonaPromptsReader, private readonly personaPromptsPersister: PersonaPromptsPersister) {}
+  constructor(
+    private readonly personaPromptsReader: PersonaPromptsReader,
+    private readonly personaPromptsPersister: PersonaPromptsPersister,
+  ) {}
 
   async create(newProps: PersonaPromptsNewProps): Promise<PersonaPrompts> {
     return this.personaPromptsPersister.create(newProps);

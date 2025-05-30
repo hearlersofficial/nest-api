@@ -1,5 +1,8 @@
 import { UseCase } from "~shared/core/applications/UseCase";
-import { MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse } from "~counselings/applications/use-cases/dtos/make-system-prompt.dto";
+import {
+  MakeSystemPromptUseCaseRequest,
+  MakeSystemPromptUseCaseResponse,
+} from "~counselings/applications/use-cases/dtos/make-system-prompt.dto";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { LlmService } from "~counselings/domains/llm/llm.service";
 import { LlmRequest } from "~counselings/domains/llm/models/llm-request";
@@ -9,7 +12,9 @@ import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class MakeSystemPromptUseCase implements UseCase<MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse> {
+export class MakeSystemPromptUseCase
+  implements UseCase<MakeSystemPromptUseCaseRequest, MakeSystemPromptUseCaseResponse>
+{
   constructor(
     private readonly personaPromptService: PersonaPromptsService,
     private readonly tonePromptService: TonePromptsService,

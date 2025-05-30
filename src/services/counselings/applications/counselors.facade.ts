@@ -30,16 +30,12 @@ export class CounselorsFacade {
     });
   }
 
-  async findCounselors(params: {
-    toneId?: UniqueEntityId;
-  }): Promise<Counselors[]> {
+  async findCounselors(params: { toneId?: UniqueEntityId }): Promise<Counselors[]> {
     const { toneId } = params;
     return this.counselorsService.findMany({ toneId });
   }
 
-  async findCounselorById(params: {
-    counselorId: UniqueEntityId;
-  }): Promise<Counselors> {
+  async findCounselorById(params: { counselorId: UniqueEntityId }): Promise<Counselors> {
     const { counselorId } = params;
     return this.counselorsService.getOne({ counselorId });
   }
@@ -53,14 +49,7 @@ export class CounselorsFacade {
     profileImage?: string;
     counselorGender?: CounselorGender;
   }): Promise<Counselors> {
-    const {
-      counselorId,
-      toneId,
-      name,
-      description,
-      profileImage,
-      counselorGender,
-    } = params;
+    const { counselorId, toneId, name, description, profileImage, counselorGender } = params;
     const counselor = await this.counselorsService.getOne({ counselorId });
     counselor.update({
       toneId,
@@ -71,10 +60,7 @@ export class CounselorsFacade {
     });
     const validateResult = counselor.validateDomain();
     if (validateResult.isFailureResult()) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.BAD_REQUEST,
-        validateResult.error
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, validateResult.error);
     }
     return this.counselorsService.update(counselor);
   }
@@ -95,23 +81,17 @@ export class CounselorsFacade {
     });
   }
 
-  async findBubbles(params: {
-    counselorId: UniqueEntityId;
-  }): Promise<Bubbles[]> {
+  async findBubbles(params: { counselorId: UniqueEntityId }): Promise<Bubbles[]> {
     const { counselorId } = params;
     return this.counselorsService.findBubbles({ counselorId });
   }
 
-  async findRandomBubble(params: {
-    counselorId: UniqueEntityId;
-  }): Promise<Bubbles> {
+  async findRandomBubble(params: { counselorId: UniqueEntityId }): Promise<Bubbles> {
     const { counselorId } = params;
     return this.counselorsService.findRandomBubble(counselorId);
   }
 
-  async findBubbleById(params: {
-    bubbleId: UniqueEntityId;
-  }): Promise<Bubbles | null> {
+  async findBubbleById(params: { bubbleId: UniqueEntityId }): Promise<Bubbles | null> {
     const { bubbleId } = params;
     return this.counselorsService.findBubbleById(bubbleId);
   }
@@ -123,13 +103,7 @@ export class CounselorsFacade {
     responseOption1?: string;
     responseOption2?: string;
   }): Promise<Bubbles> {
-    const {
-      bubbleId,
-      counselorId,
-      question,
-      responseOption1,
-      responseOption2,
-    } = params;
+    const { bubbleId, counselorId, question, responseOption1, responseOption2 } = params;
     return this.counselorsService.updateBubble({
       bubbleId,
       counselorId,
@@ -139,10 +113,7 @@ export class CounselorsFacade {
     });
   }
 
-  async deleteBubble(params: {
-    counselorId: UniqueEntityId;
-    bubbleId: UniqueEntityId;
-  }): Promise<void> {
+  async deleteBubble(params: { counselorId: UniqueEntityId; bubbleId: UniqueEntityId }): Promise<void> {
     const { counselorId, bubbleId } = params;
     await this.counselorsService.deleteBubble({ counselorId, bubbleId });
     return;

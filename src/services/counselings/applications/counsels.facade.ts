@@ -16,7 +16,8 @@ import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselsFacade {
-  private readonly FirstMessage = "안녕! 여기는 내 상담실이야. 여기서는 무슨 이야기든 털어놓을 수 있어. 같이 이야기해볼래?";
+  private readonly FirstMessage =
+    "안녕! 여기는 내 상담실이야. 여기서는 무슨 이야기든 털어놓을 수 있어. 같이 이야기해볼래?";
 
   constructor(
     private readonly counselsService: CounselsService,
@@ -85,7 +86,10 @@ export class CounselsFacade {
         userMessage: responseMessage,
       });
       if (!proceedCounselingResult.ok) {
-        throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, proceedCounselingResult.error as string);
+        throw new HttpStatusBasedRpcException(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          proceedCounselingResult.error as string,
+        );
       }
       counselMessagesResult.push(proceedCounselingResult.createdCounselMessage);
       counselMessagesResult.push(proceedCounselingResult.counselorResponseMessage);

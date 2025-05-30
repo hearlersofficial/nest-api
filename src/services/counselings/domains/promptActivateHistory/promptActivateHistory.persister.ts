@@ -1,4 +1,7 @@
-import { PromptActivateHistories, PromptActivateHistoriesNewProps } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+import {
+  PromptActivateHistories,
+  PromptActivateHistoriesNewProps,
+} from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 
 import { Injectable } from "@nestjs/common";
 

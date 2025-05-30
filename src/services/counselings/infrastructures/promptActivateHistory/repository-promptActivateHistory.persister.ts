@@ -1,4 +1,7 @@
-import { PromptActivateHistories, PromptActivateHistoriesNewProps } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+import {
+  PromptActivateHistories,
+  PromptActivateHistoriesNewProps,
+} from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 import { PromptActivateHistoryPersister } from "~counselings/domains/promptActivateHistory/promptActivateHistory.persister";
 import { PromptActivateHistoryRepository } from "~counselings/infrastructures/promptActivateHistory/promptActivateHistory.repository";
 

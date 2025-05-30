@@ -8,7 +8,10 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userReader: UsersReader, private readonly userPersistor: UsersPersistor) {}
+  constructor(
+    private readonly userReader: UsersReader,
+    private readonly userPersistor: UsersPersistor,
+  ) {}
 
   async findOne(props: {
     uniqueCriteria: UsersCriteriaUniqueKey;

@@ -17,7 +17,10 @@ export class PsqlCounselMessagesRepository extends CounselMessagesRepository {
     super();
   }
 
-  override async findByCounselMessageId(counselMessageId: UniqueEntityId, options?: FindOneOptions<CounselMessagesEntity>): Promise<CounselMessages | null> {
+  override async findByCounselMessageId(
+    counselMessageId: UniqueEntityId,
+    options?: FindOneOptions<CounselMessagesEntity>,
+  ): Promise<CounselMessages | null> {
     const findOneOptions: FindOneOptions<CounselMessagesEntity> = options ?? {};
     findOneOptions.where = {
       ...findOneOptions.where,

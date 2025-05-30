@@ -1,4 +1,7 @@
-import { CounselTechniques, CounselTechniquesNewProps } from "~counselings/domains/counselTechniques/models/counselTechniques";
+import {
+  CounselTechniques,
+  CounselTechniquesNewProps,
+} from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { Injectable } from "@nestjs/common";
 

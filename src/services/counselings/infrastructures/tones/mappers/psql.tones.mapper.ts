@@ -25,10 +25,7 @@ export class PsqlTonesMapper {
     const tonesOrError = Tones.create(toneProps, new UniqueEntityId(entity.id));
 
     if (tonesOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        tonesOrError.errorValue
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, tonesOrError.errorValue);
     }
 
     return tonesOrError.value;

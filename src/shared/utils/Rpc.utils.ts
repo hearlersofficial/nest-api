@@ -68,11 +68,7 @@ export function httpStatusToGrpc(httpStatus: HttpStatus): status {
 }
 
 export function ProtoRequest(schema: any, paramIdx = 0) {
-  return function (
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-  ) {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const original = descriptor.value;
     descriptor.value = function (...args: any[]) {
       args[paramIdx] = create(schema, args[paramIdx]); // bufbuild용

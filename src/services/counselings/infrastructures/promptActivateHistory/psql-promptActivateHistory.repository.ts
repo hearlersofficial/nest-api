@@ -42,7 +42,9 @@ export class PsqlPromptActivateHistoryRepository extends PromptActivateHistoryRe
     promptActivateHistory: PromptActivateHistories | PromptActivateHistories[],
   ): Promise<PromptActivateHistories | PromptActivateHistories[]> {
     if (Array.isArray(promptActivateHistory)) {
-      await this.promptActivateHistoryRepository.save(PsqlPromptActivateHistoryMapper.toEntities(promptActivateHistory));
+      await this.promptActivateHistoryRepository.save(
+        PsqlPromptActivateHistoryMapper.toEntities(promptActivateHistory),
+      );
       return promptActivateHistory;
     } else {
       const promptActivateHistoryEntity = PsqlPromptActivateHistoryMapper.toEntity(promptActivateHistory);

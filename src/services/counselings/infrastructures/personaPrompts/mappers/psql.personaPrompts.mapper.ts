@@ -1,10 +1,7 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PersonaPromptEntity } from "~shared/core/infrastructure/entities/prompts/PersonaPrompts.entity";
 import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import {
-  PersonaPrompts,
-  PersonaPromptsProps,
-} from "~counselings/domains/personaPrompts/models/personaPrompts";
+import { PersonaPrompts, PersonaPromptsProps } from "~counselings/domains/personaPrompts/models/personaPrompts";
 
 import { HttpStatus } from "@nestjs/common";
 import dayjs from "dayjs";
@@ -24,15 +21,9 @@ export class PsqlPersonaPromptsMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const personaPromptsOrError = PersonaPrompts.create(
-      personaPromptProps,
-      new UniqueEntityId(entity.id)
-    );
+    const personaPromptsOrError = PersonaPrompts.create(personaPromptProps, new UniqueEntityId(entity.id));
     if (personaPromptsOrError.isFailure) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        personaPromptsOrError.errorValue
-      );
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, personaPromptsOrError.errorValue);
     }
     return personaPromptsOrError.value;
   }
@@ -51,9 +42,7 @@ export class PsqlPersonaPromptsMapper {
     entity.body = personaPrompts.body;
     entity.createdAt = personaPrompts.createdAt.toISOString();
     entity.updatedAt = personaPrompts.updatedAt.toISOString();
-    entity.deletedAt = personaPrompts.deletedAt
-      ? personaPrompts.deletedAt.toISOString()
-      : null;
+    entity.deletedAt = personaPrompts.deletedAt ? personaPrompts.deletedAt.toISOString() : null;
     return entity;
   }
 

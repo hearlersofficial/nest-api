@@ -1,5 +1,8 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { PromptActivateHistories, PromptActivateHistoriesNewProps } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+import {
+  PromptActivateHistories,
+  PromptActivateHistoriesNewProps,
+} from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/promptActivateHistory/promptActivateHistory.criteria";
 import { PromptActivateHistoryPersister } from "~counselings/domains/promptActivateHistory/promptActivateHistory.persister";
 import { PromptActivateHistoryReader } from "~counselings/domains/promptActivateHistory/promptActivateHistory.reader";

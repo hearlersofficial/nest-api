@@ -3,13 +3,19 @@ import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselTechniquesCriteriaFindMany } from "~counselings/domains/counselTechniques/counselTechniques.criteria";
 import { CounselTechniquesPersister } from "~counselings/domains/counselTechniques/counselTechniques.persister";
 import { CounselTechniquesReader } from "~counselings/domains/counselTechniques/counselTechniques.reader";
-import { CounselTechniques, CounselTechniquesNewProps } from "~counselings/domains/counselTechniques/models/counselTechniques";
+import {
+  CounselTechniques,
+  CounselTechniquesNewProps,
+} from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class CounselTechniquesService {
-  constructor(private readonly counselTechniquesReader: CounselTechniquesReader, private readonly counselTechniquesPersister: CounselTechniquesPersister) {}
+  constructor(
+    private readonly counselTechniquesReader: CounselTechniquesReader,
+    private readonly counselTechniquesPersister: CounselTechniquesPersister,
+  ) {}
 
   async create(newProps: CounselTechniquesNewProps): Promise<CounselTechniques> {
     return this.counselTechniquesPersister.create(newProps);
@@ -44,7 +50,9 @@ export class CounselTechniquesService {
       // ids 순서대로 정렬
       const indexMap = new Map(props.ids.map((id, index) => [id.getString(), index]));
       counselTechniques.sort(
-        (a, b) => (indexMap.get(a.id.getString()) ?? Number.MAX_SAFE_INTEGER) - (indexMap.get(b.id.getString()) ?? Number.MAX_SAFE_INTEGER),
+        (a, b) =>
+          (indexMap.get(a.id.getString()) ?? Number.MAX_SAFE_INTEGER) -
+          (indexMap.get(b.id.getString()) ?? Number.MAX_SAFE_INTEGER),
       );
     }
     return counselTechniques;
@@ -56,9 +64,15 @@ export class CounselTechniquesService {
     return counselTechniques;
   }
 
-  private async getNextCounselTechniques(firstCounselTechniqueId: UniqueEntityId, visited: Set<string>): Promise<CounselTechniques[]> {
+  private async getNextCounselTechniques(
+    firstCounselTechniqueId: UniqueEntityId,
+    visited: Set<string>,
+  ): Promise<CounselTechniques[]> {
     if (visited.has(firstCounselTechniqueId.getString())) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Circular reference detected in counsel techniques.");
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        "Circular reference detected in counsel techniques.",
+      );
     }
     visited.add(firstCounselTechniqueId.getString());
 
@@ -140,7 +154,10 @@ export class CounselTechniquesService {
     return finalTechniques;
   }
 
-  async saveCounselTechniqueSequence(originalTechniques: CounselTechniques[], newTechniques: CounselTechniques[]): Promise<CounselTechniques[]> {
+  async saveCounselTechniqueSequence(
+    originalTechniques: CounselTechniques[],
+    newTechniques: CounselTechniques[],
+  ): Promise<CounselTechniques[]> {
     // 구조적 공유 가능한 부분 탐색
     const { firstIdx, secondIdx } = this.findSharedTechniquesIdx(originalTechniques, newTechniques);
     const techniquesToKeep = originalTechniques.slice(firstIdx);
@@ -188,7 +205,10 @@ export class CounselTechniquesService {
     return finalTechniques;
   }
 
-  private findSharedTechniquesIdx(firstTechniques: CounselTechniques[], secondTechniques: CounselTechniques[]): { firstIdx: number; secondIdx: number } {
+  private findSharedTechniquesIdx(
+    firstTechniques: CounselTechniques[],
+    secondTechniques: CounselTechniques[],
+  ): { firstIdx: number; secondIdx: number } {
     let i = firstTechniques.length - 1;
     let j = secondTechniques.length - 1;
 

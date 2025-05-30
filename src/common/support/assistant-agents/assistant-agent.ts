@@ -47,11 +47,11 @@ export interface AssistantAgent {
  * Agent 구성 옵션
  */
 export interface AgentConfig {
-  modelName?: string;
-  temperature?: number;
-  maxToolCalls?: number;
-  maxMemoryMessages?: number;
-  streaming?: boolean;
+  modelName: string;
+  temperature: number;
+  maxToolCalls: number;
+  maxMemoryMessages: number;
+  streaming: boolean;
 }
 
 /**

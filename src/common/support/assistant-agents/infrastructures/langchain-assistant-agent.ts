@@ -1,17 +1,16 @@
 // langchain-assistant-agent.ts
 
+import { AIMessage, BaseMessage, HumanMessage, SystemMessage, ToolMessage } from "@langchain/core/messages";
+import { Tool } from "@langchain/core/tools";
+import { ChatOpenAI } from "@langchain/openai";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import {
   AgentConfig,
   AssistantAgent,
   ChatRequest,
   ChatResponse,
-} from "~counselings/domains/assistant-agents/assistant-agent";
-import { TOOLS } from "~counselings/domains/assistant-agents/assistant-agent.module";
-
-import { AIMessage, BaseMessage, HumanMessage, SystemMessage, ToolMessage } from "@langchain/core/messages";
-import { Tool } from "@langchain/core/tools";
-import { ChatOpenAI } from "@langchain/openai";
-import { Inject, Injectable, Logger } from "@nestjs/common";
+} from "~common/support/assistant-agents/assistant-agent";
+import { AGENT_CONFIG, TOOLS } from "~common/support/assistant-agents/assistant-agent.module";
 import { Observable, Subject } from "rxjs";
 
 @Injectable()
@@ -21,19 +20,19 @@ export class LangchainAssistantAgent implements AssistantAgent {
   private readonly agentModel: ChatOpenAI;
   private readonly maxToolCalls: number;
 
-  constructor(@Inject(TOOLS) tools: Tool[], config?: AgentConfig) {
+  constructor(@Inject(TOOLS) tools: Tool[], @Inject(AGENT_CONFIG) config: AgentConfig) {
     this.logger.log("Initializing LangchainAgent...");
 
     // 설정값 적용
-    this.maxToolCalls = config?.maxToolCalls ?? 5;
+    this.maxToolCalls = config.maxToolCalls;
 
     // Define the tools for the agent to use
     this.agentTools = tools;
 
     this.agentModel = new ChatOpenAI({
-      temperature: config?.temperature ?? 0,
-      modelName: config?.modelName ?? "gpt-4o-mini",
-      streaming: config?.streaming ?? true,
+      temperature: config.temperature,
+      modelName: config.modelName,
+      streaming: config.streaming,
       openAIApiKey: process.env.OPENAI_API_KEY,
     });
 

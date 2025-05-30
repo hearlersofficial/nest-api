@@ -104,6 +104,7 @@ export class EpisodesFacade {
 
       episode.updateCutScenes(updatedCutScenes);
     }
+    console.log(episode);
 
     return this.episodesService.update(episode);
   }

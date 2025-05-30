@@ -1,18 +1,21 @@
 import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { EpisodeEntity } from "~shared/core/infrastructure/entities/counselors/episode.entity";
+import { EpisodeCutSceneEntity } from "~shared/core/infrastructure/entities/counselors/episode-cut-scene.entity";
 import { Episodes } from "~counselings/domains/episodes/models/episodes";
 import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
 import { PsqlEpisodesMapper } from "~counselings/infrastructures/episodes/mappers/psql.episodes.mapper";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 
 @Injectable()
 export class TypeormEpisodesRepository extends EpisodesRepository {
   constructor(
     @InjectRepository(EpisodeEntity)
     private readonly episodesRepository: Repository<EpisodeEntity>,
+    @InjectRepository(EpisodeCutSceneEntity)
+    private readonly episodeCutScenesRepository: Repository<EpisodeCutSceneEntity>,
   ) {
     super();
   }
@@ -57,10 +60,12 @@ export class TypeormEpisodesRepository extends EpisodesRepository {
   override async save(episode: Episodes | Episodes[]): Promise<Episodes | Episodes[]> {
     if (Array.isArray(episode)) {
       const entities = episode.map((e) => PsqlEpisodesMapper.toEntity(e));
+      await this.episodeCutScenesRepository.softDelete({ episodeId: In(entities.map((e) => e.id)) });
       const savedEpisodes = await this.episodesRepository.save(entities);
       return PsqlEpisodesMapper.toDomains(savedEpisodes);
     }
     const entity = PsqlEpisodesMapper.toEntity(episode);
+    await this.episodeCutScenesRepository.softDelete({ episodeId: entity.id });
     const savedEpisode = await this.episodesRepository.save(entity);
     return PsqlEpisodesMapper.toDomain(savedEpisode);
   }

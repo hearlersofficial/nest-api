@@ -1,4 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
 import { PromptVersionsReader } from "~counselings/domains/promptVersions/promptVersions.reader";
@@ -6,6 +5,7 @@ import { RepositoryPromptVersionCriteriaMapper } from "~counselings/infrastructu
 import { PromptVersionsRepository } from "~counselings/infrastructures/promptVersions/promptVersions.repository";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export class RepositoryPromptVersionsReader extends PromptVersionsReader {

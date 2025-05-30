@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Tones } from "~counselings/domains/tones/models/tones";
 import { TonesCriteriaFindMany } from "~counselings/domains/tones/tones.criteria";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export abstract class TonesReader {

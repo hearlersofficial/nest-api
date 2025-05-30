@@ -1,9 +1,4 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
-import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
 import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { getNowDayjs } from "~shared/utils/Date.utils";
 import { Users } from "~users/domains/users/models/users-";
 import { PsqlUsersRepositoryAdaptor } from "~users/infrastructures/users/psql-users.repository";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
@@ -13,6 +8,11 @@ import { fakerKO as faker } from "@faker-js/faker";
 import { ClientKafka } from "@nestjs/microservices";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
+import { getNowDayjs } from "~common/shared/utils/Date.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
+import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
+import { KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 import dayjs from "dayjs";
 import { Repository } from "typeorm";
 

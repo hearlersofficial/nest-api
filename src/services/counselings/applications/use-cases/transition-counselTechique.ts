@@ -1,4 +1,3 @@
-import { UseCase } from "~shared/core/applications/UseCase";
 import {
   TransitionCounselTechniqueRequest,
   TransitionCounselTechniqueResponse,
@@ -7,6 +6,7 @@ import { CounselsService } from "~counselings/domains/counsels/counsels.service"
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 
 import { Injectable } from "@nestjs/common";
+import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
 
 @Injectable()
 export class TransitionCounselTechniqueUseCase

@@ -1,5 +1,5 @@
-import { Result } from "~shared/core/domain/Result";
-import { ValueObject } from "~shared/core/domain/ValueObject";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { ValueObject } from "~common/shared-kernel/domains/ValueObject";
 
 export interface LlmResponseProps {
   content: string | null;

@@ -1,12 +1,12 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ToneScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/ToneScopedPrompts.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import {
   ToneScopedPrompts,
   ToneScopedPromptsProps,
 } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
 
 import { HttpStatus } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/ToneScopedPrompts.entity";
 import dayjs from "dayjs";
 
 export class PsqlToneScopedPromptsMapper {

@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()

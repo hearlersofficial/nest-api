@@ -1,6 +1,7 @@
-import { UseCaseCoreResponse } from "~shared/core/applications/UseCase.response";
 import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
+
+import { UseCaseCoreResponse } from "~common/shared-kernel/interfaces/UseCase.response";
 
 export interface ProceedCounselingRequest {
   counsel: Counsels;

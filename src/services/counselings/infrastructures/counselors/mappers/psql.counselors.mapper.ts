@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { BubbleEntity } from "~shared/core/infrastructure/entities/counselors/bubble.entity";
-import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { Bubbles, BubblesProps } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors, CounselorsProps } from "~counselings/domains/counselors/models/counselors";
 
 import { HttpStatus } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
+import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import dayjs from "dayjs";
 
 export class PsqlCounselorsMapper {

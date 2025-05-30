@@ -1,9 +1,9 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { LlmRequest } from "~counselings/domains/llm/models/llm-request";
 import { LlmResponse, LlmResponseProps } from "~counselings/domains/llm/models/llm-response";
 import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { ChatCompletion, ChatCompletionMessageParam, ChatModel } from "openai/resources";
 
 export class OpenAILlmMapper {

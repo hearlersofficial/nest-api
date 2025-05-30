@@ -1,8 +1,7 @@
-import { DomainEntity } from "~shared/core/domain/DomainEntity";
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { getNowDayjs } from "~shared/utils/Date.utils";
-
+import { getNowDayjs } from "~common/shared/utils/Date.utils";
+import { DomainEntity } from "~common/shared-kernel/domains/DomainEntity";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 import { Dayjs } from "dayjs";
 
 export interface ToneScopedPromptsNewProps {

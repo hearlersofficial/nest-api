@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { CounselsRepository } from "~counselings/infrastructures/counsels/counsels.repository";
 import { PsqlCounselsMapper } from "~counselings/infrastructures/counsels/mappers/psql.counsels.mapper";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()

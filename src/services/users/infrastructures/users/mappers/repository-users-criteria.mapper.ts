@@ -1,7 +1,7 @@
-import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
-import { isDefined } from "~shared/utils/Validate.utils";
 import { UsersCriteriaFindMany, UsersCriteriaFindOne } from "~users/domains/users/users.criteria";
 
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsWhere } from "typeorm";
 
 /**

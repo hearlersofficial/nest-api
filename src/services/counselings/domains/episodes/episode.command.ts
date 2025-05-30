@@ -1,5 +1,6 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
+
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 export class CreateEpisodeCommand {
   counselorId: UniqueEntityId;

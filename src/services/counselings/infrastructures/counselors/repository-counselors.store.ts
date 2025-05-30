@@ -1,10 +1,10 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselorsStore } from "~counselings/domains/counselors/counselors.store";
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors, CounselorsNewProps } from "~counselings/domains/counselors/models/counselors";
 import { CounselorsRepository } from "~counselings/infrastructures/counselors/counselors.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryCounselorsStore extends CounselorsStore {

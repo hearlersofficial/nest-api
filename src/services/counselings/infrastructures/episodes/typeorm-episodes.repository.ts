@@ -1,12 +1,12 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { EpisodeEntity } from "~shared/core/infrastructure/entities/counselors/episode.entity";
-import { EpisodeCutSceneEntity } from "~shared/core/infrastructure/entities/counselors/episode-cut-scene.entity";
 import { Episodes } from "~counselings/domains/episodes/models/episodes";
 import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
 import { PsqlEpisodesMapper } from "~counselings/infrastructures/episodes/mappers/psql.episodes.mapper";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { EpisodeEntity } from "~common/system/persistences/entities/counselors/episode.entity";
+import { EpisodeCutSceneEntity } from "~common/system/persistences/entities/counselors/episode-cut-scene.entity";
 import { In, Repository } from "typeorm";
 
 @Injectable()

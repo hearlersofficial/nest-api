@@ -1,5 +1,3 @@
-import { BubbleEntity } from "~shared/core/infrastructure/entities/counselors/bubble.entity";
-import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
 import { BubblesReader } from "~counselings/domains/counselors/bubbles.reader";
 import { CounselorsReader } from "~counselings/domains/counselors/counselors.reader";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
@@ -12,6 +10,8 @@ import { RepositoryCounselorsStore } from "~counselings/infrastructures/counselo
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
+import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CounselorEntity, BubbleEntity])],

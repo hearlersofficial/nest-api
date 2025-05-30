@@ -1,10 +1,10 @@
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
 
 import { HttpStatus } from "@nestjs/common";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
 import dayjs from "dayjs";
 
 export class PsqlUserProfilesMapper {

@@ -1,6 +1,3 @@
-import { UserMessageTokensEntity } from "~shared/core/infrastructure/entities/users/UserMessageTokens.entity";
-import { UserProfilesEntity } from "~shared/core/infrastructure/entities/users/UserProfiles.entity";
-import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { UsersPersistor } from "~users/domains/users/users.persistor";
 import { UsersReader } from "~users/domains/users/users.reader";
 import { UsersService } from "~users/domains/users/users.service";
@@ -11,6 +8,9 @@ import { UsersRepository } from "~users/infrastructures/users/users.repository";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/UserMessageTokens.entity";
+import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
+import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([UsersEntity, UserProfilesEntity, UserMessageTokensEntity])],

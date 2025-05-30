@@ -1,7 +1,7 @@
-import { DomainEvent } from "~shared/core/domain/events/DomainEvent";
 import { UserUpdatedPayload, UserUpdatedPayloadSchema } from "~proto/com/hearlers/v1/message/user_pb";
 
 import { toBinary } from "@bufbuild/protobuf";
+import { DomainEvent } from "~common/shared-kernel/domains/DomainEvent";
 
 export class UserUpdatedEvent extends DomainEvent {
   static readonly topic = "user.updated";

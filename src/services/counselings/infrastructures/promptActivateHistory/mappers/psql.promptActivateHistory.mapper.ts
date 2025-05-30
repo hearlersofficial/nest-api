@@ -1,10 +1,10 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { PromptActivateHistoryEntity } from "~shared/core/infrastructure/entities/prompts/PromptActivateHistory.entity";
 import {
   PromptActivateHistories,
   PromptActivateHistoriesProps,
 } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
 import dayjs from "dayjs";
 
 export class PsqlPromptActivateHistoryMapper {

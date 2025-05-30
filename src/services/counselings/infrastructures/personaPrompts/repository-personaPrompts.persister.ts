@@ -1,9 +1,9 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { PersonaPrompts, PersonaPromptsNewProps } from "~counselings/domains/personaPrompts/models/personaPrompts";
 import { PersonaPromptsPersister } from "~counselings/domains/personaPrompts/personaPrompts.persister";
 import { PersonaPromptsRepository } from "~counselings/infrastructures/personaPrompts/personaPrompts.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryPersonaPromptsPersister extends PersonaPromptsPersister {

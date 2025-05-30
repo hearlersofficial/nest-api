@@ -1,9 +1,9 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { EpisodesReader } from "~counselings/domains/episodes/episodes.reader";
 import { Episodes } from "~counselings/domains/episodes/models/episodes";
 import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export class RepositoryEpisodesReader extends EpisodesReader {

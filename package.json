@@ -120,6 +120,7 @@
       "~users/(.*)$": "<rootDir>/../src/services/users/$1",
       "~counselings/(.*)$": "<rootDir>/../src/services/counselings/$1",
       "~shared/(.*)$": "<rootDir>/../src/shared/$1",
+      "~common/(.*)$": "<rootDir>/../src/common/$1",
       "~proto/(.*)$": "<rootDir>/../src/gen/$1",
       "^~/(.*)$": "<rootDir>/../$1"
     }
@@ -128,6 +129,7 @@
     "~users/(.*)$": "<rootDir>/../src/services/users/$1",
     "~counselings/(.*)$": "<rootDir>/../src/services/counselings/$1",
     "~shared/(.*)$": "<rootDir>/../src/shared/$1",
+    "~common/(.*)$": "<rootDir>/../src/common/$1",
     "~proto/(.*)$": "<rootDir>/../src/gen/$1",
     "^~/(.*)$": "<rootDir>/../$1"
   }

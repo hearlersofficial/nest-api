@@ -1,6 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { getNowDayjs } from "~shared/utils/Date.utils";
 import { ValidatePromptVersionUseCase } from "~counselings/applications/use-cases/validate-prompt-version";
 import { PromptActivateHistoryService } from "~counselings/domains/promptActivateHistory/promptActivateHistory.service";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
@@ -8,6 +5,9 @@ import { PromptVersionsService } from "~counselings/domains/promptVersions/promp
 import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { getNowDayjs } from "~common/shared/utils/Date.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()

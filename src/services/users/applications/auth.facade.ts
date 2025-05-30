@@ -1,4 +1,3 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { BindAuthUserToUseUseCase } from "~users/applications/use-cases/bind-user-to-auth-user";
 import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
@@ -6,6 +5,7 @@ import { Users } from "~users/domains/users/models/users";
 import { UsersService } from "~users/domains/users/users.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class AuthFacade {

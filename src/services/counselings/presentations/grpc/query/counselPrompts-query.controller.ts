@@ -1,5 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ProtoRequest } from "~shared/utils/Rpc.utils";
 import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
 import { LlmFacade } from "~counselings/applications/llm.facade";
 import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
@@ -53,6 +51,8 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
+import { ProtoRequest } from "~common/shared/utils/Rpc.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Controller("counsel_prompt")
 export class GrpcCounselPromptQueryController {

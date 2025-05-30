@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
 import { Tones } from "~counselings/domains/tones/models/tones";
 import { PsqlTonesMapper } from "~counselings/infrastructures/tones/mappers/psql.tones.mapper";
 import { TonesRepository } from "~counselings/infrastructures/tones/tones.repository";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()

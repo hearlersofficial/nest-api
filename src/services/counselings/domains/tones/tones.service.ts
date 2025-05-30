@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { Tones, TonesNewProps } from "~counselings/domains/tones/models/tones";
 import { TonesCriteriaFindMany } from "~counselings/domains/tones/tones.criteria";
 import { TonesPersister } from "~counselings/domains/tones/tones.persister";
 import { TonesReader } from "~counselings/domains/tones/tones.reader";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class TonesService {

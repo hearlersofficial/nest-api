@@ -1,6 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 import { PromptVersions, PromptVersionsProps } from "~counselings/domains/promptVersions/models/promptVersions";
 import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
@@ -8,6 +5,9 @@ import { PsqlCounselorScopedPromptsMapper } from "~counselings/infrastructures/p
 import { PsqlToneScopedPromptsMapper } from "~counselings/infrastructures/promptVersions/mappers/psql.toneScopedPrompts.mapper";
 
 import { HttpStatus } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import dayjs from "dayjs";
 
 export class PsqlPromptVersionsMapper {

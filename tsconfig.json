@@ -22,6 +22,7 @@
       "~users/*": ["./src/services/users/*"],
       "~counselings/*": ["./src/services/counselings/*"],
       "~shared/*": ["./src/shared/*"],
+      "~common/*": ["./src/common/*"],
       "~proto/*": ["./src/gen/*"],
       "~/*": ["./*"]
     }

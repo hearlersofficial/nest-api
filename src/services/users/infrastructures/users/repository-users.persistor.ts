@@ -1,9 +1,9 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { Users, UsersNewProps } from "~users/domains/users/models/users";
 import { UsersPersistor } from "~users/domains/users/users.persistor";
 import { UsersRepository } from "~users/infrastructures/users/users.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryUsersPersistor extends UsersPersistor {

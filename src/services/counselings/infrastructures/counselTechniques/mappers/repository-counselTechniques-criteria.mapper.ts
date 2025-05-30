@@ -1,7 +1,7 @@
-import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
-import { isDefined } from "~shared/utils/Validate.utils";
 import { CounselTechniquesCriteriaFindMany } from "~counselings/domains/counselTechniques/counselTechniques.criteria";
 
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import { FindManyOptions, FindOptionsWhere, In } from "typeorm";
 
 export class RepositoryCounselTechniqueCriteriaMapper {

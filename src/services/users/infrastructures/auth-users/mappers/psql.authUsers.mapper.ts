@@ -1,13 +1,13 @@
-import { CoreStatus } from "~shared/core/constants/status.constants";
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { AuthUsers, AuthUsersProps } from "~users/domains/auth-users/models/auth-users";
 import { PsqlKakaoMapper } from "~users/infrastructures/auth-users/mappers/psql.kakao.mapper";
 import { PsqlRefreshTokensMapper } from "~users/infrastructures/users/mappers/psql-refresh-token.mapper";
 
 import { HttpStatus } from "@nestjs/common";
+import { CoreStatus } from "~common/shared/constants/status.constants";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { AuthUsersEntity } from "~common/system/persistences/entities/users/AuthUsers.entity";
 import dayjs from "dayjs";
 
 export class PsqlAuthUsersMapper {

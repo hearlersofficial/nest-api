@@ -1,10 +1,10 @@
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { RefreshTokenEntity } from "~shared/core/infrastructure/entities/users/RefreshTokens.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 
 import { HttpStatus } from "@nestjs/common";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { RefreshTokenEntity } from "~common/system/persistences/entities/users/RefreshTokens.entity";
 import dayjs from "dayjs";
 
 export class PsqlRefreshTokensMapper {

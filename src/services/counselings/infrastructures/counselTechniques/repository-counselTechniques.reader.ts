@@ -1,4 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselTechniquesCriteriaFindMany } from "~counselings/domains/counselTechniques/counselTechniques.criteria";
 import { CounselTechniquesReader } from "~counselings/domains/counselTechniques/counselTechniques.reader";
 import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
@@ -6,6 +5,7 @@ import { CounselTechniquesRepository } from "~counselings/infrastructures/counse
 import { RepositoryCounselTechniqueCriteriaMapper } from "~counselings/infrastructures/counselTechniques/mappers/repository-counselTechniques-criteria.mapper";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export class RepositoryCounselTechniquesReader extends CounselTechniquesReader {

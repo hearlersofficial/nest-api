@@ -1,7 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ImageStorageService } from "~shared/core/infrastructure/image-storage";
-import { SchemaPresignedUrlMapper } from "~shared/core/presentations/presigned-url.mapper";
-import { ProtoRequest } from "~shared/utils/Rpc.utils";
 import { EpisodesFacade } from "~counselings/applications/episodes.facade";
 import { SchemaEpisodesMapper } from "~counselings/presentations/grpc/episodes.mapper";
 import {
@@ -22,6 +18,10 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller, Logger } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
+import { ProtoRequest } from "~common/shared/utils/Rpc.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { SchemaPresignedUrlMapper } from "~common/support/presigned-url.mapper";
+import { ImageStorageService } from "~common/system/persistences/image-storage";
 
 @Controller("episode")
 export class GrpcEpisodeCommandController {

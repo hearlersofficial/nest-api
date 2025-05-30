@@ -1,4 +1,3 @@
-import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/counsels/CounselMessages.entity";
 import { CounselMessagesPersister } from "~counselings/domains/counselMessages/counselMessages.persister";
 import { CounselMessagesReader } from "~counselings/domains/counselMessages/counselMessages.reader";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
@@ -9,6 +8,7 @@ import { RepositoryCounselMessagesReader } from "~counselings/infrastructures/co
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/councels/CounselMessages.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CounselMessagesEntity])],

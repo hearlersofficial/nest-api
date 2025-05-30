@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()

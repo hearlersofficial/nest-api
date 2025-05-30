@@ -1,6 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { BubbleEntity } from "~shared/core/infrastructure/entities/counselors/bubble.entity";
-import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
 import { CounselorsRepository } from "~counselings/infrastructures/counselors/counselors.repository";
@@ -8,6 +5,9 @@ import { PsqlCounselorsMapper } from "~counselings/infrastructures/counselors/ma
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
+import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()

@@ -1,6 +1,6 @@
-import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/counsels/CounselMessages.entity";
 import { CounselMessagesCriteriaFindMany } from "~counselings/domains/counselMessages/counselMessages.criteria";
 
+import { CounselMessagesEntity } from "~common/system/persistences/entities/councels/CounselMessages.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";
 
 export class RepositoryCounselMessageCriteriaMapper {

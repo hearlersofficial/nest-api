@@ -1,5 +1,6 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { BubblesNewProps } from "~counselings/domains/counselors/models/bubbles";
+
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 export interface CreateBubbleCommand extends BubblesNewProps {
   counselorId: UniqueEntityId;

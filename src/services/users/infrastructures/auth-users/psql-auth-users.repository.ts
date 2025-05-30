@@ -1,5 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
 import { AuthUsersRepository } from "~users/infrastructures/auth-users/auth-users.repository";
 import { PsqlAuthUsersMapper } from "~users/infrastructures/auth-users/mappers/psql.authUsers.mapper";
@@ -7,6 +5,8 @@ import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { AuthUsersEntity } from "~common/system/persistences/entities/users/AuthUsers.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
 @Injectable()

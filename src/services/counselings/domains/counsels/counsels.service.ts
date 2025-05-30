@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselsCriteriaFindMany } from "~counselings/domains/counsels/counsels.criteria";
 import { CounselsPersister } from "~counselings/domains/counsels/counsels.persister";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { Counsels, CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class CounselsService {

@@ -1,5 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { ProtoRequest } from "~shared/utils/Rpc.utils";
 import { EpisodesFacade } from "~counselings/applications/episodes.facade";
 import { SchemaEpisodesMapper } from "~counselings/presentations/grpc/episodes.mapper";
 import {
@@ -16,6 +14,8 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
+import { ProtoRequest } from "~common/shared/utils/Rpc.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 @Controller("episodes")
 export class GrpcEpisodeQueryController {
   constructor(private readonly episodesFacade: EpisodesFacade) {}

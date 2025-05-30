@@ -1,10 +1,10 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { Users, UsersNewProps } from "~users/domains/users/models/users";
 import { UsersCriteriaFindOne, UsersCriteriaUniqueKey } from "~users/domains/users/users.criteria";
 import { UsersPersistor } from "~users/domains/users/users.persistor";
 import { UsersReader } from "~users/domains/users/users.reader";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class UsersService {

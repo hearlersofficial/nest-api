@@ -1,6 +1,6 @@
-import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
 import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
 
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import { FindManyOptions, FindOptionsWhere, ILike, In } from "typeorm";
 
 export class RepositoryPromptVersionCriteriaMapper {

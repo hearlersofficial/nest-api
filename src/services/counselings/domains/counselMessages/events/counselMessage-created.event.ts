@@ -1,10 +1,10 @@
-import { DomainEvent } from "~shared/core/domain/events/DomainEvent";
 import {
   CounselMessageCreatedPayload,
   CounselMessageCreatedPayloadSchema,
 } from "~proto/com/hearlers/v1/message/counsel_pb";
 
 import { toBinary } from "@bufbuild/protobuf";
+import { DomainEvent } from "~common/shared-kernel/domains/DomainEvent";
 
 export class CounselMessageCreatedEvent extends DomainEvent {
   static readonly topic = "counsel.message.created";

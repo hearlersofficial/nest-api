@@ -1,4 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { BubblesReader } from "~counselings/domains/counselors/bubbles.reader";
 import { FindManyBubblesCriteria } from "~counselings/domains/counselors/counselors.criteria";
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
@@ -6,6 +5,7 @@ import { CounselorsRepository } from "~counselings/infrastructures/counselors/co
 import { RepositoryCounselorCriteriaMapper } from "~counselings/infrastructures/counselors/mappers/repository-counselors-criteria.mapper";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export class RepositoryBubblesReader extends BubblesReader {

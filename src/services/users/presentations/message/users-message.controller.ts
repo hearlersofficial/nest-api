@@ -1,6 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
-import { kafkaPayloadToProtoMessage } from "~shared/utils/Proto.utils";
 import { UsersCounselMessageCreatedEvent } from "~users/applications/events/counsel-message-created.event";
 import { UsersFacade } from "~users/applications/users.facade";
 import {
@@ -10,6 +7,9 @@ import {
 
 import { Controller, Inject, OnModuleInit } from "@nestjs/common";
 import { ClientKafka, EventPattern, Payload } from "@nestjs/microservices";
+import { kafkaPayloadToProtoMessage } from "~common/shared/utils/Proto.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 
 @Controller()
 export class UsersMessageController implements OnModuleInit {

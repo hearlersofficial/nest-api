@@ -1,4 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { AuthFacade } from "~users/applications/auth.facade";
 import { AuthUsersFacade } from "~users/applications/auth-users.facade";
 import { UsersFacade } from "~users/applications/users.facade";
@@ -32,6 +31,7 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 import dayjs from "dayjs";
 
 @Controller("user")

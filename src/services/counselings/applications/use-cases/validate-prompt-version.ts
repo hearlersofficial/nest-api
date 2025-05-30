@@ -1,5 +1,3 @@
-import { UseCase } from "~shared/core/applications/UseCase";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import {
   ValidatePromptVersionRequest,
   ValidatePromptVersionResponse,
@@ -8,6 +6,8 @@ import { CounselorsService } from "~counselings/domains/counselors/counselors.se
 import { TonesService } from "~counselings/domains/tones/tones.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class ValidatePromptVersionUseCase

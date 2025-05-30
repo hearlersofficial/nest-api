@@ -1,9 +1,9 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { TonePrompts, TonePromptsNewProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
 import { TonePromptsPersister } from "~counselings/domains/tonePrompts/tonePrompts.persister";
 import { TonePromptsRepository } from "~counselings/infrastructures/tonePrompts/tonePrompts.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryTonePromptsPersister extends TonePromptsPersister {

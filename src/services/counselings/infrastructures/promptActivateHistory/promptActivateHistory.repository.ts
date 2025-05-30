@@ -1,7 +1,7 @@
 import { PromptActivateHistories } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
 import { FindOneOptions } from "typeorm";
 

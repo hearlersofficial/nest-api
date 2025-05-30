@@ -5,7 +5,7 @@ import { PsqlCounselorScopedPromptsMapper } from "~counselings/infrastructures/p
 import { PsqlToneScopedPromptsMapper } from "~counselings/infrastructures/promptVersions/mappers/psql.toneScopedPrompts.mapper";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import dayjs from "dayjs";

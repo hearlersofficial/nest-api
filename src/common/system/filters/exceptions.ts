@@ -1,7 +1,7 @@
 import { status } from "@grpc/grpc-js";
 import { HttpStatus } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-import { httpStatusToGrpc } from "~common/shared/utils/Rpc.utils";
+import { httpStatusToGrpc } from "~common/shared/utils/rpc";
 
 export class CustomRpcException extends RpcException {
   constructor(code: status, message: string) {

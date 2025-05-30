@@ -1,7 +1,7 @@
 import { Tones } from "~counselings/domains/tones/models/tones";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 

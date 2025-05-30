@@ -5,7 +5,7 @@ import { RepositoryPersonaPromptCriteriaMapper } from "~counselings/infrastructu
 import { PersonaPromptsRepository } from "~counselings/infrastructures/personaPrompts/personaPrompts.repository";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export class RepositoryPersonaPromptsReader extends PersonaPromptsReader {

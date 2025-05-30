@@ -1,5 +1,5 @@
 import { fakerKO as faker } from "@faker-js/faker";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 describe("UniqueEntityID", (): void => {
   it("전달된 값이 반환", (): void => {

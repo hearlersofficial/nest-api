@@ -4,7 +4,7 @@ import { PromptActivateHistoryRepository } from "~counselings/infrastructures/pr
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
 import { FindOneOptions, Repository } from "typeorm";
 

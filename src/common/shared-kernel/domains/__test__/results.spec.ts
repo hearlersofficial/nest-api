@@ -1,5 +1,5 @@
 import { fakerKO as faker } from "@faker-js/faker";
-import { Result } from "~common/shared-kernel/domains/Result";
+import { Result } from "~common/shared-kernel/domains/results";
 
 describe("Result", (): void => {
   it("실패시 value 에 접근하려 하면 에러가 나와야 한다", (): void => {

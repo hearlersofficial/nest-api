@@ -1,8 +1,8 @@
 import { UserActivities } from "~users/domains/users/models/UserActivities";
 import { ActivityType, DevicePlatform } from "~proto/com/hearlers/v1/model/user_pb";
 
-import { getNowDayjs } from "~common/shared/utils/Date.utils";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { getNowDayjs } from "~common/shared/utils/date";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 describe("UserActivities", () => {
   const createValidProps = () => ({

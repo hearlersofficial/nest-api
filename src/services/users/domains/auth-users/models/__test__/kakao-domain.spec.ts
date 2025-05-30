@@ -1,7 +1,7 @@
 import { Kakao } from "~users/domains/auth-users/models/kakao";
 
 import { fakerKO as faker } from "@faker-js/faker";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { advanceTo, clear } from "jest-date-mock";
 
 describe("Kakao", () => {

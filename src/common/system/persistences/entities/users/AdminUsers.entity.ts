@@ -1,4 +1,4 @@
-import { CoreStatus } from "~common/shared/constants/status.constants";
+import { CoreStatus } from "~common/shared/enums/status";
 import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
 import { Column, Entity } from "typeorm";
 

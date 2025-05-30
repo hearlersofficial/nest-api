@@ -4,7 +4,7 @@ import { TonesRepository } from "~counselings/infrastructures/tones/tones.reposi
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 

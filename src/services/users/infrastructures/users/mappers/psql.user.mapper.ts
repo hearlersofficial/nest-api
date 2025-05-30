@@ -5,8 +5,8 @@ import { PsqlUserMessageTokensMapper } from "~users/infrastructures/users/mapper
 import { PsqlUserProfilesMapper } from "~users/infrastructures/users/mappers/psql-user-profile.mapper";
 
 import { HttpStatus } from "@nestjs/common";
-import { Result } from "~common/shared-kernel/domains/Result";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { Result } from "~common/shared-kernel/domains/results";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
 import dayjs from "dayjs";

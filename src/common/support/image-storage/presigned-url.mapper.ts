@@ -1,7 +1,7 @@
 import { PresignedUrl, PresignedUrlSchema } from "~proto/com/hearlers/v1/common/presigned_url_pb";
 
 import { create } from "@bufbuild/protobuf";
-import { PresignedUrl as DomainPresignedUrl } from "~common/support/presigned-url";
+import { PresignedUrl as DomainPresignedUrl } from "~common/support/image-storage/presigned-url";
 
 export class SchemaPresignedUrlMapper {
   /**

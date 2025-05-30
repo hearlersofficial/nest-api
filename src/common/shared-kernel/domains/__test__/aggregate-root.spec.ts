@@ -1,10 +1,10 @@
 import { Message } from "@bufbuild/protobuf";
 import { fakerKO as faker } from "@faker-js/faker";
-import { getNowDayjs } from "~common/shared/utils/Date.utils";
-import { AggregateRoot } from "~common/shared-kernel/domains/AggregateRoot";
-import { DomainEvent } from "~common/shared-kernel/domains/DomainEvent";
-import { Result } from "~common/shared-kernel/domains/Result";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { getNowDayjs } from "~common/shared/utils/date";
+import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
+import { DomainEvent } from "~common/shared-kernel/domains/domain-event";
+import { Result } from "~common/shared-kernel/domains/results";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { Dayjs } from "dayjs";
 
 // 테스트용 도메인 이벤트 추가

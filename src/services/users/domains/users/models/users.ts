@@ -2,12 +2,12 @@ import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { UserMessageTokens } from "~users/domains/users/models/user-message-tokens";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
-import { TokenResetInterval } from "~common/shared/enums/TokenResetInterval.enum";
-import { getNowDayjs } from "~common/shared/utils/Date.utils";
-import { generateUUID } from "~common/shared/utils/UUID.utils";
-import { AggregateRoot } from "~common/shared-kernel/domains/AggregateRoot";
-import { Result } from "~common/shared-kernel/domains/Result";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
+import { getNowDayjs } from "~common/shared/utils/date";
+import { generateUUID } from "~common/shared/utils/uuid";
+import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
+import { Result } from "~common/shared-kernel/domains/results";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { Dayjs } from "dayjs";
 
 export interface UsersNewProps {}

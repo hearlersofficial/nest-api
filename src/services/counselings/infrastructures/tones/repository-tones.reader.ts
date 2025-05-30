@@ -5,7 +5,7 @@ import { RepositoryToneCriteriaMapper } from "~counselings/infrastructures/tones
 import { TonesRepository } from "~counselings/infrastructures/tones/tones.repository";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export class RepositoryTonesReader extends TonesReader {

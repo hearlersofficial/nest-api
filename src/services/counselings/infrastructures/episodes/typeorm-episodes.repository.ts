@@ -4,7 +4,7 @@ import { PsqlEpisodesMapper } from "~counselings/infrastructures/episodes/mapper
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { EpisodeEntity } from "~common/system/persistences/entities/counselors/episode.entity";
 import { EpisodeCutSceneEntity } from "~common/system/persistences/entities/counselors/episode-cut-scene.entity";
 import { In, Repository } from "typeorm";

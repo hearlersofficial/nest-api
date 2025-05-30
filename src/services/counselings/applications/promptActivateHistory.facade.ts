@@ -2,7 +2,7 @@ import { PromptActivateHistories } from "~counselings/domains/promptActivateHist
 import { PromptActivateHistoryService } from "~counselings/domains/promptActivateHistory/promptActivateHistory.service";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { Dayjs } from "dayjs";
 
 @Injectable()

@@ -5,8 +5,8 @@ import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
-import { formatDayjs, getNowDayjs } from "~common/shared/utils/Date.utils";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { formatDayjs, getNowDayjs } from "~common/shared/utils/date";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 describe("PsqlUserProgressesMapper", () => {
   const createMockUserProgressesEntity = () => {

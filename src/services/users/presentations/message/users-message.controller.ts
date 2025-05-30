@@ -7,8 +7,8 @@ import {
 
 import { Controller, Inject, OnModuleInit } from "@nestjs/common";
 import { ClientKafka, EventPattern, Payload } from "@nestjs/microservices";
-import { kafkaPayloadToProtoMessage } from "~common/shared/utils/Proto.utils";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { kafkaPayloadToProtoMessage } from "~common/shared/utils/proto";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 
 @Controller()

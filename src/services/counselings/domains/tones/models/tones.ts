@@ -1,8 +1,8 @@
-import { getNowDayjs } from "~common/shared/utils/Date.utils";
-import { isDefined } from "~common/shared/utils/Validate.utils";
-import { AggregateRoot } from "~common/shared-kernel/domains/AggregateRoot";
-import { Result } from "~common/shared-kernel/domains/Result";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
+import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
+import { Result } from "~common/shared-kernel/domains/results";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { Dayjs } from "dayjs";
 
 export interface TonesNewProps {

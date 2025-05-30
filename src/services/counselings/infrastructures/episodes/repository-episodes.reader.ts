@@ -3,7 +3,7 @@ import { Episodes } from "~counselings/domains/episodes/models/episodes";
 import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export class RepositoryEpisodesReader extends EpisodesReader {

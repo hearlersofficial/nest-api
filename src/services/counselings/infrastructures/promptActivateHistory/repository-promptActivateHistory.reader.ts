@@ -5,7 +5,7 @@ import { RepositoryPromptActivateHistoryCriteriaMapper } from "~counselings/infr
 import { PromptActivateHistoryRepository } from "~counselings/infrastructures/promptActivateHistory/promptActivateHistory.repository";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export class RepositoryPromptActivateHistoryReader extends PromptActivateHistoryReader {

@@ -7,9 +7,9 @@ import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
-import { TokenResetInterval } from "~common/shared/enums/TokenResetInterval.enum";
-import { convertDayjs, formatDayjs, getNowDayjs } from "~common/shared/utils/Date.utils";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
+import { convertDayjs, formatDayjs, getNowDayjs } from "~common/shared/utils/date";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/UserMessageTokens.entity";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
 import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";

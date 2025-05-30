@@ -1,4 +1,4 @@
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 export type UsersCriteriaUniqueKey = { type: "user"; id: UniqueEntityId } | { type: "nickname"; nickname: string };
 

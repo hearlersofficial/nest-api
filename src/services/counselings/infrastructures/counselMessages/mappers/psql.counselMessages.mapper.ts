@@ -1,7 +1,7 @@
 import { CounselMessages, CounselMessagesProps } from "~counselings/domains/counselMessages/models/counselMessages";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/councels/CounselMessages.entity";
 import dayjs from "dayjs";

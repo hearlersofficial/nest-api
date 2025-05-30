@@ -1,7 +1,7 @@
 import { Users } from "~users/domains/users/models/users";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 

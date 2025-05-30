@@ -3,7 +3,7 @@ import {
   PromptActivateHistoriesProps,
 } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
 import dayjs from "dayjs";
 

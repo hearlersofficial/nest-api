@@ -36,7 +36,7 @@ import { GrpcEpisodeQueryController } from "~counselings/presentations/grpc/quer
 import { Inject, Logger, Module, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { ClientKafka, ClientsModule } from "@nestjs/microservices";
-import { ImageStorageConfig } from "~common/system/persistences/image-storage";
+import { ImageStorageConfig } from "~common/support/image-storage/image-storage.config";
 import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 
 @Module({

@@ -14,8 +14,8 @@ import { LlmRequest } from "~counselings/domains/llm/models/llm-request";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { getNowDayjs } from "~common/shared/utils/Date.utils";
-import { isDefined } from "~common/shared/utils/Validate.utils";
+import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 

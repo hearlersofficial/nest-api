@@ -1,13 +1,13 @@
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { isDefined } from "~shared/utils/Validate.utils";
 import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
 import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Dayjs } from "dayjs";
 
 @Injectable()

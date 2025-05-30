@@ -1,12 +1,12 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { isDefined } from "~shared/utils/Validate.utils";
 import { EpisodesService } from "~counselings/domains/episodes/episodes.service";
 import { EpisodeCutScenes, EpisodeCutScenesNewProps } from "~counselings/domains/episodes/models/episode-cut-scenes";
 import { Episodes, EpisodesNewProps } from "~counselings/domains/episodes/models/episodes";
 import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()

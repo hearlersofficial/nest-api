@@ -1,6 +1,7 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { FindManyBubblesCriteria } from "~counselings/domains/counselors/counselors.criteria";
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
+
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 export abstract class BubblesReader {
   abstract findBubbles(props: FindManyBubblesCriteria): Promise<Bubbles[]>;

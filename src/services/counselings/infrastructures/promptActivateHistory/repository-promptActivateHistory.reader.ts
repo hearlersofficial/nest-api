@@ -1,4 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PromptActivateHistories } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/promptActivateHistory/promptActivateHistory.criteria";
 import { PromptActivateHistoryReader } from "~counselings/domains/promptActivateHistory/promptActivateHistory.reader";
@@ -6,6 +5,7 @@ import { RepositoryPromptActivateHistoryCriteriaMapper } from "~counselings/infr
 import { PromptActivateHistoryRepository } from "~counselings/infrastructures/promptActivateHistory/promptActivateHistory.repository";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export class RepositoryPromptActivateHistoryReader extends PromptActivateHistoryReader {

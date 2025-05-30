@@ -1,6 +1,7 @@
-import { UseCaseCoreResponse } from "~shared/core/applications/UseCase.response";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { LlmRequest } from "~counselings/domains/llm/models/llm-request";
+
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UseCaseCoreResponse } from "~common/shared-kernel/interfaces/UseCase.response";
 
 export interface MakeSystemPromptUseCaseRequest {
   personaPromptId: UniqueEntityId;

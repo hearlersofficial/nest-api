@@ -1,9 +1,9 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { getNowDayjs } from "~shared/utils/Date.utils";
 import { UserProgresses } from "~users/domains/users/models/UserProgresses";
 import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
+import { getNowDayjs } from "~common/shared/utils/Date.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 describe("UserProgresses", () => {
   describe("createNew", () => {

@@ -1,9 +1,9 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { EpisodesStore } from "~counselings/domains/episodes/episodes.store";
 import { Episodes, EpisodesNewProps } from "~counselings/domains/episodes/models/episodes";
 import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryEpisodesStore extends EpisodesStore {

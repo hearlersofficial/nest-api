@@ -1,5 +1,3 @@
-import { ClientsConfigs, KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
-import { ImageStorageConfig } from "~shared/core/infrastructure/image-storage";
 import { CounselMessagesFacade } from "~counselings/applications/counselMessages.facade";
 import { CounselorsFacade } from "~counselings/applications/counselors.facade";
 import { CounselsFacade } from "~counselings/applications/counsels.facade";
@@ -38,6 +36,8 @@ import { GrpcEpisodeQueryController } from "~counselings/presentations/grpc/quer
 import { Inject, Logger, Module, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { ClientKafka, ClientsModule } from "@nestjs/microservices";
+import { ImageStorageConfig } from "~common/system/persistences/image-storage";
+import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 
 @Module({
   imports: [

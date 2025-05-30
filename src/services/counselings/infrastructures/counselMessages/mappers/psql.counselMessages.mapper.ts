@@ -1,9 +1,9 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselMessagesEntity } from "~shared/core/infrastructure/entities/counsels/CounselMessages.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselMessages, CounselMessagesProps } from "~counselings/domains/counselMessages/models/counselMessages";
 
 import { HttpStatus } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/councels/CounselMessages.entity";
 import dayjs from "dayjs";
 
 export class PsqlCounselMessagesMapper {

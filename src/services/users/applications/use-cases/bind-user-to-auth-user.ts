@@ -1,4 +1,3 @@
-import { UseCase } from "~shared/core/applications/UseCase";
 import {
   BindAuthUserToUseUseCaseRequest,
   BindAuthUserToUseUseCaseResponse,
@@ -6,6 +5,7 @@ import {
 import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
 
 import { Injectable } from "@nestjs/common";
+import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
 
 @Injectable()
 export class BindAuthUserToUseUseCase

@@ -1,9 +1,9 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { PromptVersions, PromptVersionsNewProps } from "~counselings/domains/promptVersions/models/promptVersions";
 import { PromptVersionsPersister } from "~counselings/domains/promptVersions/promptVersions.persister";
 import { PromptVersionsRepository } from "~counselings/infrastructures/promptVersions/promptVersions.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryPromptVersionsPersister extends PromptVersionsPersister {

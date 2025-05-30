@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselsCriteriaFindMany } from "~counselings/domains/counsels/counsels.criteria";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export abstract class CounselsReader {

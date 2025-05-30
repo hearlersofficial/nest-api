@@ -1,9 +1,9 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 import { TonePrompts } from "~counselings/domains/tonePrompts/models/tonePrompts";
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()

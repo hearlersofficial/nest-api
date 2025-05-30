@@ -1,11 +1,11 @@
-import { BubbleEntity } from "~shared/core/infrastructure/entities/counselors/bubble.entity";
-import { CounselorEntity } from "~shared/core/infrastructure/entities/counselors/counselor.entity";
-import { isDefined } from "~shared/utils/Validate.utils";
 import {
   CounselorsCriteriaFindMany,
   FindManyBubblesCriteria,
 } from "~counselings/domains/counselors/counselors.criteria";
 
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
+import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";
 
 export class RepositoryCounselorCriteriaMapper {

@@ -1,12 +1,12 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { formatDayjs, getNowDayjs } from "~shared/utils/Date.utils";
 import { UserProgresses } from "~users/domains/users/models/UserProgresses";
 import { PsqlUserProgressesMapper } from "~users/infrastructures/mappers/psql.userProgresses.mapper";
 import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
+import { formatDayjs, getNowDayjs } from "~common/shared/utils/Date.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 describe("PsqlUserProgressesMapper", () => {
   const createMockUserProgressesEntity = () => {

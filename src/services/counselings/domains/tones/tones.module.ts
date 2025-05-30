@@ -1,4 +1,3 @@
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
 import { TonesPersister } from "~counselings/domains/tones/tones.persister";
 import { TonesReader } from "~counselings/domains/tones/tones.reader";
 import { TonesService } from "~counselings/domains/tones/tones.service";
@@ -9,6 +8,7 @@ import { TonesRepository } from "~counselings/infrastructures/tones/tones.reposi
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([ToneEntity])],

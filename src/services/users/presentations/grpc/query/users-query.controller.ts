@@ -1,4 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { AuthUsersFacade } from "~users/applications/auth-users.facade";
 import { UsersFacade } from "~users/applications/users.facade";
 import { Users } from "~users/domains/users/models/users";
@@ -28,6 +27,7 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Controller("user")
 export class GrpcUserQueryController {

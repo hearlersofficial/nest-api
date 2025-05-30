@@ -1,12 +1,12 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { isDefined } from "~shared/utils/Validate.utils";
 import { UserProfilesProps } from "~users/domains/users/models/use-profiles";
 import { Users } from "~users/domains/users/models/users";
 import { UsersService } from "~users/domains/users/users.service";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import dayjs from "dayjs";
 
 @Injectable()

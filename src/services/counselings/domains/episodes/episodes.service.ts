@@ -1,10 +1,10 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { EpisodesReader } from "~counselings/domains/episodes/episodes.reader";
 import { EpisodesStore } from "~counselings/domains/episodes/episodes.store";
 import { Episodes, EpisodesNewProps } from "~counselings/domains/episodes/models/episodes";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()

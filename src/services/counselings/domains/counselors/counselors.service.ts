@@ -1,5 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { BubblesReader } from "~counselings/domains/counselors/bubbles.reader";
 import { CreateBubbleCommand, UpdateBubbleCommand } from "~counselings/domains/counselors/counselor.command";
 import {
@@ -12,6 +10,8 @@ import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors, CounselorsNewProps } from "~counselings/domains/counselors/models/counselors";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class CounselorsService {

@@ -1,4 +1,3 @@
-import { CounselsEntity } from "~shared/core/infrastructure/entities/counsels/Counsels.entity";
 import { CounselsPersister } from "~counselings/domains/counsels/counsels.persister";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
@@ -9,6 +8,7 @@ import { RepositoryCounselsReader } from "~counselings/infrastructures/counsels/
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CounselsEntity])],

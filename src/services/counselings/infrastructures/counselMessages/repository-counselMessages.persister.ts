@@ -1,9 +1,9 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselMessagesPersister } from "~counselings/domains/counselMessages/counselMessages.persister";
 import { CounselMessages, CounselMessagesNewProps } from "~counselings/domains/counselMessages/models/counselMessages";
 import { CounselMessagesRepository } from "~counselings/infrastructures/counselMessages/counselMessages.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryCounselMessagesPersister extends CounselMessagesPersister {

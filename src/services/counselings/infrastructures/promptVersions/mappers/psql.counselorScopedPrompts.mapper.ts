@@ -1,12 +1,12 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselorScopedPromptEntity } from "~shared/core/infrastructure/entities/prompts/CounselorScopedPrompts.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import {
   CounselorScopedPrompts,
   CounselorScopedPromptsProps,
 } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 
 import { HttpStatus } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/CounselorScopedPrompts.entity";
 import dayjs from "dayjs";
 
 export class PsqlCounselorScopedPromptsMapper {

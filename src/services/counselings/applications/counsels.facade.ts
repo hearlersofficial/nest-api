@@ -1,6 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { isDefined } from "~shared/utils/Validate.utils";
 import { CounselWithMessages } from "~counselings/applications/types/counsel.type";
 import { ProceedCounselingUseCase } from "~counselings/applications/use-cases/proceed-counseling";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
@@ -12,6 +9,9 @@ import { CounselTechniquesService } from "~counselings/domains/counselTechniques
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()

@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { UsersEntity } from "~shared/core/infrastructure/entities/users/Users.entity";
 import { Users } from "~users/domains/users/models/users";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()

@@ -1,12 +1,12 @@
-import { CoreStatus } from "~shared/core/constants/status.constants";
-import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { getNowDayjs } from "~shared/utils/Date.utils";
 import { Kakao } from "~users/domains/auth-users/models/kakao";
 import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
+import { CoreStatus } from "~common/shared/constants/status.constants";
+import { getNowDayjs } from "~common/shared/utils/Date.utils";
+import { AggregateRoot } from "~common/shared-kernel/domains/AggregateRoot";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 import { Dayjs } from "dayjs";
 
 const REFRESH_TOKEN_NOT_FOUND = "리프레시 토큰을 찾을 수 없습니다.";

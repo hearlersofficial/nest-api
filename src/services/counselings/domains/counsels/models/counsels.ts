@@ -1,12 +1,12 @@
-import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { getNowDayjs } from "~shared/utils/Date.utils";
 import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
 import { CounselCreatedEvent } from "~counselings/domains/counsels/events/counsel-created.event";
 import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
+import { getNowDayjs } from "~common/shared/utils/Date.utils";
+import { AggregateRoot } from "~common/shared-kernel/domains/AggregateRoot";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 import { Dayjs } from "dayjs";
 
 export interface CounselsNewProps {

@@ -1,9 +1,9 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { PersonaPromptEntity } from "~shared/core/infrastructure/entities/prompts/PersonaPrompts.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { PersonaPrompts, PersonaPromptsProps } from "~counselings/domains/personaPrompts/models/personaPrompts";
 
 import { HttpStatus } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
 import dayjs from "dayjs";
 
 export class PsqlPersonaPromptsMapper {

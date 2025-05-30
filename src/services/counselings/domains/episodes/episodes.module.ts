@@ -1,5 +1,3 @@
-import { EpisodeEntity } from "~shared/core/infrastructure/entities/counselors/episode.entity";
-import { EpisodeCutSceneEntity } from "~shared/core/infrastructure/entities/counselors/episode-cut-scene.entity";
 import { EpisodesReader } from "~counselings/domains/episodes/episodes.reader";
 import { EpisodesService } from "~counselings/domains/episodes/episodes.service";
 import { EpisodesStore } from "~counselings/domains/episodes/episodes.store";
@@ -10,6 +8,8 @@ import { TypeormEpisodesRepository } from "~counselings/infrastructures/episodes
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { EpisodeEntity } from "~common/system/persistences/entities/counselors/episode.entity";
+import { EpisodeCutSceneEntity } from "~common/system/persistences/entities/counselors/episode-cut-scene.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([EpisodeEntity, EpisodeCutSceneEntity])],

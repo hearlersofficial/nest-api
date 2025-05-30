@@ -1,5 +1,6 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
+
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 export type AuthUsersCriteriaUniqueKey =
   | { type: "user"; id: UniqueEntityId }

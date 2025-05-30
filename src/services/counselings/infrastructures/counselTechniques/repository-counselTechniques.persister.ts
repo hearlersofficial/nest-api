@@ -1,4 +1,3 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CounselTechniquesPersister } from "~counselings/domains/counselTechniques/counselTechniques.persister";
 import {
   CounselTechniques,
@@ -7,6 +6,7 @@ import {
 import { CounselTechniquesRepository } from "~counselings/infrastructures/counselTechniques/counselTechniques.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryCounselTechniquesPersister extends CounselTechniquesPersister {

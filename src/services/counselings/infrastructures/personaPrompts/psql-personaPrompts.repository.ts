@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { PersonaPromptEntity } from "~shared/core/infrastructure/entities/prompts/PersonaPrompts.entity";
 import { PersonaPrompts } from "~counselings/domains/personaPrompts/models/personaPrompts";
 import { PsqlPersonaPromptsMapper } from "~counselings/infrastructures/personaPrompts/mappers/psql.personaPrompts.mapper";
 import { PersonaPromptsRepository } from "~counselings/infrastructures/personaPrompts/personaPrompts.repository";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()

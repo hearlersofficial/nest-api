@@ -1,11 +1,11 @@
-import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { getNowDayjs } from "~shared/utils/Date.utils";
 import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
 import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
+import { getNowDayjs } from "~common/shared/utils/Date.utils";
+import { AggregateRoot } from "~common/shared-kernel/domains/AggregateRoot";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 import { Dayjs } from "dayjs";
 
 export interface PromptVersionsNewProps {}
@@ -260,7 +260,12 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok();
   }
 
-  public saveVersion(props: { name: string; description: string; isBookmarked: boolean; gptModel: GPTModel }): Result<void> {
+  public saveVersion(props: {
+    name: string;
+    description: string;
+    isBookmarked: boolean;
+    gptModel: GPTModel;
+  }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be saved.");
     }
@@ -273,7 +278,10 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok();
   }
 
-  public updateCounselorScopedPrompt(props: { counselorId: UniqueEntityId; personaPromptId: UniqueEntityId }): Result<void> {
+  public updateCounselorScopedPrompt(props: {
+    counselorId: UniqueEntityId;
+    personaPromptId: UniqueEntityId;
+  }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
@@ -298,11 +306,19 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
   }
 
   public getCounselorScopedPrompt(counselorId: UniqueEntityId): Result<{ personaPromptId: UniqueEntityId }> {
-    const counselorScopedPrompt = this.props.counselorScopedPrompts.find((counselorScopedPrompt) => counselorScopedPrompt.counselorId.equals(counselorId));
-    return counselorScopedPrompt ? Result.ok({ personaPromptId: counselorScopedPrompt.personaPromptId }) : Result.fail("Prompt by counselor not found");
+    const counselorScopedPrompt = this.props.counselorScopedPrompts.find((counselorScopedPrompt) =>
+      counselorScopedPrompt.counselorId.equals(counselorId),
+    );
+    return counselorScopedPrompt
+      ? Result.ok({ personaPromptId: counselorScopedPrompt.personaPromptId })
+      : Result.fail("Prompt by counselor not found");
   }
 
-  public updateToneScopedPrompt(props: { toneId: UniqueEntityId; tonePromptId?: UniqueEntityId; firstCounselTechniqueId?: UniqueEntityId }): Result<void> {
+  public updateToneScopedPrompt(props: {
+    toneId: UniqueEntityId;
+    tonePromptId?: UniqueEntityId;
+    firstCounselTechniqueId?: UniqueEntityId;
+  }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
@@ -330,8 +346,12 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok();
   }
 
-  public getToneScopedPrompt(toneId: UniqueEntityId): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
-    const toneScopedPrompt = this.props.toneScopedPrompts.find((toneScopedPrompt) => toneScopedPrompt.toneId.equals(toneId));
+  public getToneScopedPrompt(
+    toneId: UniqueEntityId,
+  ): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
+    const toneScopedPrompt = this.props.toneScopedPrompts.find((toneScopedPrompt) =>
+      toneScopedPrompt.toneId.equals(toneId),
+    );
     return toneScopedPrompt
       ? Result.ok({
           tonePromptId: toneScopedPrompt.tonePromptId,
@@ -377,7 +397,12 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok();
   }
 
-  public updateBasicInfo(props: { name?: string; description?: string; isBookmarked?: boolean; gptModel?: GPTModel }): Result<void> {
+  public updateBasicInfo(props: {
+    name?: string;
+    description?: string;
+    isBookmarked?: boolean;
+    gptModel?: GPTModel;
+  }): Result<void> {
     if (props.name !== undefined) {
       this.props.name = props.name;
     }

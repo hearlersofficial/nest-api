@@ -1,5 +1,6 @@
-import { UseCaseCoreResponse } from "~shared/core/applications/UseCase.response";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
+
+import { UseCaseCoreResponse } from "~common/shared-kernel/interfaces/UseCase.response";
 
 export interface TransitionCounselTechniqueRequest {
   counsel: Counsels;

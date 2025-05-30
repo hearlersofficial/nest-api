@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { PromptVersions, PromptVersionsNewProps } from "~counselings/domains/promptVersions/models/promptVersions";
 import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
 import { PromptVersionsPersister } from "~counselings/domains/promptVersions/promptVersions.persister";
 import { PromptVersionsReader } from "~counselings/domains/promptVersions/promptVersions.reader";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class PromptVersionsService {

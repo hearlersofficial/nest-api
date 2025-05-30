@@ -1,5 +1,6 @@
-import { UseCaseCoreResponse } from "~shared/core/applications/UseCase.response";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
+
+import { UseCaseCoreResponse } from "~common/shared-kernel/interfaces/UseCase.response";
 
 export interface ValidatePromptVersionRequest {
   promptVersion: PromptVersions;

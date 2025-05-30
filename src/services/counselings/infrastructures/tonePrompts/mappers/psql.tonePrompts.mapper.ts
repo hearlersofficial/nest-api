@@ -1,9 +1,9 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { TonePromptEntity } from "~shared/core/infrastructure/entities/prompts/TonePrompts.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { TonePrompts, TonePromptsProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
 
 import { HttpStatus } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import dayjs from "dayjs";
 
 export class PsqlTonePromptsMapper {

@@ -1,6 +1,6 @@
-import { TonePromptEntity } from "~shared/core/infrastructure/entities/prompts/TonePrompts.entity";
 import { TonePromptsCriteriaFindMany } from "~counselings/domains/tonePrompts/tonePrompts.criteria";
 
+import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";
 
 export class RepositoryTonePromptCriteriaMapper {

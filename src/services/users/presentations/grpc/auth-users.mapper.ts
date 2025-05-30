@@ -1,4 +1,3 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
 import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 import {
@@ -13,6 +12,7 @@ import {
 
 import { create } from "@bufbuild/protobuf";
 import { HttpStatus } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 export class SchemaAuthUsersMapper {
   static toAuthUserProto(authUser: AuthUsers): AuthUser {

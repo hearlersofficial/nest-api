@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { CounselTechniquesEntity } from "~shared/core/infrastructure/entities/prompts/CounselTechniques.entity";
 import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()

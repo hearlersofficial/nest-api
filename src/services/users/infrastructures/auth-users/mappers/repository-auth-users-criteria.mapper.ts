@@ -1,8 +1,8 @@
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
-import { isDefined } from "~shared/utils/Validate.utils";
 import { AuthUsersCriteriaFindMany, AuthUsersCriteriaFindOne } from "~users/domains/auth-users/auth-users.criteria";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { AuthUsersEntity } from "~common/system/persistences/entities/users/AuthUsers.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsWhere } from "typeorm";
 
 /**

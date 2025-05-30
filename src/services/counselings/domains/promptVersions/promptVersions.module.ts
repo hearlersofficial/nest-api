@@ -1,4 +1,3 @@
-import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
 import { PromptVersionsPersister } from "~counselings/domains/promptVersions/promptVersions.persister";
 import { PromptVersionsReader } from "~counselings/domains/promptVersions/promptVersions.reader";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
@@ -9,6 +8,7 @@ import { RepositoryPromptVersionsReader } from "~counselings/infrastructures/pro
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([PromptVersionEntity])],

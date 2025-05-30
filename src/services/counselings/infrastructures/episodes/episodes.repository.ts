@@ -1,5 +1,6 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { Episodes } from "~counselings/domains/episodes/models/episodes";
+
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 export abstract class EpisodesRepository {
   abstract findOne(where: {

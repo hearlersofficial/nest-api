@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { PromptActivateHistoryEntity } from "~shared/core/infrastructure/entities/prompts/PromptActivateHistory.entity";
 import { PromptActivateHistories } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 import { PsqlPromptActivateHistoryMapper } from "~counselings/infrastructures/promptActivateHistory/mappers/psql.promptActivateHistory.mapper";
 import { PromptActivateHistoryRepository } from "~counselings/infrastructures/promptActivateHistory/promptActivateHistory.repository";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
 import { FindOneOptions, Repository } from "typeorm";
 
 @Injectable()

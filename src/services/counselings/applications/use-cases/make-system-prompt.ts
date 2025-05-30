@@ -1,4 +1,3 @@
-import { UseCase } from "~shared/core/applications/UseCase";
 import {
   MakeSystemPromptUseCaseRequest,
   MakeSystemPromptUseCaseResponse,
@@ -10,6 +9,7 @@ import { PersonaPromptsService } from "~counselings/domains/personaPrompts/perso
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 
 import { Injectable } from "@nestjs/common";
+import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
 
 @Injectable()
 export class MakeSystemPromptUseCase

@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { TonePromptEntity } from "~shared/core/infrastructure/entities/prompts/TonePrompts.entity";
 import { TonePrompts } from "~counselings/domains/tonePrompts/models/tonePrompts";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()

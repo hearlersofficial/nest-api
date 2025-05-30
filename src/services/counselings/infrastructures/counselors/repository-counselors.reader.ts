@@ -1,4 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { CounselorsCriteriaFindMany } from "~counselings/domains/counselors/counselors.criteria";
 import { CounselorsReader } from "~counselings/domains/counselors/counselors.reader";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
@@ -6,6 +5,7 @@ import { CounselorsRepository } from "~counselings/infrastructures/counselors/co
 import { RepositoryCounselorCriteriaMapper } from "~counselings/infrastructures/counselors/mappers/repository-counselors-criteria.mapper";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export class RepositoryCounselorsReader extends CounselorsReader {

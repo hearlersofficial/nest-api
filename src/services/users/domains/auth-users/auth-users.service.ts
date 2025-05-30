@@ -1,4 +1,3 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import {
   AuthUsersCriteriaFindMany,
   AuthUsersCriteriaFindOne,
@@ -9,6 +8,7 @@ import { AuthUsersReader } from "~users/domains/auth-users/auth-users.reader";
 import { AuthUsers, AuthUsersNewProps } from "~users/domains/auth-users/models/auth-users";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class AuthUsersService {

@@ -1,9 +1,8 @@
-import { AggregateRoot } from "~shared/core/domain/AggregateRoot";
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { getNowDayjs } from "~shared/utils/Date.utils";
-import { isDefined } from "~shared/utils/Validate.utils";
-
+import { getNowDayjs } from "~common/shared/utils/Date.utils";
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { AggregateRoot } from "~common/shared-kernel/domains/AggregateRoot";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 import { Dayjs } from "dayjs";
 
 export interface CounselTechniquesNewProps {

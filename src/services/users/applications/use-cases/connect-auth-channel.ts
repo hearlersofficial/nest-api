@@ -1,4 +1,3 @@
-import { UseCase } from "~shared/core/applications/UseCase";
 import {
   ConnectAuthChannelUseCaseRequest,
   ConnectAuthChannelUseCaseResponse,
@@ -7,6 +6,7 @@ import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
 import { UsersService } from "~users/domains/users/users.service";
 
 import { Injectable } from "@nestjs/common";
+import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
 
 @Injectable()
 export class ConnectAuthChannelUseCase

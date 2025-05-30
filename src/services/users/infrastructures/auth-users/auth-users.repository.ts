@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { AuthUsersEntity } from "~shared/core/infrastructure/entities/users/AuthUsers.entity";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { AuthUsersEntity } from "~common/system/persistences/entities/users/AuthUsers.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 export abstract class AuthUsersRepository {

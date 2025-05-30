@@ -1,10 +1,10 @@
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { Users } from "~users/domains/users/models/users";
 import { User, UserProfile, UserProfileSchema, UserSchema } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { HttpStatus } from "@nestjs/common";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 export class SchemaUsersMapper {
   static toUserProto(user: Users): User {

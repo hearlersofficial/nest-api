@@ -1,11 +1,11 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { PromptVersionEntity } from "~shared/core/infrastructure/entities/prompts/PromptVersions.entity";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 import { PsqlPromptVersionsMapper } from "~counselings/infrastructures/promptVersions/mappers/psql.promptVersions.mapper";
 import { PromptVersionsRepository } from "~counselings/infrastructures/promptVersions/promptVersions.repository";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
 @Injectable()

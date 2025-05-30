@@ -1,5 +1,4 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 import { Dayjs } from "dayjs";
 
 export type PromptActivateHistoryCriteriaFindMany = {

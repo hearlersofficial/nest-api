@@ -1,7 +1,7 @@
-import { ToneEntity } from "~shared/core/infrastructure/entities/counselors/tone.entity";
-import { isDefined } from "~shared/utils/Validate.utils";
 import { TonesCriteriaFindMany } from "~counselings/domains/tones/tones.criteria";
 
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";
 
 export class RepositoryToneCriteriaMapper {

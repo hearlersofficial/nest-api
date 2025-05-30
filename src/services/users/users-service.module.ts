@@ -1,4 +1,3 @@
-import { ClientsConfigs, KAFKA_CLIENT } from "~shared/core/infrastructure/Config";
 import { AuthFacade } from "~users/applications/auth.facade";
 import { AuthUsersFacade } from "~users/applications/auth-users.facade";
 import { BindAuthUserToUseUseCase } from "~users/applications/use-cases/bind-user-to-auth-user";
@@ -12,6 +11,7 @@ import { UsersMessageController } from "~users/presentations/message/users-messa
 
 import { Inject, Logger, Module, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { ClientKafka, ClientsModule } from "@nestjs/microservices";
+import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 
 @Module({
   imports: [

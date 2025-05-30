@@ -1,7 +1,3 @@
-import { UseCase } from "~shared/core/applications/UseCase";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
-import { getNowDayjs } from "~shared/utils/Date.utils";
-import { isDefined } from "~shared/utils/Validate.utils";
 import {
   ProceedCounselingRequest,
   ProceedCounselingResponse,
@@ -18,6 +14,10 @@ import { LlmRequest } from "~counselings/domains/llm/models/llm-request";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { getNowDayjs } from "~common/shared/utils/Date.utils";
+import { isDefined } from "~common/shared/utils/Validate.utils";
+import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class ProceedCounselingUseCase implements UseCase<ProceedCounselingRequest, ProceedCounselingResponse> {

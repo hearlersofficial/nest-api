@@ -1,5 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { CreatedAndResponseMessages } from "~counselings/applications/types/counselMessage.type";
 import { ProceedCounselingUseCase } from "~counselings/applications/use-cases/proceed-counseling";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
@@ -8,6 +6,8 @@ import { CounselsService } from "~counselings/domains/counsels/counsels.service"
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()

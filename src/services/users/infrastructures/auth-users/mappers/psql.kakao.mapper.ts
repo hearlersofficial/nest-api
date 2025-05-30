@@ -1,10 +1,10 @@
-import { Result } from "~shared/core/domain/Result";
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
-import { KakaoEntity } from "~shared/core/infrastructure/entities/users/Kakao.entity";
-import { HttpStatusBasedRpcException } from "~shared/filters/exceptions";
 import { Kakao } from "~users/domains/auth-users/models/kakao";
 
 import { HttpStatus } from "@nestjs/common";
+import { Result } from "~common/shared-kernel/domains/Result";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { KakaoEntity } from "~common/system/persistences/entities/users/Kakao.entity";
 import dayjs from "dayjs";
 
 export class PsqlKakaoMapper {

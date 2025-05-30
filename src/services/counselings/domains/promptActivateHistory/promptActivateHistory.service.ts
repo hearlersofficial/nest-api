@@ -1,4 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import {
   PromptActivateHistories,
   PromptActivateHistoriesNewProps,
@@ -8,6 +7,7 @@ import { PromptActivateHistoryPersister } from "~counselings/domains/promptActiv
 import { PromptActivateHistoryReader } from "~counselings/domains/promptActivateHistory/promptActivateHistory.reader";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export class PromptActivateHistoryService {

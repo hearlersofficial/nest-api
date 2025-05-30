@@ -1,4 +1,3 @@
-import { UniqueEntityId } from "~shared/core/domain/UniqueEntityId";
 import { TonePrompts } from "~counselings/domains/tonePrompts/models/tonePrompts";
 import { TonePromptsCriteriaFindMany } from "~counselings/domains/tonePrompts/tonePrompts.criteria";
 import { TonePromptsReader } from "~counselings/domains/tonePrompts/tonePrompts.reader";
@@ -6,6 +5,7 @@ import { RepositoryTonePromptCriteriaMapper } from "~counselings/infrastructures
 import { TonePromptsRepository } from "~counselings/infrastructures/tonePrompts/tonePrompts.repository";
 
 import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
 
 @Injectable()
 export class RepositoryTonePromptsReader extends TonePromptsReader {

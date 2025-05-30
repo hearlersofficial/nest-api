@@ -52,7 +52,7 @@ export class PsqlCounselorsRepository extends CounselorsRepository {
 
   override async saveBubble(counselor: Counselors, bubble: Bubbles): Promise<Bubbles> {
     const bubbleEntity = PsqlCounselorsMapper.toBubbleEntity(counselor, bubble);
-    await this.counselorsRepository.save(bubbleEntity);
+    await this.bubblesRepository.save(bubbleEntity);
     return bubble;
   }
 

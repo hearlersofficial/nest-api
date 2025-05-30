@@ -1,8 +1,8 @@
 import { UserMessageTokens, UserMessageTokensProps } from "~users/domains/users/models/user-message-tokens";
 
 import { HttpStatus } from "@nestjs/common";
-import { Result } from "~common/shared-kernel/domains/Result";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { Result } from "~common/shared-kernel/domains/results";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/UserMessageTokens.entity";
 import dayjs from "dayjs";

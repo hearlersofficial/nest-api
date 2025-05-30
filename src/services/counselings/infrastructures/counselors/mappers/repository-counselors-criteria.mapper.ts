@@ -3,7 +3,7 @@ import {
   FindManyBubblesCriteria,
 } from "~counselings/domains/counselors/counselors.criteria";
 
-import { isDefined } from "~common/shared/utils/Validate.utils";
+import { isDefined } from "~common/shared/utils/validate";
 import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";

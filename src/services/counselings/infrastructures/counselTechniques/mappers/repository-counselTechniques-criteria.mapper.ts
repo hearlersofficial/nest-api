@@ -1,6 +1,6 @@
 import { CounselTechniquesCriteriaFindMany } from "~counselings/domains/counselTechniques/counselTechniques.criteria";
 
-import { isDefined } from "~common/shared/utils/Validate.utils";
+import { isDefined } from "~common/shared/utils/validate";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import { FindManyOptions, FindOptionsWhere, In } from "typeorm";
 

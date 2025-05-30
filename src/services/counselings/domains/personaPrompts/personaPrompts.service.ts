@@ -4,7 +4,7 @@ import { PersonaPromptsPersister } from "~counselings/domains/personaPrompts/per
 import { PersonaPromptsReader } from "~counselings/domains/personaPrompts/personaPrompts.reader";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()

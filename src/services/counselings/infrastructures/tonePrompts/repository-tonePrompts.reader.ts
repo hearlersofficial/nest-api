@@ -5,7 +5,7 @@ import { RepositoryTonePromptCriteriaMapper } from "~counselings/infrastructures
 import { TonePromptsRepository } from "~counselings/infrastructures/tonePrompts/tonePrompts.repository";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export class RepositoryTonePromptsReader extends TonePromptsReader {

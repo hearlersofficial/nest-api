@@ -9,8 +9,8 @@ import { CounselTechniquesService } from "~counselings/domains/counselTechniques
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { isDefined } from "~common/shared/utils/Validate.utils";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { isDefined } from "~common/shared/utils/validate";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 

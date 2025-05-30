@@ -1,5 +1,5 @@
 import { Snowflake } from "@sapphire/snowflake";
-import { Identifier } from "~common/shared-kernel/domains/Identifier";
+import { Identifier } from "~common/shared-kernel/domains/identifiers";
 
 export class UniqueEntityId extends Identifier<string | number> {
   private static readonly EPOCH = 1609459200000; // 2021-01-01 기준

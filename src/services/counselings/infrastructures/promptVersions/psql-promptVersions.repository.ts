@@ -4,7 +4,7 @@ import { PromptVersionsRepository } from "~counselings/infrastructures/promptVer
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 

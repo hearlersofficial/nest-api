@@ -5,7 +5,7 @@ import { RepositoryPromptVersionCriteriaMapper } from "~counselings/infrastructu
 import { PromptVersionsRepository } from "~counselings/infrastructures/promptVersions/promptVersions.repository";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export class RepositoryPromptVersionsReader extends PromptVersionsReader {

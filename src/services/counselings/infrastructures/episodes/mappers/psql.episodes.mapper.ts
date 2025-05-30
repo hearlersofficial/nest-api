@@ -2,7 +2,7 @@ import { EpisodeCutScenes, EpisodeCutScenesProps } from "~counselings/domains/ep
 import { Episodes, EpisodesProps } from "~counselings/domains/episodes/models/episodes";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { EpisodeEntity } from "~common/system/persistences/entities/counselors/episode.entity";
 import { EpisodeCutSceneEntity } from "~common/system/persistences/entities/counselors/episode-cut-scene.entity";

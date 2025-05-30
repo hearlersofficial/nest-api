@@ -54,8 +54,8 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
-import { ProtoRequest } from "~common/shared/utils/Rpc.utils";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { ProtoRequest } from "~common/shared/utils/rpc";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Controller("counsel_prompt")
 export class GrpcCounselPromptCommandController {

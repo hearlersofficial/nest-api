@@ -2,7 +2,7 @@ import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";

@@ -1,6 +1,6 @@
-import { DomainEntity } from "~common/shared-kernel/domains/DomainEntity";
-import { DomainEvent } from "~common/shared-kernel/domains/DomainEvent";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
+import { DomainEvent } from "~common/shared-kernel/domains/domain-event";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 export type AggregateRootProps = {
   [index: string]: any;

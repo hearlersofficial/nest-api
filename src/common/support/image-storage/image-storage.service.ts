@@ -2,7 +2,7 @@ import { Extension } from "~proto/com/hearlers/v1/common/presigned_url_pb";
 
 import { Storage } from "@google-cloud/storage";
 import { Injectable } from "@nestjs/common";
-import { PresignedUrl } from "~common/support/presigned-url";
+import { PresignedUrl } from "~common/support/image-storage/presigned-url";
 import * as path from "path";
 import { v4 as uuidv4 } from "uuid";
 
@@ -251,20 +251,4 @@ export class ImageStorageService {
     ".doc": "application/msword",
     ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   };
-}
-
-/**
- * 모듈별 이미지 스토리지 서비스 등록을 위한 설정 클래스
- */
-@Injectable()
-export class ImageStorageConfig {
-  /**
-   * 모듈별 이미지 스토리지 서비스 등록
-   */
-  static register(options: ImageStorageOptions = {}) {
-    return {
-      provide: ImageStorageService,
-      useFactory: () => new ImageStorageService(options),
-    };
-  }
 }

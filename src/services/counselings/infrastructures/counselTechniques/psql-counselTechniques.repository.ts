@@ -4,7 +4,7 @@ import { PsqlCounselTechniquesMapper } from "~counselings/infrastructures/counse
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 

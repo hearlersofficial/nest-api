@@ -3,7 +3,7 @@ import { PersonaPromptsService } from "~counselings/domains/personaPrompts/perso
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()

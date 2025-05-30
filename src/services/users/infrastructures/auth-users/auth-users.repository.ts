@@ -1,7 +1,7 @@
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { AuthUsersEntity } from "~common/system/persistences/entities/users/AuthUsers.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 

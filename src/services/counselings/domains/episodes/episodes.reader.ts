@@ -1,7 +1,7 @@
 import { Episodes } from "~counselings/domains/episodes/models/episodes";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export abstract class EpisodesReader {

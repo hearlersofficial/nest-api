@@ -1,4 +1,4 @@
-import { CoreStatus } from "~common/shared/constants/status.constants";
+import { CoreStatus } from "~common/shared/enums/status";
 import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
 import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/councels/CounselorUserRelationships.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";

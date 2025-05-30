@@ -1,7 +1,7 @@
 import { TonesService } from "~counselings/domains/tones/tones.service";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()

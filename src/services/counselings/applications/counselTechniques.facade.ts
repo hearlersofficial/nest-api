@@ -3,7 +3,7 @@ import { CounselTechniques } from "~counselings/domains/counselTechniques/models
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 

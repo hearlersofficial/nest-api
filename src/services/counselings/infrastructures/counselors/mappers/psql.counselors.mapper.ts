@@ -2,7 +2,7 @@ import { Bubbles, BubblesProps } from "~counselings/domains/counselors/models/bu
 import { Counselors, CounselorsProps } from "~counselings/domains/counselors/models/counselors";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";

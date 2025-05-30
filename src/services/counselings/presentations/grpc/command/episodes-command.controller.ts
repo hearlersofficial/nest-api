@@ -18,10 +18,10 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller, Logger } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
-import { ProtoRequest } from "~common/shared/utils/Rpc.utils";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
-import { SchemaPresignedUrlMapper } from "~common/support/presigned-url.mapper";
-import { ImageStorageService } from "~common/system/persistences/image-storage";
+import { ProtoRequest } from "~common/shared/utils/rpc";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { ImageStorageService } from "~common/support/image-storage/image-storage.service";
+import { SchemaPresignedUrlMapper } from "~common/support/image-storage/presigned-url.mapper";
 
 @Controller("episode")
 export class GrpcEpisodeCommandController {

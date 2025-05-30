@@ -3,10 +3,10 @@ import { CounselMessageCreatedPayloadSchema } from "~proto/com/hearlers/v1/messa
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
-import { getNowDayjs } from "~common/shared/utils/Date.utils";
-import { AggregateRoot } from "~common/shared-kernel/domains/AggregateRoot";
-import { Result } from "~common/shared-kernel/domains/Result";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { getNowDayjs } from "~common/shared/utils/date";
+import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
+import { Result } from "~common/shared-kernel/domains/results";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { Dayjs } from "dayjs";
 
 export interface CounselMessagesNewProps {

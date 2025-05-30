@@ -5,7 +5,7 @@ import { CounselMessagesRepository } from "~counselings/infrastructures/counselM
 import { RepositoryCounselMessageCriteriaMapper } from "~counselings/infrastructures/counselMessages/mappers/repository-counselMessages-criteria.mapper";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export class RepositoryCounselMessagesReader extends CounselMessagesReader {

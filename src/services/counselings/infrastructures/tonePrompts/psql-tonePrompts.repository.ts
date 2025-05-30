@@ -4,7 +4,7 @@ import { TonePromptsRepository } from "~counselings/infrastructures/tonePrompts/
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 

@@ -1,4 +1,4 @@
-import { TokenResetInterval } from "~common/shared/enums/TokenResetInterval.enum";
+import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
 import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
 import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";

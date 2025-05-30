@@ -4,7 +4,7 @@ import {
 } from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import dayjs from "dayjs";

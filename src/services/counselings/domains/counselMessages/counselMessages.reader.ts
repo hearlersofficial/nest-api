@@ -2,7 +2,7 @@ import { CounselMessagesCriteriaFindMany } from "~counselings/domains/counselMes
 import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export abstract class CounselMessagesReader {

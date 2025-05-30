@@ -3,8 +3,8 @@ import { PsqlKakaoMapper } from "~users/infrastructures/auth-users/mappers/psql.
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
-import { formatDayjsToUtcString, getNowDayjs } from "~common/shared/utils/Date.utils";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { formatDayjsToUtcString, getNowDayjs } from "~common/shared/utils/date";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { KakaoEntity } from "~common/system/persistences/entities/users/Kakao.entity";
 
 describe("PsqlKakaoMapper", () => {

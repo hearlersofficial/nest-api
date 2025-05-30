@@ -1,7 +1,7 @@
 import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
 import dayjs from "dayjs";

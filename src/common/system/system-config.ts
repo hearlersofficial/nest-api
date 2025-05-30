@@ -1,6 +1,6 @@
 import { ReflectionService } from "@grpc/reflection";
 import { GrpcOptions, Transport } from "@nestjs/microservices";
-import { findProtoFiles } from "~common/shared/utils/Proto.utils";
+import { findProtoFiles } from "~common/shared/utils/proto";
 import * as dotenv from "dotenv";
 dotenv.config({ path: [".env", ".env.dev"] });
 

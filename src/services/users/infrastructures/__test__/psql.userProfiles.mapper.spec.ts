@@ -4,8 +4,8 @@ import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
-import { convertDayjs, formatDayjs, getNowDayjs } from "~common/shared/utils/Date.utils";
-import { UniqueEntityId } from "~common/shared-kernel/domains/UniqueEntityId";
+import { convertDayjs, formatDayjs, getNowDayjs } from "~common/shared/utils/date";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
 
 describe("PsqlUserProfilesMapper", () => {

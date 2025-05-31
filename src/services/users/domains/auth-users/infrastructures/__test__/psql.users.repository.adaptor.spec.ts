@@ -1,8 +1,6 @@
-import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
-import { Users } from "~users/domains/users/models/users-";
-import { PsqlUsersRepositoryAdaptor } from "~users/infrastructures/users/psql-users.repository";
+import { PsqlUsersRepository } from "~users/domains/users/infrastructures/psql-users.repository";
+import { Users } from "~users/domains/users/models/users";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
-import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { ClientKafka } from "@nestjs/microservices";
@@ -19,7 +17,7 @@ import { Repository } from "typeorm";
 describe("PsqlUsersRepositoryAdaptor", () => {
   let module: TestingModule;
   let repository: Repository<UsersEntity>;
-  let adaptor: PsqlUsersRepositoryAdaptor;
+  let adaptor: PsqlUsersRepository;
   let kafkaProducer: ClientKafka;
 
   const createMockUserEntity = () => {
@@ -50,18 +48,6 @@ describe("PsqlUsersRepositoryAdaptor", () => {
     profile.deletedAt = null;
     user.userProfiles = profile;
 
-    // UserProgresses 관계 설정
-    const progress = new UserProgressesEntity();
-    progress.id = faker.string.uuid();
-    progress.userId = user.id;
-    progress.progressType = ProgressType.ONBOARDING;
-    progress.status = ProgressStatus.IN_PROGRESS;
-    progress.lastUpdated = getNowDayjs().toISOString();
-    progress.createdAt = getNowDayjs().toISOString();
-    progress.updatedAt = getNowDayjs().toISOString();
-    progress.deletedAt = null;
-    user.userProgresses = [progress];
-
     return user;
   };
 
@@ -72,7 +58,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
 
     module = await Test.createTestingModule({
       providers: [
-        PsqlUsersRepositoryAdaptor,
+        PsqlUsersRepository,
         {
           provide: getRepositoryToken(UsersEntity),
           useValue: {
@@ -90,7 +76,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
 
     repository = module.get<Repository<UsersEntity>>(getRepositoryToken(UsersEntity));
     kafkaProducer = module.get<ClientKafka>(KAFKA_CLIENT);
-    adaptor = module.get<PsqlUsersRepositoryAdaptor>(PsqlUsersRepositoryAdaptor);
+    adaptor = module.get<PsqlUsersRepository>(PsqlUsersRepository);
   });
 
   afterEach(() => {
@@ -102,7 +88,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
       const mockUserWithRelations = createMockUserWithRelations();
       jest.spyOn(repository, "findOne").mockResolvedValue(mockUserWithRelations);
 
-      const result = await adaptor.findOne({ userId: new UniqueEntityId(mockUserWithRelations.id) });
+      const result = await adaptor.findByUserId(new UniqueEntityId(mockUserWithRelations.id));
 
       expect(repository.findOne).toHaveBeenCalledWith({
         where: { id: mockUserWithRelations.id },
@@ -120,7 +106,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
 
     it("존재하지 않는 사용자를 조회하면 null을 반환한다", async () => {
       jest.spyOn(repository, "findOne").mockResolvedValue(null);
-      const result = await adaptor.findOne({ userId: new UniqueEntityId("999") });
+      const result = await adaptor.findByUserId(new UniqueEntityId("999"));
       expect(result).toBeNull();
     });
   });
@@ -143,7 +129,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
       };
       users.domainEvents.push(mockEvent);
 
-      await adaptor.publishDomainEvents(users);
+      await adaptor.save(users);
 
       expect(kafkaProducer.emit).toHaveBeenCalledWith(mockEvent.topic, mockEvent.binary);
     });
@@ -154,7 +140,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
         nickname: mockUser.nickname,
       }).value as Users;
 
-      await adaptor.publishDomainEvents(users);
+      await adaptor.save(users);
 
       expect(kafkaProducer.emit).not.toHaveBeenCalled();
     });
@@ -181,7 +167,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
       };
       users.domainEvents.push(mockEvent);
 
-      await adaptor.create(users);
+      await adaptor.save(users);
 
       expect(kafkaProducer.emit).toHaveBeenCalledWith(mockEvent.topic, mockEvent.binary);
       expect(repository.save).toHaveBeenCalled();
@@ -208,7 +194,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
       };
       users.domainEvents.push(mockEvent);
 
-      await adaptor.update(users);
+      await adaptor.save(users);
 
       expect(kafkaProducer.emit).toHaveBeenCalledWith(mockEvent.topic, mockEvent.binary);
       expect(repository.save).toHaveBeenCalled();

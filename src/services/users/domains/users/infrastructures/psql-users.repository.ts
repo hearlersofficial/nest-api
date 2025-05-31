@@ -1,6 +1,6 @@
+import { PsqlUsersMapper } from "~users/domains/users/infrastructures/mappers/psql.user.mapper";
+import { UsersRepository } from "~users/domains/users/infrastructures/users.repository";
 import { Users } from "~users/domains/users/models/users";
-import { PsqlUsersMapper } from "~users/infrastructures/users/mappers/psql.user.mapper";
-import { UsersRepository } from "~users/infrastructures/users/users.repository";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";

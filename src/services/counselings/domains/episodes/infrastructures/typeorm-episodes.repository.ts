@@ -1,6 +1,6 @@
+import { EpisodesRepository } from "~counselings/domains/episodes/infrastructures/episodes.repository";
+import { PsqlEpisodesMapper } from "~counselings/domains/episodes/infrastructures/mappers/psql.episodes.mapper";
 import { Episodes } from "~counselings/domains/episodes/models/episodes";
-import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
-import { PsqlEpisodesMapper } from "~counselings/infrastructures/episodes/mappers/psql.episodes.mapper";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";

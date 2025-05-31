@@ -1,25 +1,25 @@
+import { PsqlUserMessageTokensMapper } from "~users/domains/users/infrastructures/mappers/psql-user-message-token.mapper";
 import { UserMessageTokens } from "~users/domains/users/models/user-message-tokens";
-import { PsqlUserMessageTokensMapper } from "~users/infrastructures/users/mappers/psql-user-message-token.mapper";
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
-import { formatDayjs, getNowDayjs } from "~common/shared/utils/date";
+import { getNowDayjs } from "~common/shared/utils/date";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/UserMessageTokens.entity";
 
 describe("PsqlUserMessageTokensMapper", () => {
   const createMockUserMessageTokensEntity = () => {
     const entity = new UserMessageTokensEntity();
-    entity.id = faker.number.int();
-    entity.userId = faker.number.int();
+    entity.id = faker.string.uuid();
+    entity.userId = faker.string.uuid();
     entity.maxTokens = faker.number.int({ min: 1000, max: 10000 });
     entity.remainingTokens = faker.number.int({ min: 0, max: entity.maxTokens });
     entity.reserved = faker.datatype.boolean();
-    entity.reservedTimeout = formatDayjs(getNowDayjs().add(1, "hour"));
+    entity.reservedTimeout = getNowDayjs().add(1, "hour").toISOString();
     entity.resetInterval = faker.helpers.arrayElement(Object.values(TokenResetInterval));
-    entity.lastReset = formatDayjs(getNowDayjs());
-    entity.createdAt = formatDayjs(getNowDayjs());
-    entity.updatedAt = formatDayjs(getNowDayjs());
+    entity.lastReset = getNowDayjs().toISOString();
+    entity.createdAt = getNowDayjs().toISOString();
+    entity.updatedAt = getNowDayjs().toISOString();
     entity.deletedAt = null;
     return entity;
   };
@@ -58,11 +58,11 @@ describe("PsqlUserMessageTokensMapper", () => {
       expect(domain?.maxTokens).toBe(entity.maxTokens);
       expect(domain?.remainingTokens).toBe(entity.remainingTokens);
       expect(domain?.reserved).toBe(entity.reserved);
-      expect(formatDayjs(domain?.reservedTimeout)).toBe(entity.reservedTimeout);
+      expect(domain?.reservedTimeout).toBe(entity.reservedTimeout);
       expect(domain?.resetInterval).toBe(entity.resetInterval);
-      expect(formatDayjs(domain?.lastReset)).toBe(entity.lastReset);
-      expect(formatDayjs(domain?.createdAt)).toBe(entity.createdAt);
-      expect(formatDayjs(domain?.updatedAt)).toBe(entity.updatedAt);
+      expect(domain?.lastReset).toBe(entity.lastReset);
+      expect(domain?.createdAt).toBe(entity.createdAt);
+      expect(domain?.updatedAt).toBe(entity.updatedAt);
       expect(domain?.deletedAt).toBeNull();
     });
 
@@ -114,11 +114,11 @@ describe("PsqlUserMessageTokensMapper", () => {
       expect(convertedEntity.maxTokens).toBe(domain.maxTokens);
       expect(convertedEntity.remainingTokens).toBe(domain.remainingTokens);
       expect(convertedEntity.reserved).toBe(domain.reserved);
-      expect(convertedEntity.reservedTimeout).toBe(formatDayjs(domain.reservedTimeout));
+      expect(convertedEntity.reservedTimeout).toBe(domain.reservedTimeout);
       expect(convertedEntity.resetInterval).toBe(domain.resetInterval);
-      expect(convertedEntity.lastReset).toBe(formatDayjs(domain.lastReset));
-      expect(convertedEntity.createdAt).toBe(formatDayjs(domain.createdAt));
-      expect(convertedEntity.updatedAt).toBe(formatDayjs(domain.updatedAt));
+      expect(convertedEntity.lastReset).toBe(domain.lastReset);
+      expect(convertedEntity.createdAt).toBe(domain.createdAt);
+      expect(convertedEntity.updatedAt).toBe(domain.updatedAt);
       expect(convertedEntity.deletedAt).toBeNull();
     });
   });

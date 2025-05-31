@@ -8,7 +8,10 @@ import { KakaoEntity } from "~common/system/persistences/entities/users/Kakao.en
 import dayjs from "dayjs";
 
 export class PsqlKakaoMapper {
-  static toDomain(entity: KakaoEntity): Kakao | null {
+  static toDomain(entity: null): null;
+  static toDomain(entity: KakaoEntity): Kakao;
+  static toDomain(entity: KakaoEntity | null): Kakao | null;
+  static toDomain(entity: KakaoEntity | null): Kakao | null {
     if (!entity) {
       return null;
     }

@@ -1,6 +1,6 @@
 import { EpisodesStore } from "~counselings/domains/episodes/episodes.store";
+import { EpisodesRepository } from "~counselings/domains/episodes/infrastructures/episodes.repository";
 import { Episodes, EpisodesNewProps } from "~counselings/domains/episodes/models/episodes";
-import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";

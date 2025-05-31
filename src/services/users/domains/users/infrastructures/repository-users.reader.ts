@@ -1,3 +1,5 @@
+import { RepositoryUserCriteriaMapper } from "~users/domains/users/infrastructures/mappers/repository-users-criteria.mapper";
+import { UsersRepository } from "~users/domains/users/infrastructures/users.repository";
 import { Users } from "~users/domains/users/models/users";
 import {
   UsersCriteriaFindMany,
@@ -5,8 +7,6 @@ import {
   UsersCriteriaUniqueKey,
 } from "~users/domains/users/users.criteria";
 import { UsersReader } from "~users/domains/users/users.reader";
-import { RepositoryUserCriteriaMapper } from "~users/infrastructures/users/mappers/repository-users-criteria.mapper";
-import { UsersRepository } from "~users/infrastructures/users/users.repository";
 
 import { Injectable } from "@nestjs/common";
 

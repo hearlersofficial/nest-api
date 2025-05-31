@@ -1,4 +1,4 @@
-import { UserActivities } from "~users/domains/users/models/UserActivities";
+import { UserActivities } from "~users/domains/users/models/user-activities";
 import { ActivityType, DevicePlatform } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { getNowDayjs } from "~common/shared/utils/date";

@@ -1,14 +1,11 @@
-import { UserProgressesEntity } from "~shared/core/infrastructure/entities/users/UserProgresses.entity";
+import { PsqlUsersMapper } from "~users/domains/users/infrastructures/mappers/psql.user.mapper";
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
-import { UserProgresses } from "~users/domains/users/models/UserProgresses";
-import { Users } from "~users/domains/users/models/users-";
-import { PsqlUsersMapper } from "~users/infrastructures/users/mappers/psql.user.mapper";
+import { Users } from "~users/domains/users/models/users";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
-import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
-import { convertDayjs, formatDayjs, getNowDayjs } from "~common/shared/utils/date";
+import { getNowDayjs } from "~common/shared/utils/date";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/UserMessageTokens.entity";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
@@ -17,27 +14,27 @@ import { UsersEntity } from "~common/system/persistences/entities/users/Users.en
 describe("PsqlUsersMapper", () => {
   const createMockUserEntity = () => {
     const entity = new UsersEntity();
-    entity.id = faker.number.int();
+    entity.id = faker.string.uuid();
     entity.nickname = faker.internet.userName().slice(0, 10);
     entity.userMessageTokens = createMockUserMessageTokensEntity();
-    entity.createdAt = formatDayjs(getNowDayjs());
-    entity.updatedAt = formatDayjs(getNowDayjs());
+    entity.createdAt = getNowDayjs().toISOString();
+    entity.updatedAt = getNowDayjs().toISOString();
     entity.deletedAt = null;
     return entity;
   };
 
   const createMockUserMessageTokensEntity = () => {
     const entity = new UserMessageTokensEntity();
-    entity.id = faker.number.int();
-    entity.userId = faker.number.int();
+    entity.id = faker.string.uuid();
+    entity.userId = faker.string.uuid();
     entity.maxTokens = faker.number.int({ min: 1000, max: 10000 });
     entity.remainingTokens = faker.number.int({ min: 0, max: entity.maxTokens });
     entity.reserved = faker.datatype.boolean();
-    entity.reservedTimeout = formatDayjs(getNowDayjs().add(1, "hour"));
+    entity.reservedTimeout = getNowDayjs().add(1, "hour").toISOString();
     entity.resetInterval = faker.helpers.arrayElement(Object.values(TokenResetInterval));
-    entity.lastReset = formatDayjs(getNowDayjs());
-    entity.createdAt = formatDayjs(getNowDayjs());
-    entity.updatedAt = formatDayjs(getNowDayjs());
+    entity.lastReset = getNowDayjs().toISOString();
+    entity.createdAt = getNowDayjs().toISOString();
+    entity.updatedAt = getNowDayjs().toISOString();
     entity.deletedAt = null;
     return entity;
   };
@@ -48,7 +45,7 @@ describe("PsqlUsersMapper", () => {
       const domain = PsqlUsersMapper.toDomain(entity);
 
       expect(domain).toBeDefined();
-      expect(domain?.id.equals(new UniqueEntityId(entity.id))).toBe(true);
+      expect(domain?.id.equals(new UniqueEntityId(entity.id))).toBeTruthy();
       expect(domain?.nickname).toBe(entity.nickname);
       expect(domain?.userMessageToken).toBeDefined();
     });
@@ -58,34 +55,20 @@ describe("PsqlUsersMapper", () => {
 
       // Profile 추가
       entity.userProfiles = {
-        id: faker.number.int(),
+        id: faker.string.uuid(),
         userId: entity.id,
         profileImage: faker.image.avatar(),
         phoneNumber: "01012345678",
         gender: Gender.MALE,
-        createdAt: formatDayjs(getNowDayjs()),
-        updatedAt: formatDayjs(getNowDayjs()),
+        createdAt: getNowDayjs().toISOString(),
+        updatedAt: getNowDayjs().toISOString(),
         deletedAt: null,
       } as UserProfilesEntity;
-
-      // Progress 추가
-      entity.userProgresses = [
-        {
-          id: faker.number.int(),
-          status: ProgressStatus.IN_PROGRESS,
-          userId: entity.id,
-          progressType: ProgressType.ONBOARDING,
-          createdAt: formatDayjs(getNowDayjs()),
-          updatedAt: formatDayjs(getNowDayjs()),
-          deletedAt: null,
-        } as UserProgressesEntity,
-      ];
 
       const domain = PsqlUsersMapper.toDomain(entity);
 
       expect(domain).toBeDefined();
       expect(domain?.userProfile).toBeDefined();
-      expect(domain?.userProgresses).toHaveLength(1);
       expect(domain?.userMessageToken).toBeDefined();
     });
 
@@ -119,24 +102,15 @@ describe("PsqlUsersMapper", () => {
         phoneNumber: "01012345678",
         gender: Gender.MALE,
         mbti: Mbti.ENFP,
-        birthday: convertDayjs("1990-01-01"),
+        birthday: getNowDayjs(),
         introduction: faker.lorem.paragraph(),
       }).value;
-      users.userProfile.updateProfile(profile);
-
-      // Progress 추가
-      const progress = UserProgresses.createNew({
-        userId: users.id,
-        progressType: ProgressType.ONBOARDING,
-        status: ProgressStatus.NOT_STARTED,
-      }).value;
-      users.addProgress(progress);
+      users.userProfile?.updateProfile(profile);
 
       const entity = PsqlUsersMapper.toEntity(users);
 
       expect(entity).toBeDefined();
       expect(entity.userProfiles).toBeDefined();
-      expect(entity.userProgresses).toHaveLength(1);
     });
   });
 });

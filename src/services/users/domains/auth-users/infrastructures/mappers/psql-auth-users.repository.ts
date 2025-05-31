@@ -1,6 +1,6 @@
+import { AuthUsersRepository } from "~users/domains/auth-users/infrastructures/mappers/auth-users.repository";
+import { PsqlAuthUsersMapper } from "~users/domains/auth-users/infrastructures/psql.authUsers.mapper";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
-import { AuthUsersRepository } from "~users/infrastructures/auth-users/auth-users.repository";
-import { PsqlAuthUsersMapper } from "~users/infrastructures/auth-users/mappers/psql.authUsers.mapper";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Injectable } from "@nestjs/common";

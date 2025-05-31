@@ -1,6 +1,6 @@
+import { UsersRepository } from "~users/domains/users/infrastructures/users.repository";
 import { Users, UsersNewProps } from "~users/domains/users/models/users";
 import { UsersPersistor } from "~users/domains/users/users.persistor";
-import { UsersRepository } from "~users/infrastructures/users/users.repository";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";

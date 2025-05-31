@@ -1,6 +1,6 @@
+import { PsqlKakaoMapper } from "~users/domains/auth-users/infrastructures/psql.kakao.mapper";
 import { AuthUsers, AuthUsersProps } from "~users/domains/auth-users/models/auth-users";
-import { PsqlKakaoMapper } from "~users/infrastructures/auth-users/mappers/psql.kakao.mapper";
-import { PsqlRefreshTokensMapper } from "~users/infrastructures/users/mappers/psql-refresh-token.mapper";
+import { PsqlRefreshTokensMapper } from "~users/domains/users/infrastructures/mappers/psql-refresh-token.mapper";
 
 import { HttpStatus } from "@nestjs/common";
 import { CoreStatus } from "~common/shared/enums/status";

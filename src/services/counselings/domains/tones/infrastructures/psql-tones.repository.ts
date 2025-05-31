@@ -1,6 +1,6 @@
+import { PsqlTonesMapper } from "~counselings/domains/tones/infrastructures/mappers/psql.tones.mapper";
+import { TonesRepository } from "~counselings/domains/tones/infrastructures/tones.repository";
 import { Tones } from "~counselings/domains/tones/models/tones";
-import { PsqlTonesMapper } from "~counselings/infrastructures/tones/mappers/psql.tones.mapper";
-import { TonesRepository } from "~counselings/infrastructures/tones/tones.repository";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";

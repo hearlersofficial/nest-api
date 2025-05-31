@@ -1,26 +1,26 @@
+import { PsqlUserProfilesMapper } from "~users/domains/users/infrastructures/mappers/psql-user-profile.mapper";
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
-import { PsqlUserProfilesMapper } from "~users/infrastructures/users/mappers/psql-user-profile.mapper";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { InternalServerErrorException } from "@nestjs/common";
-import { convertDayjs, formatDayjs, getNowDayjs } from "~common/shared/utils/date";
+import { getNowDayjs } from "~common/shared/utils/date";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
 
 describe("PsqlUserProfilesMapper", () => {
   const createMockUserProfilesEntity = () => {
     const entity = new UserProfilesEntity();
-    entity.id = faker.number.int();
-    entity.userId = faker.number.int();
+    entity.id = faker.string.uuid();
+    entity.userId = faker.string.uuid();
     entity.profileImage = faker.image.avatar();
     entity.phoneNumber = "01012345678";
     entity.gender = Gender.MALE;
     entity.mbti = Mbti.ENFP;
-    entity.birthday = formatDayjs(convertDayjs("1990-01-01"));
+    entity.birthday = getNowDayjs().toISOString();
     entity.introduction = faker.lorem.paragraph();
-    entity.createdAt = formatDayjs(getNowDayjs());
-    entity.updatedAt = formatDayjs(getNowDayjs());
+    entity.createdAt = getNowDayjs().toISOString();
+    entity.updatedAt = getNowDayjs().toISOString();
     entity.deletedAt = null;
 
     return entity;
@@ -37,7 +37,7 @@ describe("PsqlUserProfilesMapper", () => {
       expect(domain?.phoneNumber).toBe(entity.phoneNumber);
       expect(domain?.gender).toBe(entity.gender);
       expect(domain?.mbti).toBe(entity.mbti);
-      expect(domain?.birthday).toEqual(convertDayjs(entity.birthday));
+      expect(domain?.birthday).toEqual(entity.birthday);
       expect(domain?.introduction).toBe(entity.introduction);
     });
 
@@ -62,7 +62,7 @@ describe("PsqlUserProfilesMapper", () => {
         phoneNumber: "01012345678",
         gender: Gender.MALE,
         mbti: Mbti.ENFP,
-        birthday: convertDayjs("1990-01-01"),
+        birthday: getNowDayjs(),
         introduction: faker.lorem.paragraph(),
       }).value as UserProfiles;
 
@@ -73,7 +73,7 @@ describe("PsqlUserProfilesMapper", () => {
       expect(entity.phoneNumber).toBe(userProfiles.phoneNumber);
       expect(entity.gender).toBe(userProfiles.gender);
       expect(entity.mbti).toBe(userProfiles.mbti);
-      expect(entity.birthday).toEqual(formatDayjs(userProfiles.birthday));
+      expect(entity.birthday).toEqual(userProfiles.birthday);
       expect(entity.introduction).toBe(userProfiles.introduction);
     });
   });

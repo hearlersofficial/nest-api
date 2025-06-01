@@ -1,5 +1,4 @@
-import { EpisodeCutScenes } from "~counselings/domains/episodes/models/episode-cut-scenes";
-import { Episodes } from "~counselings/domains/episodes/models/episodes";
+import { EpisodeCutScenesInfo, EpisodesInfo } from "~counselings/domains/episodes/models/episodes.info";
 import {
   Episode,
   EpisodeCutScene,
@@ -11,15 +10,15 @@ import { create } from "@bufbuild/protobuf";
 
 export class SchemaEpisodesMapper {
   static toEpisodeProto(episode: null): null;
-  static toEpisodeProto(episode: Episodes): Episode;
-  static toEpisodeProto(episode: Episodes | null): Episode | null;
-  static toEpisodeProto(episode: Episodes | null): Episode | null {
+  static toEpisodeProto(episode: EpisodesInfo): Episode;
+  static toEpisodeProto(episode: EpisodesInfo | null): Episode | null;
+  static toEpisodeProto(episode: EpisodesInfo | null): Episode | null {
     if (!episode) {
       return null;
     }
     return create(EpisodeSchema, {
-      id: episode.id.getString(),
-      counselorId: episode.counselorId.getString(),
+      id: episode.id,
+      counselorId: episode.counselorId,
       title: episode.title,
       requiredRapportThreshold: episode.requiredRapportThreshold,
       isTemporary: episode.isTemporary,
@@ -31,15 +30,15 @@ export class SchemaEpisodesMapper {
   }
 
   static toEpisodeCutSceneProto(cutScene: null): null;
-  static toEpisodeCutSceneProto(cutScene: EpisodeCutScenes): EpisodeCutScene;
-  static toEpisodeCutSceneProto(cutScene: EpisodeCutScenes | null): EpisodeCutScene | null;
-  static toEpisodeCutSceneProto(cutScene: EpisodeCutScenes | null): EpisodeCutScene | null {
+  static toEpisodeCutSceneProto(cutScene: EpisodeCutScenesInfo): EpisodeCutScene;
+  static toEpisodeCutSceneProto(cutScene: EpisodeCutScenesInfo | null): EpisodeCutScene | null;
+  static toEpisodeCutSceneProto(cutScene: EpisodeCutScenesInfo | null): EpisodeCutScene | null {
     if (!cutScene) {
       return null;
     }
     return create(EpisodeCutSceneSchema, {
-      id: cutScene.id.getString(),
-      episodeId: cutScene.episodeId.getString(),
+      id: cutScene.id,
+      episodeId: cutScene.episodeId,
       speaker: cutScene.speaker,
       content: cutScene.content,
       orderIndex: cutScene.orderIndex,

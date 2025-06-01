@@ -1,8 +1,8 @@
 import { BubblesReader } from "~counselings/domains/counselors/bubbles.reader";
 import { FindManyBubblesCriteria } from "~counselings/domains/counselors/counselors.criteria";
+import { CounselorsRepository } from "~counselings/domains/counselors/infrastructures/counselors.repository";
 import { RepositoryCounselorCriteriaMapper } from "~counselings/domains/counselors/infrastructures/mappers/repository-counselors-criteria.mapper";
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
-import { CounselorsRepository } from "~counselings/infrastructures/counselors/counselors.repository";
 
 import { Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";

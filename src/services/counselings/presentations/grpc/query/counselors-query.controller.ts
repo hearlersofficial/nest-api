@@ -1,4 +1,4 @@
-import { CounselorsFacade } from "~counselings/applications/counselors.facade";
+import { CounselorManagementsFacade } from "~counselings/applications/counselor-managements/counselor-managements.facade";
 import { TonesFacade } from "~counselings/applications/tones.facade";
 import { SchemaCounselorsMapper } from "~counselings/presentations/grpc/counselors.mapper";
 import {
@@ -41,7 +41,7 @@ import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 @Controller("counselors")
 export class GrpcCounselorQueryController {
   constructor(
-    private readonly counselorsFacade: CounselorsFacade,
+    private readonly counselorManagementsFacade: CounselorManagementsFacade,
     private readonly tonesFacade: TonesFacade,
   ) {}
 
@@ -50,7 +50,7 @@ export class GrpcCounselorQueryController {
   @ProtoRequest(FindCounselorsRequestSchema)
   async findCounselors(request: FindCounselorsRequest): Promise<FindCounselorsResponse> {
     const { toneId } = request;
-    const counselors = await this.counselorsFacade.findCounselors({
+    const counselors = await this.counselorManagementsFacade.findCounselors({
       toneId: toneId ? new UniqueEntityId(toneId) : undefined,
     });
     return create(FindCounselorsResponseSchema, {
@@ -62,7 +62,7 @@ export class GrpcCounselorQueryController {
   @ProtoRequest(FindCounselorByIdRequestSchema)
   async findCounselorById(request: FindCounselorByIdRequest): Promise<FindCounselorByIdResponse> {
     const { counselorId } = request;
-    const counselor = await this.counselorsFacade.findCounselorById({
+    const counselor = await this.counselorManagementsFacade.findCounselorById({
       counselorId: new UniqueEntityId(counselorId),
     });
     return create(FindCounselorByIdResponseSchema, {
@@ -97,7 +97,7 @@ export class GrpcCounselorQueryController {
   @ProtoRequest(FindBubblesRequestSchema)
   async findBubbles(request: FindBubblesRequest): Promise<FindBubblesResponse> {
     const { counselorId } = request;
-    const bubbles = await this.counselorsFacade.findBubbles({
+    const bubbles = await this.counselorManagementsFacade.findBubbles({
       counselorId: new UniqueEntityId(counselorId),
     });
     return create(FindBubblesResponseSchema, {
@@ -109,7 +109,7 @@ export class GrpcCounselorQueryController {
   @ProtoRequest(FindBubbleByIdRequestSchema)
   async findBubbleById(request: FindBubbleByIdRequest): Promise<FindBubbleByIdResponse> {
     const { bubbleId } = request;
-    const bubble = await this.counselorsFacade.findBubbleById({
+    const bubble = await this.counselorManagementsFacade.findBubbleById({
       bubbleId: new UniqueEntityId(bubbleId),
     });
     return create(FindBubbleByIdResponseSchema, {
@@ -121,7 +121,7 @@ export class GrpcCounselorQueryController {
   @ProtoRequest(FindRandomBubbleRequestSchema)
   async findRandomBubble(request: FindRandomBubbleRequest): Promise<FindRandomBubbleResponse> {
     const { counselorId } = request;
-    const bubble = await this.counselorsFacade.findRandomBubble({
+    const bubble = await this.counselorManagementsFacade.findRandomBubble({
       counselorId: new UniqueEntityId(counselorId),
     });
     return create(FindRandomBubbleResponseSchema, {

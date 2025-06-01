@@ -1,4 +1,4 @@
-import { EpisodesFacade } from "~counselings/applications/episodes.facade";
+import { CounselorManagementsFacade } from "~counselings/applications/counselor-managements/counselor-managements.facade";
 import { SchemaEpisodesMapper } from "~counselings/presentations/grpc/episodes.mapper";
 import {
   FindEpisodeByIdRequest,
@@ -18,13 +18,13 @@ import { ProtoRequest } from "~common/shared/utils/rpc";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 @Controller("episodes")
 export class GrpcEpisodeQueryController {
-  constructor(private readonly episodesFacade: EpisodesFacade) {}
+  constructor(private readonly counselorManagementsFacade: CounselorManagementsFacade) {}
 
   @GrpcMethod("CounselorService", "FindEpisodes")
   @ProtoRequest(FindEpisodesRequestSchema)
   async findEpisodes(request: FindEpisodesRequest): Promise<FindEpisodesResponse> {
     const { counselorId, withTemporary } = request;
-    const episodes = await this.episodesFacade.findEpisodes({
+    const episodes = await this.counselorManagementsFacade.findEpisodes({
       counselorId: new UniqueEntityId(counselorId),
       withTemporary,
     });
@@ -37,7 +37,7 @@ export class GrpcEpisodeQueryController {
   @ProtoRequest(FindEpisodeByIdRequestSchema)
   async findEpisodeById(request: FindEpisodeByIdRequest): Promise<FindEpisodeByIdResponse> {
     const { episodeId, withTemporary } = request;
-    const episode = await this.episodesFacade.findEpisodeById({
+    const episode = await this.counselorManagementsFacade.findEpisodeById({
       episodeId: new UniqueEntityId(episodeId),
       withTemporary,
     });

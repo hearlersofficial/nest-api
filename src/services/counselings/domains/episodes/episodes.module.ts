@@ -1,10 +1,10 @@
 import { EpisodesReader } from "~counselings/domains/episodes/episodes.reader";
 import { EpisodesService } from "~counselings/domains/episodes/episodes.service";
 import { EpisodesStore } from "~counselings/domains/episodes/episodes.store";
-import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
-import { RepositoryEpisodesReader } from "~counselings/infrastructures/episodes/repository-episodes.reader";
-import { RepositoryEpisodesStore } from "~counselings/infrastructures/episodes/repository-episodes.store";
-import { TypeormEpisodesRepository } from "~counselings/infrastructures/episodes/typeorm-episodes.repository";
+import { EpisodesRepository } from "~counselings/domains/episodes/infrastructures/episodes.repository";
+import { RepositoryEpisodesReader } from "~counselings/domains/episodes/infrastructures/repository-episodes.reader";
+import { RepositoryEpisodesStore } from "~counselings/domains/episodes/infrastructures/repository-episodes.store";
+import { TypeormEpisodesRepository } from "~counselings/domains/episodes/infrastructures/typeorm-episodes.repository";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";

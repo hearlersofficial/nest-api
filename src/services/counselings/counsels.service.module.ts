@@ -1,8 +1,7 @@
 import { CounselMessagesFacade } from "~counselings/applications/counselMessages.facade";
-import { CounselorsFacade } from "~counselings/applications/counselors.facade";
+import { CounselorManagementsModule } from "~counselings/applications/counselor-managements/counselor-managements.module";
 import { CounselsFacade } from "~counselings/applications/counsels.facade";
 import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
-import { EpisodesFacade } from "~counselings/applications/episodes.facade";
 import { LlmFacade } from "~counselings/applications/llm.facade";
 import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
 import { PromptActivateHistoryFacade } from "~counselings/applications/promptActivateHistory.facade";
@@ -17,7 +16,6 @@ import { CounselMessagesModule } from "~counselings/domains/counselMessages/coun
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
-import { EpisodesModule } from "~counselings/domains/episodes/episodes.module";
 import { LlmModule } from "~counselings/domains/llm/llm.module";
 import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
 import { PromptActivateHistoryModule } from "~counselings/domains/promptActivateHistory/promptActivateHistory.module";
@@ -43,13 +41,13 @@ import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeor
   imports: [
     CqrsModule,
     CounselsModule,
+    CounselorManagementsModule,
     CounselMessagesModule,
-    CounselorsModule,
     TonesModule,
-    EpisodesModule,
     PromptVersionsModule,
     PersonaPromptsModule,
     TonePromptsModule,
+    CounselorsModule,
     CounselTechniquesModule,
     PromptActivateHistoryModule,
     LlmModule,
@@ -71,13 +69,11 @@ import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeor
     }),
     CounselsFacade,
     CounselMessagesFacade,
-    CounselorsFacade,
     TonesFacade,
     PromptVersionsFacade,
     PersonaPromptsFacade,
     TonePromptsFacade,
     CounselTechniquesFacade,
-    EpisodesFacade,
     PromptActivateHistoryFacade,
     LlmFacade,
     TransitionCounselTechniqueUseCase,

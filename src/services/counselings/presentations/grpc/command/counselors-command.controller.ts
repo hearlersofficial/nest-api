@@ -1,4 +1,4 @@
-import { CounselorsFacade } from "~counselings/applications/counselors.facade";
+import { CounselorManagementsFacade } from "~counselings/applications/counselor-managements/counselor-managements.facade";
 import { TonesFacade } from "~counselings/applications/tones.facade";
 import { SchemaCounselorsMapper } from "~counselings/presentations/grpc/counselors.mapper";
 import {
@@ -49,7 +49,7 @@ export class GrpcCounselorCommandController {
   private readonly logger = new Logger(GrpcCounselorCommandController.name);
 
   constructor(
-    private readonly counselorsFacade: CounselorsFacade,
+    private readonly counselorsFacade: CounselorManagementsFacade,
     private readonly tonesFacade: TonesFacade,
     private readonly imageStorageService: ImageStorageService,
   ) {}

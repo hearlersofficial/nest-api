@@ -4,9 +4,9 @@ import {
   AuthUsersCriteriaUniqueKey,
 } from "~users/domains/auth-users/auth-users.criteria";
 import { AuthUsersReader } from "~users/domains/auth-users/auth-users.reader";
+import { AuthUsersRepository } from "~users/domains/auth-users/infrastructures/mappers/auth-users.repository";
 import { RepositoryAuthUsersCriteriaMapper } from "~users/domains/auth-users/infrastructures/repository-auth-users-criteria.mapper";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
-import { AuthUsersRepository } from "~users/infrastructures/auth-users/auth-users.repository";
 
 import { Injectable } from "@nestjs/common";
 

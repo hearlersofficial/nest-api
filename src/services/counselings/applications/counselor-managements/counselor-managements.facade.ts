@@ -1,7 +1,10 @@
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
-import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
+import { EpisodesService } from "~counselings/domains/episodes/episodes.service";
+import { EpisodesNewProps } from "~counselings/domains/episodes/models/episodes";
+import { EpisodesInfo } from "~counselings/domains/episodes/models/episodes.info";
+import { CounselorGender, Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
@@ -9,8 +12,11 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()
-export class CounselorsFacade {
-  constructor(private readonly counselorsService: CounselorsService) {}
+export class CounselorManagementsFacade {
+  constructor(
+    private readonly counselorsService: CounselorsService,
+    private readonly episodesService: EpisodesService,
+  ) {}
 
   @Transactional()
   async createCounselor(params: {
@@ -117,5 +123,58 @@ export class CounselorsFacade {
     const { counselorId, bubbleId } = params;
     await this.counselorsService.deleteBubble({ counselorId, bubbleId });
     return;
+  }
+
+  @Transactional()
+  async createEpisode(params: {
+    counselorId: UniqueEntityId;
+    title: string;
+    requiredRapportThreshold: number;
+    isTemporary: boolean;
+    cutScenes: {
+      speaker: Speaker;
+      content: string;
+      orderIndex: number;
+      image: string;
+    }[];
+  }): Promise<EpisodesInfo> {
+    const { counselorId, title, requiredRapportThreshold, isTemporary, cutScenes } = params;
+    const newProps: EpisodesNewProps = {
+      counselorId,
+      title,
+      requiredRapportThreshold,
+      isTemporary,
+      cutScenes: cutScenes.map((cutScene) => ({
+        ...cutScene,
+      })),
+    };
+    return this.episodesService.create(newProps);
+  }
+
+  async findEpisodes(params: { counselorId: UniqueEntityId; withTemporary?: boolean }): Promise<EpisodesInfo[]> {
+    const { counselorId, withTemporary = false } = params;
+    return this.episodesService.findEpisodesByCounselorId(counselorId, withTemporary);
+  }
+
+  async findEpisodeById(params: { episodeId: UniqueEntityId; withTemporary?: boolean }): Promise<EpisodesInfo | null> {
+    const { episodeId, withTemporary = false } = params;
+    return this.episodesService.findEpisodeById(episodeId, withTemporary);
+  }
+
+  @Transactional()
+  async updateEpisode(params: {
+    episodeId: UniqueEntityId;
+    title?: string;
+    requiredRapportThreshold?: number;
+    isTemporary?: boolean;
+    cutScenes?: {
+      id?: string;
+      speaker: Speaker;
+      content: string;
+      orderIndex: number;
+      image: string;
+    }[];
+  }): Promise<EpisodesInfo> {
+    return this.episodesService.updateEpisode(params);
   }
 }

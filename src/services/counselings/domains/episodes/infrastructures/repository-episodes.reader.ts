@@ -1,9 +1,10 @@
 import { EpisodesReader } from "~counselings/domains/episodes/episodes.reader";
+import { EpisodesRepository } from "~counselings/domains/episodes/infrastructures/episodes.repository";
 import { Episodes } from "~counselings/domains/episodes/models/episodes";
-import { EpisodesRepository } from "~counselings/infrastructures/episodes/episodes.repository";
 
-import { Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryEpisodesReader extends EpisodesReader {
@@ -23,5 +24,16 @@ export class RepositoryEpisodesReader extends EpisodesReader {
       episodeId,
       isTemporary: withTemporary ? undefined : false,
     });
+  }
+
+  override async getEpisodeById(episodeId: UniqueEntityId, withTemporary: boolean): Promise<Episodes> {
+    const episode = await this.episodesRepository.findOne({
+      episodeId,
+      isTemporary: withTemporary ? undefined : false,
+    });
+    if (!episode) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Episode not found");
+    }
+    return episode;
   }
 }

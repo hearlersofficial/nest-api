@@ -1,4 +1,4 @@
-import { EpisodesFacade } from "~counselings/applications/episodes.facade";
+import { CounselorManagementsFacade } from "~counselings/applications/counselor-managements/counselor-managements.facade";
 import { SchemaEpisodesMapper } from "~counselings/presentations/grpc/episodes.mapper";
 import {
   CreateEpisodeRequest,
@@ -28,7 +28,7 @@ export class GrpcEpisodeCommandController {
   private readonly logger = new Logger(GrpcEpisodeCommandController.name);
 
   constructor(
-    private readonly episodesFacade: EpisodesFacade,
+    private readonly counselorManagementsFacade: CounselorManagementsFacade,
     private readonly imageStorageService: ImageStorageService,
   ) {}
 
@@ -37,7 +37,7 @@ export class GrpcEpisodeCommandController {
   async createEpisode(request: CreateEpisodeRequest): Promise<CreateEpisodeResponse> {
     const { counselorId, title, requiredRapportThreshold, isTemporary, cutScenes } = request;
 
-    const episode = await this.episodesFacade.createEpisode({
+    const episode = await this.counselorManagementsFacade.createEpisode({
       counselorId: new UniqueEntityId(counselorId),
       title,
       requiredRapportThreshold,
@@ -59,7 +59,7 @@ export class GrpcEpisodeCommandController {
   @ProtoRequest(UpdateEpisodeRequestSchema)
   async updateEpisode(request: UpdateEpisodeRequest): Promise<UpdateEpisodeResponse> {
     const { episodeId, title, requiredRapportThreshold, isTemporary, cutScenes } = request;
-    const episode = await this.episodesFacade.updateEpisode({
+    const episode = await this.counselorManagementsFacade.updateEpisode({
       episodeId: new UniqueEntityId(episodeId),
       title,
       requiredRapportThreshold,

@@ -50,6 +50,7 @@ export class CounselorManagementsFacade {
     counselorGender: CounselorGender;
   }): Promise<CounselorsInfo> {
     const { toneId, name, description, profileImage, counselorGender } = params;
+    await this.tonesService.getOne({ toneId });
     return this.counselorsService.create({
       toneId,
       name,
@@ -157,6 +158,7 @@ export class CounselorManagementsFacade {
     }[];
   }): Promise<EpisodesInfo> {
     const { counselorId, title, requiredRapportThreshold, isTemporary, cutScenes } = params;
+    await this.counselorsService.getOne({ counselorId });
     const newProps: EpisodesNewProps = {
       counselorId,
       title,
@@ -171,6 +173,7 @@ export class CounselorManagementsFacade {
 
   async findEpisodes(params: { counselorId: UniqueEntityId; withTemporary?: boolean }): Promise<EpisodesInfo[]> {
     const { counselorId, withTemporary = false } = params;
+    await this.counselorsService.getOne({ counselorId });
     return this.episodesService.findEpisodesByCounselorId(counselorId, withTemporary);
   }
 

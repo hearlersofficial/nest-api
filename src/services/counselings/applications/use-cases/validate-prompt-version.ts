@@ -6,6 +6,7 @@ import { CounselorsService } from "~counselings/domains/counselors/counselors.se
 import { TonesService } from "~counselings/domains/tones/tones.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
@@ -47,18 +48,18 @@ export class ValidatePromptVersionUseCase
     const counselors = await this.counselorsService.findMany({});
     for (const counselor of counselors) {
       const counselorScopedPrompt = promptVersion.counselorScopedPrompts.find((prompt) =>
-        prompt.counselorId.equals(counselor.id),
+        prompt.counselorId.equals(new UniqueEntityId(counselor.id)),
       );
       if (!counselorScopedPrompt) {
         throw new HttpStatusBasedRpcException(
           HttpStatus.BAD_REQUEST,
-          `Prompt by counselor not found for counselorId: ${counselor.id.getString()}`,
+          `Prompt by counselor not found for counselorId: ${counselor.id}`,
         );
       }
       if (!counselorScopedPrompt.personaPromptId) {
         throw new HttpStatusBasedRpcException(
           HttpStatus.BAD_REQUEST,
-          `Persona prompt not found for counselorId: ${counselor.id.getString()}`,
+          `Persona prompt not found for counselorId: ${counselor.id}`,
         );
       }
     }

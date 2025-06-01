@@ -25,8 +25,8 @@ export class EpisodeCutScenesInfo {
    */
   static fromDomain(cutScene: EpisodeCutScenes): EpisodeCutScenesInfo {
     return new EpisodeCutScenesInfo(
-      cutScene.id.toString(),
-      cutScene.episodeId.toString(),
+      cutScene.id.getString(),
+      cutScene.episodeId.getString(),
       cutScene.speaker,
       cutScene.content,
       cutScene.orderIndex,
@@ -66,8 +66,8 @@ export class EpisodesInfo {
    */
   static fromDomain(episode: Episodes): EpisodesInfo {
     return new EpisodesInfo(
-      episode.id.toString(),
-      episode.counselorId.toString(),
+      episode.id.getString(),
+      episode.counselorId.getString(),
       episode.title,
       episode.requiredRapportThreshold,
       episode.isTemporary,

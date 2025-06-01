@@ -1,14 +1,12 @@
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
-import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
-import { Counselors } from "~counselings/domains/counselors/models/counselors";
+import { BubblesInfo, CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
 import { EpisodesService } from "~counselings/domains/episodes/episodes.service";
 import { EpisodesNewProps } from "~counselings/domains/episodes/models/episodes";
 import { EpisodesInfo } from "~counselings/domains/episodes/models/episodes.info";
 import { CounselorGender, Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
-import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()
@@ -25,7 +23,7 @@ export class CounselorManagementsFacade {
     description: string;
     profileImage: string;
     counselorGender: CounselorGender;
-  }): Promise<Counselors> {
+  }): Promise<CounselorsInfo> {
     const { toneId, name, description, profileImage, counselorGender } = params;
     return this.counselorsService.create({
       toneId,
@@ -36,12 +34,12 @@ export class CounselorManagementsFacade {
     });
   }
 
-  async findCounselors(params: { toneId?: UniqueEntityId }): Promise<Counselors[]> {
+  async findCounselors(params: { toneId?: UniqueEntityId }): Promise<CounselorsInfo[]> {
     const { toneId } = params;
     return this.counselorsService.findMany({ toneId });
   }
 
-  async findCounselorById(params: { counselorId: UniqueEntityId }): Promise<Counselors> {
+  async findCounselorById(params: { counselorId: UniqueEntityId }): Promise<CounselorsInfo> {
     const { counselorId } = params;
     return this.counselorsService.getOne({ counselorId });
   }
@@ -54,21 +52,16 @@ export class CounselorManagementsFacade {
     description?: string;
     profileImage?: string;
     counselorGender?: CounselorGender;
-  }): Promise<Counselors> {
+  }): Promise<CounselorsInfo> {
     const { counselorId, toneId, name, description, profileImage, counselorGender } = params;
-    const counselor = await this.counselorsService.getOne({ counselorId });
-    counselor.update({
+    return this.counselorsService.updateCounselor({
+      counselorId,
       toneId,
       name,
       description,
       profileImage,
       gender: counselorGender,
     });
-    const validateResult = counselor.validateDomain();
-    if (validateResult.isFailureResult()) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, validateResult.error);
-    }
-    return this.counselorsService.update(counselor);
   }
 
   @Transactional()
@@ -77,7 +70,7 @@ export class CounselorManagementsFacade {
     question: string;
     responseOption1: string;
     responseOption2: string;
-  }): Promise<Bubbles> {
+  }): Promise<BubblesInfo> {
     const { counselorId, question, responseOption1, responseOption2 } = params;
     return this.counselorsService.createBubble({
       counselorId,
@@ -87,17 +80,17 @@ export class CounselorManagementsFacade {
     });
   }
 
-  async findBubbles(params: { counselorId: UniqueEntityId }): Promise<Bubbles[]> {
+  async findBubbles(params: { counselorId: UniqueEntityId }): Promise<BubblesInfo[]> {
     const { counselorId } = params;
     return this.counselorsService.findBubbles({ counselorId });
   }
 
-  async findRandomBubble(params: { counselorId: UniqueEntityId }): Promise<Bubbles> {
+  async findRandomBubble(params: { counselorId: UniqueEntityId }): Promise<BubblesInfo> {
     const { counselorId } = params;
     return this.counselorsService.findRandomBubble(counselorId);
   }
 
-  async findBubbleById(params: { bubbleId: UniqueEntityId }): Promise<Bubbles | null> {
+  async findBubbleById(params: { bubbleId: UniqueEntityId }): Promise<BubblesInfo | null> {
     const { bubbleId } = params;
     return this.counselorsService.findBubbleById(bubbleId);
   }
@@ -108,7 +101,7 @@ export class CounselorManagementsFacade {
     question?: string;
     responseOption1?: string;
     responseOption2?: string;
-  }): Promise<Bubbles> {
+  }): Promise<BubblesInfo> {
     const { bubbleId, counselorId, question, responseOption1, responseOption2 } = params;
     return this.counselorsService.updateBubble({
       bubbleId,

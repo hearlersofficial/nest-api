@@ -42,7 +42,7 @@ export class CounselsFacade {
     const counselor = await this.counselorService.getOne({ counselorId });
     const toneId = counselor.toneId;
 
-    const toneScopedPromptResult = activeVersion.getToneScopedPrompt(toneId);
+    const toneScopedPromptResult = activeVersion.getToneScopedPrompt(new UniqueEntityId(toneId));
     if (toneScopedPromptResult.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, toneScopedPromptResult.error as string);
     }

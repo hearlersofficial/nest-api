@@ -1,5 +1,4 @@
-import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
-import { Counselors } from "~counselings/domains/counselors/models/counselors";
+import { BubblesInfo, CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
 import { Tones } from "~counselings/domains/tones/models/tones";
 import {
   Bubble,
@@ -14,15 +13,15 @@ import { create } from "@bufbuild/protobuf";
 
 export class SchemaCounselorsMapper {
   static toCounselorProto(counselor: null): null;
-  static toCounselorProto(counselor: Counselors): Counselor;
-  static toCounselorProto(counselor: Counselors | null): Counselor | null;
-  static toCounselorProto(counselor: Counselors | null): Counselor | null {
+  static toCounselorProto(counselor: CounselorsInfo): Counselor;
+  static toCounselorProto(counselor: CounselorsInfo | null): Counselor | null;
+  static toCounselorProto(counselor: CounselorsInfo | null): Counselor | null {
     if (!counselor) {
       return null;
     }
     return create(CounselorSchema, {
-      id: counselor.id.getString(),
-      toneId: counselor.toneId.getString(),
+      id: counselor.id,
+      toneId: counselor.toneId,
       name: counselor.name,
       description: counselor.description,
       gender: counselor.gender,
@@ -51,14 +50,14 @@ export class SchemaCounselorsMapper {
   }
 
   static toBubbleProto(bubble: null): null;
-  static toBubbleProto(bubble: Bubbles): Bubble;
-  static toBubbleProto(bubble: Bubbles | null): Bubble | null;
-  static toBubbleProto(bubble: Bubbles | null): Bubble | null {
+  static toBubbleProto(bubble: BubblesInfo): Bubble;
+  static toBubbleProto(bubble: BubblesInfo | null): Bubble | null;
+  static toBubbleProto(bubble: BubblesInfo | null): Bubble | null {
     if (!bubble) {
       return null;
     }
     return create(BubbleSchema, {
-      id: bubble.id.getString(),
+      id: bubble.id,
       question: bubble.question,
       responseOption1: bubble.responseOption1,
       responseOption2: bubble.responseOption2,

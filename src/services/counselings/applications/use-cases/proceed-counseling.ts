@@ -16,6 +16,7 @@ import { PromptVersionsService } from "~counselings/domains/promptVersions/promp
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { isDefined } from "~common/shared/utils/validate";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
@@ -45,7 +46,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
 
     // 프롬프트 버전 조회
     const promptVersion = await this.promptVersionsService.getOne({ promptVersionId: counsel.promptVersionId });
-    const counselorScopedPromptResult = promptVersion.getCounselorScopedPrompt(counselor.id);
+    const counselorScopedPromptResult = promptVersion.getCounselorScopedPrompt(new UniqueEntityId(counselor.id));
     if (counselorScopedPromptResult.isFailure) {
       throw new HttpStatusBasedRpcException(
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -53,7 +54,7 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
       );
     }
     const counselorScopedPrompt = counselorScopedPromptResult.value;
-    const toneScopedPromptResult = promptVersion.getToneScopedPrompt(counselor.toneId);
+    const toneScopedPromptResult = promptVersion.getToneScopedPrompt(new UniqueEntityId(counselor.toneId));
     if (toneScopedPromptResult.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, toneScopedPromptResult.error as string);
     }

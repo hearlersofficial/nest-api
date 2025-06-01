@@ -3,6 +3,8 @@ import { BubblesInfo, CounselorsInfo } from "~counselings/domains/counselors/mod
 import { EpisodesService } from "~counselings/domains/episodes/episodes.service";
 import { EpisodesNewProps } from "~counselings/domains/episodes/models/episodes";
 import { EpisodesInfo } from "~counselings/domains/episodes/models/episodes.info";
+import { TonesInfo } from "~counselings/domains/tones/models/tones.info";
+import { TonesService } from "~counselings/domains/tones/tones.service";
 import { CounselorGender, Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { Injectable } from "@nestjs/common";
@@ -14,7 +16,30 @@ export class CounselorManagementsFacade {
   constructor(
     private readonly counselorsService: CounselorsService,
     private readonly episodesService: EpisodesService,
+    private readonly tonesService: TonesService,
   ) {}
+
+  @Transactional()
+  async createTone(params: { name: string; description: string }): Promise<TonesInfo> {
+    const { name, description } = params;
+    return this.tonesService.create({ name, description });
+  }
+
+  async findTones(params: { name?: string }): Promise<TonesInfo[]> {
+    const { name } = params;
+    return this.tonesService.findMany({ name });
+  }
+
+  async findToneById(params: { toneId: UniqueEntityId }): Promise<TonesInfo> {
+    const { toneId } = params;
+    return this.tonesService.getOne({ toneId });
+  }
+
+  @Transactional()
+  async updateTone(params: { toneId: UniqueEntityId; name?: string; description?: string }): Promise<TonesInfo> {
+    const { toneId, name, description } = params;
+    return this.tonesService.updateTone({ toneId, name, description });
+  }
 
   @Transactional()
   async createCounselor(params: {

@@ -1,4 +1,5 @@
-import { Tones, TonesNewProps } from "~counselings/domains/tones/models/tones";
+import { TonesNewProps } from "~counselings/domains/tones/models/tones";
+import { TonesInfo } from "~counselings/domains/tones/models/tones.info";
 import { TonesCriteriaFindMany } from "~counselings/domains/tones/tones.criteria";
 import { TonesPersister } from "~counselings/domains/tones/tones.persister";
 import { TonesReader } from "~counselings/domains/tones/tones.reader";
@@ -6,6 +7,7 @@ import { TonesReader } from "~counselings/domains/tones/tones.reader";
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class TonesService {
@@ -14,19 +16,34 @@ export class TonesService {
     private readonly tonesPersister: TonesPersister,
   ) {}
 
-  async create(newProps: TonesNewProps): Promise<Tones> {
-    return this.tonesPersister.create(newProps);
+  @Transactional()
+  async create(newProps: TonesNewProps): Promise<TonesInfo> {
+    const tone = await this.tonesPersister.create(newProps);
+    return TonesInfo.fromDomain(tone);
   }
 
-  async update(tone: Tones): Promise<Tones> {
-    return this.tonesPersister.update(tone);
+  @Transactional()
+  async updateTone(params: { toneId: UniqueEntityId; name?: string; description?: string }): Promise<TonesInfo> {
+    const { toneId, name, description } = params;
+    const tone = await this.tonesReader.getOne({ toneId });
+
+    tone.update({ name, description });
+
+    const validateResult = tone.validateDomain();
+    if (validateResult.isFailureResult()) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, validateResult.error);
+    }
+
+    const updatedTone = await this.tonesPersister.update(tone);
+    return TonesInfo.fromDomain(updatedTone);
   }
 
-  async findOne(props: { toneId: UniqueEntityId }): Promise<Tones | null> {
-    return this.tonesReader.findOne(props);
+  async findOne(props: { toneId: UniqueEntityId }): Promise<TonesInfo | null> {
+    const tone = await this.tonesReader.findOne(props);
+    return tone ? TonesInfo.fromDomain(tone) : null;
   }
 
-  async getOne(props: { toneId: UniqueEntityId }): Promise<Tones> {
+  async getOne(props: { toneId: UniqueEntityId }): Promise<TonesInfo> {
     const tone = await this.findOne(props);
     if (!tone) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Tone not found");
@@ -34,7 +51,8 @@ export class TonesService {
     return tone;
   }
 
-  async findMany(props: TonesCriteriaFindMany): Promise<Tones[]> {
-    return this.tonesReader.findMany(props);
+  async findMany(props: TonesCriteriaFindMany): Promise<TonesInfo[]> {
+    const tones = await this.tonesReader.findMany(props);
+    return TonesInfo.fromDomainArray(tones);
   }
 }

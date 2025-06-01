@@ -1,5 +1,4 @@
 import { CounselorManagementsFacade } from "~counselings/applications/counselor-managements/counselor-managements.facade";
-import { TonesFacade } from "~counselings/applications/tones.facade";
 import { SchemaCounselorsMapper } from "~counselings/presentations/grpc/counselors.mapper";
 import {
   FindBubbleByIdRequest,
@@ -40,10 +39,7 @@ import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Controller("counselors")
 export class GrpcCounselorQueryController {
-  constructor(
-    private readonly counselorManagementsFacade: CounselorManagementsFacade,
-    private readonly tonesFacade: TonesFacade,
-  ) {}
+  constructor(private readonly counselorManagementsFacade: CounselorManagementsFacade) {}
 
   // Counselor
   @GrpcMethod("CounselorService", "FindCounselors")
@@ -75,7 +71,7 @@ export class GrpcCounselorQueryController {
   @ProtoRequest(FindTonesRequestSchema)
   async findTones(request: FindTonesRequest): Promise<FindTonesResponse> {
     const { name } = request;
-    const tones = await this.tonesFacade.findTones({ name });
+    const tones = await this.counselorManagementsFacade.findTones({ name });
     return create(FindTonesResponseSchema, {
       tones: tones.map((tone) => SchemaCounselorsMapper.toToneProto(tone)),
     });
@@ -85,7 +81,7 @@ export class GrpcCounselorQueryController {
   @ProtoRequest(FindToneByIdRequestSchema)
   async findToneById(request: FindToneByIdRequest): Promise<FindToneByIdResponse> {
     const { toneId } = request;
-    const tone = await this.tonesFacade.findToneById({
+    const tone = await this.counselorManagementsFacade.findToneById({
       toneId: new UniqueEntityId(toneId),
     });
     return create(FindToneByIdResponseSchema, {

@@ -4,8 +4,9 @@ import { CounselorsRepository } from "~counselings/domains/counselors/infrastruc
 import { RepositoryCounselorCriteriaMapper } from "~counselings/domains/counselors/infrastructures/mappers/repository-counselors-criteria.mapper";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
 
-import { Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
 export class RepositoryCounselorsReader extends CounselorsReader {
@@ -15,6 +16,14 @@ export class RepositoryCounselorsReader extends CounselorsReader {
 
   override async findOne(props: { counselorId: UniqueEntityId }): Promise<Counselors | null> {
     return this.counselorsRepository.findByCounselorId(props.counselorId);
+  }
+
+  override async getOne(props: { counselorId: UniqueEntityId }): Promise<Counselors> {
+    const counselor = await this.counselorsRepository.findByCounselorId(props.counselorId);
+    if (!counselor) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counselor not found");
+    }
+    return counselor;
   }
 
   override async findMany(props: CounselorsCriteriaFindMany): Promise<Counselors[]> {

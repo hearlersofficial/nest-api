@@ -7,5 +7,6 @@ import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 @Injectable()
 export abstract class TonesReader {
   abstract findOne(props: { toneId: UniqueEntityId }): Promise<Tones | null>;
+  abstract getOne(props: { toneId: UniqueEntityId }): Promise<Tones>;
   abstract findMany(props: TonesCriteriaFindMany): Promise<Tones[]>;
 }

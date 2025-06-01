@@ -1,5 +1,5 @@
 import { BubblesInfo, CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
-import { Tones } from "~counselings/domains/tones/models/tones";
+import { TonesInfo } from "~counselings/domains/tones/models/tones.info";
 import {
   Bubble,
   BubbleSchema,
@@ -33,14 +33,14 @@ export class SchemaCounselorsMapper {
   }
 
   static toToneProto(tone: null): null;
-  static toToneProto(tone: Tones): Tone;
-  static toToneProto(tone: Tones | null): Tone | null;
-  static toToneProto(tone: Tones | null): Tone | null {
+  static toToneProto(tone: TonesInfo): Tone;
+  static toToneProto(tone: TonesInfo | null): Tone | null;
+  static toToneProto(tone: TonesInfo | null): Tone | null {
     if (!tone) {
       return null;
     }
     return create(ToneSchema, {
-      id: tone.id.getString(),
+      id: tone.id,
       name: tone.name,
       description: tone.description,
       createdAt: tone.createdAt.toISOString(),

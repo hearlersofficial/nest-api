@@ -7,7 +7,6 @@ import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.f
 import { PromptActivateHistoryFacade } from "~counselings/applications/promptActivateHistory.facade";
 import { PromptVersionsFacade } from "~counselings/applications/promptVersions.facade";
 import { TonePromptsFacade } from "~counselings/applications/tonePrompts.facade";
-import { TonesFacade } from "~counselings/applications/tones.facade";
 import { MakeSystemPromptUseCase } from "~counselings/applications/use-cases/make-system-prompt";
 import { ProceedCounselingUseCase } from "~counselings/applications/use-cases/proceed-counseling";
 import { TransitionCounselTechniqueUseCase } from "~counselings/applications/use-cases/transition-counselTechique";
@@ -69,7 +68,6 @@ import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeor
     }),
     CounselsFacade,
     CounselMessagesFacade,
-    TonesFacade,
     PromptVersionsFacade,
     PersonaPromptsFacade,
     TonePromptsFacade,

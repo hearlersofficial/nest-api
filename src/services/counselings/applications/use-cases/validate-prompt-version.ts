@@ -24,23 +24,22 @@ export class ValidatePromptVersionUseCase
 
     const tones = await this.tonesService.findMany({});
     for (const tone of tones) {
-      const toneScopedPrompt = promptVersion.toneScopedPrompts.find((prompt) => prompt.toneId.equals(tone.id));
+      const toneScopedPrompt = promptVersion.toneScopedPrompts.find((prompt) =>
+        prompt.toneId.equals(new UniqueEntityId(tone.id)),
+      );
       if (!toneScopedPrompt) {
         throw new HttpStatusBasedRpcException(
           HttpStatus.BAD_REQUEST,
-          `Prompt by tone not found for toneId: ${tone.id.getString()}`,
+          `Prompt by tone not found for toneId: ${tone.id}`,
         );
       }
       if (!toneScopedPrompt.tonePromptId) {
-        throw new HttpStatusBasedRpcException(
-          HttpStatus.BAD_REQUEST,
-          `Tone prompt not found for toneId: ${tone.id.getString()}`,
-        );
+        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, `Tone prompt not found for toneId: ${tone.id}`);
       }
       if (!toneScopedPrompt.firstCounselTechniqueId) {
         throw new HttpStatusBasedRpcException(
           HttpStatus.BAD_REQUEST,
-          `First counsel technique not found for toneId: ${tone.id.getString()}`,
+          `First counsel technique not found for toneId: ${tone.id}`,
         );
       }
     }

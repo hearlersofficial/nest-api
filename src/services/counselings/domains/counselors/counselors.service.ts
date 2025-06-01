@@ -7,7 +7,7 @@ import {
 import { CounselorsReader } from "~counselings/domains/counselors/counselors.reader";
 import { CounselorsStore } from "~counselings/domains/counselors/counselors.store";
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
-import { Counselors, CounselorsNewProps } from "~counselings/domains/counselors/models/counselors";
+import { CounselorsNewProps } from "~counselings/domains/counselors/models/counselors";
 import { BubblesInfo, CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
@@ -31,12 +31,6 @@ export class CounselorsService {
   }
 
   @Transactional()
-  async update(counselor: Counselors): Promise<CounselorsInfo> {
-    const updatedCounselor = await this.counselorsStore.update(counselor);
-    return CounselorsInfo.fromDomain(updatedCounselor);
-  }
-
-  @Transactional()
   async updateCounselor(params: {
     counselorId: UniqueEntityId;
     toneId?: UniqueEntityId;
@@ -46,7 +40,7 @@ export class CounselorsService {
     gender?: CounselorGender;
   }): Promise<CounselorsInfo> {
     const { counselorId, toneId, name, description, profileImage, gender } = params;
-    const counselor = await this.getCounselorDomainById(counselorId);
+    const counselor = await this.counselorsReader.getOne({ counselorId });
 
     counselor.update({
       toneId,
@@ -78,14 +72,6 @@ export class CounselorsService {
     return counselor;
   }
 
-  private async getCounselorDomainById(counselorId: UniqueEntityId): Promise<Counselors> {
-    const counselor = await this.counselorsReader.findOne({ counselorId });
-    if (!counselor) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counselor not found");
-    }
-    return counselor;
-  }
-
   async findMany(props: CounselorsCriteriaFindMany): Promise<CounselorsInfo[]> {
     const counselors = await this.counselorsReader.findMany(props);
     return CounselorsInfo.fromDomainArray(counselors);
@@ -93,7 +79,7 @@ export class CounselorsService {
 
   @Transactional()
   async createBubble(command: CreateBubbleCommand): Promise<BubblesInfo> {
-    const counselor = await this.getCounselorDomainById(command.counselorId);
+    const counselor = await this.counselorsReader.getOne({ counselorId: command.counselorId });
     const bubbleOrFailure = Bubbles.createNew(command);
     if (bubbleOrFailure.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, bubbleOrFailure.error as string);
@@ -105,8 +91,8 @@ export class CounselorsService {
 
   @Transactional()
   async updateBubble(command: UpdateBubbleCommand): Promise<BubblesInfo> {
-    const bubble = await this.getBubbleDomainById(command.bubbleId);
-    const counselor = await this.getCounselorDomainById(command.counselorId);
+    const bubble = await this.bubblesReader.getBubbleById(command.bubbleId);
+    const counselor = await this.counselorsReader.getOne({ counselorId: command.counselorId });
     const bubbleOrFailure = bubble.update(command);
     if (bubbleOrFailure.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, bubbleOrFailure.error as string);
@@ -138,19 +124,11 @@ export class CounselorsService {
     return bubble;
   }
 
-  private async getBubbleDomainById(bubbleId: UniqueEntityId): Promise<Bubbles> {
-    const bubble = await this.bubblesReader.findBubbleById(bubbleId);
-    if (!bubble) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Bubble not found");
-    }
-    return bubble;
-  }
-
   @Transactional()
   async deleteBubble(props: { counselorId: UniqueEntityId; bubbleId: UniqueEntityId }): Promise<void> {
     const { counselorId, bubbleId } = props;
-    const bubble = await this.getBubbleDomainById(bubbleId);
-    const counselor = await this.getCounselorDomainById(counselorId);
+    const bubble = await this.bubblesReader.getBubbleById(bubbleId);
+    const counselor = await this.counselorsReader.getOne({ counselorId });
     bubble.delete();
     await this.counselorsStore.storeBubble(counselor, bubble);
     return;

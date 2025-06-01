@@ -93,7 +93,7 @@ export class GrpcCounselorCommandController {
   @ProtoRequest(CreateToneRequestSchema)
   async createTone(request: CreateToneRequest): Promise<CreateToneResponse> {
     const { name, description } = request;
-    const tone = await this.tonesFacade.createTone({
+    const tone = await this.counselorsFacade.createTone({
       name,
       description,
     });
@@ -106,7 +106,7 @@ export class GrpcCounselorCommandController {
   @ProtoRequest(UpdateToneRequestSchema)
   async updateTone(request: UpdateToneRequest): Promise<UpdateToneResponse> {
     const { toneId, name, description } = request;
-    const tone = await this.tonesFacade.updateTone({
+    const tone = await this.counselorsFacade.updateTone({
       toneId: new UniqueEntityId(toneId),
       name,
       description,

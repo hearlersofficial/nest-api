@@ -1,5 +1,4 @@
 import { CounselorManagementsFacade } from "~counselings/applications/counselor-managements/counselor-managements.facade";
-import { TonesFacade } from "~counselings/applications/tones.facade";
 import { SchemaCounselorsMapper } from "~counselings/presentations/grpc/counselors.mapper";
 import {
   CreateBubbleRequest,
@@ -50,7 +49,6 @@ export class GrpcCounselorCommandController {
 
   constructor(
     private readonly counselorsFacade: CounselorManagementsFacade,
-    private readonly tonesFacade: TonesFacade,
     private readonly imageStorageService: ImageStorageService,
   ) {}
 

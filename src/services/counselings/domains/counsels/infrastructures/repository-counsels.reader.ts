@@ -1,0 +1,24 @@
+import { CounselsCriteriaFindMany } from "~counselings/domains/counsels/counsels.criteria";
+import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
+import { CounselsRepository } from "~counselings/domains/counsels/infrastructures/counsels.repository";
+import { RepositoryCounselCriteriaMapper } from "~counselings/domains/counsels/infrastructures/mappers/repository-counsels-criteria.mapper";
+import { Counsels } from "~counselings/domains/counsels/models/counsels";
+
+import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+
+@Injectable()
+export class RepositoryCounselsReader extends CounselsReader {
+  constructor(private readonly counselsRepository: CounselsRepository) {
+    super();
+  }
+
+  override async findOne(props: { counselId: UniqueEntityId }): Promise<Counsels | null> {
+    return this.counselsRepository.findByCounselId(props.counselId);
+  }
+
+  override async findMany(props: CounselsCriteriaFindMany): Promise<Counsels[]> {
+    const typeormOptions = RepositoryCounselCriteriaMapper.toFindManyOptions(props);
+    return this.counselsRepository.findMany(typeormOptions);
+  }
+}

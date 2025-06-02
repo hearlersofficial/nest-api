@@ -1,10 +1,10 @@
 import { CounselsPersister } from "~counselings/domains/counsels/counsels.persister";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
-import { CounselsRepository } from "~counselings/infrastructures/counsels/counsels.repository";
-import { PsqlCounselsRepository } from "~counselings/infrastructures/counsels/psql-counsels.repository";
-import { RepositoryCounselsPersister } from "~counselings/infrastructures/counsels/repository-counsels.persister";
-import { RepositoryCounselsReader } from "~counselings/infrastructures/counsels/repository-counsels.reader";
+import { CounselsRepository } from "~counselings/domains/counsels/infrastructures/counsels.repository";
+import { PsqlCounselsRepository } from "~counselings/domains/counsels/infrastructures/psql-counsels.repository";
+import { RepositoryCounselsPersister } from "~counselings/domains/counsels/infrastructures/repository-counsels.persister";
+import { RepositoryCounselsReader } from "~counselings/domains/counsels/infrastructures/repository-counsels.reader";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";

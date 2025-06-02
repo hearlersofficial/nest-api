@@ -1,10 +1,10 @@
+import { PromptVersionsRepository } from "~counselings/domains/promptVersions/infrastructures/promptVersions.repository";
+import { PsqlPromptVersionsRepository } from "~counselings/domains/promptVersions/infrastructures/psql-promptVersions.repository";
+import { RepositoryPromptVersionsPersister } from "~counselings/domains/promptVersions/infrastructures/repository-promptVersions.persister";
+import { RepositoryPromptVersionsReader } from "~counselings/domains/promptVersions/infrastructures/repository-promptVersions.reader";
 import { PromptVersionsPersister } from "~counselings/domains/promptVersions/promptVersions.persister";
 import { PromptVersionsReader } from "~counselings/domains/promptVersions/promptVersions.reader";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
-import { PromptVersionsRepository } from "~counselings/infrastructures/promptVersions/promptVersions.repository";
-import { PsqlPromptVersionsRepository } from "~counselings/infrastructures/promptVersions/psql-promptVersions.repository";
-import { RepositoryPromptVersionsPersister } from "~counselings/infrastructures/promptVersions/repository-promptVersions.persister";
-import { RepositoryPromptVersionsReader } from "~counselings/infrastructures/promptVersions/repository-promptVersions.reader";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";

@@ -47,7 +47,7 @@ export class PromptVersionsService {
   }
 
   @Transactional()
-  async findTemporaryOne(): Promise<PromptVersions> {
+  private async findTemporaryOne(): Promise<PromptVersions> {
     const existingTemporaryVersions = await this.promptVersionsReader.findMany({ isTemporary: true });
     if (existingTemporaryVersions.length > 0) {
       return existingTemporaryVersions[0];
@@ -223,5 +223,32 @@ export class PromptVersionsService {
     await this.promptVersionsPersister.update(temporaryVersion);
 
     return PromptVersionInfo.fromDomain(temporaryVersion);
+  }
+
+  async getFirstCounselTechniqueIdInTemporaryVersion(props: { toneId: UniqueEntityId }): Promise<UniqueEntityId> {
+    const { toneId } = props;
+    const temporaryVersion = await this.findTemporaryOne();
+    const toneScopedPromptResult = temporaryVersion.getToneScopedPrompt(toneId);
+    if (toneScopedPromptResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No Prompt found for the tone");
+    }
+    const { firstCounselTechniqueId } = toneScopedPromptResult.value;
+    if (!firstCounselTechniqueId) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "No first counsel technique found");
+    }
+    return firstCounselTechniqueId;
+  }
+
+  async findFirstCounselTechniqueIdInTemporaryVersion(props: {
+    toneId: UniqueEntityId;
+  }): Promise<UniqueEntityId | null> {
+    const { toneId } = props;
+    const temporaryVersion = await this.findTemporaryOne();
+    const toneScopedPromptResult = temporaryVersion.getToneScopedPrompt(toneId);
+    if (toneScopedPromptResult.isFailure) {
+      return null;
+    }
+    const { firstCounselTechniqueId } = toneScopedPromptResult.value;
+    return firstCounselTechniqueId;
   }
 }

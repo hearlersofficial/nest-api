@@ -1,6 +1,6 @@
-import { CounselTechniquesCriteriaFindMany } from "~counselings/domains/counselTechniques/counselTechniques.criteria";
 import { CounselTechniquesPersister } from "~counselings/domains/counselTechniques/counselTechniques.persister";
 import { CounselTechniquesReader } from "~counselings/domains/counselTechniques/counselTechniques.reader";
+import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
 import {
   CounselTechniques,
   CounselTechniquesNewProps,
@@ -9,6 +9,7 @@ import {
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselTechniquesService {
@@ -17,51 +18,15 @@ export class CounselTechniquesService {
     private readonly counselTechniquesPersister: CounselTechniquesPersister,
   ) {}
 
-  async create(newProps: CounselTechniquesNewProps): Promise<CounselTechniques> {
-    return this.counselTechniquesPersister.create(newProps);
+  @Transactional()
+  async create(newProps: CounselTechniquesNewProps): Promise<CounselTechniqueInfo> {
+    const counselTechnique = await this.counselTechniquesPersister.create(newProps);
+    return CounselTechniqueInfo.fromDomain(counselTechnique);
   }
 
-  async update(counselTechnique: CounselTechniques): Promise<CounselTechniques> {
-    return this.counselTechniquesPersister.update(counselTechnique);
-  }
-
-  async updateMany(counselTechniques: CounselTechniques[]): Promise<CounselTechniques[]> {
-    return this.counselTechniquesPersister.updateMany(counselTechniques);
-  }
-
-  async findOne(props: { counselTechniqueId: UniqueEntityId }): Promise<CounselTechniques | null> {
-    return this.counselTechniquesReader.findOne(props);
-  }
-
-  async getOne(props: { counselTechniqueId: UniqueEntityId }): Promise<CounselTechniques> {
-    const counselTechnique = await this.findOne(props);
-    if (!counselTechnique) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel Technique not found");
-    }
-    return counselTechnique;
-  }
-
-  async findMany(props: CounselTechniquesCriteriaFindMany): Promise<CounselTechniques[]> {
-    const counselTechniques = await this.counselTechniquesReader.findMany(props);
-    if (props.ids !== undefined) {
-      if (counselTechniques.length !== props.ids.length) {
-        throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel Techniques not found");
-      }
-      // ids 순서대로 정렬
-      const indexMap = new Map(props.ids.map((id, index) => [id.getString(), index]));
-      counselTechniques.sort(
-        (a, b) =>
-          (indexMap.get(a.id.getString()) ?? Number.MAX_SAFE_INTEGER) -
-          (indexMap.get(b.id.getString()) ?? Number.MAX_SAFE_INTEGER),
-      );
-    }
-    return counselTechniques;
-  }
-
-  async getOrdered(props: { firstCounselTechniqueId: UniqueEntityId }): Promise<CounselTechniques[]> {
+  private async findOrdered(props: { firstCounselTechniqueId: UniqueEntityId }): Promise<CounselTechniques[]> {
     const visited = new Set<string>();
-    const counselTechniques = await this.getNextCounselTechniques(props.firstCounselTechniqueId, visited);
-    return counselTechniques;
+    return this.getNextCounselTechniques(props.firstCounselTechniqueId, visited);
   }
 
   private async getNextCounselTechniques(
@@ -76,7 +41,12 @@ export class CounselTechniquesService {
     }
     visited.add(firstCounselTechniqueId.getString());
 
-    const firstCounselTechnique = await this.getOne({ counselTechniqueId: firstCounselTechniqueId });
+    const firstCounselTechnique = await this.counselTechniquesReader.findOne({
+      counselTechniqueId: firstCounselTechniqueId,
+    });
+    if (!firstCounselTechnique) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel Technique not found");
+    }
     if (!firstCounselTechnique.nextTechniqueId) {
       return [firstCounselTechnique];
     }
@@ -84,8 +54,22 @@ export class CounselTechniquesService {
     return [firstCounselTechnique, ...nextCounselTechniques];
   }
 
+  async getOrdered(props: { firstCounselTechniqueId: UniqueEntityId }): Promise<CounselTechniqueInfo[]> {
+    const orderedTechniques = await this.findOrdered(props);
+    return orderedTechniques.map((technique) => CounselTechniqueInfo.fromDomain(technique));
+  }
+
+  async getOne(props: { counselTechniqueId: UniqueEntityId }): Promise<CounselTechniqueInfo> {
+    const counselTechnique = await this.counselTechniquesReader.findOne(props);
+    if (!counselTechnique) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel Technique not found");
+    }
+    return CounselTechniqueInfo.fromDomain(counselTechnique);
+  }
+
+  @Transactional()
   async updateCounselTechnique(
-    originalTechniques: CounselTechniques[],
+    originalfirstCounselTechniqueId: UniqueEntityId,
     updateParams: {
       counselTechniqueId: UniqueEntityId;
       name?: string;
@@ -93,14 +77,22 @@ export class CounselTechniquesService {
       instruction?: string;
       messageThreshold?: number;
     },
-  ): Promise<CounselTechniques[]> {
+  ): Promise<CounselTechniqueInfo[]> {
     const { counselTechniqueId, name, context, instruction, messageThreshold } = updateParams;
+
+    const originalTechniques = await this.findOrdered({
+      firstCounselTechniqueId: originalfirstCounselTechniqueId,
+    });
 
     // 유지할 부분 및 새롭게 생성할 부분 구분 (구조적 공유)
     const updateIndex = originalTechniques.findIndex((technique) => technique.id.equals(counselTechniqueId));
     if (updateIndex === -1) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel technique not found in original techniques");
     }
+    if (originalTechniques[updateIndex].isTemporary) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Cannot update a temporary technique");
+    }
+
     const techniquesToRecreate = originalTechniques.slice(0, updateIndex + 1);
     const techniquesToKeep = originalTechniques.slice(updateIndex + 1);
 
@@ -109,7 +101,7 @@ export class CounselTechniquesService {
 
     // 먼저 대상 기법 처리
     const targetTechnique = techniquesToRecreate[techniquesToRecreate.length - 1];
-    const newTargetTechnique = await this.create({
+    const newTargetTechnique = await this.counselTechniquesPersister.create({
       name: name ?? targetTechnique.name,
       toneId: targetTechnique.toneId,
       context: context ?? targetTechnique.context,
@@ -129,7 +121,7 @@ export class CounselTechniquesService {
     for (let i = techniquesToRecreate.length - 2; i >= 0; i--) {
       const technique = techniquesToRecreate[i];
 
-      const newTechnique = await this.create({
+      const newTechnique = await this.counselTechniquesPersister.create({
         name: technique.name,
         toneId: technique.toneId,
         context: technique.context,
@@ -145,19 +137,51 @@ export class CounselTechniquesService {
       nextTechniqueId = newTechnique.id;
       newOrderedTechniques.unshift(newTechnique);
     }
-    await this.updateMany(newOrderedTechniques);
+    await this.counselTechniquesPersister.updateMany(newOrderedTechniques);
 
     // 최종 기법 리스트 생성
     // - 새롭게 생성된 기법들 + 기존 기법들
     const finalTechniques = [...newOrderedTechniques, ...techniquesToKeep];
 
-    return finalTechniques;
+    return finalTechniques.map((technique) => CounselTechniqueInfo.fromDomain(technique));
   }
 
-  async saveCounselTechniqueSequence(
-    originalTechniques: CounselTechniques[],
-    newTechniques: CounselTechniques[],
-  ): Promise<CounselTechniques[]> {
+  @Transactional()
+  async saveCounselTechniqueSequence(props: {
+    originalfirstCounselTechniqueId: UniqueEntityId | null;
+    toneId: UniqueEntityId;
+    counselTechniqueIds: UniqueEntityId[];
+  }): Promise<CounselTechniqueInfo[]> {
+    const { originalfirstCounselTechniqueId, toneId, counselTechniqueIds } = props;
+    if (counselTechniqueIds.length !== new Set(counselTechniqueIds.map((id) => id.getString())).size) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Duplicate Counsel Technique IDs are not allowed");
+    }
+
+    const originalTechniques = originalfirstCounselTechniqueId
+      ? await this.findOrdered({
+          firstCounselTechniqueId: originalfirstCounselTechniqueId,
+        })
+      : [];
+
+    const newTechniques = await this.counselTechniquesReader.findMany({
+      ids: counselTechniqueIds,
+    });
+    if (newTechniques.length !== counselTechniqueIds.length) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel Techniques not found");
+    }
+    for (const technique of newTechniques) {
+      if (technique.toneId.equals(toneId) === false) {
+        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "ToneId mismatch");
+      }
+    }
+    // ids 순서대로 정렬
+    const indexMap = new Map(counselTechniqueIds.map((id, index) => [id.getString(), index]));
+    newTechniques.sort(
+      (a, b) =>
+        (indexMap.get(a.id.getString()) ?? Number.MAX_SAFE_INTEGER) -
+        (indexMap.get(b.id.getString()) ?? Number.MAX_SAFE_INTEGER),
+    );
+
     // 구조적 공유 가능한 부분 탐색
     const { firstIdx, secondIdx } = this.findSharedTechniquesIdx(originalTechniques, newTechniques);
     const techniquesToKeep = originalTechniques.slice(firstIdx);
@@ -181,7 +205,7 @@ export class CounselTechniquesService {
       }
 
       // 기존 기법은 새롭게 복사하여 생성 및 연결
-      const newTechnique = await this.create({
+      const newTechnique = await this.counselTechniquesPersister.create({
         name: technique.name,
         toneId: technique.toneId,
         context: technique.context,
@@ -197,12 +221,12 @@ export class CounselTechniquesService {
       nextTechniqueId = newTechnique.id;
       newOrderedTechniques.unshift(newTechnique);
     }
-    await this.updateMany(newOrderedTechniques);
+    await this.counselTechniquesPersister.updateMany(newOrderedTechniques);
 
     // 최종 기법 리스트 생성
     const finalTechniques = [...newOrderedTechniques, ...techniquesToKeep];
 
-    return finalTechniques;
+    return finalTechniques.map((technique) => CounselTechniqueInfo.fromDomain(technique));
   }
 
   private findSharedTechniquesIdx(

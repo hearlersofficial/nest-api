@@ -184,4 +184,23 @@ export class PromptVersionsService {
     }
     await this.promptVersionsPersister.updateMany(promptVersions);
   }
+
+  async updateCounselorScopedPromptInTemporaryVersion(props: {
+    counselorId: UniqueEntityId;
+    personaPromptId: UniqueEntityId;
+  }): Promise<PromptVersionInfo> {
+    const { counselorId, personaPromptId } = props;
+
+    const temporaryVersion = await this.findTemporaryOne();
+    const updateResult = temporaryVersion.updateCounselorScopedPrompt({
+      counselorId,
+      personaPromptId,
+    });
+    if (updateResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateResult.error as string);
+    }
+    await this.promptVersionsPersister.update(temporaryVersion);
+
+    return PromptVersionInfo.fromDomain(temporaryVersion);
+  }
 }

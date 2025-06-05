@@ -220,11 +220,18 @@ export class CounselPromptManagementsFacade {
     const { counselTechniqueId, name, context, instruction, messageThreshold } = param;
 
     const counselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId });
-    const firstCounselTechniqueId = await this.promptVersionService.getFirstCounselTechniqueIdInTemporaryVersion({
-      toneId: new UniqueEntityId(counselTechnique.toneId),
-    });
+    const temporaryVersion = await this.promptVersionService.getTemporaryOne();
+    const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find(
+      (toneScopedPrompt) => toneScopedPrompt.toneId === counselTechnique.toneId,
+    )?.firstCounselTechniqueId;
+    if (!firstCounselTechniqueId) {
+      throw new HttpStatusBasedRpcException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        "First counsel technique at toneId not found",
+      );
+    }
 
-    return this.counselTechniqueService.updateCounselTechnique(firstCounselTechniqueId, {
+    return this.counselTechniqueService.updateCounselTechnique(new UniqueEntityId(firstCounselTechniqueId), {
       counselTechniqueId,
       name,
       context,
@@ -240,12 +247,13 @@ export class CounselPromptManagementsFacade {
   }): Promise<CounselTechniqueInfo[]> {
     const { toneId, counselTechniqueIds } = param;
 
-    const firstCounselTechniqueId = await this.promptVersionService.findFirstCounselTechniqueIdInTemporaryVersion({
-      toneId,
-    });
+    const temporaryVersion = await this.promptVersionService.getTemporaryOne();
+    const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find(
+      (toneScopedPrompt) => toneScopedPrompt.toneId === toneId.getString(),
+    )?.firstCounselTechniqueId;
 
     return this.counselTechniqueService.saveCounselTechniqueSequence({
-      originalfirstCounselTechniqueId: firstCounselTechniqueId,
+      originalfirstCounselTechniqueId: firstCounselTechniqueId ? new UniqueEntityId(firstCounselTechniqueId) : null,
       toneId,
       counselTechniqueIds,
     });

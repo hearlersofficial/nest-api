@@ -1,11 +1,13 @@
 import { CounselsCriteriaFindMany } from "~counselings/domains/counsels/counsels.criteria";
 import { CounselsPersister } from "~counselings/domains/counsels/counsels.persister";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
+import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { Counsels, CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselsService {
@@ -14,8 +16,10 @@ export class CounselsService {
     private readonly counselsPersister: CounselsPersister,
   ) {}
 
-  async create(newProps: CounselsNewProps): Promise<Counsels> {
-    return this.counselsPersister.create(newProps);
+  @Transactional()
+  async create(newProps: CounselsNewProps): Promise<CounselInfo> {
+    const counsel = await this.counselsPersister.create(newProps);
+    return CounselInfo.fromDomain(counsel);
   }
 
   async update(counsel: Counsels): Promise<Counsels> {

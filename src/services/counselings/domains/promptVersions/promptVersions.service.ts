@@ -203,4 +203,25 @@ export class PromptVersionsService {
 
     return PromptVersionInfo.fromDomain(temporaryVersion);
   }
+
+  async updateToneScopedPromptInTemporaryVersion(props: {
+    toneId: UniqueEntityId;
+    tonePromptId?: UniqueEntityId;
+    firstCounselTechniqueId?: UniqueEntityId;
+  }): Promise<PromptVersionInfo> {
+    const { toneId, tonePromptId, firstCounselTechniqueId } = props;
+
+    const temporaryVersion = await this.findTemporaryOne();
+    const updateResult = temporaryVersion.updateToneScopedPrompt({
+      toneId,
+      tonePromptId,
+      firstCounselTechniqueId,
+    });
+    if (updateResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateResult.error as string);
+    }
+    await this.promptVersionsPersister.update(temporaryVersion);
+
+    return PromptVersionInfo.fromDomain(temporaryVersion);
+  }
 }

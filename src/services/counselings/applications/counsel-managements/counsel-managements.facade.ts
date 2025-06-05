@@ -1,6 +1,6 @@
-import { CounselWithMessages } from "~counselings/applications/types/counsel.type";
-import { CreatedAndResponseMessages } from "~counselings/applications/types/counselMessage.type";
-import { ProceedCounselingUseCase } from "~counselings/applications/use-cases/proceed-counseling";
+import { CounselWithMessages } from "~counselings/applications/counsel-managements/types/counsel.type";
+import { CreatedAndResponseMessages } from "~counselings/applications/counsel-managements/types/counselMessage.type";
+import { ProceedCounselingUseCase } from "~counselings/applications/counsel-managements/use-cases/proceed-counseling";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
 import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";

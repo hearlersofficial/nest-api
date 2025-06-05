@@ -1,7 +1,7 @@
 import {
   ProceedCounselingRequest,
   ProceedCounselingResponse,
-} from "~counselings/applications/use-cases/dtos/proceed-counseling.dto";
+} from "~counselings/applications/counsel-managements/use-cases/dtos/proceed-counseling.dto";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";

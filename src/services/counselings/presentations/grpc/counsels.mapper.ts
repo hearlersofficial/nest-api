@@ -1,26 +1,26 @@
-import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
-import { Counsels } from "~counselings/domains/counsels/models/counsels";
+import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
+import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { Counsel, CounselMessage, CounselMessageSchema, CounselSchema } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
 
 export class SchemaCounselsMapper {
   static toCounselProto(counsel: null): null;
-  static toCounselProto(counsel: Counsels): Counsel;
-  static toCounselProto(counsel: Counsels | null): Counsel | null;
-  static toCounselProto(counsel: Counsels | null): Counsel | null {
+  static toCounselProto(counsel: CounselInfo): Counsel;
+  static toCounselProto(counsel: CounselInfo | null): Counsel | null;
+  static toCounselProto(counsel: CounselInfo | null): Counsel | null {
     if (!counsel) {
       return null;
     }
     return create(CounselSchema, {
-      id: counsel.id.getString(),
-      counselorId: counsel.counselorId.getString(),
-      userId: counsel.userId.getString(),
+      id: counsel.id,
+      counselorId: counsel.counselorId,
+      userId: counsel.userId,
       lastMessage: counsel.lastMessage ?? undefined,
       lastChatedAt: counsel.lastChatedAt ? counsel.lastChatedAt.toISOString() : undefined,
-      promptVersionId: counsel.promptVersionId.getString(),
-      counselTechniqueId: counsel.counselTechniqueId.getString(),
-      counselorUserRelationshipId: counsel.counselorUserRelationshipId.getString(),
+      promptVersionId: counsel.promptVersionId,
+      counselTechniqueId: counsel.counselTechniqueId,
+      counselorUserRelationshipId: counsel.counselorUserRelationshipId,
       createdAt: counsel.createdAt.toISOString(),
       updatedAt: counsel.updatedAt.toISOString(),
       deletedAt: counsel.deletedAt ? counsel.deletedAt.toISOString() : undefined,
@@ -28,15 +28,15 @@ export class SchemaCounselsMapper {
   }
 
   static toCounselMessageProto(counselMessage: null): null;
-  static toCounselMessageProto(counselMessage: CounselMessages): CounselMessage;
-  static toCounselMessageProto(counselMessage: CounselMessages | null): CounselMessage | null;
-  static toCounselMessageProto(counselMessage: CounselMessages | null): CounselMessage | null {
+  static toCounselMessageProto(counselMessage: CounselMessageInfo): CounselMessage;
+  static toCounselMessageProto(counselMessage: CounselMessageInfo | null): CounselMessage | null;
+  static toCounselMessageProto(counselMessage: CounselMessageInfo | null): CounselMessage | null {
     if (!counselMessage) {
       return null;
     }
     return create(CounselMessageSchema, {
-      id: counselMessage.id.getString(),
-      counselId: counselMessage.counselId.getString(),
+      id: counselMessage.id,
+      counselId: counselMessage.counselId,
       message: counselMessage.message,
       isUserMessage: counselMessage.isUserMessage,
       reactedAt: counselMessage.reactedAt ? counselMessage.reactedAt.toISOString() : undefined,

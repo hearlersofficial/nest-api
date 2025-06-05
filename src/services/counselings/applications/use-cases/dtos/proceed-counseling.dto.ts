@@ -1,15 +1,16 @@
-import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
-import { Counsels } from "~counselings/domains/counsels/models/counsels";
+import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
+import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UseCaseCoreResponse } from "~common/shared-kernel/interfaces/UseCase.response";
 
 export interface ProceedCounselingRequest {
-  counsel: Counsels;
+  counselId: UniqueEntityId;
   userMessage: string;
 }
 
 export interface ProceedCounselingResponse extends UseCaseCoreResponse {
-  counsel: Counsels;
-  createdCounselMessage: CounselMessages;
-  counselorResponseMessage: CounselMessages;
+  counsel: CounselInfo;
+  createdCounselMessage: CounselMessageInfo;
+  counselorResponseMessage: CounselMessageInfo;
 }

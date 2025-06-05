@@ -1,6 +1,6 @@
-import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
+import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 
 export type CreatedAndResponseMessages = {
-  createdCounselMessage: CounselMessages;
-  counselorResponseMessage: CounselMessages;
+  createdCounselMessage: CounselMessageInfo;
+  counselorResponseMessage: CounselMessageInfo;
 };

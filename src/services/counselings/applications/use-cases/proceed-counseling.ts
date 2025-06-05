@@ -2,20 +2,18 @@ import {
   ProceedCounselingRequest,
   ProceedCounselingResponse,
 } from "~counselings/applications/use-cases/dtos/proceed-counseling.dto";
-import { MakeSystemPromptUseCase } from "~counselings/applications/use-cases/make-system-prompt";
-import { TransitionCounselTechniqueUseCase } from "~counselings/applications/use-cases/transition-counselTechique";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
-import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { LlmService } from "~counselings/domains/llm/llm.service";
 import { LlmRequest } from "~counselings/domains/llm/models/llm-request";
+import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
+import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { getNowDayjs } from "~common/shared/utils/date";
-import { isDefined } from "~common/shared/utils/validate";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -26,59 +24,87 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
 
   constructor(
     private readonly counselService: CounselsService,
-    private readonly counselMessageService: CounselMessagesService,
-    private readonly counselTechniqueService: CounselTechniquesService,
     private readonly counselorService: CounselorsService,
+    private readonly counselMessageService: CounselMessagesService,
     private readonly promptVersionsService: PromptVersionsService,
+    private readonly counselTechniqueService: CounselTechniquesService,
+    private readonly personaPromptService: PersonaPromptsService,
+    private readonly tonePromptService: TonePromptsService,
     private readonly llmService: LlmService,
-    private readonly transitionCounselTechniqueUseCase: TransitionCounselTechniqueUseCase,
-    private readonly makeSystemPromptUseCase: MakeSystemPromptUseCase,
   ) {}
 
   async execute(request: ProceedCounselingRequest): Promise<ProceedCounselingResponse> {
-    const { counsel, userMessage } = request;
+    const { counselId, userMessage } = request;
+
+    let counsel = await this.counselService.getOne({ counselId });
 
     // 상담사 조회
-    const counselor = await this.counselorService.getOne({ counselorId: counsel.counselorId });
+    const counselor = await this.counselorService.getOne({ counselorId: new UniqueEntityId(counsel.counselorId) });
 
     // 이전 대화 조회
-    const counselMessages = await this.counselMessageService.findMany({ counselId: counsel.id });
+    const counselMessages = await this.counselMessageService.getMany({ counselId: new UniqueEntityId(counsel.id) });
 
     // 프롬프트 버전 조회
-    const promptVersion = await this.promptVersionsService.getOne({ promptVersionId: counsel.promptVersionId });
-    const counselorScopedPromptResult = promptVersion.getCounselorScopedPrompt(new UniqueEntityId(counselor.id));
-    if (counselorScopedPromptResult.isFailure) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        counselorScopedPromptResult.error as string,
-      );
+    const promptVersion = await this.promptVersionsService.getOne({
+      promptVersionId: new UniqueEntityId(counsel.promptVersionId),
+    });
+    const counselorScopedPrompt = promptVersion.counselorScopedPrompts.find(
+      (prompt) => prompt.counselorId === counselor.id,
+    );
+    if (!counselorScopedPrompt) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Counselor scoped prompt not found");
     }
-    const counselorScopedPrompt = counselorScopedPromptResult.value;
-    const toneScopedPromptResult = promptVersion.getToneScopedPrompt(new UniqueEntityId(counselor.toneId));
-    if (toneScopedPromptResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, toneScopedPromptResult.error as string);
+    const toneScopedPrompt = promptVersion.toneScopedPrompts.find((prompt) => prompt.toneId === counselor.toneId);
+    if (!toneScopedPrompt) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Tone scoped prompt not found");
     }
-    const toneScopedPrompt = toneScopedPromptResult.value;
 
     // 상담기법 초기화 여부 확인
-    if (this.needCounselTechniqueReset(counselMessages[counselMessages.length - 1])) {
+    const lastMessageCreatedAt = counselMessages[counselMessages.length - 1].createdAt;
+    const now = getNowDayjs();
+    if (now.diff(lastMessageCreatedAt) > this.TimeDurationForPromptReset) {
       const firstCounselTechniqueId = toneScopedPrompt.firstCounselTechniqueId;
       if (!firstCounselTechniqueId) {
         throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "First counsel technique not found");
       }
-      counsel.updateCounselTechniqueId(firstCounselTechniqueId);
-      await this.counselService.update(counsel);
+      counsel = await this.counselService.updateCounselTechniqueId({
+        counselId: new UniqueEntityId(counsel.id),
+        counselTechniqueId: new UniqueEntityId(firstCounselTechniqueId),
+      });
     }
+
+    // 상담 기법 조회
+    let counselTechnique = await this.counselTechniqueService.getOne({
+      counselTechniqueId: new UniqueEntityId(counsel.counselTechniqueId),
+    });
+
     // 상담 기법 변경 여부 확인
-    else if (await this.needCounselTechniqueTransition(counselMessages)) {
-      const transitionCounselTechniqueResponse = await this.transitionCounselTechniqueUseCase.execute({ counsel });
-      if (!transitionCounselTechniqueResponse.ok) {
-        throw new HttpStatusBasedRpcException(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          transitionCounselTechniqueResponse.error as string,
-        );
+    let messageCountAtCurrentTechnique = 0;
+    for (let i = counselMessages.length - 1; i >= 0; i--) {
+      const message = counselMessages[i];
+      if (!message.isUserMessage) {
+        continue;
+      }
+      if (message.counselTechniqueId !== counsel.counselTechniqueId) {
+        break;
+      }
+      messageCountAtCurrentTechnique++;
+    }
+    if (messageCountAtCurrentTechnique >= counselTechnique.messageThreshold) {
+      if (counselTechnique.nextTechniqueId) {
+        // 다음 상담 기법으로 전환
+        counselTechnique = await this.counselTechniqueService.getOne({
+          counselTechniqueId: new UniqueEntityId(counselTechnique.nextTechniqueId),
+        });
+        counsel = await this.counselService.updateCounselTechniqueId({
+          counselId: new UniqueEntityId(counsel.id),
+          counselTechniqueId: new UniqueEntityId(counselTechnique.id),
+        });
+      } else {
+        // TODO: 마지막 상담 기법인 경우
       }
     }
+
     const personaPromptId = counselorScopedPrompt.personaPromptId;
     const tonePromptId = toneScopedPrompt.tonePromptId;
     if (!tonePromptId) {
@@ -86,27 +112,29 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
     }
 
     const prompts: LlmRequest[] = [];
+
     // 시스템 프롬프트 생성
-    const makeSystemPromptResult = await this.makeSystemPromptUseCase.execute({
-      personaPromptId,
-      tonePromptId,
-      counselTechniqueId: counsel.counselTechniqueId,
-      userId: counsel.userId,
-    });
-    if (!makeSystemPromptResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, makeSystemPromptResult.error as string);
-    }
-    const prompt = makeSystemPromptResult.prompt;
-    if (!isDefined(prompt)) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Make System Prompt failed");
-    }
+    const persona = (await this.personaPromptService.getOne({ personaPromptId: new UniqueEntityId(personaPromptId) }))
+      .body;
+    const tone = (await this.tonePromptService.getOne({ tonePromptId: new UniqueEntityId(tonePromptId) })).body;
+    const context = counselTechnique.context;
+    const instruction = counselTechnique.instruction;
+
+    // TODO: contextVariables 처리
+
+    const personaPrompt = `<persona>\n${persona}`;
+    const contextPrompt = `<context>\n${context}`;
+    const instructionPrompt = `<instruction>\n${instruction}`;
+    const tonePrompt = `<tone>\n${tone}`;
+    const content = [personaPrompt, contextPrompt, instructionPrompt, tonePrompt].join("\n\n");
+    const prompt: LlmRequest = this.llmService.createLlmRequest("system", content);
     prompts.push(prompt);
 
     // 유저 메시지 생성
     const createdUserMessage = await this.counselMessageService.create({
-      counselId: counsel.id,
-      userId: counsel.userId,
-      counselTechniqueId: counsel.counselTechniqueId,
+      counselId: new UniqueEntityId(counsel.id),
+      userId: new UniqueEntityId(counsel.userId),
+      counselTechniqueId: new UniqueEntityId(counsel.counselTechniqueId),
       message: userMessage,
       isUserMessage: true,
     });
@@ -129,19 +157,18 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
 
     // 시스템 메시지 생성
     const createdSystemMessage = await this.counselMessageService.create({
-      counselId: counsel.id,
-      userId: counsel.userId,
-      counselTechniqueId: counsel.counselTechniqueId,
+      counselId: new UniqueEntityId(counsel.id),
+      userId: new UniqueEntityId(counsel.userId),
+      counselTechniqueId: new UniqueEntityId(counsel.counselTechniqueId),
       message: llmResponse.content,
       isUserMessage: false,
     });
 
-    // 상담 업데이트
-    const saveLastMessageResult = counsel.saveLastMessage(createdSystemMessage);
-    if (saveLastMessageResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, saveLastMessageResult.error as string);
-    }
-    await this.counselService.update(counsel);
+    // 상담 정보 최신화
+    counsel = await this.counselService.saveLastMessage({
+      counselId: new UniqueEntityId(counsel.id),
+      lastMessage: createdSystemMessage.message,
+    });
 
     return {
       ok: true,
@@ -149,30 +176,5 @@ export class ProceedCounselingUseCase implements UseCase<ProceedCounselingReques
       createdCounselMessage: createdUserMessage,
       counselorResponseMessage: createdSystemMessage,
     };
-  }
-
-  private needCounselTechniqueReset(lastCounselMessages: CounselMessages): boolean {
-    const lastMessageCreatedAt = lastCounselMessages.createdAt;
-    const now = getNowDayjs();
-    return now.diff(lastMessageCreatedAt) > this.TimeDurationForPromptReset;
-  }
-
-  private async needCounselTechniqueTransition(counselMessages: CounselMessages[]): Promise<boolean> {
-    let messageCountAtCurrentTechnique = 0;
-    const currentCounselTechniqueId = counselMessages[counselMessages.length - 1].counselTechniqueId;
-    const currentCounselTechnique = await this.counselTechniqueService.getOne({
-      counselTechniqueId: currentCounselTechniqueId,
-    });
-    for (let i = counselMessages.length - 1; i >= 0; i--) {
-      const message = counselMessages[i];
-      if (!message.isUserMessage) {
-        continue;
-      }
-      if (!message.counselTechniqueId.equals(currentCounselTechniqueId)) {
-        break;
-      }
-      messageCountAtCurrentTechnique++;
-    }
-    return messageCountAtCurrentTechnique >= currentCounselTechnique.messageThreshold;
   }
 }

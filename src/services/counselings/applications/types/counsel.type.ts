@@ -1,7 +1,7 @@
-import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
-import { Counsels } from "~counselings/domains/counsels/models/counsels";
+import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
+import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 
 export type CounselWithMessages = {
-  counsel: Counsels;
-  counselMessages: CounselMessages[];
+  counsel: CounselInfo;
+  counselMessages: CounselMessageInfo[];
 };

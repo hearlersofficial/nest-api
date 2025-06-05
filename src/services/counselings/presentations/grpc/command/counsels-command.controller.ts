@@ -1,5 +1,4 @@
-import { CounselMessagesFacade } from "~counselings/applications/counselMessages.facade";
-import { CounselsFacade } from "~counselings/applications/counsels.facade";
+import { CounselManagementsFacade } from "~counselings/applications/counsel-managements/counsel-managements.facade";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/counsels.mapper";
 import {
   CreateCounselRequest,
@@ -23,16 +22,13 @@ import { ProtoRequest } from "~common/shared/utils/rpc";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 @Controller("counsel")
 export class GrpcCounselCommandController {
-  constructor(
-    private readonly counselsFacade: CounselsFacade,
-    private readonly counselMessagesFacade: CounselMessagesFacade,
-  ) {}
+  constructor(private readonly counselManagementsFacade: CounselManagementsFacade) {}
 
   @GrpcMethod("CounselService", "CreateCounsel")
   @ProtoRequest(CreateCounselRequestSchema)
   async createCounsel(request: CreateCounselRequest): Promise<CreateCounselResponse> {
     const { userId, counselorId, introMessage, responseMessage } = request;
-    const { counsel, counselMessages } = await this.counselsFacade.createCounsel({
+    const { counsel, counselMessages } = await this.counselManagementsFacade.createCounsel({
       userId: new UniqueEntityId(userId),
       counselorId: new UniqueEntityId(counselorId),
       introMessage,
@@ -50,7 +46,7 @@ export class GrpcCounselCommandController {
   @ProtoRequest(CreateMessageRequestSchema)
   async createCounselMessage(request: CreateMessageRequest): Promise<CreateMessageResponse> {
     const { counselId, message } = request;
-    const { createdCounselMessage, counselorResponseMessage } = await this.counselMessagesFacade.createMessage({
+    const { createdCounselMessage, counselorResponseMessage } = await this.counselManagementsFacade.createMessage({
       counselId: new UniqueEntityId(counselId),
       message,
     });
@@ -64,8 +60,8 @@ export class GrpcCounselCommandController {
   @ProtoRequest(ReactMessageRequestSchema)
   async reactCounselMessage(request: ReactMessageRequest): Promise<ReactMessageResponse> {
     const { messageId, reaction } = request;
-    const counselMessage = await this.counselMessagesFacade.reactMessage({
-      counselMessageId: new UniqueEntityId(messageId),
+    const counselMessage = await this.counselManagementsFacade.reactMessage({
+      messageId: new UniqueEntityId(messageId),
       reaction,
     });
 

@@ -1,5 +1,4 @@
-import { CounselMessagesFacade } from "~counselings/applications/counselMessages.facade";
-import { CounselsFacade } from "~counselings/applications/counsels.facade";
+import { CounselManagementsFacade } from "~counselings/applications/counsel-managements/counsel-managements.facade";
 import { SchemaCounselsMapper } from "~counselings/presentations/grpc/counsels.mapper";
 import {
   FindCounselByIdRequest,
@@ -23,16 +22,13 @@ import { ProtoRequest } from "~common/shared/utils/rpc";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 @Controller("counsel")
 export class GrpcCounselQueryController {
-  constructor(
-    private readonly counselsFacade: CounselsFacade,
-    private readonly counselMessagesFacade: CounselMessagesFacade,
-  ) {}
+  constructor(private readonly counselManagementsFacade: CounselManagementsFacade) {}
 
   @GrpcMethod("CounselService", "FindCounsels")
   @ProtoRequest(FindCounselsRequestSchema)
   async findCounsels(request: FindCounselsRequest): Promise<FindCounselsResponse> {
     const { userId, counselorId } = request;
-    const counsels = await this.counselsFacade.findCounsels({
+    const counsels = await this.counselManagementsFacade.findCounsels({
       userId: new UniqueEntityId(userId),
       counselorId: counselorId ? new UniqueEntityId(counselorId) : undefined,
     });
@@ -45,7 +41,7 @@ export class GrpcCounselQueryController {
   @ProtoRequest(FindCounselByIdRequestSchema)
   async findCounselById(request: FindCounselByIdRequest): Promise<FindCounselByIdResponse> {
     const { counselId } = request;
-    const counsel = await this.counselsFacade.findCounselById({
+    const counsel = await this.counselManagementsFacade.findCounselById({
       counselId: new UniqueEntityId(counselId),
     });
     return create(FindCounselByIdResponseSchema, {
@@ -57,7 +53,7 @@ export class GrpcCounselQueryController {
   @ProtoRequest(FindMessagesRequestSchema)
   async findMessages(request: FindMessagesRequest): Promise<FindMessagesResponse> {
     const { counselId } = request;
-    const counselMessages = await this.counselMessagesFacade.findMessages({
+    const counselMessages = await this.counselManagementsFacade.findMessages({
       counselId: new UniqueEntityId(counselId),
     });
     return create(FindMessagesResponseSchema, {

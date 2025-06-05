@@ -9,6 +9,7 @@ import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
+import { de } from "@faker-js/faker";
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -31,10 +32,10 @@ export class CounselManagementsFacade {
   async createCounsel(params: {
     userId: UniqueEntityId;
     counselorId: UniqueEntityId;
-    introMessage?: string;
-    responseMessage?: string;
+    bubbleId?: UniqueEntityId;
+    responseOptionNumber?: number;
   }): Promise<CounselWithMessages> {
-    const { userId, counselorId, introMessage, responseMessage } = params;
+    const { userId, counselorId, bubbleId, responseOptionNumber } = params;
 
     const counselor = await this.counselorService.getOne({ counselorId });
     const activeVersion = await this.promptVersionsService.getActiveOne();
@@ -58,12 +59,26 @@ export class CounselManagementsFacade {
 
     const counselMessagesResult: CounselMessageInfo[] = [];
     // 버블이 있을때
-    if (introMessage !== undefined || responseMessage !== undefined) {
-      if (introMessage === undefined) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Intro message is required");
+    if (bubbleId !== undefined) {
+      if (responseOptionNumber === undefined) {
+        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Response option number is required");
       }
-      if (responseMessage === undefined) {
-        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Response message is required");
+
+      const bubble = await this.counselorService.getBubbleById(bubbleId);
+      const introMessage = bubble.question;
+      let responseMessage;
+      switch (responseOptionNumber) {
+        case 1:
+          responseMessage = bubble.responseOption1;
+          break;
+        case 2:
+          responseMessage = bubble.responseOption2;
+          break;
+        default:
+          throw new HttpStatusBasedRpcException(
+            HttpStatus.BAD_REQUEST,
+            "Response option number must be between 1 and 2",
+          );
       }
 
       const createdIntroMessage = await this.counselMessagesService.create({

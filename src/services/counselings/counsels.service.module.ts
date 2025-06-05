@@ -11,14 +11,12 @@ import { GrpcCounselQueryController } from "~counselings/presentations/grpc/quer
 import { GrpcEpisodeQueryController } from "~counselings/presentations/grpc/query/episodes-query.controller";
 
 import { Inject, Logger, Module, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
-import { CqrsModule } from "@nestjs/cqrs";
 import { ClientKafka, ClientsModule } from "@nestjs/microservices";
 import { ImageStorageConfig } from "~common/support/image-storage/image-storage.config";
 import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 
 @Module({
   imports: [
-    CqrsModule,
     CounselorManagementsModule,
     CounselPromptManagementsModule,
     CounselManagementsModule,

@@ -144,12 +144,9 @@ export class Counsels extends AggregateRoot<CounselsProps> {
   }
 
   // Methods
-  public saveLastMessage(counselMessage: CounselMessages): Result<void> {
-    if (!counselMessage.counselId.equals(this.id)) {
-      return Result.fail("[Counsels] 메시지의 상담 ID가 일치하지 않습니다");
-    }
-    this.props.lastMessage = counselMessage.message;
-    this.props.lastChatedAt = counselMessage.createdAt;
+  public saveLastMessage(lastMessage: string): Result<void> {
+    this.props.lastMessage = lastMessage;
+    this.props.lastChatedAt = getNowDayjs();
     return Result.ok();
   }
 

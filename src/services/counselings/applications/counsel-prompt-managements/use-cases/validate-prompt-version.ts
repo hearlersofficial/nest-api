@@ -1,7 +1,7 @@
 import {
   ValidatePromptVersionRequest,
   ValidatePromptVersionResponse,
-} from "~counselings/applications/use-cases/dtos/validate-prompt-version.dto";
+} from "~counselings/applications/counsel-prompt-managements/use-cases/dtos/validate-prompt-version.dto";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { TonesService } from "~counselings/domains/tones/tones.service";
 

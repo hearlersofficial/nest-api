@@ -1,5 +1,5 @@
 import { CounselPromptManagementsFacade } from "~counselings/applications/counsel-prompt-managements/counsel-prompt-managements.facade";
-import { ValidatePromptVersionUseCase } from "~counselings/applications/use-cases/validate-prompt-version";
+import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
 import { LlmModule } from "~counselings/domains/llm/llm.module";

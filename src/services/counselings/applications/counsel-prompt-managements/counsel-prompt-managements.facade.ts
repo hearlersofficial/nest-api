@@ -1,4 +1,4 @@
-import { ValidatePromptVersionUseCase } from "~counselings/applications/use-cases/validate-prompt-version";
+import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
 import { LlmService } from "~counselings/domains/llm/llm.service";

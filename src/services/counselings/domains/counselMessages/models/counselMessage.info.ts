@@ -1,4 +1,5 @@
 import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
+import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { Dayjs } from "dayjs";
 
@@ -10,6 +11,8 @@ export class CounselMessageInfo {
     public readonly counselTechniqueId: string,
     public readonly message: string,
     public readonly isUserMessage: boolean,
+    public readonly reactedAt: Dayjs | null,
+    public readonly reaction: CounselMessageReaction | null,
     public readonly createdAt: Dayjs,
     public readonly updatedAt: Dayjs,
     public readonly deletedAt: Dayjs | null,
@@ -23,6 +26,8 @@ export class CounselMessageInfo {
       counselMessage.counselTechniqueId.getString(),
       counselMessage.message,
       counselMessage.isUserMessage,
+      counselMessage.reactedAt,
+      counselMessage.reaction,
       counselMessage.createdAt,
       counselMessage.updatedAt,
       counselMessage.deletedAt,

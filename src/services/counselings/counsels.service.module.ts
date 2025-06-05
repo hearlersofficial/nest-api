@@ -1,21 +1,6 @@
+import { CounselManagementsModule } from "~counselings/applications/counsel-managements/counsel-managements.module";
 import { CounselPromptManagementsModule } from "~counselings/applications/counsel-prompt-managements/counsel-prompt-managements.module";
-import { CounselMessagesFacade } from "~counselings/applications/counselMessages.facade";
 import { CounselorManagementsModule } from "~counselings/applications/counselor-managements/counselor-managements.module";
-import { CounselsFacade } from "~counselings/applications/counsels.facade";
-import { MakeSystemPromptUseCase } from "~counselings/applications/use-cases/make-system-prompt";
-import { ProceedCounselingUseCase } from "~counselings/applications/use-cases/proceed-counseling";
-import { TransitionCounselTechniqueUseCase } from "~counselings/applications/use-cases/transition-counselTechique";
-import { ValidatePromptVersionUseCase } from "~counselings/applications/use-cases/validate-prompt-version";
-import { CounselMessagesModule } from "~counselings/domains/counselMessages/counselMessages.module";
-import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
-import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
-import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
-import { LlmModule } from "~counselings/domains/llm/llm.module";
-import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
-import { PromptActivateHistoryModule } from "~counselings/domains/promptActivateHistory/promptActivateHistory.module";
-import { PromptVersionsModule } from "~counselings/domains/promptVersions/promptVersions.module";
-import { TonePromptsModule } from "~counselings/domains/tonePrompts/tonePrompts.module";
-import { TonesModule } from "~counselings/domains/tones/tones.module";
 import { GrpcCounselorCommandController } from "~counselings/presentations/grpc/command/counselors-command.controller";
 import { GrpcCounselPromptCommandController } from "~counselings/presentations/grpc/command/counselPrompts-command.controller";
 import { GrpcCounselCommandController } from "~counselings/presentations/grpc/command/counsels-command.controller";
@@ -34,10 +19,9 @@ import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeor
 @Module({
   imports: [
     CqrsModule,
-    CounselsModule,
-    CounselMessagesModule,
     CounselorManagementsModule,
     CounselPromptManagementsModule,
+    CounselManagementsModule,
     ClientsModule.registerAsync({ clients: [{ useClass: ClientsConfigs, name: KAFKA_CLIENT }], isGlobal: true }),
   ],
   controllers: [
@@ -54,11 +38,6 @@ import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeor
     ImageStorageConfig.register({
       prefix: "counselings",
     }),
-    CounselsFacade,
-    CounselMessagesFacade,
-    TransitionCounselTechniqueUseCase,
-    MakeSystemPromptUseCase,
-    ProceedCounselingUseCase,
   ],
 })
 export class CounselsServiceModule implements OnModuleInit, OnModuleDestroy {

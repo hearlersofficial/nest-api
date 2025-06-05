@@ -1,13 +1,11 @@
-import {
-  PromptActivateHistories,
-  PromptActivateHistoriesNewProps,
-} from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+import { PromptActivateHistoriesNewProps } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+import { PromptActivateHistoryInfo } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory.info";
 import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/promptActivateHistory/promptActivateHistory.criteria";
 import { PromptActivateHistoryPersister } from "~counselings/domains/promptActivateHistory/promptActivateHistory.persister";
 import { PromptActivateHistoryReader } from "~counselings/domains/promptActivateHistory/promptActivateHistory.reader";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class PromptActivateHistoryService {
@@ -16,27 +14,14 @@ export class PromptActivateHistoryService {
     private readonly promptActivateHistoryPersister: PromptActivateHistoryPersister,
   ) {}
 
-  async create(promptActivateHistory: PromptActivateHistoriesNewProps): Promise<PromptActivateHistories> {
-    return this.promptActivateHistoryPersister.create(promptActivateHistory);
+  @Transactional()
+  async create(promptActivateHistory: PromptActivateHistoriesNewProps): Promise<PromptActivateHistoryInfo> {
+    const history = await this.promptActivateHistoryPersister.create(promptActivateHistory);
+    return PromptActivateHistoryInfo.fromDomain(history);
   }
 
-  async update(promptActivateHistory: PromptActivateHistories): Promise<PromptActivateHistories> {
-    return this.promptActivateHistoryPersister.update(promptActivateHistory);
-  }
-
-  async findOne(props: { promptActivateHistoryId: UniqueEntityId }): Promise<PromptActivateHistories | null> {
-    return this.promptActivateHistoryReader.findOne(props);
-  }
-
-  async getOne(props: { promptActivateHistoryId: UniqueEntityId }): Promise<PromptActivateHistories> {
-    const promptActivateHistory = await this.findOne(props);
-    if (!promptActivateHistory) {
-      throw new Error("PromptActivateHistory not found");
-    }
-    return promptActivateHistory;
-  }
-
-  async findMany(props: PromptActivateHistoryCriteriaFindMany): Promise<PromptActivateHistories[]> {
-    return this.promptActivateHistoryReader.findMany(props);
+  async getMany(props: PromptActivateHistoryCriteriaFindMany): Promise<PromptActivateHistoryInfo[]> {
+    const histories = await this.promptActivateHistoryReader.findMany(props);
+    return PromptActivateHistoryInfo.fromDomainArray(histories);
   }
 }

@@ -1,11 +1,14 @@
 import { CounselMessagesCriteriaFindMany } from "~counselings/domains/counselMessages/counselMessages.criteria";
 import { CounselMessagesPersister } from "~counselings/domains/counselMessages/counselMessages.persister";
 import { CounselMessagesReader } from "~counselings/domains/counselMessages/counselMessages.reader";
-import { CounselMessages, CounselMessagesNewProps } from "~counselings/domains/counselMessages/models/counselMessages";
+import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
+import { CounselMessagesNewProps } from "~counselings/domains/counselMessages/models/counselMessages";
+import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselMessagesService {
@@ -14,27 +17,31 @@ export class CounselMessagesService {
     private readonly counselMessagesPersister: CounselMessagesPersister,
   ) {}
 
-  async create(newProps: CounselMessagesNewProps): Promise<CounselMessages> {
-    return this.counselMessagesPersister.create(newProps);
+  @Transactional()
+  async create(newProps: CounselMessagesNewProps): Promise<CounselMessageInfo> {
+    const counselMessage = await this.counselMessagesPersister.create(newProps);
+    return CounselMessageInfo.fromDomain(counselMessage);
   }
 
-  async update(counselMessage: CounselMessages): Promise<CounselMessages> {
-    return this.counselMessagesPersister.update(counselMessage);
+  async getMany(props: CounselMessagesCriteriaFindMany): Promise<CounselMessageInfo[]> {
+    const counselMessages = await this.counselMessagesReader.findMany(props);
+    return counselMessages.map(CounselMessageInfo.fromDomain);
   }
 
-  async findOne(props: { counselMessageId: UniqueEntityId }): Promise<CounselMessages | null> {
-    return this.counselMessagesReader.findOne(props);
-  }
-
-  async getOne(props: { counselMessageId: UniqueEntityId }): Promise<CounselMessages> {
-    const counselMessage = await this.findOne(props);
+  @Transactional()
+  async reactMessage(props: {
+    counselMessageId: UniqueEntityId;
+    reaction: CounselMessageReaction;
+  }): Promise<CounselMessageInfo> {
+    const { counselMessageId, reaction } = props;
+    const counselMessage = await this.counselMessagesReader.findOne({ counselMessageId });
     if (!counselMessage) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel message not found");
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "CounselMessage not found");
     }
-    return counselMessage;
-  }
 
-  async findMany(props: CounselMessagesCriteriaFindMany): Promise<CounselMessages[]> {
-    return this.counselMessagesReader.findMany(props);
+    counselMessage.react(reaction);
+
+    const updatedCounselMessage = await this.counselMessagesPersister.update(counselMessage);
+    return CounselMessageInfo.fromDomain(updatedCounselMessage);
   }
 }

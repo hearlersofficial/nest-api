@@ -1,10 +1,10 @@
-import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
-import { PersonaPrompts } from "~counselings/domains/personaPrompts/models/personaPrompts";
-import { PromptActivateHistories } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
-import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
-import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
-import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
-import { TonePrompts } from "~counselings/domains/tonePrompts/models/tonePrompts";
+import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
+import { PersonaPromptInfo } from "~counselings/domains/personaPrompts/models/personaPrompt.info";
+import { PromptActivateHistoryInfo } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory.info";
+import { CounselorScopedPromptInfo } from "~counselings/domains/promptVersions/models/counselorScopedPrompt.info";
+import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
+import { ToneScopedPromptInfo } from "~counselings/domains/promptVersions/models/toneScopedPrompt.info";
+import { TonePromptInfo } from "~counselings/domains/tonePrompts/models/tonePrompt.info";
 import {
   CounselorScopedPrompt,
   CounselorScopedPromptSchema,
@@ -26,15 +26,15 @@ import { create } from "@bufbuild/protobuf";
 
 export class SchemaCounselPromptsMapper {
   static toPromptVersionProto(promptVersion: null): null;
-  static toPromptVersionProto(promptVersion: PromptVersions): PromptVersion;
-  static toPromptVersionProto(promptVersion: PromptVersions | null): PromptVersion | null;
-  static toPromptVersionProto(promptVersion: PromptVersions | null): PromptVersion | null {
+  static toPromptVersionProto(promptVersion: PromptVersionInfo): PromptVersion;
+  static toPromptVersionProto(promptVersion: PromptVersionInfo | null): PromptVersion | null;
+  static toPromptVersionProto(promptVersion: PromptVersionInfo | null): PromptVersion | null {
     if (!promptVersion) {
       return null;
     }
 
     return create(PromptVersionSchema, {
-      id: promptVersion.id.getString(),
+      id: promptVersion.id,
       name: promptVersion.name,
       description: promptVersion.description,
       isActive: promptVersion.isActive,
@@ -54,36 +54,36 @@ export class SchemaCounselPromptsMapper {
   }
 
   static toCounselorScopedPromptProto(counselorScopedPrompt: null): null;
-  static toCounselorScopedPromptProto(counselorScopedPrompt: CounselorScopedPrompts): CounselorScopedPrompt;
+  static toCounselorScopedPromptProto(counselorScopedPrompt: CounselorScopedPromptInfo): CounselorScopedPrompt;
   static toCounselorScopedPromptProto(
-    counselorScopedPrompt: CounselorScopedPrompts | null,
+    counselorScopedPrompt: CounselorScopedPromptInfo | null,
   ): CounselorScopedPrompt | null;
   static toCounselorScopedPromptProto(
-    counselorScopedPrompt: CounselorScopedPrompts | null,
+    counselorScopedPrompt: CounselorScopedPromptInfo | null,
   ): CounselorScopedPrompt | null {
     if (!counselorScopedPrompt) {
       return null;
     }
     return create(CounselorScopedPromptSchema, {
-      counselorId: counselorScopedPrompt.counselorId.getString(),
-      personaPromptId: counselorScopedPrompt.personaPromptId.getString(),
+      counselorId: counselorScopedPrompt.counselorId,
+      personaPromptId: counselorScopedPrompt.personaPromptId,
       createdAt: counselorScopedPrompt.createdAt.toISOString(),
       updatedAt: counselorScopedPrompt.updatedAt.toISOString(),
       deletedAt: counselorScopedPrompt.deletedAt ? counselorScopedPrompt.deletedAt.toISOString() : undefined,
     });
   }
 
-  static toToneScopedPromptProto(toneScopedPrompt: ToneScopedPrompts): ToneScopedPrompt;
-  static toToneScopedPromptProto(toneScopedPrompt: ToneScopedPrompts | null): ToneScopedPrompt | null;
-  static toToneScopedPromptProto(toneScopedPrompt: ToneScopedPrompts | null): ToneScopedPrompt | null {
+  static toToneScopedPromptProto(toneScopedPrompt: ToneScopedPromptInfo): ToneScopedPrompt;
+  static toToneScopedPromptProto(toneScopedPrompt: ToneScopedPromptInfo | null): ToneScopedPrompt | null;
+  static toToneScopedPromptProto(toneScopedPrompt: ToneScopedPromptInfo | null): ToneScopedPrompt | null {
     if (!toneScopedPrompt) {
       return null;
     }
     return create(ToneScopedPromptSchema, {
-      toneId: toneScopedPrompt.toneId.getString(),
-      tonePromptId: toneScopedPrompt.tonePromptId ? toneScopedPrompt.tonePromptId.getString() : undefined,
+      toneId: toneScopedPrompt.toneId,
+      tonePromptId: toneScopedPrompt.tonePromptId ? toneScopedPrompt.tonePromptId : undefined,
       firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId
-        ? toneScopedPrompt.firstCounselTechniqueId.getString()
+        ? toneScopedPrompt.firstCounselTechniqueId
         : undefined,
       createdAt: toneScopedPrompt.createdAt.toISOString(),
       updatedAt: toneScopedPrompt.updatedAt.toISOString(),
@@ -92,16 +92,16 @@ export class SchemaCounselPromptsMapper {
   }
 
   static toPersonaPromptProto(personaPrompt: null): null;
-  static toPersonaPromptProto(personaPrompt: PersonaPrompts): PersonaPrompt;
-  static toPersonaPromptProto(personaPrompt: PersonaPrompts | null): PersonaPrompt | null;
-  static toPersonaPromptProto(personaPrompt: PersonaPrompts | null): PersonaPrompt | null {
+  static toPersonaPromptProto(personaPrompt: PersonaPromptInfo): PersonaPrompt;
+  static toPersonaPromptProto(personaPrompt: PersonaPromptInfo | null): PersonaPrompt | null;
+  static toPersonaPromptProto(personaPrompt: PersonaPromptInfo | null): PersonaPrompt | null {
     if (!personaPrompt) {
       return null;
     }
     return create(PersonaPromptSchema, {
-      id: personaPrompt.id.getString(),
+      id: personaPrompt.id,
       body: personaPrompt.body,
-      counselorId: personaPrompt.counselorId.getString(),
+      counselorId: personaPrompt.counselorId,
       createdAt: personaPrompt.createdAt.toISOString(),
       updatedAt: personaPrompt.updatedAt.toISOString(),
       deletedAt: personaPrompt.deletedAt ? personaPrompt.deletedAt.toISOString() : undefined,
@@ -109,16 +109,16 @@ export class SchemaCounselPromptsMapper {
   }
 
   static toTonePromptProto(tonePrompt: null): null;
-  static toTonePromptProto(tonePrompt: TonePrompts): TonePrompt;
-  static toTonePromptProto(tonePrompt: TonePrompts | null): TonePrompt | null;
-  static toTonePromptProto(tonePrompt: TonePrompts | null): TonePrompt | null {
+  static toTonePromptProto(tonePrompt: TonePromptInfo): TonePrompt;
+  static toTonePromptProto(tonePrompt: TonePromptInfo | null): TonePrompt | null;
+  static toTonePromptProto(tonePrompt: TonePromptInfo | null): TonePrompt | null {
     if (!tonePrompt) {
       return null;
     }
     return create(TonePromptSchema, {
-      id: tonePrompt.id.getString(),
+      id: tonePrompt.id,
       body: tonePrompt.body,
-      toneId: tonePrompt.toneId.getString(),
+      toneId: tonePrompt.toneId,
       createdAt: tonePrompt.createdAt.toISOString(),
       updatedAt: tonePrompt.updatedAt.toISOString(),
       deletedAt: tonePrompt.deletedAt ? tonePrompt.deletedAt.toISOString() : undefined,
@@ -126,23 +126,21 @@ export class SchemaCounselPromptsMapper {
   }
 
   static toCounselTechniqueProto(counselTechnique: null): null;
-  static toCounselTechniqueProto(counselTechnique: CounselTechniques): CounselTechnique;
-  static toCounselTechniqueProto(counselTechnique: CounselTechniques | null): CounselTechnique | null;
-  static toCounselTechniqueProto(counselTechnique: CounselTechniques | null): CounselTechnique | null {
+  static toCounselTechniqueProto(counselTechnique: CounselTechniqueInfo): CounselTechnique;
+  static toCounselTechniqueProto(counselTechnique: CounselTechniqueInfo | null): CounselTechnique | null;
+  static toCounselTechniqueProto(counselTechnique: CounselTechniqueInfo | null): CounselTechnique | null {
     if (!counselTechnique) {
       return null;
     }
     return create(CounselTechniqueSchema, {
-      id: counselTechnique.id.getString(),
+      id: counselTechnique.id,
       name: counselTechnique.name,
-      toneId: counselTechnique.toneId.getString(),
+      toneId: counselTechnique.toneId,
       context: counselTechnique.context,
       instruction: counselTechnique.instruction,
       messageThreshold: counselTechnique.messageThreshold,
       isTemporary: counselTechnique.isTemporary,
-      nextCounselTechniqueId: counselTechnique.nextTechniqueId
-        ? counselTechnique.nextTechniqueId.getString()
-        : undefined,
+      nextCounselTechniqueId: counselTechnique.nextTechniqueId ? counselTechnique.nextTechniqueId : undefined,
       createdAt: counselTechnique.createdAt.toISOString(),
       updatedAt: counselTechnique.updatedAt.toISOString(),
       deletedAt: counselTechnique.deletedAt ? counselTechnique.deletedAt.toISOString() : undefined,
@@ -151,19 +149,19 @@ export class SchemaCounselPromptsMapper {
 
   // PromptActivateHistory
   static toPromptActivateHistoryProto(promptActivateHistory: null): null;
-  static toPromptActivateHistoryProto(promptActivateHistory: PromptActivateHistories): PromptActivateHistory;
+  static toPromptActivateHistoryProto(promptActivateHistory: PromptActivateHistoryInfo): PromptActivateHistory;
   static toPromptActivateHistoryProto(
-    promptActivateHistory: PromptActivateHistories | null,
+    promptActivateHistory: PromptActivateHistoryInfo | null,
   ): PromptActivateHistory | null;
   static toPromptActivateHistoryProto(
-    promptActivateHistory: PromptActivateHistories | null,
+    promptActivateHistory: PromptActivateHistoryInfo | null,
   ): PromptActivateHistory | null {
     if (!promptActivateHistory) {
       return null;
     }
     return create(PromptActivateHistorySchema, {
-      id: promptActivateHistory.id.getString(),
-      promptVersionId: promptActivateHistory.promptVersionId.getString(),
+      id: promptActivateHistory.id,
+      promptVersionId: promptActivateHistory.promptVersionId,
       activatedAt: promptActivateHistory.activatedAt.toISOString(),
       createdAt: promptActivateHistory.createdAt.toISOString(),
       updatedAt: promptActivateHistory.updatedAt.toISOString(),

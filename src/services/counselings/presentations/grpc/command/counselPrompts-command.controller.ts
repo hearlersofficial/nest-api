@@ -1,8 +1,4 @@
-import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
-import { LlmFacade } from "~counselings/applications/llm.facade";
-import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
-import { PromptVersionsFacade } from "~counselings/applications/promptVersions.facade";
-import { TonePromptsFacade } from "~counselings/applications/tonePrompts.facade";
+import { CounselPromptManagementsFacade } from "~counselings/applications/counsel-prompt-managements/counsel-prompt-managements.facade";
 import { SchemaCounselPromptsMapper } from "~counselings/presentations/grpc/counselPrompts.mapper";
 import {
   ActivatePromptVersionRequest,
@@ -59,13 +55,7 @@ import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Controller("counsel_prompt")
 export class GrpcCounselPromptCommandController {
-  constructor(
-    private readonly counselTechniquesFacade: CounselTechniquesFacade,
-    private readonly promptVersionsFacade: PromptVersionsFacade,
-    private readonly personaPromptsFacade: PersonaPromptsFacade,
-    private readonly tonePromptsFacade: TonePromptsFacade,
-    private readonly llmFacade: LlmFacade,
-  ) {}
+  constructor(private readonly counselPromptManagementsFacade: CounselPromptManagementsFacade) {}
 
   // Prompt Version
   @GrpcMethod("CounselPromptService", "LoadExistingPromptVersion")
@@ -74,7 +64,7 @@ export class GrpcCounselPromptCommandController {
     request: LoadExistingPromptVersionRequest,
   ): Promise<LoadExistingPromptVersionResponse> {
     const { promptVersionId } = request;
-    const promptVersion = await this.promptVersionsFacade.loadExistingPromptVersion({
+    const promptVersion = await this.counselPromptManagementsFacade.loadExistingPromptVersion({
       promptVersionId: new UniqueEntityId(promptVersionId),
     });
     return create(LoadExistingPromptVersionResponseSchema, {
@@ -86,7 +76,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(SaveTemporaryVersionRequestSchema)
   async saveTemporaryVersion(request: SaveTemporaryVersionRequest): Promise<SaveTemporaryVersionResponse> {
     const { name, description, isBookmarked, gptModel } = request;
-    const promptVersion = await this.promptVersionsFacade.saveTemporaryVersion({
+    const promptVersion = await this.counselPromptManagementsFacade.saveTemporaryPromptVersion({
       name,
       description,
       isBookmarked,
@@ -101,7 +91,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(ActivatePromptVersionRequestSchema)
   async activatePromptVersion(request: ActivatePromptVersionRequest): Promise<ActivatePromptVersionResponse> {
     const { promptVersionId } = request;
-    const promptVersion = await this.promptVersionsFacade.activatePromptVersion({
+    const promptVersion = await this.counselPromptManagementsFacade.activatePromptVersion({
       promptVersionId: new UniqueEntityId(promptVersionId),
     });
     return create(ActivatePromptVersionResponseSchema, {
@@ -113,7 +103,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(UpdatePromptVersionRequestSchema)
   async updatePromptVersion(request: UpdatePromptVersionRequest): Promise<UpdatePromptVersionResponse> {
     const { promptVersionId, name, description, isBookmarked, gptModel } = request;
-    const promptVersion = await this.promptVersionsFacade.updatePromptVersion({
+    const promptVersion = await this.counselPromptManagementsFacade.updatePromptVersion({
       promptVersionId: new UniqueEntityId(promptVersionId),
       name,
       description,
@@ -129,7 +119,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(DeletePromptVersionsRequestSchema)
   async deletePromptVersions(request: DeletePromptVersionsRequest): Promise<DeletePromptVersionsResponse> {
     const { promptVersionIds } = request;
-    await this.promptVersionsFacade.deletePromptVersions({
+    await this.counselPromptManagementsFacade.deletePromptVersions({
       promptVersionIds: promptVersionIds.map((id) => new UniqueEntityId(id)),
     });
     return create(DeletePromptVersionsResponseSchema, {});
@@ -140,7 +130,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(UpdatePersonaPromptRequestSchema)
   async updatePersonaPrompt(request: UpdatePersonaPromptRequest): Promise<UpdatePersonaPromptResponse> {
     const { counselorId, body } = request;
-    const personaPrompt = await this.personaPromptsFacade.updatePersonaPrompt({
+    const personaPrompt = await this.counselPromptManagementsFacade.updatePersonaPrompt({
       counselorId: new UniqueEntityId(counselorId),
       body,
     });
@@ -154,7 +144,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(UpdateTonePromptRequestSchema)
   async updateTonePrompt(request: UpdateTonePromptRequest): Promise<UpdateTonePromptResponse> {
     const { toneId, body } = request;
-    const tonePrompt = await this.tonePromptsFacade.updateTonePrompt({
+    const tonePrompt = await this.counselPromptManagementsFacade.updateTonePrompt({
       toneId: new UniqueEntityId(toneId),
       body,
     });
@@ -168,7 +158,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(CreateCounselTechniqueRequestSchema)
   async createCounselTechnique(request: CreateCounselTechniqueRequest): Promise<CreateCounselTechniqueResponse> {
     const { name, toneId, context, instruction, messageThreshold } = request;
-    const technique = await this.counselTechniquesFacade.createCounselTechnique({
+    const technique = await this.counselPromptManagementsFacade.createCounselTechnique({
       name,
       toneId: new UniqueEntityId(toneId),
       context,
@@ -184,7 +174,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(UpdateCounselTechniqueRequestSchema)
   async updateCounselTechnique(request: UpdateCounselTechniqueRequest): Promise<UpdateCounselTechniqueResponse> {
     const { counselTechniqueId, name, context, instruction, messageThreshold } = request;
-    const techniques = await this.counselTechniquesFacade.updateCounselTechnique({
+    const techniques = await this.counselPromptManagementsFacade.updateCounselTechnique({
       counselTechniqueId: new UniqueEntityId(counselTechniqueId),
       name,
       context,
@@ -202,7 +192,7 @@ export class GrpcCounselPromptCommandController {
     request: SaveCounselTechniqueSequenceRequest,
   ): Promise<SaveCounselTechniqueSequenceResponse> {
     const { toneId, counselTechniqueIds } = request;
-    const counselTechniques = await this.counselTechniquesFacade.saveCounselTechniqueSequence({
+    const counselTechniques = await this.counselPromptManagementsFacade.saveCounselTechniqueSequence({
       toneId: new UniqueEntityId(toneId),
       counselTechniqueIds: counselTechniqueIds.map((id) => new UniqueEntityId(id)),
     });
@@ -217,7 +207,9 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(SetGptModelRequestSchema)
   async setGptModel(request: SetGptModelRequest): Promise<SetGptModelResponse> {
     const { gptModel } = request;
-    const setModel = await this.llmFacade.setModel(gptModel);
+    const setModel = await this.counselPromptManagementsFacade.setGptModel({
+      gptModel,
+    });
     return create(SetGptModelResponseSchema, {
       gptModel: setModel,
     });

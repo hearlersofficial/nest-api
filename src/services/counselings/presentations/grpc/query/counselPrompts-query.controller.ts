@@ -1,9 +1,4 @@
-import { CounselTechniquesFacade } from "~counselings/applications/counselTechniques.facade";
-import { LlmFacade } from "~counselings/applications/llm.facade";
-import { PersonaPromptsFacade } from "~counselings/applications/personaPrompts.facade";
-import { PromptActivateHistoryFacade } from "~counselings/applications/promptActivateHistory.facade";
-import { PromptVersionsFacade } from "~counselings/applications/promptVersions.facade";
-import { TonePromptsFacade } from "~counselings/applications/tonePrompts.facade";
+import { CounselPromptManagementsFacade } from "~counselings/applications/counsel-prompt-managements/counsel-prompt-managements.facade";
 import { SchemaCounselPromptsMapper } from "~counselings/presentations/grpc/counselPrompts.mapper";
 import {
   FindActiveVersionRequest,
@@ -56,21 +51,14 @@ import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Controller("counsel_prompt")
 export class GrpcCounselPromptQueryController {
-  constructor(
-    private readonly counselTechniquesFacade: CounselTechniquesFacade,
-    private readonly promptVersionsFacade: PromptVersionsFacade,
-    private readonly personaPromptsFacade: PersonaPromptsFacade,
-    private readonly tonePromptsFacade: TonePromptsFacade,
-    private readonly promptActivateHistoryService: PromptActivateHistoryFacade,
-    private readonly llmFacade: LlmFacade,
-  ) {}
+  constructor(private readonly counselPromptManagementsFacade: CounselPromptManagementsFacade) {}
 
   // Prompt Version
   @GrpcMethod("CounselPromptService", "FindPromptVersions")
   @ProtoRequest(FindPromptVersionsRequestSchema)
   async findPromptVersions(request: FindPromptVersionsRequest): Promise<FindPromptVersionsResponse> {
     const { name, isBookmarked } = request;
-    const promptVersions = await this.promptVersionsFacade.findPromptVersions({
+    const promptVersions = await this.counselPromptManagementsFacade.findPromptVersions({
       name,
       isBookmarked,
     });
@@ -83,7 +71,7 @@ export class GrpcCounselPromptQueryController {
   @ProtoRequest(FindPromptVersionByIdRequestSchema)
   async findPromptVersionById(request: FindPromptVersionByIdRequest): Promise<FindPromptVersionByIdResponse> {
     const { promptVersionId } = request;
-    const promptVersion = await this.promptVersionsFacade.findPromptVersionById({
+    const promptVersion = await this.counselPromptManagementsFacade.findPromptVersionById({
       promptVersionId: new UniqueEntityId(promptVersionId),
     });
     return create(FindPromptVersionByIdResponseSchema, {
@@ -94,7 +82,7 @@ export class GrpcCounselPromptQueryController {
   @GrpcMethod("CounselPromptService", "FindTemporaryVersion")
   @ProtoRequest(FindTemporaryVersionRequestSchema)
   async findTemporaryVersion(request: FindTemporaryVersionRequest): Promise<FindTemporaryVersionResponse> {
-    const promptVersion = await this.promptVersionsFacade.getTemporaryPromptVersion();
+    const promptVersion = await this.counselPromptManagementsFacade.findTemporaryPromptVersion();
     return create(FindTemporaryVersionResponseSchema, {
       promptVersion: promptVersion ? SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion) : undefined,
     });
@@ -103,7 +91,7 @@ export class GrpcCounselPromptQueryController {
   @GrpcMethod("CounselPromptService", "FindActiveVersion")
   @ProtoRequest(FindActiveVersionRequestSchema)
   async findActiveVersion(request: FindActiveVersionRequest): Promise<FindActiveVersionResponse> {
-    const promptVersion = await this.promptVersionsFacade.findActivePromptVersion();
+    const promptVersion = await this.counselPromptManagementsFacade.findActivePromptVersion();
     return create(FindActiveVersionResponseSchema, {
       promptVersion: promptVersion ? SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion) : undefined,
     });
@@ -114,7 +102,7 @@ export class GrpcCounselPromptQueryController {
   @ProtoRequest(FindPersonaPromptByIdRequestSchema)
   async findPersonaPromptById(request: FindPersonaPromptByIdRequest): Promise<FindPersonaPromptByIdResponse> {
     const { personaPromptId } = request;
-    const personaPrompt = await this.personaPromptsFacade.findPersonaPromptById({
+    const personaPrompt = await this.counselPromptManagementsFacade.findPersonaPromptById({
       personaPromptId: new UniqueEntityId(personaPromptId),
     });
     return create(FindPersonaPromptByIdResponseSchema, {
@@ -127,7 +115,7 @@ export class GrpcCounselPromptQueryController {
   @ProtoRequest(FindTonePromptByIdRequestSchema)
   async findTonePromptById(request: FindTonePromptByIdRequest): Promise<FindTonePromptByIdResponse> {
     const { tonePromptId } = request;
-    const tonePrompt = await this.tonePromptsFacade.findTonePromptById({
+    const tonePrompt = await this.counselPromptManagementsFacade.findTonePromptById({
       tonePromptId: new UniqueEntityId(tonePromptId),
     });
     return create(FindTonePromptByIdResponseSchema, {
@@ -142,7 +130,7 @@ export class GrpcCounselPromptQueryController {
     request: FindOrderedCounselTechniquesRequest,
   ): Promise<FindOrderedCounselTechniquesResponse> {
     const { firstCounselTechniqueId } = request;
-    const counselTechniques = await this.counselTechniquesFacade.findOrderedCounselTechniques({
+    const counselTechniques = await this.counselPromptManagementsFacade.findOrderedCounselTechniques({
       firstCounselTechniqueId: new UniqueEntityId(firstCounselTechniqueId),
     });
     return create(FindOrderedCounselTechniquesResponseSchema, {
@@ -156,7 +144,7 @@ export class GrpcCounselPromptQueryController {
   @ProtoRequest(FindCounselTechniqueByIdRequestSchema)
   async findCounselTechniqueById(request: FindCounselTechniqueByIdRequest): Promise<FindCounselTechniqueByIdResponse> {
     const { counselTechniqueId } = request;
-    const counselTechnique = await this.counselTechniquesFacade.findCounselTechniqueById({
+    const counselTechnique = await this.counselPromptManagementsFacade.findCounselTechniqueById({
       counselTechniqueId: new UniqueEntityId(counselTechniqueId),
     });
     return create(FindCounselTechniqueByIdResponseSchema, {
@@ -171,7 +159,7 @@ export class GrpcCounselPromptQueryController {
     request: FindPromptActivateHistoriesRequest,
   ): Promise<FindPromptActivateHistoriesResponse> {
     const { promptVersionId } = request;
-    const histories = await this.promptActivateHistoryService.findPromptActivateHistories({
+    const histories = await this.counselPromptManagementsFacade.findPromptActivateHistories({
       promptVersionId: promptVersionId ? new UniqueEntityId(promptVersionId) : undefined,
     });
     return create(FindPromptActivateHistoriesResponseSchema, {
@@ -185,7 +173,7 @@ export class GrpcCounselPromptQueryController {
   @GrpcMethod("CounselPromptService", "FindGptModel")
   @ProtoRequest(FindGptModelRequestSchema)
   async findGptModel(request: FindGptModelRequest): Promise<FindGptModelResponse> {
-    const model = await this.llmFacade.getModel();
+    const model = await this.counselPromptManagementsFacade.findGptModel();
     return create(FindGptModelResponseSchema, {
       gptModel: model,
     });

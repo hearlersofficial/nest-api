@@ -6,7 +6,6 @@ import { CounselorsService } from "~counselings/domains/counselors/counselors.se
 import { TonesService } from "~counselings/domains/tones/tones.service";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { UseCase } from "~common/shared-kernel/interfaces/UseCase";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
@@ -24,9 +23,7 @@ export class ValidatePromptVersionUseCase
 
     const tones = await this.tonesService.findMany({});
     for (const tone of tones) {
-      const toneScopedPrompt = promptVersion.toneScopedPrompts.find((prompt) =>
-        prompt.toneId.equals(new UniqueEntityId(tone.id)),
-      );
+      const toneScopedPrompt = promptVersion.toneScopedPrompts.find((prompt) => prompt.toneId === tone.id);
       if (!toneScopedPrompt) {
         throw new HttpStatusBasedRpcException(
           HttpStatus.BAD_REQUEST,
@@ -46,8 +43,8 @@ export class ValidatePromptVersionUseCase
 
     const counselors = await this.counselorsService.findMany({});
     for (const counselor of counselors) {
-      const counselorScopedPrompt = promptVersion.counselorScopedPrompts.find((prompt) =>
-        prompt.counselorId.equals(new UniqueEntityId(counselor.id)),
+      const counselorScopedPrompt = promptVersion.counselorScopedPrompts.find(
+        (prompt) => prompt.counselorId === counselor.id,
       );
       if (!counselorScopedPrompt) {
         throw new HttpStatusBasedRpcException(

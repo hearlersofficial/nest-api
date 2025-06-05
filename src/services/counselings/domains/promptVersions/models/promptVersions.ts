@@ -305,15 +305,6 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok();
   }
 
-  public getCounselorScopedPrompt(counselorId: UniqueEntityId): Result<{ personaPromptId: UniqueEntityId }> {
-    const counselorScopedPrompt = this.props.counselorScopedPrompts.find((counselorScopedPrompt) =>
-      counselorScopedPrompt.counselorId.equals(counselorId),
-    );
-    return counselorScopedPrompt
-      ? Result.ok({ personaPromptId: counselorScopedPrompt.personaPromptId })
-      : Result.fail("Prompt by counselor not found");
-  }
-
   public updateToneScopedPrompt(props: {
     toneId: UniqueEntityId;
     tonePromptId?: UniqueEntityId;
@@ -344,20 +335,6 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.toneScopedPrompts.push(newToneScopedPrompt.value);
     this.props.updatedAt = getNowDayjs();
     return Result.ok();
-  }
-
-  public getToneScopedPrompt(
-    toneId: UniqueEntityId,
-  ): Result<{ tonePromptId: UniqueEntityId | null; firstCounselTechniqueId: UniqueEntityId | null }> {
-    const toneScopedPrompt = this.props.toneScopedPrompts.find((toneScopedPrompt) =>
-      toneScopedPrompt.toneId.equals(toneId),
-    );
-    return toneScopedPrompt
-      ? Result.ok({
-          tonePromptId: toneScopedPrompt.tonePromptId,
-          firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId,
-        })
-      : Result.fail("Prompt by tone not found");
   }
 
   public clonePrompts(promptVersion: PromptVersions): Result<void> {

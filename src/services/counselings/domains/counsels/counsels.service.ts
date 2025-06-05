@@ -2,7 +2,7 @@ import { CounselsCriteriaFindMany } from "~counselings/domains/counsels/counsels
 import { CounselsPersister } from "~counselings/domains/counsels/counsels.persister";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
-import { Counsels, CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
+import { CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
@@ -22,23 +22,45 @@ export class CounselsService {
     return CounselInfo.fromDomain(counsel);
   }
 
-  async update(counsel: Counsels): Promise<Counsels> {
-    return this.counselsPersister.update(counsel);
-  }
-
-  async findOne(props: { counselId: UniqueEntityId }): Promise<Counsels | null> {
-    return this.counselsReader.findOne(props);
-  }
-
-  async getOne(props: { counselId: UniqueEntityId }): Promise<Counsels> {
-    const counsel = await this.findOne(props);
+  async getOne(props: { counselId: UniqueEntityId }): Promise<CounselInfo> {
+    const counsel = await this.counselsReader.findOne(props);
     if (!counsel) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
     }
-    return counsel;
+    return CounselInfo.fromDomain(counsel);
   }
 
-  async findMany(props: CounselsCriteriaFindMany): Promise<Counsels[]> {
-    return this.counselsReader.findMany(props);
+  async getMany(props: CounselsCriteriaFindMany): Promise<CounselInfo[]> {
+    const counsels = await this.counselsReader.findMany(props);
+    return counsels.map(CounselInfo.fromDomain);
+  }
+
+  @Transactional()
+  async updateCounselTechniqueId(props: {
+    counselId: UniqueEntityId;
+    counselTechniqueId: UniqueEntityId;
+  }): Promise<CounselInfo> {
+    const { counselId, counselTechniqueId } = props;
+    const counsel = await this.counselsReader.findOne({ counselId });
+    if (!counsel) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
+    }
+
+    counsel.updateCounselTechniqueId(counselTechniqueId);
+
+    const updatedCounsel = await this.counselsPersister.update(counsel);
+    return CounselInfo.fromDomain(updatedCounsel);
+  }
+
+  @Transactional()
+  async saveLastMessage(props: { counselId: UniqueEntityId; lastMessage: string }): Promise<CounselInfo> {
+    const { counselId, lastMessage } = props;
+    const counsel = await this.counselsReader.findOne({ counselId });
+    if (!counsel) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
+    }
+    counsel.saveLastMessage(lastMessage);
+    const updatedCounsel = await this.counselsPersister.update(counsel);
+    return CounselInfo.fromDomain(updatedCounsel);
   }
 }

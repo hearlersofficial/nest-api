@@ -5,6 +5,7 @@ import { Dayjs } from "dayjs";
 export class CounselInfo {
   constructor(
     public readonly id: string,
+    public readonly userId: string,
     public readonly counselorId: string,
     public readonly counselTechniqueId: string,
     public readonly promptVersionId: string,
@@ -17,6 +18,7 @@ export class CounselInfo {
   static fromDomain(counsel: Counsels): CounselInfo {
     return new CounselInfo(
       counsel.id.getString(),
+      counsel.userId.getString(),
       counsel.counselorId.getString(),
       counsel.counselTechniqueId.getString(),
       counsel.promptVersionId.getString(),

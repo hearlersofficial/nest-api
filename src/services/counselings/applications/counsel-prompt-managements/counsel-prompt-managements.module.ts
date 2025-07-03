@@ -2,7 +2,6 @@ import { CounselPromptManagementsFacade } from "~counselings/applications/counse
 import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
-import { LlmModule } from "~counselings/domains/llm/llm.module";
 import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
 import { PromptActivateHistoryModule } from "~counselings/domains/promptActivateHistory/promptActivateHistory.module";
 import { PromptVersionsModule } from "~counselings/domains/promptVersions/promptVersions.module";
@@ -10,6 +9,7 @@ import { TonePromptsModule } from "~counselings/domains/tonePrompts/tonePrompts.
 import { TonesModule } from "~counselings/domains/tones/tones.module";
 
 import { Module } from "@nestjs/common";
+import { AssistantAgentModule } from "~common/support/assistant-agents/assistant-agent.module";
 
 @Module({
   imports: [
@@ -18,9 +18,15 @@ import { Module } from "@nestjs/common";
     TonePromptsModule,
     CounselTechniquesModule,
     PromptActivateHistoryModule,
-    LlmModule,
     TonesModule,
     CounselorsModule,
+    AssistantAgentModule.forRoot([], {
+      modelName: "gpt-4o-mini",
+      temperature: 0,
+      maxToolCalls: 5,
+      maxMemoryMessages: 10,
+      streaming: true,
+    }),
   ],
   providers: [
     // Facade

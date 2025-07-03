@@ -1,6 +1,6 @@
+import { CounselingOrchestrator } from "~counselings/applications/counsel-managements/counseling.orchestrator";
 import { CounselWithMessages } from "~counselings/applications/counsel-managements/types/counsel.type";
 import { CreatedAndResponseMessages } from "~counselings/applications/counsel-managements/types/counselMessage.type";
-import { ProceedCounselingUseCase } from "~counselings/applications/counsel-managements/use-cases/proceed-counseling";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
 import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
@@ -9,7 +9,6 @@ import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
-import { de } from "@faker-js/faker";
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -25,7 +24,7 @@ export class CounselManagementsFacade {
     private readonly counselMessagesService: CounselMessagesService,
     private readonly promptVersionsService: PromptVersionsService,
     private readonly counselorService: CounselorsService,
-    private readonly proceedCounselingUseCase: ProceedCounselingUseCase,
+    private readonly counselingOrchestrator: CounselingOrchestrator,
   ) {}
 
   @Transactional()
@@ -91,16 +90,11 @@ export class CounselManagementsFacade {
       counselMessagesResult.push(createdIntroMessage);
 
       // ResponseMessage를 통해 상담 진행
-      const proceedCounselingResult = await this.proceedCounselingUseCase.execute({
+      const proceedCounselingResult = await this.counselingOrchestrator.proceedCounseling({
         counselId: new UniqueEntityId(createdCounsel.id),
         userMessage: responseMessage,
       });
-      if (!proceedCounselingResult.ok) {
-        throw new HttpStatusBasedRpcException(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          proceedCounselingResult.error as string,
-        );
-      }
+
       counselMessagesResult.push(proceedCounselingResult.createdCounselMessage);
       counselMessagesResult.push(proceedCounselingResult.counselorResponseMessage);
     }
@@ -144,13 +138,11 @@ export class CounselManagementsFacade {
   async createMessage(params: { counselId: UniqueEntityId; message: string }): Promise<CreatedAndResponseMessages> {
     const { counselId, message } = params;
 
-    const proceedCounselingResult = await this.proceedCounselingUseCase.execute({
+    const proceedCounselingResult = await this.counselingOrchestrator.proceedCounseling({
       counselId,
       userMessage: message,
     });
-    if (!proceedCounselingResult.ok) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, proceedCounselingResult.error as string);
-    }
+
     return {
       createdCounselMessage: proceedCounselingResult.createdCounselMessage,
       counselorResponseMessage: proceedCounselingResult.counselorResponseMessage,

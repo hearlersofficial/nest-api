@@ -15,12 +15,6 @@ export interface ChatResponse {
   metadata?: any;
 }
 
-/**
- * AI Agent 인터페이스
- * 다양한 AI 모델 (LangChain, OpenAI, Anthropic 등)을 지원할 수 있도록 추상화
- */
-export const ASSISTANT_AGENT = Symbol("ASSISTANT_AGENT");
-
 export interface AssistantAgent {
   /**
    * 단일 요청-응답 처리
@@ -35,6 +29,9 @@ export interface AssistantAgent {
    * @returns Observable 스트리밍 응답
    */
   callStream(request: ChatRequest): Observable<ChatResponse>;
+
+  getModel(): string;
+  setModel(model: string): void;
 
   /**
    * Agent 헬스 체크

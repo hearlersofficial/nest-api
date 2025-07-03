@@ -1,15 +1,20 @@
 import { CounselManagementsFacade } from "~counselings/applications/counsel-managements/counsel-managements.facade";
-import { ProceedCounselingUseCase } from "~counselings/applications/counsel-managements/use-cases/proceed-counseling";
+import { CounselingOrchestrator } from "~counselings/applications/counsel-managements/counseling.orchestrator";
+import { AIResponseGenerator } from "~counselings/applications/counsel-managements/support/ai-response.generator";
+import { ConversationHistoryBuilder } from "~counselings/applications/counsel-managements/support/conversation-history.builder";
+import { MessageManager } from "~counselings/applications/counsel-managements/support/message.manager";
+import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
+import { TechniqueManager } from "~counselings/applications/counsel-managements/support/technique.manager";
 import { CounselMessagesModule } from "~counselings/domains/counselMessages/counselMessages.module";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
-import { LlmModule } from "~counselings/domains/llm/llm.module";
 import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
 import { PromptVersionsModule } from "~counselings/domains/promptVersions/promptVersions.module";
 import { TonePromptsModule } from "~counselings/domains/tonePrompts/tonePrompts.module";
 
 import { Module } from "@nestjs/common";
+import { AssistantAgentModule } from "~common/support/assistant-agents/assistant-agent.module";
 
 @Module({
   imports: [
@@ -20,14 +25,24 @@ import { Module } from "@nestjs/common";
     CounselTechniquesModule,
     PersonaPromptsModule,
     TonePromptsModule,
-    LlmModule,
+    AssistantAgentModule.forRoot([], {
+      modelName: "gpt-4o-mini",
+      temperature: 0.5,
+      maxToolCalls: 5,
+      maxMemoryMessages: 10,
+      streaming: true,
+    }),
   ],
   providers: [
     // Facade
     CounselManagementsFacade,
 
-    // use-cases
-    ProceedCounselingUseCase,
+    AIResponseGenerator,
+    ConversationHistoryBuilder,
+    MessageManager,
+    SystemPromptBuilder,
+    TechniqueManager,
+    CounselingOrchestrator,
   ],
   exports: [CounselManagementsFacade],
 })

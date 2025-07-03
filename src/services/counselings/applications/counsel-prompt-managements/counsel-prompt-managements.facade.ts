@@ -1,7 +1,7 @@
+import { GPTModelConverter } from "~counselings/applications/counsel-prompt-managements/gpt-model.converter";
 import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
-import { LlmService } from "~counselings/domains/llm/llm.service";
 import { PersonaPromptInfo } from "~counselings/domains/personaPrompts/models/personaPrompt.info";
 import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
 import { PromptActivateHistoryInfo } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory.info";
@@ -12,9 +12,11 @@ import { TonePromptInfo } from "~counselings/domains/tonePrompts/models/toneProm
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AssistantAgent } from "~common/support/assistant-agents/assistant-agent";
+import { ASSISTANT_AGENT } from "~common/support/assistant-agents/assistant-agent.tokens";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -26,7 +28,8 @@ export class CounselPromptManagementsFacade {
     private readonly tonePromptService: TonePromptsService,
     private readonly counselTechniqueService: CounselTechniquesService,
     private readonly promptActivateHistoryService: PromptActivateHistoryService,
-    private readonly llmService: LlmService,
+    @Inject(ASSISTANT_AGENT)
+    private readonly assistantAgent: AssistantAgent,
 
     private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase,
   ) {}
@@ -265,11 +268,13 @@ export class CounselPromptManagementsFacade {
   }
 
   async findGptModel(): Promise<GPTModel> {
-    return this.llmService.getModel();
+    const model = this.assistantAgent.getModel();
+    return GPTModelConverter.convertStringToGPTModel(model);
   }
 
   async setGptModel(param: { gptModel: GPTModel }): Promise<GPTModel> {
     const { gptModel } = param;
-    return this.llmService.setModel(gptModel);
+    this.assistantAgent.setModel(GPTModelConverter.convertGPTModelToString(gptModel));
+    return gptModel;
   }
 }

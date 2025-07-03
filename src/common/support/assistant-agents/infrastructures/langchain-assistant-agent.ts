@@ -1,6 +1,6 @@
 // langchain-assistant-agent.ts
 
-import { AIMessage, BaseMessage, HumanMessage, SystemMessage, ToolMessage } from "@langchain/core/messages";
+import { BaseMessage, HumanMessage, SystemMessage, ToolMessage } from "@langchain/core/messages";
 import { Tool } from "@langchain/core/tools";
 import { ChatOpenAI } from "@langchain/openai";
 import { Inject, Injectable, Logger } from "@nestjs/common";
@@ -10,7 +10,7 @@ import {
   ChatRequest,
   ChatResponse,
 } from "~common/support/assistant-agents/assistant-agent";
-import { AGENT_CONFIG, TOOLS } from "~common/support/assistant-agents/assistant-agent.module";
+import { AGENT_CONFIG, TOOLS } from "~common/support/assistant-agents/assistant-agent.tokens";
 import { Observable, Subject } from "rxjs";
 
 @Injectable()
@@ -19,6 +19,7 @@ export class LangchainAssistantAgent implements AssistantAgent {
   private readonly agentTools: Tool[];
   private readonly agentModel: ChatOpenAI;
   private readonly maxToolCalls: number;
+  private modelName: string = "gpt-4o-mini";
 
   constructor(@Inject(TOOLS) tools: Tool[], @Inject(AGENT_CONFIG) config: AgentConfig) {
     this.logger.log("Initializing LangchainAgent...");
@@ -31,7 +32,7 @@ export class LangchainAssistantAgent implements AssistantAgent {
 
     this.agentModel = new ChatOpenAI({
       temperature: config.temperature,
-      modelName: config.modelName,
+      modelName: this.modelName,
       streaming: config.streaming,
       openAIApiKey: process.env.OPENAI_API_KEY,
     });
@@ -51,7 +52,8 @@ export class LangchainAssistantAgent implements AssistantAgent {
     const { conversationId, message, systemPrompt, useTools = true } = request;
 
     this.logger.log(`Processing call for conversation: ${conversationId}`);
-    this.logger.log(`User message length: ${message.length}`);
+    this.logger.log(`System prompt: ${systemPrompt}`);
+    this.logger.log(`User message: ${message}`);
 
     // 임시 메모리: 이 call 실행 동안만 사용되는 메시지 배열
     const callMessages: BaseMessage[] = [];
@@ -71,11 +73,6 @@ export class LangchainAssistantAgent implements AssistantAgent {
       while (toolCallCount < this.maxToolCalls) {
         // LLM 호출
         const response = await this.agentModel.invoke(currentMessages);
-
-        // AIMessage 타입 확인
-        if (!(response instanceof AIMessage)) {
-          throw new Error("Expected AIMessage from model");
-        }
 
         // Tool calls 확인
         if (useTools && response.tool_calls && response.tool_calls.length > 0) {
@@ -209,5 +206,13 @@ export class LangchainAssistantAgent implements AssistantAgent {
       this.logger.error("Health check failed:", error);
       return false;
     }
+  }
+
+  getModel(): string {
+    return this.modelName;
+  }
+
+  setModel(model: string): void {
+    this.modelName = model;
   }
 }

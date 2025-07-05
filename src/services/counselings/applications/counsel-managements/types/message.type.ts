@@ -7,7 +7,7 @@ export type CreateUserMessageParams = {
   message: string;
 };
 
-export type CreateSystemMessageParams = {
+export type CreateAssistantMessageParams = {
   counselId: UniqueEntityId;
   userId: UniqueEntityId;
   counselTechniqueId: UniqueEntityId;

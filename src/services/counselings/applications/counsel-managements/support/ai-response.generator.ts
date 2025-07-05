@@ -55,8 +55,10 @@ export class AIResponseGenerator {
     const fullMessage = `
 <ConversationHistory>
 ${conversationHistory ? conversationHistory : "none"}
+</ConversationHistory>
 <CurrentUserMessage>
 ${userMessage}
+</CurrentUserMessage>
 `;
 
     return {

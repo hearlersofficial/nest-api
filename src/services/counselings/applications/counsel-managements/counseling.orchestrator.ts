@@ -15,6 +15,7 @@ import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 
 import { Injectable, Logger } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { Propagation, Transactional } from "typeorm-transactional";
 
 /**
  * 상담 진행의 전체 흐름을 관리하는 메인 오케스트레이터 서비스
@@ -40,6 +41,7 @@ export class CounselingOrchestrator {
    * @param request 상담 진행 요청
    * @returns 상담 진행 응답
    */
+  @Transactional()
   async proceedCounseling(request: { counselId: UniqueEntityId; userMessage: string }): Promise<{
     counsel: CounselInfo;
     createdCounselMessage: CounselMessageInfo;
@@ -120,6 +122,7 @@ export class CounselingOrchestrator {
    * @param session 상담 세션
    * @param latestMessage 최신 메시지
    */
+  @Transactional({ propagation: Propagation.REQUIRES_NEW })
   private evaluateTechniqueTransitionInBackground(session: CounselSession): void {
     // 백그라운드 처리를 위해 Promise.resolve()를 사용
     Promise.resolve()

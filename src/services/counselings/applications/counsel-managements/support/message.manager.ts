@@ -1,5 +1,5 @@
 import {
-  CreateSystemMessageParams,
+  CreateAssistantMessageParams,
   CreateUserMessageParams,
   UpdateLastMessageParams,
 } from "~counselings/applications/counsel-managements/types/message.type";
@@ -9,7 +9,6 @@ import { CounselsService } from "~counselings/domains/counsels/counsels.service"
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 /**
  * 메시지 생성/저장을 담당하는 서비스
@@ -38,11 +37,11 @@ export class MessageManager {
   }
 
   /**
-   * 시스템(AI) 메시지 생성
-   * @param params 시스템 메시지 생성 파라미터
-   * @returns 생성된 시스템 메시지
+   * 어시스턴트(AI) 메시지 생성
+   * @param params 어시스턴트 메시지 생성 파라미터
+   * @returns 생성된 어시스턴트 메시지
    */
-  async createSystemMessage(params: CreateSystemMessageParams): Promise<CounselMessageInfo> {
+  async createAssistantMessage(params: CreateAssistantMessageParams): Promise<CounselMessageInfo> {
     return this.counselMessageService.create({
       counselId: params.counselId,
       userId: params.userId,
@@ -62,14 +61,5 @@ export class MessageManager {
       counselId: params.counselId,
       lastMessage: params.lastMessage,
     });
-  }
-
-  /**
-   * 특정 상담의 모든 메시지 조회
-   * @param counselId 상담 ID
-   * @returns 메시지 배열
-   */
-  async getCounselMessages(counselId: UniqueEntityId): Promise<CounselMessageInfo[]> {
-    return this.counselMessageService.getMany({ counselId });
   }
 }

@@ -145,7 +145,11 @@ export class CounselingOrchestrator {
         const decision = await this.performAIEvaluation(preparationResult.evaluationRequest);
 
         // 3. TechniqueManager에서 평가 결과 처리
-        const evaluationResult = await this.techniqueManager.processEvaluationResult(session.getCounselId(), decision);
+        const evaluationResult = await this.techniqueManager.processEvaluationResult(
+          preparationResult.evaluationRequest,
+          session,
+          decision,
+        );
 
         // 로깅
         if (evaluationResult.evaluationPerformed && decision.shouldTransition) {

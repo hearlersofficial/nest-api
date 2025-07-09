@@ -1,3 +1,4 @@
+import { CounselSession } from "~counselings/applications/counsel-managements/models/counsel-session";
 import {
   BackgroundTechniqueEvaluationResult,
   TechniqueTransitionDecision,
@@ -128,12 +129,16 @@ export class TechniqueManager {
    * @returns 백그라운드 평가 결과
    */
   async processEvaluationResult(
-    counselId: string,
+    techniqueEvaluationRequest: TechniqueEvaluationRequest,
+    session: CounselSession,
     decision: TechniqueTransitionDecision,
   ): Promise<BackgroundTechniqueEvaluationResult> {
     try {
       if (decision.shouldTransition) {
-        await this.executeTechniqueTransition(counselId, decision);
+        await this.counselService.updateCounselTechniqueId({
+          counselId: new UniqueEntityId(session.getCounselId()),
+          counselTechniqueId: new UniqueEntityId(techniqueEvaluationRequest.nextTechnique.id),
+        });
       }
 
       return {
@@ -146,38 +151,6 @@ export class TechniqueManager {
         error: error.message,
       };
     }
-  }
-
-  /**
-   * AI 평가 결과에 따른 기법 전환 실행
-   * @param counselId 상담 ID
-   * @param decision AI 평가 결과
-   * @returns 업데이트된 상담 정보
-   */
-  async executeTechniqueTransition(counselId: string, decision: TechniqueTransitionDecision): Promise<CounselInfo> {
-    if (!decision.shouldTransition) {
-      throw new Error("Transition decision is false");
-    }
-
-    // 현재 상담 정보 조회
-    const counsel = await this.counselService.getOne({
-      counselId: new UniqueEntityId(counselId),
-    });
-
-    // 현재 기법 조회
-    const currentTechnique = await this.counselTechniqueService.getOne({
-      counselTechniqueId: new UniqueEntityId(counsel.counselTechniqueId),
-    });
-
-    if (!currentTechnique.nextTechniqueId) {
-      throw new Error("No next technique available");
-    }
-
-    // 기법 전환 실행
-    return this.counselService.updateCounselTechniqueId({
-      counselId: new UniqueEntityId(counselId),
-      counselTechniqueId: new UniqueEntityId(currentTechnique.nextTechniqueId),
-    });
   }
 
   /**

@@ -62,6 +62,8 @@ export function httpStatusToGrpc(httpStatus: HttpStatus): status {
       return status.INTERNAL;
     case HttpStatus.SERVICE_UNAVAILABLE:
       return status.UNAVAILABLE;
+    case HttpStatus.NOT_ACCEPTABLE:
+      return status.FAILED_PRECONDITION;
     default:
       return status.UNKNOWN; // 기본값
   }

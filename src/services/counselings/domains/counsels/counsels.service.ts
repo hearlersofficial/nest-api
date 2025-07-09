@@ -45,6 +45,9 @@ export class CounselsService {
     if (!counsel) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
     }
+    if (counsel.counselTechniqueId.equals(counselTechniqueId)) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_ACCEPTABLE, "Counsel technique id is already updated");
+    }
 
     counsel.updateCounselTechniqueId(counselTechniqueId);
 

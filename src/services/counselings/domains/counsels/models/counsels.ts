@@ -1,4 +1,3 @@
-import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
 import { CounselCreatedEvent } from "~counselings/domains/counsels/events/counsel-created.event";
 import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
 
@@ -20,12 +19,21 @@ export interface CounselsNewProps {
 export interface CounselsProps extends CounselsNewProps {
   lastChatedAt: Dayjs | null;
   lastMessage: string | null;
+
+  messageCount: number;
+
+  notCompressedMessageCount: number;
+  lastContextCompressedAt: Dayjs | null;
+  compressedContextExists: boolean;
+
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
 }
 
 export class Counsels extends AggregateRoot<CounselsProps> {
+  private static readonly COMPRESSION_THRESHOLD = 100;
+
   private constructor(props: CounselsProps, id: UniqueEntityId) {
     super(props, id);
   }
@@ -47,6 +55,10 @@ export class Counsels extends AggregateRoot<CounselsProps> {
         ...newProps,
         lastChatedAt: null,
         lastMessage: null,
+        messageCount: 0,
+        notCompressedMessageCount: 0,
+        lastContextCompressedAt: null,
+        compressedContextExists: false,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -91,6 +103,22 @@ export class Counsels extends AggregateRoot<CounselsProps> {
       return Result.fail("[Counsels] 상담사-사용자 관계 ID는 필수입니다");
     }
 
+    // messageCount 검증
+    if (this.props.messageCount < 0) {
+      return Result.fail("[Counsels] 메시지 수는 0 이상이어야 합니다.");
+    }
+    if (!Number.isInteger(this.props.messageCount)) {
+      return Result.fail("[Counsels] 메시지 수는 정수여야 합니다.");
+    }
+
+    // notCompressedMessageCount 검증
+    if (this.props.notCompressedMessageCount < 0) {
+      return Result.fail("[Counsels] 압축되지 않은 메시지 수는 0 이상이어야 합니다.");
+    }
+    if (!Number.isInteger(this.props.notCompressedMessageCount)) {
+      return Result.fail("[Counsels] 압축되지 않은 메시지 수는 정수여야 합니다.");
+    }
+
     // 날짜 검증
     if (!this.props.createdAt) {
       return Result.fail("[Counsels] 생성 시간은 필수입니다");
@@ -131,6 +159,22 @@ export class Counsels extends AggregateRoot<CounselsProps> {
     return this.props.lastMessage;
   }
 
+  get messageCount(): number {
+    return this.props.messageCount;
+  }
+
+  get notCompressedMessageCount(): number {
+    return this.props.notCompressedMessageCount;
+  }
+
+  get lastContextCompressedAt(): Dayjs | null {
+    return this.props.lastContextCompressedAt;
+  }
+
+  get compressedContextExists(): boolean {
+    return this.props.compressedContextExists;
+  }
+
   get createdAt(): Dayjs {
     return this.props.createdAt;
   }
@@ -154,6 +198,24 @@ export class Counsels extends AggregateRoot<CounselsProps> {
     this.props.counselTechniqueId = counselTechniqueId;
     this.props.updatedAt = getNowDayjs();
     return Result.ok();
+  }
+
+  public shouldCompressContext(): boolean {
+    return this.props.notCompressedMessageCount >= Counsels.COMPRESSION_THRESHOLD;
+  }
+
+  public markContextCompressed(): void {
+    const now = getNowDayjs();
+    this.props.notCompressedMessageCount = 0;
+    this.props.lastContextCompressedAt = now;
+    this.props.compressedContextExists = true;
+    this.props.updatedAt = now;
+  }
+
+  public increaseMessageCount(): void {
+    this.props.messageCount++;
+    this.props.notCompressedMessageCount++;
+    this.props.updatedAt = getNowDayjs();
   }
 
   public delete(): void {

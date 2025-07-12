@@ -1,4 +1,5 @@
 import { CounselSession } from "~counselings/applications/counsel-managements/models/counsel-session";
+import { CompressedContextService } from "~counselings/domains/compressedContext/compressedContext.service";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
@@ -16,6 +17,7 @@ export class ContextManager {
     private readonly counselorService: CounselorsService,
     private readonly promptVersionsService: PromptVersionsService,
     private readonly counselTechniqueService: CounselTechniquesService,
+    private readonly compressedContextService: CompressedContextService,
   ) {}
 
   async buildCounselSession(counselId: UniqueEntityId): Promise<CounselSession> {
@@ -31,12 +33,17 @@ export class ContextManager {
       this.counselTechniqueService.getOne({ counselTechniqueId: new UniqueEntityId(counsel.counselTechniqueId) }),
     ]);
 
+    const compressedContexts = await this.compressedContextService.getMany({
+      counselId: new UniqueEntityId(counsel.id),
+    });
+
     return new CounselSession({
       counsel,
       counselor,
       messages: counselMessages,
       promptVersion,
       currentTechnique,
+      compressedContexts,
     });
   }
 }

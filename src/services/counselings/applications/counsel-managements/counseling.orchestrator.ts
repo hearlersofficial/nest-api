@@ -1,5 +1,9 @@
 import { CounselSession } from "~counselings/applications/counsel-managements/models/counsel-session";
 import { AIResponseGenerator } from "~counselings/applications/counsel-managements/support/ai-response.generator";
+import {
+  CompressedContextManager,
+  ContextCompressRequest,
+} from "~counselings/applications/counsel-managements/support/compressed-context.manager";
 import { ContextManager } from "~counselings/applications/counsel-managements/support/context.manager";
 import { ConversationHistoryBuilder } from "~counselings/applications/counsel-managements/support/conversation-history.builder";
 import { MessageManager } from "~counselings/applications/counsel-managements/support/message.manager";
@@ -34,6 +38,7 @@ export class CounselingOrchestrator {
     private readonly aiGenerator: AIResponseGenerator,
     private readonly contextManager: ContextManager,
     private readonly techniqueEvaluationParser: TechniqueEvaluationParser,
+    private readonly compressedContextManager: CompressedContextManager,
   ) {}
 
   /**
@@ -81,8 +86,12 @@ export class CounselingOrchestrator {
     // 세션에 새 메시지 추가
     session = session.withNewMessage(createdUserMessage);
 
-    // 5. 대화 히스토리 구성
-    const conversationHistory = this.historyBuilder.buildHistory(session.getMessages());
+    // 5. 대화 히스토리 구성 (압축된 맥락 포함)
+    // TODO: 압축된 메시지들도 포함할지 여부 결정
+    const conversationHistory = this.historyBuilder.buildHistory(
+      session.getMessages(),
+      session.getCompressedContexts(),
+    );
 
     // 6. AI 응답 생성
     const aiResponse = await this.aiGenerator.generateResponse(
@@ -106,9 +115,13 @@ export class CounselingOrchestrator {
       counselId: new UniqueEntityId(session.getCounselId()),
       lastMessage: createdAssistantMessage.message,
     });
+    session = session.withUpdatedCounsel(updatedCounsel);
 
     // 9. 백그라운드에서 기법 전환 평가 수행
     this.evaluateTechniqueTransitionInBackground(session);
+
+    // 10. 백그라운드에서 상담 맥락 압축 수행
+    this.compressContextInBackground(session);
 
     return {
       counsel: updatedCounsel,
@@ -199,5 +212,73 @@ export class CounselingOrchestrator {
     );
     // 파서를 사용하여 응답 파싱
     return this.techniqueEvaluationParser.parseTechniqueEvaluationResponse(aiResponse);
+  }
+
+  /**
+   * 백그라운드에서 상담 맥락 압축 작업 수행
+   * @param session 상담 세션
+   */
+  @Transactional({ propagation: Propagation.REQUIRES_NEW })
+  private compressContextInBackground(session: CounselSession): void {
+    // 백그라운드 처리를 위해 Promise.resolve()를 사용
+    Promise.resolve()
+      .then(async () => {
+        // 1. 상담 맥락 압축 필요 여부 확인
+        const prepareResult = await this.compressedContextManager.prepareBackgroundCompression({
+          counsel: session.getCounsel(),
+        });
+
+        // 압축이 불필요한 경우
+        if (!prepareResult.shouldCompress) {
+          this.logger.log(`Context compression skipped for counsel ${session.getCounselId()}: ${prepareResult.reason}`);
+          return;
+        }
+
+        // 2. AI 압축 수행
+        const compressedContext = await this.performAIContextCompression(prepareResult.request);
+
+        // 3. 압축 결과 처리
+        const compressionResult = await this.compressedContextManager.processContextCompression(prepareResult.request, {
+          compressedContext,
+          messageCountAtCompression: session.getCounsel().messageCount,
+        });
+
+        // 로깅
+        if (compressionResult.compressionPerformed && compressionResult.compressedContext) {
+          this.logger.log(`Context compression performed for counsel ${session.getCounselId()}`, {
+            compressedContextId: compressionResult.compressedContext.id,
+            messageCountAtCompression: compressionResult.compressedContext.messageCountAtCompression,
+          });
+        }
+      })
+      .catch((error) => {
+        this.logger.error(`Error in background context compression for counsel ${session.getCounselId()}`, error);
+      });
+  }
+
+  /**
+   * AI를 사용하여 상담 맥락을 압축하는 로직
+   * @param session 상담 세션
+   * @returns 압축된 컨텍스트 문자열
+   */
+  private async performAIContextCompression(request: ContextCompressRequest): Promise<string> {
+    // 압축하려는 메시지 및 맥락 히스토리 구성
+    const conversationHistory = this.historyBuilder.buildHistory(
+      request.messagesToCompress,
+      request.existingCompressedContexts,
+    );
+    const systemPrompt = this.promptBuilder.buildContextCompressionSystemPrompt();
+
+    const compressionRequest = "현재 메시지 및 컨텍스트를 압축해주세요.";
+
+    // AI 압축 수행
+    const aiResponse = await this.aiGenerator.generateResponse(
+      systemPrompt,
+      conversationHistory,
+      compressionRequest,
+      `context-compression-${Date.now()}`,
+    );
+
+    return aiResponse;
   }
 }

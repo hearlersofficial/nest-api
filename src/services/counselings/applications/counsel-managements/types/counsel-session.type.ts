@@ -1,3 +1,4 @@
+import { CompressedContextInfo } from "~counselings/domains/compressedContext/models/compressedContext.info";
 import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
@@ -12,6 +13,7 @@ export type CounselSessionData = {
   messages: CounselMessageInfo[];
   promptVersion: PromptVersionInfo;
   currentTechnique: CounselTechniqueInfo;
+  compressedContexts: CompressedContextInfo[];
 };
 
 export type CounselorScopedPromptData = {

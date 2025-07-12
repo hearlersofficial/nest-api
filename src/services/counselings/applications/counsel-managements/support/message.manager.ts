@@ -27,13 +27,16 @@ export class MessageManager {
    * @returns 생성된 유저 메시지
    */
   async createUserMessage(params: CreateUserMessageParams): Promise<CounselMessageInfo> {
-    return this.counselMessageService.create({
+    const createdMessage = await this.counselMessageService.create({
       counselId: params.counselId,
       userId: params.userId,
       counselTechniqueId: params.counselTechniqueId,
       message: params.message,
       isUserMessage: true,
     });
+    await this.counselService.increaseMessageCount({ counselId: params.counselId });
+
+    return createdMessage;
   }
 
   /**
@@ -42,13 +45,16 @@ export class MessageManager {
    * @returns 생성된 어시스턴트 메시지
    */
   async createAssistantMessage(params: CreateAssistantMessageParams): Promise<CounselMessageInfo> {
-    return this.counselMessageService.create({
+    const createdMessage = await this.counselMessageService.create({
       counselId: params.counselId,
       userId: params.userId,
       counselTechniqueId: params.counselTechniqueId,
       message: params.message,
       isUserMessage: false,
     });
+    await this.counselService.increaseMessageCount({ counselId: params.counselId });
+
+    return createdMessage;
   }
 
   /**

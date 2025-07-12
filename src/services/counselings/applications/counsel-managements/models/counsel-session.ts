@@ -4,6 +4,7 @@ import {
   SessionContext,
   ToneScopedPromptData,
 } from "~counselings/applications/counsel-managements/types/counsel-session.type";
+import { CompressedContextInfo } from "~counselings/domains/compressedContext/models/compressedContext.info";
 import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
@@ -24,6 +25,7 @@ export class CounselSession {
   private readonly messages: CounselMessageInfo[];
   private readonly promptVersion: PromptVersionInfo;
   private readonly currentTechnique: CounselTechniqueInfo;
+  private readonly compressedContexts: CompressedContextInfo[];
 
   constructor(data: CounselSessionData) {
     this.counsel = data.counsel;
@@ -31,6 +33,7 @@ export class CounselSession {
     this.messages = data.messages;
     this.promptVersion = data.promptVersion;
     this.currentTechnique = data.currentTechnique;
+    this.compressedContexts = data.compressedContexts || [];
   }
 
   /**
@@ -117,6 +120,10 @@ export class CounselSession {
     return this.currentTechnique;
   }
 
+  getCompressedContexts(): CompressedContextInfo[] {
+    return this.compressedContexts;
+  }
+
   /**
    * 상담 ID 반환
    * @returns 상담 ID
@@ -153,6 +160,7 @@ export class CounselSession {
       messages: [...this.messages, newMessage],
       promptVersion: this.promptVersion,
       currentTechnique: this.currentTechnique,
+      compressedContexts: this.compressedContexts,
     });
   }
 
@@ -168,6 +176,7 @@ export class CounselSession {
       messages: this.messages,
       promptVersion: this.promptVersion,
       currentTechnique: this.currentTechnique,
+      compressedContexts: this.compressedContexts,
     });
   }
 
@@ -183,6 +192,23 @@ export class CounselSession {
       messages: this.messages,
       promptVersion: this.promptVersion,
       currentTechnique: updatedTechnique,
+      compressedContexts: this.compressedContexts,
+    });
+  }
+
+  /**
+   * 압축된 컨텍스트 추가
+   * @param compressedContext 추가할 압축된 컨텍스트
+   * @returns 새로운 CounselSession 인스턴스
+   */
+  withNewCompressedContext(compressedContext: CompressedContextInfo): CounselSession {
+    return new CounselSession({
+      counsel: this.counsel,
+      counselor: this.counselor,
+      messages: this.messages,
+      promptVersion: this.promptVersion,
+      currentTechnique: this.currentTechnique,
+      compressedContexts: [...this.compressedContexts, compressedContext],
     });
   }
 }

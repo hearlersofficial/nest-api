@@ -66,4 +66,28 @@ export class CounselsService {
     const updatedCounsel = await this.counselsPersister.update(counsel);
     return CounselInfo.fromDomain(updatedCounsel);
   }
+
+  @Transactional()
+  async markContextCompressed(props: { counselId: UniqueEntityId }): Promise<CounselInfo> {
+    const { counselId } = props;
+    const counsel = await this.counselsReader.findOne({ counselId });
+    if (!counsel) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
+    }
+    counsel.markContextCompressed();
+    const updatedCounsel = await this.counselsPersister.update(counsel);
+    return CounselInfo.fromDomain(updatedCounsel);
+  }
+
+  @Transactional()
+  async increaseMessageCount(props: { counselId: UniqueEntityId }): Promise<CounselInfo> {
+    const { counselId } = props;
+    const counsel = await this.counselsReader.findOne({ counselId });
+    if (!counsel) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
+    }
+    counsel.increaseMessageCount();
+    const updatedCounsel = await this.counselsPersister.update(counsel);
+    return CounselInfo.fromDomain(updatedCounsel);
+  }
 }

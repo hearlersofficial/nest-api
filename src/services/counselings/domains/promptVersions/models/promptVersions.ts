@@ -338,13 +338,28 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
   }
 
   public clonePrompts(promptVersion: PromptVersions): Result<void> {
+    if (!this.props.isTemporary) {
+      return Result.fail<void>("[PromptVersions] Only temporary PromptVersion can clone prompts.");
+    }
+    if (this.props.isActive) {
+      return Result.fail<void>("[PromptVersions] Active PromptVersion cannot clone prompts.");
+    }
+    if (promptVersion.isTemporary) {
+      return Result.fail<void>("[PromptVersions] Cannot clone from a temporary PromptVersion.");
+    }
+
     this.props.isTemporary = true;
     this.props.isActive = false;
     this.props.name = "Temporary name";
     this.props.description = "Temporary description";
-    this.props.counselorScopedPrompts = [];
-    this.props.toneScopedPrompts = [];
     this.props.updatedAt = getNowDayjs();
+
+    for (const existingCounselorScopedPrompt of this.props.counselorScopedPrompts) {
+      existingCounselorScopedPrompt.delete();
+    }
+    for (const existingToneScopedPrompt of this.props.toneScopedPrompts) {
+      existingToneScopedPrompt.delete();
+    }
 
     for (const counselorScopedPrompt of promptVersion.counselorScopedPrompts) {
       const clonedCounselorScopedPrompt = CounselorScopedPrompts.createNew({
@@ -372,6 +387,11 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
 
     return Result.ok();
+  }
+
+  public removeDeletedRelations(): void {
+    this.props.counselorScopedPrompts = this.props.counselorScopedPrompts.filter((prompt) => prompt.deletedAt === null);
+    this.props.toneScopedPrompts = this.props.toneScopedPrompts.filter((prompt) => prompt.deletedAt === null);
   }
 
   public updateBasicInfo(props: {

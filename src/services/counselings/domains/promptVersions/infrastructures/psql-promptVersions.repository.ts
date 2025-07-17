@@ -48,10 +48,16 @@ export class PsqlPromptVersionsRepository extends PromptVersionsRepository {
   async save(promptVersion: PromptVersions | PromptVersions[]): Promise<PromptVersions | PromptVersions[]> {
     if (Array.isArray(promptVersion)) {
       await this.promptVersionsRepository.save(PsqlPromptVersionsMapper.toEntities(promptVersion));
+
+      promptVersion.forEach((pv) => {
+        pv.removeDeletedRelations();
+      });
       return promptVersion;
     } else {
       const promptVersionEntity = PsqlPromptVersionsMapper.toEntity(promptVersion);
       await this.promptVersionsRepository.save(promptVersionEntity);
+
+      promptVersion.removeDeletedRelations();
       return promptVersion;
     }
   }

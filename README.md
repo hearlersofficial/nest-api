@@ -59,31 +59,35 @@ flowchart TD
     %% 게이트웨이가 각 서비스로 라우팅
     subgraph Server["Server"]
         GatewayServer
-        GatewayServer <-->|gRPC| UserService["User Service"]
-        GatewayServer <-->|gRPC| CounselingService["Counseling Service"]
+        subgraph ModularMonolith["Modular Monolith"]
+            UserService["User Service"]
+            CounselingService["Counseling Service"]
+        end
+        GatewayServer <-->|gRPC| ModularMonolith
         GatewayServer <-->|gRPC| PaymentService["Payment Service"]
-
-
     end
 
-    subgraph EventBroker["EventBroker"]
-        KafkaProducer["Event Producer"]
-        KafkaConsumer["Event Consumer"]
-        KafkaProducer --> Kafka["Kafka Broker"]
-        KafkaConsumer --> Kafka
-    end
 
-    %% 각 서비스는 Kafka와 통신
-    UserService <-->|Publishes Events| EventBroker
-    UserService <-->|Consumes Events| EventBroker
-    CounselingService <-->|Publishes Events| EventBroker
-    CounselingService <-->|Consumes Events| EventBroker
-    PaymentService <-->|Publishes Events| EventBroker
-    PaymentService <-->|Consumes Events| EventBroker
+subgraph KafkaCluster["Kafka Cluster(KRaft)"]
+    Broker1["Broker 1"]
+    Broker2["Broker 2"]
+    Broker3["Broker 3"]
+    userEventsTopic["Topic: user.events"]
+    ConsumerGroup["Consumer Group: counseling-group"]
+end
+
+UserService -->|Publishes 'UserRegisteredEvent'| userEventsTopic
+CounselingService -->|Consumes| ConsumerGroup
+ConsumerGroup -->|Reads from| userEventsTopic
+
+userEventsTopic --> Broker1
+userEventsTopic --> Broker2
+userEventsTopic --> Broker3
+
 
 ```
 
-### 3.2 DDD
+### 3.2 아키텍처
 
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
@@ -91,106 +95,67 @@ flowchart TD
 %% () for event
 %% {} for layer class
 flowchart TD
-subgraph BoundedContext
+subgraph UserServiceBC["UserService"]
+  UserServiceModule["Module"]
+
   subgraph Presentation
-      RestOuter
-      gRPCOuter
-  end
-  subgraph ApplicationOuter["Application"]
-      UseCaseOuter{"Use Case"}
-      HandlerOuter{"Handler"}
-      ReadModel(["Read Model"])
-      subgraph BusOuter["Bus"]
-          CommandBusOuter["Command Bus"]
-          QueryBusOuter["Query Bus"]
-      end
+      MessageController
+      GRpcController
   end
 
-  subgraph Aggregate1["User Aggregate"]
-      subgraph Application1["Application"]
-          UseCase1{"Use Case"}
-          Handler1{"Handler"}
-          subgraph Bus1["Bus"]
-              CommandBus1["CommandBus"]
-              QueryBus1["QueryBus"]
-          end
-      end
-      subgraph Domain1["Domain"]
-          AggregateRoot1["Users"]
-          VO1["Value Object"]
-          DomainEntity1["Domain Entity"]
-          DomainEvent1("Domain Event")
-      end
-      subgraph Infrastructure1["Infrastructure"]
-          Repository1[("Repository")]
-          OrmEntity1(["ORM Entity"])
-      end
-  end
+subgraph Application["Application"]
+    subgraph AuthModule["AuthModule"]
+        AuthFacade["Facade"]        
+    end
+    subgraph UserManagementModule["UserManagementModule"]
+        UserManagementFacade["Facade"]
+    end
+end
 
-  subgraph Aggregate2["Auth Aggregate"]
-      subgraph Application2["Application"]
-          UseCase2{"Use Case"}
-          Handler2{"Handler"}
-          subgraph Bus2["Bus"]
-              CommandBus2["Command Bus"]
-              QueryBus2["Query Bus"]
+  subgraph Domain["Domain"]
+      subgraph UserModule["UserModule"]
+          UserService["Service"]
+          User["Users"]
+          subgraph UserInfrastructure["Infrastructure"]
+              UserRepository[("Repository")]
+              UserEntity(["ORMEntity"])
           end
       end
-      subgraph Domain2["Domain"]
-          AggregateRoot2["Auth"]
-          VO2["Value Object"]
-          DomainEntity2["Domain Entity"]
-          DomainEvent2("Domain Event")
-      end
-      subgraph Infrastructure2["Infrastructure"]
-          Repository2[("Repository")]
-          OrmEntity2(["ORM Entity"])
+      subgraph AuthUserModule["AuthUserModule"]
+          AuthUserService["Service"]
+          AuthUser["AuthUser"]
+          subgraph AuthUserInfrastructure["Infrastructure"]
+              AuthUserRepository[("Repository")]
+              AuthUserEntity(["ORMEntity"])
+          end
       end
   end
 end
-OrmEntity1 <--mapped--> Domain1
-OrmEntity2 <--mapped--> Domain2
-DomainEntity1 --has--> DomainEvent1
-DomainEntity2 --has--> DomainEvent2
 
-OrmEntity1 --used--> Repository1
-OrmEntity2 --used--> Repository2
-
-
-Repository1 --returns--> AggregateRoot1
-Repository2 --returns--> AggregateRoot2
+UserServiceModule --controllers --> Presentation
+UserServiceModule --imports--> Application
 
 
 
+AuthModule --imports--> AuthUserModule
+AuthModule --imports--> UserModule
 
-AggregateRoot1 --has--> DomainEntity1
-AggregateRoot2 --has--> DomainEntity2
+UserManagementModule --imports--> UserModule
 
-AggregateRoot1 --has--> DomainEvent1
-AggregateRoot2 --has--> DomainEvent2
+UserService --uses--> User
+AuthUserService --uses--> AuthUser
+
+UserEntity <--mapped--> User
+AuthUserEntity <--mapped--> AuthUser
+
+UserEntity --used--> UserRepository
+AuthUserEntity --used--> AuthUserRepository
 
 
-Repository1 --returns---> ReadModel
-Repository2 --returns---> ReadModel
-Application1 --uses--> AggregateRoot1
-Application2 --uses--> AggregateRoot2
-
-AggregateRoot1 --has--> VO1
-AggregateRoot2 --has--> VO2
-
-BusOuter --register --> HandlerOuter
-UseCaseOuter --execute--> UseCase1
-UseCaseOuter --execute--> UseCase2
-UseCaseOuter --read--> ReadModel
-
-Bus1 --register--> Handler1
-Bus2 --register--> Handler2
-Presentation --execute--> Bus1
-Presentation --execute--> Bus2
-HandlerOuter --execute--> UseCaseOuter
-Presentation -- execute --> BusOuter
-
+UserRepository --returns--> User
+AuthUserRepository --returns--> AuthUser
 ```
+
 
 ## 4. 서비스 설계
 

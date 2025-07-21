@@ -1,4 +1,3 @@
-import { UsersCounselMessageCreatedEvent } from "~users/applications/events/counsel-message-created.event";
 import { UserManagementFacade } from "~users/applications/user-management/user-management.facade";
 import {
   CounselMessageCreatedPayload,
@@ -9,6 +8,7 @@ import { Controller, Inject, OnModuleInit } from "@nestjs/common";
 import { ClientKafka, EventPattern, Payload } from "@nestjs/microservices";
 import { kafkaPayloadToProtoMessage } from "~common/shared/utils/proto";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselMessageCreatedEvent } from "~common/shared-kernel/event/counsel-message-created.event";
 import { KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 
 @Controller()
@@ -23,7 +23,7 @@ export class UsersMessageController implements OnModuleInit {
   // @EventPattern(UserUpdatedEvent.topic)
   // handleUserUpdated(@Payload() payload: string, @Ctx() context: KafkaContext): void {}
 
-  @EventPattern(UsersCounselMessageCreatedEvent.topic)
+  @EventPattern(CounselMessageCreatedEvent.topic)
   async handleCounselMessageCreated(@Payload() payload: string): Promise<void> {
     const convertedPayload: CounselMessageCreatedPayload = kafkaPayloadToProtoMessage<CounselMessageCreatedPayload>(
       payload,

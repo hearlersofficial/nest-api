@@ -2,11 +2,12 @@ import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.en
 import { getNowDayjs } from "~common/shared/utils/date";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserMessageTokenId } from "~common/shared-kernel/identifiers/user-message-token.id";
 import { Dayjs } from "dayjs";
 
 interface UserMessageTokensNewProps {
-  userId: UniqueEntityId;
+  userId: UserId;
   resetInterval: TokenResetInterval;
   maxTokens: number;
   remainingTokens: number;
@@ -21,12 +22,12 @@ export interface UserMessageTokensProps extends UserMessageTokensNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
-  private constructor(props: UserMessageTokensProps, id: UniqueEntityId) {
+export class UserMessageTokens extends DomainEntity<UserMessageTokensProps, UserMessageTokenId> {
+  private constructor(props: UserMessageTokensProps, id: UserMessageTokenId) {
     super(props, id);
   }
 
-  public static create(props: UserMessageTokensProps, id: UniqueEntityId): Result<UserMessageTokens> {
+  public static create(props: UserMessageTokensProps, id: UserMessageTokenId): Result<UserMessageTokens> {
     const userMessageTokens = new UserMessageTokens(props, id);
     const validateResult = userMessageTokens.validateDomain();
     if (validateResult.isFailure) {
@@ -36,7 +37,7 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
   }
 
   public static createNew(props: UserMessageTokensNewProps): Result<UserMessageTokens> {
-    const id = new UniqueEntityId();
+    const id = new UserMessageTokenId();
     return this.create(
       {
         ...props,
@@ -56,7 +57,7 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps> {
   }
 
   // Getters
-  public get userId(): UniqueEntityId {
+  public get userId(): UserId {
     return this.props.userId;
   }
 

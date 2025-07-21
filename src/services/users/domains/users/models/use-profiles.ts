@@ -3,11 +3,12 @@ import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserProfileId } from "~common/shared-kernel/identifiers/user-profile.id";
 import { Dayjs } from "dayjs";
 
 interface UserProfilesNewProps {
-  userId: UniqueEntityId;
+  userId: UserId;
   profileImage: string;
   phoneNumber: string;
   gender: Gender;
@@ -22,12 +23,12 @@ export interface UserProfilesProps extends UserProfilesNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class UserProfiles extends DomainEntity<UserProfilesProps> {
-  private constructor(props: UserProfilesProps, id: UniqueEntityId) {
+export class UserProfiles extends DomainEntity<UserProfilesProps, UserProfileId> {
+  private constructor(props: UserProfilesProps, id: UserProfileId) {
     super(props, id);
   }
 
-  public static create(props: UserProfilesProps, id: UniqueEntityId): Result<UserProfiles> {
+  public static create(props: UserProfilesProps, id: UserProfileId): Result<UserProfiles> {
     const userProfiles = new UserProfiles(props, id);
     const validateResult = userProfiles.validateDomain();
     if (validateResult.isFailure) {
@@ -38,7 +39,7 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
 
   public static createNew(newProps: UserProfilesNewProps): Result<UserProfiles> {
     const now = getNowDayjs();
-    return this.create({ ...newProps, createdAt: now, updatedAt: now, deletedAt: null }, new UniqueEntityId());
+    return this.create({ ...newProps, createdAt: now, updatedAt: now, deletedAt: null }, new UserProfileId());
   }
 
   validateDomain(): Result<void> {
@@ -149,7 +150,7 @@ export class UserProfiles extends DomainEntity<UserProfilesProps> {
   }
 
   // Getters
-  get userId(): UniqueEntityId {
+  get userId(): UserId {
     return this.props.userId;
   }
 

@@ -7,7 +7,7 @@ import { getNowDayjs } from "~common/shared/utils/date";
 import { generateUUID } from "~common/shared/utils/uuid";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
 export interface UsersNewProps {}
@@ -21,12 +21,12 @@ export interface UsersProps extends UsersNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class Users extends AggregateRoot<UsersProps> {
-  private constructor(props: UsersProps, id: UniqueEntityId) {
+export class Users extends AggregateRoot<UsersProps, UserId> {
+  private constructor(props: UsersProps, id: UserId) {
     super(props, id);
   }
 
-  public static create(props: UsersProps, id: UniqueEntityId): Result<Users> {
+  public static create(props: UsersProps, id: UserId): Result<Users> {
     const users = new Users(props, id);
     const validateResult = users.validateDomain();
     if (validateResult.isFailure) {
@@ -37,7 +37,7 @@ export class Users extends AggregateRoot<UsersProps> {
 
   public static createNew(newProps: UsersNewProps): Result<Users> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new UserId();
     return this.create(
       {
         ...newProps,

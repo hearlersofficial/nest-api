@@ -1,11 +1,12 @@
 import { PsqlKakaoMapper } from "~users/domains/auth-users/infrastructures/mappers/psql.kakao.mapper";
+import { PsqlRefreshTokensMapper } from "~users/domains/auth-users/infrastructures/mappers/psql-refresh-token.mapper";
 import { AuthUsers, AuthUsersProps } from "~users/domains/auth-users/models/auth-users";
-import { PsqlRefreshTokensMapper } from "~users/domains/users/infrastructures/mappers/psql-refresh-token.mapper";
 
 import { HttpStatus } from "@nestjs/common";
 import { CoreStatus } from "~common/shared/enums/status";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth-users.entity";
 import dayjs from "dayjs";
@@ -19,7 +20,7 @@ export class PsqlAuthUsersMapper {
     const authUsersProps: AuthUsersProps = {
       status: CoreStatus.ACTIVE,
       authority: entity.authority,
-      userId: entity.userId ? new UniqueEntityId(entity.userId) : null,
+      userId: entity.userId ? new UserId(entity.userId) : null,
       lastLoginAt: dayjs(entity.lastLoginAt),
       authChannel: entity.authChannel,
       kakao: entity.kakao ? PsqlKakaoMapper.toDomain(entity.kakao) : null,
@@ -28,7 +29,7 @@ export class PsqlAuthUsersMapper {
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
       refreshTokens: entity.refreshTokens ? PsqlRefreshTokensMapper.toDomains(entity.refreshTokens) : [],
     };
-    const authUserOrError: Result<AuthUsers> = AuthUsers.create(authUsersProps, new UniqueEntityId(entity.id));
+    const authUserOrError: Result<AuthUsers> = AuthUsers.create(authUsersProps, new AuthUserId(entity.id));
     if (authUserOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, authUserOrError.errorValue);
     }

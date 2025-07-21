@@ -2,7 +2,8 @@ import { UserMessageTokens, UserMessageTokensProps } from "~users/domains/users/
 
 import { HttpStatus } from "@nestjs/common";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserMessageTokenId } from "~common/shared-kernel/identifiers/user-message-token.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";
 import dayjs from "dayjs";
@@ -13,7 +14,7 @@ export class PsqlUserMessageTokensMapper {
     }
 
     const userMessageTokensProps: UserMessageTokensProps = {
-      userId: new UniqueEntityId(entity.userId),
+      userId: new UserId(entity.userId),
       maxTokens: entity.maxTokens,
       remainingTokens: entity.remainingTokens,
       reserved: entity.reserved,
@@ -27,7 +28,7 @@ export class PsqlUserMessageTokensMapper {
 
     const userMessageTokensOrError: Result<UserMessageTokens> = UserMessageTokens.create(
       userMessageTokensProps,
-      new UniqueEntityId(entity.id),
+      new UserMessageTokenId(entity.id),
     );
 
     if (userMessageTokensOrError.isFailure) {

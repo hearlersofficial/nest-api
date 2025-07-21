@@ -1,10 +1,11 @@
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 
-export type UsersCriteriaUniqueKey = { type: "user"; id: UniqueEntityId } | { type: "nickname"; nickname: string };
+export type UsersCriteriaUniqueKey = { type: "user"; id: UserId } | { type: "nickname"; nickname: string };
 
 export type UsersCriteriaFindOne = {
-  userId?: UniqueEntityId;
+  userId?: UserId;
   nickname?: string;
+  // NOTE: 내부 로직에 대한 flag를 전달하는 것은 제어결합도를 높이는 방법이므로 좋지 않음 리팩토링 필요
   withPessimisticWriteLock?: boolean;
 };
 

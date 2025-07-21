@@ -2,7 +2,8 @@ import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 
 import { HttpStatus } from "@nestjs/common";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { RefreshTokenId } from "~common/shared-kernel/identifiers/refresh-token.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { RefreshTokenEntity } from "~common/system/persistences/entities/users/refresh-tokens.entity";
 import dayjs from "dayjs";
@@ -20,7 +21,7 @@ export class PsqlRefreshTokensMapper {
         updatedAt: dayjs(entity.updatedAt),
         deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
       },
-      new UniqueEntityId(entity.id),
+      new RefreshTokenId(entity.id),
     );
     if (refreshTokenOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, refreshTokenOrError.errorValue);
@@ -32,7 +33,7 @@ export class PsqlRefreshTokensMapper {
     return entities.map((entity) => PsqlRefreshTokensMapper.toDomain(entity));
   }
 
-  static toEntity(domain: RefreshTokens, authUserId: UniqueEntityId): RefreshTokenEntity {
+  static toEntity(domain: RefreshTokens, authUserId: AuthUserId): RefreshTokenEntity {
     const entity = new RefreshTokenEntity();
 
     entity.id = domain.id.getString();
@@ -45,7 +46,7 @@ export class PsqlRefreshTokensMapper {
     return entity;
   }
 
-  static toEntities(domains: RefreshTokens[] = [], authUserId: UniqueEntityId): RefreshTokenEntity[] {
+  static toEntities(domains: RefreshTokens[] = [], authUserId: AuthUserId): RefreshTokenEntity[] {
     return domains.map((domain) => this.toEntity(domain, authUserId));
   }
 }

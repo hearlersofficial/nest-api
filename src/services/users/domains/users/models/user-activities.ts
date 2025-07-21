@@ -3,11 +3,12 @@ import { ActivityType, DevicePlatform } from "~proto/com/hearlers/v1/model/user_
 import { getNowDayjs } from "~common/shared/utils/date";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserActivityId } from "~common/shared-kernel/identifiers/user-activity.id";
 import { Dayjs } from "dayjs";
 
 interface UserActivitiesNewProps {
-  userId: UniqueEntityId;
+  userId: UserId;
   activityType: ActivityType;
   activityData: Record<string, any>;
   platform: DevicePlatform;
@@ -22,12 +23,12 @@ export interface UserActivitiesProps extends UserActivitiesNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class UserActivities extends DomainEntity<UserActivitiesProps> {
-  private constructor(props: UserActivitiesProps, id: UniqueEntityId) {
+export class UserActivities extends DomainEntity<UserActivitiesProps, UserActivityId> {
+  private constructor(props: UserActivitiesProps, id: UserActivityId) {
     super(props, id);
   }
 
-  public static create(props: UserActivitiesProps, id: UniqueEntityId): Result<UserActivities> {
+  public static create(props: UserActivitiesProps, id: UserActivityId): Result<UserActivities> {
     const userActivities = new UserActivities(props, id);
     const validateResult = userActivities.validateDomain();
     if (validateResult.isFailure) {
@@ -38,7 +39,7 @@ export class UserActivities extends DomainEntity<UserActivitiesProps> {
 
   public static createNew(newProps: UserActivitiesNewProps): Result<UserActivities> {
     const now = getNowDayjs();
-    return this.create({ ...newProps, createdAt: now, updatedAt: now, deletedAt: null }, new UniqueEntityId());
+    return this.create({ ...newProps, createdAt: now, updatedAt: now, deletedAt: null }, new UserActivityId());
   }
 
   validateDomain(): Result<void> {
@@ -80,7 +81,7 @@ export class UserActivities extends DomainEntity<UserActivitiesProps> {
   }
 
   // Getters
-  get userId(): UniqueEntityId {
+  get userId(): UserId {
     return this.props.userId;
   }
 

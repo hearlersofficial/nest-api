@@ -1,5 +1,5 @@
+import { UsersInfo } from "~users/domains/users/models/user.info";
 import { UserProfilesInfo } from "~users/domains/users/models/user-profiles.info";
-import { UsersInfo } from "~users/domains/users/models/users.info";
 import { User, UserProfile, UserProfileSchema, UserSchema } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { create } from "@bufbuild/protobuf";
@@ -12,7 +12,7 @@ export class SchemaUsersMapper {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to map user to proto");
     }
     return create(UserSchema, {
-      id: user.id,
+      id: user.id.getString(),
       nickname: user.nickname,
       userProfile: user.userProfile ? this.toUserProfileProto(user.userProfile) : undefined,
       createdAt: user.createdAt.toISOString(),

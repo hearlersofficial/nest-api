@@ -1,11 +1,12 @@
 import { getNowDayjs } from "~common/shared/utils/date";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { KakaoId } from "~common/shared-kernel/identifiers/kakao.id";
 import { Dayjs } from "dayjs";
 
 interface KakaoNewProps {
-  authUserId: UniqueEntityId;
+  authUserId: AuthUserId;
   uniqueId: string;
 }
 
@@ -15,12 +16,12 @@ interface KakaoProps extends KakaoNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class Kakao extends DomainEntity<KakaoProps> {
-  private constructor(props: KakaoProps, id: UniqueEntityId) {
+export class Kakao extends DomainEntity<KakaoProps, KakaoId> {
+  private constructor(props: KakaoProps, id: KakaoId) {
     super(props, id);
   }
 
-  public static create(props: KakaoProps, id: UniqueEntityId): Result<Kakao> {
+  public static create(props: KakaoProps, id: KakaoId): Result<Kakao> {
     const kakao = new Kakao(props, id);
     const validateResult = kakao.validateDomain();
     if (validateResult.isFailure) {
@@ -31,7 +32,7 @@ export class Kakao extends DomainEntity<KakaoProps> {
 
   public static createNew(newProps: KakaoNewProps): Result<Kakao> {
     const now = getNowDayjs();
-    return this.create({ ...newProps, createdAt: now, updatedAt: now, deletedAt: null }, new UniqueEntityId());
+    return this.create({ ...newProps, createdAt: now, updatedAt: now, deletedAt: null }, new KakaoId());
   }
 
   validateDomain(): Result<void> {
@@ -57,7 +58,7 @@ export class Kakao extends DomainEntity<KakaoProps> {
   }
 
   // Getters
-  get authUserId(): UniqueEntityId {
+  get authUserId(): AuthUserId {
     return this.props.authUserId;
   }
 

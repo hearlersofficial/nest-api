@@ -7,8 +7,8 @@ import {
 import { Controller, Inject, OnModuleInit } from "@nestjs/common";
 import { ClientKafka, EventPattern, Payload } from "@nestjs/microservices";
 import { kafkaPayloadToProtoMessage } from "~common/shared/utils/proto";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselMessageCreatedEvent } from "~common/shared-kernel/event/counsel-message-created.event";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 
 @Controller()
@@ -29,6 +29,6 @@ export class UsersMessageController implements OnModuleInit {
       payload,
       CounselMessageCreatedPayloadSchema,
     );
-    await this.usersFacade.consumeTokens(new UniqueEntityId(convertedPayload.userId));
+    await this.usersFacade.consumeTokens(new UserId(convertedPayload.userId));
   }
 }

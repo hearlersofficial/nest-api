@@ -1,15 +1,16 @@
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 
 export type AuthUsersCriteriaUniqueKey =
-  | { type: "user"; id: UniqueEntityId }
-  | { type: "authUser"; id: UniqueEntityId }
+  | { type: "user"; id: UserId }
+  | { type: "authUser"; id: AuthUserId }
   | { type: "channelInfo"; uniqueId: string; authChannel: AuthChannel };
 
 export type AuthUsersCriteriaFindOne = {
-  userId?: UniqueEntityId;
-  authUserId?: UniqueEntityId;
+  userId?: UserId;
+  authUserId?: AuthUserId;
   channelInfo?: {
     uniqueId?: string;
     authChannel?: AuthChannel;

@@ -4,15 +4,17 @@ import { RefreshTokenInfo } from "~users/domains/auth-users/models/refresh-token
 import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { CoreStatus } from "~common/shared/enums/status";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
 export class AuthUserInfo {
   constructor(
-    public readonly id: string,
+    public readonly id: AuthUserId,
     public readonly authChannel: AuthChannel,
     public readonly status: CoreStatus,
     public readonly authority: Authority,
-    public readonly userId: string | null,
+    public readonly userId: UserId | null,
     public readonly lastLoginAt: Dayjs,
     public readonly kakao: KakaoInfo | null,
     public readonly refreshTokens: RefreshTokenInfo[],
@@ -23,11 +25,11 @@ export class AuthUserInfo {
 
   static fromDomain(authUsers: AuthUsers): AuthUserInfo {
     return new AuthUserInfo(
-      authUsers.id.getString(),
+      authUsers.id,
       authUsers.authChannel,
       authUsers.status,
       authUsers.authority,
-      authUsers.userId ? authUsers.userId.getString() : null,
+      authUsers.userId,
       authUsers.lastLoginAt,
       authUsers.kakao ? KakaoInfo.fromDomain(authUsers.kakao) : null,
       authUsers.refreshTokens ? RefreshTokenInfo.fromDomainArray(authUsers.refreshTokens) : [],

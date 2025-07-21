@@ -1,12 +1,13 @@
 import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
 import { AuthUserInfo } from "~users/domains/auth-users/models/auth-user.info";
-import { UsersInfo } from "~users/domains/users/models/users.info";
+import { UsersInfo } from "~users/domains/users/models/user.info";
 import { UsersService } from "~users/domains/users/users.service";
 import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { isDefined } from "~common/shared/utils/validate";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Dayjs } from "dayjs";
 import { Transactional } from "typeorm-transactional";
@@ -22,14 +23,14 @@ export class AuthFacade {
     const user = await this.usersService.create({});
     const authUser = await this.authUsersService.create({});
 
-    await this.authUsersService.bindUser(new UniqueEntityId(authUser.id), new UniqueEntityId(user.id));
+    await this.authUsersService.bindUser(authUser.id, user.id);
 
     return { user, authUser };
   }
 
   async findOneAuthUser(params: {
-    authUserId?: UniqueEntityId;
-    userId?: UniqueEntityId;
+    authUserId?: AuthUserId;
+    userId?: UserId;
     authChannel?: AuthChannel;
     uniqueId?: string;
   }): Promise<AuthUserInfo> {
@@ -54,7 +55,7 @@ export class AuthFacade {
 
   @Transactional()
   async connectAuthChannel(params: {
-    userId: UniqueEntityId;
+    userId: UserId;
     authChannel: AuthChannel;
     uniqueId: string;
   }): Promise<{ authUser: AuthUserInfo }> {
@@ -68,12 +69,12 @@ export class AuthFacade {
     };
   }
 
-  async saveRefreshToken(params: { userId: UniqueEntityId; token: string; expiresAt: Dayjs }): Promise<AuthUserInfo> {
+  async saveRefreshToken(params: { userId: UserId; token: string; expiresAt: Dayjs }): Promise<AuthUserInfo> {
     const { userId, token, expiresAt } = params;
     return await this.authUsersService.saveRefreshToken(userId, token, expiresAt);
   }
 
-  async verifyRefreshToken(params: { userId: UniqueEntityId; token: string }): Promise<{ success: boolean }> {
+  async verifyRefreshToken(params: { userId: UserId; token: string }): Promise<{ success: boolean }> {
     const { userId, token } = params;
     await this.authUsersService.verifyRefreshToken(userId, token);
 
@@ -82,7 +83,7 @@ export class AuthFacade {
     };
   }
 
-  async updateAuthority(params: { authUserId: UniqueEntityId; authority: Authority }): Promise<AuthUserInfo> {
+  async updateAuthority(params: { authUserId: AuthUserId; authority: Authority }): Promise<AuthUserInfo> {
     const { authUserId, authority } = params;
     return await this.authUsersService.updateAuthority(authUserId, authority);
   }

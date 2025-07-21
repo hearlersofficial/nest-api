@@ -1,12 +1,14 @@
 import { UserActivities } from "~users/domains/users/models/user-activities";
 import { ActivityType, DevicePlatform } from "~proto/com/hearlers/v1/model/user_pb";
 
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserActivityId } from "~common/shared-kernel/identifiers/user-activity.id";
 import { Dayjs } from "dayjs";
 
 export class UserActivitiesInfo {
   constructor(
-    public readonly id: string,
-    public readonly userId: string,
+    public readonly id: UserActivityId,
+    public readonly userId: UserId,
     public readonly activityType: ActivityType,
     public readonly activityData: Record<string, any>,
     public readonly platform: DevicePlatform,
@@ -20,8 +22,8 @@ export class UserActivitiesInfo {
 
   static fromDomain(activity: UserActivities): UserActivitiesInfo {
     return new UserActivitiesInfo(
-      activity.id.getString(),
-      activity.userId.getString(),
+      activity.id,
+      activity.userId,
       activity.activityType,
       activity.activityData,
       activity.platform,

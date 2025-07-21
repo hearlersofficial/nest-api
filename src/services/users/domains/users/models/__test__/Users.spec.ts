@@ -1,7 +1,5 @@
-import { EmotionalState } from "~shared/enums/EmotionalState.enum";
-import { UserPrompts } from "~users/aggregates/users/domain/UserPrompts";
 import { UserProgresses } from "~users/domains/users/models/UserProgresses";
-import { Users } from "~users/domains/users/models/users-";
+import { Users } from "~users/domains/users/models/users";
 import { ProgressStatus, ProgressType } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";

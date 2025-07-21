@@ -10,7 +10,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import dayjs from "dayjs";
 
 @Injectable()
-export class UsersFacade {
+export class UserManagementFacade {
   constructor(private readonly usersService: UsersService) {}
 
   async findOneUser(params: { userId?: UniqueEntityId; nickname?: string }): Promise<Users> {

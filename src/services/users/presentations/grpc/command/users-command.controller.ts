@@ -1,6 +1,6 @@
-import { AuthFacade } from "~users/applications/auth.facade";
-import { AuthUsersFacade } from "~users/applications/auth-users.facade";
-import { UsersFacade } from "~users/applications/users.facade";
+import { AuthFacade } from "~users/applications/auth/auth.facade";
+import { AuthUsersFacade } from "~users/applications/auth/auth-users.facade";
+import { UserManagementFacade } from "~users/applications/user-management/user-management.facade";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
 import { Users } from "~users/domains/users/models/users";
 import { SchemaAuthUsersMapper } from "~users/presentations/grpc/auth-users.mapper";
@@ -37,7 +37,7 @@ import dayjs from "dayjs";
 @Controller("user")
 export class GrpcUserCommandController {
   constructor(
-    private readonly usersFacade: UsersFacade,
+    private readonly usersFacade: UserManagementFacade,
     private readonly authUsersFacade: AuthUsersFacade,
     private readonly authFacade: AuthFacade,
   ) {}

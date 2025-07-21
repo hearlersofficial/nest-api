@@ -1,5 +1,5 @@
-import { AuthUsersFacade } from "~users/applications/auth-users.facade";
-import { UsersFacade } from "~users/applications/users.facade";
+import { AuthUsersFacade } from "~users/applications/auth/auth-users.facade";
+import { UserManagementFacade } from "~users/applications/user-management/user-management.facade";
 import { Users } from "~users/domains/users/models/users";
 import { SchemaAuthUsersMapper } from "~users/presentations/grpc/auth-users.mapper";
 import { SchemaUsersMapper } from "~users/presentations/grpc/users.mapper";
@@ -32,7 +32,7 @@ import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 @Controller("user")
 export class GrpcUserQueryController {
   constructor(
-    private readonly userFacade: UsersFacade,
+    private readonly userFacade: UserManagementFacade,
     private readonly authUsersFacade: AuthUsersFacade,
   ) {}
 

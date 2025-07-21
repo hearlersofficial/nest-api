@@ -63,7 +63,7 @@ async function bootstrap(): Promise<void> {
     throw new Error(`Invalid SERVICE_TYPE. Must be one of: ${Object.values(ServiceType).join(", ")}`);
   }
 
-  logger.log(`🚀 Starting application in ${serviceType} mode`);
+  logger.log(`Starting application in ${serviceType} mode`);
 
   // 동적으로 앱 모듈 생성
   const dynamicModule = createAppModule(serviceType);
@@ -97,13 +97,13 @@ async function bootstrap(): Promise<void> {
     },
   });
 
-  logger.log(`📡 gRPC server configured on ${config.host}:${config.port}`);
-  logger.log(`📨 Kafka consumer configured with group: ${process.env.KAFKA_GROUP_ID}`);
+  logger.log(`gRPC server configured on ${config.host}:${config.port}`);
+  logger.log(`Kafka consumer configured with group: ${process.env.KAFKA_GROUP_ID}`);
 
   await app.init();
   await app.startAllMicroservices();
 
-  logger.log(`✅ Application started successfully in ${serviceType} mode`);
+  logger.log(`Application started successfully in ${serviceType} mode`);
 }
 
 bootstrap();

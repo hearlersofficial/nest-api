@@ -94,7 +94,7 @@ export class Users extends AggregateRoot<UsersProps> {
     return this.props.nickname;
   }
 
-  get userProfile(): UserProfiles | undefined {
+  get userProfile(): UserProfiles {
     return this.props.userProfile;
   }
 

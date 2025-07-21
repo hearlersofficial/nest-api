@@ -1,5 +1,5 @@
 import { UsersCounselMessageCreatedEvent } from "~users/applications/events/counsel-message-created.event";
-import { UsersFacade } from "~users/applications/users.facade";
+import { UserManagementFacade } from "~users/applications/user-management/user-management.facade";
 import {
   CounselMessageCreatedPayload,
   CounselMessageCreatedPayloadSchema,
@@ -15,7 +15,7 @@ import { KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 export class UsersMessageController implements OnModuleInit {
   constructor(
     @Inject(KAFKA_CLIENT) private readonly kafkaClient: ClientKafka,
-    private readonly usersFacade: UsersFacade,
+    private readonly usersFacade: UserManagementFacade,
   ) {}
 
   async onModuleInit() {}

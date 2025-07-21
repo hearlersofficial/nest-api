@@ -6,7 +6,7 @@ import { Users, UsersProps } from "~users/domains/users/models/users";
 
 import { HttpStatus } from "@nestjs/common";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
 import dayjs from "dayjs";
@@ -34,7 +34,7 @@ export class PsqlUsersMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const usersOrError: Result<Users> = Users.create(userProps, new UniqueEntityId(entity.id));
+    const usersOrError: Result<Users> = Users.create(userProps, new UserId(entity.id));
 
     if (usersOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, usersOrError.errorValue);

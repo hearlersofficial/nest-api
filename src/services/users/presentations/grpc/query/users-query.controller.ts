@@ -26,7 +26,8 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 
 @Controller("user")
 export class GrpcUserQueryController {
@@ -38,7 +39,7 @@ export class GrpcUserQueryController {
   @GrpcMethod("UserService", "FindUserByUserId")
   async findUserByUserId(data: FindUserByUserIdRequest): Promise<FindUserByUserIdResponse> {
     const user = await this.userFacade.findOneUser({
-      userId: new UniqueEntityId(data.userId),
+      userId: new UserId(data.userId),
     });
 
     return create(FindUserByUserIdResponseSchema, {
@@ -60,7 +61,7 @@ export class GrpcUserQueryController {
   @GrpcMethod("UserService", "FindAuthUserByAuthUserId")
   async findAuthUserByAuthUserId(data: FindAuthUserByAuthUserIdRequest): Promise<FindAuthUserByAuthUserIdResponse> {
     const authUser = await this.authFacade.findOneAuthUser({
-      authUserId: new UniqueEntityId(data.authUserId),
+      authUserId: new AuthUserId(data.authUserId),
     });
 
     return create(FindAuthUserByAuthUserIdResponseSchema, {
@@ -71,7 +72,7 @@ export class GrpcUserQueryController {
   @GrpcMethod("UserService", "FindAuthUserByUserId")
   async findAuthUserByUserId(data: FindAuthUserByUserIdRequest): Promise<FindAuthUserByUserIdResponse> {
     const authUser = await this.authFacade.findOneAuthUser({
-      userId: new UniqueEntityId(data.userId),
+      userId: new UserId(data.userId),
     });
 
     return create(FindAuthUserByUserIdResponseSchema, {
@@ -94,7 +95,7 @@ export class GrpcUserQueryController {
   @GrpcMethod("UserService", "CheckRemainingTokens")
   async checkRemainingTokens(data: CheckRemainingTokensRequest): Promise<CheckRemainingTokensResponse> {
     const { remainingTokens, maxTokens, reserved } = await this.userFacade.checkRemainingTokens(
-      new UniqueEntityId(data.userId),
+      new UserId(data.userId),
     );
 
     return create(CheckRemainingTokensResponseSchema, {

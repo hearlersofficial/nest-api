@@ -12,7 +12,8 @@ import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_p
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Dayjs } from "dayjs";
 
@@ -28,7 +29,7 @@ export class AuthUsersService {
     return AuthUserInfo.fromDomain(authUser);
   }
 
-  async bindUser(authUserId: UniqueEntityId, userId: UniqueEntityId): Promise<AuthUserInfo> {
+  async bindUser(authUserId: AuthUserId, userId: UserId): Promise<AuthUserInfo> {
     const authUser = await this.reader.findOne({
       uniqueCriteria: {
         type: "authUser",
@@ -42,15 +43,11 @@ export class AuthUsersService {
     return AuthUserInfo.fromDomain(authUser);
   }
 
-  async connectAuthChannel(
-    authUserId: UniqueEntityId,
-    authChannel: AuthChannel,
-    uniqueId: string,
-  ): Promise<AuthUserInfo> {
+  async connectAuthChannel(userId: UserId, authChannel: AuthChannel, uniqueId: string): Promise<AuthUserInfo> {
     const authUser = await this.reader.findOne({
       uniqueCriteria: {
-        type: "authUser",
-        id: authUserId,
+        type: "user",
+        id: userId,
       },
     });
     if (!authUser) {
@@ -60,7 +57,7 @@ export class AuthUsersService {
     return AuthUserInfo.fromDomain(authUser);
   }
 
-  async updateAuthority(authUserId: UniqueEntityId, authority: Authority): Promise<AuthUserInfo> {
+  async updateAuthority(authUserId: AuthUserId, authority: Authority): Promise<AuthUserInfo> {
     const authUser = await this.reader.findOne({
       uniqueCriteria: {
         type: "authUser",
@@ -75,11 +72,11 @@ export class AuthUsersService {
     return AuthUserInfo.fromDomain(authUser);
   }
 
-  async verifyRefreshToken(authUserId: UniqueEntityId, token: string): Promise<AuthUserInfo> {
+  async verifyRefreshToken(userId: UserId, token: string): Promise<AuthUserInfo> {
     const authUser = await this.reader.findOne({
       uniqueCriteria: {
-        type: "authUser",
-        id: authUserId,
+        type: "user",
+        id: userId,
       },
     });
     if (!authUser) {
@@ -94,11 +91,11 @@ export class AuthUsersService {
     return AuthUserInfo.fromDomain(authUser);
   }
 
-  async saveRefreshToken(authUserId: UniqueEntityId, token: string, expiresAt: Dayjs): Promise<AuthUserInfo> {
+  async saveRefreshToken(userId: UserId, token: string, expiresAt: Dayjs): Promise<AuthUserInfo> {
     const authUser = await this.reader.findOne({
       uniqueCriteria: {
-        type: "authUser",
-        id: authUserId,
+        type: "user",
+        id: userId,
       },
     });
     if (!authUser) {

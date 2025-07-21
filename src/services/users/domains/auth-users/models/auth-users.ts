@@ -6,7 +6,8 @@ import { CoreStatus } from "~common/shared/enums/status";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
 const REFRESH_TOKEN_NOT_FOUND = "리프레시 토큰을 찾을 수 없습니다.";
@@ -18,7 +19,7 @@ export interface AuthUsersProps extends AuthUsersNewProps {
   authChannel: AuthChannel;
   status: CoreStatus;
   authority: Authority;
-  userId: UniqueEntityId | null;
+  userId: UserId | null;
   lastLoginAt: Dayjs;
   kakao: Kakao | null;
   refreshTokens: RefreshTokens[];
@@ -27,12 +28,12 @@ export interface AuthUsersProps extends AuthUsersNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class AuthUsers extends AggregateRoot<AuthUsersProps> {
-  private constructor(props: AuthUsersProps, id: UniqueEntityId) {
+export class AuthUsers extends AggregateRoot<AuthUsersProps, AuthUserId> {
+  private constructor(props: AuthUsersProps, id: AuthUserId) {
     super(props, id);
   }
 
-  public static create(props: AuthUsersProps, id: UniqueEntityId): Result<AuthUsers> {
+  public static create(props: AuthUsersProps, id: AuthUserId): Result<AuthUsers> {
     const authUsers = new AuthUsers(props, id);
     const validationResult = authUsers.validateDomain();
     authUsers.expireRefreshTokens();
@@ -60,7 +61,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
         deletedAt: null,
         kakao: null,
       },
-      new UniqueEntityId(),
+      new AuthUserId(),
     );
   }
 
@@ -72,7 +73,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
   }
 
   // Getters
-  get userId(): UniqueEntityId | null {
+  get userId(): UserId | null {
     return this.props.userId;
   }
 
@@ -133,7 +134,7 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     return Result.ok();
   }
 
-  public bindUser(userId: UniqueEntityId): void {
+  public bindUser(userId: UserId): void {
     this.props.userId = userId;
     this.props.status = CoreStatus.ACTIVE;
     this.props.updatedAt = getNowDayjs();

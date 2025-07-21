@@ -5,7 +5,8 @@ import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth-users.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
@@ -31,7 +32,7 @@ export class PsqlAuthUsersRepository extends AuthUsersRepository {
   }
 
   override async findByAuthUserId(
-    authUserId: UniqueEntityId,
+    authUserId: AuthUserId,
     options?: FindOneOptions<AuthUsersEntity>,
   ): Promise<AuthUsers | null> {
     const findOneOptions: FindOneOptions<AuthUsersEntity> = options ?? {};
@@ -47,10 +48,7 @@ export class PsqlAuthUsersRepository extends AuthUsersRepository {
     return result ? PsqlAuthUsersMapper.toDomain(result) : null;
   }
 
-  override async findByUserId(
-    userId: UniqueEntityId,
-    options?: FindOneOptions<AuthUsersEntity>,
-  ): Promise<AuthUsers | null> {
+  override async findByUserId(userId: UserId, options?: FindOneOptions<AuthUsersEntity>): Promise<AuthUsers | null> {
     const findOneOptions: FindOneOptions<AuthUsersEntity> = options ?? {};
     findOneOptions.where = {
       ...findOneOptions.where,

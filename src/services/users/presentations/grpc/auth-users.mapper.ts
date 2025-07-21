@@ -20,8 +20,8 @@ export class SchemaAuthUsersMapper {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to map authUser to proto");
     }
     return create(AuthUserSchema, {
-      id: authUser.id,
-      userId: authUser.userId ?? undefined,
+      id: authUser.id.getString(),
+      userId: authUser.userId?.getString() ?? undefined,
       authChannel: authUser.authChannel,
       oauthChannelInfo: this.toOAuthChannelInfoProto(authUser),
       authority: authUser.authority,
@@ -43,7 +43,7 @@ export class SchemaAuthUsersMapper {
     switch (authUser.authChannel) {
       case AuthChannel.KAKAO:
         return create(OAuthChannelInfoSchema, {
-          id: authUser?.kakao?.id,
+          id: authUser?.kakao?.id.getString(),
           authChannel: authUser.authChannel,
           uniqueId: authUser?.kakao?.uniqueId,
           createdAt: authUser?.kakao?.createdAt.toISOString(),

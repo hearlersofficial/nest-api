@@ -28,7 +28,8 @@ import {
 import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import dayjs from "dayjs";
 
 @Controller("user")
@@ -51,7 +52,7 @@ export class GrpcUserCommandController {
   async connectAuthChannel(request: ConnectAuthChannelRequest): Promise<ConnectAuthChannelResponse> {
     const { userId, authChannel, uniqueId } = request;
     const { authUser } = await this.authFacade.connectAuthChannel({
-      userId: new UniqueEntityId(userId),
+      userId: new UserId(userId),
       authChannel,
       uniqueId,
     });
@@ -64,7 +65,7 @@ export class GrpcUserCommandController {
   async saveRefreshToken(request: SaveRefreshTokenRequest): Promise<SaveRefreshTokenResponse> {
     const { userId, token, expiresAt } = request;
     await this.authFacade.saveRefreshToken({
-      userId: new UniqueEntityId(userId),
+      userId: new UserId(userId),
       token,
       expiresAt: dayjs(expiresAt),
     });
@@ -77,7 +78,7 @@ export class GrpcUserCommandController {
   async verifyRefreshToken(request: VerifyRefreshTokenRequest): Promise<VerifyRefreshTokenResponse> {
     const { userId, token } = request;
     const { success } = await this.authFacade.verifyRefreshToken({
-      userId: new UniqueEntityId(userId),
+      userId: new UserId(userId),
       token,
     });
     return create(VerifyRefreshTokenResponseSchema, {
@@ -89,7 +90,7 @@ export class GrpcUserCommandController {
   async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
     const { userId, nickname, profileImage, phoneNumber, gender, birthday, introduction, mbti } = request;
     const updatedUser = await this.usersFacade.updateUser({
-      userId: new UniqueEntityId(userId),
+      userId: new UserId(userId),
       nickname,
       profile: {
         profileImage,
@@ -105,9 +106,7 @@ export class GrpcUserCommandController {
 
   @GrpcMethod("UserService", "ReserveTokens")
   async reserveTokens(request: ReserveTokensRequest): Promise<ReserveTokensResponse> {
-    const { remainingTokens, maxTokens, reserved } = await this.usersFacade.reserveTokens(
-      new UniqueEntityId(request.userId),
-    );
+    const { remainingTokens, maxTokens, reserved } = await this.usersFacade.reserveTokens(new UserId(request.userId));
     return create(ReserveTokensResponseSchema, {
       remainingTokens,
       maxTokens,
@@ -119,7 +118,7 @@ export class GrpcUserCommandController {
   async updateAuthority(request: UpdateAuthorityRequest): Promise<UpdateAuthorityResponse> {
     const { authUserId, authority } = request;
     const authUser = await this.authFacade.updateAuthority({
-      authUserId: new UniqueEntityId(authUserId),
+      authUserId: new AuthUserId(authUserId),
       authority,
     });
     return create(UpdateAuthorityResponseSchema, { authUser: SchemaAuthUsersMapper.toAuthUserProto(authUser) });

@@ -1,12 +1,14 @@
 import { UserMessageTokens } from "~users/domains/users/models/user-message-tokens";
 
 import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserMessageTokenId } from "~common/shared-kernel/identifiers/user-message-token.id";
 import { Dayjs } from "dayjs";
 
 export class UserMessageTokensInfo {
   constructor(
-    public readonly id: string,
-    public readonly userId: string,
+    public readonly id: UserMessageTokenId,
+    public readonly userId: UserId,
     public readonly resetInterval: TokenResetInterval,
     public readonly maxTokens: number,
     public readonly remainingTokens: number,
@@ -20,8 +22,8 @@ export class UserMessageTokensInfo {
 
   static fromDomain(tokens: UserMessageTokens): UserMessageTokensInfo {
     return new UserMessageTokensInfo(
-      tokens.id.getString(),
-      tokens.userId.getString(),
+      tokens.id,
+      tokens.userId,
       tokens.resetInterval,
       tokens.maxTokens,
       tokens.remainingTokens,

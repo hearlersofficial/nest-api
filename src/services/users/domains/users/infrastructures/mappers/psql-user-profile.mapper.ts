@@ -2,7 +2,8 @@ import { UserProfiles } from "~users/domains/users/models/use-profiles";
 
 import { HttpStatus } from "@nestjs/common";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserProfileId } from "~common/shared-kernel/identifiers/user-profile.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/user-profiles.entity";
 import dayjs from "dayjs";
@@ -14,7 +15,7 @@ export class PsqlUserProfilesMapper {
     }
 
     const userProfilesProps = {
-      userId: new UniqueEntityId(entity.userId),
+      userId: new UserId(entity.userId),
       profileImage: entity.profileImage,
       phoneNumber: entity.phoneNumber,
       gender: entity.gender,
@@ -28,7 +29,7 @@ export class PsqlUserProfilesMapper {
 
     const userProfilesOrError: Result<UserProfiles> = UserProfiles.create(
       userProfilesProps,
-      new UniqueEntityId(entity.id),
+      new UserProfileId(entity.id),
     );
 
     if (userProfilesOrError.isFailure) {

@@ -1,6 +1,6 @@
 import { UserProfilesProps } from "~users/domains/users/models/use-profiles";
+import { UsersInfo } from "~users/domains/users/models/user.info";
 import { UsersNewProps } from "~users/domains/users/models/users";
-import { UsersInfo } from "~users/domains/users/models/users.info";
 import { UsersCriteriaFindOne, UsersCriteriaUniqueKey } from "~users/domains/users/users.criteria";
 import { UsersReader } from "~users/domains/users/users.reader";
 import { UsersStore } from "~users/domains/users/users.store";
@@ -8,7 +8,7 @@ import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { isDefined } from "~common/shared/utils/validate";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import dayjs from "dayjs";
 
@@ -24,7 +24,7 @@ export class UsersService {
     return UsersInfo.fromDomain(user);
   }
 
-  async updateNickname(userId: UniqueEntityId, nickname: string): Promise<UsersInfo> {
+  async updateNickname(userId: UserId, nickname: string): Promise<UsersInfo> {
     const user = await this.reader.findOne({ uniqueCriteria: { type: "user", id: userId } });
     const existingUser = await this.reader.findOne({ uniqueCriteria: { type: "nickname", nickname } });
     if (!isDefined(user)) {
@@ -39,7 +39,7 @@ export class UsersService {
   }
 
   async updateProfile(
-    userId: UniqueEntityId,
+    userId: UserId,
     profile: {
       profileImage?: string;
       phoneNumber?: string;
@@ -82,7 +82,7 @@ export class UsersService {
     return UsersInfo.fromDomain(user);
   }
 
-  async consumeTokens(userId: UniqueEntityId, count: number): Promise<UsersInfo> {
+  async consumeTokens(userId: UserId, count: number): Promise<UsersInfo> {
     const user = await this.reader.findOne({ uniqueCriteria: { type: "user", id: userId } });
     if (!user) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "User not found");
@@ -92,7 +92,7 @@ export class UsersService {
     return UsersInfo.fromDomain(user);
   }
 
-  async reserveTokens(userId: UniqueEntityId): Promise<UsersInfo> {
+  async reserveTokens(userId: UserId): Promise<UsersInfo> {
     const user = await this.reader.findOne({ uniqueCriteria: { type: "user", id: userId } });
     if (!user) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "User not found");
@@ -111,7 +111,7 @@ export class UsersService {
     return UsersInfo.fromDomain(user);
   }
 
-  async updateMaxTokens(userId: UniqueEntityId, maxTokens: number): Promise<UsersInfo> {
+  async updateMaxTokens(userId: UserId, maxTokens: number): Promise<UsersInfo> {
     const user = await this.reader.findOne({ uniqueCriteria: { type: "user", id: userId } });
     if (!user) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "User not found");

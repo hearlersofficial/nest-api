@@ -6,10 +6,13 @@ export type AggregateRootProps = {
   [index: string]: any;
 };
 
-export abstract class AggregateRoot<T extends AggregateRootProps> extends DomainEntity<T> {
+export abstract class AggregateRoot<
+  T extends AggregateRootProps,
+  IdType extends UniqueEntityId = UniqueEntityId,
+> extends DomainEntity<T, IdType> {
   private _domainEvents: DomainEvent[] = [];
 
-  protected constructor(props: T, id: UniqueEntityId) {
+  protected constructor(props: T, id: IdType) {
     super(props, id);
   }
 

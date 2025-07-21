@@ -1,4 +1,4 @@
-import { UsersInfo } from "~users/domains/users/models/users.info";
+import { UsersInfo } from "~users/domains/users/models/user.info";
 import { Users } from "~users/domains/users/models/users";
 
 describe("UsersInfo", () => {

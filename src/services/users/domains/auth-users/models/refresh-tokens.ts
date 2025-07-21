@@ -1,7 +1,7 @@
 import { getNowDayjs } from "~common/shared/utils/date";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { RefreshTokenId } from "~common/shared-kernel/identifiers/refresh-token.id";
 import { Dayjs } from "dayjs";
 
 export interface RefreshTokenNewProps {
@@ -15,14 +15,14 @@ export interface RefreshTokensProps extends RefreshTokenNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class RefreshTokens extends DomainEntity<RefreshTokensProps> {
+export class RefreshTokens extends DomainEntity<RefreshTokensProps, RefreshTokenId> {
   protected props: RefreshTokensProps;
 
-  private constructor(props: RefreshTokensProps, id: UniqueEntityId) {
+  private constructor(props: RefreshTokensProps, id: RefreshTokenId) {
     super(props, id);
   }
 
-  public static create(props: RefreshTokensProps, id: UniqueEntityId): Result<RefreshTokens> {
+  public static create(props: RefreshTokensProps, id: RefreshTokenId): Result<RefreshTokens> {
     const refreshTokens = new RefreshTokens(props, id);
     const validateResult = refreshTokens.validateDomain();
     if (validateResult.isFailure) {
@@ -34,7 +34,7 @@ export class RefreshTokens extends DomainEntity<RefreshTokensProps> {
   public static createNew(props: RefreshTokenNewProps): Result<RefreshTokens> {
     return this.create(
       { ...props, createdAt: getNowDayjs(), updatedAt: getNowDayjs(), deletedAt: null },
-      new UniqueEntityId(),
+      new RefreshTokenId(),
     );
   }
 

@@ -1,10 +1,10 @@
-import { UsersInfo } from "~users/domains/users/models/users.info";
+import { UsersInfo } from "~users/domains/users/models/user.info";
 import { UsersService } from "~users/domains/users/users.service";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { isDefined } from "~common/shared/utils/validate";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -12,7 +12,7 @@ import { Transactional } from "typeorm-transactional";
 export class UserManagementFacade {
   constructor(private readonly usersService: UsersService) {}
 
-  async findOneUser(params: { userId?: UniqueEntityId; nickname?: string }): Promise<UsersInfo> {
+  async findOneUser(params: { userId?: UserId; nickname?: string }): Promise<UsersInfo> {
     const { userId, nickname } = params;
     if (isDefined(userId)) {
       return this.usersService.getOne({
@@ -29,7 +29,7 @@ export class UserManagementFacade {
     throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "UserId 또는 nickname이 필요합니다");
   }
 
-  async checkRemainingTokens(userId: UniqueEntityId): Promise<{
+  async checkRemainingTokens(userId: UserId): Promise<{
     remainingTokens: number;
     maxTokens: number;
     reserved: boolean;
@@ -43,7 +43,7 @@ export class UserManagementFacade {
     };
   }
 
-  async consumeTokens(userId: UniqueEntityId): Promise<{
+  async consumeTokens(userId: UserId): Promise<{
     remainingTokens: number;
     maxTokens: number;
   }> {
@@ -55,7 +55,7 @@ export class UserManagementFacade {
     };
   }
 
-  async reserveTokens(userId: UniqueEntityId): Promise<{
+  async reserveTokens(userId: UserId): Promise<{
     remainingTokens: number;
     maxTokens: number;
     reserved: boolean;
@@ -71,7 +71,7 @@ export class UserManagementFacade {
 
   @Transactional()
   async updateUser(params: {
-    userId: UniqueEntityId;
+    userId: UserId;
     nickname?: string;
     profile?: {
       profileImage?: string;

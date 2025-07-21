@@ -4,7 +4,7 @@ import { Users } from "~users/domains/users/models/users";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
@@ -32,7 +32,7 @@ export class PsqlUsersRepository extends UsersRepository {
     return user;
   }
 
-  override async findByUserId(userId: UniqueEntityId, options?: FindOneOptions<UsersEntity>): Promise<Users | null> {
+  override async findByUserId(userId: UserId, options?: FindOneOptions<UsersEntity>): Promise<Users | null> {
     const findOneOptions: FindOneOptions<UsersEntity> = options ?? {};
     findOneOptions.where = {
       ...findOneOptions.where,

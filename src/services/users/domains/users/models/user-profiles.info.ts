@@ -1,12 +1,14 @@
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserProfileId } from "~common/shared-kernel/identifiers/user-profile.id";
 import { Dayjs } from "dayjs";
 
 export class UserProfilesInfo {
   constructor(
-    public readonly id: string,
-    public readonly userId: string,
+    public readonly id: UserProfileId,
+    public readonly userId: UserId,
     public readonly profileImage: string,
     public readonly phoneNumber: string,
     public readonly gender: Gender,
@@ -20,8 +22,8 @@ export class UserProfilesInfo {
 
   static fromDomain(userProfile: UserProfiles): UserProfilesInfo {
     return new UserProfilesInfo(
-      userProfile.id.getString(),
-      userProfile.userId.getString(),
+      userProfile.id,
+      userProfile.userId,
       userProfile.profileImage,
       userProfile.phoneNumber,
       userProfile.gender,

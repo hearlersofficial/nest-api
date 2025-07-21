@@ -1,6 +1,6 @@
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 

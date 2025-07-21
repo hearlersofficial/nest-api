@@ -1,6 +1,6 @@
 import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { EpisodeEntity } from "~common/system/persistences/entities/counselors/episode.entity";
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 

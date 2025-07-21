@@ -1,4 +1,4 @@
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 

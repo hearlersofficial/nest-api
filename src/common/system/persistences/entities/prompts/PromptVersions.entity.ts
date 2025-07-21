@@ -1,6 +1,6 @@
 import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
 import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/CounselorScopedPrompts.entity";
 import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";

@@ -1,4 +1,4 @@
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";

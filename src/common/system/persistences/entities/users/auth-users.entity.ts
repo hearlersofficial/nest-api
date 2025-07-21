@@ -1,10 +1,10 @@
 import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { CoreStatus } from "~common/shared/enums/status";
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { KakaoEntity } from "~common/system/persistences/entities/users/kakao-provider.entity";
 import { RefreshTokenEntity } from "~common/system/persistences/entities/users/refresh-tokens.entity";
-import { UsersEntity } from "~common/system/persistences/entities/users/user.entity";
+import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, RelationId } from "typeorm";
 
 @Entity({

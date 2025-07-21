@@ -1,5 +1,5 @@
 import { CoreStatus } from "~common/shared/enums/status";
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/councels/CounselorUserRelationships.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
 import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth-users.entity";

@@ -1,4 +1,4 @@
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth-users.entity";
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 

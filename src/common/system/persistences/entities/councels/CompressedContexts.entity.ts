@@ -1,4 +1,4 @@
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { Column, Entity } from "typeorm";
 
 @Entity({

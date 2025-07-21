@@ -1,6 +1,6 @@
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
-import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
+import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/councels/CounselorUserRelationships.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
 import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";

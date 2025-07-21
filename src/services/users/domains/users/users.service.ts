@@ -30,7 +30,7 @@ export class UsersService {
     if (!isDefined(user)) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "User not found");
     }
-    if (isDefined(existingUser)) {
+    if (isDefined(existingUser) && existingUser.id.getString() !== userId.getString()) {
       throw new HttpStatusBasedRpcException(HttpStatus.CONFLICT, "Nickname already exists");
     }
     user.updateNickname(nickname);

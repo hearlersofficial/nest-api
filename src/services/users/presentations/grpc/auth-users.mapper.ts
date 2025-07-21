@@ -1,5 +1,5 @@
-import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
-import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
+import { AuthUserInfo } from "~users/domains/auth-users/models/auth-user.info";
+import { RefreshTokenInfo } from "~users/domains/auth-users/models/refresh-token.info";
 import {
   AuthChannel,
   AuthUser,
@@ -15,13 +15,13 @@ import { HttpStatus } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 export class SchemaAuthUsersMapper {
-  static toAuthUserProto(authUser: AuthUsers): AuthUser {
+  static toAuthUserProto(authUser: AuthUserInfo): AuthUser {
     if (!authUser) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to map authUser to proto");
     }
     return create(AuthUserSchema, {
-      id: authUser.id.getString(),
-      userId: authUser.userId?.getString(),
+      id: authUser.id,
+      userId: authUser.userId ?? undefined,
       authChannel: authUser.authChannel,
       oauthChannelInfo: this.toOAuthChannelInfoProto(authUser),
       authority: authUser.authority,
@@ -33,7 +33,7 @@ export class SchemaAuthUsersMapper {
     });
   }
 
-  static toOAuthChannelInfoProto(authUser: AuthUsers): OAuthChannelInfo | undefined {
+  static toOAuthChannelInfoProto(authUser: AuthUserInfo): OAuthChannelInfo | undefined {
     if (!authUser) {
       throw new HttpStatusBasedRpcException(
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -43,7 +43,7 @@ export class SchemaAuthUsersMapper {
     switch (authUser.authChannel) {
       case AuthChannel.KAKAO:
         return create(OAuthChannelInfoSchema, {
-          id: authUser?.kakao?.id.getString(),
+          id: authUser?.kakao?.id,
           authChannel: authUser.authChannel,
           uniqueId: authUser?.kakao?.uniqueId,
           createdAt: authUser?.kakao?.createdAt.toISOString(),
@@ -54,7 +54,7 @@ export class SchemaAuthUsersMapper {
         return undefined;
     }
   }
-  static toRefreshTokenProto(refreshToken: RefreshTokens): RefreshToken {
+  static toRefreshTokenProto(refreshToken: RefreshTokenInfo): RefreshToken {
     if (!refreshToken) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to map refreshToken to proto");
     }
@@ -66,7 +66,7 @@ export class SchemaAuthUsersMapper {
     });
   }
 
-  static toRefreshTokenProtos(refreshTokens: RefreshTokens[]): RefreshToken[] {
+  static toRefreshTokenProtos(refreshTokens: RefreshTokenInfo[]): RefreshToken[] {
     if (!refreshTokens) return [];
     return refreshTokens.map(this.toRefreshTokenProto);
   }

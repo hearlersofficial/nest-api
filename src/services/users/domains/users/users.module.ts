@@ -1,10 +1,10 @@
 import { PsqlUsersRepository } from "~users/domains/users/infrastructures/psql-users.repository";
-import { RepositoryUsersPersistor } from "~users/domains/users/infrastructures/repository-users.persistor";
 import { RepositoryUsersReader } from "~users/domains/users/infrastructures/repository-users.reader";
+import { RepositoryUsersStore } from "~users/domains/users/infrastructures/repository-users.store";
 import { UsersRepository } from "~users/domains/users/infrastructures/users.repository";
-import { UsersPersistor } from "~users/domains/users/users.persistor";
 import { UsersReader } from "~users/domains/users/users.reader";
 import { UsersService } from "~users/domains/users/users.service";
+import { UsersStore } from "~users/domains/users/users.store";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -24,8 +24,8 @@ import { UsersEntity } from "~common/system/persistences/entities/users/users.en
       useClass: RepositoryUsersReader,
     },
     {
-      provide: UsersPersistor,
-      useClass: RepositoryUsersPersistor,
+      provide: UsersStore,
+      useClass: RepositoryUsersStore,
     },
     UsersService,
   ],

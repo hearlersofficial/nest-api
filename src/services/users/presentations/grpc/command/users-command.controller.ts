@@ -1,8 +1,5 @@
 import { AuthFacade } from "~users/applications/auth/auth.facade";
-import { AuthUsersFacade } from "~users/applications/auth/auth-users.facade";
 import { UserManagementFacade } from "~users/applications/user-management/user-management.facade";
-import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
-import { Users } from "~users/domains/users/models/users";
 import { SchemaAuthUsersMapper } from "~users/presentations/grpc/auth-users.mapper";
 import { SchemaUsersMapper } from "~users/presentations/grpc/users.mapper";
 import {
@@ -38,7 +35,6 @@ import dayjs from "dayjs";
 export class GrpcUserCommandController {
   constructor(
     private readonly usersFacade: UserManagementFacade,
-    private readonly authUsersFacade: AuthUsersFacade,
     private readonly authFacade: AuthFacade,
   ) {}
 
@@ -54,7 +50,7 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "ConnectAuthChannel")
   async connectAuthChannel(request: ConnectAuthChannelRequest): Promise<ConnectAuthChannelResponse> {
     const { userId, authChannel, uniqueId } = request;
-    const { authUser } = await this.authUsersFacade.connectAuthChannel({
+    const { authUser } = await this.authFacade.connectAuthChannel({
       userId: new UniqueEntityId(userId),
       authChannel,
       uniqueId,
@@ -67,7 +63,7 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "SaveRefreshToken")
   async saveRefreshToken(request: SaveRefreshTokenRequest): Promise<SaveRefreshTokenResponse> {
     const { userId, token, expiresAt } = request;
-    await this.authUsersFacade.saveRefreshToken({
+    await this.authFacade.saveRefreshToken({
       userId: new UniqueEntityId(userId),
       token,
       expiresAt: dayjs(expiresAt),
@@ -80,7 +76,7 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "VerifyRefreshToken")
   async verifyRefreshToken(request: VerifyRefreshTokenRequest): Promise<VerifyRefreshTokenResponse> {
     const { userId, token } = request;
-    const { success } = await this.authUsersFacade.verifyRefreshToken({
+    const { success } = await this.authFacade.verifyRefreshToken({
       userId: new UniqueEntityId(userId),
       token,
     });
@@ -92,15 +88,17 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "UpdateUser")
   async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
     const { userId, nickname, profileImage, phoneNumber, gender, birthday, introduction, mbti } = request;
-    const updatedUser: Users = await this.usersFacade.updateUser({
+    const updatedUser = await this.usersFacade.updateUser({
       userId: new UniqueEntityId(userId),
       nickname,
-      profileImage,
-      phoneNumber,
-      gender,
-      birthday,
-      introduction,
-      mbti,
+      profile: {
+        profileImage,
+        phoneNumber,
+        gender,
+        birthday,
+        introduction,
+        mbti,
+      },
     });
     return create(UpdateUserResponseSchema, { user: SchemaUsersMapper.toUserProto(updatedUser) });
   }
@@ -120,7 +118,7 @@ export class GrpcUserCommandController {
   @GrpcMethod("UserService", "UpdateAuthority")
   async updateAuthority(request: UpdateAuthorityRequest): Promise<UpdateAuthorityResponse> {
     const { authUserId, authority } = request;
-    const authUser: AuthUsers = await this.authUsersFacade.updateAuthority({
+    const authUser = await this.authFacade.updateAuthority({
       authUserId: new UniqueEntityId(authUserId),
       authority,
     });

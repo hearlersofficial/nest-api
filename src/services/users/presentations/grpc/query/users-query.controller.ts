@@ -1,6 +1,5 @@
-import { AuthUsersFacade } from "~users/applications/auth/auth-users.facade";
+import { AuthFacade } from "~users/applications/auth/auth.facade";
 import { UserManagementFacade } from "~users/applications/user-management/user-management.facade";
-import { Users } from "~users/domains/users/models/users";
 import { SchemaAuthUsersMapper } from "~users/presentations/grpc/auth-users.mapper";
 import { SchemaUsersMapper } from "~users/presentations/grpc/users.mapper";
 import {
@@ -33,12 +32,12 @@ import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 export class GrpcUserQueryController {
   constructor(
     private readonly userFacade: UserManagementFacade,
-    private readonly authUsersFacade: AuthUsersFacade,
+    private readonly authFacade: AuthFacade,
   ) {}
 
   @GrpcMethod("UserService", "FindUserByUserId")
   async findUserByUserId(data: FindUserByUserIdRequest): Promise<FindUserByUserIdResponse> {
-    const user: Users = await this.userFacade.findOneUser({
+    const user = await this.userFacade.findOneUser({
       userId: new UniqueEntityId(data.userId),
     });
 
@@ -49,7 +48,7 @@ export class GrpcUserQueryController {
 
   @GrpcMethod("UserService", "FindUserByNickname")
   async findUserByNickname(data: FindUserByNicknameRequest): Promise<FindUserByNicknameResponse> {
-    const user: Users = await this.userFacade.findOneUser({
+    const user = await this.userFacade.findOneUser({
       nickname: data.nickname,
     });
 
@@ -60,7 +59,7 @@ export class GrpcUserQueryController {
 
   @GrpcMethod("UserService", "FindAuthUserByAuthUserId")
   async findAuthUserByAuthUserId(data: FindAuthUserByAuthUserIdRequest): Promise<FindAuthUserByAuthUserIdResponse> {
-    const authUser = await this.authUsersFacade.findOneAuthUser({
+    const authUser = await this.authFacade.findOneAuthUser({
       authUserId: new UniqueEntityId(data.authUserId),
     });
 
@@ -71,7 +70,7 @@ export class GrpcUserQueryController {
 
   @GrpcMethod("UserService", "FindAuthUserByUserId")
   async findAuthUserByUserId(data: FindAuthUserByUserIdRequest): Promise<FindAuthUserByUserIdResponse> {
-    const authUser = await this.authUsersFacade.findOneAuthUser({
+    const authUser = await this.authFacade.findOneAuthUser({
       userId: new UniqueEntityId(data.userId),
     });
 
@@ -82,7 +81,7 @@ export class GrpcUserQueryController {
 
   @GrpcMethod("UserService", "FindAuthUserByChannelInfo")
   async findAuthUserByChannelInfo(data: FindAuthUserByChannelInfoRequest): Promise<FindAuthUserByChannelInfoResponse> {
-    const authUser = await this.authUsersFacade.findOneAuthUser({
+    const authUser = await this.authFacade.findOneAuthUser({
       authChannel: data.authChannel,
       uniqueId: data.uniqueId,
     });

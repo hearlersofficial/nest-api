@@ -1,5 +1,5 @@
-import { UserProfiles } from "~users/domains/users/models/use-profiles";
-import { Users } from "~users/domains/users/models/users";
+import { UserProfilesInfo } from "~users/domains/users/models/user-profiles.info";
+import { UsersInfo } from "~users/domains/users/models/users.info";
 import { User, UserProfile, UserProfileSchema, UserSchema } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { create } from "@bufbuild/protobuf";
@@ -7,12 +7,12 @@ import { HttpStatus } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 export class SchemaUsersMapper {
-  static toUserProto(user: Users): User {
+  static toUserProto(user: UsersInfo): User {
     if (!user) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to map user to proto");
     }
     return create(UserSchema, {
-      id: user.id.getString(),
+      id: user.id,
       nickname: user.nickname,
       userProfile: user.userProfile ? this.toUserProfileProto(user.userProfile) : undefined,
       createdAt: user.createdAt.toISOString(),
@@ -21,7 +21,7 @@ export class SchemaUsersMapper {
     });
   }
 
-  static toUserProfileProto(userProfile: UserProfiles): UserProfile {
+  static toUserProfileProto(userProfile: UserProfilesInfo): UserProfile {
     if (!userProfile) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to map userProfile to proto");
     }

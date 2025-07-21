@@ -1,10 +1,5 @@
-import { AuthFacade } from "~users/applications/auth/auth.facade";
-import { AuthUsersFacade } from "~users/applications/auth/auth-users.facade";
-import { BindAuthUserToUseUseCase } from "~users/applications/use-cases/bind-user-to-auth-user";
-import { ConnectAuthChannelUseCase } from "~users/applications/use-cases/connect-auth-channel";
-import { UserManagementFacade } from "~users/applications/user-management/user-management.facade";
-import { AuthUsersModule } from "~users/domains/auth-users/auth-users.module";
-import { UsersModule } from "~users/domains/users/users.module";
+import { AuthModule } from "~users/applications/auth/auth.module";
+import { UserManagementModule } from "~users/applications/user-management/user-management.module";
 import { GrpcUserCommandController } from "~users/presentations/grpc/command/users-command.controller";
 import { GrpcUserQueryController } from "~users/presentations/grpc/query/users-query.controller";
 import { UsersMessageController } from "~users/presentations/message/users-message.controller";
@@ -15,12 +10,12 @@ import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeor
 
 @Module({
   imports: [
-    UsersModule,
-    AuthUsersModule,
     ClientsModule.registerAsync({ clients: [{ useClass: ClientsConfigs, name: KAFKA_CLIENT }], isGlobal: true }),
+    UserManagementModule,
+    AuthModule,
   ],
   controllers: [GrpcUserCommandController, GrpcUserQueryController, UsersMessageController],
-  providers: [UserManagementFacade, AuthUsersFacade, AuthFacade, BindAuthUserToUseUseCase, ConnectAuthChannelUseCase],
+  providers: [],
 })
 export class UsersServiceModule implements OnModuleInit, OnModuleDestroy {
   constructor(@Inject(KAFKA_CLIENT) private readonly kafkaClient: ClientKafka) {}

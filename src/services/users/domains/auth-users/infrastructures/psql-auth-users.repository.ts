@@ -1,4 +1,4 @@
-import { AuthUsersRepository } from "~users/domains/auth-users/infrastructures/mappers/auth-users.repository";
+import { AuthUsersRepository } from "~users/domains/auth-users/infrastructures/auth-users.repository";
 import { PsqlAuthUsersMapper } from "~users/domains/auth-users/infrastructures/psql.authUsers.mapper";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
 import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";

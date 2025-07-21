@@ -1,25 +1,28 @@
 import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
-import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
-import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
+import { AuthUserInfo } from "~users/domains/auth-users/models/auth-user.info";
+import { UsersService } from "~users/domains/users/users.service";
 import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { isDefined } from "~common/shared/utils/validate";
-import { Result } from "~common/shared-kernel/domains/results";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Dayjs } from "dayjs";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class AuthUsersFacade {
-  constructor(private readonly authUsersService: AuthUsersService) {}
+  constructor(
+    private readonly authUsersService: AuthUsersService,
+    private readonly usersService: UsersService,
+  ) {}
 
   async findOneAuthUser(params: {
     authUserId?: UniqueEntityId;
     userId?: UniqueEntityId;
     authChannel?: AuthChannel;
     uniqueId?: string;
-  }): Promise<AuthUsers> {
+  }): Promise<AuthUserInfo> {
     const { authUserId, userId, authChannel, uniqueId } = params;
 
     if (isDefined(authUserId)) {
@@ -39,62 +42,41 @@ export class AuthUsersFacade {
     throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "유효하지 않은 쿼리입니다");
   }
 
+  @Transactional()
   async connectAuthChannel(params: {
     userId: UniqueEntityId;
     authChannel: AuthChannel;
     uniqueId: string;
-  }): Promise<{ authUser: AuthUsers }> {
+  }): Promise<{ authUser: AuthUserInfo }> {
     const { userId, authChannel, uniqueId } = params;
-    const authUser = await this.authUsersService.getOne({ uniqueCriteria: { type: "user", id: userId } });
 
-    const connectAuthChannelResult: Result<void> = authUser.connectAuthChannel(authChannel, uniqueId);
-    if (connectAuthChannelResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, connectAuthChannelResult.error as string);
-    }
+    const authUser = await this.authUsersService.connectAuthChannel(userId, authChannel, uniqueId);
+    const user = await this.usersService.getOne({ uniqueCriteria: { type: "user", id: userId } });
+    user.userMessageToken.updateMaxTokens(1000);
 
-    await this.authUsersService.update(authUser);
+    await this.usersService.update(user);
 
     return {
       authUser,
     };
   }
 
-  async saveRefreshToken(params: { userId: UniqueEntityId; token: string; expiresAt: Dayjs }): Promise<void> {
+  async saveRefreshToken(params: { userId: UniqueEntityId; token: string; expiresAt: Dayjs }): Promise<AuthUserInfo> {
     const { userId, token, expiresAt } = params;
-    const authUser = await this.authUsersService.getOne({ uniqueCriteria: { type: "user", id: userId } });
-
-    const saveRefreshTokenResult = authUser.saveRefreshToken(token, expiresAt);
-    if (saveRefreshTokenResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, saveRefreshTokenResult.error as string);
-    }
-
-    await this.authUsersService.update(authUser);
+    return await this.authUsersService.saveRefreshToken(userId, token, expiresAt);
   }
 
   async verifyRefreshToken(params: { userId: UniqueEntityId; token: string }): Promise<{ success: boolean }> {
     const { userId, token } = params;
-    const authUser = await this.authUsersService.getOne({ uniqueCriteria: { type: "user", id: userId } });
-
-    const isRefreshTokenVerified: Result<RefreshTokens> = authUser.verifyRefreshToken(token);
-    if (isRefreshTokenVerified.isFailure) {
-      return {
-        success: false,
-      };
-    }
-
-    await this.authUsersService.update(authUser);
+    await this.authUsersService.verifyRefreshToken(userId, token);
 
     return {
       success: true,
     };
   }
 
-  async updateAuthority(params: { authUserId: UniqueEntityId; authority: Authority }): Promise<AuthUsers> {
+  async updateAuthority(params: { authUserId: UniqueEntityId; authority: Authority }): Promise<AuthUserInfo> {
     const { authUserId, authority } = params;
-    const authUser = await this.authUsersService.getOne({ uniqueCriteria: { type: "authUser", id: authUserId } });
-
-    authUser.update({ authority });
-
-    return await this.authUsersService.update(authUser);
+    return await this.authUsersService.updateAuthority(authUserId, authority);
   }
 }

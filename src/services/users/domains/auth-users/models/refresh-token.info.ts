@@ -2,7 +2,7 @@ import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 
 import { Dayjs } from "dayjs";
 
-export class RefreshTokensInfo {
+export class RefreshTokenInfo {
   constructor(
     public readonly id: string,
     public readonly token: string,
@@ -11,8 +11,8 @@ export class RefreshTokensInfo {
     public readonly updatedAt: Dayjs,
   ) {}
 
-  static fromDomain(refreshToken: RefreshTokens): RefreshTokensInfo {
-    return new RefreshTokensInfo(
+  static fromDomain(refreshToken: RefreshTokens): RefreshTokenInfo {
+    return new RefreshTokenInfo(
       refreshToken.id.getString(),
       refreshToken.token,
       refreshToken.expiresAt,
@@ -21,7 +21,7 @@ export class RefreshTokensInfo {
     );
   }
 
-  static fromDomainArray(refreshTokens: RefreshTokens[]): RefreshTokensInfo[] {
-    return refreshTokens.map((token) => RefreshTokensInfo.fromDomain(token));
+  static fromDomainArray(refreshTokens: RefreshTokens[]): RefreshTokenInfo[] {
+    return refreshTokens.map((token) => RefreshTokenInfo.fromDomain(token));
   }
 }

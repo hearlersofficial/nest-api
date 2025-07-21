@@ -1,12 +1,12 @@
-import { AuthUsersPersistor } from "~users/domains/auth-users/auth-users.persistor";
-import { AuthUsersRepository } from "~users/domains/auth-users/infrastructures/mappers/auth-users.repository";
+import { AuthUsersStore } from "~users/domains/auth-users/auth-users.store";
+import { AuthUsersRepository } from "~users/domains/auth-users/infrastructures/auth-users.repository";
 import { AuthUsers, AuthUsersNewProps } from "~users/domains/auth-users/models/auth-users";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
-export class RepositoryAuthUsersPersistor extends AuthUsersPersistor {
+export class RepositoryAuthUsersStore extends AuthUsersStore {
   constructor(private readonly authUserRepository: AuthUsersRepository) {
     super();
   }

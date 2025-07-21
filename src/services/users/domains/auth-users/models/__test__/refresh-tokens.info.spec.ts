@@ -1,4 +1,4 @@
-import { RefreshTokensInfo } from "~users/domains/auth-users/models/refresh-tokens.info";
+import { RefreshTokenInfo } from "~users/domains/auth-users/models/refresh-token.info";
 import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 
 import { faker } from "@faker-js/faker";
@@ -20,7 +20,7 @@ describe("RefreshTokensInfo", () => {
   describe("fromDomain", () => {
     it("RefreshTokens 도메인 객체로부터 RefreshTokensInfo를 생성할 수 있다", () => {
       const refreshToken = createRefreshToken();
-      const refreshTokenInfo = RefreshTokensInfo.fromDomain(refreshToken);
+      const refreshTokenInfo = RefreshTokenInfo.fromDomain(refreshToken);
 
       expect(refreshTokenInfo.id).toBe(refreshToken.id.getString());
       expect(refreshTokenInfo.token).toBe(refreshToken.token);
@@ -33,7 +33,7 @@ describe("RefreshTokensInfo", () => {
   describe("fromDomainArray", () => {
     it("RefreshTokens 도메인 객체 배열로부터 RefreshTokensInfo 배열을 생성할 수 있다", () => {
       const refreshTokens = [createRefreshToken(), createRefreshToken()];
-      const refreshTokenInfos = RefreshTokensInfo.fromDomainArray(refreshTokens);
+      const refreshTokenInfos = RefreshTokenInfo.fromDomainArray(refreshTokens);
 
       expect(refreshTokenInfos).toHaveLength(2);
       expect(refreshTokenInfos[0].id).toBe(refreshTokens[0].id.getString());

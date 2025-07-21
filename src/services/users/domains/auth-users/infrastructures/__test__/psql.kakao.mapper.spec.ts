@@ -1,4 +1,4 @@
-import { PsqlKakaoMapper } from "~users/domains/auth-users/infrastructures/psql.kakao.mapper";
+import { PsqlKakaoMapper } from "~users/domains/auth-users/infrastructures/mappers/psql.kakao.mapper";
 import { Kakao } from "~users/domains/auth-users/models/kakao";
 
 import { fakerKO as faker } from "@faker-js/faker";

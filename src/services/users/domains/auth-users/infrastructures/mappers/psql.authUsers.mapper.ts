@@ -1,4 +1,4 @@
-import { PsqlKakaoMapper } from "~users/domains/auth-users/infrastructures/psql.kakao.mapper";
+import { PsqlKakaoMapper } from "~users/domains/auth-users/infrastructures/mappers/psql.kakao.mapper";
 import { AuthUsers, AuthUsersProps } from "~users/domains/auth-users/models/auth-users";
 import { PsqlRefreshTokensMapper } from "~users/domains/users/infrastructures/mappers/psql-refresh-token.mapper";
 

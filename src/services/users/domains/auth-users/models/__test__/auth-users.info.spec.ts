@@ -1,4 +1,4 @@
-import { AuthUsersInfo } from "~users/domains/auth-users/models/auth-users.info";
+import { AuthUserInfo } from "~users/domains/auth-users/models/auth-user.info";
 import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
 import { Kakao } from "~users/domains/auth-users/models/kakao";
 import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
@@ -36,7 +36,7 @@ describe("AuthUsersInfo", () => {
   describe("fromDomain", () => {
     it("AuthUsers 도메인 객체로부터 AuthUsersInfo를 생성할 수 있다", () => {
       const authUser = createAuthUser();
-      const authUserInfo = AuthUsersInfo.fromDomain(authUser);
+      const authUserInfo = AuthUserInfo.fromDomain(authUser);
 
       expect(authUserInfo.id).toBe(authUser.id.getString());
       expect(authUserInfo.userId).toBe(authUser.userId?.getString());
@@ -51,7 +51,7 @@ describe("AuthUsersInfo", () => {
   describe("fromDomainArray", () => {
     it("AuthUsers 도메인 객체 배열로부터 AuthUsersInfo 배열을 생성할 수 있다", () => {
       const authUsers = [createAuthUser(), createAuthUser()];
-      const authUserInfos = AuthUsersInfo.fromDomainArray(authUsers);
+      const authUserInfos = AuthUserInfo.fromDomainArray(authUsers);
 
       expect(authUserInfos).toHaveLength(2);
       expect(authUserInfos[0].id).toBe(authUsers[0].id.getString());

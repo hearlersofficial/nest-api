@@ -179,17 +179,17 @@ export class AuthUsers extends AggregateRoot<AuthUsersProps> {
     return Result.ok<RefreshTokens>(refreshTokenVO);
   }
 
-  public verifyRefreshToken(refreshToken: string): Result<RefreshTokens> {
-    const findRefreshTokenResult = this.findRefreshToken(refreshToken);
+  public verifyRefreshToken(rawToken: string): Result<RefreshTokens> {
+    const findRefreshTokenResult = this.findRefreshToken(rawToken);
     if (findRefreshTokenResult.isFailure) {
       return Result.fail<RefreshTokens>(findRefreshTokenResult.error as string);
     }
-    const refreshTokenVO = findRefreshTokenResult.value;
-    if (refreshTokenVO.isExpired()) {
+    const refreshToken = findRefreshTokenResult.value;
+    if (refreshToken.isExpired()) {
       return Result.fail<RefreshTokens>(REFRESH_TOKEN_EXPIRED);
     }
-    this.removeRefreshToken(refreshTokenVO);
-    return Result.ok<RefreshTokens>(refreshTokenVO);
+    this.removeRefreshToken(refreshToken);
+    return Result.ok<RefreshTokens>(refreshToken);
   }
 
   private removeRefreshToken(refreshTokenVO: RefreshTokens): void {

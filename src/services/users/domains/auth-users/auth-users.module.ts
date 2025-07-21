@@ -1,10 +1,10 @@
-import { AuthUsersPersistor } from "~users/domains/auth-users/auth-users.persistor";
 import { AuthUsersReader } from "~users/domains/auth-users/auth-users.reader";
 import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
-import { AuthUsersRepository } from "~users/domains/auth-users/infrastructures/mappers/auth-users.repository";
-import { PsqlAuthUsersRepository } from "~users/domains/auth-users/infrastructures/mappers/psql-auth-users.repository";
-import { RepositoryAuthUsersPersistor } from "~users/domains/auth-users/infrastructures/mappers/repository-auth-users.persistor";
-import { RepositoryAuthUsersReader } from "~users/domains/auth-users/infrastructures/mappers/repository-auth-users.reader";
+import { AuthUsersStore } from "~users/domains/auth-users/auth-users.store";
+import { AuthUsersRepository } from "~users/domains/auth-users/infrastructures/auth-users.repository";
+import { PsqlAuthUsersRepository } from "~users/domains/auth-users/infrastructures/psql-auth-users.repository";
+import { RepositoryAuthUsersReader } from "~users/domains/auth-users/infrastructures/repository-auth-users.reader";
+import { RepositoryAuthUsersStore } from "~users/domains/auth-users/infrastructures/repository-auth-users.store";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -23,8 +23,8 @@ import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth
       useClass: RepositoryAuthUsersReader,
     },
     {
-      provide: AuthUsersPersistor,
-      useClass: RepositoryAuthUsersPersistor,
+      provide: AuthUsersStore,
+      useClass: RepositoryAuthUsersStore,
     },
   ],
   exports: [AuthUsersService],

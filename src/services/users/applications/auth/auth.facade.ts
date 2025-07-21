@@ -1,35 +1,23 @@
-import { BindAuthUserToUseUseCase } from "~users/applications/use-cases/bind-user-to-auth-user";
 import { AuthUsersService } from "~users/domains/auth-users/auth-users.service";
-import { AuthUsers } from "~users/domains/auth-users/models/auth-users";
-import { Users } from "~users/domains/users/models/users";
+import { AuthUserInfo } from "~users/domains/auth-users/models/auth-user.info";
+import { UsersInfo } from "~users/domains/users/models/users.info";
 import { UsersService } from "~users/domains/users/users.service";
 
-import { HttpStatus, Injectable } from "@nestjs/common";
-import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+import { Injectable } from "@nestjs/common";
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export class AuthFacade {
   constructor(
     private readonly usersService: UsersService,
     private readonly authUsersService: AuthUsersService,
-    private readonly bindAuthUserUseCase: BindAuthUserToUseUseCase,
   ) {}
 
-  async initializeUser(): Promise<{ user: Users; authUser: AuthUsers }> {
+  async initializeUser(): Promise<{ user: UsersInfo; authUser: AuthUserInfo }> {
     const user = await this.usersService.create({});
     const authUser = await this.authUsersService.create({});
 
-    const bindAuthUserUseCaseResponse = await this.bindAuthUserUseCase.execute({
-      user,
-      authUser,
-    });
-
-    if (!bindAuthUserUseCaseResponse.ok) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        bindAuthUserUseCaseResponse.error as string,
-      );
-    }
+    await this.authUsersService.bindUser(new UniqueEntityId(authUser.id), user.id);
 
     return { user, authUser };
   }

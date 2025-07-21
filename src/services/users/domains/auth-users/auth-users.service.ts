@@ -102,6 +102,7 @@ export class AuthUsersService {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Auth user not found");
     }
     authUser.saveRefreshToken(token, expiresAt);
+    await this.store.update(authUser);
     return AuthUserInfo.fromDomain(authUser);
   }
 

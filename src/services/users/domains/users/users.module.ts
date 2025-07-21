@@ -8,9 +8,9 @@ import { UsersService } from "~users/domains/users/users.service";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/UserMessageTokens.entity";
-import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
-import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
+import { UsersEntity } from "~common/system/persistences/entities/users/user.entity";
+import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";
+import { UserProfilesEntity } from "~common/system/persistences/entities/users/user-profiles.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([UsersEntity, UserProfilesEntity, UserMessageTokensEntity])],

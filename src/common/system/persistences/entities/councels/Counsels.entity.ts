@@ -3,7 +3,7 @@ import { CounselMessagesEntity } from "~common/system/persistences/entities/coun
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
-import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
+import { UsersEntity } from "~common/system/persistences/entities/users/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
 @Entity({

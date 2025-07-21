@@ -4,7 +4,7 @@ import { HttpStatus } from "@nestjs/common";
 import { Result } from "~common/shared-kernel/domains/results";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/UserMessageTokens.entity";
+import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";
 import dayjs from "dayjs";
 export class PsqlUserMessageTokensMapper {
   static toDomain(entity: UserMessageTokensEntity): UserMessageTokens | null {

@@ -6,7 +6,7 @@ import { AuthChannel } from "~proto/com/hearlers/v1/model/auth_user_pb";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
-import { AuthUsersEntity } from "~common/system/persistences/entities/users/AuthUsers.entity";
+import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth-users.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
 @Injectable()

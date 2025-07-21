@@ -1,5 +1,5 @@
 import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
-import { AuthUsersEntity } from "~common/system/persistences/entities/users/AuthUsers.entity";
+import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth-users.entity";
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 @Entity({ name: "refresh_tokens", comment: "리프레시 토큰 테이블" })
 export class RefreshTokenEntity extends CoreEntity {

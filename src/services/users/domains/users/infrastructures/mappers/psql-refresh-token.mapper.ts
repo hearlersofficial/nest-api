@@ -4,7 +4,7 @@ import { HttpStatus } from "@nestjs/common";
 import { Result } from "~common/shared-kernel/domains/results";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { RefreshTokenEntity } from "~common/system/persistences/entities/users/RefreshTokens.entity";
+import { RefreshTokenEntity } from "~common/system/persistences/entities/users/refresh-tokens.entity";
 import dayjs from "dayjs";
 
 export class PsqlRefreshTokensMapper {

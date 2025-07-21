@@ -2,9 +2,9 @@ import { AuthChannel, Authority } from "~proto/com/hearlers/v1/model/auth_user_p
 
 import { CoreStatus } from "~common/shared/enums/status";
 import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
-import { KakaoEntity } from "~common/system/persistences/entities/users/Kakao.entity";
-import { RefreshTokenEntity } from "~common/system/persistences/entities/users/RefreshTokens.entity";
-import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
+import { KakaoEntity } from "~common/system/persistences/entities/users/kakao-provider.entity";
+import { RefreshTokenEntity } from "~common/system/persistences/entities/users/refresh-tokens.entity";
+import { UsersEntity } from "~common/system/persistences/entities/users/user.entity";
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, RelationId } from "typeorm";
 
 @Entity({

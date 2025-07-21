@@ -5,7 +5,7 @@ import { fakerKO as faker } from "@faker-js/faker";
 import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
-import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/UserMessageTokens.entity";
+import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";
 
 describe("PsqlUserMessageTokensMapper", () => {
   const createMockUserMessageTokensEntity = () => {

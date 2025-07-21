@@ -4,7 +4,7 @@ import { HttpStatus } from "@nestjs/common";
 import { Result } from "~common/shared-kernel/domains/results";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
+import { UserProfilesEntity } from "~common/system/persistences/entities/users/user-profiles.entity";
 import dayjs from "dayjs";
 
 export class PsqlUserProfilesMapper {

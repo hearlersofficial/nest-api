@@ -2,10 +2,10 @@ import { CoreStatus } from "~common/shared/enums/status";
 import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
 import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/councels/CounselorUserRelationships.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
-import { AuthUsersEntity } from "~common/system/persistences/entities/users/AuthUsers.entity";
-import { UserActivitiesEntity } from "~common/system/persistences/entities/users/UserActivities.entity";
-import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/UserMessageTokens.entity";
-import { UserProfilesEntity } from "~common/system/persistences/entities/users/UserProfiles.entity";
+import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth-users.entity";
+import { UserActivitiesEntity } from "~common/system/persistences/entities/users/user-activities.entity";
+import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";
+import { UserProfilesEntity } from "~common/system/persistences/entities/users/user-profiles.entity";
 import { Column, Entity, OneToMany, OneToOne } from "typeorm";
 
 @Entity({
@@ -21,11 +21,13 @@ export class UsersEntity extends CoreEntity {
 
   @OneToOne(() => UserProfilesEntity, (userProfiles) => userProfiles.user, {
     cascade: true,
+    orphanedRowAction: "disable",
   })
   userProfiles: UserProfilesEntity;
 
   @OneToMany(() => UserActivitiesEntity, (userActivity) => userActivity.user, {
     cascade: true,
+    orphanedRowAction: "disable",
   })
   userActivities: UserActivitiesEntity[];
 

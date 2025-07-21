@@ -4,7 +4,7 @@ import { Kakao } from "~users/domains/auth-users/models/kakao";
 import { fakerKO as faker } from "@faker-js/faker";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
-import { KakaoEntity } from "~common/system/persistences/entities/users/Kakao.entity";
+import { KakaoEntity } from "~common/system/persistences/entities/users/kakao-provider.entity";
 
 describe("PsqlKakaoMapper", () => {
   const createMockKakaoEntity = () => {

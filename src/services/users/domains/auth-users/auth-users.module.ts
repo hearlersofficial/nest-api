@@ -8,7 +8,7 @@ import { RepositoryAuthUsersReader } from "~users/domains/auth-users/infrastruct
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AuthUsersEntity } from "~common/system/persistences/entities/users/AuthUsers.entity";
+import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth-users.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthUsersEntity])],

@@ -1,6 +1,6 @@
 import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
 import { CoreEntity } from "~common/system/persistences/entities/base-core.entity";
-import { UsersEntity } from "~common/system/persistences/entities/users/Users.entity";
+import { UsersEntity } from "~common/system/persistences/entities/users/user.entity";
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 
 @Entity({ name: "user_message_tokens" })

@@ -389,11 +389,6 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return Result.ok();
   }
 
-  public removeDeletedRelations(): void {
-    this.props.counselorScopedPrompts = this.props.counselorScopedPrompts.filter((prompt) => prompt.deletedAt === null);
-    this.props.toneScopedPrompts = this.props.toneScopedPrompts.filter((prompt) => prompt.deletedAt === null);
-  }
-
   public updateBasicInfo(props: {
     name?: string;
     description?: string;

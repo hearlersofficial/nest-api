@@ -234,13 +234,23 @@ export class CounselPromptManagementsFacade {
       );
     }
 
-    return this.counselTechniqueService.updateCounselTechnique(new UniqueEntityId(firstCounselTechniqueId), {
-      counselTechniqueId,
-      name,
-      context,
-      instruction,
-      messageThreshold,
+    const updatedTechniques = await this.counselTechniqueService.updateCounselTechnique(
+      new UniqueEntityId(firstCounselTechniqueId),
+      {
+        counselTechniqueId,
+        name,
+        context,
+        instruction,
+        messageThreshold,
+      },
+    );
+
+    await this.promptVersionService.updateToneScopedPromptInTemporaryVersion({
+      toneId: new UniqueEntityId(counselTechnique.toneId),
+      firstCounselTechniqueId: new UniqueEntityId(updatedTechniques[0].id),
     });
+
+    return updatedTechniques;
   }
 
   @Transactional()
@@ -255,11 +265,18 @@ export class CounselPromptManagementsFacade {
       (toneScopedPrompt) => toneScopedPrompt.toneId === toneId.getString(),
     )?.firstCounselTechniqueId;
 
-    return this.counselTechniqueService.saveCounselTechniqueSequence({
+    const updatedTechniques = await this.counselTechniqueService.saveCounselTechniqueSequence({
       originalfirstCounselTechniqueId: firstCounselTechniqueId ? new UniqueEntityId(firstCounselTechniqueId) : null,
       toneId,
       counselTechniqueIds,
     });
+
+    await this.promptVersionService.updateToneScopedPromptInTemporaryVersion({
+      toneId,
+      firstCounselTechniqueId: new UniqueEntityId(updatedTechniques[0].id),
+    });
+
+    return updatedTechniques;
   }
 
   async findPromptActivateHistories(param: { promptVersionId?: UniqueEntityId }): Promise<PromptActivateHistoryInfo[]> {

@@ -1,37 +1,26 @@
 services:
   kafka:
     image: bitnami/kafka:latest
-    ports:
-      - "9092:9092"
+    ports: ["9092:9092"]
     environment:
       # KRaft
       - KAFKA_CFG_NODE_ID=0
       - KAFKA_CFG_PROCESS_ROLES=controller,broker
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
-
-      # Listeners (SASL_PLAINTEXT)
+      # Listeners
       - KAFKA_CFG_LISTENERS=SASL_PLAINTEXT://:9092,CONTROLLER://:9093
       - KAFKA_CFG_ADVERTISED_LISTENERS=SASL_PLAINTEXT://34.47.88.194:9092
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,SASL_PLAINTEXT:SASL_PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=SASL_PLAINTEXT
-
-      # 인증/권한 (최신 표준 Authorizer)
+      # SASL만 유지(클라이언트 인증용)
       - KAFKA_CFG_SASL_ENABLED_MECHANISMS=PLAIN
       - KAFKA_CFG_SASL_MECHANISM_INTER_BROKER_PROTOCOL=PLAIN
-      - KAFKA_CFG_AUTHORIZER_CLASS_NAME=org.apache.kafka.metadata.authorizer.StandardAuthorizer
-      - KAFKA_CFG_ALLOW_EVERYONE_IF_NO_ACL_FOUND=false
-
-      # Bitnami helper: SASL/PLAIN 유저 자동 생성(클라이언트 접속용)
       - KAFKA_CLIENT_USERS=appuser,admin
       - KAFKA_CLIENT_PASSWORDS=appsecret,adminsecret
-
-      # 슈퍼유저(ACL 우회) 지정: SASL principal 형식(User:<name>)
-      - KAFKA_CFG_SUPER_USERS=User:admin
+      # ↓ Authorizer 관련 항목들은 삭제(끄기) ↓
+      # - KAFKA_CFG_AUTHORIZER_CLASS_NAME=org.apache.kafka.metadata.authorizer.StandardAuthorizer
+      # - KAFKA_CFG_ALLOW_EVERYONE_IF_NO_ACL_FOUND=false
+      # - KAFKA_CFG_SUPER_USERS=User:admin
     volumes:
       - kafka_data:/opt/bitnami/kafka/data
-    restart: always
-
-volumes:
-  kafka_data:
-    driver: local

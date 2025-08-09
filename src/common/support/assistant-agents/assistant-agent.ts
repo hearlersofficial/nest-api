@@ -1,3 +1,6 @@
+import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
+
+import { Tool } from "@langchain/core/tools";
 import { Observable } from "rxjs";
 
 export interface ChatRequest {
@@ -5,6 +8,10 @@ export interface ChatRequest {
   message: string;
   systemPrompt?: string;
   useTools?: boolean;
+  tools?: Tool[];
+  aiModel?: AiModel;
+  temperature?: number;
+  maxToolCalls?: number;
 }
 
 export interface ChatResponse {
@@ -30,25 +37,11 @@ export interface AssistantAgent {
    */
   callStream(request: ChatRequest): Observable<ChatResponse>;
 
-  getModel(): string;
-  setModel(model: string): void;
-
   /**
    * Agent 헬스 체크
    * @returns 헬스 상태
    */
   healthCheck(): Promise<boolean>;
-}
-
-/**
- * Agent 구성 옵션
- */
-export interface AgentConfig {
-  modelName: string;
-  temperature: number;
-  maxToolCalls: number;
-  maxMemoryMessages: number;
-  streaming: boolean;
 }
 
 /**

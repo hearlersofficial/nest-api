@@ -20,13 +20,7 @@ import { AssistantAgentModule } from "~common/support/assistant-agents/assistant
     PromptActivateHistoryModule,
     TonesModule,
     CounselorsModule,
-    AssistantAgentModule.forRoot([], {
-      modelName: "gpt-4o-mini",
-      temperature: 0,
-      maxToolCalls: 5,
-      maxMemoryMessages: 10,
-      streaming: true,
-    }),
+    AssistantAgentModule,
   ],
   providers: [
     // Facade

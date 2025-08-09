@@ -25,10 +25,6 @@ import {
   SaveTemporaryVersionRequestSchema,
   SaveTemporaryVersionResponse,
   SaveTemporaryVersionResponseSchema,
-  SetAiModelRequest,
-  SetAiModelRequestSchema,
-  SetAiModelResponse,
-  SetAiModelResponseSchema,
   UpdateCounselTechniqueRequest,
   UpdateCounselTechniqueRequestSchema,
   UpdateCounselTechniqueResponse,
@@ -200,18 +196,6 @@ export class GrpcCounselPromptCommandController {
       counselTechniques: counselTechniques.map((technique) =>
         SchemaCounselPromptsMapper.toCounselTechniqueProto(technique),
       ),
-    });
-  }
-
-  @GrpcMethod("CounselPromptService", "SetAiModel")
-  @ProtoRequest(SetAiModelRequestSchema)
-  async setAiModel(request: SetAiModelRequest): Promise<SetAiModelResponse> {
-    const { aiModel } = request;
-    const setAiModel = await this.counselPromptManagementsFacade.setAiModel({
-      aiModel,
-    });
-    return create(SetAiModelResponseSchema, {
-      aiModel: setAiModel,
     });
   }
 }

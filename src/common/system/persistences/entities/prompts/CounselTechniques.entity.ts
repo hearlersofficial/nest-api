@@ -13,6 +13,14 @@ export class CounselTechniquesEntity extends CoreEntity {
   })
   name: string;
 
+  @Column({
+    type: "float",
+    name: "temperature",
+    comment: "온도",
+    default: 0.5,
+  })
+  temperature: number;
+
   @ManyToOne(() => ToneEntity, (tone) => tone.counselTechniques)
   @JoinColumn({ name: "tone_id" })
   tone: ToneEntity;

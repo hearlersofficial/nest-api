@@ -184,14 +184,16 @@ export class CounselPromptManagementsFacade {
   @Transactional()
   async createCounselTechnique(param: {
     name: string;
+    temperature: number;
     toneId: UniqueEntityId;
     context: string;
     instruction: string;
     messageThreshold: number;
   }): Promise<CounselTechniqueInfo> {
-    const { name, toneId, context, instruction, messageThreshold } = param;
+    const { name, temperature, toneId, context, instruction, messageThreshold } = param;
     return this.counselTechniqueService.create({
       name,
+      temperature,
       toneId,
       context,
       instruction,
@@ -215,11 +217,12 @@ export class CounselPromptManagementsFacade {
   async updateCounselTechnique(param: {
     counselTechniqueId: UniqueEntityId;
     name?: string;
+    temperature?: number;
     context?: string;
     instruction?: string;
     messageThreshold?: number;
   }): Promise<CounselTechniqueInfo[]> {
-    const { counselTechniqueId, name, context, instruction, messageThreshold } = param;
+    const { counselTechniqueId, name, temperature, context, instruction, messageThreshold } = param;
 
     const counselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId });
     const temporaryVersion = await this.promptVersionService.getTemporaryOne();
@@ -238,6 +241,7 @@ export class CounselPromptManagementsFacade {
       {
         counselTechniqueId,
         name,
+        temperature,
         context,
         instruction,
         messageThreshold,

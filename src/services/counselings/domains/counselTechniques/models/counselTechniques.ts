@@ -7,6 +7,7 @@ import { Dayjs } from "dayjs";
 
 export interface CounselTechniquesNewProps {
   name: string;
+  temperature: number;
   toneId: UniqueEntityId;
   context: string;
   instruction: string;
@@ -96,6 +97,10 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
   // Getters
   get name(): string {
     return this.props.name;
+  }
+
+  get temperature(): number {
+    return this.props.temperature;
   }
 
   get toneId(): UniqueEntityId {

@@ -20,6 +20,7 @@ export class PsqlCounselTechniquesMapper {
 
     const counselTechniqueProps: CounselTechniquesProps = {
       name: entity.name,
+      temperature: entity.temperature,
       toneId: new UniqueEntityId(entity.toneId),
       context: entity.context,
       instruction: entity.instruction,
@@ -51,6 +52,7 @@ export class PsqlCounselTechniquesMapper {
     }
 
     entity.name = counselTechniques.name;
+    entity.temperature = counselTechniques.temperature;
     entity.toneId = counselTechniques.toneId.getString();
     entity.context = counselTechniques.context;
     entity.instruction = counselTechniques.instruction;

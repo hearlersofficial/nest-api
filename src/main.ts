@@ -77,23 +77,56 @@ async function bootstrap(): Promise<void> {
     inheritAppConfig: true,
   });
 
-  // Kafka 마이크로서비스 설정
+  function parseBrokers(v?: string): string[] {
+    return (v ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+
+  const isSaslPlain = process.env.KAFKA_SECURITY === "SASL_PLAIN";
+  const brokers = parseBrokers(process.env.KAFKA_BOOTSTRAP_SERVERS);
+
   app.connectMicroservice({
     transport: Transport.KAFKA,
     options: {
       client: {
-        brokers: [process.env.KAFKA_BOOTSTRAP_SERVERS],
-        clientId: process.env.KAFKA_CLIENT_ID,
+        brokers, // 예: ['34.47.88.194:9092']
+        clientId: process.env.KAFKA_CLIENT_ID, // 예: 'hearlers-dev-1-server'
+        ssl: false, // SASL_PLAIN은 보통 false (SASL_SSL이면 true)
+        ...(isSaslPlain
+          ? {
+              sasl: {
+                mechanism: "plain",
+                username: process.env.KAFKA_SASL_USERNAME,
+                password: process.env.KAFKA_SASL_PASSWORD,
+              },
+            }
+          : {}),
+        // 선택: 연결/재시도 튜닝
+        connectionTimeout: 10_000,
+        requestTimeout: 30_000,
+        retry: {
+          retries: 8,
+          initialRetryTime: 300,
+          factor: 0.2,
+          multiplier: 2,
+          maxRetryTime: 30_000,
+        },
       },
       consumer: {
-        groupId: process.env.KAFKA_GROUP_ID,
+        groupId: process.env.KAFKA_GROUP_ID ?? "hearlers-dev-1-group",
         allowAutoTopicCreation: true,
+        // Nest의 consumer.retry는 KafkaJS의 retrier와 별개로 동작(기본은 충분)
         retry: {
           retries: 3,
           initialRetryTime: 100,
           multiplier: 2,
         },
       },
+      // 선택: 각 요청에 대한 응답 대기 시간
+      // run: { autoCommit: true }, // 커밋 전략 조정 시
+      // subscribe: { fromBeginning: false },
     },
   });
 

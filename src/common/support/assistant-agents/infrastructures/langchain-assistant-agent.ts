@@ -4,6 +4,7 @@ import { ToolExecutor } from "./tool.executor";
 import { ToolCall } from "@langchain/core/dist/messages/tool";
 import { BaseMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { Injectable, Logger } from "@nestjs/common";
+import { convertAiModelToModelName } from "~common/shared/utils/ai-model";
 import { AssistantAgent, ChatRequest, ChatResponse } from "~common/support/assistant-agents/assistant-agent";
 import { AgentModelProvider } from "~common/support/assistant-agents/infrastructures/agent-model.provider";
 import { Observable, Subject } from "rxjs";
@@ -44,7 +45,7 @@ export class LangchainAssistantAgent implements AssistantAgent {
     this.logger.log(`System prompt: ${systemPrompt}`);
     this.logger.log(`Message: ${message}`);
     this.logger.log(`Tools: ${tools}`);
-    this.logger.log(`AI Model: ${aiModel}`);
+    this.logger.log(`AI Model: ${convertAiModelToModelName(aiModel)}`);
     this.logger.log(`Temperature: ${temperature}`);
     this.logger.log(`Max tool calls: ${maxToolCalls}`);
 

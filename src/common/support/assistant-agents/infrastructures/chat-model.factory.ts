@@ -10,14 +10,14 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 export class ChatModelFactory {
   create(aiModel?: AiModel, temperature?: number, streaming: boolean = false): BaseChatModel<ChatOpenAICallOptions> {
     const modelName = convertAiModelToModelName(aiModel) ?? "gpt-4o-mini";
-    const finalTemperature = temperature ?? 0;
+    const finalTemperature = this.handleTemperatureAvailability(aiModel, temperature);
 
     // NOTE: 현재는 OpenAI 모델만 지원하지만, 추후 다른 모델 제공자를 추가할 수 있습니다.
     // 예: case AiModel.CLAUDE_3: return new ChatAnthropic(...);
     if (this.isOpenAiModel(aiModel)) {
       return new ChatOpenAI({
         modelName,
-        temperature: this.handleTemperatureAvailability(aiModel, finalTemperature),
+        temperature: finalTemperature,
         streaming,
         openAIApiKey: process.env.OPENAI_API_KEY,
       });

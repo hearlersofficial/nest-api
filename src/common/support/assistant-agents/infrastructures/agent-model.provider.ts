@@ -21,8 +21,8 @@ export class AgentModelProvider {
 
   getModel(tools?: Tool[], aiModel?: AiModel, temperature?: number, streaming: boolean = false): AgentRunnable {
     const modelName = convertAiModelToModelName(aiModel) ?? "gpt-4o-mini";
-    const finalTemperature = temperature ?? 0;
-    const cacheKey = this.generateCacheKey(modelName, finalTemperature, streaming, tools);
+
+    const cacheKey = this.generateCacheKey(modelName, temperature ?? 0, streaming, tools);
 
     const cachedModel = this.modelCache[cacheKey];
     if (cachedModel) {

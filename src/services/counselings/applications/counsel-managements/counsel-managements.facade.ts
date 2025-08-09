@@ -29,17 +29,20 @@ export class CounselManagementsFacade {
   async createCounsel(params: {
     userId: UniqueEntityId;
     counselorId: UniqueEntityId;
+    promptVersionId?: UniqueEntityId;
     bubbleId?: UniqueEntityId;
-    responseOptionNumber?: number;
+    responseOptionNumber?: number; // NOTE: 어드민용
   }): Promise<{
     counsel: CounselInfo;
     counselMessages: CounselMessageInfo[];
   }> {
-    const { userId, counselorId, bubbleId, responseOptionNumber } = params;
+    const { userId, counselorId, bubbleId, responseOptionNumber, promptVersionId } = params;
 
     const counselor = await this.counselorService.getOne({ counselorId });
-    const activeVersion = await this.promptVersionsService.getActiveOne();
-    const firstCounselTechniqueId = activeVersion.toneScopedPrompts.find(
+    const promptVersion = promptVersionId
+      ? await this.promptVersionsService.getOne({ promptVersionId })
+      : await this.promptVersionsService.getActiveOne();
+    const firstCounselTechniqueId = promptVersion.toneScopedPrompts.find(
       (toneScopedPrompt) => toneScopedPrompt.toneId === counselor.toneId,
     )?.firstCounselTechniqueId;
     if (!firstCounselTechniqueId) {
@@ -53,7 +56,7 @@ export class CounselManagementsFacade {
       userId,
       counselorId,
       counselTechniqueId: new UniqueEntityId(firstCounselTechniqueId),
-      promptVersionId: new UniqueEntityId(activeVersion.id),
+      promptVersionId: new UniqueEntityId(promptVersion.id),
       counselorUserRelationshipId: new UniqueEntityId(), // TODO: 의미있는 값 넣기
     });
 

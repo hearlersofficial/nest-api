@@ -27,12 +27,13 @@ export class GrpcCounselCommandController {
   @GrpcMethod("CounselService", "CreateCounsel")
   @ProtoRequest(CreateCounselRequestSchema)
   async createCounsel(request: CreateCounselRequest): Promise<CreateCounselResponse> {
-    const { userId, counselorId, bubbleId, responseOptionNo } = request;
+    const { userId, counselorId, bubbleId, responseOptionNo, promptVersionId } = request;
     const { counsel, counselMessages } = await this.counselManagementsFacade.createCounsel({
       userId: new UniqueEntityId(userId),
       counselorId: new UniqueEntityId(counselorId),
       bubbleId: bubbleId ? new UniqueEntityId(bubbleId) : undefined,
       responseOptionNumber: responseOptionNo,
+      promptVersionId: promptVersionId ? new UniqueEntityId(promptVersionId) : undefined,
     });
     return create(CreateCounselResponseSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),

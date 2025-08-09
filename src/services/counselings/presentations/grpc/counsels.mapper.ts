@@ -41,6 +41,7 @@ export class SchemaCounselsMapper {
       isUserMessage: counselMessage.isUserMessage,
       reactedAt: counselMessage.reactedAt ? counselMessage.reactedAt.toISOString() : undefined,
       reaction: counselMessage.reaction ?? undefined,
+      counselTechniqueId: counselMessage.counselTechniqueId,
       createdAt: counselMessage.createdAt.toISOString(),
       updatedAt: counselMessage.updatedAt.toISOString(),
       deletedAt: counselMessage.deletedAt ? counselMessage.deletedAt.toISOString() : undefined,

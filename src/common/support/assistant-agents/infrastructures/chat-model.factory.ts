@@ -17,7 +17,7 @@ export class ChatModelFactory {
     if (this.isOpenAiModel(aiModel)) {
       return new ChatOpenAI({
         modelName,
-        temperature: finalTemperature,
+        temperature: this.handleTemperatureAvailability(aiModel, finalTemperature),
         streaming,
         openAIApiKey: process.env.OPENAI_API_KEY,
       });
@@ -40,6 +40,27 @@ export class ChatModelFactory {
         return true;
       default:
         return false;
+    }
+  }
+
+  /**
+   * Temperature 설정 가능 여부를 처리합니다.
+   * GPT-5 모델은 온도 설정이 불가능합니다.
+   * 따라서 온도를 1로 고정합니다.
+   * @param aiModel
+   * @param temperature
+   * @returns 온도 설정 값
+   */
+  private handleTemperatureAvailability(aiModel?: AiModel, temperature?: number): number {
+    switch (aiModel) {
+      case AiModel.GPT_5_MINI:
+        return 1;
+      case AiModel.GPT_5:
+        return 1;
+      case AiModel.GPT_5_CHAT:
+        return 1;
+      default:
+        return temperature ?? 0;
     }
   }
 }

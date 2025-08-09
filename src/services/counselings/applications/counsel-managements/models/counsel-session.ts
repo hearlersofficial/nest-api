@@ -1,9 +1,3 @@
-import {
-  CounselorScopedPromptData,
-  CounselSessionData,
-  SessionContext,
-  ToneScopedPromptData,
-} from "~counselings/applications/counsel-managements/types/counsel-session.type";
 import { CompressedContextInfo } from "~counselings/domains/compressedContext/models/compressedContext.info";
 import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
@@ -14,6 +8,34 @@ import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/pr
 import { HttpStatus } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
+
+export type CounselSessionData = {
+  counsel: CounselInfo;
+  counselor: CounselorsInfo;
+  messages: CounselMessageInfo[];
+  promptVersion: PromptVersionInfo;
+  currentTechnique: CounselTechniqueInfo;
+  compressedContexts: CompressedContextInfo[];
+};
+
+export type CounselorScopedPromptData = {
+  counselorId: string;
+  personaPromptId: string;
+};
+
+export type ToneScopedPromptData = {
+  toneId: string;
+  tonePromptId: string;
+  firstCounselTechniqueId: string;
+};
+
+export type SessionContext = {
+  counselId: UniqueEntityId;
+  userId: UniqueEntityId;
+  counselorId: UniqueEntityId;
+  promptVersionId: UniqueEntityId;
+  currentTechniqueId: UniqueEntityId;
+};
 
 /**
  * 상담 세션의 컨텍스트 정보를 응집하는 모델 클래스

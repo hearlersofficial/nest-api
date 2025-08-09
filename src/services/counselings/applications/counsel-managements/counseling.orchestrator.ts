@@ -59,10 +59,7 @@ export class CounselingOrchestrator {
     let session = await this.contextManager.buildCounselSession(counselId);
 
     // 2. 현재 상담기법 조회
-    const techniqueResult = await this.techniqueManager.getCurrentTechnique({
-      counsel: session.getCounsel(),
-      messages: session.getMessages(),
-    });
+    const techniqueResult = await this.techniqueManager.getCurrentTechnique(session);
 
     // 세션 업데이트 (상담 정보 + 상담기법)
     session = session
@@ -70,19 +67,10 @@ export class CounselingOrchestrator {
       .withUpdatedTechnique(techniqueResult.currentTechnique);
 
     // 3. 시스템 프롬프트 생성
-    const systemPrompt = await this.promptBuilder.buildSystemPrompt({
-      personaPromptId: session.getCounselorScopedPrompt().personaPromptId,
-      tonePromptId: session.getToneScopedPrompt().tonePromptId,
-      counselTechnique: session.getCurrentTechnique(),
-    });
+    const systemPrompt = await this.promptBuilder.buildSystemPrompt(session);
 
     // 4. 유저 메시지 생성 및 저장
-    const createdUserMessage = await this.messageManager.createUserMessage({
-      counselId: new UniqueEntityId(session.getCounselId()),
-      userId: new UniqueEntityId(session.getUserId()),
-      counselTechniqueId: new UniqueEntityId(session.getCurrentTechniqueId()),
-      message: userMessage,
-    });
+    const createdUserMessage = await this.messageManager.createUserMessage(session, userMessage);
 
     // 세션에 새 메시지 추가
     session = session.withNewMessage(createdUserMessage);
@@ -105,19 +93,11 @@ export class CounselingOrchestrator {
     );
 
     // 7. 시스템 메시지 생성 및 저장
-    const createdAssistantMessage = await this.messageManager.createAssistantMessage({
-      counselId: new UniqueEntityId(session.getCounselId()),
-      userId: new UniqueEntityId(session.getUserId()),
-      counselTechniqueId: new UniqueEntityId(session.getCurrentTechniqueId()),
-      message: aiResponse,
-    });
+    const createdAssistantMessage = await this.messageManager.createAssistantMessage(session, aiResponse);
     session = session.withNewMessage(createdAssistantMessage);
 
     // 8. 상담 정보 업데이트 (마지막 메시지)
-    const updatedCounsel = await this.messageManager.updateLastMessage({
-      counselId: new UniqueEntityId(session.getCounselId()),
-      lastMessage: createdAssistantMessage.message,
-    });
+    const updatedCounsel = await this.messageManager.updateLastMessage(session, createdAssistantMessage.message);
     session = session.withUpdatedCounsel(updatedCounsel);
 
     // 9. 백그라운드에서 기법 전환 평가 수행
@@ -144,10 +124,7 @@ export class CounselingOrchestrator {
     Promise.resolve()
       .then(async () => {
         // 1. TechniqueManager에서 평가 준비 (도메인 로직만 사용)
-        const preparationResult = await this.techniqueManager.prepareBackgroundEvaluation({
-          counsel: session.getCounsel(),
-          messages: session.getMessages(),
-        });
+        const preparationResult = await this.techniqueManager.prepareBackgroundEvaluation(session);
 
         // 평가가 불필요한 경우
         if (!preparationResult.shouldEvaluate) {

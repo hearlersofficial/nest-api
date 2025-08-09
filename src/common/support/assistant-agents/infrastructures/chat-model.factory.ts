@@ -32,6 +32,9 @@ export class ChatModelFactory {
       case AiModel.GPT_4:
       case AiModel.GPT_4O:
       case AiModel.GPT_4O_MINI:
+      case AiModel.GPT_5_MINI:
+      case AiModel.GPT_5:
+      case AiModel.GPT_5_CHAT:
       case AiModel.AI_MODEL_UNSPECIFIED:
       case undefined:
         return true;

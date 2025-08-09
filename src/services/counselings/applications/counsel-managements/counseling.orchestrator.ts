@@ -16,6 +16,7 @@ import { TechniqueEvaluationParser } from "~counselings/applications/counsel-man
 import { TechniqueTransitionDecision } from "~counselings/applications/counsel-managements/types/technique.type";
 import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
+import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { Injectable, Logger } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
@@ -99,6 +100,8 @@ export class CounselingOrchestrator {
       conversationHistory,
       userMessage,
       session.getCounselId(),
+      session.getPromptVersion().aiModel,
+      0.5,
     );
 
     // 7. 시스템 메시지 생성 및 저장
@@ -209,6 +212,8 @@ export class CounselingOrchestrator {
       conversationHistory,
       evaluationRequest,
       `technique-evaluation-${Date.now()}`,
+      AiModel.GPT_4O_MINI,
+      0,
     );
     // 파서를 사용하여 응답 파싱
     return this.techniqueEvaluationParser.parseTechniqueEvaluationResponse(aiResponse);
@@ -277,6 +282,8 @@ export class CounselingOrchestrator {
       conversationHistory,
       compressionRequest,
       `context-compression-${Date.now()}`,
+      AiModel.GPT_4O_MINI,
+      0,
     );
 
     return aiResponse;

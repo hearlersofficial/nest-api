@@ -61,67 +61,66 @@ ${tone}
   }
 
   /**
-   * 기법 전환 평가용 통합 시스템 프롬프트 생성
-   * @param params 평가 시스템 프롬프트 파라미터
-   * @returns 완성된 평가 시스템 프롬프트
+   * 기법 전환 평가용 통합 시스템 프롬프트 생성 (증거 기반, 원자적 특징 산출)
    */
   buildTechniqueEvaluationSystemPrompt(params: TechniqueEvaluationSystemPromptParams): string {
     const { currentTechnique, nextTechnique, messageThreshold } = params;
 
     return `
-당신은 상담 기법 전환을 평가하는 전문가입니다.
-상담 대화의 흐름과 현재 기법의 효과를 분석하여 다음 기법으로 전환할 적절한 시점을 판단합니다.
+You are an expert counseling supervisor. Output atomic, evidence-backed features to help a downstream rule-based system decide whether to TRANSITION techniques.
 
-<CurrentTechnique>
+<RULES>
+- Use ONLY the provided conversation history (not included here) and technique specs below.
+- DO NOT decide or recommend transition; DO NOT compute an overall score. Only extract signals.
+- Be conservative: if evidence is weak or ambiguous, reflect that in low scores and unmet checklist.
+- Cite at least 2 short verbatim quotes for key signals when present.
+</RULES>
+
+<CURRENT_TECHNIQUE>
 Name: ${currentTechnique.name}
 Context: ${currentTechnique.context}
 Instruction: ${currentTechnique.instruction}
 MessageThreshold: ${currentTechnique.messageThreshold}
-</CurrentTechnique>
+</CURRENT_TECHNIQUE>
 
-<NextTechnique>
+<NEXT_TECHNIQUE>
 Name: ${nextTechnique.name}
 Context: ${nextTechnique.context}
 Instruction: ${nextTechnique.instruction}
-</NextTechnique>
+</NEXT_TECHNIQUE>
 
-<EvaluationCriteria>
-다음 기준들을 고려하여 각각 0-100점으로 점수를 매기고, 전환 여부를 결정해주세요:
-
-1. conversationProgressScore: 대화가 충분히 진행되었는가?
-2. userEngagementScore: 사용자가 충분히 참여하고 있는가?
-3. goalAchievementScore: 현재 기법의 목표가 어느 정도 달성되었는가?
-4. appropriatenessScore: 다음 기법으로 전환하는 것이 적절한가?
-
-현재 기법의 메시지 임계값: ${messageThreshold}
-</EvaluationCriteria>
-
-<ResponseFormat>
-반드시 다음 JSON 형태로 응답해주세요:
+<OUTPUT_JSON_SCHEMA>
 {
-  "shouldTransition": boolean,
-  "scores": {
-    "conversationProgressScore": number,
-    "userEngagementScore": number,
-    "goalAchievementScore": number,
-    "appropriatenessScore": number,
-    "overallScore": number,
-    "reasoning": "판별 근거"
+  "signals": {
+    "conversationProgress": number,   // 0-100, progress within current technique
+    "userEngagement": number,         // 0-100, specificity, emotional granularity, responsiveness
+    "goalAchievement": {
+      "percentMet": number,           // 0-100, proportion of current-technique goals achieved
+      "checklist": [                  // 3-6 checklist items with status and evidence
+        { "name": string, "met": boolean, "quote": string }
+      ]
+    },
+    "appropriateness": number         // 0-100, contextual fit to move to next technique now
   },
-  "confidence": number
+  "evidence": [                       // short verbatim quotes with tags
+    { "quote": string, "tag": "progress"|"engagement"|"goal"|"appropriateness" }
+  ],
+  "redFlags": [string],               // safety/clinical concerns (if any)
+  "safety": { "riskLevel": number }  // 0-100, crisis or risk assessment
 }
+</OUTPUT_JSON_SCHEMA>
 
-overallScore는 모든 점수의 가중평균으로, shouldTransition은 overallScore가 70점 이상일 때 true로 설정하되, 
-전체적인 상황을 고려하여 유연하게 판단하세요.
-</ResponseFormat>
+<INSTRUCTIONS>
+- Return ONLY valid JSON per schema. No markdown.
+- Keep quotes short (<= 200 chars) and verbatim.
+- If unsure, lower scores and mark checklist items as unmet.
+- messageThreshold is ${messageThreshold}; reflect it implicitly in conversationProgress and goalAchievement.
+</INSTRUCTIONS>
 `;
   }
 
   /**
    * 상담 맥락 압축용 시스템 프롬프트 생성
-   * @returns 압축 시스템 프롬프트
-   *
-   * @todo - 프롬프트 고도화
    */
   buildContextCompressionSystemPrompt(): string {
     return `

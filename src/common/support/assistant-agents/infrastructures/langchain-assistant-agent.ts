@@ -32,7 +32,21 @@ export class LangchainAssistantAgent implements AssistantAgent {
       temperature,
       maxToolCalls = DEFAULT_MAX_TOOL_CALLS,
     } = request;
-    this.logger.log(`Processing call for conversation: ${conversationId}`);
+    this.logger.log(
+      `Processing call for conversation: ${conversationId}
+      systemPrompt: ${systemPrompt}
+      message: ${message}
+      tools: ${tools}
+      aiModel: ${aiModel}
+      temperature: ${temperature}
+      maxToolCalls: ${maxToolCalls}`,
+    );
+    this.logger.log(`System prompt: ${systemPrompt}`);
+    this.logger.log(`Message: ${message}`);
+    this.logger.log(`Tools: ${tools}`);
+    this.logger.log(`AI Model: ${aiModel}`);
+    this.logger.log(`Temperature: ${temperature}`);
+    this.logger.log(`Max tool calls: ${maxToolCalls}`);
 
     const callMessages: BaseMessage[] = [];
     if (systemPrompt) callMessages.push(new SystemMessage(systemPrompt));

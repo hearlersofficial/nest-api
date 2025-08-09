@@ -178,9 +178,7 @@ export class CounselingOrchestrator {
       messageThreshold: request.messageThreshold,
     });
 
-    // 간단한 평가 요청 메시지
-    const evaluationRequest = `현재 기법에서 다음 기법으로 전환해야 하는지 평가해주세요. 
-현재 기법으로 진행된 메시지 수: ${request.currentTechniqueMessages.length}개`;
+    const evaluationRequest = "please evaluate the technique transition";
 
     // AI 평가 수행
     const aiResponse = await this.aiGenerator.generateResponse(
@@ -191,8 +189,14 @@ export class CounselingOrchestrator {
       AiModel.GPT_4O_MINI,
       0,
     );
-    // 파서를 사용하여 응답 파싱
-    return this.techniqueEvaluationParser.parseTechniqueEvaluationResponse(aiResponse);
+
+    const userMessageCount = request.currentTechniqueMessages.filter((m) => m.isUserMessage).length;
+
+    // 파서를 사용하여 응답 파싱 + 결정 계산
+    return this.techniqueEvaluationParser.parseTechniqueEvaluationResponse(aiResponse, {
+      messageThreshold: request.messageThreshold,
+      userMessageCount,
+    });
   }
 
   /**

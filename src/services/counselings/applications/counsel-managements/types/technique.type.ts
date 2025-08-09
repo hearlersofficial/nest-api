@@ -16,10 +16,19 @@ export type TechniqueTransitionScore = {
   reasoning: string; // 판별 근거
 };
 
+export type TechniqueEvaluationEvidence = {
+  quote: string; // 대화에서 인용한 근거 문장
+  rationale: string; // 해당 인용이 점수/판단에 기여한 이유
+};
+
 export type TechniqueTransitionDecision = {
   shouldTransition: boolean;
   scores: TechniqueTransitionScore;
   confidence: number; // 신뢰도 (0-100)
+  evidence?: TechniqueEvaluationEvidence[]; // 선택적 근거 목록
+  unmetCriteria?: string[]; // 미충족 기준 목록
+  redFlags?: string[]; // 안전/위험 신호 목록 (존재 시 전환 금지)
+  ruleApplied?: string; // 적용된 규칙 설명
 };
 
 // 백그라운드 기법 전환 평가 결과

@@ -2,10 +2,12 @@ import { CounselMessagesRepository } from "~counselings/domains/counselMessages/
 import { PsqlCounselMessagesMapper } from "~counselings/domains/counselMessages/infrastructures/mappers/psql.counselMessages.mapper";
 import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
 
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
+import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/councels/CounselMessages.entity";
+import { KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()
@@ -13,8 +15,15 @@ export class PsqlCounselMessagesRepository extends CounselMessagesRepository {
   constructor(
     @InjectRepository(CounselMessagesEntity)
     private readonly counselMessagesRepository: Repository<CounselMessagesEntity>,
+    @Inject(KAFKA_CLIENT) private readonly kafkaClient: ClientKafka,
   ) {
     super();
+  }
+
+  private publishDomainEvent(message: CounselMessages): void {
+    message.domainEvents.forEach((event) => {
+      this.kafkaClient.emit(event.topic, event.binary);
+    });
   }
 
   override async findByCounselMessageId(
@@ -49,6 +58,7 @@ export class PsqlCounselMessagesRepository extends CounselMessagesRepository {
     } else {
       const messageEntity = PsqlCounselMessagesMapper.toEntity(message);
       await this.counselMessagesRepository.save(messageEntity);
+      this.publishDomainEvent(message);
       return message;
     }
   }

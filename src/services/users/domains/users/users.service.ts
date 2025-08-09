@@ -6,7 +6,7 @@ import { UsersReader } from "~users/domains/users/users.reader";
 import { UsersStore } from "~users/domains/users/users.store";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable, Logger } from "@nestjs/common";
 import { isDefined } from "~common/shared/utils/validate";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -18,6 +18,8 @@ export class UsersService {
     private readonly reader: UsersReader,
     private readonly store: UsersStore,
   ) {}
+
+  private readonly logger = new Logger(UsersService.name);
 
   async create(newProps: UsersNewProps): Promise<UsersInfo> {
     const user = await this.store.create(newProps);
@@ -87,6 +89,7 @@ export class UsersService {
     if (!user) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "User not found");
     }
+    this.logger.log(`[UsersService] consumeTokens: ${userId.getString()}, count: ${count}`);
     user.userMessageToken.consumeTokens(count);
     await this.store.update(user);
     return UsersInfo.fromDomain(user);

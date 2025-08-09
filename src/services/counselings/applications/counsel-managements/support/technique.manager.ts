@@ -12,11 +12,6 @@ import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/mod
 import { Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
-export interface TechniqueManagementParams {
-  counsel: CounselInfo;
-  messages: CounselMessageInfo[];
-}
-
 export interface TechniqueManagementResult {
   counsel: CounselInfo;
   currentTechnique: CounselTechniqueInfo;
@@ -42,11 +37,11 @@ export class TechniqueManager {
 
   /**
    * 상담기법 조회
-   * @param params 기법 관리 파라미터
+   * @param session 상담 세션
    * @returns 관리 결과 (상담 정보, 현재 기법)
    */
-  async getCurrentTechnique(params: TechniqueManagementParams): Promise<TechniqueManagementResult> {
-    const { counsel } = params;
+  async getCurrentTechnique(session: CounselSession): Promise<TechniqueManagementResult> {
+    const counsel = session.getCounsel();
 
     // 현재 상담기법 조회
     const currentTechnique = await this.counselTechniqueService.getOne({
@@ -61,18 +56,19 @@ export class TechniqueManager {
 
   /**
    * 백그라운드 기법 전환 평가 준비 (AI 평가 제외)
-   * @param params 기법 관리 파라미터
+   * @param session 상담 세션
    * @returns 평가 요청 또는 평가 불필요 결과
    */
   async prepareBackgroundEvaluation(
-    params: TechniqueManagementParams,
+    session: CounselSession,
   ): Promise<
     { shouldEvaluate: false; reason: string } | { shouldEvaluate: true; evaluationRequest: TechniqueEvaluationRequest }
   > {
     try {
+      const counsel = session.getCounsel();
       // 현재 기법 조회
       const currentTechnique = await this.counselTechniqueService.getOne({
-        counselTechniqueId: new UniqueEntityId(params.counsel.counselTechniqueId),
+        counselTechniqueId: new UniqueEntityId(counsel.counselTechniqueId),
       });
 
       // 다음 기법이 없으면 평가하지 않음
@@ -85,8 +81,8 @@ export class TechniqueManager {
 
       // 메시지 수 기반 기본 조건 확인
       const currentTechniqueMessages = this.getCurrentTechniqueMessages(
-        params.messages,
-        params.counsel.counselTechniqueId,
+        session.getMessages(),
+        counsel.counselTechniqueId,
       );
 
       const userMessageCount = this.countUserMessagesFromMessages(currentTechniqueMessages);

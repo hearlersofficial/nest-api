@@ -1,15 +1,10 @@
+import { CounselSession } from "~counselings/applications/counsel-managements/models/counsel-session";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
 import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 
 import { Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
-
-export interface SystemPromptBuildParams {
-  personaPromptId: string;
-  tonePromptId: string;
-  counselTechnique: CounselTechniqueInfo;
-}
 
 export interface TechniqueEvaluationSystemPromptParams {
   currentTechnique: CounselTechniqueInfo;
@@ -30,23 +25,23 @@ export class SystemPromptBuilder {
 
   /**
    * 시스템 프롬프트 구성 요소들을 가져와서 최종 프롬프트 생성
-   * @param params 프롬프트 빌드 파라미터
+   * @param session 상담 세션
    * @returns 완성된 시스템 프롬프트
    */
-  async buildSystemPrompt(params: SystemPromptBuildParams): Promise<string> {
+  async buildSystemPrompt(session: CounselSession): Promise<string> {
     const [personaResult, toneResult] = await Promise.all([
       this.personaPromptService.getOne({
-        personaPromptId: new UniqueEntityId(params.personaPromptId),
+        personaPromptId: new UniqueEntityId(session.getCounselorScopedPrompt().personaPromptId),
       }),
       this.tonePromptService.getOne({
-        tonePromptId: new UniqueEntityId(params.tonePromptId),
+        tonePromptId: new UniqueEntityId(session.getToneScopedPrompt().tonePromptId),
       }),
     ]);
 
     const persona = personaResult.body;
     const tone = toneResult.body;
-    const context = params.counselTechnique.context;
-    const instruction = params.counselTechnique.instruction;
+    const context = session.getCurrentTechnique().context;
+    const instruction = session.getCurrentTechnique().instruction;
 
     const systemPrompt = `
 <Persona>

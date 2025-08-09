@@ -1,6 +1,4 @@
 import { CounselingOrchestrator } from "~counselings/applications/counsel-managements/counseling.orchestrator";
-import { CounselWithMessages } from "~counselings/applications/counsel-managements/types/counsel.type";
-import { CreatedAndResponseMessages } from "~counselings/applications/counsel-managements/types/counselMessage.type";
 import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
 import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
@@ -33,7 +31,10 @@ export class CounselManagementsFacade {
     counselorId: UniqueEntityId;
     bubbleId?: UniqueEntityId;
     responseOptionNumber?: number;
-  }): Promise<CounselWithMessages> {
+  }): Promise<{
+    counsel: CounselInfo;
+    counselMessages: CounselMessageInfo[];
+  }> {
     const { userId, counselorId, bubbleId, responseOptionNumber } = params;
 
     const counselor = await this.counselorService.getOne({ counselorId });
@@ -135,7 +136,10 @@ export class CounselManagementsFacade {
   }
 
   @Transactional()
-  async createMessage(params: { counselId: UniqueEntityId; message: string }): Promise<CreatedAndResponseMessages> {
+  async createMessage(params: { counselId: UniqueEntityId; message: string }): Promise<{
+    createdCounselMessage: CounselMessageInfo;
+    counselorResponseMessage: CounselMessageInfo;
+  }> {
     const { counselId, message } = params;
 
     const proceedCounselingResult = await this.counselingOrchestrator.proceedCounseling({

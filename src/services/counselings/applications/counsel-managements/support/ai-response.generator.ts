@@ -1,3 +1,6 @@
+import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
+
+import { Tool } from "@langchain/core/tools";
 import { Inject, Injectable } from "@nestjs/common";
 import { AssistantAgent, ChatRequest } from "~common/support/assistant-agents/assistant-agent";
 import { ASSISTANT_AGENT } from "~common/support/assistant-agents/assistant-agent.tokens";
@@ -26,8 +29,19 @@ export class AIResponseGenerator {
     conversationHistory: string,
     userMessage: string,
     counselId: string,
+    aiModel: AiModel,
+    temperature: number,
+    tools: Tool[] = [],
   ): Promise<string> {
-    const chatRequest: ChatRequest = this.buildChatRequest(systemPrompt, conversationHistory, userMessage, counselId);
+    const chatRequest: ChatRequest = this.buildChatRequest(
+      systemPrompt,
+      conversationHistory,
+      userMessage,
+      counselId,
+      aiModel,
+      temperature,
+      tools,
+    );
 
     const chatResponse = await this.assistantAgent.call(chatRequest);
 
@@ -51,6 +65,9 @@ export class AIResponseGenerator {
     conversationHistory: string,
     userMessage: string,
     counselId: string,
+    aiModel: AiModel,
+    temperature: number,
+    tools: Tool[],
   ): ChatRequest {
     const fullMessage = `
 <ConversationHistory>
@@ -66,6 +83,9 @@ ${userMessage}
       message: fullMessage,
       systemPrompt,
       useTools: false,
+      aiModel,
+      temperature,
+      tools,
     };
   }
 }

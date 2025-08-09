@@ -73,12 +73,13 @@ export class CounselTechniquesService {
     updateParams: {
       counselTechniqueId: UniqueEntityId;
       name?: string;
+      temperature?: number;
       context?: string;
       instruction?: string;
       messageThreshold?: number;
     },
   ): Promise<CounselTechniqueInfo[]> {
-    const { counselTechniqueId, name, context, instruction, messageThreshold } = updateParams;
+    const { counselTechniqueId, name, temperature, context, instruction, messageThreshold } = updateParams;
 
     const originalTechniques = await this.findOrdered({
       firstCounselTechniqueId: originalfirstCounselTechniqueId,
@@ -104,6 +105,7 @@ export class CounselTechniquesService {
     const newTargetTechnique = await this.counselTechniquesPersister.create({
       name: name ?? targetTechnique.name,
       toneId: targetTechnique.toneId,
+      temperature: temperature ?? targetTechnique.temperature,
       context: context ?? targetTechnique.context,
       instruction: instruction ?? targetTechnique.instruction,
       messageThreshold: messageThreshold ?? targetTechnique.messageThreshold,
@@ -124,7 +126,8 @@ export class CounselTechniquesService {
       const newTechnique = await this.counselTechniquesPersister.create({
         name: technique.name,
         toneId: technique.toneId,
-        context: technique.context,
+        temperature: temperature ?? technique.temperature,
+        context: context ?? technique.context,
         instruction: technique.instruction,
         messageThreshold: technique.messageThreshold,
       });
@@ -208,6 +211,7 @@ export class CounselTechniquesService {
       const newTechnique = await this.counselTechniquesPersister.create({
         name: technique.name,
         toneId: technique.toneId,
+        temperature: technique.temperature,
         context: technique.context,
         instruction: technique.instruction,
         messageThreshold: technique.messageThreshold,

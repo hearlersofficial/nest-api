@@ -31,7 +31,6 @@ export class CounselingOrchestrator {
   private readonly logger = new Logger(CounselingOrchestrator.name);
 
   constructor(
-    // 애플리케이션 서비스들
     private readonly techniqueManager: TechniqueManager,
     private readonly promptBuilder: SystemPromptBuilder,
     private readonly historyBuilder: ConversationHistoryBuilder,
@@ -89,7 +88,7 @@ export class CounselingOrchestrator {
       userMessage,
       session.getCounselId(),
       session.getPromptVersion().aiModel,
-      0.5,
+      session.getCurrentTechnique().temperature,
     );
 
     // 7. 시스템 메시지 생성 및 저장

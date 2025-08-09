@@ -6,6 +6,7 @@ export class CounselTechniqueInfo {
   constructor(
     public readonly id: string,
     public readonly name: string,
+    public readonly temperature: number,
     public readonly toneId: string,
     public readonly context: string,
     public readonly instruction: string,
@@ -21,6 +22,7 @@ export class CounselTechniqueInfo {
     return new CounselTechniqueInfo(
       counselTechnique.id.getString(),
       counselTechnique.name,
+      counselTechnique.temperature,
       counselTechnique.toneId.getString(),
       counselTechnique.context,
       counselTechnique.instruction,

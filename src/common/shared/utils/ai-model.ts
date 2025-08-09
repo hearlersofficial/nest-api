@@ -11,7 +11,14 @@ export const convertAiModelToModelName = (aiModel?: AiModel): string | undefined
       return "gpt-4o";
     case AiModel.GPT_4O_MINI:
       return "gpt-4o-mini";
+    case AiModel.GPT_5_MINI:
+      return "gpt-5-mini";
+    case AiModel.GPT_5:
+      return "gpt-5";
+    case AiModel.GPT_5_CHAT:
+      return "gpt-5-chat";
     case AiModel.AI_MODEL_UNSPECIFIED:
+      return undefined;
     default:
       return undefined;
   }

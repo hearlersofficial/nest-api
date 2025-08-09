@@ -186,7 +186,7 @@ export class CounselingOrchestrator {
       conversationHistory,
       evaluationRequest,
       `technique-evaluation-${Date.now()}`,
-      AiModel.GPT_4O_MINI,
+      AiModel.GPT_4O,
       0,
     );
 

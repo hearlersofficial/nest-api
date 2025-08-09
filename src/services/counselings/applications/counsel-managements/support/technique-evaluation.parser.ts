@@ -7,17 +7,18 @@ import {
 import { Injectable } from "@nestjs/common";
 
 type AtomicSignals = {
-  conversationProgress?: number;
-  userEngagement?: number;
-  goalAchievement?: { percentMet?: number; checklist?: Array<{ name?: string; met?: boolean; quote?: string }> };
-  appropriateness?: number;
+  clinical?: {
+    completion?: number; // abstract completion (0-100)
+    readiness?: number; // abstract readiness (0-100)
+    alignment?: number; // abstract alignment to next technique (0-100)
+  };
 };
 
 type AtomicEval = {
   signals?: AtomicSignals;
   evidence?: Array<{ quote?: string; tag?: string }>;
   redFlags?: string[];
-  safety?: { riskLevel?: number };
+  triggers?: string[];
 };
 
 type EvalContext = {
@@ -31,14 +32,8 @@ export class TechniqueEvaluationParser {
     const parsed = this.safeParse(response);
 
     const signals = parsed.signals || {};
-    const conv = this.clamp0to100(signals.conversationProgress ?? 0);
-    const engage = this.clamp0to100(signals.userEngagement ?? 0);
-    const goalPercent = this.clamp0to100(signals.goalAchievement?.percentMet ?? 0);
-    const checklist = Array.isArray(signals.goalAchievement?.checklist) ? signals.goalAchievement!.checklist! : [];
-    const appropriateness = this.clamp0to100(signals.appropriateness ?? 0);
-
     const redFlags: string[] = Array.isArray(parsed.redFlags) ? parsed.redFlags : [];
-    const safetyRisk = this.clamp0to100(parsed.safety?.riskLevel ?? 0);
+    const triggers: string[] = Array.isArray(parsed.triggers) ? parsed.triggers : [];
 
     const evidence: TechniqueEvaluationEvidence[] = Array.isArray(parsed.evidence)
       ? parsed.evidence
@@ -46,68 +41,55 @@ export class TechniqueEvaluationParser {
           .filter((e) => e.quote.length > 0)
       : [];
 
-    // Counseling-aware derived scores (mapping atomic signals → clinical constructs)
-    const techniqueCompletionScore = this.clamp0to100(0.6 * goalPercent + 0.4 * conv);
-    const nextTechniqueFitScore = this.clamp0to100(appropriateness);
-    const allianceStrengthScore = this.clamp0to100(engage);
-    const clientReadinessScore = this.clamp0to100(0.5 * engage + 0.5 * appropriateness);
-    const riskStabilityScore = this.clamp0to100(100 - (parsed.safety?.riskLevel ?? 0));
+    // Abstract scores: prefer AI-provided clinical signals if present; otherwise default to 0 (lightweight)
+    const clinical = (signals as any).clinical || {};
+    const completion = this.clamp0to100(typeof clinical.completion === "number" ? clinical.completion : 0);
+    const readiness = this.clamp0to100(typeof clinical.readiness === "number" ? clinical.readiness : 0);
+    const alignment = this.clamp0to100(typeof clinical.alignment === "number" ? clinical.alignment : 0);
 
-    const checklistTotal = checklist.length || 0;
-    const checklistMet = checklist.filter((c) => Boolean(c?.met)).length;
-    const checklistCoverage = checklistTotal > 0 ? (100 * checklistMet) / checklistTotal : goalPercent;
+    // Trigger-based boosts (domain cues)
+    const boosted = this.applyTriggerBoosts(
+      { completionScore: completion, readinessScore: readiness, alignmentScore: alignment },
+      triggers,
+    );
+    const comp = boosted.completionScore;
+    const fit = boosted.alignmentScore;
+    const ready = boosted.readinessScore;
 
-    // Hard gates
+    // Hard gates (minimal)
     const gates: string[] = [];
-    if (redFlags.length > 0) gates.push("Red flags present");
-    if (safetyRisk >= 30) gates.push("Safety risk >= 30");
     if (context.userMessageCount < context.messageThreshold) gates.push("Message threshold unmet");
 
-    // Soft requirements
-    const evidenceCount = evidence.length;
-    const hasSufficientEvidence = evidenceCount >= 2;
-    if (!hasSufficientEvidence) gates.push("Insufficient evidence (<2 quotes)");
-
-    const checklistRequired = 65; // require >=65% of checklist items met
-    if (checklistCoverage < checklistRequired) gates.push(`Checklist coverage < ${checklistRequired}%`);
+    // No evidence/checklist gating (lightweight)
 
     // Score thresholds
-    const minTechniqueCompletion = 65;
-    const minAlliance = 45;
-    const minReadiness = 55;
-    const minFit = 55;
-    const minRiskStability = 60;
-
-    if (techniqueCompletionScore < minTechniqueCompletion)
-      gates.push(`Technique completion < ${minTechniqueCompletion}`);
-    if (allianceStrengthScore < minAlliance) gates.push(`Alliance < ${minAlliance}`);
-    if (clientReadinessScore < minReadiness) gates.push(`Readiness < ${minReadiness}`);
-    if (nextTechniqueFitScore < minFit) gates.push(`Next-technique fit < ${minFit}`);
-    if (riskStabilityScore < minRiskStability) gates.push(`Risk stability < ${minRiskStability}`);
+    // Lightweight majority rule on abstract metrics: require at least 2 of 3 to pass
+    const minCompletion = 50;
+    const minReadiness = 50;
+    const minAlignment = 50;
+    const failed: string[] = [];
+    if (comp < minCompletion) failed.push(`Completion < ${minCompletion}`);
+    if (ready < minReadiness) failed.push(`Readiness < ${minReadiness}`);
+    if (fit < minAlignment) failed.push(`Alignment < ${minAlignment}`);
+    const passedCount = 3 - failed.length;
+    if (passedCount < 2) gates.push(...failed);
 
     const shouldTransition = gates.length === 0;
 
     // Confidence heuristic: start from an average of core signals and penalize
-    let confidence = this.clamp0to100(
-      (techniqueCompletionScore + allianceStrengthScore + clientReadinessScore + nextTechniqueFitScore) / 4,
-    );
-    if (!hasSufficientEvidence) confidence -= 15;
-    if (checklistCoverage < checklistRequired) confidence -= 10;
-    if (redFlags.length > 0) confidence = Math.min(confidence, 30);
+    let confidence = this.clamp0to100((comp + ready + fit) / 3);
     confidence = this.clamp0to100(confidence);
 
     // Soft relaxation when exceeding message threshold slightly
     const messageExcess = Math.max(0, context.userMessageCount - context.messageThreshold);
-    const relaxation = Math.min(10, Math.floor(messageExcess / 2)); // every +2 msgs → +1 relaxation up to +10
+    const relaxation = Math.min(20, Math.floor(messageExcess)); // every +1 msg → +1 relaxation up to +20
     const relaxedGates = this.applyRelaxationToGates(gates, relaxation);
 
     const scores: TechniqueTransitionScore = {
-      techniqueCompletionScore,
-      nextTechniqueFitScore,
-      allianceStrengthScore,
-      clientReadinessScore,
-      riskStabilityScore,
-      reasoning: this.composeReasoning(evidence, relaxedGates),
+      completionScore: comp,
+      readinessScore: ready,
+      alignmentScore: fit,
+      reasoning: this.composeReasoning(evidence, relaxedGates, triggers),
     };
 
     return {
@@ -116,7 +98,6 @@ export class TechniqueEvaluationParser {
       confidence,
       evidence,
       unmetCriteria: relaxedGates,
-      redFlags,
       ruleApplied: relaxedGates.length === 0 ? "Thresholds met (with relaxation if applied)" : "Gate blocked",
     };
   }
@@ -133,8 +114,8 @@ export class TechniqueEvaluationParser {
 
   private applyRelaxationToGates(gates: string[], relaxation: number): string[] {
     if (relaxation <= 0) return gates;
-    // Relax only soft performance gates, not safety/red flags
-    const nonRelaxable = ["Red flags present", "Safety risk >= 30", "Message threshold unmet"];
+    // Relax only soft performance gates, keep threshold gate
+    const nonRelaxable = ["Message threshold unmet"];
     const result: string[] = [];
     for (const g of gates) {
       if (nonRelaxable.includes(g)) {
@@ -151,11 +132,9 @@ export class TechniqueEvaluationParser {
 
   private tryLowerGateRequirement(gate: string, relaxation: number): boolean {
     // Examples of gates we emit:
-    // "Technique completion < 65"
-    // "Alliance < 45"
-    // "Readiness < 55"
-    // "Next-technique fit < 55"
-    // "Risk stability < 60"
+    // "Completion < 50"
+    // "Readiness < 50"
+    // "Alignment < 50"
     const match = gate.match(/^(.*) < (\d{1,3})$/);
     if (!match) return false;
     const label = match[1];
@@ -186,12 +165,36 @@ export class TechniqueEvaluationParser {
     }
   }
 
-  private composeReasoning(evidence: TechniqueEvaluationEvidence[], gates: string[]): string {
+  private composeReasoning(evidence: TechniqueEvaluationEvidence[], gates: string[], triggers: string[] = []): string {
     const ev = evidence
       .slice(0, 2)
       .map((e) => e.quote)
       .join(" | ");
     const gateInfo = gates.length > 0 ? `Blocked by: ${gates.join(", ")}` : "All thresholds satisfied";
-    return `${gateInfo}${ev ? ` | Evidence: ${ev}` : ""}`;
+    const trig = triggers.length > 0 ? ` | Triggers: ${triggers.join(",")}` : "";
+    return `${gateInfo}${ev ? ` | Evidence: ${ev}` : ""}${trig}`;
+  }
+
+  private applyTriggerBoosts(
+    scores: { completionScore: number; readinessScore: number; alignmentScore: number },
+    triggers: string[],
+  ) {
+    let { completionScore, readinessScore, alignmentScore } = scores;
+
+    const has = (t: string) => triggers.includes(t);
+
+    if (has("emotionDisclosure") || has("affectNamed") || has("feelingStated")) {
+      readinessScore = this.clamp0to100(readinessScore + 20);
+      alignmentScore = this.clamp0to100(alignmentScore + 15);
+    }
+    if (has("explicitTransitionRequest") || has("askToMoveOn")) {
+      readinessScore = this.clamp0to100(readinessScore + 25);
+      alignmentScore = this.clamp0to100(alignmentScore + 20);
+    }
+    if (has("currentGoalsDone") || has("phaseComplete")) {
+      completionScore = this.clamp0to100(completionScore + 15);
+    }
+
+    return { completionScore, readinessScore, alignmentScore };
   }
 }

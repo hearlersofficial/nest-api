@@ -5,14 +5,14 @@ import {
   FindActiveVersionRequestSchema,
   FindActiveVersionResponse,
   FindActiveVersionResponseSchema,
+  FindAiModelRequest,
+  FindAiModelRequestSchema,
+  FindAiModelResponse,
+  FindAiModelResponseSchema,
   FindCounselTechniqueByIdRequest,
   FindCounselTechniqueByIdRequestSchema,
   FindCounselTechniqueByIdResponse,
   FindCounselTechniqueByIdResponseSchema,
-  FindGptModelRequest,
-  FindGptModelRequestSchema,
-  FindGptModelResponse,
-  FindGptModelResponseSchema,
   FindOrderedCounselTechniquesRequest,
   FindOrderedCounselTechniquesRequestSchema,
   FindOrderedCounselTechniquesResponse,
@@ -170,12 +170,12 @@ export class GrpcCounselPromptQueryController {
   }
 
   // GPT Model
-  @GrpcMethod("CounselPromptService", "FindGptModel")
-  @ProtoRequest(FindGptModelRequestSchema)
-  async findGptModel(request: FindGptModelRequest): Promise<FindGptModelResponse> {
-    const model = await this.counselPromptManagementsFacade.findGptModel();
-    return create(FindGptModelResponseSchema, {
-      gptModel: model,
+  @GrpcMethod("CounselPromptService", "FindAiModel")
+  @ProtoRequest(FindAiModelRequestSchema)
+  async findAiModel(request: FindAiModelRequest): Promise<FindAiModelResponse> {
+    const aiModel = await this.counselPromptManagementsFacade.findAiModel();
+    return create(FindAiModelResponseSchema, {
+      aiModel: aiModel,
     });
   }
 }

@@ -1,4 +1,4 @@
-import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
+import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
@@ -49,12 +49,12 @@ export class PromptVersionEntity extends CoreEntity {
 
   @Column({
     type: "enum",
-    name: "gpt_model",
-    comment: "GPT 모델",
-    enum: GPTModel,
-    default: GPTModel.GPT_4O,
+    name: "ai_model",
+    comment: "AI 모델",
+    enum: AiModel,
+    default: AiModel.GPT_4O_MINI,
   })
-  gptModel: GPTModel;
+  aiModel: AiModel;
 
   @OneToMany(() => CounselorScopedPromptEntity, (counselorScopedPrompt) => counselorScopedPrompt.promptVersion, {
     cascade: true,

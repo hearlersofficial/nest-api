@@ -25,10 +25,10 @@ import {
   SaveTemporaryVersionRequestSchema,
   SaveTemporaryVersionResponse,
   SaveTemporaryVersionResponseSchema,
-  SetGptModelRequest,
-  SetGptModelRequestSchema,
-  SetGptModelResponse,
-  SetGptModelResponseSchema,
+  SetAiModelRequest,
+  SetAiModelRequestSchema,
+  SetAiModelResponse,
+  SetAiModelResponseSchema,
   UpdateCounselTechniqueRequest,
   UpdateCounselTechniqueRequestSchema,
   UpdateCounselTechniqueResponse,
@@ -75,12 +75,12 @@ export class GrpcCounselPromptCommandController {
   @GrpcMethod("CounselPromptService", "SaveTemporaryVersion")
   @ProtoRequest(SaveTemporaryVersionRequestSchema)
   async saveTemporaryVersion(request: SaveTemporaryVersionRequest): Promise<SaveTemporaryVersionResponse> {
-    const { name, description, isBookmarked, gptModel } = request;
+    const { name, description, isBookmarked, aiModel } = request;
     const promptVersion = await this.counselPromptManagementsFacade.saveTemporaryPromptVersion({
       name,
       description,
       isBookmarked,
-      gptModel,
+      aiModel,
     });
     return create(SaveTemporaryVersionResponseSchema, {
       promptVersion: SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion),
@@ -102,13 +102,13 @@ export class GrpcCounselPromptCommandController {
   @GrpcMethod("CounselPromptService", "UpdatePromptVersion")
   @ProtoRequest(UpdatePromptVersionRequestSchema)
   async updatePromptVersion(request: UpdatePromptVersionRequest): Promise<UpdatePromptVersionResponse> {
-    const { promptVersionId, name, description, isBookmarked, gptModel } = request;
+    const { promptVersionId, name, description, isBookmarked, aiModel } = request;
     const promptVersion = await this.counselPromptManagementsFacade.updatePromptVersion({
       promptVersionId: new UniqueEntityId(promptVersionId),
       name,
       description,
       isBookmarked,
-      gptModel,
+      aiModel,
     });
     return create(UpdatePromptVersionResponseSchema, {
       promptVersion: SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion),
@@ -203,15 +203,15 @@ export class GrpcCounselPromptCommandController {
     });
   }
 
-  @GrpcMethod("CounselPromptService", "SetGptModel")
-  @ProtoRequest(SetGptModelRequestSchema)
-  async setGptModel(request: SetGptModelRequest): Promise<SetGptModelResponse> {
-    const { gptModel } = request;
-    const setModel = await this.counselPromptManagementsFacade.setGptModel({
-      gptModel,
+  @GrpcMethod("CounselPromptService", "SetAiModel")
+  @ProtoRequest(SetAiModelRequestSchema)
+  async setAiModel(request: SetAiModelRequest): Promise<SetAiModelResponse> {
+    const { aiModel } = request;
+    const setAiModel = await this.counselPromptManagementsFacade.setAiModel({
+      aiModel,
     });
-    return create(SetGptModelResponseSchema, {
-      gptModel: setModel,
+    return create(SetAiModelResponseSchema, {
+      aiModel: setAiModel,
     });
   }
 }

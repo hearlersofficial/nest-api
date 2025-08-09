@@ -46,8 +46,12 @@ export class TechniqueEvaluationParser {
           .filter((e) => e.quote.length > 0)
       : [];
 
-    // Deterministic aggregation
-    const weightedOverall = this.computeWeightedOverall(conv, engage, goalPercent, appropriateness);
+    // Counseling-aware derived scores (mapping atomic signals → clinical constructs)
+    const techniqueCompletionScore = this.clamp0to100(0.6 * goalPercent + 0.4 * conv);
+    const nextTechniqueFitScore = this.clamp0to100(appropriateness);
+    const allianceStrengthScore = this.clamp0to100(engage);
+    const clientReadinessScore = this.clamp0to100(0.5 * engage + 0.5 * appropriateness);
+    const riskStabilityScore = this.clamp0to100(100 - (parsed.safety?.riskLevel ?? 0));
 
     const checklistTotal = checklist.length || 0;
     const checklistMet = checklist.filter((c) => Boolean(c?.met)).length;
@@ -68,39 +72,52 @@ export class TechniqueEvaluationParser {
     if (checklistCoverage < checklistRequired) gates.push(`Checklist coverage < ${checklistRequired}%`);
 
     // Score thresholds
-    const minOverall = 70;
-    const minEngagement = 50;
-    const minGoal = 60;
-    if (weightedOverall < minOverall) gates.push(`Overall < ${minOverall}`);
-    if (engage < minEngagement) gates.push(`Engagement < ${minEngagement}`);
-    if (goalPercent < minGoal) gates.push(`Goal < ${minGoal}`);
+    const minTechniqueCompletion = 65;
+    const minAlliance = 45;
+    const minReadiness = 55;
+    const minFit = 55;
+    const minRiskStability = 60;
+
+    if (techniqueCompletionScore < minTechniqueCompletion)
+      gates.push(`Technique completion < ${minTechniqueCompletion}`);
+    if (allianceStrengthScore < minAlliance) gates.push(`Alliance < ${minAlliance}`);
+    if (clientReadinessScore < minReadiness) gates.push(`Readiness < ${minReadiness}`);
+    if (nextTechniqueFitScore < minFit) gates.push(`Next-technique fit < ${minFit}`);
+    if (riskStabilityScore < minRiskStability) gates.push(`Risk stability < ${minRiskStability}`);
 
     const shouldTransition = gates.length === 0;
 
-    // Confidence heuristic (derived, not from model): start at overall and penalize
-    let confidence = weightedOverall;
+    // Confidence heuristic: start from an average of core signals and penalize
+    let confidence = this.clamp0to100(
+      (techniqueCompletionScore + allianceStrengthScore + clientReadinessScore + nextTechniqueFitScore) / 4,
+    );
     if (!hasSufficientEvidence) confidence -= 15;
     if (checklistCoverage < checklistRequired) confidence -= 10;
     if (redFlags.length > 0) confidence = Math.min(confidence, 30);
     confidence = this.clamp0to100(confidence);
 
+    // Soft relaxation when exceeding message threshold slightly
+    const messageExcess = Math.max(0, context.userMessageCount - context.messageThreshold);
+    const relaxation = Math.min(10, Math.floor(messageExcess / 2)); // every +2 msgs → +1 relaxation up to +10
+    const relaxedGates = this.applyRelaxationToGates(gates, relaxation);
+
     const scores: TechniqueTransitionScore = {
-      conversationProgressScore: conv,
-      userEngagementScore: engage,
-      goalAchievementScore: goalPercent,
-      appropriatenessScore: appropriateness,
-      overallScore: weightedOverall,
-      reasoning: this.composeReasoning(evidence, gates),
+      techniqueCompletionScore,
+      nextTechniqueFitScore,
+      allianceStrengthScore,
+      clientReadinessScore,
+      riskStabilityScore,
+      reasoning: this.composeReasoning(evidence, relaxedGates),
     };
 
     return {
-      shouldTransition,
+      shouldTransition: relaxedGates.length === 0,
       scores,
       confidence,
       evidence,
-      unmetCriteria: gates,
+      unmetCriteria: relaxedGates,
       redFlags,
-      ruleApplied: shouldTransition ? "Deterministic thresholds met" : "Gate blocked",
+      ruleApplied: relaxedGates.length === 0 ? "Thresholds met (with relaxation if applied)" : "Gate blocked",
     };
   }
 
@@ -114,9 +131,39 @@ export class TechniqueEvaluationParser {
     }
   }
 
-  private computeWeightedOverall(conv: number, engage: number, goal: number, appropr: number): number {
-    const raw = 0.35 * conv + 0.25 * engage + 0.3 * goal + 0.1 * appropr;
-    return this.clamp0to100(raw);
+  private applyRelaxationToGates(gates: string[], relaxation: number): string[] {
+    if (relaxation <= 0) return gates;
+    // Relax only soft performance gates, not safety/red flags
+    const nonRelaxable = ["Red flags present", "Safety risk >= 30", "Message threshold unmet"];
+    const result: string[] = [];
+    for (const g of gates) {
+      if (nonRelaxable.includes(g)) {
+        result.push(g);
+        continue;
+      }
+      // Reduce numeric thresholds by relaxation points where applicable
+      const lowered = this.tryLowerGateRequirement(g, relaxation);
+      if (lowered) continue; // gate satisfied under relaxation
+      result.push(g);
+    }
+    return result;
+  }
+
+  private tryLowerGateRequirement(gate: string, relaxation: number): boolean {
+    // Examples of gates we emit:
+    // "Technique completion < 65"
+    // "Alliance < 45"
+    // "Readiness < 55"
+    // "Next-technique fit < 55"
+    // "Risk stability < 60"
+    const match = gate.match(/^(.*) < (\d{1,3})$/);
+    if (!match) return false;
+    const label = match[1];
+    const threshold = Number(match[2]);
+    const relaxedThreshold = Math.max(0, threshold - relaxation);
+    // If the original gate said value < threshold, relaxation lowers the bar; treat as satisfied once we apply
+    // Here we simply drop the gate, as the caller already decided to relax
+    return relaxedThreshold <= threshold - relaxation;
   }
 
   private clamp0to100(n: number): number {

@@ -67,13 +67,19 @@ ${tone}
     const { currentTechnique, nextTechnique, messageThreshold } = params;
 
     return `
-You are an expert counseling supervisor. Output atomic, evidence-backed features to help a downstream rule-based system decide whether to TRANSITION techniques.
+You are an expert counseling supervisor. Think step-by-step (Chain-of-Thought) but only output JSON. First, internally consider the conversation using counseling psychology constructs, then extract atomic, evidence-backed features to help a downstream rule-based system decide whether to TRANSITION techniques.
 
 <RULES>
 - Use ONLY the provided conversation history (not included here) and technique specs below.
 - DO NOT decide or recommend transition; DO NOT compute an overall score. Only extract signals.
 - Be conservative: if evidence is weak or ambiguous, reflect that in low scores and unmet checklist.
-- Cite at least 2 short verbatim quotes for key signals when present.
+ - Cite at least 2 short verbatim quotes for key signals when present.
+ - Use the following constructs:
+   - TechniqueCompletion: progress toward current-technique tasks/goals.
+   - NextTechniqueFit: conceptual/temporal fit for moving to the next technique now.
+   - AllianceStrength: quality of therapeutic alliance (bond, task, goal agreement).
+   - ClientReadiness: readiness/motivation/insight to proceed.
+   - RiskStability: safety and stability (higher means safer, more stable).
 </RULES>
 
 <CURRENT_TECHNIQUE>
@@ -92,18 +98,23 @@ Instruction: ${nextTechnique.instruction}
 <OUTPUT_JSON_SCHEMA>
 {
   "signals": {
-    "conversationProgress": number,   // 0-100, progress within current technique
-    "userEngagement": number,         // 0-100, specificity, emotional granularity, responsiveness
+    "conversationProgress": number,
+    "userEngagement": number,
     "goalAchievement": {
-      "percentMet": number,           // 0-100, proportion of current-technique goals achieved
-      "checklist": [                  // 3-6 checklist items with status and evidence
-        { "name": string, "met": boolean, "quote": string }
-      ]
+      "percentMet": number,
+      "checklist": [ { "name": string, "met": boolean, "quote": string } ]
     },
-    "appropriateness": number         // 0-100, contextual fit to move to next technique now
+    "appropriateness": number,
+    "clinical": {
+      "techniqueCompletion": number,
+      "nextTechniqueFit": number,
+      "allianceStrength": number,
+      "clientReadiness": number,
+      "riskStability": number
+    }
   },
   "evidence": [                       // short verbatim quotes with tags
-    { "quote": string, "tag": "progress"|"engagement"|"goal"|"appropriateness" }
+    { "quote": string, "tag": "progress"|"engagement"|"goal"|"appropriateness"|"alliance"|"readiness"|"fit"|"stability" }
   ],
   "redFlags": [string],               // safety/clinical concerns (if any)
   "safety": { "riskLevel": number }  // 0-100, crisis or risk assessment
@@ -115,6 +126,8 @@ Instruction: ${nextTechnique.instruction}
 - Keep quotes short (<= 200 chars) and verbatim.
 - If unsure, lower scores and mark checklist items as unmet.
 - messageThreshold is ${messageThreshold}; reflect it implicitly in conversationProgress and goalAchievement.
+ - messageThreshold is ${messageThreshold}; reflect it implicitly in conversationProgress and goalAchievement.
+ - Derive clinical signals under "signals.clinical" explicitly.
 </INSTRUCTIONS>
 `;
   }

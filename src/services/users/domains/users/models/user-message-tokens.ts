@@ -113,6 +113,7 @@ export class UserMessageTokens extends DomainEntity<UserMessageTokensProps, User
     if (!this.props.reserved) {
       return false;
     }
+
     if (this.props.reservedTimeout && this.props.reservedTimeout.isBefore(getNowDayjs())) {
       this.props.reservedTimeout = null;
       this.props.reserved = false;

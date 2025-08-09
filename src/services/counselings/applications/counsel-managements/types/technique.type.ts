@@ -8,12 +8,12 @@ export type TechniqueTransitionEvaluationParams = {
 };
 
 export type TechniqueTransitionScore = {
-  conversationProgressScore: number; // 대화 진행도 점수 (0-100)
-  userEngagementScore: number; // 사용자 참여도 점수 (0-100)
-  goalAchievementScore: number; // 목표 달성도 점수 (0-100)
-  appropriatenessScore: number; // 다음 기법 적절성 점수 (0-100)
-  overallScore: number; // 전체 점수 (0-100)
-  reasoning: string; // 판별 근거
+  techniqueCompletionScore: number; // 현재 기법의 목표/과제 달성도 (0-100)
+  nextTechniqueFitScore: number; // 다음 기법과의 개념적/상황적 적합도 (0-100)
+  allianceStrengthScore: number; // 치료적 동맹(관계/과제/목표 합의) 강도 (0-100)
+  clientReadinessScore: number; // 다음 단계로의 준비도/의지/통찰 (0-100)
+  riskStabilityScore: number; // 위험/불안정성의 반대 지표: 높을수록 안전/안정 (0-100)
+  reasoning: string; // 판별 근거 요약
 };
 
 export type TechniqueEvaluationEvidence = {

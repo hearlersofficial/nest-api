@@ -1,4 +1,4 @@
-import { GPTModelConverter } from "~counselings/applications/counsel-prompt-managements/gpt-model.converter";
+import { AiModelConverter } from "~counselings/applications/counsel-prompt-managements/ai-model.converter";
 import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
@@ -10,7 +10,7 @@ import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/pr
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 import { TonePromptInfo } from "~counselings/domains/tonePrompts/models/tonePrompt.info";
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
-import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
+import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { getNowDayjs } from "~common/shared/utils/date";
@@ -70,9 +70,9 @@ export class CounselPromptManagementsFacade {
     name: string;
     description: string;
     isBookmarked: boolean;
-    gptModel: GPTModel;
+    aiModel: AiModel;
   }): Promise<PromptVersionInfo> {
-    const { name, description, isBookmarked, gptModel } = param;
+    const { name, description, isBookmarked, aiModel } = param;
 
     const temporaryVersion = await this.promptVersionService.getTemporaryOne();
     const validatePromptVersionResult = await this.validatePromptVersionUseCase.execute({
@@ -89,7 +89,7 @@ export class CounselPromptManagementsFacade {
       name,
       description,
       isBookmarked,
-      gptModel,
+      aiModel,
     });
   }
 
@@ -99,15 +99,15 @@ export class CounselPromptManagementsFacade {
     name?: string;
     description?: string;
     isBookmarked?: boolean;
-    gptModel?: GPTModel;
+    aiModel?: AiModel;
   }): Promise<PromptVersionInfo> {
-    const { promptVersionId, name, description, isBookmarked, gptModel } = param;
+    const { promptVersionId, name, description, isBookmarked, aiModel } = param;
     return this.promptVersionService.updatePromptVersion({
       promptVersionId,
       name,
       description,
       isBookmarked,
-      gptModel,
+      aiModel,
     });
   }
 
@@ -284,14 +284,14 @@ export class CounselPromptManagementsFacade {
     return this.promptActivateHistoryService.getMany({ promptVersionId });
   }
 
-  async findGptModel(): Promise<GPTModel> {
+  async findAiModel(): Promise<AiModel> {
     const model = this.assistantAgent.getModel();
-    return GPTModelConverter.convertStringToGPTModel(model);
+    return AiModelConverter.convertStringToAiModel(model);
   }
 
-  async setGptModel(param: { gptModel: GPTModel }): Promise<GPTModel> {
-    const { gptModel } = param;
-    this.assistantAgent.setModel(GPTModelConverter.convertGPTModelToString(gptModel));
-    return gptModel;
+  async setAiModel(param: { aiModel: AiModel }): Promise<AiModel> {
+    const { aiModel } = param;
+    this.assistantAgent.setModel(AiModelConverter.convertAiModelToString(aiModel));
+    return aiModel;
   }
 }

@@ -1,7 +1,7 @@
 import { CounselorScopedPromptInfo } from "~counselings/domains/promptVersions/models/counselorScopedPrompt.info";
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 import { ToneScopedPromptInfo } from "~counselings/domains/promptVersions/models/toneScopedPrompt.info";
-import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
+import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { Dayjs } from "dayjs";
 
@@ -15,7 +15,7 @@ export class PromptVersionInfo {
     public readonly isActive: boolean,
     public readonly isTemporary: boolean,
     public readonly isBookmarked: boolean,
-    public readonly gptModel: GPTModel,
+    public readonly aiModel: AiModel,
     public readonly createdAt: Dayjs,
     public readonly updatedAt: Dayjs,
     public readonly deletedAt: Dayjs | null,
@@ -31,7 +31,7 @@ export class PromptVersionInfo {
       promptVersion.isActive,
       promptVersion.isTemporary,
       promptVersion.isBookmarked,
-      promptVersion.gptModel,
+      promptVersion.aiModel,
       promptVersion.createdAt,
       promptVersion.updatedAt,
       promptVersion.deletedAt,

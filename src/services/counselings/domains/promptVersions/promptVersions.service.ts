@@ -1,9 +1,9 @@
 import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
-import { PromptVersions, PromptVersionsNewProps } from "~counselings/domains/promptVersions/models/promptVersions";
+import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
 import { PromptVersionsPersister } from "~counselings/domains/promptVersions/promptVersions.persister";
 import { PromptVersionsReader } from "~counselings/domains/promptVersions/promptVersions.reader";
-import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
+import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
@@ -94,16 +94,16 @@ export class PromptVersionsService {
     name: string;
     description: string;
     isBookmarked: boolean;
-    gptModel: GPTModel;
+    aiModel: AiModel;
   }): Promise<PromptVersionInfo> {
-    const { name, description, isBookmarked, gptModel } = props;
+    const { name, description, isBookmarked, aiModel } = props;
 
     const temporaryVersion = await this.findTemporaryOne();
     const saveVersionResult = temporaryVersion.saveVersion({
       name,
       description,
       isBookmarked,
-      gptModel,
+      aiModel,
     });
     if (saveVersionResult.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, saveVersionResult.error as string);
@@ -119,9 +119,9 @@ export class PromptVersionsService {
     name?: string;
     description?: string;
     isBookmarked?: boolean;
-    gptModel?: GPTModel;
+    aiModel?: AiModel;
   }): Promise<PromptVersionInfo> {
-    const { promptVersionId, name, description, isBookmarked, gptModel } = props;
+    const { promptVersionId, name, description, isBookmarked, aiModel } = props;
     const promptVersion = await this.promptVersionsReader.findOne({ promptVersionId });
     if (!promptVersion) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PromptVersion not found");
@@ -131,7 +131,7 @@ export class PromptVersionsService {
       name,
       description,
       isBookmarked,
-      gptModel,
+      aiModel,
     });
     if (updateResult.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateResult.error as string);

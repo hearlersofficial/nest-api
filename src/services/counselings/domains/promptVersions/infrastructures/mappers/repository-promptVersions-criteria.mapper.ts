@@ -19,8 +19,8 @@ export class RepositoryPromptVersionCriteriaMapper {
     if (criteria.isBookmarked !== undefined) {
       where.isBookmarked = criteria.isBookmarked;
     }
-    if (criteria.gptModel !== undefined) {
-      where.gptModel = criteria.gptModel;
+    if (criteria.aiModel !== undefined) {
+      where.aiModel = criteria.aiModel;
     }
     if (criteria.ids !== undefined) {
       where.id = In(criteria.ids.map((id) => id.getString()));

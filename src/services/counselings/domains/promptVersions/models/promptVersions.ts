@@ -1,6 +1,6 @@
 import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
-import { GPTModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
+import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
@@ -18,7 +18,7 @@ export interface PromptVersionsProps extends PromptVersionsNewProps {
   isActive: boolean;
   isTemporary: boolean;
   isBookmarked: boolean;
-  gptModel: GPTModel;
+  aiModel: AiModel;
 
   createdAt: Dayjs;
   updatedAt: Dayjs;
@@ -52,7 +52,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
         isActive: false,
         isTemporary: true,
         isBookmarked: false,
-        gptModel: GPTModel.GPT_4O,
+        aiModel: AiModel.GPT_4O,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -76,7 +76,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
         isActive: false,
         isTemporary: true,
         isBookmarked: false,
-        gptModel: promptVersion.gptModel,
+        aiModel: promptVersion.aiModel,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -150,8 +150,8 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
 
     // gptModel 검증
-    if (this.props.gptModel === null || this.props.gptModel === undefined) {
-      return Result.fail<void>("[PromptVersions] gptModel은 필수입니다");
+    if (this.props.aiModel === null || this.props.aiModel === undefined) {
+      return Result.fail<void>("[PromptVersions] aiModel은 필수입니다");
     }
 
     // counselorScopedPrompts 검증
@@ -212,8 +212,8 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     return this.props.isBookmarked;
   }
 
-  get gptModel(): GPTModel {
-    return this.props.gptModel;
+  get aiModel(): AiModel {
+    return this.props.aiModel;
   }
 
   get createdAt(): Dayjs {
@@ -264,7 +264,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     name: string;
     description: string;
     isBookmarked: boolean;
-    gptModel: GPTModel;
+    aiModel: AiModel;
   }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be saved.");
@@ -272,7 +272,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.name = props.name;
     this.props.description = props.description;
     this.props.isBookmarked = props.isBookmarked;
-    this.props.gptModel = props.gptModel;
+    this.props.aiModel = props.aiModel;
     this.props.isTemporary = false;
     this.props.updatedAt = getNowDayjs();
     return Result.ok();
@@ -393,7 +393,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     name?: string;
     description?: string;
     isBookmarked?: boolean;
-    gptModel?: GPTModel;
+    aiModel?: AiModel;
   }): Result<void> {
     if (props.name !== undefined) {
       this.props.name = props.name;
@@ -404,8 +404,8 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     if (props.isBookmarked !== undefined) {
       this.props.isBookmarked = props.isBookmarked;
     }
-    if (props.gptModel !== undefined) {
-      this.props.gptModel = props.gptModel;
+    if (props.aiModel !== undefined) {
+      this.props.aiModel = props.aiModel;
     }
     this.props.updatedAt = getNowDayjs();
     return Result.ok();

@@ -126,8 +126,8 @@ export class CounselTechniquesService {
       const newTechnique = await this.counselTechniquesPersister.create({
         name: technique.name,
         toneId: technique.toneId,
-        temperature: temperature ?? technique.temperature,
-        context: context ?? technique.context,
+        temperature: technique.temperature,
+        context: technique.context,
         instruction: technique.instruction,
         messageThreshold: technique.messageThreshold,
       });

@@ -85,6 +85,10 @@ export class AuthFacade {
 
   async updateAuthority(params: { authUserId: AuthUserId; authority: Authority }): Promise<AuthUserInfo> {
     const { authUserId, authority } = params;
-    return await this.authUsersService.updateAuthority(authUserId, authority);
+    const authUser = await this.authUsersService.updateAuthority(authUserId, authority);
+    if (authority === Authority.ADMIN && authUser.userId) {
+      await this.usersService.updateMaxTokens(authUser.userId, 999999999);
+    }
+    return authUser;
   }
 }

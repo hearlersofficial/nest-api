@@ -27,7 +27,7 @@ export class AIResponseGenerator {
     userMessage: string,
     counselId: string,
   ): Promise<string> {
-    const chatRequest = this.buildChatRequest(systemPrompt, conversationHistory, userMessage, counselId);
+    const chatRequest: ChatRequest = this.buildChatRequest(systemPrompt, conversationHistory, userMessage, counselId);
 
     const chatResponse = await this.assistantAgent.call(chatRequest);
 

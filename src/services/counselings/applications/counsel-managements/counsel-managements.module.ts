@@ -29,13 +29,7 @@ import { AssistantAgentModule } from "~common/support/assistant-agents/assistant
     CounselTechniquesModule,
     PersonaPromptsModule,
     TonePromptsModule,
-    AssistantAgentModule.forRoot([], {
-      modelName: "gpt-4o-mini",
-      temperature: 0.5,
-      maxToolCalls: 5,
-      maxMemoryMessages: 10,
-      streaming: true,
-    }),
+    AssistantAgentModule,
     CompressedContextModule,
   ],
   providers: [

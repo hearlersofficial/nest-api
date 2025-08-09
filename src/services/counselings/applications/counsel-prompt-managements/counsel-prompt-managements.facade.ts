@@ -1,4 +1,3 @@
-import { AiModelConverter } from "~counselings/applications/counsel-prompt-managements/ai-model.converter";
 import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
@@ -282,16 +281,5 @@ export class CounselPromptManagementsFacade {
   async findPromptActivateHistories(param: { promptVersionId?: UniqueEntityId }): Promise<PromptActivateHistoryInfo[]> {
     const { promptVersionId } = param;
     return this.promptActivateHistoryService.getMany({ promptVersionId });
-  }
-
-  async findAiModel(): Promise<AiModel> {
-    const model = this.assistantAgent.getModel();
-    return AiModelConverter.convertStringToAiModel(model);
-  }
-
-  async setAiModel(param: { aiModel: AiModel }): Promise<AiModel> {
-    const { aiModel } = param;
-    this.assistantAgent.setModel(AiModelConverter.convertAiModelToString(aiModel));
-    return aiModel;
   }
 }

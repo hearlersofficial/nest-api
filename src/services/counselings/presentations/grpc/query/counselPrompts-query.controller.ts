@@ -5,10 +5,6 @@ import {
   FindActiveVersionRequestSchema,
   FindActiveVersionResponse,
   FindActiveVersionResponseSchema,
-  FindAiModelRequest,
-  FindAiModelRequestSchema,
-  FindAiModelResponse,
-  FindAiModelResponseSchema,
   FindCounselTechniqueByIdRequest,
   FindCounselTechniqueByIdRequestSchema,
   FindCounselTechniqueByIdResponse,
@@ -166,16 +162,6 @@ export class GrpcCounselPromptQueryController {
       promptActivateHistories: histories.map((history) =>
         SchemaCounselPromptsMapper.toPromptActivateHistoryProto(history),
       ),
-    });
-  }
-
-  // GPT Model
-  @GrpcMethod("CounselPromptService", "FindAiModel")
-  @ProtoRequest(FindAiModelRequestSchema)
-  async findAiModel(request: FindAiModelRequest): Promise<FindAiModelResponse> {
-    const aiModel = await this.counselPromptManagementsFacade.findAiModel();
-    return create(FindAiModelResponseSchema, {
-      aiModel: aiModel,
     });
   }
 }

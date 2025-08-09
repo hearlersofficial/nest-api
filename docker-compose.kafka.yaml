@@ -24,3 +24,14 @@ services:
       # - KAFKA_CFG_SUPER_USERS=User:admin
     volumes:
       - kafka_data:/opt/bitnami/kafka/data
+
+
+volumes:
+  kafka_data:
+    driver: local
+
+    restart: always
+
+volumes:
+  kafka_data:
+    driver: local

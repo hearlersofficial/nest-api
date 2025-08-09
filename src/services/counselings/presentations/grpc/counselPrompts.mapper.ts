@@ -141,6 +141,7 @@ export class SchemaCounselPromptsMapper {
       messageThreshold: counselTechnique.messageThreshold,
       isTemporary: counselTechnique.isTemporary,
       nextCounselTechniqueId: counselTechnique.nextTechniqueId ? counselTechnique.nextTechniqueId : undefined,
+      temperature: counselTechnique.temperature,
       createdAt: counselTechnique.createdAt.toISOString(),
       updatedAt: counselTechnique.updatedAt.toISOString(),
       deletedAt: counselTechnique.deletedAt ? counselTechnique.deletedAt.toISOString() : undefined,

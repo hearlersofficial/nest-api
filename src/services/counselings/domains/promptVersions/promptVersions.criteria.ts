@@ -9,4 +9,7 @@ export type PromptVersionsCriteriaFindMany = {
   isBookmarked?: boolean;
   aiModel?: AiModel;
   ids?: UniqueEntityId[];
+  orderBy?: {
+    id: "ASC" | "DESC";
+  };
 };

@@ -38,6 +38,7 @@ export class CounselPromptManagementsFacade {
     return this.promptVersionService.getMany({
       name,
       isBookmarked,
+      orderBy: { id: "DESC" },
     });
   }
 
@@ -284,6 +285,6 @@ export class CounselPromptManagementsFacade {
 
   async findPromptActivateHistories(param: { promptVersionId?: UniqueEntityId }): Promise<PromptActivateHistoryInfo[]> {
     const { promptVersionId } = param;
-    return this.promptActivateHistoryService.getMany({ promptVersionId });
+    return this.promptActivateHistoryService.getMany({ promptVersionId, orderBy: { id: "DESC" } });
   }
 }

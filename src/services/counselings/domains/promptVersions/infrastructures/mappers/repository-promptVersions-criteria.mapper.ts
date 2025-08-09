@@ -1,11 +1,12 @@
 import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
 
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
-import { FindManyOptions, FindOptionsWhere, ILike, In } from "typeorm";
+import { FindManyOptions, FindOptionsOrder, FindOptionsWhere, ILike, In } from "typeorm";
 
 export class RepositoryPromptVersionCriteriaMapper {
   static toFindManyOptions(criteria: PromptVersionsCriteriaFindMany): FindManyOptions<PromptVersionEntity> {
     const where: FindOptionsWhere<PromptVersionEntity> = {};
+    const order: FindOptionsOrder<PromptVersionEntity> = {};
 
     if (criteria.name !== undefined) {
       where.name = ILike(`%${criteria.name}%`);
@@ -26,6 +27,10 @@ export class RepositoryPromptVersionCriteriaMapper {
       where.id = In(criteria.ids.map((id) => id.getString()));
     }
 
-    return { where };
+    if (criteria.orderBy) {
+      order.id = criteria.orderBy.id;
+    }
+
+    return { where, order };
   }
 }

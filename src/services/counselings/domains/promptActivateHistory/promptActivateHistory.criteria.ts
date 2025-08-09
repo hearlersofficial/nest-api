@@ -4,4 +4,7 @@ import { Dayjs } from "dayjs";
 export type PromptActivateHistoryCriteriaFindMany = {
   promptVersionId?: UniqueEntityId;
   activatedAtBefore?: Dayjs;
+  orderBy?: {
+    id: "ASC" | "DESC";
+  };
 };

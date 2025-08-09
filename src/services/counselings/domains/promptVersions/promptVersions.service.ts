@@ -171,7 +171,7 @@ export class PromptVersionsService {
   @Transactional()
   async deletePromptVersions(props: { promptVersionIds: UniqueEntityId[] }): Promise<void> {
     const { promptVersionIds } = props;
-    const promptVersions = await this.promptVersionsReader.findMany({ ids: promptVersionIds });
+    const promptVersions = await this.promptVersionsReader.findMany({ ids: promptVersionIds, orderBy: { id: "DESC" } });
     if (promptVersions.length !== new Set(promptVersionIds.map((id) => id.getString())).size) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PromptVersion not found");
     }

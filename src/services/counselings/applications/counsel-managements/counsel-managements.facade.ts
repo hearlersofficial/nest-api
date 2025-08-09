@@ -129,7 +129,7 @@ export class CounselManagementsFacade {
   async findCounsels(params: { userId: UniqueEntityId; counselorId?: UniqueEntityId }): Promise<CounselInfo[]> {
     const { userId, counselorId } = params;
 
-    return this.counselService.getMany({ userId, counselorId });
+    return this.counselService.getMany({ userId, counselorId, orderBy: { id: "DESC" } });
   }
 
   async findCounselById(params: { counselId: UniqueEntityId }): Promise<CounselInfo> {

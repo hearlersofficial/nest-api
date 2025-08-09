@@ -80,13 +80,13 @@ export class GrpcEpisodeCommandController {
   @GrpcMethod("CounselorService", "GenerateCutSceneImageUrl")
   @ProtoRequest(GenerateCutSceneImageUrlRequestSchema)
   async generateCutSceneImageUrl(request: GenerateCutSceneImageUrlRequest): Promise<GenerateCutSceneImageUrlResponse> {
-    const { episodeId, extension } = request;
-    this.logger.log(`Generating cut scene image URL for episodeId: ${episodeId} with extension: ${extension}`);
+    const { counselorId, extension } = request;
+    this.logger.log(`Generating cut scene image URL for episodeId: ${counselorId} with extension: ${extension}`);
 
     try {
-      const presignedUrl = await this.imageStorageService.getSignedUrlForUpload(`${episodeId}`, {
+      const presignedUrl = await this.imageStorageService.getSignedUrlForUpload(`${counselorId}`, {
         useCase: "episode-cut-scenes",
-        entityId: episodeId,
+        entityId: counselorId,
         generateUniqueFileName: true,
         extension,
       });

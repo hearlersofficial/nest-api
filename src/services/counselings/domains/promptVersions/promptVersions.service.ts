@@ -74,7 +74,7 @@ export class PromptVersionsService {
   async loadExistingPromptVersion(props: { promptVersionId: UniqueEntityId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = props;
     const promptVersion = await this.promptVersionsReader.findOne({ promptVersionId });
-    if (!promptVersion) {
+    if (!promptVersion || promptVersion.deletedAt != null) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PromptVersion not found");
     }
 

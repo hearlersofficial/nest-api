@@ -31,6 +31,7 @@ export class PsqlPromptVersionsRepository extends PromptVersionsRepository {
       ...findOneOptions.where,
       id: promptVersionId.getString(),
     };
+    findOneOptions.withDeleted = true;
     findOneOptions.relations = { ...findOneOptions.relations, ...this.promptVersionsFindOptionsRelation };
     const promptVersion = await this.promptVersionsRepository.findOne(findOneOptions);
     return promptVersion ? PsqlPromptVersionsMapper.toDomain(promptVersion) : null;

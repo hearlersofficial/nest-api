@@ -61,61 +61,6 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     );
   }
 
-  public static clone(promptVersion: PromptVersions): Result<PromptVersions> {
-    if (promptVersion.isTemporary) {
-      return Result.fail<PromptVersions>("[PromptVersions]Temporary PromptVersion cannot be cloned.");
-    }
-    const now = getNowDayjs();
-    const newId = new UniqueEntityId();
-    const clonedVersionResult = this.create(
-      {
-        name: "Temporary name",
-        description: "Temporary description",
-        counselorScopedPrompts: [],
-        toneScopedPrompts: [],
-        isActive: false,
-        isTemporary: true,
-        isBookmarked: false,
-        aiModel: promptVersion.aiModel,
-        createdAt: now,
-        updatedAt: now,
-        deletedAt: null,
-      },
-      newId,
-    );
-    if (clonedVersionResult.isFailure) {
-      return Result.fail<PromptVersions>(clonedVersionResult.error as string);
-    }
-    const clonedVersion = clonedVersionResult.value;
-
-    for (const counselorScopedPrompt of promptVersion.counselorScopedPrompts) {
-      const clonedPromptByCounselor = CounselorScopedPrompts.createNew({
-        promptVersionId: clonedVersion.id,
-        counselorId: counselorScopedPrompt.counselorId,
-        personaPromptId: counselorScopedPrompt.personaPromptId,
-      });
-      if (clonedPromptByCounselor.isFailure) {
-        return Result.fail<PromptVersions>(clonedPromptByCounselor.error as string);
-      }
-      clonedVersion.props.counselorScopedPrompts.push(clonedPromptByCounselor.value);
-    }
-
-    for (const toneScopedPrompt of promptVersion.toneScopedPrompts) {
-      const clonedPromptByTone = ToneScopedPrompts.createNew({
-        promptVersionId: clonedVersion.id,
-        toneId: toneScopedPrompt.toneId,
-        tonePromptId: toneScopedPrompt.tonePromptId,
-        firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId,
-      });
-      if (clonedPromptByTone.isFailure) {
-        return Result.fail<PromptVersions>(clonedPromptByTone.error as string);
-      }
-      clonedVersion.props.toneScopedPrompts.push(clonedPromptByTone.value);
-    }
-
-    return Result.ok<PromptVersions>(clonedVersion);
-  }
-
   validateDomain(): Result<void> {
     // name 검증
     if (this.props.name === null || this.props.name === undefined) {
@@ -352,6 +297,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     this.props.isActive = false;
     this.props.name = "임시 버전";
     this.props.description = "현재 수정 중인 임시 버전입니다. (부모 버전: " + promptVersion.name + ")";
+    this.props.aiModel = promptVersion.aiModel;
     this.props.updatedAt = getNowDayjs();
 
     for (const existingCounselorScopedPrompt of this.props.counselorScopedPrompts) {

@@ -40,6 +40,7 @@ export class AuthUsersService {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Auth user not found");
     }
     authUser.bindUser(userId);
+    await this.store.update(authUser);
     return AuthUserInfo.fromDomain(authUser);
   }
 

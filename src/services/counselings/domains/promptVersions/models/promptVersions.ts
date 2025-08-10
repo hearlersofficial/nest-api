@@ -350,8 +350,8 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
 
     this.props.isTemporary = true;
     this.props.isActive = false;
-    this.props.name = "Temporary name";
-    this.props.description = "Temporary description";
+    this.props.name = "임시 버전";
+    this.props.description = "현재 수정 중인 임시 버전입니다. (부모 버전: " + promptVersion.name + ")";
     this.props.updatedAt = getNowDayjs();
 
     for (const existingCounselorScopedPrompt of this.props.counselorScopedPrompts) {

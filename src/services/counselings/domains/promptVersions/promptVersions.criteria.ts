@@ -12,4 +12,5 @@ export type PromptVersionsCriteriaFindMany = {
   orderBy?: {
     id: "ASC" | "DESC";
   };
+  includeDeletedRelations?: boolean;
 };

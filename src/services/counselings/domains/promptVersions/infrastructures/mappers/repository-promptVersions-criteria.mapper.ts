@@ -1,7 +1,7 @@
 import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
 
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
-import { FindManyOptions, FindOptionsOrder, FindOptionsWhere, ILike, In } from "typeorm";
+import { FindManyOptions, FindOptionsOrder, FindOptionsWhere, ILike, In, IsNull } from "typeorm";
 
 export class RepositoryPromptVersionCriteriaMapper {
   static toFindManyOptions(criteria: PromptVersionsCriteriaFindMany): FindManyOptions<PromptVersionEntity> {
@@ -29,6 +29,12 @@ export class RepositoryPromptVersionCriteriaMapper {
 
     if (criteria.orderBy) {
       order.id = criteria.orderBy.id;
+    }
+
+    if (criteria.includeDeletedRelations !== undefined && criteria.includeDeletedRelations == true) {
+    } else {
+      where.counselorScopedPrompts = { deletedAt: IsNull() };
+      where.toneScopedPrompts = { deletedAt: IsNull() };
     }
 
     return { where, order };

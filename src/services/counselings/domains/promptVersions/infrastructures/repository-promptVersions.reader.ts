@@ -13,8 +13,13 @@ export class RepositoryPromptVersionsReader extends PromptVersionsReader {
     super();
   }
 
-  override async findOne(props: { promptVersionId: UniqueEntityId }): Promise<PromptVersions | null> {
-    return this.promptVersionsRepository.findByPromptVersionId(props.promptVersionId);
+  override async findOne(props: {
+    promptVersionId: UniqueEntityId;
+    withDeleted?: boolean;
+  }): Promise<PromptVersions | null> {
+    return this.promptVersionsRepository.findByPromptVersionId(props.promptVersionId, {
+      withDeleted: props.withDeleted,
+    });
   }
 
   override async findMany(props: PromptVersionsCriteriaFindMany): Promise<PromptVersions[]> {

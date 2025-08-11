@@ -44,7 +44,7 @@ export class CounselPromptManagementsFacade {
 
   async findPromptVersionById(param: { promptVersionId: UniqueEntityId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = param;
-    return this.promptVersionService.getOne({ promptVersionId });
+    return this.promptVersionService.getOne({ promptVersionId, withDeleted: true });
   }
 
   // 내부적으로 생성로직 포함

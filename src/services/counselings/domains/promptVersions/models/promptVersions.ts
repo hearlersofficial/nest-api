@@ -308,6 +308,9 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
 
     for (const counselorScopedPrompt of promptVersion.counselorScopedPrompts) {
+      if (counselorScopedPrompt.deletedAt !== null) {
+        continue;
+      }
       const clonedCounselorScopedPrompt = CounselorScopedPrompts.createNew({
         promptVersionId: this.id,
         counselorId: counselorScopedPrompt.counselorId,
@@ -320,6 +323,9 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
     }
 
     for (const toneScopedPrompt of promptVersion.toneScopedPrompts) {
+      if (toneScopedPrompt.deletedAt !== null) {
+        continue;
+      }
       const clonedToneScopedPrompt = ToneScopedPrompts.createNew({
         promptVersionId: this.id,
         toneId: toneScopedPrompt.toneId,

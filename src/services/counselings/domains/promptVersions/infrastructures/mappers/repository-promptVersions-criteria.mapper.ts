@@ -7,6 +7,7 @@ export class RepositoryPromptVersionCriteriaMapper {
   static toFindManyOptions(criteria: PromptVersionsCriteriaFindMany): FindManyOptions<PromptVersionEntity> {
     const where: FindOptionsWhere<PromptVersionEntity> = {};
     const order: FindOptionsOrder<PromptVersionEntity> = {};
+    const withDeleted = criteria.withDeleted ?? false;
 
     if (criteria.name !== undefined) {
       where.name = ILike(`%${criteria.name}%`);
@@ -31,12 +32,6 @@ export class RepositoryPromptVersionCriteriaMapper {
       order.id = criteria.orderBy.id;
     }
 
-    if (criteria.includeDeletedRelations !== undefined && criteria.includeDeletedRelations == true) {
-    } else {
-      where.counselorScopedPrompts = { deletedAt: IsNull() };
-      where.toneScopedPrompts = { deletedAt: IsNull() };
-    }
-
-    return { where, order };
+    return { where, order, withDeleted };
   }
 }

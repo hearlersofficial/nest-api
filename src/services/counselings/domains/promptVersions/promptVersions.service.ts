@@ -17,7 +17,7 @@ export class PromptVersionsService {
     private readonly promptVersionsPersister: PromptVersionsPersister,
   ) {}
 
-  async getOne(props: { promptVersionId: UniqueEntityId }): Promise<PromptVersionInfo> {
+  async getOne(props: { promptVersionId: UniqueEntityId; withDeleted?: boolean }): Promise<PromptVersionInfo> {
     const promptVersion = await this.promptVersionsReader.findOne(props);
     if (!promptVersion) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PromptVersion not found");

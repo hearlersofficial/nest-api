@@ -6,6 +6,6 @@ import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 @Injectable()
 export abstract class PromptVersionsReader {
-  abstract findOne(props: { promptVersionId: UniqueEntityId }): Promise<PromptVersions | null>;
+  abstract findOne(props: { promptVersionId: UniqueEntityId; withDeleted?: boolean }): Promise<PromptVersions | null>;
   abstract findMany(props: PromptVersionsCriteriaFindMany): Promise<PromptVersions[]>;
 }

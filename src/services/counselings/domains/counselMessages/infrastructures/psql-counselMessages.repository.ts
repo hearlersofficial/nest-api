@@ -6,8 +6,8 @@ import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { KAFKA_CLIENT } from "~common/system/persistences/client-config";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
-import { KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()

@@ -9,7 +9,7 @@ import { ClientKafka, EventPattern, Payload } from "@nestjs/microservices";
 import { kafkaPayloadToProtoMessage } from "~common/shared/utils/proto";
 import { CounselMessageCreatedEvent } from "~common/shared-kernel/event/counsel-message-created.event";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
-import { KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
+import { KAFKA_CLIENT } from "~common/system/persistences/client-config";
 
 @Controller()
 export class UsersMessageController implements OnModuleInit {

@@ -6,7 +6,7 @@ import { UsersMessageController } from "~users/presentations/message/users-messa
 
 import { Inject, Logger, Module, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { ClientKafka, ClientsModule } from "@nestjs/microservices";
-import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/typeorm-config";
+import { ClientsConfigs, KAFKA_CLIENT } from "~common/system/persistences/client-config";
 
 @Module({
   imports: [

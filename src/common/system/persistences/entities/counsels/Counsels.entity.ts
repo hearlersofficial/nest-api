@@ -1,10 +1,11 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
+import { CounselContextsEntity } from "~common/system/persistences/entities/counsels/counsel-contexts.entity";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 
 @Entity({
   name: "counsels",
@@ -132,4 +133,10 @@ export class CounselsEntity extends CoreEntity {
     onUpdate: "CASCADE",
   })
   counselMessages: CounselMessagesEntity[];
+
+  @OneToOne(() => CounselContextsEntity, (counselContext) => counselContext.counsel, {
+    cascade: true,
+    orphanedRowAction: "disable",
+  })
+  counselContext: CounselContextsEntity;
 }

@@ -1,6 +1,6 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
-import { CounselMessagesEntity } from "~common/system/persistences/entities/councels/CounselMessages.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";

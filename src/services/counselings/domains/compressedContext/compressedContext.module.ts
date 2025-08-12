@@ -8,7 +8,7 @@ import { RepositoryCompressedContextReader } from "~counselings/domains/compress
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { CompressedContextsEntity } from "~common/system/persistences/entities/councels/CompressedContexts.entity";
+import { CompressedContextsEntity } from "~common/system/persistences/entities/counsels/CompressedContexts.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CompressedContextsEntity])],

@@ -3,7 +3,7 @@ import { CounselMessages, CounselMessagesProps } from "~counselings/domains/coun
 import { HttpStatus } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { CounselMessagesEntity } from "~common/system/persistences/entities/councels/CounselMessages.entity";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 import dayjs from "dayjs";
 
 export class PsqlCounselMessagesMapper {

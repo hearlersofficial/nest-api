@@ -2,7 +2,7 @@ import { CompressedContexts } from "~counselings/domains/compressedContext/model
 
 import { Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
-import { CompressedContextsEntity } from "~common/system/persistences/entities/councels/CompressedContexts.entity";
+import { CompressedContextsEntity } from "~common/system/persistences/entities/counsels/CompressedContexts.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()

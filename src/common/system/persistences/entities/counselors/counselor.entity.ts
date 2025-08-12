@@ -1,11 +1,11 @@
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
-import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/councels/CounselorUserRelationships.entity";
-import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
 import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
 import { EpisodeEntity } from "~common/system/persistences/entities/counselors/episode.entity";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
+import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/counsels/CounselorUserRelationships.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
 import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/CounselorScopedPrompts.entity";
 import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";

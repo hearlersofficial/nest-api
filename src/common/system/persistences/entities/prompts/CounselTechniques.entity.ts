@@ -1,6 +1,6 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
-import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
 import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/ToneScopedPrompts.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 

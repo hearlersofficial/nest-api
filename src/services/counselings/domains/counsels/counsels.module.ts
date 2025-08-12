@@ -8,7 +8,7 @@ import { RepositoryCounselsReader } from "~counselings/domains/counsels/infrastr
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { CounselsEntity } from "~common/system/persistences/entities/councels/Counsels.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CounselsEntity])],

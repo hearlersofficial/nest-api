@@ -8,7 +8,7 @@ import { RepositoryCounselMessagesReader } from "~counselings/domains/counselMes
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { CounselMessagesEntity } from "~common/system/persistences/entities/councels/CounselMessages.entity";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CounselMessagesEntity])],

@@ -1,6 +1,6 @@
 import { CompressedContextCriteriaFindMany } from "~counselings/domains/compressedContext/compressedContext.criteria";
 
-import { CompressedContextsEntity } from "~common/system/persistences/entities/councels/CompressedContexts.entity";
+import { CompressedContextsEntity } from "~common/system/persistences/entities/counsels/CompressedContexts.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";
 
 export class RepositoryCompressedContextCriteriaMapper {

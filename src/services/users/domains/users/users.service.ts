@@ -105,10 +105,6 @@ export class UsersService {
       throw new HttpStatusBasedRpcException(HttpStatus.FORBIDDEN, "잔여 토큰이 없습니다.");
     }
 
-    if (user.userMessageToken.isReserved()) {
-      throw new HttpStatusBasedRpcException(HttpStatus.CONFLICT, "이미 예약된 토큰이 있습니다.");
-    }
-
     user.userMessageToken.reserveTokens();
     await this.store.update(user);
     return UsersInfo.fromDomain(user);

@@ -24,7 +24,6 @@ export class MessageManager {
       message,
       isUserMessage: true,
     });
-    await this.counselService.increaseMessageCount({ counselId: session.getCounselId() });
 
     return createdMessage;
   }
@@ -41,7 +40,6 @@ export class MessageManager {
       message,
       isUserMessage: false,
     });
-    await this.counselService.increaseMessageCount({ counselId: session.getCounselId() });
 
     return createdMessage;
   }

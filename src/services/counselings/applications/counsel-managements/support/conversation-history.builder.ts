@@ -1,4 +1,4 @@
-import { CompressedContextInfo } from "~counselings/domains/compressedContext/models/compressedContext.info";
+import { CompressedContextInfo } from "~counselings/domains/counsels/models/compressed-context.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 
 import { Injectable } from "@nestjs/common";

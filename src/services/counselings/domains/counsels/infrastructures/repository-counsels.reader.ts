@@ -1,14 +1,19 @@
-import { CounselMessagesCriteriaFindMany } from "~counselings/domains/counsels/counsel-messages.criteria";
-import { CounselsCriteriaFindMany } from "~counselings/domains/counsels/counsels.criteria";
+import {
+  CompressedContextCriteriaFindMany,
+  CounselMessagesCriteriaFindMany,
+  CounselsCriteriaFindMany,
+} from "~counselings/domains/counsels/counsels.criteria";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
+import { CompressedContextsRepository } from "~counselings/domains/counsels/infrastructures/compressed-contexts.repository";
 import { CounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/counsel-messages.repository";
 import { CounselsRepository } from "~counselings/domains/counsels/infrastructures/counsels.repository";
-import { RepositoryCounselMessageCriteriaMapper } from "~counselings/domains/counsels/infrastructures/mappers/repository-counsel-messages-criteria.mapper";
 import { RepositoryCounselCriteriaMapper } from "~counselings/domains/counsels/infrastructures/mappers/repository-counsels-criteria.mapper";
+import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
 import { Injectable } from "@nestjs/common";
+import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
 
@@ -17,6 +22,7 @@ export class RepositoryCounselsReader extends CounselsReader {
   constructor(
     private readonly counselsRepository: CounselsRepository,
     private readonly counselMessagesRepository: CounselMessagesRepository,
+    private readonly compressedContextsRepository: CompressedContextsRepository,
   ) {
     super();
   }
@@ -35,7 +41,18 @@ export class RepositoryCounselsReader extends CounselsReader {
   }
 
   override async findManyMessages(props: CounselMessagesCriteriaFindMany): Promise<CounselMessages[]> {
-    const typeormOptions = RepositoryCounselMessageCriteriaMapper.toFindManyOptions(props);
+    const typeormOptions = RepositoryCounselCriteriaMapper.toFindManyMessageOptions(props);
     return this.counselMessagesRepository.findMany(typeormOptions);
+  }
+
+  override async findOneCompressedContext(props: {
+    compressedContextId: CompressedContextId;
+  }): Promise<CompressedContexts | null> {
+    return this.compressedContextsRepository.findByCompressedContextId(props.compressedContextId);
+  }
+
+  override async findManyCompressedContexts(props: CompressedContextCriteriaFindMany): Promise<CompressedContexts[]> {
+    const typeormOptions = RepositoryCounselCriteriaMapper.toFindManyCompressedContextOptions(props);
+    return this.compressedContextsRepository.findMany(typeormOptions);
   }
 }

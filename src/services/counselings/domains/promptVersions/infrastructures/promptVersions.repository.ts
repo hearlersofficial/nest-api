@@ -1,14 +1,14 @@
 import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()
 export abstract class PromptVersionsRepository {
   abstract findByPromptVersionId(
-    promptVersionId: UniqueEntityId,
+    promptVersionId: PromptVersionId,
     options?: FindOneOptions<PromptVersionEntity>,
   ): Promise<PromptVersions | null>;
   abstract findMany(options?: FindManyOptions<PromptVersionEntity>): Promise<PromptVersions[]>;

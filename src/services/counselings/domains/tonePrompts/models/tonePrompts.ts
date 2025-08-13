@@ -1,11 +1,12 @@
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { Dayjs } from "dayjs";
 
 export interface TonePromptsNewProps {
-  toneId: UniqueEntityId;
+  toneId: ToneId;
   body: string;
 }
 
@@ -15,12 +16,12 @@ export interface TonePromptsProps extends TonePromptsNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class TonePrompts extends AggregateRoot<TonePromptsProps> {
-  private constructor(props: TonePromptsProps, id: UniqueEntityId) {
+export class TonePrompts extends AggregateRoot<TonePromptsProps, TonePromptId> {
+  private constructor(props: TonePromptsProps, id: TonePromptId) {
     super(props, id);
   }
 
-  public static create(props: TonePromptsProps, id: UniqueEntityId): Result<TonePrompts> {
+  public static create(props: TonePromptsProps, id: TonePromptId): Result<TonePrompts> {
     const tonePrompts = new TonePrompts(props, id);
     const validateResult = tonePrompts.validateDomain();
     if (validateResult.isFailure) {
@@ -31,7 +32,7 @@ export class TonePrompts extends AggregateRoot<TonePromptsProps> {
 
   public static createNew(newProps: TonePromptsNewProps): Result<TonePrompts> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new TonePromptId();
     return this.create(
       {
         ...newProps,
@@ -66,7 +67,7 @@ export class TonePrompts extends AggregateRoot<TonePromptsProps> {
   }
 
   // Getters
-  get toneId(): UniqueEntityId {
+  get toneId(): ToneId {
     return this.props.toneId;
   }
 

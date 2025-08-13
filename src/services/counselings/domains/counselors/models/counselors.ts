@@ -4,14 +4,15 @@ import { getNowDayjs } from "~common/shared/utils/date";
 import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselorsNewProps {
   name: string;
   gender: CounselorGender;
   description: string;
-  toneId: UniqueEntityId;
+  toneId: ToneId;
   profileImage: string;
 }
 
@@ -21,12 +22,12 @@ export interface CounselorsProps extends CounselorsNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class Counselors extends AggregateRoot<CounselorsProps> {
-  private constructor(props: CounselorsProps, id: UniqueEntityId) {
+export class Counselors extends AggregateRoot<CounselorsProps, CounselorId> {
+  private constructor(props: CounselorsProps, id: CounselorId) {
     super(props, id);
   }
 
-  public static create(props: CounselorsProps, id: UniqueEntityId): Result<Counselors> {
+  public static create(props: CounselorsProps, id: CounselorId): Result<Counselors> {
     const counselors = new Counselors(props, id);
     const validateResult = counselors.validateDomain();
     if (validateResult.isFailure) {
@@ -37,7 +38,7 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
 
   public static createNew(newProps: CounselorsNewProps): Result<Counselors> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new CounselorId();
     return this.create(
       {
         ...newProps,
@@ -110,7 +111,7 @@ export class Counselors extends AggregateRoot<CounselorsProps> {
     return this.props.profileImage;
   }
 
-  get toneId(): UniqueEntityId {
+  get toneId(): ToneId {
     return this.props.toneId;
   }
 

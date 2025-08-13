@@ -19,8 +19,11 @@ import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 @Controller("counsel")
 export class GrpcCounselCommandController {
@@ -32,10 +35,10 @@ export class GrpcCounselCommandController {
     const { userId, counselorId, bubbleId, responseOptionNo, promptVersionId } = request;
     const { counsel, counselMessages } = await this.counselManagementsFacade.createCounsel({
       userId: new UserId(userId),
-      counselorId: new UniqueEntityId(counselorId),
-      bubbleId: bubbleId ? new UniqueEntityId(bubbleId) : undefined,
+      counselorId: new CounselorId(counselorId),
+      bubbleId: bubbleId ? new BubbleId(bubbleId) : undefined,
       responseOptionNumber: responseOptionNo,
-      promptVersionId: promptVersionId ? new UniqueEntityId(promptVersionId) : undefined,
+      promptVersionId: promptVersionId ? new PromptVersionId(promptVersionId) : undefined,
     });
     return create(CreateCounselResponseSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),
@@ -64,7 +67,7 @@ export class GrpcCounselCommandController {
   async reactCounselMessage(request: ReactMessageRequest): Promise<ReactMessageResponse> {
     const { messageId, reaction } = request;
     const counselMessage = await this.counselManagementsFacade.reactMessage({
-      messageId: new UniqueEntityId(messageId),
+      messageId: new CounselMessageId(messageId),
       reaction,
     });
 

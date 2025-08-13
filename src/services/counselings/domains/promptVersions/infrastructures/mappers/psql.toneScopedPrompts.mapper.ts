@@ -4,7 +4,11 @@ import {
 } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
+import { ToneScopedPromptId } from "~common/shared-kernel/identifiers/tone-scoped-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/ToneScopedPrompts.entity";
 import dayjs from "dayjs";
@@ -19,18 +23,18 @@ export class PsqlToneScopedPromptsMapper {
     }
 
     const toneScopedPromptProps: ToneScopedPromptsProps = {
-      promptVersionId: new UniqueEntityId(entity.promptVersionId),
-      toneId: new UniqueEntityId(entity.toneId),
-      tonePromptId: entity.tonePromptId ? new UniqueEntityId(entity.tonePromptId) : null,
+      promptVersionId: new PromptVersionId(entity.promptVersionId),
+      toneId: new ToneId(entity.toneId),
+      tonePromptId: entity.tonePromptId ? new TonePromptId(entity.tonePromptId) : null,
       firstCounselTechniqueId: entity.firstCounselTechniqueId
-        ? new UniqueEntityId(entity.firstCounselTechniqueId)
+        ? new CounselTechniqueId(entity.firstCounselTechniqueId)
         : null,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
 
-    const toneScopedPromptOrError = ToneScopedPrompts.create(toneScopedPromptProps, new UniqueEntityId(entity.id));
+    const toneScopedPromptOrError = ToneScopedPrompts.create(toneScopedPromptProps, new ToneScopedPromptId(entity.id));
 
     if (toneScopedPromptOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, toneScopedPromptOrError.errorValue);

@@ -2,6 +2,9 @@ import { EpisodeCutScenes } from "~counselings/domains/episodes/models/episode-c
 import { Episodes } from "~counselings/domains/episodes/models/episodes";
 import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
+import { EpisodeCutSceneId } from "~common/shared-kernel/identifiers/episode-cut-scene.id";
 import { Dayjs } from "dayjs";
 
 /**
@@ -9,8 +12,8 @@ import { Dayjs } from "dayjs";
  */
 export class EpisodeCutScenesInfo {
   constructor(
-    public readonly id: string,
-    public readonly episodeId: string,
+    public readonly id: EpisodeCutSceneId,
+    public readonly episodeId: EpisodeId,
     public readonly speaker: Speaker,
     public readonly content: string,
     public readonly orderIndex: number,
@@ -25,8 +28,8 @@ export class EpisodeCutScenesInfo {
    */
   static fromDomain(cutScene: EpisodeCutScenes): EpisodeCutScenesInfo {
     return new EpisodeCutScenesInfo(
-      cutScene.id.getString(),
-      cutScene.episodeId.getString(),
+      cutScene.id,
+      cutScene.episodeId,
       cutScene.speaker,
       cutScene.content,
       cutScene.orderIndex,
@@ -50,8 +53,8 @@ export class EpisodeCutScenesInfo {
  */
 export class EpisodesInfo {
   constructor(
-    public readonly id: string,
-    public readonly counselorId: string,
+    public readonly id: EpisodeId,
+    public readonly counselorId: CounselorId,
     public readonly title: string,
     public readonly requiredRapportThreshold: number,
     public readonly isTemporary: boolean,
@@ -66,8 +69,8 @@ export class EpisodesInfo {
    */
   static fromDomain(episode: Episodes): EpisodesInfo {
     return new EpisodesInfo(
-      episode.id.getString(),
-      episode.counselorId.getString(),
+      episode.id,
+      episode.counselorId,
       episode.title,
       episode.requiredRapportThreshold,
       episode.isTemporary,

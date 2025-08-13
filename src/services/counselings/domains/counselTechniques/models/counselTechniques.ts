@@ -2,32 +2,33 @@ import { getNowDayjs } from "~common/shared/utils/date";
 import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselTechniquesNewProps {
   name: string;
   temperature: number;
-  toneId: UniqueEntityId;
+  toneId: ToneId;
   context: string;
   instruction: string;
   messageThreshold: number;
 }
 
 export interface CounselTechniquesProps extends CounselTechniquesNewProps {
-  nextTechniqueId: UniqueEntityId | null;
+  nextTechniqueId: CounselTechniqueId | null;
   isTemporary: boolean;
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
 }
 
-export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
-  private constructor(props: CounselTechniquesProps, id: UniqueEntityId) {
+export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, CounselTechniqueId> {
+  private constructor(props: CounselTechniquesProps, id: CounselTechniqueId) {
     super(props, id);
   }
 
-  public static create(props: CounselTechniquesProps, id: UniqueEntityId): Result<CounselTechniques> {
+  public static create(props: CounselTechniquesProps, id: CounselTechniqueId): Result<CounselTechniques> {
     const counselTechniques = new CounselTechniques(props, id);
     const validateResult = counselTechniques.validateDomain();
     if (validateResult.isFailure) {
@@ -38,7 +39,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
 
   public static createNew(newProps: CounselTechniquesNewProps): Result<CounselTechniques> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new CounselTechniqueId();
     const createdCounselTechnique = this.create(
       {
         ...newProps,
@@ -103,7 +104,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     return this.props.temperature;
   }
 
-  get toneId(): UniqueEntityId {
+  get toneId(): ToneId {
     return this.props.toneId;
   }
 
@@ -119,7 +120,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps> {
     return this.props.messageThreshold;
   }
 
-  get nextTechniqueId(): UniqueEntityId | null {
+  get nextTechniqueId(): CounselTechniqueId | null {
     return this.props.nextTechniqueId;
   }
 

@@ -4,7 +4,10 @@ import {
 } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { CounselorScopedPromptId } from "~common/shared-kernel/identifiers/counselor-scoped-prompt.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/CounselorScopedPrompts.entity";
 import dayjs from "dayjs";
@@ -19,9 +22,9 @@ export class PsqlCounselorScopedPromptsMapper {
     }
 
     const counselorScopedPromptsProps: CounselorScopedPromptsProps = {
-      promptVersionId: new UniqueEntityId(entity.promptVersionId),
-      counselorId: new UniqueEntityId(entity.counselorId),
-      personaPromptId: new UniqueEntityId(entity.personaPromptId),
+      promptVersionId: new PromptVersionId(entity.promptVersionId),
+      counselorId: new CounselorId(entity.counselorId),
+      personaPromptId: new PersonaPromptId(entity.personaPromptId),
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
@@ -29,7 +32,7 @@ export class PsqlCounselorScopedPromptsMapper {
 
     const counselorScopedPromptOrError = CounselorScopedPrompts.create(
       counselorScopedPromptsProps,
-      new UniqueEntityId(entity.id),
+      new CounselorScopedPromptId(entity.id),
     );
 
     if (counselorScopedPromptOrError.isFailure) {

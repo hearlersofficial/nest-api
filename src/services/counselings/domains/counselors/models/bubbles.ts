@@ -2,7 +2,7 @@ import { getNowDayjs } from "~common/shared/utils/date";
 import { isDefined } from "~common/shared/utils/validate";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
 import { Dayjs } from "dayjs";
 
 export interface BubblesNewProps {
@@ -19,12 +19,12 @@ export interface BubblesProps extends BubblesNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class Bubbles extends DomainEntity<BubblesProps> {
-  private constructor(props: BubblesProps, id: UniqueEntityId) {
+export class Bubbles extends DomainEntity<BubblesProps, BubbleId> {
+  private constructor(props: BubblesProps, id: BubbleId) {
     super(props, id);
   }
 
-  public static create(props: BubblesProps, id: UniqueEntityId): Result<Bubbles> {
+  public static create(props: BubblesProps, id: BubbleId): Result<Bubbles> {
     const bubbles = new Bubbles(props, id);
     const result = bubbles.validateDomain();
     if (result.isFailureResult()) {
@@ -35,7 +35,7 @@ export class Bubbles extends DomainEntity<BubblesProps> {
 
   public static createNew(newProps: BubblesNewProps): Result<Bubbles> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new BubbleId();
     return this.create(
       {
         ...newProps,

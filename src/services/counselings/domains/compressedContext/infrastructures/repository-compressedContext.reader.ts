@@ -5,7 +5,7 @@ import { RepositoryCompressedContextCriteriaMapper } from "~counselings/domains/
 import { CompressedContexts } from "~counselings/domains/compressedContext/models/compressedContext";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
 
 @Injectable()
 export class RepositoryCompressedContextReader extends CompressedContextReader {
@@ -13,7 +13,7 @@ export class RepositoryCompressedContextReader extends CompressedContextReader {
     super();
   }
 
-  override async findOne(props: { compressedContextId: UniqueEntityId }): Promise<CompressedContexts | null> {
+  override async findOne(props: { compressedContextId: CompressedContextId }): Promise<CompressedContexts | null> {
     return this.compressedContextRepository.findByCompressedContextId(props.compressedContextId);
   }
 

@@ -5,7 +5,7 @@ import { RepositoryCounselTechniqueCriteriaMapper } from "~counselings/domains/c
 import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 
 @Injectable()
 export class RepositoryCounselTechniquesReader extends CounselTechniquesReader {
@@ -13,7 +13,7 @@ export class RepositoryCounselTechniquesReader extends CounselTechniquesReader {
     super();
   }
 
-  override async findOne(props: { counselTechniqueId: UniqueEntityId }): Promise<CounselTechniques | null> {
+  override async findOne(props: { counselTechniqueId: CounselTechniqueId }): Promise<CounselTechniques | null> {
     return this.counselTechniquesRepository.findByCounselTechniqueId(props.counselTechniqueId);
   }
 

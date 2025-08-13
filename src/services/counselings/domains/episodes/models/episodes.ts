@@ -4,10 +4,11 @@ import { getNowDayjs } from "~common/shared/utils/date";
 import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
 import { Dayjs } from "dayjs";
 export interface EpisodesNewProps {
-  counselorId: UniqueEntityId;
+  counselorId: CounselorId;
   title: string;
   requiredRapportThreshold: number;
   isTemporary: boolean;
@@ -21,12 +22,12 @@ export interface EpisodesProps extends EpisodesNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class Episodes extends AggregateRoot<EpisodesProps> {
-  private constructor(props: EpisodesProps, id: UniqueEntityId) {
+export class Episodes extends AggregateRoot<EpisodesProps, EpisodeId> {
+  private constructor(props: EpisodesProps, id: EpisodeId) {
     super(props, id);
   }
 
-  public static create(props: EpisodesProps, id: UniqueEntityId): Result<Episodes> {
+  public static create(props: EpisodesProps, id: EpisodeId): Result<Episodes> {
     const episodes = new Episodes(props, id);
     const result = episodes.validateDomain();
     if (result.isFailureResult()) {
@@ -37,7 +38,7 @@ export class Episodes extends AggregateRoot<EpisodesProps> {
 
   public static createNew(newProps: EpisodesNewProps): Result<Episodes> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new EpisodeId();
     const cutSceneResults = newProps.cutScenes?.map((cutScene) =>
       EpisodeCutScenes.createNew({ ...cutScene, episodeId: newId }),
     );
@@ -125,7 +126,7 @@ export class Episodes extends AggregateRoot<EpisodesProps> {
   }
 
   // Getters
-  get counselorId(): UniqueEntityId {
+  get counselorId(): CounselorId {
     return this.props.counselorId;
   }
 

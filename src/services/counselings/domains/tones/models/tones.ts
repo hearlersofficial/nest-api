@@ -2,7 +2,7 @@ import { getNowDayjs } from "~common/shared/utils/date";
 import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { Dayjs } from "dayjs";
 
 export interface TonesNewProps {
@@ -16,12 +16,12 @@ export interface TonesProps extends TonesNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class Tones extends AggregateRoot<TonesProps> {
-  private constructor(props: TonesProps, id: UniqueEntityId) {
+export class Tones extends AggregateRoot<TonesProps, ToneId> {
+  private constructor(props: TonesProps, id: ToneId) {
     super(props, id);
   }
 
-  public static create(props: TonesProps, id: UniqueEntityId): Result<Tones> {
+  public static create(props: TonesProps, id: ToneId): Result<Tones> {
     const tones = new Tones(props, id);
     const validateResult = tones.validateDomain();
     if (validateResult.isFailure) {
@@ -32,7 +32,7 @@ export class Tones extends AggregateRoot<TonesProps> {
 
   public static createNew(newProps: TonesNewProps): Result<Tones> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new ToneId();
     const createdTone = this.create(
       {
         ...newProps,

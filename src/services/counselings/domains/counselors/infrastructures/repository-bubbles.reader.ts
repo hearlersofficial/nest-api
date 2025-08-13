@@ -5,7 +5,8 @@ import { RepositoryCounselorCriteriaMapper } from "~counselings/domains/counselo
 import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
@@ -19,15 +20,15 @@ export class RepositoryBubblesReader extends BubblesReader {
     return this.counselorsRepository.findBubbles(typeormOptions);
   }
 
-  override async findRandomBubble(counselorId: UniqueEntityId): Promise<Bubbles> {
+  override async findRandomBubble(counselorId: CounselorId): Promise<Bubbles> {
     return this.counselorsRepository.findRandomBubble(counselorId);
   }
 
-  override async findBubbleById(bubbleId: UniqueEntityId): Promise<Bubbles | null> {
+  override async findBubbleById(bubbleId: BubbleId): Promise<Bubbles | null> {
     return this.counselorsRepository.findBubbleById(bubbleId);
   }
 
-  override async getBubbleById(bubbleId: UniqueEntityId): Promise<Bubbles> {
+  override async getBubbleById(bubbleId: BubbleId): Promise<Bubbles> {
     const bubble = await this.counselorsRepository.findBubbleById(bubbleId);
     if (!bubble) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Bubble not found");

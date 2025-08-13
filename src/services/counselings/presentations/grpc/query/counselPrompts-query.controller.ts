@@ -43,7 +43,10 @@ import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 
 @Controller("counsel_prompt")
 export class GrpcCounselPromptQueryController {
@@ -68,7 +71,7 @@ export class GrpcCounselPromptQueryController {
   async findPromptVersionById(request: FindPromptVersionByIdRequest): Promise<FindPromptVersionByIdResponse> {
     const { promptVersionId } = request;
     const promptVersion = await this.counselPromptManagementsFacade.findPromptVersionById({
-      promptVersionId: new UniqueEntityId(promptVersionId),
+      promptVersionId: new PromptVersionId(promptVersionId),
     });
     return create(FindPromptVersionByIdResponseSchema, {
       promptVersion: promptVersion ? SchemaCounselPromptsMapper.toPromptVersionProto(promptVersion) : undefined,
@@ -99,7 +102,7 @@ export class GrpcCounselPromptQueryController {
   async findPersonaPromptById(request: FindPersonaPromptByIdRequest): Promise<FindPersonaPromptByIdResponse> {
     const { personaPromptId } = request;
     const personaPrompt = await this.counselPromptManagementsFacade.findPersonaPromptById({
-      personaPromptId: new UniqueEntityId(personaPromptId),
+      personaPromptId: new PersonaPromptId(personaPromptId),
     });
     return create(FindPersonaPromptByIdResponseSchema, {
       personaPrompt: personaPrompt ? SchemaCounselPromptsMapper.toPersonaPromptProto(personaPrompt) : undefined,
@@ -112,7 +115,7 @@ export class GrpcCounselPromptQueryController {
   async findTonePromptById(request: FindTonePromptByIdRequest): Promise<FindTonePromptByIdResponse> {
     const { tonePromptId } = request;
     const tonePrompt = await this.counselPromptManagementsFacade.findTonePromptById({
-      tonePromptId: new UniqueEntityId(tonePromptId),
+      tonePromptId: new TonePromptId(tonePromptId),
     });
     return create(FindTonePromptByIdResponseSchema, {
       tonePrompt: tonePrompt ? SchemaCounselPromptsMapper.toTonePromptProto(tonePrompt) : undefined,
@@ -127,7 +130,7 @@ export class GrpcCounselPromptQueryController {
   ): Promise<FindOrderedCounselTechniquesResponse> {
     const { firstCounselTechniqueId } = request;
     const counselTechniques = await this.counselPromptManagementsFacade.findOrderedCounselTechniques({
-      firstCounselTechniqueId: new UniqueEntityId(firstCounselTechniqueId),
+      firstCounselTechniqueId: new CounselTechniqueId(firstCounselTechniqueId),
     });
     return create(FindOrderedCounselTechniquesResponseSchema, {
       counselTechniques: counselTechniques.map((technique) =>
@@ -141,7 +144,7 @@ export class GrpcCounselPromptQueryController {
   async findCounselTechniqueById(request: FindCounselTechniqueByIdRequest): Promise<FindCounselTechniqueByIdResponse> {
     const { counselTechniqueId } = request;
     const counselTechnique = await this.counselPromptManagementsFacade.findCounselTechniqueById({
-      counselTechniqueId: new UniqueEntityId(counselTechniqueId),
+      counselTechniqueId: new CounselTechniqueId(counselTechniqueId),
     });
     return create(FindCounselTechniqueByIdResponseSchema, {
       counselTechnique: SchemaCounselPromptsMapper.toCounselTechniqueProto(counselTechnique),
@@ -156,7 +159,7 @@ export class GrpcCounselPromptQueryController {
   ): Promise<FindPromptActivateHistoriesResponse> {
     const { promptVersionId } = request;
     const histories = await this.counselPromptManagementsFacade.findPromptActivateHistories({
-      promptVersionId: promptVersionId ? new UniqueEntityId(promptVersionId) : undefined,
+      promptVersionId: promptVersionId ? new PromptVersionId(promptVersionId) : undefined,
     });
     return create(FindPromptActivateHistoriesResponseSchema, {
       promptActivateHistories: histories.map((history) =>

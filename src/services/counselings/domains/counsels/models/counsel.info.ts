@@ -1,6 +1,10 @@
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
@@ -8,10 +12,10 @@ export class CounselInfo {
   constructor(
     public readonly id: CounselId,
     public readonly userId: UserId,
-    public readonly counselorId: string,
-    public readonly counselTechniqueId: string,
-    public readonly promptVersionId: string,
-    public readonly counselorUserRelationshipId: string,
+    public readonly counselorId: CounselorId,
+    public readonly counselTechniqueId: CounselTechniqueId,
+    public readonly promptVersionId: PromptVersionId,
+    public readonly counselorUserRelationshipId: CounselorUserRelationshipId,
     public readonly lastChatedAt: Dayjs | null,
     public readonly lastMessage: string | null,
     public readonly messageCount: number,
@@ -28,10 +32,10 @@ export class CounselInfo {
     return new CounselInfo(
       counsel.id,
       counsel.userId,
-      counsel.counselorId.getString(),
-      counsel.counselTechniqueId.getString(),
-      counsel.promptVersionId.getString(),
-      counsel.counselorUserRelationshipId.getString(),
+      counsel.counselorId,
+      counsel.counselTechniqueId,
+      counsel.promptVersionId,
+      counsel.counselorUserRelationshipId,
       counsel.lastChatedAt,
       counsel.lastMessage,
       counsel.messageCount,

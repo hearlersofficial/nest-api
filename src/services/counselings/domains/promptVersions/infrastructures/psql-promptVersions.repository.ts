@@ -4,9 +4,9 @@ import { PromptVersions } from "~counselings/domains/promptVersions/models/promp
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
-import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository, SelectQueryBuilder } from "typeorm";
+import { FindManyOptions, FindOneOptions, Repository, SelectQueryBuilder } from "typeorm";
 
 @Injectable()
 export class PsqlPromptVersionsRepository extends PromptVersionsRepository {
@@ -68,7 +68,7 @@ export class PsqlPromptVersionsRepository extends PromptVersionsRepository {
   }
 
   override async findByPromptVersionId(
-    promptVersionId: UniqueEntityId,
+    promptVersionId: PromptVersionId,
     options?: FindOneOptions<PromptVersionEntity>,
   ): Promise<PromptVersions | null> {
     const qb = this.createBaseQb(options?.withDeleted);

@@ -4,7 +4,7 @@ import { TonePromptsPersister } from "~counselings/domains/tonePrompts/tonePromp
 import { TonePromptsReader } from "~counselings/domains/tonePrompts/tonePrompts.reader";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -21,7 +21,7 @@ export class TonePromptsService {
     return TonePromptInfo.fromDomain(tonePrompt);
   }
 
-  async getOne(props: { tonePromptId: UniqueEntityId }): Promise<TonePromptInfo> {
+  async getOne(props: { tonePromptId: TonePromptId }): Promise<TonePromptInfo> {
     const tonePrompt = await this.tonePromptsReader.findOne(props);
     if (!tonePrompt) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "TonePrompt not found");

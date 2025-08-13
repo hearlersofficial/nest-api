@@ -17,8 +17,8 @@ export class SchemaEpisodesMapper {
       return null;
     }
     return create(EpisodeSchema, {
-      id: episode.id,
-      counselorId: episode.counselorId,
+      id: episode.id.getString(),
+      counselorId: episode.counselorId.getString(),
       title: episode.title,
       requiredRapportThreshold: episode.requiredRapportThreshold,
       isTemporary: episode.isTemporary,
@@ -37,8 +37,8 @@ export class SchemaEpisodesMapper {
       return null;
     }
     return create(EpisodeCutSceneSchema, {
-      id: cutScene.id,
-      episodeId: cutScene.episodeId,
+      id: cutScene.id.getString(),
+      episodeId: cutScene.episodeId.getString(),
       speaker: cutScene.speaker,
       content: cutScene.content,
       orderIndex: cutScene.orderIndex,

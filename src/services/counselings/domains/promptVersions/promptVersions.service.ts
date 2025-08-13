@@ -6,7 +6,12 @@ import { PromptVersionsReader } from "~counselings/domains/promptVersions/prompt
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -17,7 +22,7 @@ export class PromptVersionsService {
     private readonly promptVersionsPersister: PromptVersionsPersister,
   ) {}
 
-  async getOne(props: { promptVersionId: UniqueEntityId; withDeleted?: boolean }): Promise<PromptVersionInfo> {
+  async getOne(props: { promptVersionId: PromptVersionId; withDeleted?: boolean }): Promise<PromptVersionInfo> {
     const promptVersion = await this.promptVersionsReader.findOne(props);
     if (!promptVersion) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PromptVersion not found");
@@ -71,7 +76,7 @@ export class PromptVersionsService {
   }
 
   @Transactional()
-  async loadExistingPromptVersion(props: { promptVersionId: UniqueEntityId }): Promise<PromptVersionInfo> {
+  async loadExistingPromptVersion(props: { promptVersionId: PromptVersionId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = props;
     const promptVersion = await this.promptVersionsReader.findOne({ promptVersionId });
     if (!promptVersion || promptVersion.deletedAt != null) {
@@ -115,7 +120,7 @@ export class PromptVersionsService {
 
   @Transactional()
   async updatePromptVersion(props: {
-    promptVersionId: UniqueEntityId;
+    promptVersionId: PromptVersionId;
     name?: string;
     description?: string;
     isBookmarked?: boolean;
@@ -142,7 +147,7 @@ export class PromptVersionsService {
   }
 
   @Transactional()
-  async activatePromptVersion(props: { promptVersionId: UniqueEntityId }): Promise<PromptVersionInfo> {
+  async activatePromptVersion(props: { promptVersionId: PromptVersionId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = props;
     const promptVersion = await this.promptVersionsReader.findOne({ promptVersionId });
     if (!promptVersion) {
@@ -169,7 +174,7 @@ export class PromptVersionsService {
   }
 
   @Transactional()
-  async deletePromptVersions(props: { promptVersionIds: UniqueEntityId[] }): Promise<void> {
+  async deletePromptVersions(props: { promptVersionIds: PromptVersionId[] }): Promise<void> {
     const { promptVersionIds } = props;
     const promptVersions = await this.promptVersionsReader.findMany({ ids: promptVersionIds, orderBy: { id: "DESC" } });
     if (promptVersions.length !== new Set(promptVersionIds.map((id) => id.getString())).size) {
@@ -186,8 +191,8 @@ export class PromptVersionsService {
   }
 
   async updateCounselorScopedPromptInTemporaryVersion(props: {
-    counselorId: UniqueEntityId;
-    personaPromptId: UniqueEntityId;
+    counselorId: CounselorId;
+    personaPromptId: PersonaPromptId;
   }): Promise<PromptVersionInfo> {
     const { counselorId, personaPromptId } = props;
 
@@ -205,9 +210,9 @@ export class PromptVersionsService {
   }
 
   async updateToneScopedPromptInTemporaryVersion(props: {
-    toneId: UniqueEntityId;
-    tonePromptId?: UniqueEntityId;
-    firstCounselTechniqueId?: UniqueEntityId;
+    toneId: ToneId;
+    tonePromptId?: TonePromptId;
+    firstCounselTechniqueId?: CounselTechniqueId;
   }): Promise<PromptVersionInfo> {
     const { toneId, tonePromptId, firstCounselTechniqueId } = props;
 

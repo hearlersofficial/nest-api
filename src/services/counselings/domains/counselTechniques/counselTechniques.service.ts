@@ -7,7 +7,8 @@ import {
 } from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -24,13 +25,13 @@ export class CounselTechniquesService {
     return CounselTechniqueInfo.fromDomain(counselTechnique);
   }
 
-  private async findOrdered(props: { firstCounselTechniqueId: UniqueEntityId }): Promise<CounselTechniques[]> {
+  private async findOrdered(props: { firstCounselTechniqueId: CounselTechniqueId }): Promise<CounselTechniques[]> {
     const visited = new Set<string>();
     return this.getNextCounselTechniques(props.firstCounselTechniqueId, visited);
   }
 
   private async getNextCounselTechniques(
-    firstCounselTechniqueId: UniqueEntityId,
+    firstCounselTechniqueId: CounselTechniqueId,
     visited: Set<string>,
   ): Promise<CounselTechniques[]> {
     if (visited.has(firstCounselTechniqueId.getString())) {
@@ -54,12 +55,12 @@ export class CounselTechniquesService {
     return [firstCounselTechnique, ...nextCounselTechniques];
   }
 
-  async getOrdered(props: { firstCounselTechniqueId: UniqueEntityId }): Promise<CounselTechniqueInfo[]> {
+  async getOrdered(props: { firstCounselTechniqueId: CounselTechniqueId }): Promise<CounselTechniqueInfo[]> {
     const orderedTechniques = await this.findOrdered(props);
     return orderedTechniques.map((technique) => CounselTechniqueInfo.fromDomain(technique));
   }
 
-  async getOne(props: { counselTechniqueId: UniqueEntityId }): Promise<CounselTechniqueInfo> {
+  async getOne(props: { counselTechniqueId: CounselTechniqueId }): Promise<CounselTechniqueInfo> {
     const counselTechnique = await this.counselTechniquesReader.findOne(props);
     if (!counselTechnique) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel Technique not found");
@@ -69,9 +70,9 @@ export class CounselTechniquesService {
 
   @Transactional()
   async updateCounselTechnique(
-    originalfirstCounselTechniqueId: UniqueEntityId,
+    originalfirstCounselTechniqueId: CounselTechniqueId,
     updateParams: {
-      counselTechniqueId: UniqueEntityId;
+      counselTechniqueId: CounselTechniqueId;
       name?: string;
       temperature?: number;
       context?: string;
@@ -98,7 +99,7 @@ export class CounselTechniquesService {
     const techniquesToKeep = originalTechniques.slice(updateIndex + 1);
 
     const newOrderedTechniques: CounselTechniques[] = [];
-    let nextTechniqueId: UniqueEntityId | null = techniquesToKeep.length > 0 ? techniquesToKeep[0].id : null;
+    let nextTechniqueId: CounselTechniqueId | null = techniquesToKeep.length > 0 ? techniquesToKeep[0].id : null;
 
     // 먼저 대상 기법 처리
     const targetTechnique = techniquesToRecreate[techniquesToRecreate.length - 1];
@@ -113,7 +114,7 @@ export class CounselTechniquesService {
 
     newTargetTechnique.update({
       isTemporary: false,
-      nextTechniqueId: nextTechniqueId,
+      nextTechniqueId,
     });
 
     nextTechniqueId = newTargetTechnique.id;
@@ -151,9 +152,9 @@ export class CounselTechniquesService {
 
   @Transactional()
   async saveCounselTechniqueSequence(props: {
-    originalfirstCounselTechniqueId: UniqueEntityId | null;
-    toneId: UniqueEntityId;
-    counselTechniqueIds: UniqueEntityId[];
+    originalfirstCounselTechniqueId: CounselTechniqueId | null;
+    toneId: ToneId;
+    counselTechniqueIds: CounselTechniqueId[];
   }): Promise<CounselTechniqueInfo[]> {
     const { originalfirstCounselTechniqueId, toneId, counselTechniqueIds } = props;
     if (counselTechniqueIds.length !== new Set(counselTechniqueIds.map((id) => id.getString())).size) {
@@ -191,7 +192,7 @@ export class CounselTechniquesService {
     const techniquesToProcess = newTechniques.slice(0, secondIdx);
 
     const newOrderedTechniques: CounselTechniques[] = [];
-    let nextTechniqueId: UniqueEntityId | null = techniquesToKeep.length > 0 ? techniquesToKeep[0].id : null;
+    let nextTechniqueId: CounselTechniqueId | null = techniquesToKeep.length > 0 ? techniquesToKeep[0].id : null;
 
     for (let i = techniquesToProcess.length - 1; i >= 0; i--) {
       const technique = techniquesToProcess[i];
@@ -200,7 +201,7 @@ export class CounselTechniquesService {
       if (technique.isTemporary) {
         technique.update({
           isTemporary: false,
-          nextTechniqueId: nextTechniqueId,
+          nextTechniqueId,
         });
         nextTechniqueId = technique.id;
         newOrderedTechniques.unshift(technique);
@@ -219,7 +220,7 @@ export class CounselTechniquesService {
 
       newTechnique.update({
         isTemporary: false,
-        nextTechniqueId: nextTechniqueId,
+        nextTechniqueId,
       });
 
       nextTechniqueId = newTechnique.id;

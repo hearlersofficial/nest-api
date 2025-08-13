@@ -1,6 +1,6 @@
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 
 export type PromptVersionsCriteriaFindMany = {
   name?: string;
@@ -8,7 +8,7 @@ export type PromptVersionsCriteriaFindMany = {
   isTemporary?: boolean;
   isBookmarked?: boolean;
   aiModel?: AiModel;
-  ids?: UniqueEntityId[];
+  ids?: PromptVersionId[];
   orderBy?: {
     id: "ASC" | "DESC";
   };

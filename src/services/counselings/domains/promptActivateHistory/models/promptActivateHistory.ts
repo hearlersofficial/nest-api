@@ -1,11 +1,12 @@
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { Dayjs } from "dayjs";
 
 export interface PromptActivateHistoriesNewProps {
-  promptVersionId: UniqueEntityId;
+  promptVersionId: PromptVersionId;
   activatedAt: Dayjs;
 }
 
@@ -15,12 +16,15 @@ export interface PromptActivateHistoriesProps extends PromptActivateHistoriesNew
   deletedAt: Dayjs | null;
 }
 
-export class PromptActivateHistories extends AggregateRoot<PromptActivateHistoriesProps> {
-  private constructor(props: PromptActivateHistoriesProps, id: UniqueEntityId) {
+export class PromptActivateHistories extends AggregateRoot<PromptActivateHistoriesProps, PromptActivateHistoryId> {
+  private constructor(props: PromptActivateHistoriesProps, id: PromptActivateHistoryId) {
     super(props, id);
   }
 
-  public static create(props: PromptActivateHistoriesProps, id: UniqueEntityId): Result<PromptActivateHistories> {
+  public static create(
+    props: PromptActivateHistoriesProps,
+    id: PromptActivateHistoryId,
+  ): Result<PromptActivateHistories> {
     const history = new PromptActivateHistories(props, id);
     const validateResult = history.validateDomain();
     if (validateResult.isFailure) {
@@ -31,7 +35,7 @@ export class PromptActivateHistories extends AggregateRoot<PromptActivateHistori
 
   public static createNew(newProps: PromptActivateHistoriesNewProps): Result<PromptActivateHistories> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new PromptActivateHistoryId();
     return this.create(
       {
         ...newProps,
@@ -65,7 +69,7 @@ export class PromptActivateHistories extends AggregateRoot<PromptActivateHistori
   }
 
   // Getters
-  get promptVersionId(): UniqueEntityId {
+  get promptVersionId(): PromptVersionId {
     return this.props.promptVersionId;
   }
 

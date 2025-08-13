@@ -8,7 +8,10 @@ import { TonesService } from "~counselings/domains/tones/tones.service";
 import { CounselorGender, Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()
@@ -30,20 +33,20 @@ export class CounselorManagementsFacade {
     return this.tonesService.findMany({ name });
   }
 
-  async findToneById(params: { toneId: UniqueEntityId }): Promise<TonesInfo> {
+  async findToneById(params: { toneId: ToneId }): Promise<TonesInfo> {
     const { toneId } = params;
     return this.tonesService.getOne({ toneId });
   }
 
   @Transactional()
-  async updateTone(params: { toneId: UniqueEntityId; name?: string; description?: string }): Promise<TonesInfo> {
+  async updateTone(params: { toneId: ToneId; name?: string; description?: string }): Promise<TonesInfo> {
     const { toneId, name, description } = params;
     return this.tonesService.updateTone({ toneId, name, description });
   }
 
   @Transactional()
   async createCounselor(params: {
-    toneId: UniqueEntityId;
+    toneId: ToneId;
     name: string;
     description: string;
     profileImage: string;
@@ -60,20 +63,20 @@ export class CounselorManagementsFacade {
     });
   }
 
-  async findCounselors(params: { toneId?: UniqueEntityId }): Promise<CounselorsInfo[]> {
+  async findCounselors(params: { toneId?: ToneId }): Promise<CounselorsInfo[]> {
     const { toneId } = params;
     return this.counselorsService.findMany({ toneId });
   }
 
-  async findCounselorById(params: { counselorId: UniqueEntityId }): Promise<CounselorsInfo> {
+  async findCounselorById(params: { counselorId: CounselorId }): Promise<CounselorsInfo> {
     const { counselorId } = params;
     return this.counselorsService.getOne({ counselorId });
   }
 
   @Transactional()
   async updateCounselor(params: {
-    counselorId: UniqueEntityId;
-    toneId?: UniqueEntityId;
+    counselorId: CounselorId;
+    toneId?: ToneId;
     name?: string;
     description?: string;
     profileImage?: string;
@@ -92,7 +95,7 @@ export class CounselorManagementsFacade {
 
   @Transactional()
   async createBubble(params: {
-    counselorId: UniqueEntityId;
+    counselorId: CounselorId;
     question: string;
     responseOption1: string;
     responseOption2: string;
@@ -106,24 +109,24 @@ export class CounselorManagementsFacade {
     });
   }
 
-  async findBubbles(params: { counselorId: UniqueEntityId }): Promise<BubblesInfo[]> {
+  async findBubbles(params: { counselorId: CounselorId }): Promise<BubblesInfo[]> {
     const { counselorId } = params;
     return this.counselorsService.findBubbles({ counselorId });
   }
 
-  async findRandomBubble(params: { counselorId: UniqueEntityId }): Promise<BubblesInfo> {
+  async findRandomBubble(params: { counselorId: CounselorId }): Promise<BubblesInfo> {
     const { counselorId } = params;
     return this.counselorsService.findRandomBubble(counselorId);
   }
 
-  async findBubbleById(params: { bubbleId: UniqueEntityId }): Promise<BubblesInfo | null> {
+  async findBubbleById(params: { bubbleId: BubbleId }): Promise<BubblesInfo | null> {
     const { bubbleId } = params;
     return this.counselorsService.findBubbleById(bubbleId);
   }
 
   async updateBubble(params: {
-    bubbleId: UniqueEntityId;
-    counselorId: UniqueEntityId;
+    bubbleId: BubbleId;
+    counselorId: CounselorId;
     question?: string;
     responseOption1?: string;
     responseOption2?: string;
@@ -138,7 +141,7 @@ export class CounselorManagementsFacade {
     });
   }
 
-  async deleteBubble(params: { counselorId: UniqueEntityId; bubbleId: UniqueEntityId }): Promise<void> {
+  async deleteBubble(params: { counselorId: CounselorId; bubbleId: BubbleId }): Promise<void> {
     const { counselorId, bubbleId } = params;
     await this.counselorsService.deleteBubble({ counselorId, bubbleId });
     return;
@@ -146,7 +149,7 @@ export class CounselorManagementsFacade {
 
   @Transactional()
   async createEpisode(params: {
-    counselorId: UniqueEntityId;
+    counselorId: CounselorId;
     title: string;
     requiredRapportThreshold: number;
     isTemporary: boolean;
@@ -171,20 +174,20 @@ export class CounselorManagementsFacade {
     return this.episodesService.create(newProps);
   }
 
-  async findEpisodes(params: { counselorId: UniqueEntityId; withTemporary?: boolean }): Promise<EpisodesInfo[]> {
+  async findEpisodes(params: { counselorId: CounselorId; withTemporary?: boolean }): Promise<EpisodesInfo[]> {
     const { counselorId, withTemporary = false } = params;
     await this.counselorsService.getOne({ counselorId });
     return this.episodesService.findEpisodesByCounselorId(counselorId, withTemporary);
   }
 
-  async findEpisodeById(params: { episodeId: UniqueEntityId; withTemporary?: boolean }): Promise<EpisodesInfo | null> {
+  async findEpisodeById(params: { episodeId: EpisodeId; withTemporary?: boolean }): Promise<EpisodesInfo | null> {
     const { episodeId, withTemporary = false } = params;
     return this.episodesService.findEpisodeById(episodeId, withTemporary);
   }
 
   @Transactional()
   async updateEpisode(params: {
-    episodeId: UniqueEntityId;
+    episodeId: EpisodeId;
     title?: string;
     requiredRapportThreshold?: number;
     isTemporary?: boolean;

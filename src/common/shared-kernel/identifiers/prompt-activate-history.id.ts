@@ -1,0 +1,9 @@
+import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+
+export class PromptActivateHistoryId extends UniqueEntityId {
+  private readonly __brand = "PromptActivateHistoryId" as const;
+
+  constructor(id?: string | number) {
+    super(id);
+  }
+}

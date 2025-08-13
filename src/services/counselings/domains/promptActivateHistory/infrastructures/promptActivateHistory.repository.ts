@@ -1,14 +1,14 @@
 import { PromptActivateHistories } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
 import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
 import { FindOneOptions } from "typeorm";
 
 @Injectable()
 export abstract class PromptActivateHistoryRepository {
   abstract findByPromptActivateHistoryId(
-    promptActivateHistoryId: UniqueEntityId,
+    promptActivateHistoryId: PromptActivateHistoryId,
     options?: FindOneOptions<PromptActivateHistoryEntity>,
   ): Promise<PromptActivateHistories | null>;
   abstract findMany(options?: FindOneOptions<PromptActivateHistoryEntity>): Promise<PromptActivateHistories[]>;

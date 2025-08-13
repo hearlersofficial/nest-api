@@ -1,5 +1,6 @@
 import { Tones } from "~counselings/domains/tones/models/tones";
 
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { Dayjs } from "dayjs";
 
 /**
@@ -7,7 +8,7 @@ import { Dayjs } from "dayjs";
  */
 export class TonesInfo {
   constructor(
-    public readonly id: string,
+    public readonly id: ToneId,
     public readonly name: string,
     public readonly description: string,
     public readonly createdAt: Dayjs,
@@ -19,14 +20,7 @@ export class TonesInfo {
    * 도메인 모델에서 Info 객체로 변환
    */
   static fromDomain(tone: Tones): TonesInfo {
-    return new TonesInfo(
-      tone.id.getString(),
-      tone.name,
-      tone.description,
-      tone.createdAt,
-      tone.updatedAt,
-      tone.deletedAt,
-    );
+    return new TonesInfo(tone.id, tone.name, tone.description, tone.createdAt, tone.updatedAt, tone.deletedAt);
   }
 
   /**

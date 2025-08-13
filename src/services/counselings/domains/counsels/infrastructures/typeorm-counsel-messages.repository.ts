@@ -5,7 +5,7 @@ import { CounselMessages } from "~counselings/domains/counsels/models/counsel-me
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
 import { KAFKA_CLIENT } from "~common/system/persistences/client-config";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
@@ -27,7 +27,7 @@ export class TypeormCounselMessagesRepository extends CounselMessagesRepository 
   }
 
   override async findByCounselMessageId(
-    counselMessageId: UniqueEntityId,
+    counselMessageId: CounselMessageId,
     options?: FindOneOptions<CounselMessagesEntity>,
   ): Promise<CounselMessages | null> {
     const findOneOptions: FindOneOptions<CounselMessagesEntity> = options ?? {};

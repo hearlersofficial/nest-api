@@ -1,14 +1,14 @@
 import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()
 export abstract class CounselTechniquesRepository {
   abstract findByCounselTechniqueId(
-    counselTechniqueId: UniqueEntityId,
+    counselTechniqueId: CounselTechniqueId,
     options?: FindOneOptions<CounselTechniquesEntity>,
   ): Promise<CounselTechniques | null>;
   abstract findMany(options?: FindManyOptions<CounselTechniquesEntity>): Promise<CounselTechniques[]>;

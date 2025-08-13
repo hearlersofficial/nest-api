@@ -1,9 +1,11 @@
 import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
+import { EpisodeCutSceneId } from "~common/shared-kernel/identifiers/episode-cut-scene.id";
 
 export class CreateEpisodeCommand {
-  counselorId: UniqueEntityId;
+  counselorId: CounselorId;
   title: string;
   requiredRapportThreshold: number;
   isTemporary: boolean;
@@ -11,7 +13,7 @@ export class CreateEpisodeCommand {
 }
 
 export class UpdateEpisodeCommand {
-  episodeId: UniqueEntityId;
+  episodeId: EpisodeId;
   title: string;
   requiredRapportThreshold: number;
   isTemporary: boolean;
@@ -19,7 +21,7 @@ export class UpdateEpisodeCommand {
 }
 
 export class SaveEpisodeCutSceneCommand {
-  id?: UniqueEntityId;
+  id?: EpisodeCutSceneId;
   speaker: Speaker;
   content: string;
   orderIndex: number;

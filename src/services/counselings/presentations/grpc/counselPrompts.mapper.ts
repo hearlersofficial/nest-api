@@ -34,7 +34,7 @@ export class SchemaCounselPromptsMapper {
     }
 
     return create(PromptVersionSchema, {
-      id: promptVersion.id,
+      id: promptVersion.id.getString(),
       name: promptVersion.name,
       description: promptVersion.description,
       isActive: promptVersion.isActive,
@@ -65,8 +65,8 @@ export class SchemaCounselPromptsMapper {
       return null;
     }
     return create(CounselorScopedPromptSchema, {
-      counselorId: counselorScopedPrompt.counselorId,
-      personaPromptId: counselorScopedPrompt.personaPromptId,
+      counselorId: counselorScopedPrompt.counselorId.getString(),
+      personaPromptId: counselorScopedPrompt.personaPromptId.getString(),
       createdAt: counselorScopedPrompt.createdAt.toISOString(),
       updatedAt: counselorScopedPrompt.updatedAt.toISOString(),
       deletedAt: counselorScopedPrompt.deletedAt ? counselorScopedPrompt.deletedAt.toISOString() : undefined,
@@ -80,10 +80,10 @@ export class SchemaCounselPromptsMapper {
       return null;
     }
     return create(ToneScopedPromptSchema, {
-      toneId: toneScopedPrompt.toneId,
-      tonePromptId: toneScopedPrompt.tonePromptId ? toneScopedPrompt.tonePromptId : undefined,
+      toneId: toneScopedPrompt.toneId.getString(),
+      tonePromptId: toneScopedPrompt.tonePromptId ? toneScopedPrompt.tonePromptId.getString() : undefined,
       firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId
-        ? toneScopedPrompt.firstCounselTechniqueId
+        ? toneScopedPrompt.firstCounselTechniqueId.getString()
         : undefined,
       createdAt: toneScopedPrompt.createdAt.toISOString(),
       updatedAt: toneScopedPrompt.updatedAt.toISOString(),
@@ -99,9 +99,9 @@ export class SchemaCounselPromptsMapper {
       return null;
     }
     return create(PersonaPromptSchema, {
-      id: personaPrompt.id,
+      id: personaPrompt.id.getString(),
       body: personaPrompt.body,
-      counselorId: personaPrompt.counselorId,
+      counselorId: personaPrompt.counselorId.getString(),
       createdAt: personaPrompt.createdAt.toISOString(),
       updatedAt: personaPrompt.updatedAt.toISOString(),
       deletedAt: personaPrompt.deletedAt ? personaPrompt.deletedAt.toISOString() : undefined,
@@ -116,9 +116,9 @@ export class SchemaCounselPromptsMapper {
       return null;
     }
     return create(TonePromptSchema, {
-      id: tonePrompt.id,
+      id: tonePrompt.id.getString(),
       body: tonePrompt.body,
-      toneId: tonePrompt.toneId,
+      toneId: tonePrompt.toneId.getString(),
       createdAt: tonePrompt.createdAt.toISOString(),
       updatedAt: tonePrompt.updatedAt.toISOString(),
       deletedAt: tonePrompt.deletedAt ? tonePrompt.deletedAt.toISOString() : undefined,
@@ -133,14 +133,16 @@ export class SchemaCounselPromptsMapper {
       return null;
     }
     return create(CounselTechniqueSchema, {
-      id: counselTechnique.id,
+      id: counselTechnique.id.getString(),
       name: counselTechnique.name,
-      toneId: counselTechnique.toneId,
+      toneId: counselTechnique.toneId.getString(),
       context: counselTechnique.context,
       instruction: counselTechnique.instruction,
       messageThreshold: counselTechnique.messageThreshold,
       isTemporary: counselTechnique.isTemporary,
-      nextCounselTechniqueId: counselTechnique.nextTechniqueId ? counselTechnique.nextTechniqueId : undefined,
+      nextCounselTechniqueId: counselTechnique.nextTechniqueId
+        ? counselTechnique.nextTechniqueId.getString()
+        : undefined,
       temperature: counselTechnique.temperature,
       createdAt: counselTechnique.createdAt.toISOString(),
       updatedAt: counselTechnique.updatedAt.toISOString(),

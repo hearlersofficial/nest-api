@@ -5,7 +5,8 @@ import { Counselors } from "~counselings/domains/counselors/models/counselors";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
@@ -20,7 +21,7 @@ export class PsqlCounselorsRepository extends CounselorsRepository {
   }
 
   override async findByCounselorId(
-    counselorId: UniqueEntityId,
+    counselorId: CounselorId,
     options?: FindOneOptions<CounselorEntity>,
   ): Promise<Counselors | null> {
     const findOneOptions: FindOneOptions<CounselorEntity> = options ?? {};
@@ -62,7 +63,7 @@ export class PsqlCounselorsRepository extends CounselorsRepository {
     return PsqlCounselorsMapper.toBubbleDomains(bubbles);
   }
 
-  override async findRandomBubble(counselorId: UniqueEntityId): Promise<Bubbles> {
+  override async findRandomBubble(counselorId: CounselorId): Promise<Bubbles> {
     const bubbles = await this.bubblesRepository.find({
       where: { counselorId: counselorId.getString() },
     });
@@ -78,7 +79,7 @@ export class PsqlCounselorsRepository extends CounselorsRepository {
     return bubble;
   }
 
-  override async findBubbleById(bubbleId: UniqueEntityId): Promise<Bubbles | null> {
+  override async findBubbleById(bubbleId: BubbleId): Promise<Bubbles | null> {
     const bubble = await this.bubblesRepository.findOne({
       where: { id: bubbleId.getString() },
     });

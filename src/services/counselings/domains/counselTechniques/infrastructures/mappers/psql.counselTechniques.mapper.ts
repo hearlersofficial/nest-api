@@ -4,7 +4,8 @@ import {
 } from "~counselings/domains/counselTechniques/models/counselTechniques";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import dayjs from "dayjs";
@@ -21,17 +22,17 @@ export class PsqlCounselTechniquesMapper {
     const counselTechniqueProps: CounselTechniquesProps = {
       name: entity.name,
       temperature: entity.temperature,
-      toneId: new UniqueEntityId(entity.toneId),
+      toneId: new ToneId(entity.toneId),
       context: entity.context,
       instruction: entity.instruction,
       messageThreshold: entity.messageThreshold,
-      nextTechniqueId: entity.nextTechniqueId ? new UniqueEntityId(entity.nextTechniqueId) : null,
+      nextTechniqueId: entity.nextTechniqueId ? new CounselTechniqueId(entity.nextTechniqueId) : null,
       isTemporary: entity.isTemporary,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const counselTechniquesOrError = CounselTechniques.create(counselTechniqueProps, new UniqueEntityId(entity.id));
+    const counselTechniquesOrError = CounselTechniques.create(counselTechniqueProps, new CounselTechniqueId(entity.id));
 
     if (counselTechniquesOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselTechniquesOrError.errorValue);

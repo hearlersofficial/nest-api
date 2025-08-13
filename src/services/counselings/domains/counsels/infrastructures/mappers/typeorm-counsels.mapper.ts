@@ -2,8 +2,11 @@ import { TypeormCounselContextsMapper } from "~counselings/domains/counsels/infr
 import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
@@ -20,10 +23,10 @@ export class TypeormCounselsMapper {
 
     const counselProps: CounselsProps = {
       userId: new UserId(entity.userId),
-      counselorId: new UniqueEntityId(entity.counselorId),
-      counselTechniqueId: new UniqueEntityId(entity.counselTechniqueId),
-      promptVersionId: new UniqueEntityId(entity.promptVersionId),
-      counselorUserRelationshipId: new UniqueEntityId(entity.counselorUserRelationshipId),
+      counselorId: new CounselorId(entity.counselorId),
+      counselTechniqueId: new CounselTechniqueId(entity.counselTechniqueId),
+      promptVersionId: new PromptVersionId(entity.promptVersionId),
+      counselorUserRelationshipId: new CounselorUserRelationshipId(entity.counselorUserRelationshipId),
       lastChatedAt: entity.lastChatedAt ? dayjs(entity.lastChatedAt) : null,
       lastMessage: entity.lastMessage,
       messageCount: entity.messageCount,

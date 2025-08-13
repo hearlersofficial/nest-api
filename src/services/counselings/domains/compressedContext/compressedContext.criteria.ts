@@ -1,5 +1,5 @@
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 
 export type CompressedContextCriteriaFindMany = {
-  counselId: UniqueEntityId;
+  counselId: CounselId;
 };

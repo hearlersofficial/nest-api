@@ -2,7 +2,9 @@ import { EpisodeCutScenes, EpisodeCutScenesProps } from "~counselings/domains/ep
 import { Episodes, EpisodesProps } from "~counselings/domains/episodes/models/episodes";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
+import { EpisodeCutSceneId } from "~common/shared-kernel/identifiers/episode-cut-scene.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { EpisodeEntity } from "~common/system/persistences/entities/counselors/episode.entity";
 import { EpisodeCutSceneEntity } from "~common/system/persistences/entities/counselors/episode-cut-scene.entity";
@@ -18,7 +20,7 @@ export class PsqlEpisodesMapper {
     }
 
     const episodeProps: EpisodesProps = {
-      counselorId: new UniqueEntityId(entity.counselorId),
+      counselorId: new CounselorId(entity.counselorId),
       title: entity.title,
       requiredRapportThreshold: entity.requiredRapportThreshold,
       isTemporary: entity.isTemporary,
@@ -27,7 +29,7 @@ export class PsqlEpisodesMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const episodesOrError = Episodes.create(episodeProps, new UniqueEntityId(entity.id));
+    const episodesOrError = Episodes.create(episodeProps, new EpisodeId(entity.id));
 
     if (episodesOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, episodesOrError.errorValue);
@@ -72,7 +74,7 @@ export class PsqlEpisodesMapper {
     }
 
     const cutSceneProps: EpisodeCutScenesProps = {
-      episodeId: new UniqueEntityId(entity.episodeId),
+      episodeId: new EpisodeId(entity.episodeId),
       speaker: entity.speaker,
       content: entity.content,
       orderIndex: entity.orderIndex,
@@ -81,7 +83,7 @@ export class PsqlEpisodesMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const cutScenesOrError = EpisodeCutScenes.create(cutSceneProps, new UniqueEntityId(entity.id));
+    const cutScenesOrError = EpisodeCutScenes.create(cutSceneProps, new EpisodeCutSceneId(entity.id));
 
     if (cutScenesOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, cutScenesOrError.errorValue);

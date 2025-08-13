@@ -13,7 +13,12 @@ import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { getNowDayjs } from "~common/shared/utils/date";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { AssistantAgent } from "~common/support/assistant-agents/assistant-agent";
 import { ASSISTANT_AGENT } from "~common/support/assistant-agents/assistant-agent.tokens";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -42,7 +47,7 @@ export class CounselPromptManagementsFacade {
     });
   }
 
-  async findPromptVersionById(param: { promptVersionId: UniqueEntityId }): Promise<PromptVersionInfo> {
+  async findPromptVersionById(param: { promptVersionId: PromptVersionId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = param;
     return this.promptVersionService.getOne({ promptVersionId, withDeleted: true });
   }
@@ -58,7 +63,7 @@ export class CounselPromptManagementsFacade {
   }
 
   @Transactional()
-  async loadExistingPromptVersion(param: { promptVersionId: UniqueEntityId }): Promise<PromptVersionInfo> {
+  async loadExistingPromptVersion(param: { promptVersionId: PromptVersionId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = param;
     return this.promptVersionService.loadExistingPromptVersion({
       promptVersionId,
@@ -95,7 +100,7 @@ export class CounselPromptManagementsFacade {
 
   @Transactional()
   async updatePromptVersion(param: {
-    promptVersionId: UniqueEntityId;
+    promptVersionId: PromptVersionId;
     name?: string;
     description?: string;
     isBookmarked?: boolean;
@@ -112,7 +117,7 @@ export class CounselPromptManagementsFacade {
   }
 
   @Transactional()
-  async activatePromptVersion(param: { promptVersionId: UniqueEntityId }): Promise<PromptVersionInfo> {
+  async activatePromptVersion(param: { promptVersionId: PromptVersionId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = param;
 
     const promptVersion = await this.promptVersionService.getOne({ promptVersionId });
@@ -135,18 +140,18 @@ export class CounselPromptManagementsFacade {
   }
 
   @Transactional()
-  async deletePromptVersions(param: { promptVersionIds: UniqueEntityId[] }): Promise<void> {
+  async deletePromptVersions(param: { promptVersionIds: PromptVersionId[] }): Promise<void> {
     const { promptVersionIds } = param;
     await this.promptVersionService.deletePromptVersions({ promptVersionIds });
   }
 
-  async findPersonaPromptById(param: { personaPromptId: UniqueEntityId }): Promise<PersonaPromptInfo> {
+  async findPersonaPromptById(param: { personaPromptId: PersonaPromptId }): Promise<PersonaPromptInfo> {
     const { personaPromptId } = param;
     return this.personaPromptService.getOne({ personaPromptId });
   }
 
   @Transactional()
-  async updatePersonaPrompt(param: { counselorId: UniqueEntityId; body: string }): Promise<PersonaPromptInfo> {
+  async updatePersonaPrompt(param: { counselorId: CounselorId; body: string }): Promise<PersonaPromptInfo> {
     const { counselorId, body } = param;
 
     const personaPrompt = await this.personaPromptService.create({
@@ -155,19 +160,19 @@ export class CounselPromptManagementsFacade {
     });
     await this.promptVersionService.updateCounselorScopedPromptInTemporaryVersion({
       counselorId,
-      personaPromptId: new UniqueEntityId(personaPrompt.id),
+      personaPromptId: personaPrompt.id,
     });
 
     return personaPrompt;
   }
 
-  async findTonePromptById(param: { tonePromptId: UniqueEntityId }): Promise<TonePromptInfo> {
+  async findTonePromptById(param: { tonePromptId: TonePromptId }): Promise<TonePromptInfo> {
     const { tonePromptId } = param;
     return this.tonePromptService.getOne({ tonePromptId });
   }
 
   @Transactional()
-  async updateTonePrompt(param: { toneId: UniqueEntityId; body: string }): Promise<TonePromptInfo> {
+  async updateTonePrompt(param: { toneId: ToneId; body: string }): Promise<TonePromptInfo> {
     const { toneId, body } = param;
 
     const tonePrompt = await this.tonePromptService.create({
@@ -176,7 +181,7 @@ export class CounselPromptManagementsFacade {
     });
     await this.promptVersionService.updateToneScopedPromptInTemporaryVersion({
       toneId,
-      tonePromptId: new UniqueEntityId(tonePrompt.id),
+      tonePromptId: tonePrompt.id,
     });
 
     return tonePrompt;
@@ -186,7 +191,7 @@ export class CounselPromptManagementsFacade {
   async createCounselTechnique(param: {
     name: string;
     temperature: number;
-    toneId: UniqueEntityId;
+    toneId: ToneId;
     context: string;
     instruction: string;
     messageThreshold: number;
@@ -203,20 +208,20 @@ export class CounselPromptManagementsFacade {
   }
 
   async findOrderedCounselTechniques(param: {
-    firstCounselTechniqueId: UniqueEntityId;
+    firstCounselTechniqueId: CounselTechniqueId;
   }): Promise<CounselTechniqueInfo[]> {
     const { firstCounselTechniqueId } = param;
     return this.counselTechniqueService.getOrdered({ firstCounselTechniqueId });
   }
 
-  async findCounselTechniqueById(param: { counselTechniqueId: UniqueEntityId }): Promise<CounselTechniqueInfo> {
+  async findCounselTechniqueById(param: { counselTechniqueId: CounselTechniqueId }): Promise<CounselTechniqueInfo> {
     const { counselTechniqueId } = param;
     return this.counselTechniqueService.getOne({ counselTechniqueId });
   }
 
   @Transactional()
   async updateCounselTechnique(param: {
-    counselTechniqueId: UniqueEntityId;
+    counselTechniqueId: CounselTechniqueId;
     name?: string;
     temperature?: number;
     context?: string;
@@ -237,21 +242,18 @@ export class CounselPromptManagementsFacade {
       );
     }
 
-    const updatedTechniques = await this.counselTechniqueService.updateCounselTechnique(
-      new UniqueEntityId(firstCounselTechniqueId),
-      {
-        counselTechniqueId,
-        name,
-        temperature,
-        context,
-        instruction,
-        messageThreshold,
-      },
-    );
+    const updatedTechniques = await this.counselTechniqueService.updateCounselTechnique(firstCounselTechniqueId, {
+      counselTechniqueId,
+      name,
+      temperature,
+      context,
+      instruction,
+      messageThreshold,
+    });
 
     await this.promptVersionService.updateToneScopedPromptInTemporaryVersion({
-      toneId: new UniqueEntityId(counselTechnique.toneId),
-      firstCounselTechniqueId: new UniqueEntityId(updatedTechniques[0].id),
+      toneId: counselTechnique.toneId,
+      firstCounselTechniqueId: updatedTechniques[0].id,
     });
 
     return updatedTechniques;
@@ -259,31 +261,33 @@ export class CounselPromptManagementsFacade {
 
   @Transactional()
   async saveCounselTechniqueSequence(param: {
-    toneId: UniqueEntityId;
-    counselTechniqueIds: UniqueEntityId[];
+    toneId: ToneId;
+    counselTechniqueIds: CounselTechniqueId[];
   }): Promise<CounselTechniqueInfo[]> {
     const { toneId, counselTechniqueIds } = param;
 
     const temporaryVersion = await this.promptVersionService.getTemporaryOne();
     const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find(
-      (toneScopedPrompt) => toneScopedPrompt.toneId === toneId.getString(),
+      (toneScopedPrompt) => toneScopedPrompt.toneId === toneId,
     )?.firstCounselTechniqueId;
 
     const updatedTechniques = await this.counselTechniqueService.saveCounselTechniqueSequence({
-      originalfirstCounselTechniqueId: firstCounselTechniqueId ? new UniqueEntityId(firstCounselTechniqueId) : null,
+      originalfirstCounselTechniqueId: firstCounselTechniqueId ?? null,
       toneId,
       counselTechniqueIds,
     });
 
     await this.promptVersionService.updateToneScopedPromptInTemporaryVersion({
       toneId,
-      firstCounselTechniqueId: new UniqueEntityId(updatedTechniques[0].id),
+      firstCounselTechniqueId: updatedTechniques[0].id,
     });
 
     return updatedTechniques;
   }
 
-  async findPromptActivateHistories(param: { promptVersionId?: UniqueEntityId }): Promise<PromptActivateHistoryInfo[]> {
+  async findPromptActivateHistories(param: {
+    promptVersionId?: PromptVersionId;
+  }): Promise<PromptActivateHistoryInfo[]> {
     const { promptVersionId } = param;
     return this.promptActivateHistoryService.getMany({ promptVersionId, orderBy: { id: "DESC" } });
   }

@@ -4,7 +4,7 @@ import { TonePrompts } from "~counselings/domains/tonePrompts/models/tonePrompts
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
@@ -18,7 +18,7 @@ export class PsqlTonePromptsRepository extends TonePromptsRepository {
   }
 
   override async findByTonePromptId(
-    tonePromptId: UniqueEntityId,
+    tonePromptId: TonePromptId,
     options?: FindOneOptions<TonePromptEntity>,
   ): Promise<TonePrompts | null> {
     const findOneOptions: FindOneOptions<TonePromptEntity> = options ?? {};

@@ -2,6 +2,9 @@ import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { Dayjs } from "dayjs";
 
 /**
@@ -9,7 +12,7 @@ import { Dayjs } from "dayjs";
  */
 export class BubblesInfo {
   constructor(
-    public readonly id: string,
+    public readonly id: BubbleId,
     public readonly question: string,
     public readonly responseOption1: string,
     public readonly responseOption2: string,
@@ -23,7 +26,7 @@ export class BubblesInfo {
    */
   static fromDomain(bubble: Bubbles): BubblesInfo {
     return new BubblesInfo(
-      bubble.id.getString(),
+      bubble.id,
       bubble.question,
       bubble.responseOption1,
       bubble.responseOption2,
@@ -46,11 +49,11 @@ export class BubblesInfo {
  */
 export class CounselorsInfo {
   constructor(
-    public readonly id: string,
+    public readonly id: CounselorId,
     public readonly name: string,
     public readonly gender: CounselorGender,
     public readonly description: string,
-    public readonly toneId: string,
+    public readonly toneId: ToneId,
     public readonly profileImage: string,
     public readonly createdAt: Dayjs,
     public readonly updatedAt: Dayjs,
@@ -62,11 +65,11 @@ export class CounselorsInfo {
    */
   static fromDomain(counselor: Counselors): CounselorsInfo {
     return new CounselorsInfo(
-      counselor.id.getString(),
+      counselor.id,
       counselor.name,
       counselor.gender,
       counselor.description,
-      counselor.toneId.getString(),
+      counselor.toneId,
       counselor.profileImage,
       counselor.createdAt,
       counselor.updatedAt,

@@ -5,7 +5,7 @@ import { CompressedContextNewProps } from "~counselings/domains/compressedContex
 import { CompressedContextInfo } from "~counselings/domains/compressedContext/models/compressedContext.info";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -22,7 +22,7 @@ export class CompressedContextService {
     return CompressedContextInfo.fromDomain(compressedContext);
   }
 
-  async getOne(props: { compressedContextId: UniqueEntityId }): Promise<CompressedContextInfo | null> {
+  async getOne(props: { compressedContextId: CompressedContextId }): Promise<CompressedContextInfo> {
     const compressedContext = await this.compressedContextReader.findOne(props);
     if (!compressedContext) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Compressed context not found");

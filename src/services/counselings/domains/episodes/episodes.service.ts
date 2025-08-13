@@ -7,7 +7,8 @@ import { Speaker } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { isDefined } from "~common/shared/utils/validate";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -37,7 +38,7 @@ export class EpisodesService {
   }
 
   @Transactional()
-  async delete(episodeId: UniqueEntityId): Promise<EpisodesInfo> {
+  async delete(episodeId: EpisodeId): Promise<EpisodesInfo> {
     const episode = await this.episodesReader.getEpisodeById(episodeId, true);
     const result = episode.delete();
     if (result.isFailureResult()) {
@@ -47,27 +48,24 @@ export class EpisodesService {
     return EpisodesInfo.fromDomain(deletedEpisode);
   }
 
-  async findEpisodesByCounselorId(
-    counselorId: UniqueEntityId,
-    withTemporary: boolean = false,
-  ): Promise<EpisodesInfo[]> {
+  async findEpisodesByCounselorId(counselorId: CounselorId, withTemporary: boolean = false): Promise<EpisodesInfo[]> {
     const episodes = await this.episodesReader.findEpisodesByCounselorId(counselorId, withTemporary);
     return EpisodesInfo.fromDomainArray(episodes);
   }
 
-  async findEpisodeById(episodeId: UniqueEntityId, withTemporary: boolean = false): Promise<EpisodesInfo | null> {
+  async findEpisodeById(episodeId: EpisodeId, withTemporary: boolean = false): Promise<EpisodesInfo | null> {
     const episode = await this.episodesReader.findEpisodeById(episodeId, withTemporary);
     return episode ? EpisodesInfo.fromDomain(episode) : null;
   }
 
-  async getEpisodeById(episodeId: UniqueEntityId, withTemporary: boolean = false): Promise<EpisodesInfo> {
+  async getEpisodeById(episodeId: EpisodeId, withTemporary: boolean = false): Promise<EpisodesInfo> {
     const episode = await this.episodesReader.getEpisodeById(episodeId, withTemporary);
     return EpisodesInfo.fromDomain(episode);
   }
 
   @Transactional()
   async updateEpisode(params: {
-    episodeId: UniqueEntityId;
+    episodeId: EpisodeId;
     title?: string;
     requiredRapportThreshold?: number;
     isTemporary?: boolean;

@@ -2,10 +2,12 @@ import { PromptActivateHistories } from "~counselings/domains/promptActivateHist
 import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/promptActivateHistory/promptActivateHistory.criteria";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
 
 @Injectable()
 export abstract class PromptActivateHistoryReader {
-  abstract findOne(props: { promptActivateHistoryId: UniqueEntityId }): Promise<PromptActivateHistories | null>;
+  abstract findOne(props: {
+    promptActivateHistoryId: PromptActivateHistoryId;
+  }): Promise<PromptActivateHistories | null>;
   abstract findMany(props: PromptActivateHistoryCriteriaFindMany): Promise<PromptActivateHistories[]>;
 }

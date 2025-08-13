@@ -5,7 +5,7 @@ import { TonesCriteriaFindMany } from "~counselings/domains/tones/tones.criteria
 import { TonesReader } from "~counselings/domains/tones/tones.reader";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
@@ -14,11 +14,11 @@ export class RepositoryTonesReader extends TonesReader {
     super();
   }
 
-  override async findOne(props: { toneId: UniqueEntityId }): Promise<Tones | null> {
+  override async findOne(props: { toneId: ToneId }): Promise<Tones | null> {
     return this.toneRepository.findByToneId(props.toneId);
   }
 
-  override async getOne(props: { toneId: UniqueEntityId }): Promise<Tones> {
+  override async getOne(props: { toneId: ToneId }): Promise<Tones> {
     const tone = await this.toneRepository.findByToneId(props.toneId);
     if (!tone) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Tone not found");

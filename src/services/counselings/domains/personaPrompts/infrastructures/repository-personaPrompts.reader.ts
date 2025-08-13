@@ -5,7 +5,7 @@ import { PersonaPromptsCriteriaFindMany } from "~counselings/domains/personaProm
 import { PersonaPromptsReader } from "~counselings/domains/personaPrompts/personaPrompts.reader";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 
 @Injectable()
 export class RepositoryPersonaPromptsReader extends PersonaPromptsReader {
@@ -13,7 +13,7 @@ export class RepositoryPersonaPromptsReader extends PersonaPromptsReader {
     super();
   }
 
-  override async findOne(props: { personaPromptId: UniqueEntityId }): Promise<PersonaPrompts | null> {
+  override async findOne(props: { personaPromptId: PersonaPromptId }): Promise<PersonaPrompts | null> {
     return this.personaPromptsRepository.findByPersonaPromptId(props.personaPromptId);
   }
 

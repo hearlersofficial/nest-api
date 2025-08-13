@@ -1,7 +1,8 @@
 import { TonePrompts, TonePromptsProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import dayjs from "dayjs";
@@ -15,13 +16,13 @@ export class PsqlTonePromptsMapper {
       return null;
     }
     const tonePromptProps: TonePromptsProps = {
-      toneId: new UniqueEntityId(entity.toneId),
+      toneId: new ToneId(entity.toneId),
       body: entity.body,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const tonePromptsOrError = TonePrompts.create(tonePromptProps, new UniqueEntityId(entity.id));
+    const tonePromptsOrError = TonePrompts.create(tonePromptProps, new TonePromptId(entity.id));
     if (tonePromptsOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, tonePromptsOrError.errorValue);
     }

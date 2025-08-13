@@ -4,7 +4,7 @@ import { PersonaPromptsPersister } from "~counselings/domains/personaPrompts/per
 import { PersonaPromptsReader } from "~counselings/domains/personaPrompts/personaPrompts.reader";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -21,7 +21,7 @@ export class PersonaPromptsService {
     return PersonaPromptInfo.fromDomain(personaPrompt);
   }
 
-  async getOne(props: { personaPromptId: UniqueEntityId }): Promise<PersonaPromptInfo> {
+  async getOne(props: { personaPromptId: PersonaPromptId }): Promise<PersonaPromptInfo> {
     const personaPrompt = await this.personaPromptsReader.findOne(props);
     if (!personaPrompt) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PersonaPrompt not found");

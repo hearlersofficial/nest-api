@@ -14,13 +14,13 @@ export class SchemaCounselsMapper {
     }
     return create(CounselSchema, {
       id: counsel.id.getString(),
-      counselorId: counsel.counselorId,
+      counselorId: counsel.counselorId.getString(),
       userId: counsel.userId.getString(),
       lastMessage: counsel.lastMessage ?? undefined,
       lastChatedAt: counsel.lastChatedAt ? counsel.lastChatedAt.toISOString() : undefined,
-      promptVersionId: counsel.promptVersionId,
-      counselTechniqueId: counsel.counselTechniqueId,
-      counselorUserRelationshipId: counsel.counselorUserRelationshipId,
+      promptVersionId: counsel.promptVersionId.getString(),
+      counselTechniqueId: counsel.counselTechniqueId.getString(),
+      counselorUserRelationshipId: counsel.counselorUserRelationshipId.getString(),
       createdAt: counsel.createdAt.toISOString(),
       updatedAt: counsel.updatedAt.toISOString(),
       deletedAt: counsel.deletedAt ? counsel.deletedAt.toISOString() : undefined,
@@ -35,13 +35,13 @@ export class SchemaCounselsMapper {
       return null;
     }
     return create(CounselMessageSchema, {
-      id: counselMessage.id,
-      counselId: counselMessage.counselId,
+      id: counselMessage.id.getString(),
+      counselId: counselMessage.counselId.getString(),
       message: counselMessage.message,
       isUserMessage: counselMessage.isUserMessage,
       reactedAt: counselMessage.reactedAt ? counselMessage.reactedAt.toISOString() : undefined,
       reaction: counselMessage.reaction ?? undefined,
-      counselTechniqueId: counselMessage.counselTechniqueId,
+      counselTechniqueId: counselMessage.counselTechniqueId.getString(),
       createdAt: counselMessage.createdAt.toISOString(),
       updatedAt: counselMessage.updatedAt.toISOString(),
       deletedAt: counselMessage.deletedAt ? counselMessage.deletedAt.toISOString() : undefined,

@@ -7,8 +7,12 @@ import { PromptVersionsService } from "~counselings/domains/promptVersions/promp
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
@@ -28,9 +32,9 @@ export class CounselManagementsFacade {
   @Transactional()
   async createCounsel(params: {
     userId: UserId;
-    counselorId: UniqueEntityId;
-    promptVersionId?: UniqueEntityId;
-    bubbleId?: UniqueEntityId;
+    counselorId: CounselorId;
+    promptVersionId?: PromptVersionId;
+    bubbleId?: BubbleId;
     responseOptionNumber?: number; // NOTE: 어드민용
   }): Promise<{
     counsel: CounselInfo;
@@ -55,9 +59,9 @@ export class CounselManagementsFacade {
     const createdCounsel = await this.counselService.create({
       userId,
       counselorId,
-      counselTechniqueId: new UniqueEntityId(firstCounselTechniqueId),
-      promptVersionId: new UniqueEntityId(promptVersion.id),
-      counselorUserRelationshipId: new UniqueEntityId(), // TODO: 의미있는 값 넣기
+      counselTechniqueId: firstCounselTechniqueId,
+      promptVersionId: promptVersion.id,
+      counselorUserRelationshipId: new CounselorUserRelationshipId(), // TODO: 의미있는 값 넣기
     });
 
     const counselMessagesResult: CounselMessageInfo[] = [];
@@ -116,13 +120,13 @@ export class CounselManagementsFacade {
     };
   }
 
-  async findCounsels(params: { userId: UniqueEntityId; counselorId?: UniqueEntityId }): Promise<CounselInfo[]> {
+  async findCounsels(params: { userId: UserId; counselorId?: CounselorId }): Promise<CounselInfo[]> {
     const { userId, counselorId } = params;
 
     return this.counselService.getMany({ userId, counselorId, orderBy: { id: "DESC" } });
   }
 
-  async findCounselById(params: { counselId: UniqueEntityId }): Promise<CounselInfo> {
+  async findCounselById(params: { counselId: CounselId }): Promise<CounselInfo> {
     const { counselId } = params;
 
     return this.counselService.getOne({ counselId });
@@ -155,7 +159,7 @@ export class CounselManagementsFacade {
 
   @Transactional()
   async reactMessage(params: {
-    messageId: UniqueEntityId;
+    messageId: CounselMessageId;
     reaction: CounselMessageReaction;
   }): Promise<CounselMessageInfo> {
     const { messageId, reaction } = params;

@@ -1,14 +1,14 @@
 import { CompressedContexts } from "~counselings/domains/compressedContext/models/compressedContext";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
 import { CompressedContextsEntity } from "~common/system/persistences/entities/counsels/CompressedContexts.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()
 export abstract class CompressedContextRepository {
   abstract findByCompressedContextId(
-    compressedContextId: UniqueEntityId,
+    compressedContextId: CompressedContextId,
     options?: FindOneOptions<CompressedContextsEntity>,
   ): Promise<CompressedContexts | null>;
   abstract findMany(options?: FindManyOptions<CompressedContextsEntity>): Promise<CompressedContexts[]>;

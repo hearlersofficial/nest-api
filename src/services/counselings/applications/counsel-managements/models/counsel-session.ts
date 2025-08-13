@@ -7,6 +7,12 @@ import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/pr
 
 import { HttpStatus } from "@nestjs/common";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
@@ -20,22 +26,22 @@ export type CounselSessionData = {
 };
 
 export type CounselorScopedPromptData = {
-  counselorId: string;
-  personaPromptId: string;
+  counselorId: CounselorId;
+  personaPromptId: PersonaPromptId;
 };
 
 export type ToneScopedPromptData = {
-  toneId: string;
-  tonePromptId: string;
-  firstCounselTechniqueId: string;
+  toneId: ToneId;
+  tonePromptId: TonePromptId;
+  firstCounselTechniqueId: CounselTechniqueId;
 };
 
 export type SessionContext = {
   counselId: CounselId;
   userId: UserId;
-  counselorId: string;
-  promptVersionId: string;
-  currentTechniqueId: string;
+  counselorId: CounselorId;
+  promptVersionId: PromptVersionId;
+  currentTechniqueId: CounselTechniqueId;
 };
 
 /**
@@ -167,7 +173,7 @@ export class CounselSession {
    * 현재 상담기법 ID 반환
    * @returns 상담기법 ID
    */
-  getCurrentTechniqueId(): string {
+  getCurrentTechniqueId(): CounselTechniqueId {
     return this.counsel.counselTechniqueId;
   }
 

@@ -15,7 +15,8 @@ import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
 @Controller("episodes")
 export class GrpcEpisodeQueryController {
   constructor(private readonly counselorManagementsFacade: CounselorManagementsFacade) {}
@@ -25,7 +26,7 @@ export class GrpcEpisodeQueryController {
   async findEpisodes(request: FindEpisodesRequest): Promise<FindEpisodesResponse> {
     const { counselorId, withTemporary } = request;
     const episodes = await this.counselorManagementsFacade.findEpisodes({
-      counselorId: new UniqueEntityId(counselorId),
+      counselorId: new CounselorId(counselorId),
       withTemporary,
     });
     return create(FindEpisodesResponseSchema, {
@@ -38,7 +39,7 @@ export class GrpcEpisodeQueryController {
   async findEpisodeById(request: FindEpisodeByIdRequest): Promise<FindEpisodeByIdResponse> {
     const { episodeId, withTemporary } = request;
     const episode = await this.counselorManagementsFacade.findEpisodeById({
-      episodeId: new UniqueEntityId(episodeId),
+      episodeId: new EpisodeId(episodeId),
       withTemporary,
     });
     return create(FindEpisodeByIdResponseSchema, {

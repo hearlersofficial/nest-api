@@ -4,7 +4,7 @@ import { Tones } from "~counselings/domains/tones/models/tones";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
@@ -17,7 +17,7 @@ export class PsqlTonesRepository extends TonesRepository {
     super();
   }
 
-  override async findByToneId(toneId: UniqueEntityId, options?: FindOneOptions<ToneEntity>): Promise<Tones | null> {
+  override async findByToneId(toneId: ToneId, options?: FindOneOptions<ToneEntity>): Promise<Tones | null> {
     const findOneOptions: FindOneOptions<ToneEntity> = options ?? {};
     findOneOptions.where = {
       ...findOneOptions.where,

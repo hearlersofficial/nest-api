@@ -9,7 +9,6 @@ import { SystemPromptBuilder } from "~counselings/applications/counsel-managemen
 import { TechniqueManager } from "~counselings/applications/counsel-managements/support/technique.manager";
 import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
 import { CompressedContextModule } from "~counselings/domains/compressedContext/compressedContext.module";
-import { CounselMessagesModule } from "~counselings/domains/counselMessages/counselMessages.module";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
@@ -23,7 +22,6 @@ import { AssistantAgentModule } from "~common/support/assistant-agents/assistant
 @Module({
   imports: [
     CounselsModule,
-    CounselMessagesModule,
     PromptVersionsModule,
     CounselorsModule,
     CounselTechniquesModule,

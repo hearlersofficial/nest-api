@@ -1,14 +1,15 @@
-import { PsqlCounselContextsMapper } from "~counselings/domains/counsels/infrastructures/mappers/psql.counsel-contexts.mapper";
+import { TypeormCounselContextsMapper } from "~counselings/domains/counsels/infrastructures/mappers/typeorm-counsel-contexts.mapper";
 import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
 import dayjs from "dayjs";
 
-export class PsqlCounselsMapper {
+export class TypeormCounselsMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: CounselsEntity): Counsels;
   static toDomain(entity: CounselsEntity | null): Counsels | null;
@@ -18,7 +19,7 @@ export class PsqlCounselsMapper {
     }
 
     const counselProps: CounselsProps = {
-      userId: new UniqueEntityId(entity.userId),
+      userId: new UserId(entity.userId),
       counselorId: new UniqueEntityId(entity.counselorId),
       counselTechniqueId: new UniqueEntityId(entity.counselTechniqueId),
       promptVersionId: new UniqueEntityId(entity.promptVersionId),
@@ -32,7 +33,7 @@ export class PsqlCounselsMapper {
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
-      counselContexts: PsqlCounselContextsMapper.toDomain(entity.counselContext),
+      counselContexts: TypeormCounselContextsMapper.toDomain(entity.counselContext),
     };
     const counselsOrError = Counsels.create(counselProps, new CounselId(entity.id));
 
@@ -71,7 +72,7 @@ export class PsqlCounselsMapper {
     entity.updatedAt = counsels.updatedAt.toISOString();
     entity.deletedAt = counsels.deletedAt ? counsels.deletedAt.toISOString() : null;
 
-    entity.counselContext = PsqlCounselContextsMapper.toEntity(counsels.counselContexts);
+    entity.counselContext = TypeormCounselContextsMapper.toEntity(counsels.counselContexts);
 
     return entity;
   }

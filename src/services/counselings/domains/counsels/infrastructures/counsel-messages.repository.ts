@@ -1,4 +1,4 @@
-import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
+import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";

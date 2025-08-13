@@ -1,4 +1,4 @@
-import { CounselMessages, CounselMessagesProps } from "~counselings/domains/counselMessages/models/counselMessages";
+import { CounselMessages, CounselMessagesProps } from "~counselings/domains/counsels/models/counsel-messages";
 
 import { HttpStatus } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
@@ -6,7 +6,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 import dayjs from "dayjs";
 
-export class PsqlCounselMessagesMapper {
+export class TypeormCounselMessagesMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: CounselMessagesEntity): CounselMessages;
   static toDomain(entity: CounselMessagesEntity | null): CounselMessages | null;

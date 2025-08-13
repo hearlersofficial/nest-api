@@ -1,4 +1,4 @@
-import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
+import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { Dayjs } from "dayjs";

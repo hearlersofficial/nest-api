@@ -14,12 +14,12 @@ import {
 } from "~counselings/applications/counsel-managements/support/technique.manager";
 import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
 import { TechniqueTransitionDecision } from "~counselings/applications/counsel-managements/types/technique.type";
-import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
+import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { Injectable, Logger } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { Propagation, Transactional } from "typeorm-transactional";
 
 /**
@@ -47,7 +47,7 @@ export class CounselingOrchestrator {
    * @returns 상담 진행 응답
    */
   @Transactional()
-  async proceedCounseling(request: { counselId: UniqueEntityId; userMessage: string }): Promise<{
+  async proceedCounseling(request: { counselId: CounselId; userMessage: string }): Promise<{
     counsel: CounselInfo;
     createdCounselMessage: CounselMessageInfo;
     counselorResponseMessage: CounselMessageInfo;
@@ -86,7 +86,7 @@ export class CounselingOrchestrator {
       systemPrompt,
       conversationHistory,
       userMessage,
-      session.getCounselId(),
+      session.getCounselId().getString(),
       session.getPromptVersion().aiModel,
       session.getCurrentTechnique().temperature,
     );
@@ -95,10 +95,6 @@ export class CounselingOrchestrator {
     const createdAssistantMessage = await this.messageManager.createAssistantMessage(session, aiResponse);
     session = session.withNewMessage(createdAssistantMessage);
 
-    // 8. 상담 정보 업데이트 (마지막 메시지)
-    const updatedCounsel = await this.messageManager.updateLastMessage(session, createdAssistantMessage.message);
-    session = session.withUpdatedCounsel(updatedCounsel);
-
     // 9. 백그라운드에서 기법 전환 평가 수행
     this.evaluateTechniqueTransitionInBackground(session);
 
@@ -106,7 +102,7 @@ export class CounselingOrchestrator {
     this.compressContextInBackground(session);
 
     return {
-      counsel: updatedCounsel,
+      counsel: session.getCounsel(),
       createdCounselMessage: createdUserMessage,
       counselorResponseMessage: createdAssistantMessage,
     };

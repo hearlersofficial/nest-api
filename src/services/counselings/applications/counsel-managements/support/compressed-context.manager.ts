@@ -1,12 +1,10 @@
 import { CompressedContextService } from "~counselings/domains/compressedContext/compressedContext.service";
 import { CompressedContextInfo } from "~counselings/domains/compressedContext/models/compressedContext.info";
-import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
-import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
+import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 export interface CompressedContextManagementParams {
   counsel: CounselInfo;
@@ -38,7 +36,6 @@ export interface BackgroundCompressionResult {
 export class CompressedContextManager {
   constructor(
     private readonly counselService: CounselsService,
-    private readonly counselMessageService: CounselMessagesService,
     private readonly compressedcontextService: CompressedContextService,
   ) {}
 
@@ -51,7 +48,7 @@ export class CompressedContextManager {
     const { counsel } = params;
 
     const compressedContexts = await this.compressedcontextService.getMany({
-      counselId: new UniqueEntityId(counsel.id),
+      counselId: counsel.id,
     });
 
     return {
@@ -79,8 +76,8 @@ export class CompressedContextManager {
     }
 
     try {
-      const messages = await this.counselMessageService.getMany({
-        counselId: new UniqueEntityId(counsel.id),
+      const { messages } = await this.counselService.getOneWithMessages({
+        counselId: counsel.id,
       });
       // 압축되지 않은 메시지만 선택
       const messagesToCompress = counsel.compressedContextExists
@@ -91,7 +88,7 @@ export class CompressedContextManager {
       const existingCompressedContexts = counsel.compressedContextExists
         ? (
             await this.compressedcontextService.getMany({
-              counselId: new UniqueEntityId(counsel.id),
+              counselId: counsel.id,
             })
           ).slice(-10)
         : [];
@@ -127,12 +124,12 @@ export class CompressedContextManager {
       const { compressedContext, messageCountAtCompression } = result;
 
       const compressedContextInfo = await this.compressedcontextService.create({
-        counselId: new UniqueEntityId(counsel.id),
+        counselId: counsel.id,
         content: compressedContext,
         messageCountAtCompression,
       });
       await this.counselService.markContextCompressed({
-        counselId: new UniqueEntityId(counsel.id),
+        counselId: counsel.id,
       });
 
       return {

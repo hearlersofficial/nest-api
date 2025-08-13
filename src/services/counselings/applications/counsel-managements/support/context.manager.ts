@@ -6,7 +6,6 @@ import { CounselTechniquesService } from "~counselings/domains/counselTechniques
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 
 @Injectable()
@@ -24,9 +23,9 @@ export class ContextManager {
     const { counsel, messages: counselMessages } = await this.counselService.getOneWithMessages({ counselId });
 
     const [counselor, promptVersion, currentTechnique] = await Promise.all([
-      this.counselorService.getOne({ counselorId: new UniqueEntityId(counsel.counselorId) }),
-      this.promptVersionsService.getOne({ promptVersionId: new UniqueEntityId(counsel.promptVersionId) }),
-      this.counselTechniqueService.getOne({ counselTechniqueId: new UniqueEntityId(counsel.counselTechniqueId) }),
+      this.counselorService.getOne({ counselorId: counsel.counselorId }),
+      this.promptVersionsService.getOne({ promptVersionId: counsel.promptVersionId }),
+      this.counselTechniqueService.getOne({ counselTechniqueId: counsel.counselTechniqueId }),
     ]);
 
     const compressedContexts = await this.compressedContextService.getMany({

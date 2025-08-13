@@ -4,7 +4,7 @@ import { CompressedContexts } from "~counselings/domains/compressedContext/model
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
 import { CompressedContextsEntity } from "~common/system/persistences/entities/counsels/CompressedContexts.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 import { Repository } from "typeorm/repository/Repository";
@@ -19,7 +19,7 @@ export class PsqlCompressedContextRepository extends CompressedContextRepository
   }
 
   override async findByCompressedContextId(
-    compressedContextId: UniqueEntityId,
+    compressedContextId: CompressedContextId,
     options?: FindOneOptions<CompressedContextsEntity>,
   ): Promise<CompressedContexts | null> {
     const findOneOptions: FindOneOptions<CompressedContextsEntity> = options ?? {};

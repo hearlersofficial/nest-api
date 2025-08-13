@@ -4,7 +4,7 @@ import { CounselTechniques } from "~counselings/domains/counselTechniques/models
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
@@ -18,7 +18,7 @@ export class PsqlCounselTechniquesRepository extends CounselTechniquesRepository
   }
 
   override async findByCounselTechniqueId(
-    counselTechniqueId: UniqueEntityId,
+    counselTechniqueId: CounselTechniqueId,
     options?: FindOneOptions<CounselTechniquesEntity>,
   ): Promise<CounselTechniques | null> {
     const findOneOptions: FindOneOptions<CounselTechniquesEntity> = options ?? {};

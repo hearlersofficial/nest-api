@@ -1,5 +1,5 @@
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 
 export type TonePromptsCriteriaFindMany = {
-  toneId?: UniqueEntityId;
+  toneId?: ToneId;
 };

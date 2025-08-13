@@ -1,14 +1,15 @@
 import { BubblesNewProps } from "~counselings/domains/counselors/models/bubbles";
 
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 
 export interface CreateBubbleCommand extends BubblesNewProps {
-  counselorId: UniqueEntityId;
+  counselorId: CounselorId;
 }
 
 export interface UpdateBubbleCommand {
-  counselorId: UniqueEntityId;
-  bubbleId: UniqueEntityId;
+  counselorId: CounselorId;
+  bubbleId: BubbleId;
   question?: string;
   responseOption1?: string;
   responseOption2?: string;

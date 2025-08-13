@@ -1,11 +1,12 @@
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 import { Dayjs } from "dayjs";
 
 export interface PersonaPromptsNewProps {
-  counselorId: UniqueEntityId;
+  counselorId: CounselorId;
   body: string;
 }
 
@@ -15,12 +16,12 @@ export interface PersonaPromptsProps extends PersonaPromptsNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class PersonaPrompts extends AggregateRoot<PersonaPromptsProps> {
-  private constructor(props: PersonaPromptsProps, id: UniqueEntityId) {
+export class PersonaPrompts extends AggregateRoot<PersonaPromptsProps, PersonaPromptId> {
+  private constructor(props: PersonaPromptsProps, id: PersonaPromptId) {
     super(props, id);
   }
 
-  public static create(props: PersonaPromptsProps, id: UniqueEntityId): Result<PersonaPrompts> {
+  public static create(props: PersonaPromptsProps, id: PersonaPromptId): Result<PersonaPrompts> {
     const personaPrompts = new PersonaPrompts(props, id);
     const validateResult = personaPrompts.validateDomain();
     if (validateResult.isFailure) {
@@ -31,7 +32,7 @@ export class PersonaPrompts extends AggregateRoot<PersonaPromptsProps> {
 
   public static createNew(newProps: PersonaPromptsNewProps): Result<PersonaPrompts> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new PersonaPromptId();
     return this.create(
       {
         ...newProps,
@@ -66,7 +67,7 @@ export class PersonaPrompts extends AggregateRoot<PersonaPromptsProps> {
   }
 
   // Getters
-  get counselorId(): UniqueEntityId {
+  get counselorId(): CounselorId {
     return this.props.counselorId;
   }
 

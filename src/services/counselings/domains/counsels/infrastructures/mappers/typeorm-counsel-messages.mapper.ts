@@ -1,7 +1,10 @@
 import { CounselMessages, CounselMessagesProps } from "~counselings/domains/counsels/models/counsel-messages";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 import dayjs from "dayjs";
@@ -16,9 +19,9 @@ export class TypeormCounselMessagesMapper {
     }
 
     const counselMessageProps: CounselMessagesProps = {
-      userId: new UniqueEntityId(entity.userId),
-      counselId: new UniqueEntityId(entity.counselId),
-      counselTechniqueId: new UniqueEntityId(entity.counselTechniqueId),
+      userId: new UserId(entity.userId),
+      counselId: new CounselId(entity.counselId),
+      counselTechniqueId: new CounselTechniqueId(entity.counselTechniqueId),
       message: entity.message,
       isUserMessage: entity.isUserMessage,
 
@@ -29,7 +32,7 @@ export class TypeormCounselMessagesMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const counselMessagesOrError = CounselMessages.create(counselMessageProps, new UniqueEntityId(entity.id));
+    const counselMessagesOrError = CounselMessages.create(counselMessageProps, new CounselMessageId(entity.id));
 
     if (counselMessagesOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselMessagesOrError.errorValue);

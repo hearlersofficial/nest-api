@@ -4,7 +4,7 @@ import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
@@ -18,7 +18,7 @@ export class TypeormCounselsRepository extends CounselsRepository {
   }
 
   override async findByCounselId(
-    counselId: UniqueEntityId,
+    counselId: CounselId,
     options?: FindOneOptions<CounselsEntity>,
   ): Promise<Counsels | null> {
     const findOneOptions: FindOneOptions<CounselsEntity> = options ?? {};

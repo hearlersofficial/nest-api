@@ -5,7 +5,7 @@ import { TonePromptsCriteriaFindMany } from "~counselings/domains/tonePrompts/to
 import { TonePromptsReader } from "~counselings/domains/tonePrompts/tonePrompts.reader";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 
 @Injectable()
 export class RepositoryTonePromptsReader extends TonePromptsReader {
@@ -13,7 +13,7 @@ export class RepositoryTonePromptsReader extends TonePromptsReader {
     super();
   }
 
-  override async findOne(props: { tonePromptId: UniqueEntityId }): Promise<TonePrompts | null> {
+  override async findOne(props: { tonePromptId: TonePromptId }): Promise<TonePrompts | null> {
     return this.tonePromptsRepository.findByTonePromptId(props.tonePromptId);
   }
 

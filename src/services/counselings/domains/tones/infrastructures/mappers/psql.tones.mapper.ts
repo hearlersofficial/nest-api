@@ -1,7 +1,7 @@
 import { Tones, TonesProps } from "~counselings/domains/tones/models/tones";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import dayjs from "dayjs";
@@ -22,7 +22,7 @@ export class PsqlTonesMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const tonesOrError = Tones.create(toneProps, new UniqueEntityId(entity.id));
+    const tonesOrError = Tones.create(toneProps, new ToneId(entity.id));
 
     if (tonesOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, tonesOrError.errorValue);

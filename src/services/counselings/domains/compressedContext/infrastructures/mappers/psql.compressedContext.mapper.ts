@@ -4,7 +4,8 @@ import {
 } from "~counselings/domains/compressedContext/models/compressedContext";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CompressedContextsEntity } from "~common/system/persistences/entities/counsels/CompressedContexts.entity";
 import dayjs from "dayjs";
@@ -18,14 +19,17 @@ export class PsqlCompressedContextMapper {
     }
 
     const compressedContextProps: CompressedContextProps = {
-      counselId: new UniqueEntityId(entity.counselId),
+      counselId: new CounselId(entity.counselId),
       content: entity.content,
       messageCountAtCompression: entity.messageCountAtCompression,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const compressedContextOrError = CompressedContexts.create(compressedContextProps, new UniqueEntityId(entity.id));
+    const compressedContextOrError = CompressedContexts.create(
+      compressedContextProps,
+      new CompressedContextId(entity.id),
+    );
     if (compressedContextOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, compressedContextOrError.errorValue);
     }

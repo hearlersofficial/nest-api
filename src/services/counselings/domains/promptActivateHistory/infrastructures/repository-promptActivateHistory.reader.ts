@@ -5,7 +5,7 @@ import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/prom
 import { PromptActivateHistoryReader } from "~counselings/domains/promptActivateHistory/promptActivateHistory.reader";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
 
 @Injectable()
 export class RepositoryPromptActivateHistoryReader extends PromptActivateHistoryReader {
@@ -13,7 +13,9 @@ export class RepositoryPromptActivateHistoryReader extends PromptActivateHistory
     super();
   }
 
-  override async findOne(props: { promptActivateHistoryId: UniqueEntityId }): Promise<PromptActivateHistories | null> {
+  override async findOne(props: {
+    promptActivateHistoryId: PromptActivateHistoryId;
+  }): Promise<PromptActivateHistories | null> {
     return this.promptActivateHistoryRepository.findByPromptActivateHistoryId(props.promptActivateHistoryId);
   }
 

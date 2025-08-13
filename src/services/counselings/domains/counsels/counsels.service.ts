@@ -8,8 +8,9 @@ import { CounselsNewProps } from "~counselings/domains/counsels/models/counsels"
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -61,8 +62,8 @@ export class CounselsService {
 
   @Transactional()
   async updateCounselTechniqueId(props: {
-    counselId: UniqueEntityId;
-    counselTechniqueId: UniqueEntityId;
+    counselId: CounselId;
+    counselTechniqueId: CounselTechniqueId;
   }): Promise<CounselInfo> {
     const { counselId, counselTechniqueId } = props;
     const counsel = await this.counselsReader.findOne({ counselId });
@@ -106,7 +107,7 @@ export class CounselsService {
   }
 
   @Transactional()
-  async markContextCompressed(props: { counselId: UniqueEntityId }): Promise<CounselInfo> {
+  async markContextCompressed(props: { counselId: CounselId }): Promise<CounselInfo> {
     const { counselId } = props;
     const counsel = await this.counselsReader.findOne({ counselId });
     if (!counsel) {
@@ -118,20 +119,19 @@ export class CounselsService {
   }
 
   @Transactional()
-  async increaseMessageCount(props: { counselId: UniqueEntityId }): Promise<CounselInfo> {
+  async increaseMessageCount(props: { counselId: CounselId }): Promise<CounselInfo> {
     const { counselId } = props;
     const counsel = await this.counselsReader.findOne({ counselId });
     if (!counsel) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
     }
-    counsel.increaseMessageCount();
     const updatedCounsel = await this.counselsStore.update(counsel);
     return CounselInfo.fromDomain(updatedCounsel);
   }
 
   @Transactional()
   async reactMessage(props: {
-    counselMessageId: UniqueEntityId;
+    counselMessageId: CounselMessageId;
     reaction: CounselMessageReaction;
   }): Promise<CounselMessageInfo> {
     const { counselMessageId, reaction } = props;

@@ -19,7 +19,8 @@ import { create } from "@bufbuild/protobuf";
 import { Controller, Logger } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
 import { ImageStorageService } from "~common/support/image-storage/image-storage.service";
 import { SchemaPresignedUrlMapper } from "~common/support/image-storage/presigned-url.mapper";
 
@@ -38,7 +39,7 @@ export class GrpcEpisodeCommandController {
     const { counselorId, title, requiredRapportThreshold, isTemporary, cutScenes } = request;
 
     const episode = await this.counselorManagementsFacade.createEpisode({
-      counselorId: new UniqueEntityId(counselorId),
+      counselorId: new CounselorId(counselorId),
       title,
       requiredRapportThreshold,
       isTemporary: isTemporary ?? false,
@@ -60,7 +61,7 @@ export class GrpcEpisodeCommandController {
   async updateEpisode(request: UpdateEpisodeRequest): Promise<UpdateEpisodeResponse> {
     const { episodeId, title, requiredRapportThreshold, isTemporary, cutScenes } = request;
     const episode = await this.counselorManagementsFacade.updateEpisode({
-      episodeId: new UniqueEntityId(episodeId),
+      episodeId: new EpisodeId(episodeId),
       title,
       requiredRapportThreshold,
       isTemporary,

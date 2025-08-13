@@ -3,11 +3,12 @@ import { PromptVersions } from "~counselings/domains/promptVersions/models/promp
 import { ToneScopedPromptInfo } from "~counselings/domains/promptVersions/models/toneScopedPrompt.info";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { Dayjs } from "dayjs";
 
 export class PromptVersionInfo {
   constructor(
-    public readonly id: string,
+    public readonly id: PromptVersionId,
     public readonly name: string,
     public readonly description: string,
     public readonly counselorScopedPrompts: CounselorScopedPromptInfo[],
@@ -23,7 +24,7 @@ export class PromptVersionInfo {
 
   static fromDomain(promptVersion: PromptVersions): PromptVersionInfo {
     return new PromptVersionInfo(
-      promptVersion.id.getString(),
+      promptVersion.id,
       promptVersion.name,
       promptVersion.description,
       CounselorScopedPromptInfo.fromDomainArray(promptVersion.counselorScopedPrompts),

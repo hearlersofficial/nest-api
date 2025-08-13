@@ -1,13 +1,17 @@
 import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
 
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { CounselorScopedPromptId } from "~common/shared-kernel/identifiers/counselor-scoped-prompt.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { Dayjs } from "dayjs";
 
 export class CounselorScopedPromptInfo {
   constructor(
-    public readonly id: string,
-    public readonly promptVersionId: string,
-    public readonly counselorId: string,
-    public readonly personaPromptId: string,
+    public readonly id: CounselorScopedPromptId,
+    public readonly promptVersionId: PromptVersionId,
+    public readonly counselorId: CounselorId,
+    public readonly personaPromptId: PersonaPromptId,
     public readonly createdAt: Dayjs,
     public readonly updatedAt: Dayjs,
     public readonly deletedAt: Dayjs | null,
@@ -15,10 +19,10 @@ export class CounselorScopedPromptInfo {
 
   static fromDomain(counselorScopedPrompt: CounselorScopedPrompts): CounselorScopedPromptInfo {
     return new CounselorScopedPromptInfo(
-      counselorScopedPrompt.id.getString(),
-      counselorScopedPrompt.promptVersionId.getString(),
-      counselorScopedPrompt.counselorId.getString(),
-      counselorScopedPrompt.personaPromptId.getString(),
+      counselorScopedPrompt.id,
+      counselorScopedPrompt.promptVersionId,
+      counselorScopedPrompt.counselorId,
+      counselorScopedPrompt.personaPromptId,
       counselorScopedPrompt.createdAt,
       counselorScopedPrompt.updatedAt,
       counselorScopedPrompt.deletedAt,

@@ -2,7 +2,8 @@ import { Bubbles } from "~counselings/domains/counselors/models/bubbles";
 import { Counselors } from "~counselings/domains/counselors/models/counselors";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
@@ -10,13 +11,13 @@ import { FindManyOptions, FindOneOptions } from "typeorm";
 @Injectable()
 export abstract class CounselorsRepository {
   abstract findByCounselorId(
-    counselorId: UniqueEntityId,
+    counselorId: CounselorId,
     options?: FindOneOptions<CounselorEntity>,
   ): Promise<Counselors | null>;
   abstract findMany(options?: FindManyOptions<CounselorEntity>): Promise<Counselors[]>;
   abstract findBubbles(options?: FindManyOptions<BubbleEntity>): Promise<Bubbles[]>;
-  abstract findRandomBubble(counselorId: UniqueEntityId): Promise<Bubbles>;
-  abstract findBubbleById(bubbleId: UniqueEntityId): Promise<Bubbles | null>;
+  abstract findRandomBubble(counselorId: CounselorId): Promise<Bubbles>;
+  abstract findBubbleById(bubbleId: BubbleId): Promise<Bubbles | null>;
   abstract save(counselor: Counselors): Promise<Counselors>;
   abstract save(counselors: Counselors[]): Promise<Counselors[]>;
 

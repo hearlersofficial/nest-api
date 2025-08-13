@@ -1,13 +1,16 @@
 import { getNowDayjs } from "~common/shared/utils/date";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { CounselorScopedPromptId } from "~common/shared-kernel/identifiers/counselor-scoped-prompt.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselorScopedPromptsNewProps {
-  promptVersionId: UniqueEntityId;
-  counselorId: UniqueEntityId;
-  personaPromptId: UniqueEntityId;
+  promptVersionId: PromptVersionId;
+  counselorId: CounselorId;
+  personaPromptId: PersonaPromptId;
 }
 
 export interface CounselorScopedPromptsProps extends CounselorScopedPromptsNewProps {
@@ -16,12 +19,15 @@ export interface CounselorScopedPromptsProps extends CounselorScopedPromptsNewPr
   deletedAt: Dayjs | null;
 }
 
-export class CounselorScopedPrompts extends DomainEntity<CounselorScopedPromptsProps> {
-  private constructor(props: CounselorScopedPromptsProps, id: UniqueEntityId) {
+export class CounselorScopedPrompts extends DomainEntity<CounselorScopedPromptsProps, CounselorScopedPromptId> {
+  private constructor(props: CounselorScopedPromptsProps, id: CounselorScopedPromptId) {
     super(props, id);
   }
 
-  public static create(props: CounselorScopedPromptsProps, id: UniqueEntityId): Result<CounselorScopedPrompts> {
+  public static create(
+    props: CounselorScopedPromptsProps,
+    id: CounselorScopedPromptId,
+  ): Result<CounselorScopedPrompts> {
     const counselorScopedPrompt = new CounselorScopedPrompts(props, id);
     const validateResult = counselorScopedPrompt.validateDomain();
     if (validateResult.isFailure) {
@@ -32,7 +38,7 @@ export class CounselorScopedPrompts extends DomainEntity<CounselorScopedPromptsP
 
   public static createNew(newProps: CounselorScopedPromptsNewProps): Result<CounselorScopedPrompts> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new CounselorScopedPromptId();
     return this.create(
       {
         ...newProps,
@@ -72,15 +78,15 @@ export class CounselorScopedPrompts extends DomainEntity<CounselorScopedPromptsP
   }
 
   // Getters
-  get promptVersionId(): UniqueEntityId {
+  get promptVersionId(): PromptVersionId {
     return this.props.promptVersionId;
   }
 
-  get counselorId(): UniqueEntityId {
+  get counselorId(): CounselorId {
     return this.props.counselorId;
   }
 
-  get personaPromptId(): UniqueEntityId {
+  get personaPromptId(): PersonaPromptId {
     return this.props.personaPromptId;
   }
 

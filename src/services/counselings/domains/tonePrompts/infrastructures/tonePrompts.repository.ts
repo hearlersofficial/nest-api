@@ -1,14 +1,14 @@
 import { TonePrompts } from "~counselings/domains/tonePrompts/models/tonePrompts";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()
 export abstract class TonePromptsRepository {
   abstract findByTonePromptId(
-    tonePromptId: UniqueEntityId,
+    tonePromptId: TonePromptId,
     options?: FindOneOptions<TonePromptEntity>,
   ): Promise<TonePrompts | null>;
   abstract findMany(options?: FindManyOptions<TonePromptEntity>): Promise<TonePrompts[]>;

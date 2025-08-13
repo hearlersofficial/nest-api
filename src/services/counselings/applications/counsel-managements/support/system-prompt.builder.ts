@@ -4,7 +4,6 @@ import { PersonaPromptsService } from "~counselings/domains/personaPrompts/perso
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 export interface TechniqueEvaluationSystemPromptParams {
   currentTechnique: CounselTechniqueInfo;
@@ -31,10 +30,10 @@ export class SystemPromptBuilder {
   async buildSystemPrompt(session: CounselSession): Promise<string> {
     const [personaResult, toneResult] = await Promise.all([
       this.personaPromptService.getOne({
-        personaPromptId: new UniqueEntityId(session.getCounselorScopedPrompt().personaPromptId),
+        personaPromptId: session.getCounselorScopedPrompt().personaPromptId,
       }),
       this.tonePromptService.getOne({
-        tonePromptId: new UniqueEntityId(session.getToneScopedPrompt().tonePromptId),
+        tonePromptId: session.getToneScopedPrompt().tonePromptId,
       }),
     ]);
 

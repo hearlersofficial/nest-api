@@ -19,8 +19,10 @@ import { create } from "@bufbuild/protobuf";
 import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+
 @Controller("counsel")
 export class GrpcCounselQueryController {
   constructor(private readonly counselManagementsFacade: CounselManagementsFacade) {}
@@ -30,8 +32,8 @@ export class GrpcCounselQueryController {
   async findCounsels(request: FindCounselsRequest): Promise<FindCounselsResponse> {
     const { userId, counselorId } = request;
     const counsels = await this.counselManagementsFacade.findCounsels({
-      userId: new UniqueEntityId(userId),
-      counselorId: counselorId ? new UniqueEntityId(counselorId) : undefined,
+      userId: new UserId(userId),
+      counselorId: counselorId ? new CounselorId(counselorId) : undefined,
     });
     return create(FindCounselsResponseSchema, {
       counsels: counsels.map((counsel) => SchemaCounselsMapper.toCounselProto(counsel)),
@@ -43,7 +45,7 @@ export class GrpcCounselQueryController {
   async findCounselById(request: FindCounselByIdRequest): Promise<FindCounselByIdResponse> {
     const { counselId } = request;
     const counsel = await this.counselManagementsFacade.findCounselById({
-      counselId: new UniqueEntityId(counselId),
+      counselId: new CounselId(counselId),
     });
     return create(FindCounselByIdResponseSchema, {
       counsel: SchemaCounselsMapper.toCounselProto(counsel),

@@ -5,7 +5,7 @@ import { PromptVersions, PromptVersionsProps } from "~counselings/domains/prompt
 import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import dayjs from "dayjs";
@@ -37,7 +37,7 @@ export class PsqlPromptVersionsMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const promptVersionsOrError = PromptVersions.create(promptVersionsProps, new UniqueEntityId(entity.id));
+    const promptVersionsOrError = PromptVersions.create(promptVersionsProps, new PromptVersionId(entity.id));
     if (promptVersionsOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, promptVersionsOrError.errorValue);
     }

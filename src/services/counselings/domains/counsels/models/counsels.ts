@@ -6,17 +6,20 @@ import { create } from "@bufbuild/protobuf";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselsNewProps {
   userId: UserId;
-  counselorId: UniqueEntityId;
-  counselTechniqueId: UniqueEntityId;
-  promptVersionId: UniqueEntityId;
-  counselorUserRelationshipId: UniqueEntityId;
+  counselorId: CounselorId;
+  counselTechniqueId: CounselTechniqueId;
+  promptVersionId: PromptVersionId;
+  counselorUserRelationshipId: CounselorUserRelationshipId;
 }
 
 export interface CounselsProps extends CounselsNewProps {
@@ -137,7 +140,7 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
   }
 
   // Getters
-  get counselorId(): UniqueEntityId {
+  get counselorId(): CounselorId {
     return this.props.counselorId;
   }
 
@@ -145,15 +148,15 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
     return this.props.userId;
   }
 
-  get counselTechniqueId(): UniqueEntityId {
+  get counselTechniqueId(): CounselTechniqueId {
     return this.props.counselTechniqueId;
   }
 
-  get promptVersionId(): UniqueEntityId {
+  get promptVersionId(): PromptVersionId {
     return this.props.promptVersionId;
   }
 
-  get counselorUserRelationshipId(): UniqueEntityId {
+  get counselorUserRelationshipId(): CounselorUserRelationshipId {
     return this.props.counselorUserRelationshipId;
   }
 
@@ -204,7 +207,7 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
     return Result.ok();
   }
 
-  public updateCounselTechniqueId(counselTechniqueId: UniqueEntityId): Result<void> {
+  public updateCounselTechniqueId(counselTechniqueId: CounselTechniqueId): Result<void> {
     this.props.counselTechniqueId = counselTechniqueId;
     this.props.updatedAt = getNowDayjs();
     return Result.ok();

@@ -3,7 +3,8 @@ import { EpisodesRepository } from "~counselings/domains/episodes/infrastructure
 import { Episodes } from "~counselings/domains/episodes/models/episodes";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
@@ -12,21 +13,21 @@ export class RepositoryEpisodesReader extends EpisodesReader {
     super();
   }
 
-  override async findEpisodesByCounselorId(counselorId: UniqueEntityId, withTemporary: boolean): Promise<Episodes[]> {
+  override async findEpisodesByCounselorId(counselorId: CounselorId, withTemporary: boolean): Promise<Episodes[]> {
     return this.episodesRepository.findMany({
       counselorId,
       isTemporary: withTemporary ? undefined : false,
     });
   }
 
-  override async findEpisodeById(episodeId: UniqueEntityId, withTemporary: boolean): Promise<Episodes | null> {
+  override async findEpisodeById(episodeId: EpisodeId, withTemporary: boolean): Promise<Episodes | null> {
     return this.episodesRepository.findOne({
       episodeId,
       isTemporary: withTemporary ? undefined : false,
     });
   }
 
-  override async getEpisodeById(episodeId: UniqueEntityId, withTemporary: boolean): Promise<Episodes> {
+  override async getEpisodeById(episodeId: EpisodeId, withTemporary: boolean): Promise<Episodes> {
     const episode = await this.episodesRepository.findOne({
       episodeId,
       isTemporary: withTemporary ? undefined : false,

@@ -3,7 +3,8 @@ import {
   PromptActivateHistoriesProps,
 } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
 
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
 import dayjs from "dayjs";
 
@@ -16,7 +17,7 @@ export class PsqlPromptActivateHistoryMapper {
       return null;
     }
     const promptActivateHistoriesProps: PromptActivateHistoriesProps = {
-      promptVersionId: new UniqueEntityId(entity.promptVersionId),
+      promptVersionId: new PromptVersionId(entity.promptVersionId),
       activatedAt: dayjs(entity.activatedAt),
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
@@ -24,7 +25,7 @@ export class PsqlPromptActivateHistoryMapper {
     };
     const promptActivateHistoryOrError = PromptActivateHistories.create(
       promptActivateHistoriesProps,
-      new UniqueEntityId(entity.id),
+      new PromptActivateHistoryId(entity.id),
     );
     if (promptActivateHistoryOrError.isFailure) {
       throw new Error(promptActivateHistoryOrError.errorValue);

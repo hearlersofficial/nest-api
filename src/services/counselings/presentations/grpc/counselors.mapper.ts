@@ -20,8 +20,8 @@ export class SchemaCounselorsMapper {
       return null;
     }
     return create(CounselorSchema, {
-      id: counselor.id,
-      toneId: counselor.toneId,
+      id: counselor.id.getString(),
+      toneId: counselor.toneId.getString(),
       name: counselor.name,
       description: counselor.description,
       gender: counselor.gender,
@@ -40,7 +40,7 @@ export class SchemaCounselorsMapper {
       return null;
     }
     return create(ToneSchema, {
-      id: tone.id,
+      id: tone.id.getString(),
       name: tone.name,
       description: tone.description,
       createdAt: tone.createdAt.toISOString(),
@@ -57,7 +57,7 @@ export class SchemaCounselorsMapper {
       return null;
     }
     return create(BubbleSchema, {
-      id: bubble.id,
+      id: bubble.id.getString(),
       question: bubble.question,
       responseOption1: bubble.responseOption1,
       responseOption2: bubble.responseOption2,

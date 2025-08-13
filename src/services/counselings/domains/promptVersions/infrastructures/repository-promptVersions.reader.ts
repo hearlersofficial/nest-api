@@ -5,7 +5,7 @@ import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersi
 import { PromptVersionsReader } from "~counselings/domains/promptVersions/promptVersions.reader";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 
 @Injectable()
 export class RepositoryPromptVersionsReader extends PromptVersionsReader {
@@ -14,7 +14,7 @@ export class RepositoryPromptVersionsReader extends PromptVersionsReader {
   }
 
   override async findOne(props: {
-    promptVersionId: UniqueEntityId;
+    promptVersionId: PromptVersionId;
     withDeleted?: boolean;
   }): Promise<PromptVersions | null> {
     return this.promptVersionsRepository.findByPromptVersionId(props.promptVersionId, {

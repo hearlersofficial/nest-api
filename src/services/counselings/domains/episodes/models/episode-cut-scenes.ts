@@ -4,11 +4,12 @@ import { getNowDayjs } from "~common/shared/utils/date";
 import { isDefined } from "~common/shared/utils/validate";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
+import { EpisodeCutSceneId } from "~common/shared-kernel/identifiers/episode-cut-scene.id";
 import { Dayjs } from "dayjs";
 
 export interface EpisodeCutScenesNewProps {
-  episodeId: UniqueEntityId;
+  episodeId: EpisodeId;
   speaker: Speaker;
   content: string;
   orderIndex: number;
@@ -21,12 +22,12 @@ export interface EpisodeCutScenesProps extends EpisodeCutScenesNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class EpisodeCutScenes extends DomainEntity<EpisodeCutScenesProps> {
-  private constructor(props: EpisodeCutScenesProps, id: UniqueEntityId) {
+export class EpisodeCutScenes extends DomainEntity<EpisodeCutScenesProps, EpisodeCutSceneId> {
+  private constructor(props: EpisodeCutScenesProps, id: EpisodeCutSceneId) {
     super(props, id);
   }
 
-  public static create(props: EpisodeCutScenesProps, id: UniqueEntityId): Result<EpisodeCutScenes> {
+  public static create(props: EpisodeCutScenesProps, id: EpisodeCutSceneId): Result<EpisodeCutScenes> {
     const episodeCutScenes = new EpisodeCutScenes(props, id);
     const result = episodeCutScenes.validateDomain();
     if (result.isFailureResult()) {
@@ -37,7 +38,7 @@ export class EpisodeCutScenes extends DomainEntity<EpisodeCutScenesProps> {
 
   public static createNew(newProps: EpisodeCutScenesNewProps): Result<EpisodeCutScenes> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new EpisodeCutSceneId();
     return this.create(
       {
         ...newProps,
@@ -97,7 +98,7 @@ export class EpisodeCutScenes extends DomainEntity<EpisodeCutScenesProps> {
   }
 
   // Getters
-  get episodeId(): UniqueEntityId {
+  get episodeId(): EpisodeId {
     return this.props.episodeId;
   }
 

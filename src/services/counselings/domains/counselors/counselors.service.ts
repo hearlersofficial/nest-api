@@ -12,7 +12,9 @@ import { BubblesInfo, CounselorsInfo } from "~counselings/domains/counselors/mod
 import { CounselorGender } from "~proto/com/hearlers/v1/model/counselor_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -32,8 +34,8 @@ export class CounselorsService {
 
   @Transactional()
   async updateCounselor(params: {
-    counselorId: UniqueEntityId;
-    toneId?: UniqueEntityId;
+    counselorId: CounselorId;
+    toneId?: ToneId;
     name?: string;
     description?: string;
     profileImage?: string;
@@ -59,12 +61,12 @@ export class CounselorsService {
     return CounselorsInfo.fromDomain(updatedCounselor);
   }
 
-  async findOne(props: { counselorId: UniqueEntityId }): Promise<CounselorsInfo | null> {
+  async findOne(props: { counselorId: CounselorId }): Promise<CounselorsInfo | null> {
     const counselor = await this.counselorsReader.findOne(props);
     return counselor ? CounselorsInfo.fromDomain(counselor) : null;
   }
 
-  async getOne(props: { counselorId: UniqueEntityId }): Promise<CounselorsInfo> {
+  async getOne(props: { counselorId: CounselorId }): Promise<CounselorsInfo> {
     const counselor = await this.findOne(props);
     if (!counselor) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counselor not found");
@@ -106,17 +108,17 @@ export class CounselorsService {
     return BubblesInfo.fromDomainArray(bubbles);
   }
 
-  async findRandomBubble(counselorId: UniqueEntityId): Promise<BubblesInfo> {
+  async findRandomBubble(counselorId: CounselorId): Promise<BubblesInfo> {
     const bubble = await this.bubblesReader.findRandomBubble(counselorId);
     return BubblesInfo.fromDomain(bubble);
   }
 
-  async findBubbleById(bubbleId: UniqueEntityId): Promise<BubblesInfo | null> {
+  async findBubbleById(bubbleId: BubbleId): Promise<BubblesInfo | null> {
     const bubble = await this.bubblesReader.findBubbleById(bubbleId);
     return bubble ? BubblesInfo.fromDomain(bubble) : null;
   }
 
-  async getBubbleById(bubbleId: UniqueEntityId): Promise<BubblesInfo> {
+  async getBubbleById(bubbleId: BubbleId): Promise<BubblesInfo> {
     const bubble = await this.findBubbleById(bubbleId);
     if (!bubble) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Bubble not found");
@@ -125,7 +127,7 @@ export class CounselorsService {
   }
 
   @Transactional()
-  async deleteBubble(props: { counselorId: UniqueEntityId; bubbleId: UniqueEntityId }): Promise<void> {
+  async deleteBubble(props: { counselorId: CounselorId; bubbleId: BubbleId }): Promise<void> {
     const { counselorId, bubbleId } = props;
     const bubble = await this.bubblesReader.getBubbleById(bubbleId);
     const counselor = await this.counselorsReader.getOne({ counselorId });

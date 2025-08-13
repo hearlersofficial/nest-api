@@ -4,7 +4,8 @@ import { Episodes } from "~counselings/domains/episodes/models/episodes";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { EpisodeId } from "~common/shared-kernel/identifiers/episode.id";
 import { EpisodeEntity } from "~common/system/persistences/entities/counselors/episode.entity";
 import { EpisodeCutSceneEntity } from "~common/system/persistences/entities/counselors/episode-cut-scene.entity";
 import { In, Repository } from "typeorm";
@@ -21,8 +22,8 @@ export class TypeormEpisodesRepository extends EpisodesRepository {
   }
 
   override async findOne(where: {
-    episodeId?: UniqueEntityId;
-    counselorId?: UniqueEntityId;
+    episodeId?: EpisodeId;
+    counselorId?: CounselorId;
     isTemporary?: boolean;
   }): Promise<Episodes | null> {
     const episode = await this.episodesRepository.findOne({
@@ -42,7 +43,7 @@ export class TypeormEpisodesRepository extends EpisodesRepository {
     return PsqlEpisodesMapper.toDomain(episode);
   }
 
-  override async findMany(where: { counselorId?: UniqueEntityId; isTemporary?: boolean }): Promise<Episodes[]> {
+  override async findMany(where: { counselorId?: CounselorId; isTemporary?: boolean }): Promise<Episodes[]> {
     const episodes = await this.episodesRepository.find({
       where: {
         counselorId: where.counselorId?.getString(),

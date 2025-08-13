@@ -1,14 +1,18 @@
 import { getNowDayjs } from "~common/shared/utils/date";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
+import { ToneScopedPromptId } from "~common/shared-kernel/identifiers/tone-scoped-prompt.id";
 import { Dayjs } from "dayjs";
 
 export interface ToneScopedPromptsNewProps {
-  promptVersionId: UniqueEntityId;
-  toneId: UniqueEntityId;
-  tonePromptId: UniqueEntityId | null;
-  firstCounselTechniqueId: UniqueEntityId | null;
+  promptVersionId: PromptVersionId;
+  toneId: ToneId;
+  tonePromptId: TonePromptId | null;
+  firstCounselTechniqueId: CounselTechniqueId | null;
 }
 
 export interface ToneScopedPromptsProps extends ToneScopedPromptsNewProps {
@@ -17,12 +21,12 @@ export interface ToneScopedPromptsProps extends ToneScopedPromptsNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class ToneScopedPrompts extends DomainEntity<ToneScopedPromptsProps> {
-  private constructor(props: ToneScopedPromptsProps, id: UniqueEntityId) {
+export class ToneScopedPrompts extends DomainEntity<ToneScopedPromptsProps, ToneScopedPromptId> {
+  private constructor(props: ToneScopedPromptsProps, id: ToneScopedPromptId) {
     super(props, id);
   }
 
-  public static create(props: ToneScopedPromptsProps, id: UniqueEntityId): Result<ToneScopedPrompts> {
+  public static create(props: ToneScopedPromptsProps, id: ToneScopedPromptId): Result<ToneScopedPrompts> {
     const toneScopedPrompt = new ToneScopedPrompts(props, id);
     const validateResult = toneScopedPrompt.validateDomain();
     if (validateResult.isFailure) {
@@ -33,7 +37,7 @@ export class ToneScopedPrompts extends DomainEntity<ToneScopedPromptsProps> {
 
   public static createNew(newProps: ToneScopedPromptsNewProps): Result<ToneScopedPrompts> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new ToneScopedPromptId();
     return this.create(
       {
         ...newProps,
@@ -68,19 +72,19 @@ export class ToneScopedPrompts extends DomainEntity<ToneScopedPromptsProps> {
   }
 
   // Getters
-  get promptVersionId(): UniqueEntityId {
+  get promptVersionId(): PromptVersionId {
     return this.props.promptVersionId;
   }
 
-  get toneId(): UniqueEntityId {
+  get toneId(): ToneId {
     return this.props.toneId;
   }
 
-  get tonePromptId(): UniqueEntityId | null {
+  get tonePromptId(): TonePromptId | null {
     return this.props.tonePromptId;
   }
 
-  get firstCounselTechniqueId(): UniqueEntityId | null {
+  get firstCounselTechniqueId(): CounselTechniqueId | null {
     return this.props.firstCounselTechniqueId;
   }
 

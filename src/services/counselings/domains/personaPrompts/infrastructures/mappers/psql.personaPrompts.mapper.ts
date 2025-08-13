@@ -1,7 +1,8 @@
 import { PersonaPrompts, PersonaPromptsProps } from "~counselings/domains/personaPrompts/models/personaPrompts";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
 import dayjs from "dayjs";
@@ -15,13 +16,13 @@ export class PsqlPersonaPromptsMapper {
       return null;
     }
     const personaPromptProps: PersonaPromptsProps = {
-      counselorId: new UniqueEntityId(entity.counselorId),
+      counselorId: new CounselorId(entity.counselorId),
       body: entity.body,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const personaPromptsOrError = PersonaPrompts.create(personaPromptProps, new UniqueEntityId(entity.id));
+    const personaPromptsOrError = PersonaPrompts.create(personaPromptProps, new PersonaPromptId(entity.id));
     if (personaPromptsOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, personaPromptsOrError.errorValue);
     }

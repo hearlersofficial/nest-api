@@ -2,7 +2,9 @@ import { Bubbles, BubblesProps } from "~counselings/domains/counselors/models/bu
 import { Counselors, CounselorsProps } from "~counselings/domains/counselors/models/counselors";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
@@ -21,13 +23,13 @@ export class PsqlCounselorsMapper {
       name: entity.name,
       gender: entity.gender,
       description: entity.description,
-      toneId: new UniqueEntityId(entity.toneId),
+      toneId: new ToneId(entity.toneId),
       profileImage: entity.profileImage,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const counselorsOrError = Counselors.create(counselorProps, new UniqueEntityId(entity.id));
+    const counselorsOrError = Counselors.create(counselorProps, new CounselorId(entity.id));
 
     if (counselorsOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselorsOrError.errorValue);
@@ -75,7 +77,7 @@ export class PsqlCounselorsMapper {
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
     };
-    const bubblesOrError = Bubbles.create(bubbleProps, new UniqueEntityId(entity.id));
+    const bubblesOrError = Bubbles.create(bubbleProps, new BubbleId(entity.id));
 
     if (bubblesOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, bubblesOrError.errorValue);

@@ -5,14 +5,17 @@ import { create } from "@bufbuild/protobuf";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselMessageCreatedEvent } from "~common/shared-kernel/event/counsel-message-created.event";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselMessagesNewProps {
-  counselId: UniqueEntityId;
-  userId: UniqueEntityId;
-  counselTechniqueId: UniqueEntityId;
+  counselId: CounselId;
+  userId: UserId;
+  counselTechniqueId: CounselTechniqueId;
   message: string;
   isUserMessage: boolean;
 }
@@ -25,12 +28,12 @@ export interface CounselMessagesProps extends CounselMessagesNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
-  private constructor(props: CounselMessagesProps, id: UniqueEntityId) {
+export class CounselMessages extends AggregateRoot<CounselMessagesProps, CounselMessageId> {
+  private constructor(props: CounselMessagesProps, id: CounselMessageId) {
     super(props, id);
   }
 
-  public static create(props: CounselMessagesProps, id: UniqueEntityId): Result<CounselMessages> {
+  public static create(props: CounselMessagesProps, id: CounselMessageId): Result<CounselMessages> {
     const counselMessages = new CounselMessages(props, id);
     const validateResult = counselMessages.validateDomain();
     if (validateResult.isFailure) {
@@ -41,7 +44,7 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
 
   public static createNew(newProps: CounselMessagesNewProps): Result<CounselMessages> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new CounselMessageId();
     const createdMessage = this.create(
       {
         ...newProps,
@@ -109,15 +112,15 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps> {
   }
 
   // Getters
-  get counselId(): UniqueEntityId {
+  get counselId(): CounselId {
     return this.props.counselId;
   }
 
-  get userId(): UniqueEntityId {
+  get userId(): UserId {
     return this.props.userId;
   }
 
-  get counselTechniqueId(): UniqueEntityId {
+  get counselTechniqueId(): CounselTechniqueId {
     return this.props.counselTechniqueId;
   }
 

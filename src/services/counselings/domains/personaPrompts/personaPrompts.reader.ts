@@ -2,10 +2,10 @@ import { PersonaPrompts } from "~counselings/domains/personaPrompts/models/perso
 import { PersonaPromptsCriteriaFindMany } from "~counselings/domains/personaPrompts/personaPrompts.criteria";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 
 @Injectable()
 export abstract class PersonaPromptsReader {
-  abstract findOne(props: { personaPromptId: UniqueEntityId }): Promise<PersonaPrompts | null>;
+  abstract findOne(props: { personaPromptId: PersonaPromptId }): Promise<PersonaPrompts | null>;
   abstract findMany(props: PersonaPromptsCriteriaFindMany): Promise<PersonaPrompts[]>;
 }

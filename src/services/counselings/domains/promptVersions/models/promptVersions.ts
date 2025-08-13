@@ -5,7 +5,12 @@ import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
+import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { Dayjs } from "dayjs";
 
 export interface PromptVersionsNewProps {}
@@ -25,12 +30,12 @@ export interface PromptVersionsProps extends PromptVersionsNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
-  private constructor(props: PromptVersionsProps, id: UniqueEntityId) {
+export class PromptVersions extends AggregateRoot<PromptVersionsProps, PromptVersionId> {
+  private constructor(props: PromptVersionsProps, id: PromptVersionId) {
     super(props, id);
   }
 
-  public static create(props: PromptVersionsProps, id: UniqueEntityId): Result<PromptVersions> {
+  public static create(props: PromptVersionsProps, id: PromptVersionId): Result<PromptVersions> {
     const promptVersions = new PromptVersions(props, id);
     const validateResult = promptVersions.validateDomain();
     if (validateResult.isFailure) {
@@ -41,7 +46,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
 
   public static createNew(newProps: PromptVersionsNewProps): Result<PromptVersions> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new PromptVersionId();
     return this.create(
       {
         ...newProps,
@@ -224,8 +229,8 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
   }
 
   public updateCounselorScopedPrompt(props: {
-    counselorId: UniqueEntityId;
-    personaPromptId: UniqueEntityId;
+    counselorId: CounselorId;
+    personaPromptId: PersonaPromptId;
   }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
@@ -251,9 +256,9 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps> {
   }
 
   public updateToneScopedPrompt(props: {
-    toneId: UniqueEntityId;
-    tonePromptId?: UniqueEntityId;
-    firstCounselTechniqueId?: UniqueEntityId;
+    toneId: ToneId;
+    tonePromptId?: TonePromptId;
+    firstCounselTechniqueId?: CounselTechniqueId;
   }): Result<void> {
     if (!this.props.isTemporary) {
       return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");

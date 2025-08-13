@@ -10,7 +10,7 @@ import { CounselTechniquesService } from "~counselings/domains/counselTechniques
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
 
 import { Injectable } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 
 export interface TechniqueManagementResult {
   counsel: CounselInfo;
@@ -45,7 +45,7 @@ export class TechniqueManager {
 
     // 현재 상담기법 조회
     const currentTechnique = await this.counselTechniqueService.getOne({
-      counselTechniqueId: new UniqueEntityId(counsel.counselTechniqueId),
+      counselTechniqueId: counsel.counselTechniqueId,
     });
 
     return {
@@ -68,7 +68,7 @@ export class TechniqueManager {
       const counsel = session.getCounsel();
       // 현재 기법 조회
       const currentTechnique = await this.counselTechniqueService.getOne({
-        counselTechniqueId: new UniqueEntityId(counsel.counselTechniqueId),
+        counselTechniqueId: counsel.counselTechniqueId,
       });
 
       // 다음 기법이 없으면 평가하지 않음
@@ -97,7 +97,7 @@ export class TechniqueManager {
 
       // 다음 기법 조회
       const nextTechnique = await this.counselTechniqueService.getOne({
-        counselTechniqueId: new UniqueEntityId(currentTechnique.nextTechniqueId),
+        counselTechniqueId: currentTechnique.nextTechniqueId,
       });
 
       // AI 평가 요청 준비
@@ -133,7 +133,7 @@ export class TechniqueManager {
       if (decision.shouldTransition) {
         await this.counselService.updateCounselTechniqueId({
           counselId: session.getCounselId(),
-          counselTechniqueId: new UniqueEntityId(techniqueEvaluationRequest.nextTechnique.id),
+          counselTechniqueId: techniqueEvaluationRequest.nextTechnique.id,
         });
       }
 
@@ -157,7 +157,7 @@ export class TechniqueManager {
    */
   private getCurrentTechniqueMessages(
     messages: CounselMessageInfo[],
-    currentTechniqueId: string,
+    currentTechniqueId: CounselTechniqueId,
   ): CounselMessageInfo[] {
     const currentTechniqueMessages = [];
 

@@ -1,11 +1,12 @@
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { Dayjs } from "dayjs";
 
 export interface CompressedContextNewProps {
-  counselId: UniqueEntityId;
+  counselId: CounselId;
   content: string;
   messageCountAtCompression: number;
 }
@@ -16,12 +17,12 @@ export interface CompressedContextProps extends CompressedContextNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class CompressedContexts extends AggregateRoot<CompressedContextProps> {
-  private constructor(props: CompressedContextProps, id: UniqueEntityId) {
+export class CompressedContexts extends AggregateRoot<CompressedContextProps, CompressedContextId> {
+  private constructor(props: CompressedContextProps, id: CompressedContextId) {
     super(props, id);
   }
 
-  public static create(props: CompressedContextProps, id: UniqueEntityId): Result<CompressedContexts> {
+  public static create(props: CompressedContextProps, id: CompressedContextId): Result<CompressedContexts> {
     const compressedContext = new CompressedContexts(props, id);
     const validateResult = compressedContext.validateDomain();
     if (validateResult.isFailure) {
@@ -32,7 +33,7 @@ export class CompressedContexts extends AggregateRoot<CompressedContextProps> {
 
   public static createNew(newProps: CompressedContextNewProps): Result<CompressedContexts> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new CompressedContextId();
     return this.create(
       {
         ...newProps,
@@ -75,7 +76,7 @@ export class CompressedContexts extends AggregateRoot<CompressedContextProps> {
   }
 
   // Getters
-  get counselId(): UniqueEntityId {
+  get counselId(): CounselId {
     return this.props.counselId;
   }
 

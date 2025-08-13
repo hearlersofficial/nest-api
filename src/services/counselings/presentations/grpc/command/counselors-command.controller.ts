@@ -39,7 +39,9 @@ import { create } from "@bufbuild/protobuf";
 import { Controller, Logger } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { ImageStorageService } from "~common/support/image-storage/image-storage.service";
 import { SchemaPresignedUrlMapper } from "~common/support/image-storage/presigned-url.mapper";
 
@@ -58,7 +60,7 @@ export class GrpcCounselorCommandController {
   async createCounselor(request: CreateCounselorRequest): Promise<CreateCounselorResponse> {
     const { toneId, name, description, profileImage, counselorGender } = request;
     const counselor = await this.counselorsFacade.createCounselor({
-      toneId: new UniqueEntityId(toneId),
+      toneId: new ToneId(toneId),
       profileImage,
       name,
       description,
@@ -74,8 +76,8 @@ export class GrpcCounselorCommandController {
   async updateCounselor(request: UpdateCounselorRequest): Promise<UpdateCounselorResponse> {
     const { counselorId, toneId, name, description, profileImage, counselorGender } = request;
     const counselor = await this.counselorsFacade.updateCounselor({
-      counselorId: new UniqueEntityId(counselorId),
-      toneId: toneId ? new UniqueEntityId(toneId) : undefined,
+      counselorId: new CounselorId(counselorId),
+      toneId: toneId ? new ToneId(toneId) : undefined,
       name,
       description,
       profileImage,
@@ -105,7 +107,7 @@ export class GrpcCounselorCommandController {
   async updateTone(request: UpdateToneRequest): Promise<UpdateToneResponse> {
     const { toneId, name, description } = request;
     const tone = await this.counselorsFacade.updateTone({
-      toneId: new UniqueEntityId(toneId),
+      toneId: new ToneId(toneId),
       name,
       description,
     });
@@ -152,7 +154,7 @@ export class GrpcCounselorCommandController {
   async createBubble(request: CreateBubbleRequest): Promise<CreateBubbleResponse> {
     const { counselorId, question, responseOption1, responseOption2 } = request;
     const bubble = await this.counselorsFacade.createBubble({
-      counselorId: new UniqueEntityId(counselorId),
+      counselorId: new CounselorId(counselorId),
       question,
       responseOption1,
       responseOption2,
@@ -167,8 +169,8 @@ export class GrpcCounselorCommandController {
   async updateBubble(request: UpdateBubbleRequest): Promise<UpdateBubbleResponse> {
     const { bubbleId, counselorId, question, responseOption1, responseOption2 } = request;
     const bubble = await this.counselorsFacade.updateBubble({
-      bubbleId: new UniqueEntityId(bubbleId),
-      counselorId: new UniqueEntityId(counselorId),
+      bubbleId: new BubbleId(bubbleId),
+      counselorId: new CounselorId(counselorId),
       question,
       responseOption1,
       responseOption2,
@@ -183,8 +185,8 @@ export class GrpcCounselorCommandController {
   async deleteBubble(request: DeleteBubbleRequest): Promise<DeleteBubbleResponse> {
     const { bubbleId, counselorId } = request;
     await this.counselorsFacade.deleteBubble({
-      bubbleId: new UniqueEntityId(bubbleId),
-      counselorId: new UniqueEntityId(counselorId),
+      bubbleId: new BubbleId(bubbleId),
+      counselorId: new CounselorId(counselorId),
     });
     return create(DeleteBubbleResponseSchema, {});
   }

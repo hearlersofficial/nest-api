@@ -4,7 +4,7 @@ import { PromptActivateHistories } from "~counselings/domains/promptActivateHist
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
 import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
 import { FindOneOptions, Repository } from "typeorm";
 
@@ -18,7 +18,7 @@ export class PsqlPromptActivateHistoryRepository extends PromptActivateHistoryRe
   }
 
   override async findByPromptActivateHistoryId(
-    promptActivateHistoryId: UniqueEntityId,
+    promptActivateHistoryId: PromptActivateHistoryId,
     options?: FindOneOptions<PromptActivateHistoryEntity>,
   ): Promise<PromptActivateHistories | null> {
     const findOneOptions: FindOneOptions<PromptActivateHistoryEntity> = options ?? {};

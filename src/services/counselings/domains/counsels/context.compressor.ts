@@ -1,6 +1,7 @@
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
 import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
+import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
@@ -33,8 +34,13 @@ export class ContextCompressor {
   }
 
   private async generateCompressedContext(counsel: Counsels): Promise<string> {
-    const systemPrompt = this.getSystemPrompt(counsel);
-    const userPrompt = this.getUserPrompt(counsel);
+    const messages = await this.counselsReader.findManyMessages({
+      counselId: counsel.id,
+      limit: Counsels.COMPRESSION_THRESHOLD,
+      offset: 0,
+    });
+    const systemPrompt = this.getSystemPrompt();
+    const userPrompt = this.getUserPrompt(messages);
 
     const response = await this.assistantAgent.call({
       conversationId: counsel.id.toString(),
@@ -49,16 +55,49 @@ export class ContextCompressor {
     return response.content;
   }
 
-  private getSystemPrompt(counsel: Counsels): string {
+  private getSystemPrompt(): string {
     return `
-    당신은 상담 대화의 맥락을 이해하고, 압축된 컨텍스트를 생성하는 전문가입니다.
-    상담 대화의 흐름과 중요 정보를 파악하여, 추후 상담에 필요할 것으로 판단되는 압축된 컨텍스트를 생성하세요.
-    `;
+You are a compassionate and skilled counseling supervisor. Your task is to generate a concise summary of the conversation to maintain continuity and support the ongoing therapeutic process. Your output should be a single block of plain text without any formatting.
+
+<RULES>
+- Base your summary strictly on the provided conversation and meta-information.
+- Maintain consistent participant identities and avoid making any formal clinical diagnoses.
+- Prioritize concrete and actionable details that are relevant to the client's progress.
+- Focus on the client's strengths and moments of positive change, aiming for a hopeful tone.
+- If certain information is not present, note it as "unspecified" or omit it.
+</RULES>
+
+<INSTRUCTIONS>
+- Identify the client's primary concerns and the key emotions expressed.
+- Summarize the main topics discussed, including any significant events or relationships mentioned.
+- Note any specific coping strategies, personal insights, or positive developments the client shared.
+- Highlight any actionable goals or next steps that were agreed upon.
+- Present the summary in a brief, easy-to-read paragraph.
+</INSTRUCTIONS>
+
+`;
   }
 
-  private getUserPrompt(counsel: Counsels): string {
+  private getUserPrompt(messages: CounselMessages[]): string {
+    const conversationItems = messages
+      .map((m, idx) => {
+        const speaker = m.isUserMessage ? "client" : "counselor";
+        const text = JSON.stringify((m.message ?? "").replace(/[\r\n]+/g, " ").trim());
+        return `  { "turn": ${idx + 1}, "speaker": "${speaker}", "text": ${text} }`;
+      })
+      .join(",\n");
+
     return `
-    상담 대화의 흐름과 중요 정보를 파악하여, 추후 상담에 필요할 것으로 판단되는 압축된 컨텍스트를 생성하세요.
-    `;
+  <CONVERSATION_JSON>
+  [
+  ${conversationItems}
+  ]
+  </CONVERSATION_JSON>
+  
+  <TASK>
+  Using the conversation provided, summarize the key points as instructed in the system prompt.
+  Return ONLY the final JSON object.
+  </TASK>
+  `;
   }
 }

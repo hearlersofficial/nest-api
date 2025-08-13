@@ -39,7 +39,7 @@ export interface CounselsProps extends CounselsNewProps {
 }
 
 export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
-  private static readonly COMPRESSION_THRESHOLD = 100;
+  public static readonly COMPRESSION_THRESHOLD = 20;
 
   private constructor(props: CounselsProps, id: CounselId) {
     super(props, id);

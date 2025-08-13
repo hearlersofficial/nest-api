@@ -16,4 +16,6 @@ export type CompressedContextCriteriaFindMany = {
 
 export type CounselMessagesCriteriaFindMany = {
   counselId: CounselId;
+  limit?: number;
+  offset?: number;
 };

@@ -1,4 +1,4 @@
-import { CompressedContexts } from "~counselings/domains/compressedContext/models/compressedContext";
+import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
 
 import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";

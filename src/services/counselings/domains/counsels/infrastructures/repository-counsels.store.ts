@@ -1,6 +1,8 @@
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
+import { CompressedContextsRepository } from "~counselings/domains/counsels/infrastructures/compressed-contexts.repository";
 import { CounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/counsel-messages.repository";
 import { CounselsRepository } from "~counselings/domains/counsels/infrastructures/counsels.repository";
+import { CompressedContextNewProps, CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
 import { CounselMessages, CounselMessagesNewProps } from "~counselings/domains/counsels/models/counsel-messages";
 import { Counsels, CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
 
@@ -12,6 +14,7 @@ export class RepositoryCounselsStore extends CounselsStore {
   constructor(
     private readonly counselRepository: CounselsRepository,
     private readonly counselMessagesRepository: CounselMessagesRepository,
+    private readonly compressedContextsRepository: CompressedContextsRepository,
   ) {
     super();
   }
@@ -46,5 +49,21 @@ export class RepositoryCounselsStore extends CounselsStore {
 
   override async updateManyMessages(counselMessages: CounselMessages[]): Promise<CounselMessages[]> {
     return this.counselMessagesRepository.save(counselMessages);
+  }
+
+  override async createCompressedContext(newProps: CompressedContextNewProps): Promise<CompressedContexts> {
+    const compressedContextResult = CompressedContexts.createNew(newProps);
+    if (compressedContextResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, compressedContextResult.error as string);
+    }
+    return this.compressedContextsRepository.save(compressedContextResult.value);
+  }
+
+  override async updateCompressedContext(compressedContext: CompressedContexts): Promise<CompressedContexts> {
+    return this.compressedContextsRepository.save(compressedContext);
+  }
+
+  override async updateManyCompressedContexts(compressedContexts: CompressedContexts[]): Promise<CompressedContexts[]> {
+    return this.compressedContextsRepository.save(compressedContexts);
   }
 }

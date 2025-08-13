@@ -119,14 +119,4 @@ Instruction: ${nextTechnique.instruction}
 </INSTRUCTIONS>
 `;
   }
-
-  /**
-   * 상담 맥락 압축용 시스템 프롬프트 생성
-   */
-  buildContextCompressionSystemPrompt(): string {
-    return `
-    당신은 상담 대화의 맥락을 이해하고, 압축된 컨텍스트를 생성하는 전문가입니다.
-    상담 대화의 흐름과 중요 정보를 파악하여, 추후 상담에 필요할 것으로 판단되는 압축된 컨텍스트를 생성하세요.
-    `;
-  }
 }

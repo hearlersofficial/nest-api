@@ -1,6 +1,8 @@
+import { ContextCompressor } from "~counselings/domains/counsels/context.compressor";
 import { CounselsCriteriaFindMany } from "~counselings/domains/counsels/counsels.criteria";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
+import { CompressedContextInfo } from "~counselings/domains/counsels/models/compressed-context.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
@@ -19,6 +21,7 @@ export class CounselsService {
   constructor(
     private readonly counselsReader: CounselsReader,
     private readonly counselsStore: CounselsStore,
+    private readonly contextCompressor: ContextCompressor,
   ) {}
 
   @Transactional()
@@ -35,18 +38,21 @@ export class CounselsService {
     return CounselInfo.fromDomain(counsel);
   }
 
-  async getOneWithMessages(props: { counselId: CounselId }): Promise<{
+  async getSessionInfo(props: { counselId: CounselId }): Promise<{
     counsel: CounselInfo;
     messages: CounselMessageInfo[];
+    compressedContexts: CompressedContextInfo[];
   }> {
     const counsel = await this.counselsReader.findOne(props);
     const messages = await this.counselsReader.findManyMessages({ counselId: props.counselId });
+    const compressedContexts = await this.counselsReader.findManyCompressedContexts({ counselId: props.counselId });
     if (!counsel) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
     }
     return {
       counsel: CounselInfo.fromDomain(counsel),
       messages: CounselMessageInfo.fromDomainArray(messages),
+      compressedContexts: CompressedContextInfo.fromDomainArray(compressedContexts),
     };
   }
 
@@ -100,33 +106,15 @@ export class CounselsService {
     }
     counsel.saveLastMessage(message);
     const updatedCounsel = await this.counselsStore.update(counsel);
+
+    if (counsel.shouldCompressContext()) {
+      Promise.resolve(this.contextCompressor.compressContext(counsel));
+    }
+
     return {
       counsel: CounselInfo.fromDomain(updatedCounsel),
       message: CounselMessageInfo.fromDomain(newMessage.value),
     };
-  }
-
-  @Transactional()
-  async markContextCompressed(props: { counselId: CounselId }): Promise<CounselInfo> {
-    const { counselId } = props;
-    const counsel = await this.counselsReader.findOne({ counselId });
-    if (!counsel) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
-    }
-    counsel.markContextCompressed();
-    const updatedCounsel = await this.counselsStore.update(counsel);
-    return CounselInfo.fromDomain(updatedCounsel);
-  }
-
-  @Transactional()
-  async increaseMessageCount(props: { counselId: CounselId }): Promise<CounselInfo> {
-    const { counselId } = props;
-    const counsel = await this.counselsReader.findOne({ counselId });
-    if (!counsel) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
-    }
-    const updatedCounsel = await this.counselsStore.update(counsel);
-    return CounselInfo.fromDomain(updatedCounsel);
   }
 
   @Transactional()

@@ -1,4 +1,3 @@
-import { CounselCreatedEvent } from "~counselings/domains/counsels/events/counsel-created.event";
 import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
 
@@ -6,6 +5,7 @@ import { create } from "@bufbuild/protobuf";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
+import { CounselCreatedEvent } from "~common/shared-kernel/event/counsel-created.event";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";

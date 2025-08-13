@@ -1,7 +1,4 @@
-import {
-  CompressedContextProps,
-  CompressedContexts,
-} from "~counselings/domains/compressedContext/models/compressedContext";
+import { CompressedContextProps, CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
 
 import { HttpStatus } from "@nestjs/common";
 import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";

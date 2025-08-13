@@ -1,6 +1,6 @@
-import { CompressedContextRepository } from "~counselings/domains/compressedContext/infrastructures/compressedContext.repository";
-import { PsqlCompressedContextMapper } from "~counselings/domains/compressedContext/infrastructures/mappers/psql.compressedContext.mapper";
-import { CompressedContexts } from "~counselings/domains/compressedContext/models/compressedContext";
+import { CompressedContextsRepository } from "~counselings/domains/counsels/infrastructures/compressed-contexts.repository";
+import { PsqlCompressedContextMapper } from "~counselings/domains/counsels/infrastructures/mappers/psql.compressedContext.mapper";
+import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -10,7 +10,7 @@ import { FindManyOptions, FindOneOptions } from "typeorm";
 import { Repository } from "typeorm/repository/Repository";
 
 @Injectable()
-export class PsqlCompressedContextRepository extends CompressedContextRepository {
+export class TypeormCompressedContextsRepository extends CompressedContextsRepository {
   constructor(
     @InjectRepository(CompressedContextsEntity)
     private readonly compressedContextRepository: Repository<CompressedContextsEntity>,

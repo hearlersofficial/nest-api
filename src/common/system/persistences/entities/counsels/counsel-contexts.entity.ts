@@ -1,9 +1,23 @@
+import {
+  AllianceStrength,
+  ArousalLevel,
+  CognitiveLoad,
+  EmotionPrimary,
+  ImpactDomain,
+  MotivationStage,
+  PerceivedControl,
+  RiskKind,
+  SleepQuality,
+  SocialSupportLevel,
+  Timeframe,
+  Valence,
+} from "~proto/com/hearlers/v1/model/counsel_pb";
+
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
-import { CounselState, jsonbTransformer, zCounselState } from "~common/system/persistences/validators/fsm.schemas";
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 
-@Entity({ name: "counsel_contexts", comment: "상담 세션 런타임 컨텍스트(FSM)" })
+@Entity({ name: "counsel_contexts", comment: "상담 컨텍스트" })
 export class CounselContextsEntity extends CoreEntity {
   @Column({
     type: "int",
@@ -13,22 +27,56 @@ export class CounselContextsEntity extends CoreEntity {
   })
   currentTechniqueMsgCount!: number;
 
-  @Column({
-    type: "jsonb",
-    name: "counsel_state",
-    default: () => "'{}'::jsonb",
-    comment: "기법 독립적 지속 컨텍스트(모르면 null 허용)",
-    transformer: jsonbTransformer<CounselState>(zCounselState),
-  })
-  counselState!: CounselState;
+  @Column({ type: "int", name: "impact_domain", nullable: true, comment: "삶의 영역" })
+  impactDomain!: ImpactDomain | null;
 
-  @Column({
-    type: "timestamp",
-    name: "state_entered_at",
-    nullable: true,
-    comment: "현 상태 진입 시각",
-  })
-  stateEnteredAt!: string | null;
+  @Column({ type: "int", name: "timeframe", nullable: true, comment: "문제 체감 최근성" })
+  timeframe!: Timeframe | null;
+
+  @Column({ type: "int", name: "emotion_primary", nullable: true, comment: "주요 감정" })
+  emotionPrimary!: EmotionPrimary | null;
+
+  @Column({ type: "int", name: "valence", nullable: true, comment: "정서 쾌·불쾌" })
+  valence!: Valence | null;
+
+  @Column({ type: "int", name: "arousal", nullable: true, comment: "각성 수준" })
+  arousal!: ArousalLevel | null;
+
+  @Column({ type: "int", name: "emotion_intensity", nullable: true, comment: "감정 강도(0~10)" })
+  emotionIntensity!: number | null;
+
+  @Column({ type: "int", name: "perceived_control", nullable: true, comment: "상황 통제감" })
+  perceivedControl!: PerceivedControl | null;
+
+  @Column({ type: "int", name: "motivation_stage", nullable: true, comment: "변화 단계" })
+  motivationStage!: MotivationStage | null;
+
+  @Column({ type: "int", name: "self_efficacy", nullable: true, comment: "자기효능감(0~10)" })
+  selfEfficacy!: number | null;
+
+  @Column({ type: "int", name: "social_support", nullable: true, comment: "사회적 지지" })
+  socialSupport!: SocialSupportLevel | null;
+
+  @Column({ type: "int", name: "risk_kind", nullable: true, comment: "위험 분류" })
+  riskKind!: RiskKind | null;
+
+  @Column({ type: "int", name: "risk_severity", nullable: true, comment: "위험 심각도(0~3)" })
+  riskSeverity!: 0 | 1 | 2 | 3 | null;
+
+  @Column({ type: "int", name: "sleep_quality", nullable: true, comment: "수면 질" })
+  sleepQuality!: SleepQuality | null;
+
+  @Column({ type: "boolean", name: "physical_symptoms_present", nullable: true, comment: "신체 증상 유무" })
+  physicalSymptomsPresent!: boolean | null;
+
+  @Column({ type: "int", name: "cognitive_load", nullable: true, comment: "인지 부하" })
+  cognitiveLoad!: CognitiveLoad | null;
+
+  @Column({ type: "int", name: "alliance_strength", nullable: true, comment: "라포·동맹" })
+  allianceStrength!: AllianceStrength | null;
+
+  @Column({ type: "boolean", name: "consent_to_depth", nullable: true, comment: "심층 동의" })
+  consentToDepth!: boolean | null;
 
   @OneToOne(() => CounselsEntity, (counsel) => counsel.counselContext, {
     onDelete: "CASCADE",

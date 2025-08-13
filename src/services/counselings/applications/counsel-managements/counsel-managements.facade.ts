@@ -153,8 +153,7 @@ export class CounselManagementsFacade {
   async findMessages(params: { counselId: CounselId }): Promise<CounselMessageInfo[]> {
     const { counselId } = params;
 
-    const { messages } = await this.counselService.getSessionInfo({ counselId });
-    return messages;
+    return this.counselService.getMessages({ counselId, orderBy: { id: "ASC" } });
   }
 
   @Transactional()

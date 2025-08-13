@@ -1,8 +1,6 @@
 import { CounselSession } from "~counselings/applications/counsel-managements/models/counsel-session";
 import { AIResponseGenerator } from "~counselings/applications/counsel-managements/support/ai-response.generator";
 import { ContextManager } from "~counselings/applications/counsel-managements/support/context.manager";
-import { ConversationHistoryBuilder } from "~counselings/applications/counsel-managements/support/conversation-history.builder";
-import { MessageManager } from "~counselings/applications/counsel-managements/support/message.manager";
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
 import {
   TechniqueEvaluationRequest,
@@ -10,6 +8,7 @@ import {
 } from "~counselings/applications/counsel-managements/support/technique.manager";
 import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
 import { TechniqueTransitionDecision } from "~counselings/applications/counsel-managements/types/technique.type";
+import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
@@ -29,11 +28,10 @@ export class CounselingOrchestrator {
   constructor(
     private readonly techniqueManager: TechniqueManager,
     private readonly promptBuilder: SystemPromptBuilder,
-    private readonly historyBuilder: ConversationHistoryBuilder,
-    private readonly messageManager: MessageManager,
     private readonly aiGenerator: AIResponseGenerator,
     private readonly contextManager: ContextManager,
     private readonly techniqueEvaluationParser: TechniqueEvaluationParser,
+    private readonly counselService: CounselsService,
   ) {}
 
   /**
@@ -64,18 +62,18 @@ export class CounselingOrchestrator {
     const systemPrompt = await this.promptBuilder.buildSystemPrompt(session);
 
     // 4. 유저 메시지 생성 및 저장
-    const createdUserMessage = await this.messageManager.createUserMessage(session, userMessage);
+    const createdUserMessage = await this.counselService.saveMessage({
+      counselId: session.getCounselId(),
+      message: userMessage,
+      isUserMessage: true,
+    });
 
     // 세션에 새 메시지 추가
-    session = session.withNewMessage(createdUserMessage);
+    session = session.withNewMessage(createdUserMessage.message);
 
     // 5. 대화 히스토리 구성 (압축된 맥락 포함)
     // TODO: 압축된 메시지들도 포함할지 여부 결정
-    const conversationHistory = this.historyBuilder.buildHistory(
-      session.getMessages(),
-      session.getCompressedContexts(),
-    );
-
+    const conversationHistory = session.getConversationHistory();
     // 6. AI 응답 생성
     const aiResponse = await this.aiGenerator.generateResponse(
       systemPrompt,
@@ -87,16 +85,20 @@ export class CounselingOrchestrator {
     );
 
     // 7. 시스템 메시지 생성 및 저장
-    const createdAssistantMessage = await this.messageManager.createAssistantMessage(session, aiResponse);
-    session = session.withNewMessage(createdAssistantMessage);
+    const createdAssistantMessage = await this.counselService.saveMessage({
+      counselId: session.getCounselId(),
+      message: aiResponse,
+      isUserMessage: false,
+    });
+    session = session.withNewMessage(createdAssistantMessage.message);
 
     // 9. 백그라운드에서 기법 전환 평가 수행
     this.evaluateTechniqueTransitionInBackground(session);
 
     return {
       counsel: session.getCounsel(),
-      createdCounselMessage: createdUserMessage,
-      counselorResponseMessage: createdAssistantMessage,
+      createdCounselMessage: createdUserMessage.message,
+      counselorResponseMessage: createdAssistantMessage.message,
     };
   }
 
@@ -158,7 +160,10 @@ export class CounselingOrchestrator {
    */
   private async performAIEvaluation(request: TechniqueEvaluationRequest): Promise<TechniqueTransitionDecision> {
     // 현재 기법 메시지들을 대화 히스토리로 구성
-    const conversationHistory = this.historyBuilder.buildHistory(request.currentTechniqueMessages);
+    const { conversationHistory } = await this.counselService.getSessionInfo({
+      counselId: request.counselId,
+    });
+
     // 기법 평가용 통합 시스템 프롬프트 생성
     const systemPrompt = this.promptBuilder.buildTechniqueEvaluationSystemPrompt({
       currentTechnique: request.currentTechnique,

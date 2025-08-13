@@ -18,4 +18,7 @@ export type CounselMessagesCriteriaFindMany = {
   counselId: CounselId;
   limit?: number;
   offset?: number;
+  orderBy?: {
+    id: "ASC" | "DESC";
+  };
 };

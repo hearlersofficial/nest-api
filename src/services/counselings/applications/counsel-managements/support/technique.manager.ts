@@ -10,6 +10,7 @@ import { CounselTechniquesService } from "~counselings/domains/counselTechniques
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
 
 import { Injectable } from "@nestjs/common";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 
 export interface TechniqueManagementResult {
@@ -18,6 +19,7 @@ export interface TechniqueManagementResult {
 }
 
 export interface TechniqueEvaluationRequest {
+  counselId: CounselId;
   currentTechnique: CounselTechniqueInfo;
   nextTechnique: CounselTechniqueInfo;
   currentTechniqueMessages: CounselMessageInfo[];
@@ -80,10 +82,10 @@ export class TechniqueManager {
       }
 
       // 메시지 수 기반 기본 조건 확인
-      const currentTechniqueMessages = this.getCurrentTechniqueMessages(
-        session.getMessages(),
-        counsel.counselTechniqueId,
-      );
+      const currentTechniqueMessages = await this.counselService.getMessages({
+        counselId: session.getCounselId(),
+        orderBy: { id: "ASC" },
+      });
 
       const userMessageCount = this.countUserMessagesFromMessages(currentTechniqueMessages);
 
@@ -104,6 +106,7 @@ export class TechniqueManager {
       return {
         shouldEvaluate: true,
         evaluationRequest: {
+          counselId: session.getCounselId(),
           currentTechnique,
           nextTechnique,
           currentTechniqueMessages,

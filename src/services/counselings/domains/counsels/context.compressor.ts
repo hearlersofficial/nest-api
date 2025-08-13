@@ -1,7 +1,7 @@
+import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
 import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
-import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
@@ -15,6 +15,7 @@ export class ContextCompressor {
   constructor(
     private readonly counselsReader: CounselsReader,
     private readonly counselsStore: CounselsStore,
+    private readonly historyBuilder: ConversationHistoryBuilder,
     @Inject(ASSISTANT_AGENT)
     private readonly assistantAgent: AssistantAgent,
   ) {}
@@ -38,9 +39,13 @@ export class ContextCompressor {
       counselId: counsel.id,
       limit: Counsels.COMPRESSION_THRESHOLD,
       offset: 0,
+      orderBy: {
+        id: "DESC",
+      },
     });
     const systemPrompt = this.getSystemPrompt();
-    const userPrompt = this.getUserPrompt(messages);
+    const conversationJson = this.historyBuilder.buildHistoryFromDomain(messages);
+    const userPrompt = this.getUserPrompt(conversationJson);
 
     const response = await this.assistantAgent.call({
       conversationId: counsel.id.toString(),
@@ -78,20 +83,10 @@ You are a compassionate and skilled counseling supervisor. Your task is to gener
 `;
   }
 
-  private getUserPrompt(messages: CounselMessages[]): string {
-    const conversationItems = messages
-      .map((m, idx) => {
-        const speaker = m.isUserMessage ? "client" : "counselor";
-        const text = JSON.stringify((m.message ?? "").replace(/[\r\n]+/g, " ").trim());
-        return `  { "turn": ${idx + 1}, "speaker": "${speaker}", "text": ${text} }`;
-      })
-      .join(",\n");
-
+  private getUserPrompt(conversationJson: string): string {
     return `
   <CONVERSATION_JSON>
-  [
-  ${conversationItems}
-  ]
+  ${conversationJson}
   </CONVERSATION_JSON>
   
   <TASK>

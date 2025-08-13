@@ -30,10 +30,15 @@ export class RepositoryCounselCriteriaMapper {
 
   static toFindManyMessageOptions(criteria: CounselMessagesCriteriaFindMany): FindManyOptions<CounselMessagesEntity> {
     const where: FindOptionsWhere<CounselMessagesEntity> = {};
+    const order: FindOptionsOrder<CounselMessagesEntity> = {};
 
     where.counselId = criteria.counselId.getString();
 
-    return { where, take: criteria.limit, skip: criteria.offset };
+    if (criteria.orderBy) {
+      order.id = criteria.orderBy.id;
+    }
+
+    return { where, order, take: criteria.limit, skip: criteria.offset };
   }
 
   static toFindManyCompressedContextOptions(

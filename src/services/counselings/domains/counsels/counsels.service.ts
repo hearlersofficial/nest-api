@@ -1,5 +1,9 @@
 import { ContextCompressor } from "~counselings/domains/counsels/context.compressor";
-import { CounselsCriteriaFindMany } from "~counselings/domains/counsels/counsels.criteria";
+import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
+import {
+  CounselMessagesCriteriaFindMany,
+  CounselsCriteriaFindMany,
+} from "~counselings/domains/counsels/counsels.criteria";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
 import { CompressedContextInfo } from "~counselings/domains/counsels/models/compressed-context.info";
@@ -22,6 +26,7 @@ export class CounselsService {
     private readonly counselsReader: CounselsReader,
     private readonly counselsStore: CounselsStore,
     private readonly contextCompressor: ContextCompressor,
+    private readonly conversationHistoryBuilder: ConversationHistoryBuilder,
   ) {}
 
   @Transactional()
@@ -38,10 +43,14 @@ export class CounselsService {
     return CounselInfo.fromDomain(counsel);
   }
 
+  async getMessages(criteria: CounselMessagesCriteriaFindMany): Promise<CounselMessageInfo[]> {
+    const messages = await this.counselsReader.findManyMessages(criteria);
+    return CounselMessageInfo.fromDomainArray(messages);
+  }
+
   async getSessionInfo(props: { counselId: CounselId }): Promise<{
     counsel: CounselInfo;
-    messages: CounselMessageInfo[];
-    compressedContexts: CompressedContextInfo[];
+    conversationHistory: string;
   }> {
     const counsel = await this.counselsReader.findOne(props);
     const messages = await this.counselsReader.findManyMessages({ counselId: props.counselId });
@@ -51,8 +60,10 @@ export class CounselsService {
     }
     return {
       counsel: CounselInfo.fromDomain(counsel),
-      messages: CounselMessageInfo.fromDomainArray(messages),
-      compressedContexts: CompressedContextInfo.fromDomainArray(compressedContexts),
+      conversationHistory: this.conversationHistoryBuilder.buildHistory(
+        CounselMessageInfo.fromDomainArray(messages),
+        CompressedContextInfo.fromDomainArray(compressedContexts),
+      ),
     };
   }
 
@@ -101,15 +112,12 @@ export class CounselsService {
       userId: counsel.userId,
       counselTechniqueId: counsel.counselTechniqueId,
     });
+
     if (newMessage.isFailureResult()) {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, newMessage.error);
     }
     counsel.saveLastMessage(message);
     const updatedCounsel = await this.counselsStore.update(counsel);
-
-    if (counsel.shouldCompressContext()) {
-      Promise.resolve(this.contextCompressor.compressContext(counsel));
-    }
 
     return {
       counsel: CounselInfo.fromDomain(updatedCounsel),

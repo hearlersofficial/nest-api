@@ -1,4 +1,5 @@
 import { ContextCompressor } from "~counselings/domains/counsels/context.compressor";
+import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
@@ -27,6 +28,7 @@ import { CounselsEntity } from "~common/system/persistences/entities/counsels/Co
   providers: [
     CounselsService,
     ContextCompressor,
+    ConversationHistoryBuilder,
     {
       provide: CounselsRepository,
       useClass: TypeormCounselsRepository,

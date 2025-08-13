@@ -33,7 +33,7 @@ export class RepositoryCounselCriteriaMapper {
 
     where.counselId = criteria.counselId.getString();
 
-    return { where };
+    return { where, take: criteria.limit, skip: criteria.offset };
   }
 
   static toFindManyCompressedContextOptions(

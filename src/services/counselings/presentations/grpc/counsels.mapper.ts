@@ -1,5 +1,5 @@
-import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
+import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { Counsel, CounselMessage, CounselMessageSchema, CounselSchema } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
@@ -13,9 +13,9 @@ export class SchemaCounselsMapper {
       return null;
     }
     return create(CounselSchema, {
-      id: counsel.id,
+      id: counsel.id.getString(),
       counselorId: counsel.counselorId,
-      userId: counsel.userId,
+      userId: counsel.userId.getString(),
       lastMessage: counsel.lastMessage ?? undefined,
       lastChatedAt: counsel.lastChatedAt ? counsel.lastChatedAt.toISOString() : undefined,
       promptVersionId: counsel.promptVersionId,

@@ -1,12 +1,13 @@
 import { CompressedContextInfo } from "~counselings/domains/compressedContext/models/compressedContext.info";
-import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
+import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
 import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
 
 import { HttpStatus } from "@nestjs/common";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 export type CounselSessionData = {
@@ -30,11 +31,11 @@ export type ToneScopedPromptData = {
 };
 
 export type SessionContext = {
-  counselId: UniqueEntityId;
-  userId: UniqueEntityId;
-  counselorId: UniqueEntityId;
-  promptVersionId: UniqueEntityId;
-  currentTechniqueId: UniqueEntityId;
+  counselId: CounselId;
+  userId: UserId;
+  counselorId: string;
+  promptVersionId: string;
+  currentTechniqueId: string;
 };
 
 /**
@@ -64,11 +65,11 @@ export class CounselSession {
    */
   getSessionContext(): SessionContext {
     return {
-      counselId: new UniqueEntityId(this.counsel.id),
-      userId: new UniqueEntityId(this.counsel.userId),
-      counselorId: new UniqueEntityId(this.counsel.counselorId),
-      promptVersionId: new UniqueEntityId(this.counsel.promptVersionId),
-      currentTechniqueId: new UniqueEntityId(this.counsel.counselTechniqueId),
+      counselId: this.counsel.id,
+      userId: this.counsel.userId,
+      counselorId: this.counsel.counselorId,
+      promptVersionId: this.counsel.promptVersionId,
+      currentTechniqueId: this.counsel.counselTechniqueId,
     };
   }
 
@@ -150,7 +151,7 @@ export class CounselSession {
    * 상담 ID 반환
    * @returns 상담 ID
    */
-  getCounselId(): string {
+  getCounselId(): CounselId {
     return this.counsel.id;
   }
 
@@ -158,7 +159,7 @@ export class CounselSession {
    * 유저 ID 반환
    * @returns 유저 ID
    */
-  getUserId(): string {
+  getUserId(): UserId {
     return this.counsel.userId;
   }
 

@@ -1,4 +1,4 @@
-import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
+import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 
 export type TechniqueTransitionEvaluationParams = {
   currentTechniqueId: string;

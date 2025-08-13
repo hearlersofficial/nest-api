@@ -1,11 +1,13 @@
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
 export class CounselInfo {
   constructor(
-    public readonly id: string,
-    public readonly userId: string,
+    public readonly id: CounselId,
+    public readonly userId: UserId,
     public readonly counselorId: string,
     public readonly counselTechniqueId: string,
     public readonly promptVersionId: string,
@@ -24,8 +26,8 @@ export class CounselInfo {
 
   static fromDomain(counsel: Counsels): CounselInfo {
     return new CounselInfo(
-      counsel.id.getString(),
-      counsel.userId.getString(),
+      counsel.id,
+      counsel.userId,
       counsel.counselorId.getString(),
       counsel.counselTechniqueId.getString(),
       counsel.promptVersionId.getString(),

@@ -8,10 +8,11 @@ import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselsNewProps {
-  userId: UniqueEntityId;
+  userId: UserId;
   counselorId: UniqueEntityId;
   counselTechniqueId: UniqueEntityId;
   promptVersionId: UniqueEntityId;
@@ -140,7 +141,7 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
     return this.props.counselorId;
   }
 
-  get userId(): UniqueEntityId {
+  get userId(): UserId {
     return this.props.userId;
   }
 

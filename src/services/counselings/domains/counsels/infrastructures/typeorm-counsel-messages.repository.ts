@@ -1,6 +1,6 @@
-import { CounselMessagesRepository } from "~counselings/domains/counselMessages/infrastructures/counselMessages.repository";
-import { PsqlCounselMessagesMapper } from "~counselings/domains/counselMessages/infrastructures/mappers/psql.counselMessages.mapper";
-import { CounselMessages } from "~counselings/domains/counselMessages/models/counselMessages";
+import { CounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/counsel-messages.repository";
+import { TypeormCounselMessagesMapper } from "~counselings/domains/counsels/infrastructures/mappers/typeorm-counsel-messages.mapper";
+import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
@@ -11,7 +11,7 @@ import { CounselMessagesEntity } from "~common/system/persistences/entities/coun
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()
-export class PsqlCounselMessagesRepository extends CounselMessagesRepository {
+export class TypeormCounselMessagesRepository extends CounselMessagesRepository {
   constructor(
     @InjectRepository(CounselMessagesEntity)
     private readonly counselMessagesRepository: Repository<CounselMessagesEntity>,
@@ -36,7 +36,7 @@ export class PsqlCounselMessagesRepository extends CounselMessagesRepository {
       id: counselMessageId.getString(),
     };
     const message = await this.counselMessagesRepository.findOne(findOneOptions);
-    return message ? PsqlCounselMessagesMapper.toDomain(message) : null;
+    return message ? TypeormCounselMessagesMapper.toDomain(message) : null;
   }
 
   override async findMany(options?: FindManyOptions<CounselMessagesEntity>): Promise<CounselMessages[]> {
@@ -46,17 +46,17 @@ export class PsqlCounselMessagesRepository extends CounselMessagesRepository {
       createdAt: "ASC",
     };
     const messages = await this.counselMessagesRepository.find(findManyOptions);
-    return PsqlCounselMessagesMapper.toDomains(messages);
+    return TypeormCounselMessagesMapper.toDomains(messages);
   }
 
   override async save(message: CounselMessages): Promise<CounselMessages>;
   override async save(messages: CounselMessages[]): Promise<CounselMessages[]>;
   async save(message: CounselMessages | CounselMessages[]): Promise<CounselMessages | CounselMessages[]> {
     if (Array.isArray(message)) {
-      await this.counselMessagesRepository.save(PsqlCounselMessagesMapper.toEntities(message));
+      await this.counselMessagesRepository.save(TypeormCounselMessagesMapper.toEntities(message));
       return message;
     } else {
-      const messageEntity = PsqlCounselMessagesMapper.toEntity(message);
+      const messageEntity = TypeormCounselMessagesMapper.toEntity(message);
       await this.counselMessagesRepository.save(messageEntity);
       this.publishDomainEvent(message);
       return message;

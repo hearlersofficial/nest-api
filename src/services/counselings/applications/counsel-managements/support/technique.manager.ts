@@ -3,9 +3,9 @@ import {
   BackgroundTechniqueEvaluationResult,
   TechniqueTransitionDecision,
 } from "~counselings/applications/counsel-managements/types/technique.type";
-import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
+import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
 
@@ -132,7 +132,7 @@ export class TechniqueManager {
     try {
       if (decision.shouldTransition) {
         await this.counselService.updateCounselTechniqueId({
-          counselId: new UniqueEntityId(session.getCounselId()),
+          counselId: session.getCounselId(),
           counselTechniqueId: new UniqueEntityId(techniqueEvaluationRequest.nextTechnique.id),
         });
       }

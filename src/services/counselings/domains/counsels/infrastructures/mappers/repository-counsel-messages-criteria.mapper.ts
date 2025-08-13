@@ -1,4 +1,4 @@
-import { CounselMessagesCriteriaFindMany } from "~counselings/domains/counselMessages/counselMessages.criteria";
+import { CounselMessagesCriteriaFindMany } from "~counselings/domains/counsels/counsel-messages.criteria";
 
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";

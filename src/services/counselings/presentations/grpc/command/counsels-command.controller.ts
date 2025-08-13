@@ -20,6 +20,8 @@ import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 @Controller("counsel")
 export class GrpcCounselCommandController {
   constructor(private readonly counselManagementsFacade: CounselManagementsFacade) {}
@@ -29,7 +31,7 @@ export class GrpcCounselCommandController {
   async createCounsel(request: CreateCounselRequest): Promise<CreateCounselResponse> {
     const { userId, counselorId, bubbleId, responseOptionNo, promptVersionId } = request;
     const { counsel, counselMessages } = await this.counselManagementsFacade.createCounsel({
-      userId: new UniqueEntityId(userId),
+      userId: new UserId(userId),
       counselorId: new UniqueEntityId(counselorId),
       bubbleId: bubbleId ? new UniqueEntityId(bubbleId) : undefined,
       responseOptionNumber: responseOptionNo,
@@ -48,7 +50,7 @@ export class GrpcCounselCommandController {
   async createCounselMessage(request: CreateMessageRequest): Promise<CreateMessageResponse> {
     const { counselId, message } = request;
     const { createdCounselMessage, counselorResponseMessage } = await this.counselManagementsFacade.createMessage({
-      counselId: new UniqueEntityId(counselId),
+      counselId: new CounselId(counselId),
       message,
     });
     return create(CreateMessageResponseSchema, {

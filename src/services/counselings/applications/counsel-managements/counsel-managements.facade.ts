@@ -1,14 +1,15 @@
 import { CounselingOrchestrator } from "~counselings/applications/counsel-managements/counseling.orchestrator";
-import { CounselMessagesService } from "~counselings/domains/counselMessages/counselMessages.service";
-import { CounselMessageInfo } from "~counselings/domains/counselMessages/models/counselMessage.info";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
+import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -19,7 +20,6 @@ export class CounselManagementsFacade {
 
   constructor(
     private readonly counselService: CounselsService,
-    private readonly counselMessagesService: CounselMessagesService,
     private readonly promptVersionsService: PromptVersionsService,
     private readonly counselorService: CounselorsService,
     private readonly counselingOrchestrator: CounselingOrchestrator,
@@ -27,7 +27,7 @@ export class CounselManagementsFacade {
 
   @Transactional()
   async createCounsel(params: {
-    userId: UniqueEntityId;
+    userId: UserId;
     counselorId: UniqueEntityId;
     promptVersionId?: UniqueEntityId;
     bubbleId?: UniqueEntityId;
@@ -52,7 +52,7 @@ export class CounselManagementsFacade {
       );
     }
 
-    let createdCounsel = await this.counselService.create({
+    const createdCounsel = await this.counselService.create({
       userId,
       counselorId,
       counselTechniqueId: new UniqueEntityId(firstCounselTechniqueId),
@@ -84,18 +84,16 @@ export class CounselManagementsFacade {
           );
       }
 
-      const createdIntroMessage = await this.counselMessagesService.create({
-        counselId: new UniqueEntityId(createdCounsel.id),
-        userId,
-        counselTechniqueId: new UniqueEntityId(firstCounselTechniqueId),
+      const createdIntroMessage = await this.counselService.saveMessage({
+        counselId: createdCounsel.id,
         message: introMessage,
         isUserMessage: false,
       });
-      counselMessagesResult.push(createdIntroMessage);
+      counselMessagesResult.push(createdIntroMessage.message);
 
       // ResponseMessage를 통해 상담 진행
       const proceedCounselingResult = await this.counselingOrchestrator.proceedCounseling({
-        counselId: new UniqueEntityId(createdCounsel.id),
+        counselId: createdCounsel.id,
         userMessage: responseMessage,
       });
 
@@ -104,20 +102,12 @@ export class CounselManagementsFacade {
     }
     // 버블이 없을때
     else {
-      const createdFirstMessage = await this.counselMessagesService.create({
-        counselId: new UniqueEntityId(createdCounsel.id),
-        userId,
-        counselTechniqueId: new UniqueEntityId(firstCounselTechniqueId),
+      const createdFirstMessage = await this.counselService.saveMessage({
+        counselId: createdCounsel.id,
         message: this.FirstMessage,
         isUserMessage: false,
       });
-      counselMessagesResult.push(createdFirstMessage);
-
-      // 상담 정보 최신화
-      createdCounsel = await this.counselService.saveLastMessage({
-        counselId: new UniqueEntityId(createdCounsel.id),
-        lastMessage: createdFirstMessage.message,
-      });
+      counselMessagesResult.push(createdFirstMessage.message);
     }
 
     return {
@@ -139,7 +129,7 @@ export class CounselManagementsFacade {
   }
 
   @Transactional()
-  async createMessage(params: { counselId: UniqueEntityId; message: string }): Promise<{
+  async createMessage(params: { counselId: CounselId; message: string }): Promise<{
     createdCounselMessage: CounselMessageInfo;
     counselorResponseMessage: CounselMessageInfo;
   }> {
@@ -156,10 +146,11 @@ export class CounselManagementsFacade {
     };
   }
 
-  async findMessages(params: { counselId: UniqueEntityId }) {
+  async findMessages(params: { counselId: CounselId }): Promise<CounselMessageInfo[]> {
     const { counselId } = params;
 
-    return this.counselMessagesService.getMany({ counselId });
+    const { messages } = await this.counselService.getOneWithMessages({ counselId });
+    return messages;
   }
 
   @Transactional()
@@ -169,7 +160,7 @@ export class CounselManagementsFacade {
   }): Promise<CounselMessageInfo> {
     const { messageId, reaction } = params;
 
-    return this.counselMessagesService.reactMessage({
+    return this.counselService.reactMessage({
       counselMessageId: messageId,
       reaction,
     });

@@ -1,5 +1,5 @@
 import { CounselsRepository } from "~counselings/domains/counsels/infrastructures/counsels.repository";
-import { PsqlCounselsMapper } from "~counselings/domains/counsels/infrastructures/mappers/psql.counsels.mapper";
+import { TypeormCounselsMapper } from "~counselings/domains/counsels/infrastructures/mappers/typeorm-counsels.mapper";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
 import { Injectable } from "@nestjs/common";
@@ -9,7 +9,7 @@ import { CounselsEntity } from "~common/system/persistences/entities/counsels/Co
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()
-export class PsqlCounselsRepository extends CounselsRepository {
+export class TypeormCounselsRepository extends CounselsRepository {
   constructor(
     @InjectRepository(CounselsEntity)
     private readonly counselsRepository: Repository<CounselsEntity>,
@@ -27,23 +27,23 @@ export class PsqlCounselsRepository extends CounselsRepository {
       id: counselId.getString(),
     };
     const counsel = await this.counselsRepository.findOne(findOneOptions);
-    return counsel ? PsqlCounselsMapper.toDomain(counsel) : null;
+    return counsel ? TypeormCounselsMapper.toDomain(counsel) : null;
   }
 
   override async findMany(options?: FindManyOptions<CounselsEntity>): Promise<Counsels[]> {
     const findManyOptions: FindManyOptions<CounselsEntity> = options ?? {};
     const counsels = await this.counselsRepository.find(findManyOptions);
-    return PsqlCounselsMapper.toDomains(counsels);
+    return TypeormCounselsMapper.toDomains(counsels);
   }
 
   override async save(counsel: Counsels): Promise<Counsels>;
   override async save(counsels: Counsels[]): Promise<Counsels[]>;
   async save(counsel: Counsels | Counsels[]): Promise<Counsels | Counsels[]> {
     if (Array.isArray(counsel)) {
-      await this.counselsRepository.save(PsqlCounselsMapper.toEntities(counsel));
+      await this.counselsRepository.save(TypeormCounselsMapper.toEntities(counsel));
       return counsel;
     } else {
-      const counselEntity = PsqlCounselsMapper.toEntity(counsel);
+      const counselEntity = TypeormCounselsMapper.toEntity(counsel);
       await this.counselsRepository.save(counselEntity);
       return counsel;
     }

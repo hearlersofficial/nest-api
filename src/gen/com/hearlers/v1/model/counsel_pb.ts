@@ -9,8 +9,11 @@ import type { Message } from "@bufbuild/protobuf";
 /**
  * Describes the file com/hearlers/v1/model/counsel.proto.
  */
-export const file_com_hearlers_v1_model_counsel: GenFile = /*@__PURE__*/
-  fileDesc("CiNjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbC5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIskCCgdDb3Vuc2VsEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEhkKDGxhc3RfbWVzc2FnZRgEIAEoCUgAiAEBEhsKDmxhc3RfY2hhdGVkX2F0GAUgASgJSAGIAQESGQoRcHJvbXB0X3ZlcnNpb25faWQYBiABKAkSHAoUY291bnNlbF90ZWNobmlxdWVfaWQYByABKAkSJgoeY291bnNlbG9yX3VzZXJfcmVsYXRpb25zaGlwX2lkGAggASgJEhIKCmNyZWF0ZWRfYXQYCSABKAkSEgoKdXBkYXRlZF9hdBgKIAEoCRIXCgpkZWxldGVkX2F0GAsgASgJSAKIAQFCDwoNX2xhc3RfbWVzc2FnZUIRCg9fbGFzdF9jaGF0ZWRfYXRCDQoLX2RlbGV0ZWRfYXQiwwIKDkNvdW5zZWxNZXNzYWdlEgoKAmlkGAEgASgJEhIKCmNvdW5zZWxfaWQYAiABKAkSDwoHbWVzc2FnZRgDIAEoCRIXCg9pc191c2VyX21lc3NhZ2UYBCABKAgSFwoKcmVhY3RlZF9hdBgFIAEoCUgAiAEBEkQKCHJlYWN0aW9uGAYgASgOMi0uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxNZXNzYWdlUmVhY3Rpb25IAYgBARIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgHIAEoCRISCgpjcmVhdGVkX2F0GAggASgJEhIKCnVwZGF0ZWRfYXQYCSABKAkSFwoKZGVsZXRlZF9hdBgKIAEoCUgCiAEBQg0KC19yZWFjdGVkX2F0QgsKCV9yZWFjdGlvbkINCgtfZGVsZXRlZF9hdCKvAQoZQ291bnNlbG9yVXNlclJlbGF0aW9uc2hpcBIKCgJpZBgBIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAiABKAkSDwoHdXNlcl9pZBgDIAEoCRIPCgdyYXBwb3J0GAQgASgFEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRIXCgpkZWxldGVkX2F0GAcgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQqiwEKFkNvdW5zZWxNZXNzYWdlUmVhY3Rpb24SKAokQ09VTlNFTF9NRVNTQUdFX1JFQUNUSU9OX1VOU1BFQ0lGSUVEEAASIQodQ09VTlNFTF9NRVNTQUdFX1JFQUNUSU9OX0xJS0UQARIkCiBDT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fRElTTElLRRACKv4BCgxJbXBhY3REb21haW4SHQoZSU1QQUNUX0RPTUFJTl9VTlNQRUNJRklFRBAAEhYKEklNUEFDVF9ET01BSU5fV09SSxABEhcKE0lNUEFDVF9ET01BSU5fU1RVRFkQAhIeChpJTVBBQ1RfRE9NQUlOX1JFTEFUSU9OU0hJUBADEhgKFElNUEFDVF9ET01BSU5fRkFNSUxZEAQSGAoUSU1QQUNUX0RPTUFJTl9IRUFMVEgQBRIZChVJTVBBQ1RfRE9NQUlOX0ZJTkFOQ0UQBhIWChJJTVBBQ1RfRE9NQUlOX1NFTEYQBxIXChNJTVBBQ1RfRE9NQUlOX09USEVSEAgqnQEKCVRpbWVmcmFtZRIZChVUSU1FRlJBTUVfVU5TUEVDSUZJRUQQABITCg9USU1FRlJBTUVfVE9EQVkQARIXChNUSU1FRlJBTUVfVEhJU19XRUVLEAISGAoUVElNRUZSQU1FX1RISVNfTU9OVEgQAxIXChNUSU1FRlJBTUVfVEhJU19ZRUFSEAQSFAoQVElNRUZSQU1FX0xPTkdFUhAFKscCCg5FbW90aW9uUHJpbWFyeRIfChtFTU9USU9OX1BSSU1BUllfVU5TUEVDSUZJRUQQABIbChdFTU9USU9OX1BSSU1BUllfQU5YSUVUWRABEhsKF0VNT1RJT05fUFJJTUFSWV9TQURORVNTEAISGQoVRU1PVElPTl9QUklNQVJZX0FOR0VSEAMSHgoaRU1PVElPTl9QUklNQVJZX0xPTkVMSU5FU1MQBBIZChVFTU9USU9OX1BSSU1BUllfR1VJTFQQBRIZChVFTU9USU9OX1BSSU1BUllfU0hBTUUQBhIaChZFTU9USU9OX1BSSU1BUllfU1RSRVNTEAcSGAoURU1PVElPTl9QUklNQVJZX0hPUEUQCBIYChRFTU9USU9OX1BSSU1BUllfQ0FMTRAJEhkKFUVNT1RJT05fUFJJTUFSWV9PVEhFUhAKKmMKB1ZhbGVuY2USFwoTVkFMRU5DRV9VTlNQRUNJRklFRBAAEhQKEFZBTEVOQ0VfTkVHQVRJVkUQARITCg9WQUxFTkNFX05FVVRSQUwQAhIUChBWQUxFTkNFX1BPU0lUSVZFEAMqdgoMQXJvdXNhbExldmVsEh0KGUFST1VTQUxfTEVWRUxfVU5TUEVDSUZJRUQQABIVChFBUk9VU0FMX0xFVkVMX0xPVxABEhgKFEFST1VTQUxfTEVWRUxfTUVESVVNEAISFgoSQVJPVVNBTF9MRVZFTF9ISUdIEAMqigEKEFBlcmNlaXZlZENvbnRyb2wSIQodUEVSQ0VJVkVEX0NPTlRST0xfVU5TUEVDSUZJRUQQABIZChVQRVJDRUlWRURfQ09OVFJPTF9MT1cQARIcChhQRVJDRUlWRURfQ09OVFJPTF9NRURJVU0QAhIaChZQRVJDRUlWRURfQ09OVFJPTF9ISUdIEAMq3wEKD01vdGl2YXRpb25TdGFnZRIgChxNT1RJVkFUSU9OX1NUQUdFX1VOU1BFQ0lGSUVEEAASJQohTU9USVZBVElPTl9TVEFHRV9QUkVDT05URU1QTEFUSU9OEAESIgoeTU9USVZBVElPTl9TVEFHRV9DT05URU1QTEFUSU9OEAISIAocTU9USVZBVElPTl9TVEFHRV9QUkVQQVJBVElPThADEhsKF01PVElWQVRJT05fU1RBR0VfQUNUSU9OEAQSIAocTU9USVZBVElPTl9TVEFHRV9NQUlOVEVOQU5DRRAFKrcBChJTb2NpYWxTdXBwb3J0TGV2ZWwSJAogU09DSUFMX1NVUFBPUlRfTEVWRUxfVU5TUEVDSUZJRUQQABIdChlTT0NJQUxfU1VQUE9SVF9MRVZFTF9OT05FEAESHAoYU09DSUFMX1NVUFBPUlRfTEVWRUxfTE9XEAISHwobU09DSUFMX1NVUFBPUlRfTEVWRUxfTUVESVVNEAMSHQoZU09DSUFMX1NVUFBPUlRfTEVWRUxfSElHSBAEKoUBCghSaXNrS2luZBIZChVSSVNLX0tJTkRfVU5TUEVDSUZJRUQQABISCg5SSVNLX0tJTkRfTk9ORRABEhcKE1JJU0tfS0lORF9TRUxGX0hBUk0QAhIcChhSSVNLX0tJTkRfSEFSTV9UT19PVEhFUlMQAxITCg9SSVNLX0tJTkRfQUJVU0UQBCp1CgxTbGVlcFF1YWxpdHkSHQoZU0xFRVBfUVVBTElUWV9VTlNQRUNJRklFRBAAEhYKElNMRUVQX1FVQUxJVFlfUE9PUhABEhYKElNMRUVQX1FVQUxJVFlfRkFJUhACEhYKElNMRUVQX1FVQUxJVFlfR09PRBADKnsKDUNvZ25pdGl2ZUxvYWQSHgoaQ09HTklUSVZFX0xPQURfVU5TUEVDSUZJRUQQABIWChJDT0dOSVRJVkVfTE9BRF9MT1cQARIZChVDT0dOSVRJVkVfTE9BRF9NRURJVU0QAhIXChNDT0dOSVRJVkVfTE9BRF9ISUdIEAMqjQEKEEFsbGlhbmNlU3RyZW5ndGgSIQodQUxMSUFOQ0VfU1RSRU5HVEhfVU5TUEVDSUZJRUQQABIaChZBTExJQU5DRV9TVFJFTkdUSF9XRUFLEAESHAoYQUxMSUFOQ0VfU1RSRU5HVEhfTUVESVVNEAISHAoYQUxMSUFOQ0VfU1RSRU5HVEhfU1RST05HEANCoQEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCDENvdW5zZWxQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z");
+export const file_com_hearlers_v1_model_counsel: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "CiNjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbC5wcm90bxIVY29tLmhlYXJsZXJzLnYxLm1vZGVsIskCCgdDb3Vuc2VsEgoKAmlkGAEgASgJEhQKDGNvdW5zZWxvcl9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEhkKDGxhc3RfbWVzc2FnZRgEIAEoCUgAiAEBEhsKDmxhc3RfY2hhdGVkX2F0GAUgASgJSAGIAQESGQoRcHJvbXB0X3ZlcnNpb25faWQYBiABKAkSHAoUY291bnNlbF90ZWNobmlxdWVfaWQYByABKAkSJgoeY291bnNlbG9yX3VzZXJfcmVsYXRpb25zaGlwX2lkGAggASgJEhIKCmNyZWF0ZWRfYXQYCSABKAkSEgoKdXBkYXRlZF9hdBgKIAEoCRIXCgpkZWxldGVkX2F0GAsgASgJSAKIAQFCDwoNX2xhc3RfbWVzc2FnZUIRCg9fbGFzdF9jaGF0ZWRfYXRCDQoLX2RlbGV0ZWRfYXQiwwIKDkNvdW5zZWxNZXNzYWdlEgoKAmlkGAEgASgJEhIKCmNvdW5zZWxfaWQYAiABKAkSDwoHbWVzc2FnZRgDIAEoCRIXCg9pc191c2VyX21lc3NhZ2UYBCABKAgSFwoKcmVhY3RlZF9hdBgFIAEoCUgAiAEBEkQKCHJlYWN0aW9uGAYgASgOMi0uY29tLmhlYXJsZXJzLnYxLm1vZGVsLkNvdW5zZWxNZXNzYWdlUmVhY3Rpb25IAYgBARIcChRjb3Vuc2VsX3RlY2huaXF1ZV9pZBgHIAEoCRISCgpjcmVhdGVkX2F0GAggASgJEhIKCnVwZGF0ZWRfYXQYCSABKAkSFwoKZGVsZXRlZF9hdBgKIAEoCUgCiAEBQg0KC19yZWFjdGVkX2F0QgsKCV9yZWFjdGlvbkINCgtfZGVsZXRlZF9hdCKvAQoZQ291bnNlbG9yVXNlclJlbGF0aW9uc2hpcBIKCgJpZBgBIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAiABKAkSDwoHdXNlcl9pZBgDIAEoCRIPCgdyYXBwb3J0GAQgASgFEhIKCmNyZWF0ZWRfYXQYBSABKAkSEgoKdXBkYXRlZF9hdBgGIAEoCRIXCgpkZWxldGVkX2F0GAcgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQqiwEKFkNvdW5zZWxNZXNzYWdlUmVhY3Rpb24SKAokQ09VTlNFTF9NRVNTQUdFX1JFQUNUSU9OX1VOU1BFQ0lGSUVEEAASIQodQ09VTlNFTF9NRVNTQUdFX1JFQUNUSU9OX0xJS0UQARIkCiBDT1VOU0VMX01FU1NBR0VfUkVBQ1RJT05fRElTTElLRRACKv4BCgxJbXBhY3REb21haW4SHQoZSU1QQUNUX0RPTUFJTl9VTlNQRUNJRklFRBAAEhYKEklNUEFDVF9ET01BSU5fV09SSxABEhcKE0lNUEFDVF9ET01BSU5fU1RVRFkQAhIeChpJTVBBQ1RfRE9NQUlOX1JFTEFUSU9OU0hJUBADEhgKFElNUEFDVF9ET01BSU5fRkFNSUxZEAQSGAoUSU1QQUNUX0RPTUFJTl9IRUFMVEgQBRIZChVJTVBBQ1RfRE9NQUlOX0ZJTkFOQ0UQBhIWChJJTVBBQ1RfRE9NQUlOX1NFTEYQBxIXChNJTVBBQ1RfRE9NQUlOX09USEVSEAgqnQEKCVRpbWVmcmFtZRIZChVUSU1FRlJBTUVfVU5TUEVDSUZJRUQQABITCg9USU1FRlJBTUVfVE9EQVkQARIXChNUSU1FRlJBTUVfVEhJU19XRUVLEAISGAoUVElNRUZSQU1FX1RISVNfTU9OVEgQAxIXChNUSU1FRlJBTUVfVEhJU19ZRUFSEAQSFAoQVElNRUZSQU1FX0xPTkdFUhAFKscCCg5FbW90aW9uUHJpbWFyeRIfChtFTU9USU9OX1BSSU1BUllfVU5TUEVDSUZJRUQQABIbChdFTU9USU9OX1BSSU1BUllfQU5YSUVUWRABEhsKF0VNT1RJT05fUFJJTUFSWV9TQURORVNTEAISGQoVRU1PVElPTl9QUklNQVJZX0FOR0VSEAMSHgoaRU1PVElPTl9QUklNQVJZX0xPTkVMSU5FU1MQBBIZChVFTU9USU9OX1BSSU1BUllfR1VJTFQQBRIZChVFTU9USU9OX1BSSU1BUllfU0hBTUUQBhIaChZFTU9USU9OX1BSSU1BUllfU1RSRVNTEAcSGAoURU1PVElPTl9QUklNQVJZX0hPUEUQCBIYChRFTU9USU9OX1BSSU1BUllfQ0FMTRAJEhkKFUVNT1RJT05fUFJJTUFSWV9PVEhFUhAKKmMKB1ZhbGVuY2USFwoTVkFMRU5DRV9VTlNQRUNJRklFRBAAEhQKEFZBTEVOQ0VfTkVHQVRJVkUQARITCg9WQUxFTkNFX05FVVRSQUwQAhIUChBWQUxFTkNFX1BPU0lUSVZFEAMqdgoMQXJvdXNhbExldmVsEh0KGUFST1VTQUxfTEVWRUxfVU5TUEVDSUZJRUQQABIVChFBUk9VU0FMX0xFVkVMX0xPVxABEhgKFEFST1VTQUxfTEVWRUxfTUVESVVNEAISFgoSQVJPVVNBTF9MRVZFTF9ISUdIEAMqigEKEFBlcmNlaXZlZENvbnRyb2wSIQodUEVSQ0VJVkVEX0NPTlRST0xfVU5TUEVDSUZJRUQQABIZChVQRVJDRUlWRURfQ09OVFJPTF9MT1cQARIcChhQRVJDRUlWRURfQ09OVFJPTF9NRURJVU0QAhIaChZQRVJDRUlWRURfQ09OVFJPTF9ISUdIEAMq3wEKD01vdGl2YXRpb25TdGFnZRIgChxNT1RJVkFUSU9OX1NUQUdFX1VOU1BFQ0lGSUVEEAASJQohTU9USVZBVElPTl9TVEFHRV9QUkVDT05URU1QTEFUSU9OEAESIgoeTU9USVZBVElPTl9TVEFHRV9DT05URU1QTEFUSU9OEAISIAocTU9USVZBVElPTl9TVEFHRV9QUkVQQVJBVElPThADEhsKF01PVElWQVRJT05fU1RBR0VfQUNUSU9OEAQSIAocTU9USVZBVElPTl9TVEFHRV9NQUlOVEVOQU5DRRAFKrcBChJTb2NpYWxTdXBwb3J0TGV2ZWwSJAogU09DSUFMX1NVUFBPUlRfTEVWRUxfVU5TUEVDSUZJRUQQABIdChlTT0NJQUxfU1VQUE9SVF9MRVZFTF9OT05FEAESHAoYU09DSUFMX1NVUFBPUlRfTEVWRUxfTE9XEAISHwobU09DSUFMX1NVUFBPUlRfTEVWRUxfTUVESVVNEAMSHQoZU09DSUFMX1NVUFBPUlRfTEVWRUxfSElHSBAEKoUBCghSaXNrS2luZBIZChVSSVNLX0tJTkRfVU5TUEVDSUZJRUQQABISCg5SSVNLX0tJTkRfTk9ORRABEhcKE1JJU0tfS0lORF9TRUxGX0hBUk0QAhIcChhSSVNLX0tJTkRfSEFSTV9UT19PVEhFUlMQAxITCg9SSVNLX0tJTkRfQUJVU0UQBCp1CgxTbGVlcFF1YWxpdHkSHQoZU0xFRVBfUVVBTElUWV9VTlNQRUNJRklFRBAAEhYKElNMRUVQX1FVQUxJVFlfUE9PUhABEhYKElNMRUVQX1FVQUxJVFlfRkFJUhACEhYKElNMRUVQX1FVQUxJVFlfR09PRBADKnsKDUNvZ25pdGl2ZUxvYWQSHgoaQ09HTklUSVZFX0xPQURfVU5TUEVDSUZJRUQQABIWChJDT0dOSVRJVkVfTE9BRF9MT1cQARIZChVDT0dOSVRJVkVfTE9BRF9NRURJVU0QAhIXChNDT0dOSVRJVkVfTE9BRF9ISUdIEAMqjQEKEEFsbGlhbmNlU3RyZW5ndGgSIQodQUxMSUFOQ0VfU1RSRU5HVEhfVU5TUEVDSUZJRUQQABIaChZBTExJQU5DRV9TVFJFTkdUSF9XRUFLEAESHAoYQUxMSUFOQ0VfU1RSRU5HVEhfTUVESVVNEAISHAoYQUxMSUFOQ0VfU1RSRU5HVEhfU1RST05HEANCoQEKGWNvbS5jb20uaGVhcmxlcnMudjEubW9kZWxCDENvdW5zZWxQcm90b1ABogIEQ0hWTaoCFUNvbS5IZWFybGVycy5WMS5Nb2RlbMoCFUNvbVxIZWFybGVyc1xWMVxNb2RlbOICIUNvbVxIZWFybGVyc1xWMVxNb2RlbFxHUEJNZXRhZGF0YeoCGENvbTo6SGVhcmxlcnM6OlYxOjpNb2RlbGIGcHJvdG8z",
+  );
 
 /**
  * @generated from message com.hearlers.v1.model.Counsel
@@ -82,8 +85,7 @@ export type Counsel = Message<"com.hearlers.v1.model.Counsel"> & {
  * Describes the message com.hearlers.v1.model.Counsel.
  * Use `create(CounselSchema)` to create a new message.
  */
-export const CounselSchema: GenMessage<Counsel> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel, 0);
+export const CounselSchema: GenMessage<Counsel> = /*@__PURE__*/ messageDesc(file_com_hearlers_v1_model_counsel, 0);
 
 /**
  * @generated from message com.hearlers.v1.model.CounselMessage
@@ -152,7 +154,8 @@ export type CounselMessage = Message<"com.hearlers.v1.model.CounselMessage"> & {
  * Describes the message com.hearlers.v1.model.CounselMessage.
  * Use `create(CounselMessageSchema)` to create a new message.
  */
-export const CounselMessageSchema: GenMessage<CounselMessage> = /*@__PURE__*/
+export const CounselMessageSchema: GenMessage<CounselMessage> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_model_counsel, 1);
 
 /**
@@ -205,7 +208,8 @@ export type CounselorUserRelationship = Message<"com.hearlers.v1.model.Counselor
  * Describes the message com.hearlers.v1.model.CounselorUserRelationship.
  * Use `create(CounselorUserRelationshipSchema)` to create a new message.
  */
-export const CounselorUserRelationshipSchema: GenMessage<CounselorUserRelationship> = /*@__PURE__*/
+export const CounselorUserRelationshipSchema: GenMessage<CounselorUserRelationship> =
+  /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_model_counsel, 2);
 
 /**
@@ -231,7 +235,8 @@ export enum CounselMessageReaction {
 /**
  * Describes the enum com.hearlers.v1.model.CounselMessageReaction.
  */
-export const CounselMessageReactionSchema: GenEnum<CounselMessageReaction> = /*@__PURE__*/
+export const CounselMessageReactionSchema: GenEnum<CounselMessageReaction> =
+  /*@__PURE__*/
   enumDesc(file_com_hearlers_v1_model_counsel, 0);
 
 /**
@@ -289,8 +294,7 @@ export enum ImpactDomain {
 /**
  * Describes the enum com.hearlers.v1.model.ImpactDomain.
  */
-export const ImpactDomainSchema: GenEnum<ImpactDomain> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_counsel, 1);
+export const ImpactDomainSchema: GenEnum<ImpactDomain> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_counsel, 1);
 
 /**
  * 문제 체감의 최근성(시간 맥락)
@@ -332,8 +336,7 @@ export enum Timeframe {
 /**
  * Describes the enum com.hearlers.v1.model.Timeframe.
  */
-export const TimeframeSchema: GenEnum<Timeframe> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_counsel, 2);
+export const TimeframeSchema: GenEnum<Timeframe> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_counsel, 2);
 
 /**
  * 원형 감정(라벨은 Circumplex/CBT에서 빈도 높은 것만)
@@ -400,7 +403,8 @@ export enum EmotionPrimary {
 /**
  * Describes the enum com.hearlers.v1.model.EmotionPrimary.
  */
-export const EmotionPrimarySchema: GenEnum<EmotionPrimary> = /*@__PURE__*/
+export const EmotionPrimarySchema: GenEnum<EmotionPrimary> =
+  /*@__PURE__*/
   enumDesc(file_com_hearlers_v1_model_counsel, 3);
 
 /**
@@ -433,8 +437,7 @@ export enum Valence {
 /**
  * Describes the enum com.hearlers.v1.model.Valence.
  */
-export const ValenceSchema: GenEnum<Valence> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_counsel, 4);
+export const ValenceSchema: GenEnum<Valence> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_counsel, 4);
 
 /**
  * 각성 수준(에너지 축)
@@ -466,8 +469,7 @@ export enum ArousalLevel {
 /**
  * Describes the enum com.hearlers.v1.model.ArousalLevel.
  */
-export const ArousalLevelSchema: GenEnum<ArousalLevel> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_counsel, 5);
+export const ArousalLevelSchema: GenEnum<ArousalLevel> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_counsel, 5);
 
 /**
  * 상황 통제감(인지평가 이론 기반)
@@ -499,7 +501,8 @@ export enum PerceivedControl {
 /**
  * Describes the enum com.hearlers.v1.model.PerceivedControl.
  */
-export const PerceivedControlSchema: GenEnum<PerceivedControl> = /*@__PURE__*/
+export const PerceivedControlSchema: GenEnum<PerceivedControl> =
+  /*@__PURE__*/
   enumDesc(file_com_hearlers_v1_model_counsel, 6);
 
 /**
@@ -542,7 +545,8 @@ export enum MotivationStage {
 /**
  * Describes the enum com.hearlers.v1.model.MotivationStage.
  */
-export const MotivationStageSchema: GenEnum<MotivationStage> = /*@__PURE__*/
+export const MotivationStageSchema: GenEnum<MotivationStage> =
+  /*@__PURE__*/
   enumDesc(file_com_hearlers_v1_model_counsel, 7);
 
 /**
@@ -580,7 +584,8 @@ export enum SocialSupportLevel {
 /**
  * Describes the enum com.hearlers.v1.model.SocialSupportLevel.
  */
-export const SocialSupportLevelSchema: GenEnum<SocialSupportLevel> = /*@__PURE__*/
+export const SocialSupportLevelSchema: GenEnum<SocialSupportLevel> =
+  /*@__PURE__*/
   enumDesc(file_com_hearlers_v1_model_counsel, 8);
 
 /**
@@ -618,8 +623,7 @@ export enum RiskKind {
 /**
  * Describes the enum com.hearlers.v1.model.RiskKind.
  */
-export const RiskKindSchema: GenEnum<RiskKind> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_counsel, 9);
+export const RiskKindSchema: GenEnum<RiskKind> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_counsel, 9);
 
 /**
  * 수면(기분·스트레스의 강력한 공변량)
@@ -651,8 +655,7 @@ export enum SleepQuality {
 /**
  * Describes the enum com.hearlers.v1.model.SleepQuality.
  */
-export const SleepQualitySchema: GenEnum<SleepQuality> = /*@__PURE__*/
-  enumDesc(file_com_hearlers_v1_model_counsel, 10);
+export const SleepQualitySchema: GenEnum<SleepQuality> = /*@__PURE__*/ enumDesc(file_com_hearlers_v1_model_counsel, 10);
 
 /**
  * 인지 부하(집중·결정 피로도)
@@ -684,7 +687,8 @@ export enum CognitiveLoad {
 /**
  * Describes the enum com.hearlers.v1.model.CognitiveLoad.
  */
-export const CognitiveLoadSchema: GenEnum<CognitiveLoad> = /*@__PURE__*/
+export const CognitiveLoadSchema: GenEnum<CognitiveLoad> =
+  /*@__PURE__*/
   enumDesc(file_com_hearlers_v1_model_counsel, 11);
 
 /**
@@ -717,6 +721,6 @@ export enum AllianceStrength {
 /**
  * Describes the enum com.hearlers.v1.model.AllianceStrength.
  */
-export const AllianceStrengthSchema: GenEnum<AllianceStrength> = /*@__PURE__*/
+export const AllianceStrengthSchema: GenEnum<AllianceStrength> =
+  /*@__PURE__*/
   enumDesc(file_com_hearlers_v1_model_counsel, 12);
-

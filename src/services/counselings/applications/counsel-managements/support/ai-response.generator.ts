@@ -28,7 +28,7 @@ export class AIResponseGenerator {
     systemPrompt: string,
     conversationHistory: string,
     userMessage: string,
-    counselId: string,
+    conversationId: string,
     aiModel: AiModel,
     temperature: number,
     tools: Tool[] = [],
@@ -37,7 +37,7 @@ export class AIResponseGenerator {
       systemPrompt,
       conversationHistory,
       userMessage,
-      counselId,
+      conversationId,
       aiModel,
       temperature,
       tools,
@@ -64,7 +64,7 @@ export class AIResponseGenerator {
     systemPrompt: string,
     conversationHistory: string,
     userMessage: string,
-    counselId: string,
+    conversationId: string,
     aiModel: AiModel,
     temperature: number,
     tools: Tool[],
@@ -79,7 +79,7 @@ ${userMessage}
 `;
 
     return {
-      conversationId: counselId,
+      conversationId,
       message: fullMessage,
       systemPrompt,
       useTools: false,

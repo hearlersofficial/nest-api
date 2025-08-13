@@ -7,7 +7,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselContextsEntity } from "~common/system/persistences/entities/counsels/counsel-contexts.entity";
 import dayjs from "dayjs";
 
-export class PsqlCounselContextsMapper {
+export class TypeormCounselContextsMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: CounselContextsEntity): CounselContexts;
   static toDomain(entity: CounselContextsEntity | null): CounselContexts | null;

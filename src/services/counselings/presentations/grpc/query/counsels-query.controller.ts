@@ -20,6 +20,7 @@ import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 @Controller("counsel")
 export class GrpcCounselQueryController {
   constructor(private readonly counselManagementsFacade: CounselManagementsFacade) {}
@@ -54,7 +55,7 @@ export class GrpcCounselQueryController {
   async findMessages(request: FindMessagesRequest): Promise<FindMessagesResponse> {
     const { counselId } = request;
     const counselMessages = await this.counselManagementsFacade.findMessages({
-      counselId: new UniqueEntityId(counselId),
+      counselId: new CounselId(counselId),
     });
     return create(FindMessagesResponseSchema, {
       counselMessages: counselMessages.map((message) => SchemaCounselsMapper.toCounselMessageProto(message)),

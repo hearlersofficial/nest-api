@@ -1,7 +1,9 @@
+import { PsqlCounselContextsMapper } from "~counselings/domains/counsels/infrastructures/mappers/psql.counsel-contexts.mapper";
 import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus } from "@nestjs/common";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
 import dayjs from "dayjs";
@@ -30,8 +32,9 @@ export class PsqlCounselsMapper {
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
+      counselContexts: PsqlCounselContextsMapper.toDomain(entity.counselContext),
     };
-    const counselsOrError = Counsels.create(counselProps, new UniqueEntityId(entity.id));
+    const counselsOrError = Counsels.create(counselProps, new CounselId(entity.id));
 
     if (counselsOrError.isFailure) {
       throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, counselsOrError.errorValue);
@@ -67,6 +70,8 @@ export class PsqlCounselsMapper {
     entity.createdAt = counsels.createdAt.toISOString();
     entity.updatedAt = counsels.updatedAt.toISOString();
     entity.deletedAt = counsels.deletedAt ? counsels.deletedAt.toISOString() : null;
+
+    entity.counselContext = PsqlCounselContextsMapper.toEntity(counsels.counselContexts);
 
     return entity;
   }

@@ -1,4 +1,5 @@
 import { CounselCreatedEvent } from "~counselings/domains/counsels/events/counsel-created.event";
+import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
@@ -6,6 +7,7 @@ import { getNowDayjs } from "~common/shared/utils/date";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselsNewProps {
@@ -17,6 +19,7 @@ export interface CounselsNewProps {
 }
 
 export interface CounselsProps extends CounselsNewProps {
+  counselContexts: CounselContexts;
   lastChatedAt: Dayjs | null;
   lastMessage: string | null;
 
@@ -31,14 +34,14 @@ export interface CounselsProps extends CounselsNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class Counsels extends AggregateRoot<CounselsProps> {
+export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
   private static readonly COMPRESSION_THRESHOLD = 100;
 
-  private constructor(props: CounselsProps, id: UniqueEntityId) {
+  private constructor(props: CounselsProps, id: CounselId) {
     super(props, id);
   }
 
-  public static create(props: CounselsProps, id: UniqueEntityId): Result<Counsels> {
+  public static create(props: CounselsProps, id: CounselId): Result<Counsels> {
     const counsels = new Counsels(props, id);
     const validateResult = counsels.validateDomain();
     if (validateResult.isFailure) {
@@ -49,10 +52,17 @@ export class Counsels extends AggregateRoot<CounselsProps> {
 
   public static createNew(newProps: CounselsNewProps): Result<Counsels> {
     const now = getNowDayjs();
-    const newId = new UniqueEntityId();
+    const newId = new CounselId();
+    const counselContexts = CounselContexts.createNew({
+      counselId: newId,
+    });
+    if (counselContexts.isFailureResult()) {
+      return Result.fail<Counsels>(counselContexts.error);
+    }
     const createdCounsel = this.create(
       {
         ...newProps,
+        counselContexts: counselContexts.value,
         lastChatedAt: null,
         lastMessage: null,
         messageCount: 0,
@@ -81,11 +91,6 @@ export class Counsels extends AggregateRoot<CounselsProps> {
     // counselorId 검증
     if (this.props.counselorId === null || this.props.counselorId === undefined) {
       return Result.fail("[Counsels] 상담사 ID는 필수입니다");
-    }
-
-    // userId 검증
-    if (this.props.userId === null || this.props.userId === undefined) {
-      return Result.fail("[Counsels] 사용자 ID는 필수입니다");
     }
 
     // counselTechniqueId 검증
@@ -173,6 +178,10 @@ export class Counsels extends AggregateRoot<CounselsProps> {
 
   get compressedContextExists(): boolean {
     return this.props.compressedContextExists;
+  }
+
+  get counselContexts(): CounselContexts {
+    return this.props.counselContexts;
   }
 
   get createdAt(): Dayjs {

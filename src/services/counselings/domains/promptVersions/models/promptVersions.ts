@@ -3,6 +3,7 @@ import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/to
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
@@ -68,7 +69,7 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps, PromptVer
 
   validateDomain(): Result<void> {
     // name 검증
-    if (this.props.name === null || this.props.name === undefined) {
+    if (!isDefined(this.props.name)) {
       return Result.fail<void>("[PromptVersions] Name은 필수입니다");
     }
     if (this.props.name.length < 1) {
@@ -76,17 +77,17 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps, PromptVer
     }
 
     // description 검증
-    if (this.props.description === null || this.props.description === undefined) {
+    if (!isDefined(this.props.description)) {
       return Result.fail<void>("[PromptVersions] Description은 필수입니다");
     }
 
     // isActive 검증
-    if (this.props.isActive === null || this.props.isActive === undefined) {
+    if (!isDefined(this.props.isActive)) {
       return Result.fail<void>("[PromptVersions] isActive는 필수입니다");
     }
 
     // isTemporary 검증
-    if (this.props.isTemporary === null || this.props.isTemporary === undefined) {
+    if (!isDefined(this.props.isTemporary)) {
       return Result.fail<void>("[PromptVersions] isTemporary는 필수입니다");
     }
 
@@ -95,12 +96,12 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps, PromptVer
     }
 
     // isBookmarked 검증
-    if (this.props.isBookmarked === null || this.props.isBookmarked === undefined) {
+    if (!isDefined(this.props.isBookmarked)) {
       return Result.fail<void>("[PromptVersions] isBookmarked는 필수입니다");
     }
 
     // gptModel 검증
-    if (this.props.aiModel === null || this.props.aiModel === undefined) {
+    if (!isDefined(this.props.aiModel)) {
       return Result.fail<void>("[PromptVersions] aiModel은 필수입니다");
     }
 
@@ -123,10 +124,10 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps, PromptVer
     }
 
     // 날짜 검증
-    if (this.props.createdAt === null || this.props.createdAt === undefined) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail<void>("[PromptVersions] 생성 시간은 필수입니다");
     }
-    if (this.props.updatedAt === null || this.props.updatedAt === undefined) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail<void>("[PromptVersions] 수정 시간은 필수입니다");
     }
 

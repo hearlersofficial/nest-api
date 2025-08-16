@@ -1,4 +1,5 @@
 import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
@@ -49,20 +50,20 @@ export class PromptActivateHistories extends AggregateRoot<PromptActivateHistori
 
   validateDomain(): Result<void> {
     // promptVersionId 검증
-    if (this.props.promptVersionId === null || this.props.promptVersionId === undefined) {
+    if (!isDefined(this.props.promptVersionId)) {
       return Result.fail<void>("[PromptActivateHistories] PromptVersionId는 필수입니다");
     }
 
     // activatedAt 검증
-    if (this.props.activatedAt === null || this.props.activatedAt === undefined) {
+    if (!isDefined(this.props.activatedAt)) {
       return Result.fail<void>("[PromptActivateHistories] ActivatedAt은 필수입니다");
     }
 
     // 날짜 검증
-    if (this.props.createdAt === null || this.props.createdAt === undefined) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail<void>("[PromptActivateHistories] 생성 시간은 필수입니다");
     }
-    if (this.props.updatedAt === null || this.props.updatedAt === undefined) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail<void>("[PromptActivateHistories] 수정 시간은 필수입니다");
     }
     return Result.ok();

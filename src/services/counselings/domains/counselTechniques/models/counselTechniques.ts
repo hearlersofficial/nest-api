@@ -57,27 +57,27 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
 
   validateDomain(): Result<void> {
     // name 검증
-    if (this.props.name === null || this.props.name === undefined) {
+    if (!isDefined(this.props.name)) {
       return Result.fail<void>("[CounselTechniques] 이름은 필수입니다");
     }
 
     // context 검증
-    if (this.props.context === null || this.props.context === undefined) {
+    if (!isDefined(this.props.context)) {
       return Result.fail<void>("[CounselTechniques] 컨텍스트는 필수입니다");
     }
 
     // instruction 검증
-    if (this.props.instruction === null || this.props.instruction === undefined) {
+    if (!isDefined(this.props.instruction)) {
       return Result.fail<void>("[CounselTechniques] 지시사항은 필수입니다");
     }
 
     // toneId 검증
-    if (this.props.toneId === null || this.props.toneId === undefined) {
+    if (!isDefined(this.props.toneId)) {
       return Result.fail<void>("[CounselTechniques] 톤 ID는 필수입니다");
     }
 
     // messageThreshold 검증
-    if (this.props.messageThreshold === null || this.props.messageThreshold === undefined) {
+    if (!isDefined(this.props.messageThreshold)) {
       return Result.fail<void>("[CounselTechniques] 전환에 필요한 메시지 수는 필수입니다");
     }
     if (this.props.messageThreshold < 0) {
@@ -85,10 +85,10 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     }
 
     // 날짜 검증
-    if (!this.props.createdAt) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail<void>("[CounselTechniques] 생성 시간은 필수입니다");
     }
-    if (!this.props.updatedAt) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail<void>("[CounselTechniques] 수정 시간은 필수입니다");
     }
 

@@ -46,8 +46,8 @@ export class CounselManagementsFacade {
     const promptVersion = promptVersionId
       ? await this.promptVersionsService.getOne({ promptVersionId })
       : await this.promptVersionsService.getActiveOne();
-    const firstCounselTechniqueId = promptVersion.toneScopedPrompts.find(
-      (toneScopedPrompt) => toneScopedPrompt.toneId === counselor.toneId,
+    const firstCounselTechniqueId = promptVersion.toneScopedPrompts.find((toneScopedPrompt) =>
+      toneScopedPrompt.toneId.equals(counselor.toneId),
     )?.firstCounselTechniqueId;
     if (!firstCounselTechniqueId) {
       throw new HttpStatusBasedRpcException(

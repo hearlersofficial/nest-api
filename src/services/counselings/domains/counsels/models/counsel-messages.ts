@@ -3,6 +3,7 @@ import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb"
 
 import { create } from "@bufbuild/protobuf";
 import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselMessageCreatedEvent } from "~common/shared-kernel/event/counsel-message-created.event";
@@ -72,22 +73,22 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps, Counsel
 
   validateDomain(): Result<void> {
     // counselId 검증
-    if (this.props.counselId === null || this.props.counselId === undefined) {
+    if (!isDefined(this.props.counselId)) {
       return Result.fail("[CounselMessages] 상담 ID는 필수입니다");
     }
 
     // userId 검증
-    if (this.props.userId === null || this.props.userId === undefined) {
+    if (!isDefined(this.props.userId)) {
       return Result.fail("[CounselMessages] 사용자 ID는 필수입니다");
     }
 
     // counselTechniqueId 검증
-    if (this.props.counselTechniqueId === null || this.props.counselTechniqueId === undefined) {
+    if (!isDefined(this.props.counselTechniqueId)) {
       return Result.fail("[CounselMessages] 상담 기법 ID는 필수입니다");
     }
 
     // message 검증
-    if (this.props.message === null || this.props.message === undefined) {
+    if (!isDefined(this.props.message)) {
       return Result.fail("[CounselMessages] 메시지 내용은 필수입니다");
     }
     // gpt 응답은 80자 초과 가능
@@ -96,15 +97,15 @@ export class CounselMessages extends AggregateRoot<CounselMessagesProps, Counsel
     }
 
     // isUserMessage 검증
-    if (this.props.isUserMessage === null || this.props.isUserMessage === undefined) {
+    if (!isDefined(this.props.isUserMessage)) {
       return Result.fail("[CounselMessages] 사용자 메시지 여부는 필수입니다");
     }
 
     // 날짜 검증
-    if (!this.props.createdAt) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail("[CounselMessages] 생성 시간은 필수입니다");
     }
-    if (!this.props.updatedAt) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail("[CounselMessages] 수정 시간은 필수입니다");
     }
 

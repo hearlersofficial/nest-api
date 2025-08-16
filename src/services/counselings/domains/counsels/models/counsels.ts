@@ -3,6 +3,7 @@ import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/coun
 
 import { create } from "@bufbuild/protobuf";
 import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselCreatedEvent } from "~common/shared-kernel/event/counsel-created.event";
@@ -93,22 +94,22 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
 
   validateDomain(): Result<void> {
     // counselorId 검증
-    if (this.props.counselorId === null || this.props.counselorId === undefined) {
+    if (!isDefined(this.props.counselorId)) {
       return Result.fail("[Counsels] 상담사 ID는 필수입니다");
     }
 
     // counselTechniqueId 검증
-    if (this.props.counselTechniqueId === null || this.props.counselTechniqueId === undefined) {
+    if (!isDefined(this.props.counselTechniqueId)) {
       return Result.fail("[Counsels] 상담 기법 ID는 필수입니다");
     }
 
     // promptVersionId 검증
-    if (this.props.promptVersionId === null || this.props.promptVersionId === undefined) {
+    if (!isDefined(this.props.promptVersionId)) {
       return Result.fail("[Counsels] 프롬프트 버전 ID는 필수입니다");
     }
 
     // counselorUserRelationshipId 검증
-    if (this.props.counselorUserRelationshipId === null || this.props.counselorUserRelationshipId === undefined) {
+    if (!isDefined(this.props.counselorUserRelationshipId)) {
       return Result.fail("[Counsels] 상담사-사용자 관계 ID는 필수입니다");
     }
 
@@ -129,10 +130,10 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
     }
 
     // 날짜 검증
-    if (!this.props.createdAt) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail("[Counsels] 생성 시간은 필수입니다");
     }
-    if (!this.props.updatedAt) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail("[Counsels] 수정 시간은 필수입니다");
     }
 

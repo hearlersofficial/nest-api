@@ -1,4 +1,5 @@
 import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
@@ -46,20 +47,20 @@ export class PersonaPrompts extends AggregateRoot<PersonaPromptsProps, PersonaPr
 
   validateDomain(): Result<void> {
     // counselorId 검증
-    if (this.props.counselorId === null || this.props.counselorId === undefined) {
+    if (!isDefined(this.props.counselorId)) {
       return Result.fail<void>("[PersonaPrompts] counselorId는 필수입니다");
     }
 
     // body 검증
-    if (this.props.body === null || this.props.body === undefined) {
+    if (!isDefined(this.props.body)) {
       return Result.fail<void>("[PersonaPrompts] body는 필수입니다");
     }
 
     // 날짜 검증
-    if (this.props.createdAt === null || this.props.createdAt === undefined) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail<void>("[PersonaPrompts] 생성 시간은 필수입니다");
     }
-    if (this.props.updatedAt === null || this.props.updatedAt === undefined) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail<void>("[PersonaPrompts] 수정 시간은 필수입니다");
     }
 

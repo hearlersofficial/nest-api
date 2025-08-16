@@ -117,7 +117,7 @@ export class CounselingOrchestrator {
           session
             .getMessages()
             .filter((m) => m.isUserMessage)
-            .filter((m) => m.counselTechniqueId === session.getCurrentTechniqueId()).length <
+            .filter((m) => m.counselTechniqueId.equals(session.getCurrentTechniqueId())).length <
           session.getCurrentTechnique().messageThreshold
         ) {
           this.logger.log(`Technique evaluation skipped for counsel ${session.getCounselId()}: Insufficient messages`);

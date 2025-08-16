@@ -23,7 +23,7 @@ export class ValidatePromptVersionUseCase
 
     const tones = await this.tonesService.findMany({});
     for (const tone of tones) {
-      const toneScopedPrompt = promptVersion.toneScopedPrompts.find((prompt) => prompt.toneId === tone.id);
+      const toneScopedPrompt = promptVersion.toneScopedPrompts.find((prompt) => prompt.toneId.equals(tone.id));
       if (!toneScopedPrompt) {
         throw new HttpStatusBasedRpcException(
           HttpStatus.BAD_REQUEST,
@@ -43,8 +43,8 @@ export class ValidatePromptVersionUseCase
 
     const counselors = await this.counselorsService.findMany({});
     for (const counselor of counselors) {
-      const counselorScopedPrompt = promptVersion.counselorScopedPrompts.find(
-        (prompt) => prompt.counselorId === counselor.id,
+      const counselorScopedPrompt = promptVersion.counselorScopedPrompts.find((prompt) =>
+        prompt.counselorId.equals(counselor.id),
       );
       if (!counselorScopedPrompt) {
         throw new HttpStatusBasedRpcException(

@@ -232,8 +232,8 @@ export class CounselPromptManagementsFacade {
 
     const counselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId });
     const temporaryVersion = await this.promptVersionService.getTemporaryOne();
-    const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find(
-      (toneScopedPrompt) => toneScopedPrompt.toneId === counselTechnique.toneId,
+    const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find((toneScopedPrompt) =>
+      toneScopedPrompt.toneId.equals(counselTechnique.toneId),
     )?.firstCounselTechniqueId;
     if (!firstCounselTechniqueId) {
       throw new HttpStatusBasedRpcException(
@@ -267,8 +267,8 @@ export class CounselPromptManagementsFacade {
     const { toneId, counselTechniqueIds } = param;
 
     const temporaryVersion = await this.promptVersionService.getTemporaryOne();
-    const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find(
-      (toneScopedPrompt) => toneScopedPrompt.toneId === toneId,
+    const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find((toneScopedPrompt) =>
+      toneScopedPrompt.toneId.equals(toneId),
     )?.firstCounselTechniqueId;
 
     const updatedTechniques = await this.counselTechniqueService.saveCounselTechniqueSequence({

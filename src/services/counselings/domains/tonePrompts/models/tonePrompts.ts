@@ -1,4 +1,5 @@
 import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
@@ -46,20 +47,20 @@ export class TonePrompts extends AggregateRoot<TonePromptsProps, TonePromptId> {
 
   validateDomain(): Result<void> {
     // toneId 검증
-    if (this.props.toneId === null || this.props.toneId === undefined) {
+    if (!isDefined(this.props.toneId)) {
       return Result.fail<void>("[TonePrompts] ToneId는 필수입니다");
     }
 
     // body 검증
-    if (this.props.body === null || this.props.body === undefined) {
+    if (!isDefined(this.props.body)) {
       return Result.fail<void>("[TonePrompts] body는 필수입니다");
     }
 
     // 날짜 검증
-    if (this.props.createdAt === null || this.props.createdAt === undefined) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail<void>("[TonePrompts] 생성 시간은 필수입니다");
     }
-    if (this.props.updatedAt === null || this.props.updatedAt === undefined) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail<void>("[TonePrompts] 수정 시간은 필수입니다");
     }
 

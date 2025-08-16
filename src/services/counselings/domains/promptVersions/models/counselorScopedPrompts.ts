@@ -1,4 +1,5 @@
 import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
@@ -52,25 +53,25 @@ export class CounselorScopedPrompts extends DomainEntity<CounselorScopedPromptsP
 
   validateDomain(): Result<void> {
     // promptVersionId 검증
-    if (this.props.promptVersionId === null || this.props.promptVersionId === undefined) {
+    if (!isDefined(this.props.promptVersionId)) {
       return Result.fail<void>("[CounselorScopedPrompts] PromptVersionId는 필수입니다");
     }
 
     // counselorId 검증
-    if (this.props.counselorId === null || this.props.counselorId === undefined) {
+    if (!isDefined(this.props.counselorId)) {
       return Result.fail<void>("[CounselorScopedPrompts] CounselorId는 필수입니다");
     }
 
     // personaPromptId 검증
-    if (this.props.personaPromptId === null || this.props.personaPromptId === undefined) {
+    if (!isDefined(this.props.personaPromptId)) {
       return Result.fail<void>("[CounselorScopedPrompts] PersonaPromptId는 필수입니다");
     }
 
     // 날짜 검증
-    if (this.props.createdAt === null || this.props.createdAt === undefined) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail<void>("[CounselorScopedPrompts] 생성 시간은 필수입니다");
     }
-    if (this.props.updatedAt === null || this.props.updatedAt === undefined) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail<void>("[CounselorScopedPrompts] 수정 시간은 필수입니다");
     }
 

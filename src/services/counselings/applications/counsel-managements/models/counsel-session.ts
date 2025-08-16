@@ -84,8 +84,8 @@ export class CounselSession {
    * @returns 상담사 스코프 프롬프트 데이터
    */
   getCounselorScopedPrompt(): CounselorScopedPromptData {
-    const counselorScopedPrompt = this.promptVersion.counselorScopedPrompts.find(
-      (prompt) => prompt.counselorId === this.counselor.id,
+    const counselorScopedPrompt = this.promptVersion.counselorScopedPrompts.find((prompt) =>
+      prompt.counselorId.equals(this.counselor.id),
     );
 
     if (!counselorScopedPrompt) {
@@ -103,8 +103,8 @@ export class CounselSession {
    * @returns 톤 스코프 프롬프트 데이터
    */
   getToneScopedPrompt(): ToneScopedPromptData {
-    const toneScopedPrompt = this.promptVersion.toneScopedPrompts.find(
-      (prompt) => prompt.toneId === this.counselor.toneId,
+    const toneScopedPrompt = this.promptVersion.toneScopedPrompts.find((prompt) =>
+      prompt.toneId.equals(this.counselor.toneId),
     );
 
     if (!toneScopedPrompt) {

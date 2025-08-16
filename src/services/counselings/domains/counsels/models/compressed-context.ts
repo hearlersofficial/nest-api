@@ -1,4 +1,5 @@
 import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
@@ -47,12 +48,12 @@ export class CompressedContexts extends AggregateRoot<CompressedContextProps, Co
 
   validateDomain(): Result<void> {
     // counselId 검증
-    if (this.props.counselId === null || this.props.counselId === undefined) {
+    if (!isDefined(this.props.counselId)) {
       return Result.fail("[CompressedContext] 상담 ID는 필수입니다.");
     }
 
     // content 검증
-    if (this.props.content === null || this.props.content === undefined || this.props.content.trim() === "") {
+    if (!isDefined(this.props.content) || this.props.content.trim() === "") {
       return Result.fail("[CompressedContext] 내용은 필수입니다.");
     }
 
@@ -65,10 +66,10 @@ export class CompressedContexts extends AggregateRoot<CompressedContextProps, Co
     }
 
     // 날짜 검증
-    if (!this.props.createdAt) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail("[CompressedContext] 생성 시간은 필수입니다");
     }
-    if (!this.props.updatedAt) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail("[CompressedContext] 수정 시간은 필수입니다");
     }
 

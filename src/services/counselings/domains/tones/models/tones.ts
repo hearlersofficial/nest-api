@@ -58,20 +58,20 @@ export class Tones extends AggregateRoot<TonesProps, ToneId> {
 
   validateDomain(): Result<void> {
     // name 검증
-    if (this.props.name === null || this.props.name === undefined) {
+    if (!isDefined(this.props.name)) {
       return Result.fail<void>("[Tones] 이름은 필수입니다");
     }
 
     // description 검증
-    if (this.props.description === null || this.props.description === undefined) {
+    if (!isDefined(this.props.description)) {
       return Result.fail<void>("[Tones] 설명은 필수입니다");
     }
 
     // 날짜 검증
-    if (!this.props.createdAt) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail<void>("[Tones] 생성 시간은 필수입니다");
     }
-    if (!this.props.updatedAt) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail<void>("[Tones] 수정 시간은 필수입니다");
     }
     return Result.ok();

@@ -1,4 +1,5 @@
 import { getNowDayjs } from "~common/shared/utils/date";
+import { isDefined } from "~common/shared/utils/validate";
 import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
@@ -51,20 +52,20 @@ export class ToneScopedPrompts extends DomainEntity<ToneScopedPromptsProps, Tone
 
   validateDomain(): Result<void> {
     // promptVersionId 검증
-    if (this.props.promptVersionId === null || this.props.promptVersionId === undefined) {
+    if (!isDefined(this.props.promptVersionId)) {
       return Result.fail<void>("[ToneScopedPrompts] PromptVersionId는 필수입니다");
     }
 
     // toneId 검증
-    if (this.props.toneId === null || this.props.toneId === undefined) {
+    if (!isDefined(this.props.toneId)) {
       return Result.fail<void>("[ToneScopedPrompts] ToneId는 필수입니다");
     }
 
     // 날짜 검증
-    if (this.props.createdAt === null || this.props.createdAt === undefined) {
+    if (!isDefined(this.props.createdAt)) {
       return Result.fail<void>("[ToneScopedPrompts] 생성 시간은 필수입니다");
     }
-    if (this.props.updatedAt === null || this.props.updatedAt === undefined) {
+    if (!isDefined(this.props.updatedAt)) {
       return Result.fail<void>("[ToneScopedPrompts] 수정 시간은 필수입니다");
     }
 

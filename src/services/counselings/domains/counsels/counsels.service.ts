@@ -128,12 +128,15 @@ export class CounselsService {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, newMessage.error);
     }
     counsel.saveLastMessage(message);
-    const updatedCounsel = await this.counselsStore.update(counsel);
+    counsel.increaseMessageCount();
+    await this.counselsStore.update(counsel);
+    await this.counselsStore.createMessage(newMessage.value);
+
     if (counsel.counselContexts.shouldCompressContext()) {
       await this.messageCompressor.compressContext(counsel);
     }
     return {
-      counsel: CounselInfo.fromDomain(updatedCounsel),
+      counsel: CounselInfo.fromDomain(counsel),
       message: CounselMessageInfo.fromDomain(newMessage.value),
     };
   }

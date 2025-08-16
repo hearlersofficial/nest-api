@@ -35,6 +35,7 @@ export class TypeormCounselMessagesRepository extends CounselMessagesRepository 
       ...findOneOptions.where,
       id: counselMessageId.getString(),
     };
+
     const message = await this.counselMessagesRepository.findOne(findOneOptions);
     return message ? TypeormCounselMessagesMapper.toDomain(message) : null;
   }

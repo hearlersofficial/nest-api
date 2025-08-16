@@ -6,7 +6,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
-import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
+import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
 @Injectable()
 export class TypeormCounselsRepository extends CounselsRepository {
@@ -17,6 +17,10 @@ export class TypeormCounselsRepository extends CounselsRepository {
     super();
   }
 
+  private readonly DEFAULT_RELATIONS: FindOptionsRelations<CounselsEntity> = {
+    counselContext: true,
+  };
+
   override async findByCounselId(
     counselId: CounselId,
     options?: FindOneOptions<CounselsEntity>,
@@ -26,12 +30,20 @@ export class TypeormCounselsRepository extends CounselsRepository {
       ...findOneOptions.where,
       id: counselId.getString(),
     };
+    findOneOptions.relations = {
+      ...findOneOptions.relations,
+      ...this.DEFAULT_RELATIONS,
+    };
     const counsel = await this.counselsRepository.findOne(findOneOptions);
     return counsel ? TypeormCounselsMapper.toDomain(counsel) : null;
   }
 
   override async findMany(options?: FindManyOptions<CounselsEntity>): Promise<Counsels[]> {
     const findManyOptions: FindManyOptions<CounselsEntity> = options ?? {};
+    findManyOptions.relations = {
+      ...findManyOptions.relations,
+      ...this.DEFAULT_RELATIONS,
+    };
     const counsels = await this.counselsRepository.find(findManyOptions);
     return TypeormCounselsMapper.toDomains(counsels);
   }

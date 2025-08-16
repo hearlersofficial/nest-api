@@ -25,7 +25,7 @@ export class CounselsService {
   constructor(
     private readonly counselsReader: CounselsReader,
     private readonly counselsStore: CounselsStore,
-    private readonly contextCompressor: MessageCompressor,
+    private readonly messageCompressor: MessageCompressor,
     private readonly conversationHistoryBuilder: ConversationHistoryBuilder,
   ) {}
 
@@ -129,7 +129,9 @@ export class CounselsService {
     }
     counsel.saveLastMessage(message);
     const updatedCounsel = await this.counselsStore.update(counsel);
-
+    if (counsel.counselContexts.shouldCompressContext()) {
+      await this.messageCompressor.compressContext(counsel);
+    }
     return {
       counsel: CounselInfo.fromDomain(updatedCounsel),
       message: CounselMessageInfo.fromDomain(newMessage.value),

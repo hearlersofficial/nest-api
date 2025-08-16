@@ -202,7 +202,7 @@ export class CounselContexts extends DomainEntity<CounselContextsProps, CounselC
     return this.props.selfEfficacy;
   }
   get emotionIntensity(): 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | null {
-    return this.emotionIntensity;
+    return this.props.emotionIntensity;
   }
   get physicalSymptomsPresent(): boolean | null {
     return this.props.physicalSymptomsPresent;

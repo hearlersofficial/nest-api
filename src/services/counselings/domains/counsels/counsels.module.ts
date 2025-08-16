@@ -1,33 +1,33 @@
-import { ContextCompressor } from "~counselings/domains/counsels/context.compressor";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
-import { CompressedContextsRepository } from "~counselings/domains/counsels/infrastructures/compressed-contexts.repository";
+import { CompressedMessagesRepository } from "~counselings/domains/counsels/infrastructures/compressed-messages.repository";
 import { CounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/counsel-messages.repository";
 import { CounselsRepository } from "~counselings/domains/counsels/infrastructures/counsels.repository";
 import { RepositoryCounselsReader } from "~counselings/domains/counsels/infrastructures/repository-counsels.reader";
 import { RepositoryCounselsStore } from "~counselings/domains/counsels/infrastructures/repository-counsels.store";
-import { TypeormCompressedContextsRepository } from "~counselings/domains/counsels/infrastructures/typeorm-compressed-context.repository";
+import { TypeormCompressedMessagesRepository } from "~counselings/domains/counsels/infrastructures/typeorm-compressed-messages.repository";
 import { TypeormCounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/typeorm-counsel-messages.repository";
 import { TypeormCounselsRepository } from "~counselings/domains/counsels/infrastructures/typeorm-counsels.repository";
+import { MessageCompressor } from "~counselings/domains/counsels/message.compressor";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AssistantAgentModule } from "~common/support/assistant-agents/assistant-agent.module";
-import { CompressedContextsEntity } from "~common/system/persistences/entities/counsels/CompressedContexts.entity";
+import { CompressedMessagesEntity } from "~common/system/persistences/entities/counsels/compressed-messages.entity";
 import { CounselContextsEntity } from "~common/system/persistences/entities/counsels/counsel-contexts.entity";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CounselsEntity, CounselMessagesEntity, CounselContextsEntity, CompressedContextsEntity]),
+    TypeOrmModule.forFeature([CounselsEntity, CounselMessagesEntity, CounselContextsEntity, CompressedMessagesEntity]),
     AssistantAgentModule,
   ],
   providers: [
     CounselsService,
-    ContextCompressor,
+    MessageCompressor,
     ConversationHistoryBuilder,
     {
       provide: CounselsRepository,
@@ -38,8 +38,8 @@ import { CounselsEntity } from "~common/system/persistences/entities/counsels/Co
       useClass: TypeormCounselMessagesRepository,
     },
     {
-      provide: CompressedContextsRepository,
-      useClass: TypeormCompressedContextsRepository,
+      provide: CompressedMessagesRepository,
+      useClass: TypeormCompressedMessagesRepository,
     },
     {
       provide: CounselsReader,

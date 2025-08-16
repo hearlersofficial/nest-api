@@ -30,9 +30,6 @@ export class TypeormCounselsMapper {
       lastChatedAt: entity.lastChatedAt ? dayjs(entity.lastChatedAt) : null,
       lastMessage: entity.lastMessage,
       messageCount: entity.messageCount,
-      notCompressedMessageCount: entity.notCompressedMessageCount,
-      lastContextCompressedAt: entity.lastContextCompressedAt ? dayjs(entity.lastContextCompressedAt) : null,
-      compressedContextExists: entity.compressedContextExists,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
@@ -65,11 +62,6 @@ export class TypeormCounselsMapper {
     entity.lastMessage = counsels.lastMessage;
 
     entity.messageCount = counsels.messageCount;
-    entity.notCompressedMessageCount = counsels.notCompressedMessageCount;
-    entity.lastContextCompressedAt = counsels.lastContextCompressedAt
-      ? counsels.lastContextCompressedAt.toISOString()
-      : null;
-    entity.compressedContextExists = counsels.compressedContextExists;
 
     entity.createdAt = counsels.createdAt.toISOString();
     entity.updatedAt = counsels.updatedAt.toISOString();

@@ -2,10 +2,10 @@ import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { Column, Entity } from "typeorm";
 
 @Entity({
-  name: "compressed_contexts",
-  comment: "압축된 컨텍스트",
+  name: "compressed_messages",
+  comment: "압축된 메시지",
 })
-export class CompressedContextsEntity extends CoreEntity {
+export class CompressedMessagesEntity extends CoreEntity {
   @Column({
     type: "bigint",
     name: "counsel_id",

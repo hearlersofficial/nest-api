@@ -1,4 +1,7 @@
-import { CompressedContextNewProps, CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
+import {
+  CompressedMessages,
+  CompressedMessagesNewProps,
+} from "~counselings/domains/counsels/models/compressed-messages";
 import { CounselMessages, CounselMessagesNewProps } from "~counselings/domains/counsels/models/counsel-messages";
 import { Counsels, CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
 
@@ -12,7 +15,7 @@ export abstract class CounselsStore {
   abstract createMessage(newProps: CounselMessagesNewProps): Promise<CounselMessages>;
   abstract updateMessage(counselMessage: CounselMessages): Promise<CounselMessages>;
   abstract updateManyMessages(counselMessages: CounselMessages[]): Promise<CounselMessages[]>;
-  abstract createCompressedContext(newProps: CompressedContextNewProps): Promise<CompressedContexts>;
-  abstract updateCompressedContext(compressedContext: CompressedContexts): Promise<CompressedContexts>;
-  abstract updateManyCompressedContexts(compressedContexts: CompressedContexts[]): Promise<CompressedContexts[]>;
+  abstract createCompressedMessage(newProps: CompressedMessagesNewProps): Promise<CompressedMessages>;
+  abstract updateCompressedMessage(compressedMessage: CompressedMessages): Promise<CompressedMessages>;
+  abstract updateManyCompressedMessages(compressedMessages: CompressedMessages[]): Promise<CompressedMessages[]>;
 }

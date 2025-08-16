@@ -61,7 +61,7 @@ export class CounselingOrchestrator {
     let conversationHistory = this.counselService.buildHistory({
       counselId: session.getCounselId(),
       messages: session.getMessages(),
-      compressedContexts: session.getCompressedContexts(),
+      compressedMessages: session.getCompressedMessages(),
     });
 
     // 4. AI 응답 생성
@@ -85,7 +85,7 @@ export class CounselingOrchestrator {
     conversationHistory = this.counselService.buildHistory({
       counselId: session.getCounselId(),
       messages: session.getMessages(),
-      compressedContexts: session.getCompressedContexts(),
+      compressedMessages: session.getCompressedMessages(),
     });
 
     // 6. 백그라운드에서 기법 전환 평가 수행
@@ -165,7 +165,7 @@ export class CounselingOrchestrator {
     const conversationHistory = this.counselService.buildHistory({
       counselId: session.getCounselId(),
       messages: session.getMessages(),
-      compressedContexts: session.getCompressedContexts(),
+      compressedMessages: session.getCompressedMessages(),
     });
     const nextTechniqueId = session.getCurrentTechnique().nextTechniqueId;
 

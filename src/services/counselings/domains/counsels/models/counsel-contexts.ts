@@ -26,6 +26,8 @@ export interface CounselContextsNewProps {
 }
 
 export interface CounselContextsProps extends CounselContextsNewProps {
+  notCompressedMessageCount: number;
+  lastMessageCompressedAt: Dayjs | null;
   currentTechniqueMessageCount: number;
   impactDomain: ImpactDomain;
   timeframe: Timeframe;
@@ -50,6 +52,8 @@ export interface CounselContextsProps extends CounselContextsNewProps {
 }
 
 export class CounselContexts extends DomainEntity<CounselContextsProps, CounselContextId> {
+  public static readonly COMPRESSION_THRESHOLD = 20;
+
   private constructor(props: CounselContextsProps, id: CounselContextId) {
     super(props, id);
   }
@@ -69,6 +73,8 @@ export class CounselContexts extends DomainEntity<CounselContextsProps, CounselC
     return this.create(
       {
         ...newProps,
+        notCompressedMessageCount: 0,
+        lastMessageCompressedAt: null,
         currentTechniqueMessageCount: 0,
         impactDomain: ImpactDomain.UNSPECIFIED,
         timeframe: Timeframe.UNSPECIFIED,
@@ -122,6 +128,29 @@ export class CounselContexts extends DomainEntity<CounselContextsProps, CounselC
       return Result.fail("[CounselContexts] 상담 ID는 필수입니다");
     }
     return Result.ok();
+  }
+
+  public shouldCompressContext(): boolean {
+    return this.props.notCompressedMessageCount >= CounselContexts.COMPRESSION_THRESHOLD;
+  }
+
+  public markContextCompressed(): void {
+    const now = getNowDayjs();
+    this.props.notCompressedMessageCount = 0;
+    this.props.lastMessageCompressedAt = now;
+    this.props.updatedAt = now;
+  }
+
+  public increaseNotCompressedMessageCount(): void {
+    this.props.notCompressedMessageCount++;
+    this.props.updatedAt = getNowDayjs();
+  }
+
+  get notCompressedMessageCount(): number {
+    return this.props.notCompressedMessageCount;
+  }
+  get lastMessageCompressedAt(): Dayjs | null {
+    return this.props.lastMessageCompressedAt;
   }
 
   get counselId(): CounselId {

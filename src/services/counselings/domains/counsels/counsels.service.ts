@@ -1,4 +1,3 @@
-import { ContextCompressor } from "~counselings/domains/counsels/context.compressor";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import {
   CounselMessagesCriteriaFindMany,
@@ -6,7 +5,8 @@ import {
 } from "~counselings/domains/counsels/counsels.criteria";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
-import { CompressedContextInfo } from "~counselings/domains/counsels/models/compressed-context.info";
+import { MessageCompressor } from "~counselings/domains/counsels/message.compressor";
+import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-context.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
@@ -25,7 +25,7 @@ export class CounselsService {
   constructor(
     private readonly counselsReader: CounselsReader,
     private readonly counselsStore: CounselsStore,
-    private readonly contextCompressor: ContextCompressor,
+    private readonly contextCompressor: MessageCompressor,
     private readonly conversationHistoryBuilder: ConversationHistoryBuilder,
   ) {}
 
@@ -51,7 +51,7 @@ export class CounselsService {
   async getSessionInfo(props: { counselId: CounselId }): Promise<{
     counsel: CounselInfo;
     messages: CounselMessageInfo[];
-    compressedContexts: CompressedContextInfo[];
+    compressedMessages: CompressedMessageInfo[];
   }> {
     const counsel = await this.counselsReader.findOne(props);
     if (!counsel) {
@@ -59,24 +59,24 @@ export class CounselsService {
     }
     const messages = await this.counselsReader.findManyMessages({
       counselId: props.counselId,
-      limit: counsel.notCompressedMessageCount,
+      limit: counsel.counselContexts.notCompressedMessageCount,
     });
-    const compressedContexts = await this.counselsReader.findManyCompressedContexts({ counselId: props.counselId });
+    const compressedMessages = await this.counselsReader.findManyCompressedMessages({ counselId: props.counselId });
 
     return {
       counsel: CounselInfo.fromDomain(counsel),
       messages: CounselMessageInfo.fromDomainArray(messages),
-      compressedContexts: CompressedContextInfo.fromDomainArray(compressedContexts),
+      compressedMessages: CompressedMessageInfo.fromDomainArray(compressedMessages),
     };
   }
 
   buildHistory(props: {
     counselId: CounselId;
     messages: CounselMessageInfo[];
-    compressedContexts: CompressedContextInfo[];
+    compressedMessages: CompressedMessageInfo[];
   }): string {
-    const { messages, compressedContexts } = props;
-    return this.conversationHistoryBuilder.buildHistory(messages, compressedContexts);
+    const { messages, compressedMessages } = props;
+    return this.conversationHistoryBuilder.buildHistory(messages, compressedMessages);
   }
 
   async getMany(props: CounselsCriteriaFindMany): Promise<CounselInfo[]> {

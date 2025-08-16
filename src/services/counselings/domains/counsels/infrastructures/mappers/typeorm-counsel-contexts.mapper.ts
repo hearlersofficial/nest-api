@@ -18,6 +18,8 @@ export class TypeormCounselContextsMapper {
 
     const counselContextsProps: CounselContextsProps = {
       counselId: new CounselId(entity.counselId),
+      notCompressedMessageCount: entity.notCompressedMessageCount,
+      lastMessageCompressedAt: entity.lastMessageCompressedAt ? dayjs(entity.lastMessageCompressedAt) : null,
       currentTechniqueMessageCount: entity.currentTechniqueMessageCount,
       impactDomain: entity.impactDomain,
       timeframe: entity.timeframe,
@@ -58,6 +60,10 @@ export class TypeormCounselContextsMapper {
 
     entity.id = counselContexts.id.getString();
     entity.counselId = counselContexts.counselId.getString();
+    entity.notCompressedMessageCount = counselContexts.notCompressedMessageCount;
+    entity.lastMessageCompressedAt = counselContexts.lastMessageCompressedAt
+      ? counselContexts.lastMessageCompressedAt.toISOString()
+      : null;
     entity.currentTechniqueMessageCount = counselContexts.currentTechniqueMessageCount;
     entity.impactDomain = counselContexts.impactDomain;
     entity.timeframe = counselContexts.timeframe;

@@ -1,7 +1,8 @@
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
-import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
+import { CompressedMessages } from "~counselings/domains/counsels/models/compressed-messages";
+import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
@@ -11,7 +12,7 @@ import { ASSISTANT_AGENT } from "~common/support/assistant-agents/assistant-agen
 import { Propagation, Transactional } from "typeorm-transactional";
 
 @Injectable()
-export class ContextCompressor {
+export class MessageCompressor {
   constructor(
     private readonly counselsReader: CounselsReader,
     private readonly counselsStore: CounselsStore,
@@ -21,23 +22,23 @@ export class ContextCompressor {
   ) {}
 
   @Transactional({ propagation: Propagation.REQUIRES_NEW })
-  public async compressContext(counsel: Counsels): Promise<CompressedContexts> {
-    const compressedContextContent = await this.generateCompressedContext(counsel);
-    const compressedContext = await this.counselsStore.createCompressedContext({
+  public async compressContext(counsel: Counsels): Promise<CompressedMessages> {
+    const compressedMessageContent = await this.generateCompressedMessage(counsel);
+    const compressedMessage = await this.counselsStore.createCompressedMessage({
       counselId: counsel.id,
-      content: compressedContextContent,
+      content: compressedMessageContent,
       messageCountAtCompression: counsel.messageCount,
     });
-    counsel.markContextCompressed();
+    counsel.counselContexts.markContextCompressed();
     await this.counselsStore.update(counsel);
 
-    return compressedContext;
+    return compressedMessage;
   }
 
-  private async generateCompressedContext(counsel: Counsels): Promise<string> {
+  private async generateCompressedMessage(counsel: Counsels): Promise<string> {
     const messages = await this.counselsReader.findManyMessages({
       counselId: counsel.id,
-      limit: Counsels.COMPRESSION_THRESHOLD,
+      limit: CounselContexts.COMPRESSION_THRESHOLD,
       offset: 0,
       orderBy: {
         id: "DESC",

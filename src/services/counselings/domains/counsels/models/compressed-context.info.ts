@@ -1,12 +1,12 @@
-import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
+import { CompressedMessages } from "~counselings/domains/counsels/models/compressed-messages";
 
-import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
+import { CompressedMessageId } from "~common/shared-kernel/identifiers/compressed-context.id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { Dayjs } from "dayjs";
 
-export class CompressedContextInfo {
+export class CompressedMessageInfo {
   constructor(
-    public readonly id: CompressedContextId,
+    public readonly id: CompressedMessageId,
     public readonly counselId: CounselId,
     public readonly content: string,
     public readonly messageCountAtCompression: number,
@@ -15,19 +15,19 @@ export class CompressedContextInfo {
     public readonly deletedAt: Dayjs | null,
   ) {}
 
-  static fromDomain(compressedContext: CompressedContexts): CompressedContextInfo {
-    return new CompressedContextInfo(
-      compressedContext.id,
-      compressedContext.counselId,
-      compressedContext.content,
-      compressedContext.messageCountAtCompression,
-      compressedContext.createdAt,
-      compressedContext.updatedAt,
-      compressedContext.deletedAt,
+  static fromDomain(compressedMessage: CompressedMessages): CompressedMessageInfo {
+    return new CompressedMessageInfo(
+      compressedMessage.id,
+      compressedMessage.counselId,
+      compressedMessage.content,
+      compressedMessage.messageCountAtCompression,
+      compressedMessage.createdAt,
+      compressedMessage.updatedAt,
+      compressedMessage.deletedAt,
     );
   }
 
-  static fromDomainArray(compressedContexts: CompressedContexts[]): CompressedContextInfo[] {
-    return compressedContexts.map((context) => CompressedContextInfo.fromDomain(context));
+  static fromDomainArray(compressedMessages: CompressedMessages[]): CompressedMessageInfo[] {
+    return compressedMessages.map((message) => CompressedMessageInfo.fromDomain(message));
   }
 }

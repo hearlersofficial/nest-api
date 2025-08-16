@@ -1,19 +1,19 @@
 import {
-  CompressedContextCriteriaFindMany,
+  CompressedMessagesCriteriaFindMany,
   CounselMessagesCriteriaFindMany,
   CounselsCriteriaFindMany,
 } from "~counselings/domains/counsels/counsels.criteria";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
-import { CompressedContextsRepository } from "~counselings/domains/counsels/infrastructures/compressed-contexts.repository";
+import { CompressedMessagesRepository } from "~counselings/domains/counsels/infrastructures/compressed-messages.repository";
 import { CounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/counsel-messages.repository";
 import { CounselsRepository } from "~counselings/domains/counsels/infrastructures/counsels.repository";
 import { RepositoryCounselCriteriaMapper } from "~counselings/domains/counsels/infrastructures/mappers/repository-counsels-criteria.mapper";
-import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
+import { CompressedMessages } from "~counselings/domains/counsels/models/compressed-messages";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
 import { Injectable } from "@nestjs/common";
-import { CompressedContextId } from "~common/shared-kernel/identifiers/compressed-context.id";
+import { CompressedMessageId } from "~common/shared-kernel/identifiers/compressed-context.id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
 
@@ -22,7 +22,7 @@ export class RepositoryCounselsReader extends CounselsReader {
   constructor(
     private readonly counselsRepository: CounselsRepository,
     private readonly counselMessagesRepository: CounselMessagesRepository,
-    private readonly compressedContextsRepository: CompressedContextsRepository,
+    private readonly compressedMessagesRepository: CompressedMessagesRepository,
   ) {
     super();
   }
@@ -45,14 +45,14 @@ export class RepositoryCounselsReader extends CounselsReader {
     return this.counselMessagesRepository.findMany(typeormOptions);
   }
 
-  override async findOneCompressedContext(props: {
-    compressedContextId: CompressedContextId;
-  }): Promise<CompressedContexts | null> {
-    return this.compressedContextsRepository.findByCompressedContextId(props.compressedContextId);
+  override async findOneCompressedMessage(props: {
+    compressedMessageId: CompressedMessageId;
+  }): Promise<CompressedMessages | null> {
+    return this.compressedMessagesRepository.findById(props.compressedMessageId);
   }
 
-  override async findManyCompressedContexts(props: CompressedContextCriteriaFindMany): Promise<CompressedContexts[]> {
-    const typeormOptions = RepositoryCounselCriteriaMapper.toFindManyCompressedContextOptions(props);
-    return this.compressedContextsRepository.findMany(typeormOptions);
+  override async findManyCompressedMessages(props: CompressedMessagesCriteriaFindMany): Promise<CompressedMessages[]> {
+    const typeormOptions = RepositoryCounselCriteriaMapper.toFindManyCompressedMessageOptions(props);
+    return this.compressedMessagesRepository.findMany(typeormOptions);
   }
 }

@@ -30,18 +30,12 @@ export interface CounselsProps extends CounselsNewProps {
 
   messageCount: number;
 
-  notCompressedMessageCount: number;
-  lastContextCompressedAt: Dayjs | null;
-  compressedContextExists: boolean;
-
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
 }
 
 export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
-  public static readonly COMPRESSION_THRESHOLD = 20;
-
   private constructor(props: CounselsProps, id: CounselId) {
     super(props, id);
   }
@@ -71,9 +65,6 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
         lastChatedAt: null,
         lastMessage: null,
         messageCount: 0,
-        notCompressedMessageCount: 0,
-        lastContextCompressedAt: null,
-        compressedContextExists: false,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -121,14 +112,6 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
       return Result.fail("[Counsels] 메시지 수는 정수여야 합니다.");
     }
 
-    // notCompressedMessageCount 검증
-    if (this.props.notCompressedMessageCount < 0) {
-      return Result.fail("[Counsels] 압축되지 않은 메시지 수는 0 이상이어야 합니다.");
-    }
-    if (!Number.isInteger(this.props.notCompressedMessageCount)) {
-      return Result.fail("[Counsels] 압축되지 않은 메시지 수는 정수여야 합니다.");
-    }
-
     // 날짜 검증
     if (!isDefined(this.props.createdAt)) {
       return Result.fail("[Counsels] 생성 시간은 필수입니다");
@@ -173,18 +156,6 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
     return this.props.messageCount;
   }
 
-  get notCompressedMessageCount(): number {
-    return this.props.notCompressedMessageCount;
-  }
-
-  get lastContextCompressedAt(): Dayjs | null {
-    return this.props.lastContextCompressedAt;
-  }
-
-  get compressedContextExists(): boolean {
-    return this.props.compressedContextExists;
-  }
-
   get counselContexts(): CounselContexts {
     return this.props.counselContexts;
   }
@@ -214,21 +185,9 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
     return Result.ok();
   }
 
-  public shouldCompressContext(): boolean {
-    return this.props.notCompressedMessageCount >= Counsels.COMPRESSION_THRESHOLD;
-  }
-
-  public markContextCompressed(): void {
-    const now = getNowDayjs();
-    this.props.notCompressedMessageCount = 0;
-    this.props.lastContextCompressedAt = now;
-    this.props.compressedContextExists = true;
-    this.props.updatedAt = now;
-  }
-
   public increaseMessageCount(): void {
     this.props.messageCount++;
-    this.props.notCompressedMessageCount++;
+    this.counselContexts.increaseNotCompressedMessageCount();
     this.props.updatedAt = getNowDayjs();
   }
 

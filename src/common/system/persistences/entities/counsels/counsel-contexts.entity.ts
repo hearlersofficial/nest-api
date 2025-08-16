@@ -21,6 +21,22 @@ import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 export class CounselContextsEntity extends CoreEntity {
   @Column({
     type: "int",
+    name: "not_compressed_message_count",
+    default: 0,
+    comment: "압축되지 않은 메시지 수",
+  })
+  notCompressedMessageCount: number;
+
+  @Column({
+    type: "timestamp",
+    name: "last_message_compressed_at",
+    nullable: true,
+    comment: "마지막 메시지 압축일시",
+  })
+  lastMessageCompressedAt: string | null;
+
+  @Column({
+    type: "int",
     name: "current_technique_message_count",
     default: 0,
     comment: "현 기법에서 누적 메시지 수(>=0)",

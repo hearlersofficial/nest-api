@@ -36,30 +36,6 @@ export class CounselsEntity extends CoreEntity {
   })
   messageCount: number;
 
-  @Column({
-    type: "int",
-    name: "not_compressed_message_count",
-    default: 0,
-    comment: "압축되지 않은 메시지 수",
-  })
-  notCompressedMessageCount: number;
-
-  @Column({
-    type: "timestamp",
-    name: "last_context_compressed_at",
-    nullable: true,
-    comment: "마지막 컨텍스트 압축일시 (한국시간)",
-  })
-  lastContextCompressedAt: string | null;
-
-  @Column({
-    type: "boolean",
-    name: "compressed_context_exists",
-    default: false,
-    comment: "압축된 컨텍스트 존재 여부",
-  })
-  compressedContextExists: boolean;
-
   @ManyToOne(() => UsersEntity, (user) => user.counsels, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",

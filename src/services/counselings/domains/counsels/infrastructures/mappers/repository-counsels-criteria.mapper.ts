@@ -1,11 +1,11 @@
 import {
-  CompressedContextCriteriaFindMany,
+  CompressedMessagesCriteriaFindMany,
   CounselMessagesCriteriaFindMany,
   CounselsCriteriaFindMany,
 } from "~counselings/domains/counsels/counsels.criteria";
 
 import { isDefined } from "~common/shared/utils/validate";
-import { CompressedContextsEntity } from "~common/system/persistences/entities/counsels/CompressedContexts.entity";
+import { CompressedMessagesEntity } from "~common/system/persistences/entities/counsels/compressed-messages.entity";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
 import { FindManyOptions, FindOptionsOrder, FindOptionsWhere } from "typeorm";
@@ -41,10 +41,10 @@ export class RepositoryCounselCriteriaMapper {
     return { where, order, take: criteria.limit, skip: criteria.offset };
   }
 
-  static toFindManyCompressedContextOptions(
-    criteria: CompressedContextCriteriaFindMany,
-  ): FindManyOptions<CompressedContextsEntity> {
-    const where: FindOptionsWhere<CompressedContextsEntity> = {};
+  static toFindManyCompressedMessageOptions(
+    criteria: CompressedMessagesCriteriaFindMany,
+  ): FindManyOptions<CompressedMessagesEntity> {
+    const where: FindOptionsWhere<CompressedMessagesEntity> = {};
     where.counselId = criteria.counselId.getString();
     return { where };
   }

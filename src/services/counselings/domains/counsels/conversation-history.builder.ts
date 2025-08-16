@@ -1,5 +1,5 @@
-import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
-import { CompressedContextInfo } from "~counselings/domains/counsels/models/compressed-context.info";
+import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-context.info";
+import { CompressedMessages } from "~counselings/domains/counsels/models/compressed-messages";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 
@@ -10,17 +10,11 @@ import { Injectable } from "@nestjs/common";
  */
 @Injectable()
 export class ConversationHistoryBuilder {
-  /**
-   * 메시지 배열 및 압축된 컨텍스트를 대화 히스토리 문자열로 변환
-   * @param messages 상담 메시지 배열
-   * @param compressedContexts 압축된 컨텍스트 배열
-   * @returns 포맷된 대화 히스토리 문자열
-   */
   buildHistory(
     messages: CounselMessageInfo[] | CounselMessages[],
-    compressedContexts?: CompressedContextInfo[] | CompressedContexts[],
+    compressedMessages?: CompressedMessageInfo[] | CompressedMessages[],
   ): string {
-    const formattedContexts = compressedContexts ? this.formatContexts(compressedContexts) : "";
+    const formattedContexts = compressedMessages ? this.formatContexts(compressedMessages) : "";
     const conversationJson = this.buildMessagesJson(
       messages.map((m) => ({ isUserMessage: m.isUserMessage, message: m.message })),
     );
@@ -65,12 +59,14 @@ export class ConversationHistoryBuilder {
    * @param context 압축된 컨텍스트 정보
    * @returns 포맷된 컨텍스트 문자열
    */
-  private formatContexts(contexts: CompressedContextInfo[]): string {
-    if (contexts.length === 0) {
+  private formatContexts(compressedMessages: CompressedMessageInfo[]): string {
+    if (compressedMessages.length === 0) {
       return "";
     }
 
-    const formattedContexts = contexts.map((context) => `[PREVIOUS_SESSION]\n${context.content}\n[/PREVIOUS_SESSION]`);
+    const formattedContexts = compressedMessages.map(
+      (message) => `[PREVIOUS_SESSION]\n${message.content}\n[/PREVIOUS_SESSION]`,
+    );
 
     return formattedContexts.join("\n\n");
   }

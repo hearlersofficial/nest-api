@@ -1,5 +1,5 @@
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
-import { CompressedContextInfo } from "~counselings/domains/counsels/models/compressed-context.info";
+import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-context.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
@@ -20,7 +20,7 @@ export type CounselSessionData = {
   counsel: CounselInfo;
   counselor: CounselorsInfo;
   messages: CounselMessageInfo[];
-  compressedContexts: CompressedContextInfo[];
+  compressedMessages: CompressedMessageInfo[];
   promptVersion: PromptVersionInfo;
   currentTechnique: CounselTechniqueInfo;
 };
@@ -52,7 +52,7 @@ export class CounselSession {
   private readonly counsel: CounselInfo;
   private readonly counselor: CounselorsInfo;
   private readonly messages: CounselMessageInfo[];
-  private readonly compressedContexts: CompressedContextInfo[];
+  private readonly compressedMessages: CompressedMessageInfo[];
   private readonly promptVersion: PromptVersionInfo;
   private readonly currentTechnique: CounselTechniqueInfo;
 
@@ -60,7 +60,7 @@ export class CounselSession {
     this.counsel = data.counsel;
     this.counselor = data.counselor;
     this.messages = data.messages;
-    this.compressedContexts = data.compressedContexts;
+    this.compressedMessages = data.compressedMessages;
     this.promptVersion = data.promptVersion;
     this.currentTechnique = data.currentTechnique;
   }
@@ -141,8 +141,8 @@ export class CounselSession {
     return this.messages;
   }
 
-  getCompressedContexts(): CompressedContextInfo[] {
-    return this.compressedContexts;
+  getCompressedMessages(): CompressedMessageInfo[] {
+    return this.compressedMessages;
   }
 
   getPromptVersion(): PromptVersionInfo {
@@ -182,7 +182,7 @@ export class CounselSession {
       counsel: this.counsel,
       counselor: this.counselor,
       messages: [...this.messages, message],
-      compressedContexts: this.compressedContexts,
+      compressedMessages: this.compressedMessages,
       promptVersion: this.promptVersion,
       currentTechnique: this.currentTechnique,
     });

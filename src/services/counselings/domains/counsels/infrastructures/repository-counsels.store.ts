@@ -1,8 +1,11 @@
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
-import { CompressedContextsRepository } from "~counselings/domains/counsels/infrastructures/compressed-contexts.repository";
+import { CompressedMessagesRepository } from "~counselings/domains/counsels/infrastructures/compressed-messages.repository";
 import { CounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/counsel-messages.repository";
 import { CounselsRepository } from "~counselings/domains/counsels/infrastructures/counsels.repository";
-import { CompressedContextNewProps, CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
+import {
+  CompressedMessages,
+  CompressedMessagesNewProps,
+} from "~counselings/domains/counsels/models/compressed-messages";
 import { CounselMessages, CounselMessagesNewProps } from "~counselings/domains/counsels/models/counsel-messages";
 import { Counsels, CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
 
@@ -14,7 +17,7 @@ export class RepositoryCounselsStore extends CounselsStore {
   constructor(
     private readonly counselRepository: CounselsRepository,
     private readonly counselMessagesRepository: CounselMessagesRepository,
-    private readonly compressedContextsRepository: CompressedContextsRepository,
+    private readonly compressedMessagesRepository: CompressedMessagesRepository,
   ) {
     super();
   }
@@ -51,19 +54,19 @@ export class RepositoryCounselsStore extends CounselsStore {
     return this.counselMessagesRepository.save(counselMessages);
   }
 
-  override async createCompressedContext(newProps: CompressedContextNewProps): Promise<CompressedContexts> {
-    const compressedContextResult = CompressedContexts.createNew(newProps);
-    if (compressedContextResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, compressedContextResult.error as string);
+  override async createCompressedMessage(newProps: CompressedMessagesNewProps): Promise<CompressedMessages> {
+    const compressedMessageResult = CompressedMessages.createNew(newProps);
+    if (compressedMessageResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, compressedMessageResult.error as string);
     }
-    return this.compressedContextsRepository.save(compressedContextResult.value);
+    return this.compressedMessagesRepository.save(compressedMessageResult.value);
   }
 
-  override async updateCompressedContext(compressedContext: CompressedContexts): Promise<CompressedContexts> {
-    return this.compressedContextsRepository.save(compressedContext);
+  override async updateCompressedMessage(compressedMessage: CompressedMessages): Promise<CompressedMessages> {
+    return this.compressedMessagesRepository.save(compressedMessage);
   }
 
-  override async updateManyCompressedContexts(compressedContexts: CompressedContexts[]): Promise<CompressedContexts[]> {
-    return this.compressedContextsRepository.save(compressedContexts);
+  override async updateManyCompressedMessages(compressedMessages: CompressedMessages[]): Promise<CompressedMessages[]> {
+    return this.compressedMessagesRepository.save(compressedMessages);
   }
 }

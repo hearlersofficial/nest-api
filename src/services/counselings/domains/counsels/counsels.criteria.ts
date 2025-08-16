@@ -10,7 +10,7 @@ export type CounselsCriteriaFindMany = {
   };
 };
 
-export type CompressedContextCriteriaFindMany = {
+export type CompressedMessagesCriteriaFindMany = {
   counselId: CounselId;
 };
 

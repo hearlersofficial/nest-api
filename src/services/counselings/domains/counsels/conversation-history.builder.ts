@@ -1,3 +1,4 @@
+import { CompressedContexts } from "~counselings/domains/counsels/models/compressed-context";
 import { CompressedContextInfo } from "~counselings/domains/counsels/models/compressed-context.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
@@ -15,7 +16,10 @@ export class ConversationHistoryBuilder {
    * @param compressedContexts 압축된 컨텍스트 배열
    * @returns 포맷된 대화 히스토리 문자열
    */
-  buildHistory(messages: CounselMessageInfo[], compressedContexts?: CompressedContextInfo[]): string {
+  buildHistory(
+    messages: CounselMessageInfo[] | CounselMessages[],
+    compressedContexts?: CompressedContextInfo[] | CompressedContexts[],
+  ): string {
     const formattedContexts = compressedContexts ? this.formatContexts(compressedContexts) : "";
     const conversationJson = this.buildMessagesJson(
       messages.map((m) => ({ isUserMessage: m.isUserMessage, message: m.message })),
@@ -75,7 +79,7 @@ export class ConversationHistoryBuilder {
    * 도메인 모델 메시지 배열을 JSON 포맷 대화 히스토리로 변환
    * @param messages 도메인 모델의 상담 메시지 배열
    */
-  buildHistoryFromDomain(messages: CounselMessages[]): string {
+  buildHistoryFromDomain(messages: CounselMessageInfo[] | CounselMessages[]): string {
     return this.buildMessagesJson(messages.map((m) => ({ isUserMessage: m.isUserMessage, message: m.message })));
   }
 }

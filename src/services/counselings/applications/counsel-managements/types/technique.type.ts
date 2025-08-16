@@ -1,12 +1,3 @@
-import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
-
-export type TechniqueTransitionEvaluationParams = {
-  currentTechniqueId: string;
-  nextTechniqueId: string;
-  messages: CounselMessageInfo[];
-  messageThreshold: number;
-};
-
 export type TechniqueTransitionScore = {
   completionScore: number; // 현재 기법의 완료/달성도 (0-100)
   readinessScore: number; // 다음 단계로의 준비도/의지/통찰 (0-100)
@@ -26,11 +17,4 @@ export type TechniqueTransitionDecision = {
   evidence?: TechniqueEvaluationEvidence[]; // 선택적 근거 목록
   unmetCriteria?: string[]; // 미충족 기준 목록
   ruleApplied?: string; // 적용된 규칙 설명
-};
-
-// 백그라운드 기법 전환 평가 결과
-export type BackgroundTechniqueEvaluationResult = {
-  evaluationPerformed: boolean;
-  decision?: TechniqueTransitionDecision;
-  error?: string;
 };

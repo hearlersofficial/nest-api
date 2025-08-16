@@ -2,19 +2,18 @@ import { CounselSession } from "~counselings/applications/counsel-managements/mo
 import { AIResponseGenerator } from "~counselings/applications/counsel-managements/support/ai-response.generator";
 import { ContextManager } from "~counselings/applications/counsel-managements/support/context.manager";
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
-import {
-  TechniqueEvaluationRequest,
-  TechniqueManager,
-} from "~counselings/applications/counsel-managements/support/technique.manager";
 import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
 import { TechniqueTransitionDecision } from "~counselings/applications/counsel-managements/types/technique.type";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
-import { Injectable, Logger } from "@nestjs/common";
+import { HttpStatus, Injectable, Logger } from "@nestjs/common";
+import { isDefined } from "~common/shared/utils/validate";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Propagation, Transactional } from "typeorm-transactional";
 
 /**
@@ -26,12 +25,12 @@ export class CounselingOrchestrator {
   private readonly logger = new Logger(CounselingOrchestrator.name);
 
   constructor(
-    private readonly techniqueManager: TechniqueManager,
     private readonly promptBuilder: SystemPromptBuilder,
     private readonly aiGenerator: AIResponseGenerator,
     private readonly contextManager: ContextManager,
     private readonly techniqueEvaluationParser: TechniqueEvaluationParser,
     private readonly counselService: CounselsService,
+    private readonly counselTechniqueService: CounselTechniquesService,
   ) {}
 
   /**
@@ -47,34 +46,25 @@ export class CounselingOrchestrator {
   }> {
     const { counselId, userMessage } = request;
 
-    // 1. 세션 컨텍스트 구성
-    let session = await this.contextManager.buildCounselSession(counselId);
-
-    // 2. 현재 상담기법 조회
-    const techniqueResult = await this.techniqueManager.getCurrentTechnique(session);
-
-    // 세션 업데이트 (상담 정보 + 상담기법)
-    session = session
-      .withUpdatedCounsel(techniqueResult.counsel)
-      .withUpdatedTechnique(techniqueResult.currentTechnique);
-
-    // 3. 시스템 프롬프트 생성
-    const systemPrompt = await this.promptBuilder.buildSystemPrompt(session);
-
-    // 4. 유저 메시지 생성 및 저장
+    // 1. 유저 메시지 생성 및 저장
     const createdUserMessage = await this.counselService.saveMessage({
-      counselId: session.getCounselId(),
+      counselId,
       message: userMessage,
       isUserMessage: true,
     });
 
-    // 세션에 새 메시지 추가
-    session = session.withNewMessage(createdUserMessage.message);
+    // 2. 세션 컨텍스트 구성
+    let session = await this.contextManager.buildCounselSession(counselId);
 
-    // 5. 대화 히스토리 구성 (압축된 맥락 포함)
-    // TODO: 압축된 메시지들도 포함할지 여부 결정
-    const conversationHistory = session.getConversationHistory();
-    // 6. AI 응답 생성
+    // 3. 프롬프트 구성
+    const systemPrompt = await this.promptBuilder.buildSystemPrompt(session);
+    let conversationHistory = this.counselService.buildHistory({
+      counselId: session.getCounselId(),
+      messages: session.getMessages(),
+      compressedContexts: session.getCompressedContexts(),
+    });
+
+    // 4. AI 응답 생성
     const aiResponse = await this.aiGenerator.generateResponse(
       systemPrompt,
       conversationHistory,
@@ -84,7 +74,7 @@ export class CounselingOrchestrator {
       session.getCurrentTechnique().temperature,
     );
 
-    // 7. 시스템 메시지 생성 및 저장
+    // 5. 시스템 메시지 생성 및 저장
     const createdAssistantMessage = await this.counselService.saveMessage({
       counselId: session.getCounselId(),
       message: aiResponse,
@@ -92,7 +82,13 @@ export class CounselingOrchestrator {
     });
     session = session.withNewMessage(createdAssistantMessage.message);
 
-    // 9. 백그라운드에서 기법 전환 평가 수행
+    conversationHistory = this.counselService.buildHistory({
+      counselId: session.getCounselId(),
+      messages: session.getMessages(),
+      compressedContexts: session.getCompressedContexts(),
+    });
+
+    // 6. 백그라운드에서 기법 전환 평가 수행
     this.evaluateTechniqueTransitionInBackground(session);
 
     return {
@@ -112,35 +108,41 @@ export class CounselingOrchestrator {
     // 백그라운드 처리를 위해 Promise.resolve()를 사용
     Promise.resolve()
       .then(async () => {
-        // 1. TechniqueManager에서 평가 준비 (도메인 로직만 사용)
-        const preparationResult = await this.techniqueManager.prepareBackgroundEvaluation(session);
-
-        // 평가가 불필요한 경우
-        if (!preparationResult.shouldEvaluate) {
-          this.logger.log(
-            `Technique evaluation skipped for counsel ${session.getCounselId()}: ${preparationResult.reason}`,
-          );
+        // 1. 평가 조건 확인
+        if (!isDefined(session.getCurrentTechnique().nextTechniqueId)) {
+          this.logger.log(`Technique evaluation skipped for counsel ${session.getCounselId()}: No next technique`);
+          return;
+        }
+        if (
+          session
+            .getMessages()
+            .filter((m) => m.isUserMessage)
+            .filter((m) => m.counselTechniqueId === session.getCurrentTechniqueId()).length <
+          session.getCurrentTechnique().messageThreshold
+        ) {
+          this.logger.log(`Technique evaluation skipped for counsel ${session.getCounselId()}: Insufficient messages`);
           return;
         }
 
         // 2. AI 평가 수행
-        const decision = await this.performAIEvaluation(preparationResult.evaluationRequest);
+        const decision = await this.performAIEvaluation(session);
 
-        // 3. TechniqueManager에서 평가 결과 처리
-        const evaluationResult = await this.techniqueManager.processEvaluationResult(
-          preparationResult.evaluationRequest,
-          session,
-          decision,
-        );
+        // 3. 기법 전환 처리
+        if (decision.shouldTransition) {
+          await this.counselService.updateCounselTechniqueId({
+            counselId: session.getCounselId(),
+            counselTechniqueId: session.getCurrentTechnique().nextTechniqueId!,
+          });
+        }
 
         // 로깅
-        if (evaluationResult.evaluationPerformed && decision.shouldTransition) {
+        if (decision.shouldTransition) {
           this.logger.log(`Technique transition executed for counsel ${session.getCounselId()}`, {
             currentTechniqueId: session.getCurrentTechniqueId(),
             scores: decision.scores,
             confidence: decision.confidence,
           });
-        } else if (evaluationResult.evaluationPerformed) {
+        } else {
           this.logger.log(`Technique transition not recommended for counsel ${session.getCounselId()}`, {
             currentTechniqueId: session.getCurrentTechniqueId(),
             scores: decision.scores,
@@ -158,17 +160,28 @@ export class CounselingOrchestrator {
    * @param request 평가 요청
    * @returns 기법 전환 결정
    */
-  private async performAIEvaluation(request: TechniqueEvaluationRequest): Promise<TechniqueTransitionDecision> {
+  private async performAIEvaluation(session: CounselSession): Promise<TechniqueTransitionDecision> {
     // 현재 기법 메시지들을 대화 히스토리로 구성
-    const { conversationHistory } = await this.counselService.getSessionInfo({
-      counselId: request.counselId,
+    const conversationHistory = this.counselService.buildHistory({
+      counselId: session.getCounselId(),
+      messages: session.getMessages(),
+      compressedContexts: session.getCompressedContexts(),
+    });
+    const nextTechniqueId = session.getCurrentTechnique().nextTechniqueId;
+
+    if (!isDefined(nextTechniqueId)) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Next technique not found");
+    }
+
+    const nextTechnique = await this.counselTechniqueService.getOne({
+      counselTechniqueId: nextTechniqueId,
     });
 
     // 기법 평가용 통합 시스템 프롬프트 생성
     const systemPrompt = this.promptBuilder.buildTechniqueEvaluationSystemPrompt({
-      currentTechnique: request.currentTechnique,
-      nextTechnique: request.nextTechnique,
-      messageThreshold: request.messageThreshold,
+      currentTechnique: session.getCurrentTechnique(),
+      nextTechnique: nextTechnique,
+      messageThreshold: session.getCurrentTechnique().messageThreshold,
     });
 
     const evaluationRequest = "please evaluate the technique transition";
@@ -183,11 +196,11 @@ export class CounselingOrchestrator {
       0,
     );
 
-    const userMessageCount = request.currentTechniqueMessages.filter((m) => m.isUserMessage).length;
+    const userMessageCount = session.getMessages().filter((m) => m.isUserMessage).length;
 
     // 파서를 사용하여 응답 파싱 + 결정 계산
     return this.techniqueEvaluationParser.parseTechniqueEvaluationResponse(aiResponse, {
-      messageThreshold: request.messageThreshold,
+      messageThreshold: session.getCurrentTechnique().messageThreshold,
       userMessageCount,
     });
   }

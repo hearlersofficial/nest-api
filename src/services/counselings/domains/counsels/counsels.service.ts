@@ -50,28 +50,39 @@ export class CounselsService {
 
   async getSessionInfo(props: { counselId: CounselId }): Promise<{
     counsel: CounselInfo;
-    conversationHistory: string;
+    messages: CounselMessageInfo[];
+    compressedContexts: CompressedContextInfo[];
   }> {
     const counsel = await this.counselsReader.findOne(props);
-    const messages = await this.counselsReader.findManyMessages({ counselId: props.counselId });
-    const compressedContexts = await this.counselsReader.findManyCompressedContexts({ counselId: props.counselId });
     if (!counsel) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
     }
+    const messages = await this.counselsReader.findManyMessages({
+      counselId: props.counselId,
+      limit: counsel.notCompressedMessageCount,
+    });
+    const compressedContexts = await this.counselsReader.findManyCompressedContexts({ counselId: props.counselId });
+
     return {
       counsel: CounselInfo.fromDomain(counsel),
-      conversationHistory: this.conversationHistoryBuilder.buildHistory(
-        CounselMessageInfo.fromDomainArray(messages),
-        CompressedContextInfo.fromDomainArray(compressedContexts),
-      ),
+      messages: CounselMessageInfo.fromDomainArray(messages),
+      compressedContexts: CompressedContextInfo.fromDomainArray(compressedContexts),
     };
+  }
+
+  buildHistory(props: {
+    counselId: CounselId;
+    messages: CounselMessageInfo[];
+    compressedContexts: CompressedContextInfo[];
+  }): string {
+    const { messages, compressedContexts } = props;
+    return this.conversationHistoryBuilder.buildHistory(messages, compressedContexts);
   }
 
   async getMany(props: CounselsCriteriaFindMany): Promise<CounselInfo[]> {
     const counsels = await this.counselsReader.findMany(props);
     return Promise.all(
       counsels.map(async (counsel) => {
-        const messages = await this.counselsReader.findManyMessages({ counselId: counsel.id });
         return CounselInfo.fromDomain(counsel);
       }),
     );

@@ -18,7 +18,7 @@ export class ContextManager {
 
   async buildCounselSession(counselId: CounselId): Promise<CounselSession> {
     // 병렬로 데이터 수집
-    const { counsel, conversationHistory } = await this.counselService.getSessionInfo({
+    const { counsel, messages, compressedContexts } = await this.counselService.getSessionInfo({
       counselId,
     });
 
@@ -31,7 +31,8 @@ export class ContextManager {
     return new CounselSession({
       counsel,
       counselor,
-      conversationHistory,
+      messages,
+      compressedContexts,
       promptVersion,
       currentTechnique,
     });

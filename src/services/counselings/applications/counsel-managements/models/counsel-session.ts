@@ -1,4 +1,5 @@
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
+import { CompressedContextInfo } from "~counselings/domains/counsels/models/compressed-context.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
@@ -18,7 +19,8 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 export type CounselSessionData = {
   counsel: CounselInfo;
   counselor: CounselorsInfo;
-  conversationHistory: string;
+  messages: CounselMessageInfo[];
+  compressedContexts: CompressedContextInfo[];
   promptVersion: PromptVersionInfo;
   currentTechnique: CounselTechniqueInfo;
 };
@@ -49,20 +51,22 @@ export type SessionContext = {
 export class CounselSession {
   private readonly counsel: CounselInfo;
   private readonly counselor: CounselorsInfo;
-  private readonly conversationHistory: string;
+  private readonly messages: CounselMessageInfo[];
+  private readonly compressedContexts: CompressedContextInfo[];
   private readonly promptVersion: PromptVersionInfo;
   private readonly currentTechnique: CounselTechniqueInfo;
 
   constructor(data: CounselSessionData) {
     this.counsel = data.counsel;
     this.counselor = data.counselor;
-    this.conversationHistory = data.conversationHistory;
+    this.messages = data.messages;
+    this.compressedContexts = data.compressedContexts;
     this.promptVersion = data.promptVersion;
     this.currentTechnique = data.currentTechnique;
   }
 
   /**
-   * 세션 컨텍스트 정보 반환
+   * 세션 컨텍스트 정보 반환w
    * @returns 세션 컨텍스트
    */
   getSessionContext(): SessionContext {
@@ -133,8 +137,12 @@ export class CounselSession {
     return this.counselor;
   }
 
-  getConversationHistory(): string {
-    return this.conversationHistory;
+  getMessages(): CounselMessageInfo[] {
+    return this.messages;
+  }
+
+  getCompressedContexts(): CompressedContextInfo[] {
+    return this.compressedContexts;
   }
 
   getPromptVersion(): PromptVersionInfo {
@@ -169,48 +177,14 @@ export class CounselSession {
     return this.counsel.counselTechniqueId;
   }
 
-  /**
-   * 메시지에 새로운 메시지 추가 (불변성 유지를 위한 새 인스턴스 반환)
-   * @param newMessage 새로운 메시지
-   * @returns 새로운 CounselSession 인스턴스
-   */
-  withNewMessage(newMessage: CounselMessageInfo): CounselSession {
+  withNewMessage(message: CounselMessageInfo): CounselSession {
     return new CounselSession({
       counsel: this.counsel,
       counselor: this.counselor,
-      conversationHistory: this.conversationHistory,
+      messages: [...this.messages, message],
+      compressedContexts: this.compressedContexts,
       promptVersion: this.promptVersion,
       currentTechnique: this.currentTechnique,
-    });
-  }
-
-  /**
-   * 업데이트된 상담 정보로 새 인스턴스 생성
-   * @param updatedCounsel 업데이트된 상담 정보
-   * @returns 새로운 CounselSession 인스턴스
-   */
-  withUpdatedCounsel(updatedCounsel: CounselInfo): CounselSession {
-    return new CounselSession({
-      counsel: updatedCounsel,
-      counselor: this.counselor,
-      conversationHistory: this.conversationHistory,
-      promptVersion: this.promptVersion,
-      currentTechnique: this.currentTechnique,
-    });
-  }
-
-  /**
-   * 업데이트된 상담기법으로 새 인스턴스 생성
-   * @param updatedTechnique 업데이트된 상담기법
-   * @returns 새로운 CounselSession 인스턴스
-   */
-  withUpdatedTechnique(updatedTechnique: CounselTechniqueInfo): CounselSession {
-    return new CounselSession({
-      counsel: this.counsel,
-      counselor: this.counselor,
-      conversationHistory: this.conversationHistory,
-      promptVersion: this.promptVersion,
-      currentTechnique: updatedTechnique,
     });
   }
 }

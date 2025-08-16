@@ -9,7 +9,6 @@ import { MessageCompressor } from "~counselings/domains/counsels/message.compres
 import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-context.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
-import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 import { CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
@@ -116,28 +115,24 @@ export class CounselsService {
     if (!counsel) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
     }
-    const newMessage = CounselMessages.createNew({
-      counselId: counsel.id,
+    const newMessage = await this.counselsStore.createMessage({
+      counselId,
       message,
       isUserMessage,
       userId: counsel.userId,
       counselTechniqueId: counsel.counselTechniqueId,
     });
 
-    if (newMessage.isFailureResult()) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, newMessage.error);
-    }
     counsel.saveLastMessage(message);
     counsel.increaseMessageCount();
     await this.counselsStore.update(counsel);
-    await this.counselsStore.createMessage(newMessage.value);
 
     if (counsel.counselContexts.shouldCompressContext()) {
       await this.messageCompressor.compressContext(counsel);
     }
     return {
       counsel: CounselInfo.fromDomain(counsel),
-      message: CounselMessageInfo.fromDomain(newMessage.value),
+      message: CounselMessageInfo.fromDomain(newMessage),
     };
   }
 

@@ -1,6 +1,6 @@
 import { getNowDayjs } from "~common/shared/utils/date";
 import { isDefined } from "~common/shared/utils/validate";
-import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
+import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CompressedMessageId } from "~common/shared-kernel/identifiers/compressed-context.id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
@@ -18,7 +18,7 @@ export interface CompressedMessagesProps extends CompressedMessagesNewProps {
   deletedAt: Dayjs | null;
 }
 
-export class CompressedMessages extends AggregateRoot<CompressedMessagesProps, CompressedMessageId> {
+export class CompressedMessages extends DomainEntity<CompressedMessagesProps, CompressedMessageId> {
   private constructor(props: CompressedMessagesProps, id: CompressedMessageId) {
     super(props, id);
   }

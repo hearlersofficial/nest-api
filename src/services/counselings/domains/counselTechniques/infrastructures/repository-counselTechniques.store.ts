@@ -1,4 +1,4 @@
-import { CounselTechniquesPersister } from "~counselings/domains/counselTechniques/counselTechniques.persister";
+import { CounselTechniquesStore } from "~counselings/domains/counselTechniques/counselTechniques.store";
 import { CounselTechniquesRepository } from "~counselings/domains/counselTechniques/infrastructures/counselTechniques.repository";
 import {
   CounselTechniques,
@@ -9,7 +9,7 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
-export class RepositoryCounselTechniquesPersister extends CounselTechniquesPersister {
+export class RepositoryCounselTechniquesStore extends CounselTechniquesStore {
   constructor(private readonly counselTechniquesRepository: CounselTechniquesRepository) {
     super();
   }

@@ -176,13 +176,15 @@ export class CounselPromptManagementsFacade {
   async updateTonePrompt(param: { toneId: ToneId; body: string }): Promise<TonePromptInfo> {
     const { toneId, body } = param;
 
-    const tonePrompt = await this.tonePromptService.create({
-      toneId,
+    const promptVersion = await this.promptVersionService.getTemporaryOne();
+    const tonePromptId = promptVersion.toneScopedPrompts.find((toneScopedPrompt) =>
+      toneScopedPrompt.toneId.equals(toneId),
+    )?.tonePromptId;
+    if (!tonePromptId) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "TonePrompt not found");
+    }
+    const tonePrompt = await this.tonePromptService.update(tonePromptId, {
       body,
-    });
-    await this.promptVersionService.updateToneScopedPromptInTemporaryVersion({
-      toneId,
-      tonePromptId: tonePrompt.id,
     });
 
     return tonePrompt;

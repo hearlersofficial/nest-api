@@ -67,6 +67,11 @@ export class TonePrompts extends AggregateRoot<TonePromptsProps, TonePromptId> {
     return Result.ok();
   }
 
+  update(updateProps: Partial<Pick<TonePromptsNewProps, "body">>): void {
+    this.props.body = updateProps.body ?? this.props.body;
+    this.props.updatedAt = getNowDayjs();
+  }
+
   // Getters
   get toneId(): ToneId {
     return this.props.toneId;

@@ -1,8 +1,8 @@
 import { TonesNewProps } from "~counselings/domains/tones/models/tones";
 import { TonesInfo } from "~counselings/domains/tones/models/tones.info";
 import { TonesCriteriaFindMany } from "~counselings/domains/tones/tones.criteria";
-import { TonesPersister } from "~counselings/domains/tones/tones.persister";
 import { TonesReader } from "~counselings/domains/tones/tones.reader";
+import { TonesStore } from "~counselings/domains/tones/tones.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
@@ -13,12 +13,12 @@ import { Transactional } from "typeorm-transactional";
 export class TonesService {
   constructor(
     private readonly tonesReader: TonesReader,
-    private readonly tonesPersister: TonesPersister,
+    private readonly tonesStore: TonesStore,
   ) {}
 
   @Transactional()
   async create(newProps: TonesNewProps): Promise<TonesInfo> {
-    const tone = await this.tonesPersister.create(newProps);
+    const tone = await this.tonesStore.create(newProps);
     return TonesInfo.fromDomain(tone);
   }
 
@@ -34,7 +34,7 @@ export class TonesService {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, validateResult.error);
     }
 
-    const updatedTone = await this.tonesPersister.update(tone);
+    const updatedTone = await this.tonesStore.update(tone);
     return TonesInfo.fromDomain(updatedTone);
   }
 

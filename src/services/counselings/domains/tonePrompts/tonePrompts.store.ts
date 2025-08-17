@@ -3,7 +3,7 @@ import { TonePrompts, TonePromptsNewProps } from "~counselings/domains/tonePromp
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export abstract class TonePromptsPersister {
+export abstract class TonePromptsStore {
   abstract create(newProps: TonePromptsNewProps): Promise<TonePrompts>;
   abstract update(tonePrompt: TonePrompts): Promise<TonePrompts>;
   abstract updateMany(tonePrompts: TonePrompts[]): Promise<TonePrompts[]>;

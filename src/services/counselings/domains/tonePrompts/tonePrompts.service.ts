@@ -1,7 +1,7 @@
 import { TonePromptInfo } from "~counselings/domains/tonePrompts/models/tonePrompt.info";
 import { TonePromptsNewProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
-import { TonePromptsPersister } from "~counselings/domains/tonePrompts/tonePrompts.persister";
 import { TonePromptsReader } from "~counselings/domains/tonePrompts/tonePrompts.reader";
+import { TonePromptsStore } from "~counselings/domains/tonePrompts/tonePrompts.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
@@ -12,12 +12,26 @@ import { Transactional } from "typeorm-transactional";
 export class TonePromptsService {
   constructor(
     private readonly tonePromptsReader: TonePromptsReader,
-    private readonly tonePromptsPersister: TonePromptsPersister,
+    private readonly tonePromptsStore: TonePromptsStore,
   ) {}
 
   @Transactional()
   async create(newProps: TonePromptsNewProps): Promise<TonePromptInfo> {
-    const tonePrompt = await this.tonePromptsPersister.create(newProps);
+    const tonePrompt = await this.tonePromptsStore.create(newProps);
+    return TonePromptInfo.fromDomain(tonePrompt);
+  }
+
+  @Transactional()
+  async update(
+    tonePromptId: TonePromptId,
+    updateProps: Partial<Pick<TonePromptsNewProps, "body">>,
+  ): Promise<TonePromptInfo> {
+    const tonePrompt = await this.tonePromptsReader.findOne({ tonePromptId });
+    if (!tonePrompt) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "TonePrompt not found");
+    }
+    tonePrompt.update(updateProps);
+    await this.tonePromptsStore.update(tonePrompt);
     return TonePromptInfo.fromDomain(tonePrompt);
   }
 

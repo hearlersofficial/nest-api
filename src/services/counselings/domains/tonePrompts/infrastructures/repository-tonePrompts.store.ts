@@ -1,12 +1,12 @@
 import { TonePromptsRepository } from "~counselings/domains/tonePrompts/infrastructures/tonePrompts.repository";
 import { TonePrompts, TonePromptsNewProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
-import { TonePromptsPersister } from "~counselings/domains/tonePrompts/tonePrompts.persister";
+import { TonePromptsStore } from "~counselings/domains/tonePrompts/tonePrompts.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
-export class RepositoryTonePromptsPersister extends TonePromptsPersister {
+export class RepositoryTonePromptsStore extends TonePromptsStore {
   constructor(private readonly tonePromptsRepository: TonePromptsRepository) {
     super();
   }

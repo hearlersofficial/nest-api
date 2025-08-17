@@ -1,12 +1,12 @@
 import { TonesRepository } from "~counselings/domains/tones/infrastructures/tones.repository";
 import { Tones, TonesNewProps } from "~counselings/domains/tones/models/tones";
-import { TonesPersister } from "~counselings/domains/tones/tones.persister";
+import { TonesStore } from "~counselings/domains/tones/tones.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
-export class RepositoryTonesPersister extends TonesPersister {
+export class RepositoryTonesStore extends TonesStore {
   constructor(private readonly toneRepository: TonesRepository) {
     super();
   }

@@ -1,10 +1,10 @@
 import { PsqlTonePromptsRepository } from "~counselings/domains/tonePrompts/infrastructures/psql-tonePrompts.repository";
-import { RepositoryTonePromptsPersister } from "~counselings/domains/tonePrompts/infrastructures/repository-tonePrompts.persister";
 import { RepositoryTonePromptsReader } from "~counselings/domains/tonePrompts/infrastructures/repository-tonePrompts.reader";
+import { RepositoryTonePromptsStore } from "~counselings/domains/tonePrompts/infrastructures/repository-tonePrompts.store";
 import { TonePromptsRepository } from "~counselings/domains/tonePrompts/infrastructures/tonePrompts.repository";
-import { TonePromptsPersister } from "~counselings/domains/tonePrompts/tonePrompts.persister";
 import { TonePromptsReader } from "~counselings/domains/tonePrompts/tonePrompts.reader";
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
+import { TonePromptsStore } from "~counselings/domains/tonePrompts/tonePrompts.store";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -23,8 +23,8 @@ import { TonePromptEntity } from "~common/system/persistences/entities/prompts/T
       useClass: RepositoryTonePromptsReader,
     },
     {
-      provide: TonePromptsPersister,
-      useClass: RepositoryTonePromptsPersister,
+      provide: TonePromptsStore,
+      useClass: RepositoryTonePromptsStore,
     },
   ],
   exports: [TonePromptsService],

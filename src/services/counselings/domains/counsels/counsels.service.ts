@@ -128,7 +128,7 @@ export class CounselsService {
     await this.counselsStore.update(counsel);
 
     if (counsel.counselContexts.shouldCompressContext()) {
-      await this.messageCompressor.compressContext(counsel);
+      this.messageCompressor.compressContext(counsel);
     }
     return {
       counsel: CounselInfo.fromDomain(counsel),

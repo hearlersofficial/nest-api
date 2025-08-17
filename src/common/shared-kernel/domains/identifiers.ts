@@ -30,4 +30,8 @@ export class Identifier<T> {
   isNewIdentifier(): boolean {
     return this.value === 0;
   }
+
+  overridetoString(): string {
+    return this.getString();
+  }
 }

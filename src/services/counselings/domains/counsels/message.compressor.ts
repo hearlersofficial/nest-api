@@ -94,13 +94,12 @@ You are a compassionate and skilled counseling supervisor. Your task is to gener
 
   private getUserPrompt(conversationJson: string): string {
     return `
-  <CONVERSATION_JSON>
+  <CONVERSATION>
   ${conversationJson}
-  </CONVERSATION_JSON>
+  </CONVERSATION>
   
   <TASK>
   Using the conversation provided, summarize the key points as instructed in the system prompt.
-  Return ONLY the final JSON object.
   </TASK>
   `;
   }

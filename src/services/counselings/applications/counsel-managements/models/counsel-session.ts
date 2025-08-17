@@ -1,5 +1,5 @@
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
-import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-context.info";
+import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-message.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";

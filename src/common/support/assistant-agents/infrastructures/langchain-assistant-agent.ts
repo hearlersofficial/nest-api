@@ -56,7 +56,7 @@ export class LangchainAssistantAgent implements AssistantAgent {
     const agentModel = this.modelProvider.getModel(tools, aiModel, temperature);
     let toolCallCount = 0;
 
-    while (toolCallCount < maxToolCalls) {
+    while (toolCallCount <= maxToolCalls) {
       const response = await agentModel.invoke(callMessages);
 
       if (useTools && response.tool_calls && response.tool_calls.length > 0) {

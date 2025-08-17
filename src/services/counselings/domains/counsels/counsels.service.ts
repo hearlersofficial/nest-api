@@ -1,3 +1,4 @@
+import { ContextOrganizer } from "~counselings/domains/counsels/context.organizer";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import {
   CounselMessagesCriteriaFindMany,
@@ -6,7 +7,7 @@ import {
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
 import { MessageCompressor } from "~counselings/domains/counsels/message.compressor";
-import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-context.info";
+import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-message.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
@@ -26,6 +27,7 @@ export class CounselsService {
     private readonly counselsStore: CounselsStore,
     private readonly messageCompressor: MessageCompressor,
     private readonly conversationHistoryBuilder: ConversationHistoryBuilder,
+    private readonly contextOrganizer: ContextOrganizer,
   ) {}
 
   @Transactional()
@@ -130,6 +132,9 @@ export class CounselsService {
     if (counsel.counselContexts.shouldCompressContext()) {
       this.messageCompressor.compressContext(counsel);
     }
+
+    // fire-and-forget: update counseling context while conversation continues
+    this.contextOrganizer.organizeContext(counsel);
     return {
       counsel: CounselInfo.fromDomain(counsel),
       message: CounselMessageInfo.fromDomain(newMessage),

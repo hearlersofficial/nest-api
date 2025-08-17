@@ -1,4 +1,13 @@
+import { BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
+import { ContextReviewer } from "~counselings/domains/counsels/analyzers/context-reviewer";
+import { EmotionAnalyzer } from "~counselings/domains/counsels/analyzers/emotion.analyzer";
+import { ImpactTimeframeAnalyzer } from "~counselings/domains/counsels/analyzers/impact-timeframe.analyzer";
+import { MotivationAnalyzer } from "~counselings/domains/counsels/analyzers/motivation.analyzer";
+import { RiskAnalyzer } from "~counselings/domains/counsels/analyzers/risk.analyzer";
+import { SupportSleepCognitiveAnalyzer } from "~counselings/domains/counsels/analyzers/support-sleep-cognitive.analyzer";
+import { ContextOrganizer } from "~counselings/domains/counsels/context.organizer";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
+import { CounselAnalyzer } from "~counselings/domains/counsels/counsel.analyzer";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
@@ -28,6 +37,31 @@ import { CounselsEntity } from "~common/system/persistences/entities/counsels/Co
   providers: [
     CounselsService,
     MessageCompressor,
+    CounselAnalyzer,
+    ContextOrganizer,
+    ContextReviewer,
+    EmotionAnalyzer,
+    RiskAnalyzer,
+    MotivationAnalyzer,
+    SupportSleepCognitiveAnalyzer,
+    ImpactTimeframeAnalyzer,
+    {
+      provide: "CONTEXT_DOMAIN_ANALYZERS",
+      useFactory: (
+        emotion: EmotionAnalyzer,
+        risk: RiskAnalyzer,
+        motivation: MotivationAnalyzer,
+        supportSleepCognitive: SupportSleepCognitiveAnalyzer,
+        impactTimeframe: ImpactTimeframeAnalyzer,
+      ): BaseDomainAnalyzer[] => [emotion, risk, motivation, supportSleepCognitive, impactTimeframe],
+      inject: [
+        EmotionAnalyzer,
+        RiskAnalyzer,
+        MotivationAnalyzer,
+        SupportSleepCognitiveAnalyzer,
+        ImpactTimeframeAnalyzer,
+      ],
+    },
     ConversationHistoryBuilder,
     {
       provide: CounselsRepository,

@@ -1,4 +1,4 @@
-import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-context.info";
+import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-message.info";
 import { CompressedMessages } from "~counselings/domains/counsels/models/compressed-messages";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";

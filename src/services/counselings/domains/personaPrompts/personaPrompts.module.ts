@@ -1,10 +1,10 @@
 import { PersonaPromptsRepository } from "~counselings/domains/personaPrompts/infrastructures/personaPrompts.repository";
 import { PsqlPersonaPromptsRepository } from "~counselings/domains/personaPrompts/infrastructures/psql-personaPrompts.repository";
-import { RepositoryPersonaPromptsPersister } from "~counselings/domains/personaPrompts/infrastructures/repository-personaPrompts.persister";
 import { RepositoryPersonaPromptsReader } from "~counselings/domains/personaPrompts/infrastructures/repository-personaPrompts.reader";
-import { PersonaPromptsPersister } from "~counselings/domains/personaPrompts/personaPrompts.persister";
+import { RepositoryPersonaPromptsStore } from "~counselings/domains/personaPrompts/infrastructures/repository-personaPrompts.store";
 import { PersonaPromptsReader } from "~counselings/domains/personaPrompts/personaPrompts.reader";
 import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
+import { PersonaPromptsStore } from "~counselings/domains/personaPrompts/personaPrompts.store";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -23,8 +23,8 @@ import { PersonaPromptEntity } from "~common/system/persistences/entities/prompt
       useClass: RepositoryPersonaPromptsReader,
     },
     {
-      provide: PersonaPromptsPersister,
-      useClass: RepositoryPersonaPromptsPersister,
+      provide: PersonaPromptsStore,
+      useClass: RepositoryPersonaPromptsStore,
     },
   ],
   exports: [PersonaPromptsService],

@@ -67,6 +67,11 @@ export class PersonaPrompts extends AggregateRoot<PersonaPromptsProps, PersonaPr
     return Result.ok();
   }
 
+  update(updateProps: Partial<Pick<PersonaPromptsNewProps, "body">>): void {
+    this.props.body = updateProps.body ?? this.props.body;
+    this.props.updatedAt = getNowDayjs();
+  }
+
   // Getters
   get counselorId(): CounselorId {
     return this.props.counselorId;

@@ -153,14 +153,15 @@ export class CounselPromptManagementsFacade {
   @Transactional()
   async updatePersonaPrompt(param: { counselorId: CounselorId; body: string }): Promise<PersonaPromptInfo> {
     const { counselorId, body } = param;
-
-    const personaPrompt = await this.personaPromptService.create({
-      counselorId,
+    const promptVersion = await this.promptVersionService.getTemporaryOne();
+    const personaPromptId = promptVersion.counselorScopedPrompts.find((counselorScopedPrompt) =>
+      counselorScopedPrompt.counselorId.equals(counselorId),
+    )?.personaPromptId;
+    if (!personaPromptId) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PersonaPrompt not found");
+    }
+    const personaPrompt = await this.personaPromptService.update(personaPromptId, {
       body,
-    });
-    await this.promptVersionService.updateCounselorScopedPromptInTemporaryVersion({
-      counselorId,
-      personaPromptId: personaPrompt.id,
     });
 
     return personaPrompt;
@@ -249,11 +250,6 @@ export class CounselPromptManagementsFacade {
       context,
       instruction,
       messageThreshold,
-    });
-
-    await this.promptVersionService.updateToneScopedPromptInTemporaryVersion({
-      toneId: counselTechnique.toneId,
-      firstCounselTechniqueId: updatedTechniques[0].id,
     });
 
     return updatedTechniques;

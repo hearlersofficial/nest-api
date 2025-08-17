@@ -1,12 +1,12 @@
 import { PersonaPromptsRepository } from "~counselings/domains/personaPrompts/infrastructures/personaPrompts.repository";
 import { PersonaPrompts, PersonaPromptsNewProps } from "~counselings/domains/personaPrompts/models/personaPrompts";
-import { PersonaPromptsPersister } from "~counselings/domains/personaPrompts/personaPrompts.persister";
+import { PersonaPromptsStore } from "~counselings/domains/personaPrompts/personaPrompts.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
-export class RepositoryPersonaPromptsPersister extends PersonaPromptsPersister {
+export class RepositoryPersonaPromptsStore extends PersonaPromptsStore {
   constructor(private readonly personaPromptsRepository: PersonaPromptsRepository) {
     super();
   }

@@ -1,4 +1,4 @@
-import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.enum";
+import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.registry";
 import { CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 

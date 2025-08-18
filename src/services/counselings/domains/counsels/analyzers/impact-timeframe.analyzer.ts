@@ -1,8 +1,13 @@
+import { AnalyzerValidator } from "~counselings/domains/counsels/analyzers/analyzer.validator";
 import { BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
-import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.enum";
+import {
+  CONTEXT_DOMAIN_REGISTRY,
+  ContextDomain,
+  FIELD_DESCRIPTIONS,
+} from "~counselings/domains/counsels/analyzers/context-domain.registry";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
-import { CounselContexts, CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
+import { CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { ImpactDomain, PerceivedControl, Timeframe } from "~proto/com/hearlers/v1/model/counsel_pb";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
@@ -46,22 +51,41 @@ export class ImpactTimeframeAnalyzer extends BaseDomainAnalyzer {
   }
 
   private getSystemPrompt(): string {
-    const impactDomain = CounselContexts.getEnumOverview(ImpactDomain);
-    const timeframe = CounselContexts.getEnumOverview(Timeframe);
-    const perceivedControl = CounselContexts.getEnumOverview(PerceivedControl);
-    return `
-You are assessing problem scope and temporal context using ecological systems theory (Bronfenbrenner) and crisis intervention principles.
+    const config = CONTEXT_DOMAIN_REGISTRY[ContextDomain.IMPACT_TIMEFRAME];
+    const impactDomainOptions = AnalyzerValidator.formatFieldOptions("impactDomain");
+    const timeframeOptions = AnalyzerValidator.formatFieldOptions("timeframe");
+    const perceivedControlOptions = AnalyzerValidator.formatFieldOptions("perceivedControl");
 
-${impactDomain}
+    return `You are an expert assessor of problem scope and temporal context using ecological systems theory (Bronfenbrenner) and crisis intervention principles.
 
-${timeframe}
+DOMAIN ANALYSIS:
+${config.description}
 
-${perceivedControl}
+RELATED FIELDS: ${config.relatedFields.join(", ")}
+
+ANALYSIS GUIDELINES:
+${config.analysisGuidelines}
+
+IMPACT DOMAIN OPTIONS:
+${impactDomainOptions}
+
+TIMEFRAME OPTIONS:
+${timeframeOptions}
+
+PERCEIVED CONTROL OPTIONS:
+${perceivedControlOptions}
+
+OUTPUT FORMAT: Return only valid JSON with available fields:
+{
+  "impactDomain": <ImpactDomain_enum_value>,
+  "timeframe": <Timeframe_enum_value>,
+  "perceivedControl": <PerceivedControl_enum_value>
+}
 
 Rules:
-- Output JSON keys among: impactDomain, timeframe, perceivedControl.
-- Add impactDomainExplanation, timeframeExplanation, perceivedControlExplanation when given.
-- If unclear, omit keys.`;
+- Use exact enum values: ImpactDomain (${Object.keys(FIELD_DESCRIPTIONS.impactDomain.values).join(", ")}), Timeframe (${Object.keys(FIELD_DESCRIPTIONS.timeframe.values).join(", ")}), PerceivedControl (${Object.keys(FIELD_DESCRIPTIONS.perceivedControl.values).join(", ")})
+- Only include fields you can confidently assess from the conversation
+- If evidence is insufficient, omit that field entirely`;
   }
 
   private getUserPrompt(conversationJson: string): string {
@@ -75,15 +99,14 @@ Return ONLY JSON.`;
 
   private pick(content: string): Partial<CounselContextsProps> {
     try {
-      const start = content.indexOf("{");
-      const end = content.lastIndexOf("}");
-      const json = JSON.parse(content.slice(start, end + 1));
-      const out: Partial<CounselContextsProps> = {};
-      const intKeys = ["impactDomain", "timeframe", "perceivedControl"] as const;
-      for (const k of intKeys) {
-        if (json[k] === null || typeof json[k] === "number") (out as any)[k] = json[k];
-      }
-      return out;
+      const json = AnalyzerValidator.extractJsonFromContent(content);
+      const result: Partial<CounselContextsProps> = {};
+
+      AnalyzerValidator.validateEnumField(json, result, { key: "impactDomain", enumType: ImpactDomain });
+      AnalyzerValidator.validateEnumField(json, result, { key: "timeframe", enumType: Timeframe });
+      AnalyzerValidator.validateEnumField(json, result, { key: "perceivedControl", enumType: PerceivedControl });
+
+      return result;
     } catch {
       return {};
     }

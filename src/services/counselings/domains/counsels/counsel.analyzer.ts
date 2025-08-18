@@ -1,5 +1,5 @@
 import { BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
-import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.enum";
+import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.registry";
 import { ContextReviewer } from "~counselings/domains/counsels/analyzers/context-reviewer";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
@@ -36,7 +36,6 @@ export class CounselAnalyzer {
 
       const review = await this.reviewer.review({
         current: counsel.counselContexts,
-        previousSnapshots: [],
         conversation,
       });
       if (review.shouldAnalyzeDomains.length === 0) return {};

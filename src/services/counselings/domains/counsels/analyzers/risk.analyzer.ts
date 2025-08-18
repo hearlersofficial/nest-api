@@ -1,8 +1,12 @@
+import { AnalyzerValidator } from "~counselings/domains/counsels/analyzers/analyzer.validator";
 import { BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
-import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.enum";
+import {
+  CONTEXT_DOMAIN_REGISTRY,
+  ContextDomain,
+  FIELD_DESCRIPTIONS,
+} from "~counselings/domains/counsels/analyzers/context-domain.registry";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
-import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 import { CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { RiskKind } from "~proto/com/hearlers/v1/model/counsel_pb";
@@ -47,26 +51,44 @@ export class RiskAnalyzer extends BaseDomainAnalyzer {
   }
 
   private getSystemPrompt(): string {
-    const riskKind = CounselContexts.getEnumOverview(RiskKind);
-    return `
-You are a clinical risk assessment specialist (use Columbia-Suicide Severity Rating Scale cues where relevant).
+    const config = CONTEXT_DOMAIN_REGISTRY[ContextDomain.RISK];
+
+    return `You are an expert clinical risk assessment specialist (use Columbia-Suicide Severity Rating Scale cues where relevant).
 Assess riskKind and riskSeverity based on explicit and implicit indicators.
 
-${riskKind}
+DOMAIN ANALYSIS:
+${config.description}
 
-<RISK_SEVERITY>
+RELATED FIELDS: ${config.relatedFields.join(", ")}
+
+ANALYSIS GUIDELINES:
+${config.analysisGuidelines}
+
+RISK KIND OPTIONS:
+${AnalyzerValidator.formatFieldOptions("riskKind")}
+
+RISK SEVERITY SCALE:
+${AnalyzerValidator.formatFieldOptions("riskSeverity")}
+
+ASSESSMENT CRITERIA:
+- Explicit statements of harm intent or planning
+- Implicit indicators of distress or hopelessness
+- Access to means of harm
+- Previous history of self-harm or violence
+- Current stressors and protective factors
+- Social support and safety network
+
+OUTPUT FORMAT: Return only valid JSON with available fields:
 {
-  0: { name: "NONE", meaning: "No immediate severity" },
-  1: { name: "LOW", meaning: "Mild concerns, monitor" },
-  2: { name: "MODERATE", meaning: "Clear risk, safety planning indicated" },
-  3: { name: "HIGH", meaning: "Imminent risk, urgent intervention" }
+  "riskKind": <RiskKind_enum_value>,
+  "riskSeverity": <number_0_to_3>
 }
-</RISK_SEVERITY>
 
 Rules:
-- Output JSON keys among: riskKind, riskSeverity.
-- Add riskKindExplanation and riskSeverityExplanation when provided.
-- If insufficient evidence, omit keys.`;
+- Use exact enum values: RiskKind (${Object.keys(FIELD_DESCRIPTIONS.riskKind.values).join(", ")})
+- Only include fields you can confidently assess from the conversation
+- If evidence is insufficient, omit that field entirely
+- Prioritize safety - when in doubt, lean toward higher risk assessment`;
   }
 
   private getUserPrompt(conversationJson: string): string {
@@ -80,15 +102,14 @@ Return ONLY JSON.`;
 
   private pick(content: string): Partial<CounselContextsProps> {
     try {
-      const start = content.indexOf("{");
-      const end = content.lastIndexOf("}");
-      const json = JSON.parse(content.slice(start, end + 1));
-      const out: Partial<CounselContextsProps> = {};
-      const intKeys = ["riskKind", "riskSeverity"] as const;
-      for (const k of intKeys) {
-        if (json[k] === null || typeof json[k] === "number") (out as any)[k] = json[k];
-      }
-      return out;
+      const json = AnalyzerValidator.extractJsonFromContent(content);
+      const result: Partial<CounselContextsProps> = {};
+
+      // Validate enum and integer fields
+      AnalyzerValidator.validateEnumField(json, result, { key: "riskKind", enumType: RiskKind });
+      AnalyzerValidator.validateIntegerField(json, result, { key: "riskSeverity", min: 0, max: 3 });
+
+      return result;
     } catch {
       return {};
     }

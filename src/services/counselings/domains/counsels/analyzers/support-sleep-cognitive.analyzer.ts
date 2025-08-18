@@ -1,8 +1,12 @@
+import { AnalyzerValidator } from "~counselings/domains/counsels/analyzers/analyzer.validator";
 import { BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
-import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.enum";
+import {
+  CONTEXT_DOMAIN_REGISTRY,
+  ContextDomain,
+  FIELD_DESCRIPTIONS,
+} from "~counselings/domains/counsels/analyzers/context-domain.registry";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
-import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 import { CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { CognitiveLoad, SleepQuality, SocialSupportLevel } from "~proto/com/hearlers/v1/model/counsel_pb";
@@ -47,27 +51,52 @@ export class SupportSleepCognitiveAnalyzer extends BaseDomainAnalyzer {
   }
 
   private getSystemPrompt(): string {
-    const support = CounselContexts.getEnumOverview(SocialSupportLevel);
-    const sleep = CounselContexts.getEnumOverview(SleepQuality);
-    const load = CounselContexts.getEnumOverview(CognitiveLoad);
+    const config = CONTEXT_DOMAIN_REGISTRY[ContextDomain.SUPPORT_SLEEP_COGNITIVE];
+    const socialSupportOptions = AnalyzerValidator.formatFieldOptions("socialSupport");
+    const sleepQualityOptions = AnalyzerValidator.formatFieldOptions("sleepQuality");
+    const cognitiveLoadOptions = AnalyzerValidator.formatFieldOptions("cognitiveLoad");
+    const physicalSymptomsOptions = AnalyzerValidator.formatFieldOptions("physicalSymptomsPresent");
 
-    return `
-You are assessing environmental and physiological context (social support, sleep hygiene, cognitive load), using CBT/behavioral activation cues.
+    return `You are an expert assessor of environmental and physiological context (social support, sleep hygiene, cognitive load), using CBT/behavioral activation cues.
 
-${support}
+DOMAIN ANALYSIS:
+${config.description}
 
-${sleep}
+RELATED FIELDS: ${config.relatedFields.join(", ")}
 
-${load}
+ANALYSIS GUIDELINES:
+${config.analysisGuidelines}
 
-<PHYSICAL_SYMPTOMS>
-// true: physical symptoms mentioned, false: no physical symptoms, null: unclear
-</PHYSICAL_SYMPTOMS>
+SOCIAL SUPPORT LEVEL OPTIONS:
+${socialSupportOptions}
+
+SLEEP QUALITY OPTIONS:
+${sleepQualityOptions}
+
+COGNITIVE LOAD OPTIONS:
+${cognitiveLoadOptions}
+
+PHYSICAL SYMPTOMS:
+${physicalSymptomsOptions}
+
+ASSESSMENT CRITERIA:
+- Social support: Availability of family, friends, professional help
+- Sleep patterns: Quality, duration, disturbances, sleep hygiene
+- Cognitive load: Mental demands, multitasking, decision fatigue
+- Physical symptoms: Headaches, fatigue, pain, tension, etc.
+
+OUTPUT FORMAT: Return only valid JSON with available fields:
+{
+  "socialSupport": <SocialSupportLevel_enum_value>,
+  "sleepQuality": <SleepQuality_enum_value>,
+  "cognitiveLoad": <CognitiveLoad_enum_value>,
+  "physicalSymptomsPresent": <boolean_or_null>
+}
 
 Rules:
-- Output JSON keys among: socialSupport, sleepQuality, cognitiveLoad, physicalSymptomsPresent.
-- Add socialSupportExplanation, sleepQualityExplanation, cognitiveLoadExplanation when available.
-- If insufficient data, omit keys.`;
+- Use exact enum values: SocialSupportLevel (${Object.keys(FIELD_DESCRIPTIONS.socialSupport.values).join(", ")}), SleepQuality (${Object.keys(FIELD_DESCRIPTIONS.sleepQuality.values).join(", ")}), CognitiveLoad (${Object.keys(FIELD_DESCRIPTIONS.cognitiveLoad.values).join(", ")})
+- Only include fields you can confidently assess from the conversation
+- If evidence is insufficient, omit that field entirely`;
   }
 
   private getUserPrompt(conversationJson: string): string {
@@ -81,18 +110,15 @@ Return ONLY JSON.`;
 
   private pick(content: string): Partial<CounselContextsProps> {
     try {
-      const start = content.indexOf("{");
-      const end = content.lastIndexOf("}");
-      const json = JSON.parse(content.slice(start, end + 1));
-      const out: Partial<CounselContextsProps> = {};
-      const intKeys = ["socialSupport", "sleepQuality", "cognitiveLoad"] as const;
-      for (const k of intKeys) {
-        if (json[k] === null || typeof json[k] === "number") (out as any)[k] = json[k];
-      }
-      if (json.physicalSymptomsPresent === null || typeof json.physicalSymptomsPresent === "boolean") {
-        (out as any).physicalSymptomsPresent = json.physicalSymptomsPresent;
-      }
-      return out;
+      const json = AnalyzerValidator.extractJsonFromContent(content);
+      const result: Partial<CounselContextsProps> = {};
+
+      AnalyzerValidator.validateEnumField(json, result, { key: "socialSupport", enumType: SocialSupportLevel });
+      AnalyzerValidator.validateEnumField(json, result, { key: "sleepQuality", enumType: SleepQuality });
+      AnalyzerValidator.validateEnumField(json, result, { key: "cognitiveLoad", enumType: CognitiveLoad });
+      AnalyzerValidator.validateBooleanField(json, result, { key: "physicalSymptomsPresent" });
+
+      return result;
     } catch {
       return {};
     }

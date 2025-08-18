@@ -1,8 +1,12 @@
+import { AnalyzerValidator } from "~counselings/domains/counsels/analyzers/analyzer.validator";
 import { BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
-import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.enum";
+import {
+  CONTEXT_DOMAIN_REGISTRY,
+  ContextDomain,
+  FIELD_DESCRIPTIONS,
+} from "~counselings/domains/counsels/analyzers/context-domain.registry";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
-import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 import { CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { ArousalLevel, EmotionPrimary, Valence } from "~proto/com/hearlers/v1/model/counsel_pb";
@@ -47,27 +51,44 @@ export class EmotionAnalyzer extends BaseDomainAnalyzer {
   }
 
   private getSystemPrompt(): string {
-    const emotionPrimary = CounselContexts.getEnumOverview(EmotionPrimary);
-    const valence = CounselContexts.getEnumOverview(Valence);
-    const arousal = CounselContexts.getEnumOverview(ArousalLevel);
-    return `
-You are an emotions specialist using counseling psychology techniques (affect labeling, appraisal theory cues).
+    const config = CONTEXT_DOMAIN_REGISTRY[ContextDomain.EMOTION];
+
+    return `You are an expert emotions specialist using counseling psychology techniques (affect labeling, appraisal theory cues).
 Select codes with care; ground choices in the conversation content.
 
-${emotionPrimary}
+DOMAIN ANALYSIS:
+${config.description}
 
-${valence}
+RELATED FIELDS: ${config.relatedFields.join(", ")}
 
-${arousal}
+ANALYSIS GUIDELINES:
+${config.analysisGuidelines}
 
-<EMOTION_INTENSITY>
-// 0..10 where higher indicates stronger emotional intensity
-</EMOTION_INTENSITY>
+EMOTION PRIMARY OPTIONS:
+${AnalyzerValidator.formatFieldOptions("emotionPrimary")}
+
+VALENCE OPTIONS:
+${AnalyzerValidator.formatFieldOptions("valence")}
+
+AROUSAL LEVEL OPTIONS:
+${AnalyzerValidator.formatFieldOptions("arousal")}
+
+EMOTION INTENSITY:
+${FIELD_DESCRIPTIONS.emotionIntensity.description}
+${AnalyzerValidator.formatFieldOptions("emotionIntensity")}
+
+OUTPUT FORMAT: Return only valid JSON with available fields:
+{
+  "emotionPrimary": <EmotionPrimary_enum_value>,
+  "valence": <Valence_enum_value>,
+  "arousal": <ArousalLevel_enum_value>,
+  "emotionIntensity": <number_0_to_10>
+}
 
 Rules:
-- Output JSON with keys among: emotionPrimary, valence, arousal, emotionIntensity.
-- For each coded field except intensity, also add an explanation field: e.g., emotionPrimaryExplanation, valenceExplanation, arousalExplanation.
-- If unknown, omit keys.`;
+- Use exact enum values: EmotionPrimary (${Object.keys(FIELD_DESCRIPTIONS.emotionPrimary.values).join(", ")}), Valence (${Object.keys(FIELD_DESCRIPTIONS.valence.values).join(", ")}), ArousalLevel (${Object.keys(FIELD_DESCRIPTIONS.arousal.values).join(", ")})
+- Only include fields you can confidently assess from the conversation
+- If evidence is insufficient, omit that field entirely`;
   }
 
   private getUserPrompt(conversationJson: string): string {
@@ -81,15 +102,18 @@ Return ONLY JSON.`;
 
   private pick(content: string): Partial<CounselContextsProps> {
     try {
-      const start = content.indexOf("{");
-      const end = content.lastIndexOf("}");
-      const json = JSON.parse(content.slice(start, end + 1));
-      const out: Partial<CounselContextsProps> = {};
-      const keys = ["emotionPrimary", "valence", "arousal", "emotionIntensity"] as const;
-      for (const k of keys) {
-        if (json[k] === null || typeof json[k] === "number") (out as any)[k] = json[k];
-      }
-      return out;
+      const json = AnalyzerValidator.extractJsonFromContent(content);
+      const result: Partial<CounselContextsProps> = {};
+
+      // Validate enum fields
+      AnalyzerValidator.validateEnumField(json, result, { key: "emotionPrimary", enumType: EmotionPrimary });
+      AnalyzerValidator.validateEnumField(json, result, { key: "valence", enumType: Valence });
+      AnalyzerValidator.validateEnumField(json, result, { key: "arousal", enumType: ArousalLevel });
+
+      // Validate integer field
+      AnalyzerValidator.validateIntegerField(json, result, { key: "emotionIntensity", min: 0, max: 10 });
+
+      return result;
     } catch {
       return {};
     }

@@ -1,8 +1,11 @@
+import { AnalyzerValidator } from "~counselings/domains/counsels/analyzers/analyzer.validator";
 import { BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
-import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.enum";
+import {
+  CONTEXT_DOMAIN_REGISTRY,
+  ContextDomain,
+} from "~counselings/domains/counsels/analyzers/context-domain.registry";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
-import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 import { CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { AllianceStrength } from "~proto/com/hearlers/v1/model/counsel_pb";
@@ -47,20 +50,40 @@ export class AllianceAnalyzer extends BaseDomainAnalyzer {
   }
 
   private getSystemPrompt(): string {
-    const allianceStrength = CounselContexts.getEnumOverview(AllianceStrength);
-    return `
-You are assessing therapeutic alliance (Bordin alliance factors: goals, tasks, bond) and readiness for depth.
+    const config = CONTEXT_DOMAIN_REGISTRY[ContextDomain.ALLIANCE];
 
-${allianceStrength}
+    return `You are an expert therapeutic alliance assessor specializing in Bordin's alliance factors (goals, tasks, bond) and client readiness for therapeutic depth.
 
-<CONSENT_TO_DEPTH>
-// true: open to deeper exploration, false: prefers surface level, null: unclear
-</CONSENT_TO_DEPTH>
+DOMAIN ANALYSIS:
+${config.description}
+
+RELATED FIELDS: ${config.relatedFields.join(", ")}
+
+ANALYSIS GUIDELINES:
+${config.analysisGuidelines}
+
+ALLIANCE STRENGTH OPTIONS:
+${AnalyzerValidator.formatFieldOptions("allianceStrength")}
+
+CONSENT TO DEPTH:
+${AnalyzerValidator.formatFieldOptions("consentToDepth")}
+
+ASSESSMENT CRITERIA:
+- Trust indicators: Does client share personal information? Do they seem comfortable?
+- Collaboration: Is there mutual agreement on goals and therapeutic approach?
+- Engagement quality: Is client actively participating or passively responding?
+- Resistance patterns: Are there signs of defensiveness or avoidance?
+- Rapport building: Is there warmth and connection in the interaction?
+
+OUTPUT FORMAT: Return only valid JSON with available fields:
+{
+  "allianceStrength": <AllianceStrength_enum_value>,
+  "consentToDepth": <boolean_or_null>
+}
 
 Rules:
-- Output JSON keys among: allianceStrength, consentToDepth.
-- Add allianceStrengthExplanation when given.
-- If unclear, omit keys.`;
+- Only include fields you can confidently assess
+- If evidence is insufficient, omit that field entirely`;
   }
 
   private getUserPrompt(conversationJson: string): string {
@@ -74,17 +97,14 @@ Return ONLY JSON.`;
 
   private pick(content: string): Partial<CounselContextsProps> {
     try {
-      const start = content.indexOf("{");
-      const end = content.lastIndexOf("}");
-      const json = JSON.parse(content.slice(start, end + 1));
-      const out: Partial<CounselContextsProps> = {};
-      if (json.allianceStrength === null || typeof json.allianceStrength === "number") {
-        (out as any).allianceStrength = json.allianceStrength;
-      }
-      if (json.consentToDepth === null || typeof json.consentToDepth === "boolean") {
-        (out as any).consentToDepth = json.consentToDepth;
-      }
-      return out;
+      const json = AnalyzerValidator.extractJsonFromContent(content);
+      const result: Partial<CounselContextsProps> = {};
+
+      // Validate enum and boolean fields
+      AnalyzerValidator.validateEnumField(json, result, { key: "allianceStrength", enumType: AllianceStrength });
+      AnalyzerValidator.validateBooleanField(json, result, { key: "consentToDepth" });
+
+      return result;
     } catch {
       return {};
     }

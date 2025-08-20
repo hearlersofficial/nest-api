@@ -7,7 +7,7 @@ import { HttpStatus } from "@nestjs/common";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
+import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
 import dayjs from "dayjs";
 
 export class PsqlCounselTechniquesMapper {

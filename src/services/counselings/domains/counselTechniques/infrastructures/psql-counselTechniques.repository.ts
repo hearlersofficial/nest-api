@@ -5,7 +5,7 @@ import { CounselTechniques } from "~counselings/domains/counselTechniques/models
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
-import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
+import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()

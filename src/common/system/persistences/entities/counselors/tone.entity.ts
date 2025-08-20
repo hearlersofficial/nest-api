@@ -1,6 +1,6 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
-import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
+import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
 import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/ToneScopedPrompts.entity";
 import { Column, Entity, OneToMany } from "typeorm";

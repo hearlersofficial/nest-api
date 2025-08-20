@@ -8,7 +8,7 @@ import { RepositoryCounselTechniquesStore } from "~counselings/domains/counselTe
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/CounselTechniques.entity";
+import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CounselTechniquesEntity])],

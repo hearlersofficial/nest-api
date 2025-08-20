@@ -1,6 +1,7 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
+import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";
 import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/ToneScopedPrompts.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 
@@ -94,4 +95,16 @@ export class CounselTechniquesEntity extends CoreEntity {
     cascade: true,
   })
   toneScopedPrompts: ToneScopedPromptEntity[];
+
+  @OneToMany(() => CounselTechniqueTransitionRuleEntity, (rule) => rule.fromCounselTechnique, {
+    cascade: true,
+    orphanedRowAction: "disable",
+  })
+  fromTransitionRules: CounselTechniqueTransitionRuleEntity[];
+
+  @OneToMany(() => CounselTechniqueTransitionRuleEntity, (rule) => rule.toCounselTechnique, {
+    cascade: true,
+    orphanedRowAction: "disable",
+  })
+  toTransitionRules: CounselTechniqueTransitionRuleEntity[];
 }

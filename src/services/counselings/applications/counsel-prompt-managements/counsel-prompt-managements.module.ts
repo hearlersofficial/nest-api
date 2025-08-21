@@ -1,4 +1,5 @@
 import { CounselPromptManagementsFacade } from "~counselings/applications/counsel-prompt-managements/counsel-prompt-managements.facade";
+import { TemporaryVersionManager } from "~counselings/applications/counsel-prompt-managements/temporary-version.manager";
 import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
@@ -28,6 +29,8 @@ import { AssistantAgentModule } from "~common/support/assistant-agents/assistant
 
     // use-cases
     ValidatePromptVersionUseCase,
+
+    TemporaryVersionManager,
   ],
   exports: [CounselPromptManagementsFacade],
 })

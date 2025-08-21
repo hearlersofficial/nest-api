@@ -1,5 +1,11 @@
-import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
-import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
+import {
+  CounselorScopedPrompts,
+  CounselorScopedPromptsNewProps,
+} from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
+import {
+  ToneScopedPrompts,
+  ToneScopedPromptsNewProps,
+} from "~counselings/domains/promptVersions/models/toneScopedPrompts";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { getNowDayjs } from "~common/shared/utils/date";
@@ -14,18 +20,20 @@ import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { Dayjs } from "dayjs";
 
-export interface PromptVersionsNewProps {}
-
-export interface PromptVersionsProps extends PromptVersionsNewProps {
+export interface PromptVersionsNewProps {
   name: string;
   description: string;
-  counselorScopedPrompts: CounselorScopedPrompts[];
-  toneScopedPrompts: ToneScopedPrompts[];
+  counselorScopedPrompts: Omit<CounselorScopedPromptsNewProps, "promptVersionId">[];
+  toneScopedPrompts: Omit<ToneScopedPromptsNewProps, "promptVersionId">[];
+  aiModel: AiModel;
+}
+
+export interface PromptVersionsProps extends PromptVersionsNewProps {
   isActive: boolean;
   isTemporary: boolean;
   isBookmarked: boolean;
-  aiModel: AiModel;
-
+  counselorScopedPrompts: CounselorScopedPrompts[];
+  toneScopedPrompts: ToneScopedPrompts[];
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -48,17 +56,34 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps, PromptVer
   public static createNew(newProps: PromptVersionsNewProps): Result<PromptVersions> {
     const now = getNowDayjs();
     const newId = new PromptVersionId();
+
+    const counselorScopedPromptsResults = newProps.counselorScopedPrompts.map((counselorScopedPrompt) =>
+      CounselorScopedPrompts.createNew({
+        ...counselorScopedPrompt,
+        promptVersionId: newId,
+      }),
+    );
+    const toneScopedPromptsResults = newProps.toneScopedPrompts.map((toneScopedPrompt) =>
+      ToneScopedPrompts.createNew({
+        ...toneScopedPrompt,
+        promptVersionId: newId,
+      }),
+    );
+    const failResult = Result.getFailResultIfExist([...counselorScopedPromptsResults, ...toneScopedPromptsResults]);
+    if (failResult) {
+      return Result.fail<PromptVersions>(failResult.error);
+    }
+
     return this.create(
       {
         ...newProps,
-        name: "Default Name",
-        description: "Default Description",
-        counselorScopedPrompts: [],
-        toneScopedPrompts: [],
+        counselorScopedPrompts: counselorScopedPromptsResults.map(
+          (counselorScopedPrompt) => counselorScopedPrompt.value,
+        ),
+        toneScopedPrompts: toneScopedPromptsResults.map((toneScopedPrompt) => toneScopedPrompt.value),
         isActive: false,
         isTemporary: true,
         isBookmarked: false,
-        aiModel: AiModel.GPT_4O,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -229,33 +254,6 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps, PromptVer
     return Result.ok();
   }
 
-  public updateCounselorScopedPrompt(props: {
-    counselorId: CounselorId;
-    personaPromptId: PersonaPromptId;
-  }): Result<void> {
-    if (!this.props.isTemporary) {
-      return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
-    }
-    for (const counselorScopedPrompt of this.props.counselorScopedPrompts) {
-      if (counselorScopedPrompt.counselorId.equals(props.counselorId)) {
-        counselorScopedPrompt.update({ personaPromptId: props.personaPromptId });
-        this.props.updatedAt = getNowDayjs();
-        return Result.ok();
-      }
-    }
-    const newCounselorScopedPrompt = CounselorScopedPrompts.createNew({
-      promptVersionId: this.id,
-      counselorId: props.counselorId,
-      personaPromptId: props.personaPromptId,
-    });
-    if (newCounselorScopedPrompt.isFailure) {
-      return Result.fail<void>(newCounselorScopedPrompt.error as string);
-    }
-    this.props.counselorScopedPrompts.push(newCounselorScopedPrompt.value);
-    this.props.updatedAt = getNowDayjs();
-    return Result.ok();
-  }
-
   public updateToneScopedPrompt(props: {
     toneId: ToneId;
     tonePromptId?: TonePromptId;
@@ -288,62 +286,30 @@ export class PromptVersions extends AggregateRoot<PromptVersionsProps, PromptVer
     return Result.ok();
   }
 
-  public clonePrompts(promptVersion: PromptVersions): Result<void> {
+  public updateCounselorScopedPrompt(props: {
+    counselorId: CounselorId;
+    personaPromptId: PersonaPromptId;
+  }): Result<void> {
     if (!this.props.isTemporary) {
-      return Result.fail<void>("[PromptVersions] Only temporary PromptVersion can clone prompts.");
+      return Result.fail<void>("[PromptVersions] Only temporary versions can be updated.");
     }
-    if (this.props.isActive) {
-      return Result.fail<void>("[PromptVersions] Active PromptVersion cannot clone prompts.");
+    for (const counselorScopedPrompt of this.props.counselorScopedPrompts) {
+      if (counselorScopedPrompt.counselorId.equals(props.counselorId)) {
+        counselorScopedPrompt.update({ personaPromptId: props.personaPromptId });
+        this.props.updatedAt = getNowDayjs();
+        return Result.ok();
+      }
     }
-    if (promptVersion.isTemporary) {
-      return Result.fail<void>("[PromptVersions] Cannot clone from a temporary PromptVersion.");
+    const newCounselorScopedPrompt = CounselorScopedPrompts.createNew({
+      promptVersionId: this.id,
+      counselorId: props.counselorId,
+      personaPromptId: props.personaPromptId,
+    });
+    if (newCounselorScopedPrompt.isFailure) {
+      return Result.fail<void>(newCounselorScopedPrompt.error as string);
     }
-
-    this.props.isTemporary = true;
-    this.props.isActive = false;
-    this.props.name = "임시 버전";
-    this.props.description = "현재 수정 중인 임시 버전입니다. (부모 버전: " + promptVersion.name + ")";
-    this.props.aiModel = promptVersion.aiModel;
+    this.props.counselorScopedPrompts.push(newCounselorScopedPrompt.value);
     this.props.updatedAt = getNowDayjs();
-
-    for (const existingCounselorScopedPrompt of this.props.counselorScopedPrompts) {
-      existingCounselorScopedPrompt.delete();
-    }
-    for (const existingToneScopedPrompt of this.props.toneScopedPrompts) {
-      existingToneScopedPrompt.delete();
-    }
-
-    for (const counselorScopedPrompt of promptVersion.counselorScopedPrompts) {
-      if (counselorScopedPrompt.deletedAt !== null) {
-        continue;
-      }
-      const clonedCounselorScopedPrompt = CounselorScopedPrompts.createNew({
-        promptVersionId: this.id,
-        counselorId: counselorScopedPrompt.counselorId,
-        personaPromptId: counselorScopedPrompt.personaPromptId,
-      });
-      if (clonedCounselorScopedPrompt.isFailure) {
-        return Result.fail<void>(clonedCounselorScopedPrompt.error as string);
-      }
-      this.props.counselorScopedPrompts.push(clonedCounselorScopedPrompt.value);
-    }
-
-    for (const toneScopedPrompt of promptVersion.toneScopedPrompts) {
-      if (toneScopedPrompt.deletedAt !== null) {
-        continue;
-      }
-      const clonedToneScopedPrompt = ToneScopedPrompts.createNew({
-        promptVersionId: this.id,
-        toneId: toneScopedPrompt.toneId,
-        tonePromptId: toneScopedPrompt.tonePromptId,
-        firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId,
-      });
-      if (clonedToneScopedPrompt.isFailure) {
-        return Result.fail<void>(clonedToneScopedPrompt.error as string);
-      }
-      this.props.toneScopedPrompts.push(clonedToneScopedPrompt.value);
-    }
-
     return Result.ok();
   }
 

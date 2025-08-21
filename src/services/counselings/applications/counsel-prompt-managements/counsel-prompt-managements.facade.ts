@@ -1,3 +1,4 @@
+import { TemporaryVersionManager } from "~counselings/applications/counsel-prompt-managements/temporary-version.manager";
 import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
@@ -11,7 +12,7 @@ import { TonePromptInfo } from "~counselings/domains/tonePrompts/models/toneProm
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
-import { HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
@@ -19,8 +20,6 @@ import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-promp
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
-import { AssistantAgent } from "~common/support/assistant-agents/assistant-agent";
-import { ASSISTANT_AGENT } from "~common/support/assistant-agents/assistant-agent.tokens";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -32,9 +31,7 @@ export class CounselPromptManagementsFacade {
     private readonly tonePromptService: TonePromptsService,
     private readonly counselTechniqueService: CounselTechniquesService,
     private readonly promptActivateHistoryService: PromptActivateHistoryService,
-    @Inject(ASSISTANT_AGENT)
-    private readonly assistantAgent: AssistantAgent,
-
+    private readonly temporaryVersionManager: TemporaryVersionManager,
     private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase,
   ) {}
 
@@ -55,19 +52,28 @@ export class CounselPromptManagementsFacade {
   // 내부적으로 생성로직 포함
   @Transactional()
   async findTemporaryPromptVersion(): Promise<PromptVersionInfo> {
-    return this.promptVersionService.getTemporaryOne();
+    return this.temporaryVersionManager.getOrCreateTemporaryOne();
   }
 
   async findActivePromptVersion(): Promise<PromptVersionInfo> {
     return this.promptVersionService.getActiveOne();
   }
 
+  // TODO: 로직 개편으로 인해 동작하게 새로 만들어야함 아직 동작안함!!
   @Transactional()
   async loadExistingPromptVersion(param: { promptVersionId: PromptVersionId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = param;
-    return this.promptVersionService.loadExistingPromptVersion({
-      promptVersionId,
-    });
+
+    // 기존 프롬프트 버전 조회
+    const sourceVersion = await this.promptVersionService.getOne({ promptVersionId });
+    if (sourceVersion.isTemporary) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Cannot load a temporary version");
+    }
+
+    // 임시 버전 생성 또는 조회
+    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
+
+    return temporaryVersion;
   }
 
   @Transactional()
@@ -79,7 +85,7 @@ export class CounselPromptManagementsFacade {
   }): Promise<PromptVersionInfo> {
     const { name, description, isBookmarked, aiModel } = param;
 
-    const temporaryVersion = await this.promptVersionService.getTemporaryOne();
+    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
     const validatePromptVersionResult = await this.validatePromptVersionUseCase.execute({
       promptVersion: temporaryVersion,
     });
@@ -153,7 +159,7 @@ export class CounselPromptManagementsFacade {
   @Transactional()
   async updatePersonaPrompt(param: { counselorId: CounselorId; body: string }): Promise<PersonaPromptInfo> {
     const { counselorId, body } = param;
-    const promptVersion = await this.promptVersionService.getTemporaryOne();
+    const promptVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
     const personaPromptId = promptVersion.counselorScopedPrompts.find((counselorScopedPrompt) =>
       counselorScopedPrompt.counselorId.equals(counselorId),
     )?.personaPromptId;
@@ -176,7 +182,7 @@ export class CounselPromptManagementsFacade {
   async updateTonePrompt(param: { toneId: ToneId; body: string }): Promise<TonePromptInfo> {
     const { toneId, body } = param;
 
-    const promptVersion = await this.promptVersionService.getTemporaryOne();
+    const promptVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
     const tonePromptId = promptVersion.toneScopedPrompts.find((toneScopedPrompt) =>
       toneScopedPrompt.toneId.equals(toneId),
     )?.tonePromptId;
@@ -234,7 +240,7 @@ export class CounselPromptManagementsFacade {
     const { counselTechniqueId, name, temperature, context, instruction, messageThreshold } = param;
 
     const counselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId });
-    const temporaryVersion = await this.promptVersionService.getTemporaryOne();
+    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
     const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find((toneScopedPrompt) =>
       toneScopedPrompt.toneId.equals(counselTechnique.toneId),
     )?.firstCounselTechniqueId;
@@ -264,7 +270,7 @@ export class CounselPromptManagementsFacade {
   }): Promise<CounselTechniqueInfo[]> {
     const { toneId, counselTechniqueIds } = param;
 
-    const temporaryVersion = await this.promptVersionService.getTemporaryOne();
+    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
     const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find((toneScopedPrompt) =>
       toneScopedPrompt.toneId.equals(toneId),
     )?.firstCounselTechniqueId;

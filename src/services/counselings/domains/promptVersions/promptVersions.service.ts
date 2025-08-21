@@ -1,11 +1,12 @@
 import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
-import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
+import { PromptVersions, PromptVersionsNewProps } from "~counselings/domains/promptVersions/models/promptVersions";
 import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
 import { PromptVersionsPersister } from "~counselings/domains/promptVersions/promptVersions.persister";
 import { PromptVersionsReader } from "~counselings/domains/promptVersions/promptVersions.reader";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { isDefined } from "~common/shared/utils/validate";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
@@ -52,46 +53,34 @@ export class PromptVersionsService {
   }
 
   @Transactional()
-  private async findTemporaryOne(): Promise<PromptVersions> {
+  private async findTemporaryOne(): Promise<PromptVersions | null> {
     const existingTemporaryVersions = await this.promptVersionsReader.findMany({ isTemporary: true });
     if (existingTemporaryVersions.length > 0) {
       return existingTemporaryVersions[0];
     }
-
-    // 수정중인 임시버전이 없을 경우 새롭게 생성
-    const newTemporaryVersion = await this.promptVersionsPersister.create({});
-
-    // 활성화 버전이 있을 경우 해당 내용 복사
-    const activeVersion = await this.findActiveOne();
-    if (activeVersion) {
-      newTemporaryVersion.clonePrompts(activeVersion);
-      await this.promptVersionsPersister.update(newTemporaryVersion);
-    }
-    return newTemporaryVersion;
+    return null;
   }
 
   async getTemporaryOne(): Promise<PromptVersionInfo> {
     const temporaryVersion = await this.findTemporaryOne();
+    if (!temporaryVersion) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Temporary PromptVersion not found");
+    }
     return PromptVersionInfo.fromDomain(temporaryVersion);
   }
 
   @Transactional()
-  async loadExistingPromptVersion(props: { promptVersionId: PromptVersionId }): Promise<PromptVersionInfo> {
-    const { promptVersionId } = props;
-    const promptVersion = await this.promptVersionsReader.findOne({ promptVersionId });
-    if (!promptVersion || promptVersion.deletedAt != null) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PromptVersion not found");
-    }
-
-    if (promptVersion.isTemporary) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Cannot load a temporary version");
-    }
-
+  async createTemporaryPromptVersion(props: PromptVersionsNewProps): Promise<PromptVersionInfo> {
     const temporaryVersion = await this.findTemporaryOne();
-    temporaryVersion.clonePrompts(promptVersion);
-    await this.promptVersionsPersister.update(temporaryVersion);
-
-    return PromptVersionInfo.fromDomain(temporaryVersion);
+    if (isDefined(temporaryVersion)) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Temporary PromptVersion already exists");
+    }
+    const newPromptVersion = await PromptVersions.createNew(props);
+    if (newPromptVersion.isFailureResult()) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, newPromptVersion.error);
+    }
+    await this.promptVersionsPersister.create(newPromptVersion.value);
+    return PromptVersionInfo.fromDomain(newPromptVersion.value);
   }
 
   @Transactional()
@@ -104,6 +93,9 @@ export class PromptVersionsService {
     const { name, description, isBookmarked, aiModel } = props;
 
     const temporaryVersion = await this.findTemporaryOne();
+    if (!temporaryVersion) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Temporary PromptVersion not found");
+    }
     const saveVersionResult = temporaryVersion.saveVersion({
       name,
       description,
@@ -197,6 +189,9 @@ export class PromptVersionsService {
     const { counselorId, personaPromptId } = props;
 
     const temporaryVersion = await this.findTemporaryOne();
+    if (!temporaryVersion) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Temporary PromptVersion not found");
+    }
     const updateResult = temporaryVersion.updateCounselorScopedPrompt({
       counselorId,
       personaPromptId,
@@ -217,6 +212,9 @@ export class PromptVersionsService {
     const { toneId, tonePromptId, firstCounselTechniqueId } = props;
 
     const temporaryVersion = await this.findTemporaryOne();
+    if (!temporaryVersion) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Temporary PromptVersion not found");
+    }
     const updateResult = temporaryVersion.updateToneScopedPrompt({
       toneId,
       tonePromptId,

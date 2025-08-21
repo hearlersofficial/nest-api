@@ -79,16 +79,25 @@ export class LoggingInterceptor implements NestInterceptor {
       tap({
         next: (response) => {
           const duration = Date.now() - start;
-          try {
-            this.logger.log(
-              `[GRPC Response] ${methodName} - Duration: ${duration}ms - Response: ${this.safeStringify(response)}`,
-            );
-          } catch (error) {
-            this.logger.warn(`Failed to stringify response: ${error.message}`);
+          if (this.shouldBeLogged(context)) {
+            try {
+              this.logger.log(
+                `[GRPC Response] ${methodName} - Duration: ${duration}ms - Response: ${this.safeStringify(response)}`,
+              );
+            } catch (error) {
+              this.logger.warn(`Failed to stringify response: ${error.message}`);
+            }
           }
         },
         error: () => {},
       }),
     );
+  }
+
+  private shouldBeLogged(context: ExecutionContext): boolean {
+    if (context.getHandler().name.includes("find") || context.getHandler().name.includes("get")) {
+      return false;
+    }
+    return true;
   }
 }

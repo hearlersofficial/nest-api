@@ -89,8 +89,8 @@ export class CounselTechniquesService {
     if (updateIndex === -1) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel technique not found in original techniques");
     }
-    if (originalTechniques[updateIndex].isTemporary) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Cannot update a temporary technique");
+    if (!originalTechniques[updateIndex].isTemporary) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Cannot update a non-temporary technique");
     }
 
     const targetTechnique = originalTechniques[updateIndex];

@@ -148,7 +148,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     if (isDefined(props.name) && props.name !== this.props.name) {
       this.props.name = props.name;
     }
-    if (isDefined(props.toneId) && props.toneId !== this.props.toneId) {
+    if (isDefined(props.toneId) && !props.toneId.equals(this.props.toneId)) {
       this.props.toneId = props.toneId;
     }
     if (isDefined(props.context) && props.context !== this.props.context) {
@@ -160,7 +160,11 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     if (isDefined(props.messageThreshold) && props.messageThreshold !== this.props.messageThreshold) {
       this.props.messageThreshold = props.messageThreshold;
     }
-    if (props.nextTechniqueId !== undefined && props.nextTechniqueId !== this.props.nextTechniqueId) {
+    if (
+      props.nextTechniqueId !== undefined &&
+      props.nextTechniqueId !== null &&
+      props.nextTechniqueId !== this.props.nextTechniqueId
+    ) {
       this.props.nextTechniqueId = props.nextTechniqueId;
     }
     if (isDefined(props.isTemporary) && props.isTemporary !== this.props.isTemporary) {

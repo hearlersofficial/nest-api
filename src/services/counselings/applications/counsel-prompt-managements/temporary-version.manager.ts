@@ -6,7 +6,9 @@ import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { Injectable } from "@nestjs/common";
+import { isDefined } from "~common/shared/utils/validate";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { Transactional } from "typeorm-transactional";
 
@@ -40,6 +42,18 @@ export class TemporaryVersionManager {
         return await this.createEmptyTemporaryVersion();
       }
     }
+  }
+
+  @Transactional()
+  async loadExistingPromptVersion(promptVersionId: PromptVersionId): Promise<PromptVersionInfo> {
+    const sourceVersion = await this.promptVersionsService.getOne({ promptVersionId });
+    const existingTemporary = await this.promptVersionsService.getTemporaryOne();
+    // 임시 버전이 있다면 임시 버전 삭제
+    if (isDefined(existingTemporary)) {
+      await this.promptVersionsService.deletePromptVersions({ promptVersionIds: [existingTemporary.id] });
+    }
+    const clonedPromptVersion = await this.promptVersionsService.createTemporaryPromptVersion(sourceVersion);
+    return clonedPromptVersion;
   }
 
   /**

@@ -59,21 +59,13 @@ export class CounselPromptManagementsFacade {
     return this.promptVersionService.getActiveOne();
   }
 
-  // TODO: 로직 개편으로 인해 동작하게 새로 만들어야함 아직 동작안함!!
+  // TODO: 로직 개편으로 인해 일단 동작하게 만들기 위해 삭제 후 생성을 했음
+  // 이 케이스에서는 기존 임시버전으로 생성된 상담은 즉각 반영이 되지 않을 것임 조금 별로 같음
+  // 추후 임시버전 생성 로직 개편 필요
   @Transactional()
   async loadExistingPromptVersion(param: { promptVersionId: PromptVersionId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = param;
-
-    // 기존 프롬프트 버전 조회
-    const sourceVersion = await this.promptVersionService.getOne({ promptVersionId });
-    if (sourceVersion.isTemporary) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Cannot load a temporary version");
-    }
-
-    // 임시 버전 생성 또는 조회
-    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
-
-    return temporaryVersion;
+    return this.temporaryVersionManager.loadExistingPromptVersion(promptVersionId);
   }
 
   @Transactional()

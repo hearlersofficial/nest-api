@@ -10,6 +10,7 @@ export class AllExceptionFilter extends BaseRpcExceptionFilter {
     if (exception instanceof CustomRpcException) {
       this.logger.error(
         `code: ${Object.keys(status)[exception.getError().code]} | message: ${exception.getError().message}`,
+        exception.getError(),
       );
     } else if (exception instanceof RpcException) {
       this.logger.error(`${exception.stack}`);

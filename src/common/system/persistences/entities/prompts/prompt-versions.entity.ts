@@ -2,9 +2,11 @@ import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
-import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/counselor-scoped-prompts.entity";
+import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";
+import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
+import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/prompt-activate-history.entity";
-import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/tone-scoped-prompts.entity";
+import { TonePromptEntity } from "~common/system/persistences/entities/prompts/tone-prompts.entity";
 import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity({ name: "prompt_versions", comment: "프롬프트 버전" })
@@ -56,15 +58,29 @@ export class PromptVersionEntity extends CoreEntity {
   })
   aiModel: AiModel;
 
-  @OneToMany(() => CounselorScopedPromptEntity, (counselorScopedPrompt) => counselorScopedPrompt.promptVersion, {
+  @OneToMany(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.promptVersion, {
     cascade: true,
+    orphanedRowAction: "disable",
   })
-  counselorScopedPrompts: CounselorScopedPromptEntity[];
+  counselTechniques: CounselTechniquesEntity[];
 
-  @OneToMany(() => ToneScopedPromptEntity, (toneScopedPrompt) => toneScopedPrompt.promptVersion, {
+  @OneToMany(() => CounselTechniqueTransitionRuleEntity, (rule) => rule.promptVersion, {
     cascade: true,
+    orphanedRowAction: "disable",
   })
-  toneScopedPrompts: ToneScopedPromptEntity[];
+  counselTechniqueTransitionRules: CounselTechniqueTransitionRuleEntity[];
+
+  @OneToMany(() => PersonaPromptEntity, (personaPrompt) => personaPrompt.promptVersion, {
+    cascade: true,
+    orphanedRowAction: "disable",
+  })
+  personaPrompts: PersonaPromptEntity[];
+
+  @OneToMany(() => TonePromptEntity, (tonePrompt) => tonePrompt.promptVersion, {
+    cascade: true,
+    orphanedRowAction: "disable",
+  })
+  tonePrompts: TonePromptEntity[];
 
   @OneToMany(() => CounselsEntity, (counsel) => counsel.promptVersion, {
     cascade: true,

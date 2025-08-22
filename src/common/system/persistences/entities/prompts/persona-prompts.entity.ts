@@ -1,7 +1,7 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
-import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/counselor-scoped-prompts.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
+import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({
   name: "persona_prompts",
@@ -26,8 +26,14 @@ export class PersonaPromptEntity extends CoreEntity {
   @Column({ type: "bigint", name: "counselor_id" })
   counselorId: string;
 
-  @OneToMany(() => CounselorScopedPromptEntity, (counselorScopedPrompt) => counselorScopedPrompt.personaPrompt, {
-    cascade: true,
+  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.personaPrompts, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
-  counselorScopedPrompts: CounselorScopedPromptEntity[];
+  @JoinColumn({ name: "prompt_version_id" })
+  promptVersion: PromptVersionEntity;
+
+  @RelationId((personaPrompt: PersonaPromptEntity) => personaPrompt.promptVersion)
+  @Column({ type: "bigint", name: "prompt_version_id" })
+  promptVersionId: string;
 }

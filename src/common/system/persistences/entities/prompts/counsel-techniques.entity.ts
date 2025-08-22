@@ -2,8 +2,8 @@ import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
 import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";
-import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/tone-scoped-prompts.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
 @Entity({ name: "counsel_techniques", comment: "상담 기법 (톤 + 컨텍스트 + 지시사항)" })
 export class CounselTechniquesEntity extends CoreEntity {
@@ -62,39 +62,21 @@ export class CounselTechniquesEntity extends CoreEntity {
   })
   isTemporary: boolean;
 
-  // 이전 노드를 가리키는 관계
-  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.nextTechnique, {
-    nullable: true,
-    createForeignKeyConstraints: false,
+  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.counselTechniques, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
-  prevTechnique: CounselTechniquesEntity | null;
+  @JoinColumn({ name: "prompt_version_id" })
+  promptVersion: PromptVersionEntity;
 
-  // 다음 노드를 가리키는 관계(소유측)
-  @OneToOne(() => CounselTechniquesEntity, (technique) => technique.prevTechnique, {
-    nullable: true,
-    createForeignKeyConstraints: false,
-  })
-  @JoinColumn({ name: "next_technique_id" })
-  nextTechnique: CounselTechniquesEntity | null;
-
-  @RelationId((technique: CounselTechniquesEntity) => technique.nextTechnique)
-  @Column({
-    type: "bigint",
-    name: "next_technique_id",
-    comment: "다음 노드 ID",
-    nullable: true,
-  })
-  nextTechniqueId: string | null;
+  @RelationId((technique: CounselTechniquesEntity) => technique.promptVersion)
+  @Column({ type: "bigint", name: "prompt_version_id" })
+  promptVersionId: string;
 
   @OneToMany(() => CounselsEntity, (counsel) => counsel.counselTechnique, {
     cascade: true,
   })
   counsels: CounselsEntity[];
-
-  @OneToMany(() => ToneScopedPromptEntity, (toneScopedPrompt) => toneScopedPrompt.firstCounselTechnique, {
-    cascade: true,
-  })
-  toneScopedPrompts: ToneScopedPromptEntity[];
 
   @OneToMany(() => CounselTechniqueTransitionRuleEntity, (rule) => rule.fromCounselTechnique, {
     cascade: true,

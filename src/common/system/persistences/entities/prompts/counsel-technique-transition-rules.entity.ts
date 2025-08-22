@@ -15,10 +15,22 @@ import {
 
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "counsel_technique_transition_rules", comment: "상담 기법 전이 규칙 (기법의 전이 함수)" })
 export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
+  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.counselTechniqueTransitionRules, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn({ name: "prompt_version_id" })
+  promptVersion: PromptVersionEntity;
+
+  @RelationId((rule: CounselTechniqueTransitionRuleEntity) => rule.promptVersion)
+  @Column({ type: "bigint", name: "prompt_version_id" })
+  promptVersionId: string;
+
   // 출발 상태
   @ManyToOne(() => CounselTechniquesEntity, { onDelete: "CASCADE" })
   @JoinColumn({ name: "from_counsel_technique_id" })

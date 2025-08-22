@@ -1,8 +1,8 @@
-import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
-import { PromptVersions, PromptVersionsNewProps } from "~counselings/domains/promptVersions/models/promptVersions";
-import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
-import { PromptVersionsPersister } from "~counselings/domains/promptVersions/promptVersions.persister";
-import { PromptVersionsReader } from "~counselings/domains/promptVersions/promptVersions.reader";
+import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
+import { PromptVersions, PromptVersionsNewProps } from "~counselings/domains/prompt-versions/models/prompt-versions";
+import * as PromptVersionsCriteria from "~counselings/domains/prompt-versions/prompt-versions.criteria";
+import { PromptVersionsReader } from "~counselings/domains/prompt-versions/prompt-versions.reader";
+import { PromptVersionsStore } from "~counselings/domains/prompt-versions/prompt-versions.store";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
@@ -20,7 +20,7 @@ import { Transactional } from "typeorm-transactional";
 export class PromptVersionsService {
   constructor(
     private readonly promptVersionsReader: PromptVersionsReader,
-    private readonly promptVersionsPersister: PromptVersionsPersister,
+    private readonly promptVersionsPersister: PromptVersionsStore,
   ) {}
 
   async getOne(props: { promptVersionId: PromptVersionId; withDeleted?: boolean }): Promise<PromptVersionInfo> {
@@ -31,7 +31,7 @@ export class PromptVersionsService {
     return PromptVersionInfo.fromDomain(promptVersion);
   }
 
-  async getMany(props: PromptVersionsCriteriaFindMany): Promise<PromptVersionInfo[]> {
+  async getMany(props: PromptVersionsCriteria.FindManyOptions): Promise<PromptVersionInfo[]> {
     const promptVersions = await this.promptVersionsReader.findMany(props);
     return PromptVersionInfo.fromDomainArray(promptVersions);
   }

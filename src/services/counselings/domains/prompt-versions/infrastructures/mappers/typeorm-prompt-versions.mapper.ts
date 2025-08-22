@@ -1,8 +1,8 @@
-import { PsqlCounselorScopedPromptsMapper } from "~counselings/domains/promptVersions/infrastructures/mappers/psql.counselorScopedPrompts.mapper";
-import { PsqlToneScopedPromptsMapper } from "~counselings/domains/promptVersions/infrastructures/mappers/psql.toneScopedPrompts.mapper";
-import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
-import { PromptVersions, PromptVersionsProps } from "~counselings/domains/promptVersions/models/promptVersions";
-import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
+import { TypeormCounselorScopedPromptsMapper } from "~counselings/domains/prompt-versions/infrastructures/mappers/typeorm-counselor-scoped-prompts.mapper";
+import { TypeormToneScopedPromptsMapper } from "~counselings/domains/prompt-versions/infrastructures/mappers/typeorm-tone-scoped-prompts.mapper";
+import { CounselorScopedPrompts } from "~counselings/domains/prompt-versions/models/counselor-scoped-prompts";
+import { PromptVersions, PromptVersionsProps } from "~counselings/domains/prompt-versions/models/prompt-versions";
+import { ToneScopedPrompts } from "~counselings/domains/prompt-versions/models/tone-scoped-prompts";
 
 import { HttpStatus } from "@nestjs/common";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
@@ -10,7 +10,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
 import dayjs from "dayjs";
 
-export class PsqlPromptVersionsMapper {
+export class TypeormPromptVersionsMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: PromptVersionEntity): PromptVersions;
   static toDomain(entity: PromptVersionEntity | null): PromptVersions | null;
@@ -19,10 +19,10 @@ export class PsqlPromptVersionsMapper {
       return null;
     }
 
-    const counselorScopedPrompts: CounselorScopedPrompts[] = PsqlCounselorScopedPromptsMapper.toDomains(
+    const counselorScopedPrompts: CounselorScopedPrompts[] = TypeormCounselorScopedPromptsMapper.toDomains(
       entity.counselorScopedPrompts,
     );
-    const toneScopedPrompts: ToneScopedPrompts[] = PsqlToneScopedPromptsMapper.toDomains(entity.toneScopedPrompts);
+    const toneScopedPrompts: ToneScopedPrompts[] = TypeormToneScopedPromptsMapper.toDomains(entity.toneScopedPrompts);
 
     const promptVersionsProps: PromptVersionsProps = {
       name: entity.name,
@@ -56,8 +56,10 @@ export class PsqlPromptVersionsMapper {
       entity.id = promptVersions.id.getString();
     }
 
-    entity.counselorScopedPrompts = PsqlCounselorScopedPromptsMapper.toEntities(promptVersions.counselorScopedPrompts);
-    entity.toneScopedPrompts = PsqlToneScopedPromptsMapper.toEntities(promptVersions.toneScopedPrompts);
+    entity.counselorScopedPrompts = TypeormCounselorScopedPromptsMapper.toEntities(
+      promptVersions.counselorScopedPrompts,
+    );
+    entity.toneScopedPrompts = TypeormToneScopedPromptsMapper.toEntities(promptVersions.toneScopedPrompts);
 
     entity.name = promptVersions.name;
     entity.description = promptVersions.description;

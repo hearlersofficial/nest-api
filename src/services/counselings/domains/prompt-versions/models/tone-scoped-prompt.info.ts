@@ -1,4 +1,4 @@
-import { ToneScopedPrompts } from "~counselings/domains/promptVersions/models/toneScopedPrompts";
+import { ToneScopedPrompts } from "~counselings/domains/prompt-versions/models/tone-scoped-prompts";
 
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";

@@ -1,4 +1,4 @@
-import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
+import { PromptVersions } from "~counselings/domains/prompt-versions/models/prompt-versions";
 
 import { Injectable } from "@nestjs/common";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";

@@ -2,7 +2,7 @@ import { CounselSession } from "~counselings/applications/counsel-managements/mo
 import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
-import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
+import { PromptVersionsService } from "~counselings/domains/prompt-versions/prompt-versions.service";
 
 import { Injectable } from "@nestjs/common";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";

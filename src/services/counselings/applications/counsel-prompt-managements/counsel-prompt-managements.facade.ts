@@ -4,10 +4,10 @@ import { CounselTechniquesService } from "~counselings/domains/counsel-technique
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
 import { PersonaPromptInfo } from "~counselings/domains/personaPrompts/models/personaPrompt.info";
 import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
+import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
+import { PromptVersionsService } from "~counselings/domains/prompt-versions/prompt-versions.service";
 import { PromptActivateHistoryInfo } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory.info";
 import { PromptActivateHistoryService } from "~counselings/domains/promptActivateHistory/promptActivateHistory.service";
-import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
-import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 import { TonePromptInfo } from "~counselings/domains/tonePrompts/models/tonePrompt.info";
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";

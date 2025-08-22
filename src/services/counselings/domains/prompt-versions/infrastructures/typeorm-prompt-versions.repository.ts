@@ -1,6 +1,6 @@
-import { PsqlPromptVersionsMapper } from "~counselings/domains/promptVersions/infrastructures/mappers/psql.promptVersions.mapper";
-import { PromptVersionsRepository } from "~counselings/domains/promptVersions/infrastructures/promptVersions.repository";
-import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
+import { TypeormPromptVersionsMapper } from "~counselings/domains/prompt-versions/infrastructures/mappers/typeorm-prompt-versions.mapper";
+import { PromptVersionsRepository } from "~counselings/domains/prompt-versions/infrastructures/prompt-versions.repository";
+import { PromptVersions } from "~counselings/domains/prompt-versions/models/prompt-versions";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -9,7 +9,7 @@ import { PromptVersionEntity } from "~common/system/persistences/entities/prompt
 import { FindManyOptions, FindOneOptions, Repository, SelectQueryBuilder } from "typeorm";
 
 @Injectable()
-export class PsqlPromptVersionsRepository extends PromptVersionsRepository {
+export class TypeormPromptVersionsRepository extends PromptVersionsRepository {
   constructor(
     @InjectRepository(PromptVersionEntity)
     private readonly promptVersionsRepository: Repository<PromptVersionEntity>,
@@ -79,7 +79,7 @@ export class PsqlPromptVersionsRepository extends PromptVersionsRepository {
     this.applyLiveRelations(qb);
 
     const promptVersion = await qb.getOne();
-    return promptVersion ? PsqlPromptVersionsMapper.toDomain(promptVersion) : null;
+    return promptVersion ? TypeormPromptVersionsMapper.toDomain(promptVersion) : null;
   }
 
   override async findMany(options?: FindManyOptions<PromptVersionEntity>): Promise<PromptVersions[]> {
@@ -88,18 +88,18 @@ export class PsqlPromptVersionsRepository extends PromptVersionsRepository {
     this.applyLiveRelations(qb);
 
     const promptVersions = await qb.getMany();
-    return PsqlPromptVersionsMapper.toDomains(promptVersions);
+    return TypeormPromptVersionsMapper.toDomains(promptVersions);
   }
 
   override async save(promptVersion: PromptVersions): Promise<PromptVersions>;
   override async save(promptVersions: PromptVersions[]): Promise<PromptVersions[]>;
   async save(promptVersion: PromptVersions | PromptVersions[]): Promise<PromptVersions | PromptVersions[]> {
     if (Array.isArray(promptVersion)) {
-      await this.promptVersionsRepository.save(PsqlPromptVersionsMapper.toEntities(promptVersion));
+      await this.promptVersionsRepository.save(TypeormPromptVersionsMapper.toEntities(promptVersion));
 
       return promptVersion;
     } else {
-      const promptVersionEntity = PsqlPromptVersionsMapper.toEntity(promptVersion);
+      const promptVersionEntity = TypeormPromptVersionsMapper.toEntity(promptVersion);
       await this.promptVersionsRepository.save(promptVersionEntity);
 
       return promptVersion;

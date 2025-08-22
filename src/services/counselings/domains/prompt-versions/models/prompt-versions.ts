@@ -1,11 +1,11 @@
 import {
   CounselorScopedPrompts,
   CounselorScopedPromptsNewProps,
-} from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
+} from "~counselings/domains/prompt-versions/models/counselor-scoped-prompts";
 import {
   ToneScopedPrompts,
   ToneScopedPromptsNewProps,
-} from "~counselings/domains/promptVersions/models/toneScopedPrompts";
+} from "~counselings/domains/prompt-versions/models/tone-scoped-prompts";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { getNowDayjs } from "~common/shared/utils/date";

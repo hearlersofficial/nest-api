@@ -3,7 +3,7 @@ import { CounselorsInfo } from "~counselings/domains/counselors/models/counselor
 import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-message.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
-import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
+import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
 
 import { HttpStatus } from "@nestjs/common";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";

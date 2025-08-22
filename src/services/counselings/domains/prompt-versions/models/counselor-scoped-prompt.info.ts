@@ -1,4 +1,4 @@
-import { CounselorScopedPrompts } from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
+import { CounselorScopedPrompts } from "~counselings/domains/prompt-versions/models/counselor-scoped-prompts";
 
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { CounselorScopedPromptId } from "~common/shared-kernel/identifiers/counselor-scoped-prompt.id";

@@ -1,6 +1,6 @@
-import { CounselorScopedPromptInfo } from "~counselings/domains/promptVersions/models/counselorScopedPrompt.info";
-import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
-import { ToneScopedPromptInfo } from "~counselings/domains/promptVersions/models/toneScopedPrompt.info";
+import { CounselorScopedPromptInfo } from "~counselings/domains/prompt-versions/models/counselor-scoped-prompt.info";
+import { PromptVersions } from "~counselings/domains/prompt-versions/models/prompt-versions";
+import { ToneScopedPromptInfo } from "~counselings/domains/prompt-versions/models/tone-scoped-prompt.info";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";

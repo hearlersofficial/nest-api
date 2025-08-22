@@ -1,7 +1,7 @@
 import {
   ToneScopedPrompts,
   ToneScopedPromptsProps,
-} from "~counselings/domains/promptVersions/models/toneScopedPrompts";
+} from "~counselings/domains/prompt-versions/models/tone-scoped-prompts";
 
 import { HttpStatus } from "@nestjs/common";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
@@ -13,7 +13,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/ToneScopedPrompts.entity";
 import dayjs from "dayjs";
 
-export class PsqlToneScopedPromptsMapper {
+export class TypeormToneScopedPromptsMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: ToneScopedPromptEntity): ToneScopedPrompts;
   static toDomain(entity: ToneScopedPromptEntity | null): ToneScopedPrompts | null;

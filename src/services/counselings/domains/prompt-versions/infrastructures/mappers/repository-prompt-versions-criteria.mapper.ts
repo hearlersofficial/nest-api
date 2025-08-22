@@ -1,10 +1,10 @@
-import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
+import * as PromptVersionsCriteria from "~counselings/domains/prompt-versions/prompt-versions.criteria";
 
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
-import { FindManyOptions, FindOptionsOrder, FindOptionsWhere, ILike, In, IsNull } from "typeorm";
+import { FindManyOptions, FindOptionsOrder, FindOptionsWhere, ILike, In } from "typeorm";
 
 export class RepositoryPromptVersionCriteriaMapper {
-  static toFindManyOptions(criteria: PromptVersionsCriteriaFindMany): FindManyOptions<PromptVersionEntity> {
+  static toFindManyOptions(criteria: PromptVersionsCriteria.FindManyOptions): FindManyOptions<PromptVersionEntity> {
     const where: FindOptionsWhere<PromptVersionEntity> = {};
     const order: FindOptionsOrder<PromptVersionEntity> = {};
     const withDeleted = criteria.withDeleted ?? false;

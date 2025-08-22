@@ -2,7 +2,7 @@ import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 
-export type PromptVersionsCriteriaFindMany = {
+export type FindManyOptions = {
   name?: string;
   isActive?: boolean;
   isTemporary?: boolean;

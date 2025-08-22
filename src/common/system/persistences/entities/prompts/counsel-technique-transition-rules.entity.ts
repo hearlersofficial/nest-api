@@ -90,20 +90,20 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
 
   // 삶의 영역 및 시간 관련 조건
   @Column({ type: "simple-array", name: "required_impact_domains", nullable: true, comment: "필수 삶의 영역" })
-  requiredImpactDomains: ImpactDomain[] | null;
+  requiredImpactDomains: ImpactDomain[];
 
   @Column({ type: "simple-array", name: "required_timeframes", nullable: true, comment: "필수 문제 체감 최근성" })
-  requiredTimeframes: Timeframe[] | null;
+  requiredTimeframes: Timeframe[];
 
   // 감정 관련 조건
   @Column({ type: "simple-array", name: "required_emotion_primaries", nullable: true, comment: "필수 주요 감정" })
-  requiredEmotionPrimaries: EmotionPrimary[] | null;
+  requiredEmotionPrimaries: EmotionPrimary[];
 
   @Column({ type: "simple-array", name: "required_valences", nullable: true, comment: "필수 정서 쾌·불쾌" })
-  requiredValences: Valence[] | null;
+  requiredValences: Valence[];
 
   @Column({ type: "simple-array", name: "required_arousal_levels", nullable: true, comment: "필수 각성 수준" })
-  requiredArousalLevels: ArousalLevel[] | null;
+  requiredArousalLevels: ArousalLevel[];
 
   @Column({ type: "int", name: "min_emotion_intensity", nullable: true, comment: "최소 감정 강도" })
   minEmotionIntensity: number | null;
@@ -113,10 +113,10 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
 
   // 통제감 및 동기 관련 조건
   @Column({ type: "simple-array", name: "required_perceived_controls", nullable: true, comment: "필수 상황 통제감" })
-  requiredPerceivedControls: PerceivedControl[] | null;
+  requiredPerceivedControls: PerceivedControl[];
 
   @Column({ type: "simple-array", name: "required_motivation_stages", nullable: true, comment: "필수 변화 단계" })
-  requiredMotivationStages: MotivationStage[] | null;
+  requiredMotivationStages: MotivationStage[];
 
   @Column({ type: "int", name: "min_self_efficacy", nullable: true, comment: "최소 자기효능감" })
   minSelfEfficacy: number | null;
@@ -126,11 +126,11 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
 
   // 사회적 지지 관련 조건
   @Column({ type: "simple-array", name: "required_social_support_levels", nullable: true, comment: "필수 사회적 지지" })
-  requiredSocialSupportLevels: SocialSupportLevel[] | null;
+  requiredSocialSupportLevels: SocialSupportLevel[];
 
   // 위험 관련 조건
   @Column({ type: "simple-array", name: "required_risk_kinds", nullable: true, comment: "필수 위험 분류" })
-  requiredRiskKinds: RiskKind[] | null;
+  requiredRiskKinds: RiskKind[];
 
   @Column({ type: "int", name: "min_risk_severity", nullable: true, comment: "최소 위험 심각도" })
   minRiskSeverity: number | null;
@@ -140,7 +140,7 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
 
   // 수면 및 신체 증상 관련 조건
   @Column({ type: "simple-array", name: "required_sleep_qualities", nullable: true, comment: "필수 수면 질" })
-  requiredSleepQualities: SleepQuality[] | null;
+  requiredSleepQualities: SleepQuality[];
 
   @Column({
     type: "boolean",
@@ -152,11 +152,11 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
 
   // 인지 부하 관련 조건
   @Column({ type: "simple-array", name: "required_cognitive_loads", nullable: true, comment: "필수 인지 부하" })
-  requiredCognitiveLoads: CognitiveLoad[] | null;
+  requiredCognitiveLoads: CognitiveLoad[];
 
   // 동맹 관련 조건
   @Column({ type: "simple-array", name: "required_alliance_strengths", nullable: true, comment: "필수 라포·동맹" })
-  requiredAllianceStrengths: AllianceStrength[] | null;
+  requiredAllianceStrengths: AllianceStrength[];
 
   // 심층 동의 관련 조건
   @Column({ type: "boolean", name: "required_consent_to_depth", nullable: true, comment: "필수 심층 동의" })

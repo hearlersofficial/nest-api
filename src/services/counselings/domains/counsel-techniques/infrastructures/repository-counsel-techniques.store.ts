@@ -1,6 +1,6 @@
 import { CounselTechniquesStore } from "~counselings/domains/counsel-techniques/counsel-techniques.store";
 import { CounselTechniqueTransitionRulesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counsel-technique-transition-rules.repository";
-import { CounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counselTechniques.repository";
+import { CounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counsel-techniques.repository";
 import {
   CounselTechniqueTransitionRules,
   CounselTechniqueTransitionRulesNewProps,
@@ -55,12 +55,6 @@ export class RepositoryCounselTechniquesStore extends CounselTechniquesStore {
   }
 
   override async updateManyTransitionRules(
-    counselTechniqueTransitionRules: CounselTechniqueTransitionRules[],
-  ): Promise<CounselTechniqueTransitionRules[]> {
-    return this.counselTechniqueTransitionRulesRepository.save(counselTechniqueTransitionRules);
-  }
-
-  private async saveTransitionRules(
     counselTechniqueTransitionRules: CounselTechniqueTransitionRules[],
   ): Promise<CounselTechniqueTransitionRules[]> {
     return this.counselTechniqueTransitionRulesRepository.save(counselTechniqueTransitionRules);

@@ -1,6 +1,7 @@
 import { TemporaryVersionManager } from "~counselings/applications/counsel-prompt-managements/temporary-version.manager";
 import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
+import { CounselTechniqueTransitionRuleInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rule.info";
 import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
 import { PersonaPromptsService } from "~counselings/domains/persona-prompts/persona-prompts.service";
 import { PromptActivateHistoryInfo } from "~counselings/domains/prompt-activate-history/models/prompt-activate-history.info";
@@ -9,11 +10,26 @@ import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/p
 import { PromptVersionsService } from "~counselings/domains/prompt-versions/prompt-versions.service";
 import { TonePromptInfo } from "~counselings/domains/tone-prompts/models/tone-prompt.info";
 import { TonePromptsService } from "~counselings/domains/tone-prompts/tone-prompts.service";
+import {
+  AllianceStrength,
+  ArousalLevel,
+  CognitiveLoad,
+  EmotionPrimary,
+  ImpactDomain,
+  MotivationStage,
+  PerceivedControl,
+  RiskKind,
+  SleepQuality,
+  SocialSupportLevel,
+  Timeframe,
+  Valence,
+} from "~proto/com/hearlers/v1/model/counsel_pb";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { getNowDayjs } from "~common/shared/utils/date";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselTechniqueTransitionRuleId } from "~common/shared-kernel/identifiers/counsel-technique-transition-rule.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
@@ -230,5 +246,125 @@ export class CounselPromptManagementsFacade {
   }): Promise<PromptActivateHistoryInfo[]> {
     const { promptVersionId } = param;
     return this.promptActivateHistoryService.getMany({ promptVersionId, orderBy: { id: "DESC" } });
+  }
+
+  @Transactional()
+  async createCounselTechniqueTransitionRule(param: {
+    fromCounselTechniqueId: CounselTechniqueId;
+    toCounselTechniqueId: CounselTechniqueId;
+    priority: number;
+    minNotCompressedMessageCount: number | null;
+    maxNotCompressedMessageCount: number | null;
+    minCurrentTechniqueMessageCount: number | null;
+    maxCurrentTechniqueMessageCount: number | null;
+    requiredImpactDomains: ImpactDomain[];
+    requiredTimeframes: Timeframe[];
+    requiredEmotionPrimaries: EmotionPrimary[];
+    requiredValences: Valence[];
+    requiredArousalLevels: ArousalLevel[];
+    minEmotionIntensity: number | null;
+    maxEmotionIntensity: number | null;
+    requiredPerceivedControls: PerceivedControl[];
+    requiredMotivationStages: MotivationStage[];
+    minSelfEfficacy: number | null;
+    maxSelfEfficacy: number | null;
+    requiredSocialSupportLevels: SocialSupportLevel[];
+    requiredRiskKinds: RiskKind[];
+    minRiskSeverity: number | null;
+    maxRiskSeverity: number | null;
+    requiredSleepQualities: SleepQuality[];
+    requiredPhysicalSymptomsPresent: boolean | null;
+    requiredCognitiveLoads: CognitiveLoad[];
+    requiredAllianceStrengths: AllianceStrength[];
+    requiredConsentToDepth: boolean | null;
+  }): Promise<CounselTechniqueTransitionRuleInfo> {
+    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
+    return this.counselTechniqueService.createTransitionRule({
+      ...param,
+      promptVersionId: temporaryVersion.id,
+    });
+  }
+
+  @Transactional()
+  async updateCounselTechniqueTransitionRule(param: {
+    counselTechniqueTransitionRuleId: CounselTechniqueTransitionRuleId;
+    priority: number;
+    minNotCompressedMessageCount: number | null;
+    maxNotCompressedMessageCount: number | null;
+    minCurrentTechniqueMessageCount: number | null;
+    maxCurrentTechniqueMessageCount: number | null;
+    requiredImpactDomains: ImpactDomain[];
+    requiredTimeframes: Timeframe[];
+    requiredEmotionPrimaries: EmotionPrimary[];
+    requiredValences: Valence[];
+    requiredArousalLevels: ArousalLevel[];
+    minEmotionIntensity: number | null;
+    maxEmotionIntensity: number | null;
+    requiredPerceivedControls: PerceivedControl[];
+    requiredMotivationStages: MotivationStage[];
+    minSelfEfficacy: number | null;
+    maxSelfEfficacy: number | null;
+    requiredSocialSupportLevels: SocialSupportLevel[];
+    requiredRiskKinds: RiskKind[];
+    minRiskSeverity: number | null;
+    maxRiskSeverity: number | null;
+    requiredSleepQualities: SleepQuality[];
+    requiredPhysicalSymptomsPresent: boolean | null;
+    requiredCognitiveLoads: CognitiveLoad[];
+    requiredAllianceStrengths: AllianceStrength[];
+    requiredConsentToDepth: boolean | null;
+  }): Promise<CounselTechniqueTransitionRuleInfo> {
+    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
+    const originalTransitionRule = await this.counselTechniqueService.getOneTransitionRule({
+      uniqueCriteria: { type: "counselTechniqueTransitionRule", id: param.counselTechniqueTransitionRuleId },
+    });
+
+    if (originalTransitionRule.promptVersionId.equals(temporaryVersion.id)) {
+      throw new HttpStatusBasedRpcException(HttpStatus.FORBIDDEN, "임시 버전에서만 수정할 수 있습니다.");
+    }
+
+    return this.counselTechniqueService.updateTransitionRule(param);
+  }
+
+  async findCounselTechniqueTransitionRules(param: {
+    fromCounselTechniqueId?: CounselTechniqueId;
+    toCounselTechniqueId?: CounselTechniqueId;
+    promptVersionId?: PromptVersionId;
+  }): Promise<CounselTechniqueTransitionRuleInfo[]> {
+    const { fromCounselTechniqueId, toCounselTechniqueId, promptVersionId } = param;
+    return this.counselTechniqueService.findManyTransitionRules({
+      fromCounselTechniqueId,
+      toCounselTechniqueId,
+      promptVersionId,
+    });
+  }
+
+  async findCounselTechniqueTransitionRuleById(param: {
+    counselTechniqueTransitionRuleId: CounselTechniqueTransitionRuleId;
+  }): Promise<CounselTechniqueTransitionRuleInfo> {
+    const { counselTechniqueTransitionRuleId } = param;
+    return this.counselTechniqueService.getOneTransitionRule({
+      uniqueCriteria: { type: "counselTechniqueTransitionRule", id: counselTechniqueTransitionRuleId },
+    });
+  }
+
+  async findManyCounselTechniqueTransitionRules(param: {
+    fromCounselTechniqueId?: CounselTechniqueId;
+    toCounselTechniqueId?: CounselTechniqueId;
+    promptVersionId?: PromptVersionId;
+  }): Promise<CounselTechniqueTransitionRuleInfo[]> {
+    const { fromCounselTechniqueId, toCounselTechniqueId, promptVersionId } = param;
+    return this.counselTechniqueService.findManyTransitionRules({
+      fromCounselTechniqueId,
+      toCounselTechniqueId,
+      promptVersionId,
+    });
+  }
+
+  async deleteCounselTechniqueTransitionRuleById(param: {
+    counselTechniqueTransitionRuleId: CounselTechniqueTransitionRuleId;
+  }): Promise<void> {
+    const { counselTechniqueTransitionRuleId } = param;
+    await this.counselTechniqueService.deleteTransitionRule(counselTechniqueTransitionRuleId);
   }
 }

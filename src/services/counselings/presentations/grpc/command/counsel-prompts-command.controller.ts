@@ -9,6 +9,10 @@ import {
   CreateCounselTechniqueRequestSchema,
   CreateCounselTechniqueResponse,
   CreateCounselTechniqueResponseSchema,
+  CreateCounselTechniqueTransitionRuleRequest,
+  CreateCounselTechniqueTransitionRuleRequestSchema,
+  CreateCounselTechniqueTransitionRuleResponse,
+  CreateCounselTechniqueTransitionRuleResponseSchema,
   DeletePromptVersionsRequest,
   DeletePromptVersionsRequestSchema,
   DeletePromptVersionsResponse,
@@ -25,6 +29,10 @@ import {
   UpdateCounselTechniqueRequestSchema,
   UpdateCounselTechniqueResponse,
   UpdateCounselTechniqueResponseSchema,
+  UpdateCounselTechniqueTransitionRuleRequest,
+  UpdateCounselTechniqueTransitionRuleRequestSchema,
+  UpdateCounselTechniqueTransitionRuleResponse,
+  UpdateCounselTechniqueTransitionRuleResponseSchema,
   UpdatePersonaPromptRequest,
   UpdatePersonaPromptRequestSchema,
   UpdatePersonaPromptResponse,
@@ -44,6 +52,7 @@ import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselTechniqueTransitionRuleId } from "~common/shared-kernel/identifiers/counsel-technique-transition-rule.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
@@ -181,6 +190,36 @@ export class GrpcCounselPromptCommandController {
     });
     return create(UpdateCounselTechniqueResponseSchema, {
       counselTechnique: SchemaCounselPromptsMapper.toCounselTechniqueProto(technique),
+    });
+  }
+
+  // Counsel Technique Transition Rule
+  @GrpcMethod("CounselPromptService", "CreateCounselTechniqueTransitionRule")
+  @ProtoRequest(CreateCounselTechniqueTransitionRuleRequestSchema)
+  async createCounselTechniqueTransitionRule(
+    request: CreateCounselTechniqueTransitionRuleRequest,
+  ): Promise<CreateCounselTechniqueTransitionRuleResponse> {
+    const transitionRule = await this.counselPromptManagementsFacade.createCounselTechniqueTransitionRule({
+      ...request,
+      fromCounselTechniqueId: new CounselTechniqueId(request.fromCounselTechniqueId),
+      toCounselTechniqueId: new CounselTechniqueId(request.toCounselTechniqueId),
+    });
+    return create(CreateCounselTechniqueTransitionRuleResponseSchema, {
+      counselTechniqueTransitionRule: SchemaCounselPromptsMapper.toTransitionRuleProto(transitionRule),
+    });
+  }
+
+  @GrpcMethod("CounselPromptService", "UpdateCounselTechniqueTransitionRule")
+  @ProtoRequest(UpdateCounselTechniqueTransitionRuleRequestSchema)
+  async updateCounselTechniqueTransitionRule(
+    request: UpdateCounselTechniqueTransitionRuleRequest,
+  ): Promise<UpdateCounselTechniqueTransitionRuleResponse> {
+    const transitionRule = await this.counselPromptManagementsFacade.updateCounselTechniqueTransitionRule({
+      ...request,
+      counselTechniqueTransitionRuleId: new CounselTechniqueTransitionRuleId(request.counselTechniqueTransitionRuleId),
+    });
+    return create(UpdateCounselTechniqueTransitionRuleResponseSchema, {
+      counselTechniqueTransitionRule: SchemaCounselPromptsMapper.toTransitionRuleProto(transitionRule),
     });
   }
 }

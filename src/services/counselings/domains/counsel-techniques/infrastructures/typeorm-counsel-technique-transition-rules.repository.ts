@@ -4,7 +4,9 @@ import { CounselTechniqueTransitionRules } from "~counselings/domains/counsel-te
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselTechniqueTransitionRuleId } from "~common/shared-kernel/identifiers/counsel-technique-transition-rule.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
@@ -26,6 +28,23 @@ export class TypeormCounselTechniqueTransitionRulesRepository extends CounselTec
     findOneOptions.where = {
       ...findOneOptions.where,
       id: id.getString(),
+    };
+    const counselTechniqueTransitionRule = await this.counselTechniqueTransitionRuleRepository.findOne(findOneOptions);
+    return counselTechniqueTransitionRule ? this.mapper.toDomain(counselTechniqueTransitionRule) : null;
+  }
+
+  override async findEdge(
+    fromCounselTechniqueId: CounselTechniqueId,
+    toCounselTechniqueId: CounselTechniqueId,
+    promptVersionId: PromptVersionId,
+    options?: FindOneOptions<CounselTechniqueTransitionRuleEntity>,
+  ): Promise<CounselTechniqueTransitionRules | null> {
+    const findOneOptions: FindOneOptions<CounselTechniqueTransitionRuleEntity> = options ?? {};
+    findOneOptions.where = {
+      ...findOneOptions.where,
+      fromCounselTechniqueId: fromCounselTechniqueId.getString(),
+      toCounselTechniqueId: toCounselTechniqueId.getString(),
+      promptVersionId: promptVersionId.getString(),
     };
     const counselTechniqueTransitionRule = await this.counselTechniqueTransitionRuleRepository.findOne(findOneOptions);
     return counselTechniqueTransitionRule ? this.mapper.toDomain(counselTechniqueTransitionRule) : null;

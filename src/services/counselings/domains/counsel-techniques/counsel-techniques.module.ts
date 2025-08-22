@@ -2,7 +2,7 @@ import { CounselTechniquesReader } from "~counselings/domains/counsel-techniques
 import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselTechniquesStore } from "~counselings/domains/counsel-techniques/counsel-techniques.store";
 import { CounselTechniqueTransitionRulesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counsel-technique-transition-rules.repository";
-import { CounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counselTechniques.repository";
+import { CounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counsel-techniques.repository";
 import { RepositoryCounselTechniquesReader } from "~counselings/domains/counsel-techniques/infrastructures/repository-counsel-techniques.reader";
 import { RepositoryCounselTechniquesStore } from "~counselings/domains/counsel-techniques/infrastructures/repository-counsel-techniques.store";
 import { TypeormCounselTechniqueTransitionRulesRepository } from "~counselings/domains/counsel-techniques/infrastructures/typeorm-counsel-technique-transition-rules.repository";

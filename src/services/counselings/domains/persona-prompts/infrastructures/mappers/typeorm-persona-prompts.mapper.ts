@@ -1,4 +1,4 @@
-import { PersonaPrompts, PersonaPromptsProps } from "~counselings/domains/personaPrompts/models/personaPrompts";
+import { PersonaPrompts, PersonaPromptsProps } from "~counselings/domains/persona-prompts/models/persona-prompts";
 
 import { HttpStatus } from "@nestjs/common";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
@@ -7,7 +7,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
 import dayjs from "dayjs";
 
-export class PsqlPersonaPromptsMapper {
+export class TypeormPersonaPromptsMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: PersonaPromptEntity): PersonaPrompts;
   static toDomain(entity: PersonaPromptEntity | null): PersonaPrompts | null;

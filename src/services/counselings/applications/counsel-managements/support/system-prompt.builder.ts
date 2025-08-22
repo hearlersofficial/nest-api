@@ -1,6 +1,6 @@
 import { CounselSession } from "~counselings/applications/counsel-managements/models/counsel-session";
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
-import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
+import { PersonaPromptsService } from "~counselings/domains/persona-prompts/persona-prompts.service";
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 
 import { Injectable } from "@nestjs/common";

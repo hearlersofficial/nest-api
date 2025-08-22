@@ -1,4 +1,4 @@
-import { PersonaPrompts, PersonaPromptsNewProps } from "~counselings/domains/personaPrompts/models/personaPrompts";
+import { PersonaPrompts, PersonaPromptsNewProps } from "~counselings/domains/persona-prompts/models/persona-prompts";
 
 import { Injectable } from "@nestjs/common";
 

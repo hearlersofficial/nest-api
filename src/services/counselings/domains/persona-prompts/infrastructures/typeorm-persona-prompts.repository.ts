@@ -1,6 +1,6 @@
-import { PsqlPersonaPromptsMapper } from "~counselings/domains/personaPrompts/infrastructures/mappers/psql.personaPrompts.mapper";
-import { PersonaPromptsRepository } from "~counselings/domains/personaPrompts/infrastructures/personaPrompts.repository";
-import { PersonaPrompts } from "~counselings/domains/personaPrompts/models/personaPrompts";
+import { TypeormPersonaPromptsMapper } from "~counselings/domains/persona-prompts/infrastructures/mappers/typeorm-persona-prompts.mapper";
+import { PersonaPromptsRepository } from "~counselings/domains/persona-prompts/infrastructures/persona-prompts.repository";
+import { PersonaPrompts } from "~counselings/domains/persona-prompts/models/persona-prompts";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -9,7 +9,7 @@ import { PersonaPromptEntity } from "~common/system/persistences/entities/prompt
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()
-export class PsqlPersonaPromptsRepository extends PersonaPromptsRepository {
+export class TypeormPersonaPromptsRepository extends PersonaPromptsRepository {
   constructor(
     @InjectRepository(PersonaPromptEntity)
     private readonly personaPromptsRepository: Repository<PersonaPromptEntity>,
@@ -27,23 +27,23 @@ export class PsqlPersonaPromptsRepository extends PersonaPromptsRepository {
       id: personaPromptId.getString(),
     };
     const personaPrompt = await this.personaPromptsRepository.findOne(findOneOptions);
-    return personaPrompt ? PsqlPersonaPromptsMapper.toDomain(personaPrompt) : null;
+    return personaPrompt ? TypeormPersonaPromptsMapper.toDomain(personaPrompt) : null;
   }
 
   override async findMany(options?: FindManyOptions<PersonaPromptEntity>): Promise<PersonaPrompts[]> {
     const findManyOptions: FindManyOptions<PersonaPromptEntity> = options ?? {};
     const personaPrompts = await this.personaPromptsRepository.find(findManyOptions);
-    return PsqlPersonaPromptsMapper.toDomains(personaPrompts);
+    return TypeormPersonaPromptsMapper.toDomains(personaPrompts);
   }
 
   override async save(personaPrompt: PersonaPrompts): Promise<PersonaPrompts>;
   override async save(personaPrompts: PersonaPrompts[]): Promise<PersonaPrompts[]>;
   async save(personaPrompt: PersonaPrompts | PersonaPrompts[]): Promise<PersonaPrompts | PersonaPrompts[]> {
     if (Array.isArray(personaPrompt)) {
-      await this.personaPromptsRepository.save(PsqlPersonaPromptsMapper.toEntities(personaPrompt));
+      await this.personaPromptsRepository.save(TypeormPersonaPromptsMapper.toEntities(personaPrompt));
       return personaPrompt;
     } else {
-      const personaPromptEntity = PsqlPersonaPromptsMapper.toEntity(personaPrompt);
+      const personaPromptEntity = TypeormPersonaPromptsMapper.toEntity(personaPrompt);
       await this.personaPromptsRepository.save(personaPromptEntity);
       return personaPrompt;
     }

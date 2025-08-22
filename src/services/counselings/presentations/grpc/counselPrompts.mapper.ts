@@ -1,5 +1,5 @@
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
-import { PersonaPromptInfo } from "~counselings/domains/personaPrompts/models/personaPrompt.info";
+import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
 import { CounselorScopedPromptInfo } from "~counselings/domains/prompt-versions/models/counselor-scoped-prompt.info";
 import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
 import { ToneScopedPromptInfo } from "~counselings/domains/prompt-versions/models/tone-scoped-prompt.info";

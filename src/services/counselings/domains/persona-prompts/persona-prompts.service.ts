@@ -1,7 +1,7 @@
-import { PersonaPromptInfo } from "~counselings/domains/personaPrompts/models/personaPrompt.info";
-import { PersonaPromptsNewProps } from "~counselings/domains/personaPrompts/models/personaPrompts";
-import { PersonaPromptsReader } from "~counselings/domains/personaPrompts/personaPrompts.reader";
-import { PersonaPromptsStore } from "~counselings/domains/personaPrompts/personaPrompts.store";
+import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
+import { PersonaPromptsNewProps } from "~counselings/domains/persona-prompts/models/persona-prompts";
+import { PersonaPromptsReader } from "~counselings/domains/persona-prompts/persona-prompts.reader";
+import { PersonaPromptsStore } from "~counselings/domains/persona-prompts/persona-prompts.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";

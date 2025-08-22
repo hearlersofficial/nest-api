@@ -3,7 +3,7 @@ import { TemporaryVersionManager } from "~counselings/applications/counsel-promp
 import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselTechniquesModule } from "~counselings/domains/counsel-techniques/counsel-techniques.module";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
-import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
+import { PersonaPromptsModule } from "~counselings/domains/persona-prompts/persona-prompts.module";
 import { PromptVersionsModule } from "~counselings/domains/prompt-versions/prompt-versions.module";
 import { PromptActivateHistoryModule } from "~counselings/domains/promptActivateHistory/promptActivateHistory.module";
 import { TonePromptsModule } from "~counselings/domains/tonePrompts/tonePrompts.module";

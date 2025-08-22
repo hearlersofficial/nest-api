@@ -170,7 +170,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(UpdateCounselTechniqueRequestSchema)
   async updateCounselTechnique(request: UpdateCounselTechniqueRequest): Promise<UpdateCounselTechniqueResponse> {
     const { counselTechniqueId, name, temperature, context, instruction, messageThreshold } = request;
-    const techniques = await this.counselPromptManagementsFacade.updateCounselTechnique({
+    const technique = await this.counselPromptManagementsFacade.updateCounselTechnique({
       counselTechniqueId: new CounselTechniqueId(counselTechniqueId),
       name,
       temperature,
@@ -179,7 +179,7 @@ export class GrpcCounselPromptCommandController {
       messageThreshold,
     });
     return create(UpdateCounselTechniqueResponseSchema, {
-      counselTechniques: techniques.map((technique) => SchemaCounselPromptsMapper.toCounselTechniqueProto(technique)),
+      counselTechnique: SchemaCounselPromptsMapper.toCounselTechniqueProto(technique),
     });
   }
 }

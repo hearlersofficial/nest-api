@@ -3,18 +3,13 @@ import { CounselorsInfo } from "~counselings/domains/counselors/models/counselor
 import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-message.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
 import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
+import { TonePromptInfo } from "~counselings/domains/tone-prompts/models/tone-prompt.info";
 
-import { HttpStatus } from "@nestjs/common";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
-import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
-import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
-import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
-import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
-import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
-import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 export type CounselSessionData = {
   counsel: CounselInfo;
@@ -23,25 +18,8 @@ export type CounselSessionData = {
   compressedMessages: CompressedMessageInfo[];
   promptVersion: PromptVersionInfo;
   currentTechnique: CounselTechniqueInfo;
-};
-
-export type CounselorScopedPromptData = {
-  counselorId: CounselorId;
-  personaPromptId: PersonaPromptId;
-};
-
-export type ToneScopedPromptData = {
-  toneId: ToneId;
-  tonePromptId: TonePromptId;
-  firstCounselTechniqueId: CounselTechniqueId;
-};
-
-export type SessionContext = {
-  counselId: CounselId;
-  userId: UserId;
-  counselorId: CounselorId;
-  promptVersionId: PromptVersionId;
-  currentTechniqueId: CounselTechniqueId;
+  personaPrompt: PersonaPromptInfo;
+  tonePrompt: TonePromptInfo;
 };
 
 /**
@@ -49,142 +27,80 @@ export type SessionContext = {
  * 단일 책임: 상담 세션 관련 정보들을 한 곳에 모으고 편리한 접근 메서드 제공
  */
 export class CounselSession {
-  private readonly counsel: CounselInfo;
-  private readonly counselor: CounselorsInfo;
-  private readonly messages: CounselMessageInfo[];
-  private readonly compressedMessages: CompressedMessageInfo[];
-  private readonly promptVersion: PromptVersionInfo;
-  private readonly currentTechnique: CounselTechniqueInfo;
+  private readonly data: CounselSessionData;
 
   constructor(data: CounselSessionData) {
-    this.counsel = data.counsel;
-    this.counselor = data.counselor;
-    this.messages = data.messages;
-    this.compressedMessages = data.compressedMessages;
-    this.promptVersion = data.promptVersion;
-    this.currentTechnique = data.currentTechnique;
-  }
-
-  /**
-   * 세션 컨텍스트 정보 반환w
-   * @returns 세션 컨텍스트
-   */
-  getSessionContext(): SessionContext {
-    return {
-      counselId: this.counsel.id,
-      userId: this.counsel.userId,
-      counselorId: this.counsel.counselorId,
-      promptVersionId: this.counsel.promptVersionId,
-      currentTechniqueId: this.counsel.counselTechniqueId,
-    };
-  }
-
-  /**
-   * 상담사 스코프 프롬프트 정보 반환
-   * @returns 상담사 스코프 프롬프트 데이터
-   */
-  getCounselorScopedPrompt(): CounselorScopedPromptData {
-    const counselorScopedPrompt = this.promptVersion.counselorScopedPrompts.find((prompt) =>
-      prompt.counselorId.equals(this.counselor.id),
-    );
-
-    if (!counselorScopedPrompt) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Counselor scoped prompt not found");
-    }
-
-    return {
-      counselorId: counselorScopedPrompt.counselorId,
-      personaPromptId: counselorScopedPrompt.personaPromptId,
-    };
-  }
-
-  /**
-   * 톤 스코프 프롬프트 정보 반환
-   * @returns 톤 스코프 프롬프트 데이터
-   */
-  getToneScopedPrompt(): ToneScopedPromptData {
-    const toneScopedPrompt = this.promptVersion.toneScopedPrompts.find((prompt) =>
-      prompt.toneId.equals(this.counselor.toneId),
-    );
-
-    if (!toneScopedPrompt) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Tone scoped prompt not found");
-    }
-
-    if (!toneScopedPrompt.tonePromptId) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Tone prompt ID not found");
-    }
-
-    if (!toneScopedPrompt.firstCounselTechniqueId) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "First counsel technique not found");
-    }
-
-    return {
-      toneId: toneScopedPrompt.toneId,
-      tonePromptId: toneScopedPrompt.tonePromptId,
-      firstCounselTechniqueId: toneScopedPrompt.firstCounselTechniqueId,
-    };
+    this.data = data;
   }
 
   /**
    * 기본 정보 Getter들
    */
-  getCounsel(): CounselInfo {
-    return this.counsel;
+  get counsel(): CounselInfo {
+    return this.data.counsel;
   }
 
-  getCounselor(): CounselorsInfo {
-    return this.counselor;
+  get counselor(): CounselorsInfo {
+    return this.data.counselor;
   }
 
-  getMessages(): CounselMessageInfo[] {
-    return this.messages;
+  get messages(): CounselMessageInfo[] {
+    return this.data.messages;
   }
 
-  getCompressedMessages(): CompressedMessageInfo[] {
-    return this.compressedMessages;
+  get compressedMessages(): CompressedMessageInfo[] {
+    return this.data.compressedMessages;
   }
 
-  getPromptVersion(): PromptVersionInfo {
-    return this.promptVersion;
+  get promptVersion(): PromptVersionInfo {
+    return this.data.promptVersion;
   }
 
-  getCurrentTechnique(): CounselTechniqueInfo {
-    return this.currentTechnique;
+  get currentTechnique(): CounselTechniqueInfo {
+    return this.data.currentTechnique;
   }
 
   /**
    * 상담 ID 반환
    * @returns 상담 ID
    */
-  getCounselId(): CounselId {
-    return this.counsel.id;
+  get counselId(): CounselId {
+    return this.data.counsel.id;
   }
 
   /**
    * 유저 ID 반환
    * @returns 유저 ID
    */
-  getUserId(): UserId {
-    return this.counsel.userId;
+  get userId(): UserId {
+    return this.data.counsel.userId;
   }
 
+  get personaPrompt(): PersonaPromptInfo {
+    return this.data.personaPrompt;
+  }
+
+  get tonePrompt(): TonePromptInfo {
+    return this.data.tonePrompt;
+  }
   /**
    * 현재 상담기법 ID 반환
    * @returns 상담기법 ID
    */
-  getCurrentTechniqueId(): CounselTechniqueId {
-    return this.counsel.counselTechniqueId;
+  get currentTechniqueId(): CounselTechniqueId {
+    return this.data.counsel.counselTechniqueId;
   }
 
   withNewMessage(message: CounselMessageInfo): CounselSession {
     return new CounselSession({
-      counsel: this.counsel,
-      counselor: this.counselor,
-      messages: [...this.messages, message],
-      compressedMessages: this.compressedMessages,
-      promptVersion: this.promptVersion,
-      currentTechnique: this.currentTechnique,
+      counsel: this.data.counsel,
+      counselor: this.data.counselor,
+      messages: [...this.data.messages, message],
+      compressedMessages: this.data.compressedMessages,
+      promptVersion: this.data.promptVersion,
+      currentTechnique: this.data.currentTechnique,
+      personaPrompt: this.data.personaPrompt,
+      tonePrompt: this.data.tonePrompt,
     });
   }
 }

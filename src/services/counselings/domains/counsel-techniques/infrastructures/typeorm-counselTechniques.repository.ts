@@ -5,6 +5,8 @@ import { CounselTechniques } from "~counselings/domains/counsel-techniques/model
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
@@ -27,6 +29,22 @@ export class TypeormCounselTechniquesRepository extends CounselTechniquesReposit
     findOneOptions.where = {
       ...findOneOptions.where,
       id: counselTechniqueId.getString(),
+    };
+    const counselTechnique = await this.counselTechniquesRepository.findOne(findOneOptions);
+    return counselTechnique ? this.mapper.toDomain(counselTechnique) : null;
+  }
+
+  override async findStartTechnique(
+    toneId: ToneId,
+    promptVersionId: PromptVersionId,
+    options?: FindOneOptions<CounselTechniquesEntity>,
+  ): Promise<CounselTechniques | null> {
+    const findOneOptions: FindOneOptions<CounselTechniquesEntity> = options ?? {};
+    findOneOptions.where = {
+      ...findOneOptions.where,
+      toneId: toneId.getString(),
+      promptVersionId: promptVersionId.getString(),
+      isStartTechnique: true,
     };
     const counselTechnique = await this.counselTechniquesRepository.findOne(findOneOptions);
     return counselTechnique ? this.mapper.toDomain(counselTechnique) : null;

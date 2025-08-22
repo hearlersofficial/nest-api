@@ -57,10 +57,10 @@ export class CounselTechniquesEntity extends CoreEntity {
 
   @Column({
     type: "boolean",
-    name: "is_temporary",
-    comment: "임시 여부",
+    name: "is_start_technique",
+    comment: "시작 기법 여부 (톤 별 1개만 시작 기법으로 설정 가능)",
   })
-  isTemporary: boolean;
+  isStartTechnique: boolean;
 
   @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.counselTechniques, {
     onDelete: "CASCADE",

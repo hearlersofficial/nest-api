@@ -152,7 +152,7 @@ export class GrpcCounselPromptCommandController {
   @GrpcMethod("CounselPromptService", "CreateCounselTechnique")
   @ProtoRequest(CreateCounselTechniqueRequestSchema)
   async createCounselTechnique(request: CreateCounselTechniqueRequest): Promise<CreateCounselTechniqueResponse> {
-    const { name, temperature, toneId, context, instruction, messageThreshold } = request;
+    const { name, temperature, toneId, context, instruction, messageThreshold, isStartTechnique } = request;
     const technique = await this.counselPromptManagementsFacade.createCounselTechnique({
       name,
       temperature,
@@ -160,6 +160,7 @@ export class GrpcCounselPromptCommandController {
       context,
       instruction,
       messageThreshold,
+      isStartTechnique,
     });
     return create(CreateCounselTechniqueResponseSchema, {
       counselTechnique: SchemaCounselPromptsMapper.toCounselTechniqueProto(technique),

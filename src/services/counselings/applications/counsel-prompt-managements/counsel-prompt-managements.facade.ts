@@ -179,8 +179,9 @@ export class CounselPromptManagementsFacade {
     context: string;
     instruction: string;
     messageThreshold: number;
+    isStartTechnique: boolean;
   }): Promise<CounselTechniqueInfo> {
-    const { name, temperature, toneId, context, instruction, messageThreshold } = param;
+    const { name, temperature, toneId, context, instruction, messageThreshold, isStartTechnique } = param;
     const promptVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
     return this.counselTechniqueService.create({
       name,
@@ -190,6 +191,7 @@ export class CounselPromptManagementsFacade {
       context,
       instruction,
       messageThreshold,
+      isStartTechnique,
     });
   }
 

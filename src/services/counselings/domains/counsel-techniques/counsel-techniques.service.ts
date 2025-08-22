@@ -5,6 +5,7 @@ import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/mo
 import { CounselTechniquesNewProps } from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
+import { isDefined } from "~common/shared/utils/validate";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
@@ -18,6 +19,18 @@ export class CounselTechniquesService {
 
   @Transactional()
   async create(newProps: CounselTechniquesNewProps): Promise<CounselTechniqueInfo> {
+    if (newProps.isStartTechnique) {
+      const startTechnique = await this.counselTechniquesReader.findOne({
+        uniqueCriteria: {
+          type: "startTechnique",
+          toneId: newProps.toneId,
+          promptVersionId: newProps.promptVersionId,
+        },
+      });
+      if (isDefined(startTechnique)) {
+        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Start technique already exists");
+      }
+    }
     const counselTechnique = await this.counselTechniquesStore.create(newProps);
     return CounselTechniqueInfo.fromDomain(counselTechnique);
   }
@@ -45,13 +58,27 @@ export class CounselTechniquesService {
     context?: string;
     instruction?: string;
     messageThreshold?: number;
+    isStartTechnique?: boolean;
   }): Promise<CounselTechniqueInfo> {
-    const { counselTechniqueId, name, temperature, context, instruction, messageThreshold } = props;
+    const { counselTechniqueId, name, temperature, context, instruction, messageThreshold, isStartTechnique } = props;
     const originalTechnique = await this.counselTechniquesReader.findOne({
       uniqueCriteria: { type: "counselTechnique", id: counselTechniqueId },
     });
     if (!originalTechnique) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel technique not found");
+    }
+
+    if (isStartTechnique) {
+      const startTechnique = await this.counselTechniquesReader.findOne({
+        uniqueCriteria: {
+          type: "startTechnique",
+          toneId: originalTechnique.toneId,
+          promptVersionId: originalTechnique.promptVersionId,
+        },
+      });
+      if (isDefined(startTechnique) && !startTechnique.id.equals(counselTechniqueId)) {
+        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Start technique already exists");
+      }
     }
 
     originalTechnique.update({
@@ -60,6 +87,7 @@ export class CounselTechniquesService {
       context: context ?? originalTechnique.context,
       instruction: instruction ?? originalTechnique.instruction,
       messageThreshold: messageThreshold ?? originalTechnique.messageThreshold,
+      isStartTechnique: isStartTechnique ?? originalTechnique.isStartTechnique,
     });
     await this.counselTechniquesStore.update(originalTechnique);
 

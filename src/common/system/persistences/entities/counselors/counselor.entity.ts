@@ -6,7 +6,6 @@ import { EpisodeEntity } from "~common/system/persistences/entities/counselors/e
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
 import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/counsels/counselor-user-relationships.entity";
-import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/counselor-scoped-prompts.entity";
 import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
@@ -70,11 +69,6 @@ export class CounselorEntity extends CoreEntity {
     cascade: true,
   })
   personaPrompts: PersonaPromptEntity[];
-
-  @OneToMany(() => CounselorScopedPromptEntity, (counselorScopedPrompt) => counselorScopedPrompt.counselor, {
-    cascade: true,
-  })
-  counselorScopedPrompts: CounselorScopedPromptEntity[];
 
   @OneToMany(() => CounselsEntity, (counsel) => counsel.counselor, {
     cascade: true,

@@ -1,4 +1,4 @@
-import { PromptActivateHistories } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+import { PromptActivateHistories } from "~counselings/domains/prompt-activate-history/models/prompt-activate-history";
 
 import { Dayjs } from "dayjs";
 

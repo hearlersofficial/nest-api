@@ -1,6 +1,6 @@
-import { PsqlPromptActivateHistoryMapper } from "~counselings/domains/promptActivateHistory/infrastructures/mappers/psql.promptActivateHistory.mapper";
-import { PromptActivateHistoryRepository } from "~counselings/domains/promptActivateHistory/infrastructures/promptActivateHistory.repository";
-import { PromptActivateHistories } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+import { TypeormPromptActivateHistoryMapper } from "~counselings/domains/prompt-activate-history/infrastructures/mappers/typeorm-prompt-activate-history.mapper";
+import { PromptActivateHistoryRepository } from "~counselings/domains/prompt-activate-history/infrastructures/promptActivateHistory.repository";
+import { PromptActivateHistories } from "~counselings/domains/prompt-activate-history/models/prompt-activate-history";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -27,13 +27,13 @@ export class PsqlPromptActivateHistoryRepository extends PromptActivateHistoryRe
       id: promptActivateHistoryId.getString(),
     };
     const promptActivateHistory = await this.promptActivateHistoryRepository.findOne(findOneOptions);
-    return promptActivateHistory ? PsqlPromptActivateHistoryMapper.toDomain(promptActivateHistory) : null;
+    return promptActivateHistory ? TypeormPromptActivateHistoryMapper.toDomain(promptActivateHistory) : null;
   }
 
   override async findMany(options?: FindOneOptions<PromptActivateHistoryEntity>): Promise<PromptActivateHistories[]> {
     const findManyOptions: FindOneOptions<PromptActivateHistoryEntity> = options ?? {};
     const promptActivateHistory = await this.promptActivateHistoryRepository.find(findManyOptions);
-    return PsqlPromptActivateHistoryMapper.toDomains(promptActivateHistory);
+    return TypeormPromptActivateHistoryMapper.toDomains(promptActivateHistory);
   }
 
   override async save(promptActivateHistory: PromptActivateHistories): Promise<PromptActivateHistories>;
@@ -43,11 +43,11 @@ export class PsqlPromptActivateHistoryRepository extends PromptActivateHistoryRe
   ): Promise<PromptActivateHistories | PromptActivateHistories[]> {
     if (Array.isArray(promptActivateHistory)) {
       await this.promptActivateHistoryRepository.save(
-        PsqlPromptActivateHistoryMapper.toEntities(promptActivateHistory),
+        TypeormPromptActivateHistoryMapper.toEntities(promptActivateHistory),
       );
       return promptActivateHistory;
     } else {
-      const promptActivateHistoryEntity = PsqlPromptActivateHistoryMapper.toEntity(promptActivateHistory);
+      const promptActivateHistoryEntity = TypeormPromptActivateHistoryMapper.toEntity(promptActivateHistory);
       await this.promptActivateHistoryRepository.save(promptActivateHistoryEntity);
       return promptActivateHistory;
     }

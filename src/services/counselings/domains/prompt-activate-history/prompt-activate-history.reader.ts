@@ -1,5 +1,5 @@
-import { PromptActivateHistories } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
-import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/promptActivateHistory/promptActivateHistory.criteria";
+import { PromptActivateHistories } from "~counselings/domains/prompt-activate-history/models/prompt-activate-history";
+import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/prompt-activate-history/prompt-activate-history.criteria";
 
 import { Injectable } from "@nestjs/common";
 import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";

@@ -1,8 +1,8 @@
-import { PromptActivateHistoriesNewProps } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
-import { PromptActivateHistoryInfo } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory.info";
-import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/promptActivateHistory/promptActivateHistory.criteria";
-import { PromptActivateHistoryPersister } from "~counselings/domains/promptActivateHistory/promptActivateHistory.persister";
-import { PromptActivateHistoryReader } from "~counselings/domains/promptActivateHistory/promptActivateHistory.reader";
+import { PromptActivateHistoriesNewProps } from "~counselings/domains/prompt-activate-history/models/prompt-activate-history";
+import { PromptActivateHistoryInfo } from "~counselings/domains/prompt-activate-history/models/prompt-activate-history.info";
+import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/prompt-activate-history/prompt-activate-history.criteria";
+import { PromptActivateHistoryReader } from "~counselings/domains/prompt-activate-history/prompt-activate-history.reader";
+import { PromptActivateHistoryStore } from "~counselings/domains/prompt-activate-history/prompt-activate-history.store";
 
 import { Injectable } from "@nestjs/common";
 import { Transactional } from "typeorm-transactional";
@@ -11,7 +11,7 @@ import { Transactional } from "typeorm-transactional";
 export class PromptActivateHistoryService {
   constructor(
     private readonly promptActivateHistoryReader: PromptActivateHistoryReader,
-    private readonly promptActivateHistoryPersister: PromptActivateHistoryPersister,
+    private readonly promptActivateHistoryPersister: PromptActivateHistoryStore,
   ) {}
 
   @Transactional()

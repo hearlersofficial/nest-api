@@ -9,6 +9,10 @@ import {
   FindCounselTechniqueByIdRequestSchema,
   FindCounselTechniqueByIdResponse,
   FindCounselTechniqueByIdResponseSchema,
+  FindCounselTechniquesRequest,
+  FindCounselTechniquesRequestSchema,
+  FindCounselTechniquesResponse,
+  FindCounselTechniquesResponseSchema,
   FindCounselTechniqueTransitionRuleByIdRequest,
   FindCounselTechniqueTransitionRuleByIdRequestSchema,
   FindCounselTechniqueTransitionRuleByIdResponse,
@@ -21,6 +25,10 @@ import {
   FindPersonaPromptByIdRequestSchema,
   FindPersonaPromptByIdResponse,
   FindPersonaPromptByIdResponseSchema,
+  FindPersonaPromptsRequest,
+  FindPersonaPromptsRequestSchema,
+  FindPersonaPromptsResponse,
+  FindPersonaPromptsResponseSchema,
   FindPromptActivateHistoriesRequest,
   FindPromptActivateHistoriesRequestSchema,
   FindPromptActivateHistoriesResponse,
@@ -41,6 +49,10 @@ import {
   FindTonePromptByIdRequestSchema,
   FindTonePromptByIdResponse,
   FindTonePromptByIdResponseSchema,
+  FindTonePromptsRequest,
+  FindTonePromptsRequestSchema,
+  FindTonePromptsResponse,
+  FindTonePromptsResponseSchema,
 } from "~proto/com/hearlers/v1/service/counsel_prompt_pb";
 
 import { create } from "@bufbuild/protobuf";
@@ -49,8 +61,10 @@ import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselTechniqueTransitionRuleId } from "~common/shared-kernel/identifiers/counsel-technique-transition-rule.id";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 
 @Controller("counsel_prompt")
@@ -114,6 +128,21 @@ export class GrpcCounselPromptQueryController {
     });
   }
 
+  @GrpcMethod("CounselPromptService", "FindPersonaPrompts")
+  @ProtoRequest(FindPersonaPromptsRequestSchema)
+  async findPersonaPrompts(request: FindPersonaPromptsRequest): Promise<FindPersonaPromptsResponse> {
+    const { promptVersionId, counselorId } = request;
+    const personaPrompts = await this.counselPromptManagementsFacade.findPersonaPrompts({
+      promptVersionId: promptVersionId ? new PromptVersionId(promptVersionId) : undefined,
+      counselorId: counselorId ? new CounselorId(counselorId) : undefined,
+    });
+    return create(FindPersonaPromptsResponseSchema, {
+      personaPrompts: personaPrompts.map((personaPrompt) =>
+        SchemaCounselPromptsMapper.toPersonaPromptProto(personaPrompt),
+      ),
+    });
+  }
+
   // Tone Prompt
   @GrpcMethod("CounselPromptService", "FindTonePromptById")
   @ProtoRequest(FindTonePromptByIdRequestSchema)
@@ -127,6 +156,20 @@ export class GrpcCounselPromptQueryController {
     });
   }
 
+  @GrpcMethod("CounselPromptService", "FindTonePrompts")
+  @ProtoRequest(FindTonePromptsRequestSchema)
+  async findTonePrompts(request: FindTonePromptsRequest): Promise<FindTonePromptsResponse> {
+    const { promptVersionId, toneId } = request;
+    const tonePrompts = await this.counselPromptManagementsFacade.findTonePrompts({
+      promptVersionId: promptVersionId ? new PromptVersionId(promptVersionId) : undefined,
+      toneId: toneId ? new ToneId(toneId) : undefined,
+    });
+    return create(FindTonePromptsResponseSchema, {
+      tonePrompts: tonePrompts.map((tonePrompt) => SchemaCounselPromptsMapper.toTonePromptProto(tonePrompt)),
+    });
+  }
+
+  // Counsel Technique
   @GrpcMethod("CounselPromptService", "FindCounselTechniqueById")
   @ProtoRequest(FindCounselTechniqueByIdRequestSchema)
   async findCounselTechniqueById(request: FindCounselTechniqueByIdRequest): Promise<FindCounselTechniqueByIdResponse> {
@@ -136,6 +179,21 @@ export class GrpcCounselPromptQueryController {
     });
     return create(FindCounselTechniqueByIdResponseSchema, {
       counselTechnique: SchemaCounselPromptsMapper.toCounselTechniqueProto(counselTechnique),
+    });
+  }
+
+  @GrpcMethod("CounselPromptService", "FindCounselTechniques")
+  @ProtoRequest(FindCounselTechniquesRequestSchema)
+  async findCounselTechniques(request: FindCounselTechniquesRequest): Promise<FindCounselTechniquesResponse> {
+    const { promptVersionId, toneId } = request;
+    const counselTechniques = await this.counselPromptManagementsFacade.findCounselTechniques({
+      promptVersionId: promptVersionId ? new PromptVersionId(promptVersionId) : undefined,
+      toneId: toneId ? new ToneId(toneId) : undefined,
+    });
+    return create(FindCounselTechniquesResponseSchema, {
+      counselTechniques: counselTechniques.map((technique) =>
+        SchemaCounselPromptsMapper.toCounselTechniqueProto(technique),
+      ),
     });
   }
 

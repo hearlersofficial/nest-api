@@ -1,14 +1,14 @@
-import { PromptActivateHistoryRepository } from "~counselings/domains/promptActivateHistory/infrastructures/promptActivateHistory.repository";
+import { PromptActivateHistoryRepository } from "~counselings/domains/prompt-activate-history/infrastructures/promptActivateHistory.repository";
 import {
   PromptActivateHistories,
   PromptActivateHistoriesNewProps,
-} from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
-import { PromptActivateHistoryPersister } from "~counselings/domains/promptActivateHistory/promptActivateHistory.persister";
+} from "~counselings/domains/prompt-activate-history/models/prompt-activate-history";
+import { PromptActivateHistoryStore } from "~counselings/domains/prompt-activate-history/prompt-activate-history.store";
 
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class RepositoryPromptActivateHistoryPersister extends PromptActivateHistoryPersister {
+export class RepositoryPromptActivateHistoryStore extends PromptActivateHistoryStore {
   constructor(private readonly promptActivateHistoryRepository: PromptActivateHistoryRepository) {
     super();
   }

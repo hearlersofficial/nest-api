@@ -4,8 +4,8 @@ import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-
 import { CounselTechniquesModule } from "~counselings/domains/counsel-techniques/counsel-techniques.module";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { PersonaPromptsModule } from "~counselings/domains/persona-prompts/persona-prompts.module";
+import { PromptActivateHistoryModule } from "~counselings/domains/prompt-activate-history/prompt-activate-history.module";
 import { PromptVersionsModule } from "~counselings/domains/prompt-versions/prompt-versions.module";
-import { PromptActivateHistoryModule } from "~counselings/domains/promptActivateHistory/promptActivateHistory.module";
 import { TonePromptsModule } from "~counselings/domains/tone-prompts/tone-prompts.module";
 import { TonesModule } from "~counselings/domains/tones/tones.module";
 

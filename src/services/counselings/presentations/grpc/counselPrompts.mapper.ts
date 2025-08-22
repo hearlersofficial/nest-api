@@ -1,9 +1,9 @@
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
 import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
+import { PromptActivateHistoryInfo } from "~counselings/domains/prompt-activate-history/models/prompt-activate-history.info";
 import { CounselorScopedPromptInfo } from "~counselings/domains/prompt-versions/models/counselor-scoped-prompt.info";
 import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
 import { ToneScopedPromptInfo } from "~counselings/domains/prompt-versions/models/tone-scoped-prompt.info";
-import { PromptActivateHistoryInfo } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory.info";
 import { TonePromptInfo } from "~counselings/domains/tone-prompts/models/tone-prompt.info";
 import {
   CounselorScopedPrompt,

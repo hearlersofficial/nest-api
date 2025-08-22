@@ -1,14 +1,14 @@
 import {
   PromptActivateHistories,
   PromptActivateHistoriesProps,
-} from "~counselings/domains/promptActivateHistory/models/promptActivateHistory";
+} from "~counselings/domains/prompt-activate-history/models/prompt-activate-history";
 
 import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
 import dayjs from "dayjs";
 
-export class PsqlPromptActivateHistoryMapper {
+export class TypeormPromptActivateHistoryMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: PromptActivateHistoryEntity): PromptActivateHistories;
   static toDomain(entity: PromptActivateHistoryEntity | null): PromptActivateHistories | null;

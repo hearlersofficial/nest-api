@@ -11,18 +11,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";
 import dayjs from "dayjs";
 
-/**
- * 타입 안전성을 보장하는 CounselTechniqueTransitionRule 매퍼
- *
- * 이 매퍼는 다음과 같은 타입 안전성 기능을 제공합니다:
- * 1. EnsureCompleteMapping: 엔티티의 모든 필드가 매핑되었는지 컴파일 타임에 검증
- * 2. 필드 누락 시 TypeScript 컴파일 오류 발생
- * 3. 런타임 검증 (개발 환경에서만)
- *
- * 엔티티에 새 필드가 추가되면 매퍼에서 컴파일 오류가 발생하여
- * 개발자가 누락된 매핑을 즉시 인지할 수 있습니다.
- */
-export class TypeormCounselTechniqueTransitionRuleMapper {
+export class TypeormCounselTechniqueTransitionRulesMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: CounselTechniqueTransitionRuleEntity): CounselTechniqueTransitionRules;
   static toDomain(entity: CounselTechniqueTransitionRuleEntity | null): CounselTechniqueTransitionRules | null;
@@ -123,5 +112,9 @@ export class TypeormCounselTechniqueTransitionRuleMapper {
     Object.assign(entity, mappedFields);
 
     return entity;
+  }
+
+  static toEntities(transitionRules: CounselTechniqueTransitionRules[]): CounselTechniqueTransitionRuleEntity[] {
+    return transitionRules?.map((transitionRule) => this.toEntity(transitionRule)) ?? [];
   }
 }

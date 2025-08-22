@@ -1,4 +1,5 @@
 import { CounselingOrchestrator } from "~counselings/applications/counsel-managements/counseling.orchestrator";
+import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
@@ -27,6 +28,7 @@ export class CounselManagementsFacade {
     private readonly promptVersionsService: PromptVersionsService,
     private readonly counselorService: CounselorsService,
     private readonly counselingOrchestrator: CounselingOrchestrator,
+    private readonly counselTechniqueService: CounselTechniquesService,
   ) {}
 
   @Transactional()
@@ -46,20 +48,17 @@ export class CounselManagementsFacade {
     const promptVersion = promptVersionId
       ? await this.promptVersionsService.getOne({ promptVersionId })
       : await this.promptVersionsService.getActiveOne();
-    const firstCounselTechniqueId = promptVersion.toneScopedPrompts.find((toneScopedPrompt) =>
-      toneScopedPrompt.toneId.equals(counselor.toneId),
-    )?.firstCounselTechniqueId;
-    if (!firstCounselTechniqueId) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        "First counsel technique at toneId not found",
-      );
-    }
-
+    const startTechnique = await this.counselTechniqueService.getOne({
+      uniqueCriteria: {
+        type: "startTechnique",
+        toneId: counselor.toneId,
+        promptVersionId: promptVersion.id,
+      },
+    });
     const createdCounsel = await this.counselService.create({
       userId,
       counselorId,
-      counselTechniqueId: firstCounselTechniqueId,
+      counselTechniqueId: startTechnique.id,
       promptVersionId: promptVersion.id,
       counselorUserRelationshipId: new CounselorUserRelationshipId(), // TODO: 의미있는 값 넣기
     });

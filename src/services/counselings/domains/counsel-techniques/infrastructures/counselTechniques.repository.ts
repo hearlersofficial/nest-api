@@ -2,6 +2,8 @@ import { CounselTechniques } from "~counselings/domains/counsel-techniques/model
 
 import { Injectable } from "@nestjs/common";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
@@ -9,6 +11,11 @@ import { FindManyOptions, FindOneOptions } from "typeorm";
 export abstract class CounselTechniquesRepository {
   abstract findByCounselTechniqueId(
     counselTechniqueId: CounselTechniqueId,
+    options?: FindOneOptions<CounselTechniquesEntity>,
+  ): Promise<CounselTechniques | null>;
+  abstract findStartTechnique(
+    toneId: ToneId,
+    promptVersionId: PromptVersionId,
     options?: FindOneOptions<CounselTechniquesEntity>,
   ): Promise<CounselTechniques | null>;
   abstract findMany(options?: FindManyOptions<CounselTechniquesEntity>): Promise<CounselTechniques[]>;

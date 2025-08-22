@@ -2,7 +2,9 @@ import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-te
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 
-export type UniqueKey = { type: "counselTechnique"; id: CounselTechniqueId };
+export type UniqueKey =
+  | { type: "counselTechnique"; id: CounselTechniqueId }
+  | { type: "startTechnique"; toneId: ToneId; promptVersionId: PromptVersionId };
 
 export type FindOneOptions = {
   toneId?: ToneId;

@@ -28,19 +28,10 @@ export class SystemPromptBuilder {
    * @returns 완성된 시스템 프롬프트
    */
   async buildSystemPrompt(session: CounselSession): Promise<string> {
-    const [personaResult, toneResult] = await Promise.all([
-      this.personaPromptService.getOne({
-        personaPromptId: session.getCounselorScopedPrompt().personaPromptId,
-      }),
-      this.tonePromptService.getOne({
-        tonePromptId: session.getToneScopedPrompt().tonePromptId,
-      }),
-    ]);
-
-    const persona = personaResult.body;
-    const tone = toneResult.body;
-    const context = session.getCurrentTechnique().context;
-    const instruction = session.getCurrentTechnique().instruction;
+    const persona = session.personaPrompt.body;
+    const tone = session.tonePrompt.body;
+    const context = session.currentTechnique.context;
+    const instruction = session.currentTechnique.instruction;
 
     const systemPrompt = `
 <Persona>

@@ -92,7 +92,7 @@ export class SchemaCounselPromptsMapper {
       context: counselTechnique.context,
       instruction: counselTechnique.instruction,
       messageThreshold: counselTechnique.messageThreshold,
-      isTemporary: counselTechnique.isTemporary,
+      isStartTechnique: counselTechnique.isStartTechnique,
       temperature: counselTechnique.temperature,
       createdAt: counselTechnique.createdAt.toISOString(),
       updatedAt: counselTechnique.updatedAt.toISOString(),

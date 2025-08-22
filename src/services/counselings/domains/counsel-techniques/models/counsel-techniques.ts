@@ -15,10 +15,10 @@ export interface CounselTechniquesNewProps {
   context: string;
   instruction: string;
   messageThreshold: number;
+  isStartTechnique: boolean;
 }
 
 export interface CounselTechniquesProps extends CounselTechniquesNewProps {
-  isTemporary: boolean;
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -44,7 +44,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     const createdCounselTechnique = this.create(
       {
         ...newProps,
-        isTemporary: true,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -124,8 +123,8 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     return this.props.messageThreshold;
   }
 
-  get isTemporary(): boolean {
-    return this.props.isTemporary;
+  get isStartTechnique(): boolean {
+    return this.props.isStartTechnique;
   }
 
   get createdAt(): Dayjs {
@@ -142,9 +141,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
 
   // Methods
   public update(props: Partial<CounselTechniquesProps>): Result<void> {
-    if (!this.props.isTemporary) {
-      return Result.fail<void>("[CounselTechniques] 임시 상태의 기법만 수정할 수 있습니다");
-    }
     if (isDefined(props.name) && props.name !== this.props.name) {
       this.props.name = props.name;
     }
@@ -160,8 +156,8 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     if (isDefined(props.messageThreshold) && props.messageThreshold !== this.props.messageThreshold) {
       this.props.messageThreshold = props.messageThreshold;
     }
-    if (isDefined(props.isTemporary) && props.isTemporary !== this.props.isTemporary) {
-      this.props.isTemporary = props.isTemporary;
+    if (isDefined(props.isStartTechnique) && props.isStartTechnique !== this.props.isStartTechnique) {
+      this.props.isStartTechnique = props.isStartTechnique;
     }
     this.props.updatedAt = getNowDayjs();
     return Result.ok();

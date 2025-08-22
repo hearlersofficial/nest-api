@@ -101,6 +101,7 @@ export class TemporaryVersionManager {
           context: counselTechnique.context,
           instruction: counselTechnique.instruction,
           messageThreshold: counselTechnique.messageThreshold,
+          isStartTechnique: counselTechnique.isStartTechnique,
         });
       }),
     ]);

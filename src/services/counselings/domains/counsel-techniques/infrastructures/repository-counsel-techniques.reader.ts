@@ -24,7 +24,18 @@ export class RepositoryCounselTechniquesReader extends CounselTechniquesReader {
     options?: CounselTechniquesCriteria.FindOneOptions;
   }): Promise<CounselTechniques | null> {
     const typeormOptions = RepositoryCounselTechniqueCriteriaMapper.toFindOneOptions(props.options);
-    return this.counselTechniquesRepository.findByCounselTechniqueId(props.uniqueCriteria.id, typeormOptions);
+    switch (props.uniqueCriteria.type) {
+      case "counselTechnique":
+        return this.counselTechniquesRepository.findByCounselTechniqueId(props.uniqueCriteria.id, typeormOptions);
+      case "startTechnique":
+        return this.counselTechniquesRepository.findStartTechnique(
+          props.uniqueCriteria.toneId,
+          props.uniqueCriteria.promptVersionId,
+          typeormOptions,
+        );
+      default:
+        return null;
+    }
   }
 
   override async findMany(props: CounselTechniquesCriteria.FindManyOptions): Promise<CounselTechniques[]> {

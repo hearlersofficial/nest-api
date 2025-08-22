@@ -195,7 +195,9 @@ export class CounselPromptManagementsFacade {
 
   async findCounselTechniqueById(param: { counselTechniqueId: CounselTechniqueId }): Promise<CounselTechniqueInfo> {
     const { counselTechniqueId } = param;
-    return this.counselTechniqueService.getOne({ counselTechniqueId });
+    return this.counselTechniqueService.getOne({
+      uniqueCriteria: { type: "counselTechnique", id: counselTechniqueId },
+    });
   }
 
   @Transactional()
@@ -206,22 +208,10 @@ export class CounselPromptManagementsFacade {
     context?: string;
     instruction?: string;
     messageThreshold?: number;
-  }): Promise<CounselTechniqueInfo[]> {
+  }): Promise<CounselTechniqueInfo> {
     const { counselTechniqueId, name, temperature, context, instruction, messageThreshold } = param;
 
-    const counselTechnique = await this.counselTechniqueService.getOne({ counselTechniqueId });
-    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
-    const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find((toneScopedPrompt) =>
-      toneScopedPrompt.toneId.equals(counselTechnique.toneId),
-    )?.firstCounselTechniqueId;
-    if (!firstCounselTechniqueId) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        "First counsel technique at toneId not found",
-      );
-    }
-
-    const updatedTechniques = await this.counselTechniqueService.updateCounselTechnique({
+    const updatedTechnique = await this.counselTechniqueService.updateCounselTechnique({
       counselTechniqueId,
       name,
       temperature,
@@ -230,7 +220,7 @@ export class CounselPromptManagementsFacade {
       messageThreshold,
     });
 
-    return updatedTechniques;
+    return updatedTechnique;
   }
 
   async findPromptActivateHistories(param: {

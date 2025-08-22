@@ -1,4 +1,4 @@
-import * as TransitionRulesCriteria from "~counselings/domains/counselTechniques/counsel-technique-transition-rules.criteria";
+import * as TransitionRulesCriteria from "~counselings/domains/counsel-techniques/counsel-technique-transition-rules.criteria";
 
 import { isDefined } from "~common/shared/utils/validate";
 import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";

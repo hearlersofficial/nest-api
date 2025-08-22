@@ -1,4 +1,4 @@
-import { CounselTechniqueTransitionRules } from "~counselings/domains/counselTechniques/models/counsel-technique-transition-rules";
+import { CounselTechniqueTransitionRules } from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rules";
 import {
   AllianceStrength,
   ArousalLevel,

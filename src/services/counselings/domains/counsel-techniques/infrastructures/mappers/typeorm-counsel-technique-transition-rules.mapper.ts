@@ -1,7 +1,7 @@
 import {
   CounselTechniqueTransitionRules,
   CounselTechniqueTransitionRulesProps,
-} from "~counselings/domains/counselTechniques/models/counsel-technique-transition-rules";
+} from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rules";
 
 import { HttpStatus } from "@nestjs/common";
 import { EntityData } from "~common/shared/utils/orm";

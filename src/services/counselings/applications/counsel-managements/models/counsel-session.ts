@@ -1,8 +1,8 @@
+import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
 import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-message.info";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
-import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
 import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
 
 import { HttpStatus } from "@nestjs/common";

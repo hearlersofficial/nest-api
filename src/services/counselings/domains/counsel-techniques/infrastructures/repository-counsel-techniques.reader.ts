@@ -1,12 +1,12 @@
-import * as TransitionRulesCriteria from "~counselings/domains/counselTechniques/counsel-technique-transition-rules.criteria";
-import * as CounselTechniquesCriteria from "~counselings/domains/counselTechniques/counselTechniques.criteria";
-import { CounselTechniquesReader } from "~counselings/domains/counselTechniques/counselTechniques.reader";
-import { CounselTechniqueTransitionRulesRepository } from "~counselings/domains/counselTechniques/infrastructures/counsel-technique-transition-rules.repository";
-import { CounselTechniquesRepository } from "~counselings/domains/counselTechniques/infrastructures/counselTechniques.repository";
-import { RepositoryCounselTechniqueTransitionRulesCriteriaMapper } from "~counselings/domains/counselTechniques/infrastructures/mappers/repository-counsel-technique-transition-rules-criteria.mapper";
-import { RepositoryCounselTechniqueCriteriaMapper } from "~counselings/domains/counselTechniques/infrastructures/mappers/repository-counselTechniques-criteria.mapper";
-import { CounselTechniqueTransitionRules } from "~counselings/domains/counselTechniques/models/counsel-technique-transition-rules";
-import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
+import * as TransitionRulesCriteria from "~counselings/domains/counsel-techniques/counsel-technique-transition-rules.criteria";
+import * as CounselTechniquesCriteria from "~counselings/domains/counsel-techniques/counsel-techniques.criteria";
+import { CounselTechniquesReader } from "~counselings/domains/counsel-techniques/counsel-techniques.reader";
+import { CounselTechniqueTransitionRulesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counsel-technique-transition-rules.repository";
+import { CounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counselTechniques.repository";
+import { RepositoryCounselTechniqueTransitionRulesCriteriaMapper } from "~counselings/domains/counsel-techniques/infrastructures/mappers/repository-counsel-technique-transition-rules-criteria.mapper";
+import { RepositoryCounselTechniqueCriteriaMapper } from "~counselings/domains/counsel-techniques/infrastructures/mappers/repository-counsel-techniques-criteria.mapper";
+import { CounselTechniqueTransitionRules } from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rules";
+import { CounselTechniques } from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { Injectable } from "@nestjs/common";
 

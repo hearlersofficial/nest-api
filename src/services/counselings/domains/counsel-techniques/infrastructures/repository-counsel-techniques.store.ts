@@ -1,14 +1,14 @@
-import { CounselTechniquesStore } from "~counselings/domains/counselTechniques/counselTechniques.store";
-import { CounselTechniqueTransitionRulesRepository } from "~counselings/domains/counselTechniques/infrastructures/counsel-technique-transition-rules.repository";
-import { CounselTechniquesRepository } from "~counselings/domains/counselTechniques/infrastructures/counselTechniques.repository";
+import { CounselTechniquesStore } from "~counselings/domains/counsel-techniques/counsel-techniques.store";
+import { CounselTechniqueTransitionRulesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counsel-technique-transition-rules.repository";
+import { CounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counselTechniques.repository";
 import {
   CounselTechniqueTransitionRules,
   CounselTechniqueTransitionRulesNewProps,
-} from "~counselings/domains/counselTechniques/models/counsel-technique-transition-rules";
+} from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rules";
 import {
   CounselTechniques,
   CounselTechniquesNewProps,
-} from "~counselings/domains/counselTechniques/models/counselTechniques";
+} from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";

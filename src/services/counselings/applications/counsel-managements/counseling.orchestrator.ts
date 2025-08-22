@@ -4,10 +4,10 @@ import { ContextManager } from "~counselings/applications/counsel-managements/su
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
 import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
 import { TechniqueTransitionDecision } from "~counselings/applications/counsel-managements/types/technique.type";
+import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
-import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Injectable, Logger } from "@nestjs/common";

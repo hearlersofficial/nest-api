@@ -1,6 +1,6 @@
-import { CounselTechniquesRepository } from "~counselings/domains/counselTechniques/infrastructures/counselTechniques.repository";
-import { PsqlCounselTechniquesMapper } from "~counselings/domains/counselTechniques/infrastructures/mappers/psql.counselTechniques.mapper";
-import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
+import { CounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counselTechniques.repository";
+import { TypeormCounselTechniquesMapper } from "~counselings/domains/counsel-techniques/infrastructures/mappers/typeorm-counsel-techniques.mapper";
+import { CounselTechniques } from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -9,13 +9,15 @@ import { CounselTechniquesEntity } from "~common/system/persistences/entities/pr
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()
-export class PsqlCounselTechniquesRepository extends CounselTechniquesRepository {
+export class TypeormCounselTechniquesRepository extends CounselTechniquesRepository {
   constructor(
     @InjectRepository(CounselTechniquesEntity)
     private readonly counselTechniquesRepository: Repository<CounselTechniquesEntity>,
   ) {
     super();
   }
+
+  private readonly mapper = TypeormCounselTechniquesMapper;
 
   override async findByCounselTechniqueId(
     counselTechniqueId: CounselTechniqueId,
@@ -27,13 +29,13 @@ export class PsqlCounselTechniquesRepository extends CounselTechniquesRepository
       id: counselTechniqueId.getString(),
     };
     const counselTechnique = await this.counselTechniquesRepository.findOne(findOneOptions);
-    return counselTechnique ? PsqlCounselTechniquesMapper.toDomain(counselTechnique) : null;
+    return counselTechnique ? this.mapper.toDomain(counselTechnique) : null;
   }
 
   override async findMany(options?: FindManyOptions<CounselTechniquesEntity>): Promise<CounselTechniques[]> {
     const findManyOptions: FindManyOptions<CounselTechniquesEntity> = options ?? {};
     const counselTechniques = await this.counselTechniquesRepository.find(findManyOptions);
-    return PsqlCounselTechniquesMapper.toDomains(counselTechniques);
+    return this.mapper.toDomains(counselTechniques);
   }
 
   override async save(counselTechnique: CounselTechniques): Promise<CounselTechniques>;
@@ -42,10 +44,10 @@ export class PsqlCounselTechniquesRepository extends CounselTechniquesRepository
     counselTechnique: CounselTechniques | CounselTechniques[],
   ): Promise<CounselTechniques | CounselTechniques[]> {
     if (Array.isArray(counselTechnique)) {
-      await this.counselTechniquesRepository.save(PsqlCounselTechniquesMapper.toEntities(counselTechnique));
+      await this.counselTechniquesRepository.save(this.mapper.toEntities(counselTechnique));
       return counselTechnique;
     } else {
-      const counselTechniqueEntity = PsqlCounselTechniquesMapper.toEntity(counselTechnique);
+      const counselTechniqueEntity = this.mapper.toEntity(counselTechnique);
       await this.counselTechniquesRepository.save(counselTechniqueEntity);
       return counselTechnique;
     }

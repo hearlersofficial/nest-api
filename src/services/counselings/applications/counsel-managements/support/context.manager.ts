@@ -1,7 +1,7 @@
 import { CounselSession } from "~counselings/applications/counsel-managements/models/counsel-session";
+import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
-import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
 
 import { Injectable } from "@nestjs/common";

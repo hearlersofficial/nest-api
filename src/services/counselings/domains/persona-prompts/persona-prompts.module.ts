@@ -8,7 +8,7 @@ import { PersonaPromptsStore } from "~counselings/domains/persona-prompts/person
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
+import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([PersonaPromptEntity])],

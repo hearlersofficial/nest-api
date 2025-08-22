@@ -2,7 +2,7 @@ import { PromptVersions } from "~counselings/domains/prompt-versions/models/prom
 
 import { Injectable } from "@nestjs/common";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
-import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 @Injectable()

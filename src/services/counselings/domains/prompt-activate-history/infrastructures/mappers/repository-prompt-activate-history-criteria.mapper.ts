@@ -1,6 +1,6 @@
 import { PromptActivateHistoryCriteriaFindMany } from "~counselings/domains/prompt-activate-history/prompt-activate-history.criteria";
 
-import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
+import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/prompt-activate-history.entity";
 import { FindManyOptions, FindOptionsOrder, FindOptionsWhere, LessThan } from "typeorm";
 
 export class RepositoryPromptActivateHistoryCriteriaMapper {

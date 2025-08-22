@@ -5,7 +5,7 @@ import { PersonaPrompts } from "~counselings/domains/persona-prompts/models/pers
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
-import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
+import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()

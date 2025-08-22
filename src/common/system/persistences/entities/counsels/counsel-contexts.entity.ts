@@ -14,7 +14,7 @@ import {
 } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
-import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
 import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
 
 @Entity({ name: "counsel_contexts", comment: "상담 컨텍스트" })

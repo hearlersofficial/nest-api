@@ -1,10 +1,10 @@
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
-import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
-import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/CounselorScopedPrompts.entity";
-import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
-import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/ToneScopedPrompts.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
+import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/counselor-scoped-prompts.entity";
+import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/prompt-activate-history.entity";
+import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/tone-scoped-prompts.entity";
 import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity({ name: "prompt_versions", comment: "프롬프트 버전" })

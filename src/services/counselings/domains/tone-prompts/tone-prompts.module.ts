@@ -8,7 +8,7 @@ import { TonePromptsStore } from "~counselings/domains/tone-prompts/tone-prompts
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
+import { TonePromptEntity } from "~common/system/persistences/entities/prompts/tone-prompts.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([TonePromptEntity])],

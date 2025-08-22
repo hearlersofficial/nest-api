@@ -1,7 +1,7 @@
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 
 import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
-import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/counsel-messages.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
 export abstract class CounselMessagesRepository {

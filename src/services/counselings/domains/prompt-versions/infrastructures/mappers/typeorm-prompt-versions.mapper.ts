@@ -7,7 +7,7 @@ import { ToneScopedPrompts } from "~counselings/domains/prompt-versions/models/t
 import { HttpStatus } from "@nestjs/common";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
 import dayjs from "dayjs";
 
 export class TypeormPromptVersionsMapper {

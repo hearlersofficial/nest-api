@@ -5,7 +5,7 @@ import { Result } from "~common/shared-kernel/domains/results";
 import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
 import { KakaoId } from "~common/shared-kernel/identifiers/kakao.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { KakaoEntity } from "~common/system/persistences/entities/users/kakao-provider.entity";
+import { KakaoEntity } from "~common/system/persistences/entities/users/kakao.entity";
 import dayjs from "dayjs";
 
 export class PsqlKakaoMapper {

@@ -9,7 +9,7 @@ import { CounselorScopedPromptId } from "~common/shared-kernel/identifiers/couns
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/CounselorScopedPrompts.entity";
+import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/counselor-scoped-prompts.entity";
 import dayjs from "dayjs";
 
 export class TypeormCounselorScopedPromptsMapper {

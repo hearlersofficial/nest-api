@@ -5,7 +5,7 @@ import {
 
 import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
-import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
+import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/prompt-activate-history.entity";
 import dayjs from "dayjs";
 
 export class TypeormPromptActivateHistoryMapper {

@@ -4,7 +4,7 @@ import { HttpStatus } from "@nestjs/common";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
+import { TonePromptEntity } from "~common/system/persistences/entities/prompts/tone-prompts.entity";
 import dayjs from "dayjs";
 
 export class TypeormTonePromptsMapper {

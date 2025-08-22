@@ -6,8 +6,8 @@ import {
 
 import { isDefined } from "~common/shared/utils/validate";
 import { CompressedMessagesEntity } from "~common/system/persistences/entities/counsels/compressed-messages.entity";
-import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
-import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/counsel-messages.entity";
 import { FindManyOptions, FindOptionsOrder, FindOptionsWhere } from "typeorm";
 
 export class RepositoryCounselCriteriaMapper {

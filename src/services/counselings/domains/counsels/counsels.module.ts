@@ -25,9 +25,9 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AssistantAgentModule } from "~common/support/assistant-agents/assistant-agent.module";
 import { CompressedMessagesEntity } from "~common/system/persistences/entities/counsels/compressed-messages.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
 import { CounselContextsEntity } from "~common/system/persistences/entities/counsels/counsel-contexts.entity";
-import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
-import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/counsel-messages.entity";
 
 @Module({
   imports: [

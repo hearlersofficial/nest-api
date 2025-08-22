@@ -1,6 +1,6 @@
 import {
-  CounselTechniqueTransitionRuleProps,
   CounselTechniqueTransitionRules,
+  CounselTechniqueTransitionRulesProps,
 } from "~counselings/domains/counselTechniques/models/counsel-technique-transition-rules";
 
 import { HttpStatus } from "@nestjs/common";
@@ -20,7 +20,7 @@ export class TypeormCounselTechniqueTransitionRulesMapper {
       return null;
     }
 
-    const props: CounselTechniqueTransitionRuleProps = {
+    const props: CounselTechniqueTransitionRulesProps = {
       fromCounselTechniqueId: new CounselTechniqueId(entity.fromCounselTechniqueId),
       toCounselTechniqueId: new CounselTechniqueId(entity.toCounselTechniqueId),
       priority: entity.priority,

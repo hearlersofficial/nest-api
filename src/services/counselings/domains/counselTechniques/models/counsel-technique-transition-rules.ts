@@ -21,13 +21,13 @@ import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-te
 import { CounselTechniqueTransitionRuleId } from "~common/shared-kernel/identifiers/counsel-technique-transition-rule.id";
 import { Dayjs } from "dayjs";
 
-export interface CounselTechniqueTransitionRuleNewProps {
+export interface CounselTechniqueTransitionRulesNewProps {
   fromCounselTechniqueId: CounselTechniqueId;
   toCounselTechniqueId: CounselTechniqueId;
   priority?: number;
 }
 
-export interface CounselTechniqueTransitionRuleProps extends CounselTechniqueTransitionRuleNewProps {
+export interface CounselTechniqueTransitionRulesProps extends CounselTechniqueTransitionRulesNewProps {
   priority: number;
 
   // 메시지 수 관련 조건
@@ -80,15 +80,15 @@ export interface CounselTechniqueTransitionRuleProps extends CounselTechniqueTra
 }
 
 export class CounselTechniqueTransitionRules extends DomainEntity<
-  CounselTechniqueTransitionRuleProps,
+  CounselTechniqueTransitionRulesProps,
   CounselTechniqueTransitionRuleId
 > {
-  private constructor(props: CounselTechniqueTransitionRuleProps, id: CounselTechniqueTransitionRuleId) {
+  private constructor(props: CounselTechniqueTransitionRulesProps, id: CounselTechniqueTransitionRuleId) {
     super(props, id);
   }
 
   public static create(
-    props: CounselTechniqueTransitionRuleProps,
+    props: CounselTechniqueTransitionRulesProps,
     id: CounselTechniqueTransitionRuleId,
   ): Result<CounselTechniqueTransitionRules> {
     const transitionRule = new CounselTechniqueTransitionRules(props, id);
@@ -99,7 +99,7 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     return Result.ok<CounselTechniqueTransitionRules>(transitionRule);
   }
 
-  public static createNew(newProps: CounselTechniqueTransitionRuleNewProps): Result<CounselTechniqueTransitionRules> {
+  public static createNew(newProps: CounselTechniqueTransitionRulesNewProps): Result<CounselTechniqueTransitionRules> {
     const now = getNowDayjs();
     const newId = new CounselTechniqueTransitionRuleId();
     return this.create(
@@ -228,9 +228,9 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     return Result.ok();
   }
 
-  public applyUpdates(updates: Partial<CounselTechniqueTransitionRuleProps>): void {
+  public applyUpdates(updates: Partial<CounselTechniqueTransitionRulesProps>): void {
     const now = getNowDayjs();
-    const assignIfDefined = <K extends keyof CounselTechniqueTransitionRuleProps>(key: K) => {
+    const assignIfDefined = <K extends keyof CounselTechniqueTransitionRulesProps>(key: K) => {
       const value = updates[key];
       if (value !== undefined) {
         (this.props as any)[key] = value as any;

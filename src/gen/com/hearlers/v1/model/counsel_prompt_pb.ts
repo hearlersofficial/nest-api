@@ -4,13 +4,15 @@
 
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
+import type { AllianceStrength, ArousalLevel, CognitiveLoad, EmotionPrimary, ImpactDomain, MotivationStage, PerceivedControl, RiskKind, SleepQuality, SocialSupportLevel, Timeframe, Valence } from "./counsel_pb";
+import { file_com_hearlers_v1_model_counsel } from "./counsel_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file com/hearlers/v1/model/counsel_prompt.proto.
  */
 export const file_com_hearlers_v1_model_counsel_prompt: GenFile = /*@__PURE__*/
-  fileDesc("Cipjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbF9wcm9tcHQucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCKWAwoNUHJvbXB0VmVyc2lvbhIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhEKCWlzX2FjdGl2ZRgEIAEoCBIUCgxpc190ZW1wb3JhcnkYBSABKAgSFQoNaXNfYm9va21hcmtlZBgGIAEoCBIwCghhaV9tb2RlbBgHIAEoDjIeLmNvbS5oZWFybGVycy52MS5tb2RlbC5BaU1vZGVsEk4KGGNvdW5zZWxvcl9zY29wZWRfcHJvbXB0cxgIIAMoCzIsLmNvbS5oZWFybGVycy52MS5tb2RlbC5Db3Vuc2Vsb3JTY29wZWRQcm9tcHQSRAoTdG9uZV9zY29wZWRfcHJvbXB0cxgJIAMoCzInLmNvbS5oZWFybGVycy52MS5tb2RlbC5Ub25lU2NvcGVkUHJvbXB0EhIKCmNyZWF0ZWRfYXQYCiABKAkSEgoKdXBkYXRlZF9hdBgLIAEoCRIXCgpkZWxldGVkX2F0GAwgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQimAEKFUNvdW5zZWxvclNjb3BlZFByb21wdBIUCgxjb3Vuc2Vsb3JfaWQYASABKAkSGQoRcGVyc29uYV9wcm9tcHRfaWQYAiABKAkSEgoKY3JlYXRlZF9hdBgDIAEoCRISCgp1cGRhdGVkX2F0GAQgASgJEhcKCmRlbGV0ZWRfYXQYBSABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCLrAQoQVG9uZVNjb3BlZFByb21wdBIPCgd0b25lX2lkGAEgASgJEhsKDnRvbmVfcHJvbXB0X2lkGAIgASgJSACIAQESJwoaZmlyc3RfY291bnNlbF90ZWNobmlxdWVfaWQYAyABKAlIAYgBARISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSFwoKZGVsZXRlZF9hdBgGIAEoCUgCiAEBQhEKD190b25lX3Byb21wdF9pZEIdChtfZmlyc3RfY291bnNlbF90ZWNobmlxdWVfaWRCDQoLX2RlbGV0ZWRfYXQijwEKDVBlcnNvbmFQcm9tcHQSCgoCaWQYASABKAkSDAoEYm9keRgCIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKHAQoKVG9uZVByb21wdBIKCgJpZBgBIAEoCRIMCgRib2R5GAIgASgJEg8KB3RvbmVfaWQYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCK/AgoQQ291bnNlbFRlY2huaXF1ZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg8KB3RvbmVfaWQYAyABKAkSDwoHY29udGV4dBgEIAEoCRITCgtpbnN0cnVjdGlvbhgFIAEoCRIZChFtZXNzYWdlX3RocmVzaG9sZBgGIAEoBRIUCgxpc190ZW1wb3JhcnkYByABKAgSJgoZbmV4dF9jb3Vuc2VsX3RlY2huaXF1ZV9pZBgIIAEoCUgAiAEBEhMKC3RlbXBlcmF0dXJlGAkgASgBEhIKCmNyZWF0ZWRfYXQYCiABKAkSEgoKdXBkYXRlZF9hdBgLIAEoCRIXCgpkZWxldGVkX2F0GAwgASgJSAGIAQFCHAoaX25leHRfY291bnNlbF90ZWNobmlxdWVfaWRCDQoLX2RlbGV0ZWRfYXQipAEKFVByb21wdEFjdGl2YXRlSGlzdG9yeRIKCgJpZBgBIAEoCRIZChFwcm9tcHRfdmVyc2lvbl9pZBgCIAEoCRIUCgxhY3RpdmF0ZWRfYXQYAyABKAkSEgoKY3JlYXRlZF9hdBgEIAEoCRISCgp1cGRhdGVkX2F0GAUgASgJEhcKCmRlbGV0ZWRfYXQYBiABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCqJAQoHQWlNb2RlbBIYChRBSV9NT0RFTF9VTlNQRUNJRklFRBAAEhEKDUdQVF8zXzVfVFVSQk8QARIJCgVHUFRfNBACEgoKBkdQVF80TxADEg8KC0dQVF80T19NSU5JEAQSDgoKR1BUXzVfTUlOSRAFEgkKBUdQVF81EAYSDgoKR1BUXzVfQ0hBVBAHQqcBChljb20uY29tLmhlYXJsZXJzLnYxLm1vZGVsQhJDb3Vuc2VsUHJvbXB0UHJvdG9QAaICBENIVk2qAhVDb20uSGVhcmxlcnMuVjEuTW9kZWzKAhVDb21cSGVhcmxlcnNcVjFcTW9kZWziAiFDb21cSGVhcmxlcnNcVjFcTW9kZWxcR1BCTWV0YWRhdGHqAhhDb206OkhlYXJsZXJzOjpWMTo6TW9kZWxiBnByb3RvMw");
+  fileDesc("Cipjb20vaGVhcmxlcnMvdjEvbW9kZWwvY291bnNlbF9wcm9tcHQucHJvdG8SFWNvbS5oZWFybGVycy52MS5tb2RlbCKAAgoNUHJvbXB0VmVyc2lvbhIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhEKCWlzX2FjdGl2ZRgEIAEoCBIUCgxpc190ZW1wb3JhcnkYBSABKAgSFQoNaXNfYm9va21hcmtlZBgGIAEoCBIwCghhaV9tb2RlbBgHIAEoDjIeLmNvbS5oZWFybGVycy52MS5tb2RlbC5BaU1vZGVsEhIKCmNyZWF0ZWRfYXQYCCABKAkSEgoKdXBkYXRlZF9hdBgJIAEoCRIXCgpkZWxldGVkX2F0GAogASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQiqgEKDVBlcnNvbmFQcm9tcHQSCgoCaWQYASABKAkSDAoEYm9keRgCIAEoCRIUCgxjb3Vuc2Vsb3JfaWQYAyABKAkSGQoRcHJvbXB0X3ZlcnNpb25faWQYBCABKAkSEgoKY3JlYXRlZF9hdBgFIAEoCRISCgp1cGRhdGVkX2F0GAYgASgJEhcKCmRlbGV0ZWRfYXQYByABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKiAQoKVG9uZVByb21wdBIKCgJpZBgBIAEoCRIMCgRib2R5GAIgASgJEg8KB3RvbmVfaWQYAyABKAkSGQoRcHJvbXB0X3ZlcnNpb25faWQYBCABKAkSEgoKY3JlYXRlZF9hdBgFIAEoCRISCgp1cGRhdGVkX2F0GAYgASgJEhcKCmRlbGV0ZWRfYXQYByABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKUAgoQQ291bnNlbFRlY2huaXF1ZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg8KB3RvbmVfaWQYAyABKAkSDwoHY29udGV4dBgEIAEoCRITCgtpbnN0cnVjdGlvbhgFIAEoCRIZChFtZXNzYWdlX3RocmVzaG9sZBgGIAEoBRIUCgxpc190ZW1wb3JhcnkYByABKAgSEwoLdGVtcGVyYXR1cmUYCCABKAESGQoRcHJvbXB0X3ZlcnNpb25faWQYCSABKAkSEgoKY3JlYXRlZF9hdBgKIAEoCRISCgp1cGRhdGVkX2F0GAsgASgJEhcKCmRlbGV0ZWRfYXQYDCABKAlIAIgBAUINCgtfZGVsZXRlZF9hdCKkAQoVUHJvbXB0QWN0aXZhdGVIaXN0b3J5EgoKAmlkGAEgASgJEhkKEXByb21wdF92ZXJzaW9uX2lkGAIgASgJEhQKDGFjdGl2YXRlZF9hdBgDIAEoCRISCgpjcmVhdGVkX2F0GAQgASgJEhIKCnVwZGF0ZWRfYXQYBSABKAkSFwoKZGVsZXRlZF9hdBgGIAEoCUgAiAEBQg0KC19kZWxldGVkX2F0Iu0LCh5Db3Vuc2VsVGVjaG5pcXVlVHJhbnNpdGlvblJ1bGUSCgoCaWQYASABKAkSGQoRcHJvbXB0X3ZlcnNpb25faWQYAiABKAkSIQoZZnJvbV9jb3Vuc2VsX3RlY2huaXF1ZV9pZBgDIAEoCRIfChd0b19jb3Vuc2VsX3RlY2huaXF1ZV9pZBgEIAEoCRIQCghwcmlvcml0eRgFIAEoBRIoCiBtaW5fbm90X2NvbXByZXNzZWRfbWVzc2FnZV9jb3VudBgGIAEoBRIoCiBtYXhfbm90X2NvbXByZXNzZWRfbWVzc2FnZV9jb3VudBgHIAEoBRIrCiNtaW5fY3VycmVudF90ZWNobmlxdWVfbWVzc2FnZV9jb3VudBgIIAEoBRIrCiNtYXhfY3VycmVudF90ZWNobmlxdWVfbWVzc2FnZV9jb3VudBgJIAEoBRJEChdyZXF1aXJlZF9pbXBhY3RfZG9tYWlucxgKIAMoDjIjLmNvbS5oZWFybGVycy52MS5tb2RlbC5JbXBhY3REb21haW4SPQoTcmVxdWlyZWRfdGltZWZyYW1lcxgLIAMoDjIgLmNvbS5oZWFybGVycy52MS5tb2RlbC5UaW1lZnJhbWUSSQoacmVxdWlyZWRfZW1vdGlvbl9wcmltYXJpZXMYDCADKA4yJS5jb20uaGVhcmxlcnMudjEubW9kZWwuRW1vdGlvblByaW1hcnkSOQoRcmVxdWlyZWRfdmFsZW5jZXMYDSADKA4yHi5jb20uaGVhcmxlcnMudjEubW9kZWwuVmFsZW5jZRJEChdyZXF1aXJlZF9hcm91c2FsX2xldmVscxgOIAMoDjIjLmNvbS5oZWFybGVycy52MS5tb2RlbC5Bcm91c2FsTGV2ZWwSHQoVbWluX2Vtb3Rpb25faW50ZW5zaXR5GA8gASgFEh0KFW1heF9lbW90aW9uX2ludGVuc2l0eRgQIAEoBRJMChtyZXF1aXJlZF9wZXJjZWl2ZWRfY29udHJvbHMYESADKA4yJy5jb20uaGVhcmxlcnMudjEubW9kZWwuUGVyY2VpdmVkQ29udHJvbBJKChpyZXF1aXJlZF9tb3RpdmF0aW9uX3N0YWdlcxgSIAMoDjImLmNvbS5oZWFybGVycy52MS5tb2RlbC5Nb3RpdmF0aW9uU3RhZ2USGQoRbWluX3NlbGZfZWZmaWNhY3kYEyABKAUSGQoRbWF4X3NlbGZfZWZmaWNhY3kYFCABKAUSUQoecmVxdWlyZWRfc29jaWFsX3N1cHBvcnRfbGV2ZWxzGBUgAygOMikuY29tLmhlYXJsZXJzLnYxLm1vZGVsLlNvY2lhbFN1cHBvcnRMZXZlbBI8ChNyZXF1aXJlZF9yaXNrX2tpbmRzGBYgAygOMh8uY29tLmhlYXJsZXJzLnYxLm1vZGVsLlJpc2tLaW5kEhkKEW1pbl9yaXNrX3NldmVyaXR5GBcgASgFEhkKEW1heF9yaXNrX3NldmVyaXR5GBggASgFEkUKGHJlcXVpcmVkX3NsZWVwX3F1YWxpdGllcxgZIAMoDjIjLmNvbS5oZWFybGVycy52MS5tb2RlbC5TbGVlcFF1YWxpdHkSKgoicmVxdWlyZWRfcGh5c2ljYWxfc3ltcHRvbXNfcHJlc2VudBgaIAEoCBJGChhyZXF1aXJlZF9jb2duaXRpdmVfbG9hZHMYGyADKA4yJC5jb20uaGVhcmxlcnMudjEubW9kZWwuQ29nbml0aXZlTG9hZBJMChtyZXF1aXJlZF9hbGxpYW5jZV9zdHJlbmd0aHMYHCADKA4yJy5jb20uaGVhcmxlcnMudjEubW9kZWwuQWxsaWFuY2VTdHJlbmd0aBIhChlyZXF1aXJlZF9jb25zZW50X3RvX2RlcHRoGB0gASgIEhIKCmNyZWF0ZWRfYXQYHiABKAkSEgoKdXBkYXRlZF9hdBgfIAEoCRIXCgpkZWxldGVkX2F0GCAgASgJSACIAQFCDQoLX2RlbGV0ZWRfYXQqswEKB0FpTW9kZWwSGAoUQUlfTU9ERUxfVU5TUEVDSUZJRUQQABIRCg1HUFRfM181X1RVUkJPEAESCQoFR1BUXzQQAhIKCgZHUFRfNE8QAxIPCgtHUFRfNE9fTUlOSRAEEg4KCkdQVF81X01JTkkQBRIJCgVHUFRfNRAGEg4KCkdQVF81X0NIQVQQBxIUChBHRU1JTklfMl81X0ZMQVNIEAgSEgoOR0VNSU5JXzJfNV9QUk8QCUKnAQoZY29tLmNvbS5oZWFybGVycy52MS5tb2RlbEISQ291bnNlbFByb21wdFByb3RvUAGiAgRDSFZNqgIVQ29tLkhlYXJsZXJzLlYxLk1vZGVsygIVQ29tXEhlYXJsZXJzXFYxXE1vZGVs4gIhQ29tXEhlYXJsZXJzXFYxXE1vZGVsXEdQQk1ldGFkYXRh6gIYQ29tOjpIZWFybGVyczo6VjE6Ok1vZGVsYgZwcm90bzM", [file_com_hearlers_v1_model_counsel]);
 
 /**
  * @generated from message com.hearlers.v1.model.PromptVersion
@@ -52,33 +54,23 @@ export type PromptVersion = Message<"com.hearlers.v1.model.PromptVersion"> & {
   aiModel: AiModel;
 
   /**
-   * @generated from field: repeated com.hearlers.v1.model.CounselorScopedPrompt counselor_scoped_prompts = 8;
-   */
-  counselorScopedPrompts: CounselorScopedPrompt[];
-
-  /**
-   * @generated from field: repeated com.hearlers.v1.model.ToneScopedPrompt tone_scoped_prompts = 9;
-   */
-  toneScopedPrompts: ToneScopedPrompt[];
-
-  /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string created_at = 10;
+   * @generated from field: string created_at = 8;
    */
   createdAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string updated_at = 11;
+   * @generated from field: string updated_at = 9;
    */
   updatedAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: optional string deleted_at = 12;
+   * @generated from field: optional string deleted_at = 10;
    */
   deletedAt?: string;
 };
@@ -89,97 +81,6 @@ export type PromptVersion = Message<"com.hearlers.v1.model.PromptVersion"> & {
  */
 export const PromptVersionSchema: GenMessage<PromptVersion> = /*@__PURE__*/
   messageDesc(file_com_hearlers_v1_model_counsel_prompt, 0);
-
-/**
- * @generated from message com.hearlers.v1.model.CounselorScopedPrompt
- */
-export type CounselorScopedPrompt = Message<"com.hearlers.v1.model.CounselorScopedPrompt"> & {
-  /**
-   * @generated from field: string counselor_id = 1;
-   */
-  counselorId: string;
-
-  /**
-   * @generated from field: string persona_prompt_id = 2;
-   */
-  personaPromptId: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 3;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 4;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 5;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.CounselorScopedPrompt.
- * Use `create(CounselorScopedPromptSchema)` to create a new message.
- */
-export const CounselorScopedPromptSchema: GenMessage<CounselorScopedPrompt> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 1);
-
-/**
- * @generated from message com.hearlers.v1.model.ToneScopedPrompt
- */
-export type ToneScopedPrompt = Message<"com.hearlers.v1.model.ToneScopedPrompt"> & {
-  /**
-   * @generated from field: string tone_id = 1;
-   */
-  toneId: string;
-
-  /**
-   * @generated from field: optional string tone_prompt_id = 2;
-   */
-  tonePromptId?: string;
-
-  /**
-   * @generated from field: optional string first_counsel_technique_id = 3;
-   */
-  firstCounselTechniqueId?: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string created_at = 4;
-   */
-  createdAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: string updated_at = 5;
-   */
-  updatedAt: string;
-
-  /**
-   * ISO 8601 (2024-12-29T12:34:56.000Z)
-   *
-   * @generated from field: optional string deleted_at = 6;
-   */
-  deletedAt?: string;
-};
-
-/**
- * Describes the message com.hearlers.v1.model.ToneScopedPrompt.
- * Use `create(ToneScopedPromptSchema)` to create a new message.
- */
-export const ToneScopedPromptSchema: GenMessage<ToneScopedPrompt> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 2);
 
 /**
  * @generated from message com.hearlers.v1.model.PersonaPrompt
@@ -201,23 +102,28 @@ export type PersonaPrompt = Message<"com.hearlers.v1.model.PersonaPrompt"> & {
   counselorId: string;
 
   /**
+   * @generated from field: string prompt_version_id = 4;
+   */
+  promptVersionId: string;
+
+  /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string created_at = 4;
+   * @generated from field: string created_at = 5;
    */
   createdAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string updated_at = 5;
+   * @generated from field: string updated_at = 6;
    */
   updatedAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: optional string deleted_at = 6;
+   * @generated from field: optional string deleted_at = 7;
    */
   deletedAt?: string;
 };
@@ -227,7 +133,7 @@ export type PersonaPrompt = Message<"com.hearlers.v1.model.PersonaPrompt"> & {
  * Use `create(PersonaPromptSchema)` to create a new message.
  */
 export const PersonaPromptSchema: GenMessage<PersonaPrompt> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 3);
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 1);
 
 /**
  * @generated from message com.hearlers.v1.model.TonePrompt
@@ -249,23 +155,28 @@ export type TonePrompt = Message<"com.hearlers.v1.model.TonePrompt"> & {
   toneId: string;
 
   /**
+   * @generated from field: string prompt_version_id = 4;
+   */
+  promptVersionId: string;
+
+  /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string created_at = 4;
+   * @generated from field: string created_at = 5;
    */
   createdAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: string updated_at = 5;
+   * @generated from field: string updated_at = 6;
    */
   updatedAt: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
    *
-   * @generated from field: optional string deleted_at = 6;
+   * @generated from field: optional string deleted_at = 7;
    */
   deletedAt?: string;
 };
@@ -275,7 +186,7 @@ export type TonePrompt = Message<"com.hearlers.v1.model.TonePrompt"> & {
  * Use `create(TonePromptSchema)` to create a new message.
  */
 export const TonePromptSchema: GenMessage<TonePrompt> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 4);
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 2);
 
 /**
  * @generated from message com.hearlers.v1.model.CounselTechnique
@@ -317,14 +228,14 @@ export type CounselTechnique = Message<"com.hearlers.v1.model.CounselTechnique">
   isTemporary: boolean;
 
   /**
-   * @generated from field: optional string next_counsel_technique_id = 8;
-   */
-  nextCounselTechniqueId?: string;
-
-  /**
-   * @generated from field: double temperature = 9;
+   * @generated from field: double temperature = 8;
    */
   temperature: number;
+
+  /**
+   * @generated from field: string prompt_version_id = 9;
+   */
+  promptVersionId: string;
 
   /**
    * ISO 8601 (2024-12-29T12:34:56.000Z)
@@ -353,7 +264,7 @@ export type CounselTechnique = Message<"com.hearlers.v1.model.CounselTechnique">
  * Use `create(CounselTechniqueSchema)` to create a new message.
  */
 export const CounselTechniqueSchema: GenMessage<CounselTechnique> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 5);
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 3);
 
 /**
  * @generated from message com.hearlers.v1.model.PromptActivateHistory
@@ -403,7 +314,179 @@ export type PromptActivateHistory = Message<"com.hearlers.v1.model.PromptActivat
  * Use `create(PromptActivateHistorySchema)` to create a new message.
  */
 export const PromptActivateHistorySchema: GenMessage<PromptActivateHistory> = /*@__PURE__*/
-  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 6);
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 4);
+
+/**
+ * @generated from message com.hearlers.v1.model.CounselTechniqueTransitionRule
+ */
+export type CounselTechniqueTransitionRule = Message<"com.hearlers.v1.model.CounselTechniqueTransitionRule"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string prompt_version_id = 2;
+   */
+  promptVersionId: string;
+
+  /**
+   * @generated from field: string from_counsel_technique_id = 3;
+   */
+  fromCounselTechniqueId: string;
+
+  /**
+   * @generated from field: string to_counsel_technique_id = 4;
+   */
+  toCounselTechniqueId: string;
+
+  /**
+   * @generated from field: int32 priority = 5;
+   */
+  priority: number;
+
+  /**
+   * @generated from field: int32 min_not_compressed_message_count = 6;
+   */
+  minNotCompressedMessageCount: number;
+
+  /**
+   * @generated from field: int32 max_not_compressed_message_count = 7;
+   */
+  maxNotCompressedMessageCount: number;
+
+  /**
+   * @generated from field: int32 min_current_technique_message_count = 8;
+   */
+  minCurrentTechniqueMessageCount: number;
+
+  /**
+   * @generated from field: int32 max_current_technique_message_count = 9;
+   */
+  maxCurrentTechniqueMessageCount: number;
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.ImpactDomain required_impact_domains = 10;
+   */
+  requiredImpactDomains: ImpactDomain[];
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.Timeframe required_timeframes = 11;
+   */
+  requiredTimeframes: Timeframe[];
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.EmotionPrimary required_emotion_primaries = 12;
+   */
+  requiredEmotionPrimaries: EmotionPrimary[];
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.Valence required_valences = 13;
+   */
+  requiredValences: Valence[];
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.ArousalLevel required_arousal_levels = 14;
+   */
+  requiredArousalLevels: ArousalLevel[];
+
+  /**
+   * @generated from field: int32 min_emotion_intensity = 15;
+   */
+  minEmotionIntensity: number;
+
+  /**
+   * @generated from field: int32 max_emotion_intensity = 16;
+   */
+  maxEmotionIntensity: number;
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.PerceivedControl required_perceived_controls = 17;
+   */
+  requiredPerceivedControls: PerceivedControl[];
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.MotivationStage required_motivation_stages = 18;
+   */
+  requiredMotivationStages: MotivationStage[];
+
+  /**
+   * @generated from field: int32 min_self_efficacy = 19;
+   */
+  minSelfEfficacy: number;
+
+  /**
+   * @generated from field: int32 max_self_efficacy = 20;
+   */
+  maxSelfEfficacy: number;
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.SocialSupportLevel required_social_support_levels = 21;
+   */
+  requiredSocialSupportLevels: SocialSupportLevel[];
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.RiskKind required_risk_kinds = 22;
+   */
+  requiredRiskKinds: RiskKind[];
+
+  /**
+   * @generated from field: int32 min_risk_severity = 23;
+   */
+  minRiskSeverity: number;
+
+  /**
+   * @generated from field: int32 max_risk_severity = 24;
+   */
+  maxRiskSeverity: number;
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.SleepQuality required_sleep_qualities = 25;
+   */
+  requiredSleepQualities: SleepQuality[];
+
+  /**
+   * @generated from field: bool required_physical_symptoms_present = 26;
+   */
+  requiredPhysicalSymptomsPresent: boolean;
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.CognitiveLoad required_cognitive_loads = 27;
+   */
+  requiredCognitiveLoads: CognitiveLoad[];
+
+  /**
+   * @generated from field: repeated com.hearlers.v1.model.AllianceStrength required_alliance_strengths = 28;
+   */
+  requiredAllianceStrengths: AllianceStrength[];
+
+  /**
+   * @generated from field: bool required_consent_to_depth = 29;
+   */
+  requiredConsentToDepth: boolean;
+
+  /**
+   * @generated from field: string created_at = 30;
+   */
+  createdAt: string;
+
+  /**
+   * @generated from field: string updated_at = 31;
+   */
+  updatedAt: string;
+
+  /**
+   * @generated from field: optional string deleted_at = 32;
+   */
+  deletedAt?: string;
+};
+
+/**
+ * Describes the message com.hearlers.v1.model.CounselTechniqueTransitionRule.
+ * Use `create(CounselTechniqueTransitionRuleSchema)` to create a new message.
+ */
+export const CounselTechniqueTransitionRuleSchema: GenMessage<CounselTechniqueTransitionRule> = /*@__PURE__*/
+  messageDesc(file_com_hearlers_v1_model_counsel_prompt, 5);
 
 /**
  * @generated from enum com.hearlers.v1.model.AiModel
@@ -450,6 +533,18 @@ export enum AiModel {
    * @generated from enum value: GPT_5_CHAT = 7;
    */
   GPT_5_CHAT = 7,
+
+  /**
+   * Gemini
+   *
+   * @generated from enum value: GEMINI_2_5_FLASH = 8;
+   */
+  GEMINI_2_5_FLASH = 8,
+
+  /**
+   * @generated from enum value: GEMINI_2_5_PRO = 9;
+   */
+  GEMINI_2_5_PRO = 9,
 }
 
 /**

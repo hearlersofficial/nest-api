@@ -1,7 +1,7 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
-import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/tone-scoped-prompts.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
+import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({
   name: "tone_prompts",
@@ -26,8 +26,14 @@ export class TonePromptEntity extends CoreEntity {
   @Column({ type: "bigint", name: "tone_id" })
   toneId: string;
 
-  @OneToMany(() => ToneScopedPromptEntity, (toneScopedPrompt) => toneScopedPrompt.tonePrompt, {
-    cascade: true,
+  @ManyToOne(() => PromptVersionEntity, (promptVersion) => promptVersion.tonePrompts, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
-  toneScopedPrompts: ToneScopedPromptEntity[];
+  @JoinColumn({ name: "prompt_version_id" })
+  promptVersion: PromptVersionEntity;
+
+  @RelationId((tonePrompt: TonePromptEntity) => tonePrompt.promptVersion)
+  @Column({ type: "bigint", name: "prompt_version_id" })
+  promptVersionId: string;
 }

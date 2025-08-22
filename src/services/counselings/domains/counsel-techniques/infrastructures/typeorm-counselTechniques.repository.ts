@@ -1,4 +1,4 @@
-import { CounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counselTechniques.repository";
+import { CounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counsel-techniques.repository";
 import { TypeormCounselTechniquesMapper } from "~counselings/domains/counsel-techniques/infrastructures/mappers/typeorm-counsel-techniques.mapper";
 import { CounselTechniques } from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 

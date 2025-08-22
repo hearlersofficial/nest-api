@@ -48,4 +48,9 @@ export class TonePromptsService {
     }
     return TonePromptInfo.fromDomain(tonePrompt);
   }
+
+  async findMany(props: TonePromptsCriteria.FindManyOptions): Promise<TonePromptInfo[]> {
+    const tonePrompts = await this.tonePromptsReader.findMany(props);
+    return tonePrompts.map((tonePrompt) => TonePromptInfo.fromDomain(tonePrompt));
+  }
 }

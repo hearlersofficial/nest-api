@@ -33,6 +33,10 @@ export class RepositoryCounselTechniqueCriteriaMapper {
       where.id = In(criteria.ids.map((id) => id.getString()));
     }
 
+    if (isDefined(criteria.promptVersionId)) {
+      where.promptVersionId = criteria.promptVersionId.getString();
+    }
+
     return { where };
   }
 }

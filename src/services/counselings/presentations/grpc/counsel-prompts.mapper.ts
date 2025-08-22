@@ -1,4 +1,5 @@
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
+import { CounselTechniqueTransitionRuleInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rule.info";
 import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
 import { PromptActivateHistoryInfo } from "~counselings/domains/prompt-activate-history/models/prompt-activate-history.info";
 import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
@@ -6,6 +7,8 @@ import { TonePromptInfo } from "~counselings/domains/tone-prompts/models/tone-pr
 import {
   CounselTechnique,
   CounselTechniqueSchema,
+  CounselTechniqueTransitionRule,
+  CounselTechniqueTransitionRuleSchema,
   PersonaPrompt,
   PersonaPromptSchema,
   PromptActivateHistory,
@@ -119,6 +122,53 @@ export class SchemaCounselPromptsMapper {
       createdAt: promptActivateHistory.createdAt.toISOString(),
       updatedAt: promptActivateHistory.updatedAt.toISOString(),
       deletedAt: promptActivateHistory.deletedAt ? promptActivateHistory.deletedAt.toISOString() : undefined,
+    });
+  }
+
+  static toTransitionRuleProto(transitionRule: null): null;
+  static toTransitionRuleProto(transitionRule: CounselTechniqueTransitionRuleInfo): CounselTechniqueTransitionRule;
+  static toTransitionRuleProto(
+    transitionRule: CounselTechniqueTransitionRuleInfo | null,
+  ): CounselTechniqueTransitionRule | null;
+  static toTransitionRuleProto(
+    transitionRule: CounselTechniqueTransitionRuleInfo | null,
+  ): CounselTechniqueTransitionRule | null {
+    if (!transitionRule) {
+      return null;
+    }
+    return create(CounselTechniqueTransitionRuleSchema, {
+      id: transitionRule.id.getString(),
+      promptVersionId: transitionRule.promptVersionId.getString(),
+      fromCounselTechniqueId: transitionRule.fromCounselTechniqueId.getString(),
+      toCounselTechniqueId: transitionRule.toCounselTechniqueId.getString(),
+      priority: transitionRule.priority,
+      minNotCompressedMessageCount: transitionRule.minNotCompressedMessageCount ?? undefined,
+      maxNotCompressedMessageCount: transitionRule.maxNotCompressedMessageCount ?? undefined,
+      minCurrentTechniqueMessageCount: transitionRule.minCurrentTechniqueMessageCount ?? undefined,
+      maxCurrentTechniqueMessageCount: transitionRule.maxCurrentTechniqueMessageCount ?? undefined,
+      requiredImpactDomains: transitionRule.requiredImpactDomains ?? [],
+      requiredTimeframes: transitionRule.requiredTimeframes,
+      requiredEmotionPrimaries: transitionRule.requiredEmotionPrimaries,
+      requiredValences: transitionRule.requiredValences,
+      requiredArousalLevels: transitionRule.requiredArousalLevels,
+      minEmotionIntensity: transitionRule.minEmotionIntensity ?? undefined,
+      maxEmotionIntensity: transitionRule.maxEmotionIntensity ?? undefined,
+      requiredPerceivedControls: transitionRule.requiredPerceivedControls,
+      requiredMotivationStages: transitionRule.requiredMotivationStages,
+      minSelfEfficacy: transitionRule.minSelfEfficacy ?? undefined,
+      maxSelfEfficacy: transitionRule.maxSelfEfficacy ?? undefined,
+      requiredSocialSupportLevels: transitionRule.requiredSocialSupportLevels,
+      requiredRiskKinds: transitionRule.requiredRiskKinds,
+      minRiskSeverity: transitionRule.minRiskSeverity ?? undefined,
+      maxRiskSeverity: transitionRule.maxRiskSeverity ?? undefined,
+      requiredSleepQualities: transitionRule.requiredSleepQualities,
+      requiredPhysicalSymptomsPresent: transitionRule.requiredPhysicalSymptomsPresent ?? undefined,
+      requiredCognitiveLoads: transitionRule.requiredCognitiveLoads,
+      requiredAllianceStrengths: transitionRule.requiredAllianceStrengths,
+      requiredConsentToDepth: transitionRule.requiredConsentToDepth ?? undefined,
+      createdAt: transitionRule.createdAt.toISOString(),
+      updatedAt: transitionRule.updatedAt.toISOString(),
+      deletedAt: transitionRule.deletedAt ? transitionRule.deletedAt.toISOString() : undefined,
     });
   }
 }

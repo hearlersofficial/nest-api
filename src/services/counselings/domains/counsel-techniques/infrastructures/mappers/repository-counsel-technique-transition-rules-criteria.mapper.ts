@@ -19,6 +19,9 @@ export class RepositoryCounselTechniqueTransitionRulesCriteriaMapper {
     if (isDefined(options.toCounselTechniqueId)) {
       where.toCounselTechniqueId = options.toCounselTechniqueId.getString();
     }
+    if (isDefined(options.promptVersionId)) {
+      where.promptVersionId = options.promptVersionId.getString();
+    }
 
     return { where };
   }
@@ -33,6 +36,9 @@ export class RepositoryCounselTechniqueTransitionRulesCriteriaMapper {
     }
     if (isDefined(criteria.toCounselTechniqueId)) {
       where.toCounselTechniqueId = criteria.toCounselTechniqueId.getString();
+    }
+    if (isDefined(criteria.promptVersionId)) {
+      where.promptVersionId = criteria.promptVersionId.getString();
     }
 
     return { where };

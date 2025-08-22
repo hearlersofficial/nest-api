@@ -26,10 +26,6 @@ export interface CounselTechniqueTransitionRulesNewProps {
   promptVersionId: PromptVersionId;
   fromCounselTechniqueId: CounselTechniqueId;
   toCounselTechniqueId: CounselTechniqueId;
-  priority?: number;
-}
-
-export interface CounselTechniqueTransitionRulesProps extends CounselTechniqueTransitionRulesNewProps {
   priority: number;
 
   // 메시지 수 관련 조건
@@ -39,43 +35,45 @@ export interface CounselTechniqueTransitionRulesProps extends CounselTechniqueTr
   maxCurrentTechniqueMessageCount: number | null;
 
   // 삶의 영역 및 시간 관련 조건
-  requiredImpactDomains: ImpactDomain[] | null;
-  requiredTimeframes: Timeframe[] | null;
+  requiredImpactDomains: ImpactDomain[];
+  requiredTimeframes: Timeframe[];
 
   // 감정 관련 조건
-  requiredEmotionPrimaries: EmotionPrimary[] | null;
-  requiredValences: Valence[] | null;
-  requiredArousalLevels: ArousalLevel[] | null;
+  requiredEmotionPrimaries: EmotionPrimary[];
+  requiredValences: Valence[];
+  requiredArousalLevels: ArousalLevel[];
   minEmotionIntensity: number | null;
   maxEmotionIntensity: number | null;
 
   // 통제감 및 동기 관련 조건
-  requiredPerceivedControls: PerceivedControl[] | null;
-  requiredMotivationStages: MotivationStage[] | null;
+  requiredPerceivedControls: PerceivedControl[];
+  requiredMotivationStages: MotivationStage[];
   minSelfEfficacy: number | null;
   maxSelfEfficacy: number | null;
 
   // 사회적 지지 관련 조건
-  requiredSocialSupportLevels: SocialSupportLevel[] | null;
+  requiredSocialSupportLevels: SocialSupportLevel[];
 
   // 위험 관련 조건
-  requiredRiskKinds: RiskKind[] | null;
+  requiredRiskKinds: RiskKind[];
   minRiskSeverity: number | null;
   maxRiskSeverity: number | null;
 
   // 수면 및 신체 증상 관련 조건
-  requiredSleepQualities: SleepQuality[] | null;
+  requiredSleepQualities: SleepQuality[];
   requiredPhysicalSymptomsPresent: boolean | null;
 
   // 인지 부하 관련 조건
-  requiredCognitiveLoads: CognitiveLoad[] | null;
+  requiredCognitiveLoads: CognitiveLoad[];
 
   // 동맹 관련 조건
-  requiredAllianceStrengths: AllianceStrength[] | null;
+  requiredAllianceStrengths: AllianceStrength[];
 
   // 심층 동의 관련 조건
   requiredConsentToDepth: boolean | null;
+}
 
+export interface CounselTechniqueTransitionRulesProps extends CounselTechniqueTransitionRulesNewProps {
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;
@@ -107,31 +105,6 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     return this.create(
       {
         ...newProps,
-        priority: newProps.priority ?? 0,
-        minNotCompressedMessageCount: null,
-        maxNotCompressedMessageCount: null,
-        minCurrentTechniqueMessageCount: null,
-        maxCurrentTechniqueMessageCount: null,
-        requiredImpactDomains: null,
-        requiredTimeframes: null,
-        requiredEmotionPrimaries: null,
-        requiredValences: null,
-        requiredArousalLevels: null,
-        minEmotionIntensity: null,
-        maxEmotionIntensity: null,
-        requiredPerceivedControls: null,
-        requiredMotivationStages: null,
-        minSelfEfficacy: null,
-        maxSelfEfficacy: null,
-        requiredSocialSupportLevels: null,
-        requiredRiskKinds: null,
-        minRiskSeverity: null,
-        maxRiskSeverity: null,
-        requiredSleepQualities: null,
-        requiredPhysicalSymptomsPresent: null,
-        requiredCognitiveLoads: null,
-        requiredAllianceStrengths: null,
-        requiredConsentToDepth: null,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
@@ -230,14 +203,13 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     return Result.ok();
   }
 
-  public applyUpdates(updates: Partial<CounselTechniqueTransitionRulesProps>): void {
+  public update(
+    updates: Partial<
+      Omit<CounselTechniqueTransitionRulesProps, "promptVersionId" | "createdAt" | "updatedAt" | "deletedAt">
+    >,
+  ): void {
     const now = getNowDayjs();
-    const assignIfDefined = <K extends keyof CounselTechniqueTransitionRulesProps>(key: K) => {
-      const value = updates[key];
-      if (value !== undefined) {
-        (this.props as any)[key] = value as any;
-      }
-    };
+    const assignIfDefined = this.createAssignIfDefined(updates);
 
     assignIfDefined("priority");
     assignIfDefined("minNotCompressedMessageCount");
@@ -266,6 +238,11 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     assignIfDefined("requiredConsentToDepth");
 
     this.props.updatedAt = now;
+  }
+
+  public delete(): void {
+    this.props.updatedAt = getNowDayjs();
+    this.props.deletedAt = getNowDayjs();
   }
 
   // Getters
@@ -301,23 +278,23 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     return this.props.maxCurrentTechniqueMessageCount;
   }
 
-  get requiredImpactDomains(): ImpactDomain[] | null {
+  get requiredImpactDomains(): ImpactDomain[] {
     return this.props.requiredImpactDomains;
   }
 
-  get requiredTimeframes(): Timeframe[] | null {
+  get requiredTimeframes(): Timeframe[] {
     return this.props.requiredTimeframes;
   }
 
-  get requiredEmotionPrimaries(): EmotionPrimary[] | null {
+  get requiredEmotionPrimaries(): EmotionPrimary[] {
     return this.props.requiredEmotionPrimaries;
   }
 
-  get requiredValences(): Valence[] | null {
+  get requiredValences(): Valence[] {
     return this.props.requiredValences;
   }
 
-  get requiredArousalLevels(): ArousalLevel[] | null {
+  get requiredArousalLevels(): ArousalLevel[] {
     return this.props.requiredArousalLevels;
   }
 
@@ -329,11 +306,11 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     return this.props.maxEmotionIntensity;
   }
 
-  get requiredPerceivedControls(): PerceivedControl[] | null {
+  get requiredPerceivedControls(): PerceivedControl[] {
     return this.props.requiredPerceivedControls;
   }
 
-  get requiredMotivationStages(): MotivationStage[] | null {
+  get requiredMotivationStages(): MotivationStage[] {
     return this.props.requiredMotivationStages;
   }
 
@@ -345,11 +322,11 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     return this.props.maxSelfEfficacy;
   }
 
-  get requiredSocialSupportLevels(): SocialSupportLevel[] | null {
+  get requiredSocialSupportLevels(): SocialSupportLevel[] {
     return this.props.requiredSocialSupportLevels;
   }
 
-  get requiredRiskKinds(): RiskKind[] | null {
+  get requiredRiskKinds(): RiskKind[] {
     return this.props.requiredRiskKinds;
   }
 
@@ -361,7 +338,7 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     return this.props.maxRiskSeverity;
   }
 
-  get requiredSleepQualities(): SleepQuality[] | null {
+  get requiredSleepQualities(): SleepQuality[] {
     return this.props.requiredSleepQualities;
   }
 
@@ -369,11 +346,11 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     return this.props.requiredPhysicalSymptomsPresent;
   }
 
-  get requiredCognitiveLoads(): CognitiveLoad[] | null {
+  get requiredCognitiveLoads(): CognitiveLoad[] {
     return this.props.requiredCognitiveLoads;
   }
 
-  get requiredAllianceStrengths(): AllianceStrength[] | null {
+  get requiredAllianceStrengths(): AllianceStrength[] {
     return this.props.requiredAllianceStrengths;
   }
 

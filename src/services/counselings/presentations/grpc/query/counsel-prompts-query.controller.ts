@@ -9,6 +9,14 @@ import {
   FindCounselTechniqueByIdRequestSchema,
   FindCounselTechniqueByIdResponse,
   FindCounselTechniqueByIdResponseSchema,
+  FindCounselTechniqueTransitionRuleByIdRequest,
+  FindCounselTechniqueTransitionRuleByIdRequestSchema,
+  FindCounselTechniqueTransitionRuleByIdResponse,
+  FindCounselTechniqueTransitionRuleByIdResponseSchema,
+  FindCounselTechniqueTransitionRulesRequest,
+  FindCounselTechniqueTransitionRulesRequestSchema,
+  FindCounselTechniqueTransitionRulesResponse,
+  FindCounselTechniqueTransitionRulesResponseSchema,
   FindPersonaPromptByIdRequest,
   FindPersonaPromptByIdRequestSchema,
   FindPersonaPromptByIdResponse,
@@ -40,6 +48,7 @@ import { Controller } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { CounselTechniqueTransitionRuleId } from "~common/shared-kernel/identifiers/counsel-technique-transition-rule.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
@@ -143,6 +152,39 @@ export class GrpcCounselPromptQueryController {
     return create(FindPromptActivateHistoriesResponseSchema, {
       promptActivateHistories: histories.map((history) =>
         SchemaCounselPromptsMapper.toPromptActivateHistoryProto(history),
+      ),
+    });
+  }
+
+  // Counsel Prompt
+  @GrpcMethod("CounselPromptService", "FindCounselTechniqueTransitionRuleById")
+  @ProtoRequest(FindCounselTechniqueTransitionRuleByIdRequestSchema)
+  async findCounselTechniqueTransitionRuleById(
+    request: FindCounselTechniqueTransitionRuleByIdRequest,
+  ): Promise<FindCounselTechniqueTransitionRuleByIdResponse> {
+    const { counselTechniqueTransitionRuleId } = request;
+    const counselPrompt = await this.counselPromptManagementsFacade.findCounselTechniqueTransitionRuleById({
+      counselTechniqueTransitionRuleId: new CounselTechniqueTransitionRuleId(counselTechniqueTransitionRuleId),
+    });
+    return create(FindCounselTechniqueTransitionRuleByIdResponseSchema, {
+      counselTechniqueTransitionRule: SchemaCounselPromptsMapper.toTransitionRuleProto(counselPrompt),
+    });
+  }
+
+  @GrpcMethod("CounselPromptService", "FindCounselTechniqueTransitionRules")
+  @ProtoRequest(FindCounselTechniqueTransitionRulesRequestSchema)
+  async findCounselTechniqueTransitionRules(
+    request: FindCounselTechniqueTransitionRulesRequest,
+  ): Promise<FindCounselTechniqueTransitionRulesResponse> {
+    const { fromCounselTechniqueId, toCounselTechniqueId, promptVersionId } = request;
+    const transitionRules = await this.counselPromptManagementsFacade.findCounselTechniqueTransitionRules({
+      fromCounselTechniqueId: fromCounselTechniqueId ? new CounselTechniqueId(fromCounselTechniqueId) : undefined,
+      toCounselTechniqueId: toCounselTechniqueId ? new CounselTechniqueId(toCounselTechniqueId) : undefined,
+      promptVersionId: promptVersionId ? new PromptVersionId(promptVersionId) : undefined,
+    });
+    return create(FindCounselTechniqueTransitionRulesResponseSchema, {
+      counselTechniqueTransitionRules: transitionRules.map((rule) =>
+        SchemaCounselPromptsMapper.toTransitionRuleProto(rule),
       ),
     });
   }

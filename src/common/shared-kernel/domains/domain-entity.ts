@@ -1,3 +1,4 @@
+import { isDefined } from "~common/shared/utils/validate";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 export interface DomainEntityProps {
@@ -27,5 +28,16 @@ export abstract class DomainEntity<Props extends DomainEntityProps, IdType exten
 
   public equals(other?: DomainEntity<Props, IdType>): boolean {
     return this.id.equals(other?.id);
+  }
+
+  protected createAssignIfDefined(updates: Partial<Props>): (key: keyof Props) => void {
+    return <K extends keyof typeof updates>(key: K) => {
+      if (key in updates) {
+        const value = updates[key];
+        if (isDefined(value)) {
+          this.props[key] = value;
+        }
+      }
+    };
   }
 }

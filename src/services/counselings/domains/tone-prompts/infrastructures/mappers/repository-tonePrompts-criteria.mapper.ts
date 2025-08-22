@@ -1,4 +1,4 @@
-import { TonePromptsCriteriaFindMany } from "~counselings/domains/tonePrompts/tonePrompts.criteria";
+import { TonePromptsCriteriaFindMany } from "~counselings/domains/tone-prompts/tone-prompts.criteria";
 
 import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";

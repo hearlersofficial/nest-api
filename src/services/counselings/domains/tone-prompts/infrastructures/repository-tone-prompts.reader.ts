@@ -1,8 +1,8 @@
-import { RepositoryTonePromptCriteriaMapper } from "~counselings/domains/tonePrompts/infrastructures/mappers/repository-tonePrompts-criteria.mapper";
-import { TonePromptsRepository } from "~counselings/domains/tonePrompts/infrastructures/tonePrompts.repository";
-import { TonePrompts } from "~counselings/domains/tonePrompts/models/tonePrompts";
-import { TonePromptsCriteriaFindMany } from "~counselings/domains/tonePrompts/tonePrompts.criteria";
-import { TonePromptsReader } from "~counselings/domains/tonePrompts/tonePrompts.reader";
+import { RepositoryTonePromptCriteriaMapper } from "~counselings/domains/tone-prompts/infrastructures/mappers/repository-tonePrompts-criteria.mapper";
+import { TonePromptsRepository } from "~counselings/domains/tone-prompts/infrastructures/tone-prompts.repository";
+import { TonePrompts } from "~counselings/domains/tone-prompts/models/tone-prompts";
+import { TonePromptsCriteriaFindMany } from "~counselings/domains/tone-prompts/tone-prompts.criteria";
+import { TonePromptsReader } from "~counselings/domains/tone-prompts/tone-prompts.reader";
 
 import { Injectable } from "@nestjs/common";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";

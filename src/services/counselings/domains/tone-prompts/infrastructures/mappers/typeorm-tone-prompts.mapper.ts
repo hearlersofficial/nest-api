@@ -1,4 +1,4 @@
-import { TonePrompts, TonePromptsProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
+import { TonePrompts, TonePromptsProps } from "~counselings/domains/tone-prompts/models/tone-prompts";
 
 import { HttpStatus } from "@nestjs/common";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
@@ -7,7 +7,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
 import dayjs from "dayjs";
 
-export class PsqlTonePromptsMapper {
+export class TypeormTonePromptsMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: TonePromptEntity): TonePrompts;
   static toDomain(entity: TonePromptEntity | null): TonePrompts | null;

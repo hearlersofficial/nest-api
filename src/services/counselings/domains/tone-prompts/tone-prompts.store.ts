@@ -1,4 +1,4 @@
-import { TonePrompts, TonePromptsNewProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
+import { TonePrompts, TonePromptsNewProps } from "~counselings/domains/tone-prompts/models/tone-prompts";
 
 import { Injectable } from "@nestjs/common";
 

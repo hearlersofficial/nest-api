@@ -8,8 +8,8 @@ import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/p
 import { PromptVersionsService } from "~counselings/domains/prompt-versions/prompt-versions.service";
 import { PromptActivateHistoryInfo } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory.info";
 import { PromptActivateHistoryService } from "~counselings/domains/promptActivateHistory/promptActivateHistory.service";
-import { TonePromptInfo } from "~counselings/domains/tonePrompts/models/tonePrompt.info";
-import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
+import { TonePromptInfo } from "~counselings/domains/tone-prompts/models/tone-prompt.info";
+import { TonePromptsService } from "~counselings/domains/tone-prompts/tone-prompts.service";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";

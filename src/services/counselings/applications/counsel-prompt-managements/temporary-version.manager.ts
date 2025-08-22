@@ -2,7 +2,7 @@ import { CounselTechniquesService } from "~counselings/domains/counsel-technique
 import { PersonaPromptsService } from "~counselings/domains/persona-prompts/persona-prompts.service";
 import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
 import { PromptVersionsService } from "~counselings/domains/prompt-versions/prompt-versions.service";
-import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
+import { TonePromptsService } from "~counselings/domains/tone-prompts/tone-prompts.service";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { Injectable, Logger } from "@nestjs/common";

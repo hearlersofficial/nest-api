@@ -1,7 +1,7 @@
-import { TonePromptInfo } from "~counselings/domains/tonePrompts/models/tonePrompt.info";
-import { TonePromptsNewProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
-import { TonePromptsReader } from "~counselings/domains/tonePrompts/tonePrompts.reader";
-import { TonePromptsStore } from "~counselings/domains/tonePrompts/tonePrompts.store";
+import { TonePromptInfo } from "~counselings/domains/tone-prompts/models/tone-prompt.info";
+import { TonePromptsNewProps } from "~counselings/domains/tone-prompts/models/tone-prompts";
+import { TonePromptsReader } from "~counselings/domains/tone-prompts/tone-prompts.reader";
+import { TonePromptsStore } from "~counselings/domains/tone-prompts/tone-prompts.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";

@@ -9,7 +9,7 @@ import { CounselorsModule } from "~counselings/domains/counselors/counselors.mod
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { PersonaPromptsModule } from "~counselings/domains/persona-prompts/persona-prompts.module";
 import { PromptVersionsModule } from "~counselings/domains/prompt-versions/prompt-versions.module";
-import { TonePromptsModule } from "~counselings/domains/tonePrompts/tonePrompts.module";
+import { TonePromptsModule } from "~counselings/domains/tone-prompts/tone-prompts.module";
 
 import { Module } from "@nestjs/common";
 import { AssistantAgentModule } from "~common/support/assistant-agents/assistant-agent.module";

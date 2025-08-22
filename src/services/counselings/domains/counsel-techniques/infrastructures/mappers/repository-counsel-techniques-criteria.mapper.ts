@@ -1,4 +1,4 @@
-import * as CounselTechniquesCriteria from "~counselings/domains/counselTechniques/counselTechniques.criteria";
+import * as CounselTechniquesCriteria from "~counselings/domains/counsel-techniques/counsel-techniques.criteria";
 
 import { isDefined } from "~common/shared/utils/validate";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";

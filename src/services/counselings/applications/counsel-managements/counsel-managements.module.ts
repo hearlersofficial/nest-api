@@ -4,9 +4,9 @@ import { AIResponseGenerator } from "~counselings/applications/counsel-managemen
 import { ContextManager } from "~counselings/applications/counsel-managements/support/context.manager";
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
 import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
+import { CounselTechniquesModule } from "~counselings/domains/counsel-techniques/counsel-techniques.module";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
-import { CounselTechniquesModule } from "~counselings/domains/counselTechniques/counselTechniques.module";
 import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
 import { PromptVersionsModule } from "~counselings/domains/promptVersions/promptVersions.module";
 import { TonePromptsModule } from "~counselings/domains/tonePrompts/tonePrompts.module";

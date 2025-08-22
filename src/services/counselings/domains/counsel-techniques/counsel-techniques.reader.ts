@@ -1,7 +1,7 @@
-import * as TransitionRulesCriteria from "~counselings/domains/counselTechniques/counsel-technique-transition-rules.criteria";
-import * as CounselTechniquesCriteria from "~counselings/domains/counselTechniques/counselTechniques.criteria";
-import { CounselTechniqueTransitionRules } from "~counselings/domains/counselTechniques/models/counsel-technique-transition-rules";
-import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
+import * as TransitionRulesCriteria from "~counselings/domains/counsel-techniques/counsel-technique-transition-rules.criteria";
+import * as CounselTechniquesCriteria from "~counselings/domains/counsel-techniques/counsel-techniques.criteria";
+import { CounselTechniqueTransitionRules } from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rules";
+import { CounselTechniques } from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { Injectable } from "@nestjs/common";
 

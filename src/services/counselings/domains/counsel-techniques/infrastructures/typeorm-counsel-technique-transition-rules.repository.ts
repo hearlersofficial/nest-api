@@ -1,6 +1,6 @@
-import { CounselTechniqueTransitionRulesRepository } from "~counselings/domains/counselTechniques/infrastructures/counsel-technique-transition-rules.repository";
-import { TypeormCounselTechniqueTransitionRulesMapper } from "~counselings/domains/counselTechniques/infrastructures/mappers/typeorm-counsel-technique-transition-rules.mapper";
-import { CounselTechniqueTransitionRules } from "~counselings/domains/counselTechniques/models/counsel-technique-transition-rules";
+import { CounselTechniqueTransitionRulesRepository } from "~counselings/domains/counsel-techniques/infrastructures/counsel-technique-transition-rules.repository";
+import { TypeormCounselTechniqueTransitionRulesMapper } from "~counselings/domains/counsel-techniques/infrastructures/mappers/typeorm-counsel-technique-transition-rules.mapper";
+import { CounselTechniqueTransitionRules } from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rules";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";

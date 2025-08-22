@@ -1,4 +1,4 @@
-import { CounselTechniques } from "~counselings/domains/counselTechniques/models/counselTechniques";
+import { CounselTechniques } from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { Injectable } from "@nestjs/common";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";

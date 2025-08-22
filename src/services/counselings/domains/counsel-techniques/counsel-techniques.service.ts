@@ -1,10 +1,10 @@
-import { CounselTechniquesReader } from "~counselings/domains/counselTechniques/counselTechniques.reader";
-import { CounselTechniquesStore } from "~counselings/domains/counselTechniques/counselTechniques.store";
-import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
+import { CounselTechniquesReader } from "~counselings/domains/counsel-techniques/counsel-techniques.reader";
+import { CounselTechniquesStore } from "~counselings/domains/counsel-techniques/counsel-techniques.store";
+import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
 import {
   CounselTechniques,
   CounselTechniquesNewProps,
-} from "~counselings/domains/counselTechniques/models/counselTechniques";
+} from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";

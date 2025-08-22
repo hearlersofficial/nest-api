@@ -1,11 +1,11 @@
 import {
   CounselTechniqueTransitionRules,
   CounselTechniqueTransitionRulesNewProps,
-} from "~counselings/domains/counselTechniques/models/counsel-technique-transition-rules";
+} from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rules";
 import {
   CounselTechniques,
   CounselTechniquesNewProps,
-} from "~counselings/domains/counselTechniques/models/counselTechniques";
+} from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { Injectable } from "@nestjs/common";
 

@@ -1,4 +1,4 @@
-import { CounselTechniqueInfo } from "~counselings/domains/counselTechniques/models/counselTechnique.info";
+import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
 import { PersonaPromptInfo } from "~counselings/domains/personaPrompts/models/personaPrompt.info";
 import { PromptActivateHistoryInfo } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory.info";
 import { CounselorScopedPromptInfo } from "~counselings/domains/promptVersions/models/counselorScopedPrompt.info";

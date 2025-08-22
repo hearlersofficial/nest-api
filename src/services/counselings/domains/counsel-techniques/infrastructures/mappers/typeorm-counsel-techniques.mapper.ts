@@ -1,7 +1,7 @@
 import {
   CounselTechniques,
   CounselTechniquesProps,
-} from "~counselings/domains/counselTechniques/models/counselTechniques";
+} from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { HttpStatus } from "@nestjs/common";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
@@ -10,7 +10,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
 import dayjs from "dayjs";
 
-export class PsqlCounselTechniquesMapper {
+export class TypeormCounselTechniquesMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: CounselTechniquesEntity): CounselTechniques;
   static toDomain(entity: CounselTechniquesEntity | null): CounselTechniques | null;

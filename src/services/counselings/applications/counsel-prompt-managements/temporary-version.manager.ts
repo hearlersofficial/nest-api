@@ -1,4 +1,4 @@
-import { CounselTechniquesService } from "~counselings/domains/counselTechniques/counselTechniques.service";
+import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
 import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
 import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";

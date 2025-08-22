@@ -1,6 +1,6 @@
-import { PersonaPromptsRepository } from "~counselings/domains/personaPrompts/infrastructures/personaPrompts.repository";
-import { PersonaPrompts, PersonaPromptsNewProps } from "~counselings/domains/personaPrompts/models/personaPrompts";
-import { PersonaPromptsStore } from "~counselings/domains/personaPrompts/personaPrompts.store";
+import { PersonaPromptsRepository } from "~counselings/domains/persona-prompts/infrastructures/persona-prompts.repository";
+import { PersonaPrompts, PersonaPromptsNewProps } from "~counselings/domains/persona-prompts/models/persona-prompts";
+import { PersonaPromptsStore } from "~counselings/domains/persona-prompts/persona-prompts.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";

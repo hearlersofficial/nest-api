@@ -1,5 +1,5 @@
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 
-export type PersonaPromptsCriteriaFindMany = {
+export type FindManyOptions = {
   counselorId?: CounselorId;
 };

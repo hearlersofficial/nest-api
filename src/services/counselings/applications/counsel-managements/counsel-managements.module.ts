@@ -7,7 +7,7 @@ import { TechniqueEvaluationParser } from "~counselings/applications/counsel-man
 import { CounselTechniquesModule } from "~counselings/domains/counsel-techniques/counsel-techniques.module";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
-import { PersonaPromptsModule } from "~counselings/domains/personaPrompts/personaPrompts.module";
+import { PersonaPromptsModule } from "~counselings/domains/persona-prompts/persona-prompts.module";
 import { PromptVersionsModule } from "~counselings/domains/prompt-versions/prompt-versions.module";
 import { TonePromptsModule } from "~counselings/domains/tonePrompts/tonePrompts.module";
 

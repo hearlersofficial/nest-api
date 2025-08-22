@@ -1,4 +1,4 @@
-import { PersonaPrompts } from "~counselings/domains/personaPrompts/models/personaPrompts";
+import { PersonaPrompts } from "~counselings/domains/persona-prompts/models/persona-prompts";
 
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";

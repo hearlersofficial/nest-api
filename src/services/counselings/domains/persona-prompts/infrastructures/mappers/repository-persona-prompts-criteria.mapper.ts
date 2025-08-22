@@ -1,10 +1,10 @@
-import { PersonaPromptsCriteriaFindMany } from "~counselings/domains/personaPrompts/personaPrompts.criteria";
+import * as PersonaPromptsCriteria from "~counselings/domains/persona-prompts/persona-prompts.criteria";
 
 import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";
 
 export class RepositoryPersonaPromptCriteriaMapper {
-  static toFindManyOptions(criteria: PersonaPromptsCriteriaFindMany): FindManyOptions<PersonaPromptEntity> {
+  static toFindManyOptions(criteria: PersonaPromptsCriteria.FindManyOptions): FindManyOptions<PersonaPromptEntity> {
     const where: FindOptionsWhere<PersonaPromptEntity> = {};
 
     if (criteria.counselorId) {

@@ -2,8 +2,8 @@ import { TemporaryVersionManager } from "~counselings/applications/counsel-promp
 import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
-import { PersonaPromptInfo } from "~counselings/domains/personaPrompts/models/personaPrompt.info";
-import { PersonaPromptsService } from "~counselings/domains/personaPrompts/personaPrompts.service";
+import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
+import { PersonaPromptsService } from "~counselings/domains/persona-prompts/persona-prompts.service";
 import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
 import { PromptVersionsService } from "~counselings/domains/prompt-versions/prompt-versions.service";
 import { PromptActivateHistoryInfo } from "~counselings/domains/promptActivateHistory/models/promptActivateHistory.info";

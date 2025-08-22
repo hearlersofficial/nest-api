@@ -1,6 +1,8 @@
 import { TonePrompts, TonePromptsProps } from "~counselings/domains/tone-prompts/models/tone-prompts";
 
 import { HttpStatus } from "@nestjs/common";
+import { EntityData } from "~common/shared/utils/orm";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -16,6 +18,7 @@ export class TypeormTonePromptsMapper {
       return null;
     }
     const tonePromptProps: TonePromptsProps = {
+      promptVersionId: new PromptVersionId(entity.promptVersionId),
       toneId: new ToneId(entity.toneId),
       body: entity.body,
       createdAt: dayjs(entity.createdAt),
@@ -36,14 +39,18 @@ export class TypeormTonePromptsMapper {
   static toEntity(tonePrompts: TonePrompts): TonePromptEntity {
     const entity = new TonePromptEntity();
 
-    if (!tonePrompts.id.isNewIdentifier()) {
-      entity.id = tonePrompts.id.getString();
-    }
-    entity.toneId = tonePrompts.toneId.getString();
-    entity.body = tonePrompts.body;
-    entity.createdAt = tonePrompts.createdAt.toISOString();
-    entity.updatedAt = tonePrompts.updatedAt.toISOString();
-    entity.deletedAt = tonePrompts.deletedAt ? tonePrompts.deletedAt.toISOString() : null;
+    const mappedFields: EntityData<TonePromptEntity, "tone" | "promptVersion"> = {
+      id: tonePrompts.id.getString(),
+      promptVersionId: tonePrompts.promptVersionId.getString(),
+      toneId: tonePrompts.toneId.getString(),
+      body: tonePrompts.body,
+      createdAt: tonePrompts.createdAt.toISOString(),
+      updatedAt: tonePrompts.updatedAt.toISOString(),
+      deletedAt: tonePrompts.deletedAt ? tonePrompts.deletedAt.toISOString() : null,
+    };
+
+    Object.assign(entity, mappedFields);
+
     return entity;
   }
 

@@ -1,8 +1,10 @@
 import { PersonaPrompts, PersonaPromptsProps } from "~counselings/domains/persona-prompts/models/persona-prompts";
 
 import { HttpStatus } from "@nestjs/common";
+import { EntityData } from "~common/shared/utils/orm";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 import dayjs from "dayjs";
@@ -16,6 +18,7 @@ export class TypeormPersonaPromptsMapper {
       return null;
     }
     const personaPromptProps: PersonaPromptsProps = {
+      promptVersionId: new PromptVersionId(entity.promptVersionId),
       counselorId: new CounselorId(entity.counselorId),
       body: entity.body,
       createdAt: dayjs(entity.createdAt),
@@ -36,14 +39,18 @@ export class TypeormPersonaPromptsMapper {
   static toEntity(personaPrompts: PersonaPrompts): PersonaPromptEntity {
     const entity = new PersonaPromptEntity();
 
-    if (!personaPrompts.id.isNewIdentifier()) {
-      entity.id = personaPrompts.id.getString();
-    }
-    entity.counselorId = personaPrompts.counselorId.getString();
-    entity.body = personaPrompts.body;
-    entity.createdAt = personaPrompts.createdAt.toISOString();
-    entity.updatedAt = personaPrompts.updatedAt.toISOString();
-    entity.deletedAt = personaPrompts.deletedAt ? personaPrompts.deletedAt.toISOString() : null;
+    const mappedFields: EntityData<PersonaPromptEntity, "promptVersion" | "counselor"> = {
+      id: personaPrompts.id.getString(),
+      promptVersionId: personaPrompts.promptVersionId.getString(),
+      counselorId: personaPrompts.counselorId.getString(),
+      body: personaPrompts.body,
+      createdAt: personaPrompts.createdAt.toISOString(),
+      updatedAt: personaPrompts.updatedAt.toISOString(),
+      deletedAt: personaPrompts.deletedAt ? personaPrompts.deletedAt.toISOString() : null,
+    };
+
+    Object.assign(entity, mappedFields);
+
     return entity;
   }
 

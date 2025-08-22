@@ -7,6 +7,7 @@ import { HttpStatus } from "@nestjs/common";
 import { EntityData } from "~common/shared/utils/orm";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselTechniqueTransitionRuleId } from "~common/shared-kernel/identifiers/counsel-technique-transition-rule.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";
 import dayjs from "dayjs";
@@ -21,6 +22,7 @@ export class TypeormCounselTechniqueTransitionRulesMapper {
     }
 
     const props: CounselTechniqueTransitionRulesProps = {
+      promptVersionId: new PromptVersionId(entity.promptVersionId),
       fromCounselTechniqueId: new CounselTechniqueId(entity.fromCounselTechniqueId),
       toCounselTechniqueId: new CounselTechniqueId(entity.toCounselTechniqueId),
       priority: entity.priority,
@@ -74,9 +76,10 @@ export class TypeormCounselTechniqueTransitionRulesMapper {
 
     const mappedFields: EntityData<
       CounselTechniqueTransitionRuleEntity,
-      "fromCounselTechnique" | "toCounselTechnique"
+      "fromCounselTechnique" | "toCounselTechnique" | "promptVersion"
     > = {
       id: transitionRule.id.getString(),
+      promptVersionId: transitionRule.promptVersionId.getString(),
       fromCounselTechniqueId: transitionRule.fromCounselTechniqueId.getString(),
       toCounselTechniqueId: transitionRule.toCounselTechniqueId.getString(),
       priority: transitionRule.priority,

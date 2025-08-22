@@ -1,10 +1,7 @@
-import { TypeormCounselorScopedPromptsMapper } from "~counselings/domains/prompt-versions/infrastructures/mappers/typeorm-counselor-scoped-prompts.mapper";
-import { TypeormToneScopedPromptsMapper } from "~counselings/domains/prompt-versions/infrastructures/mappers/typeorm-tone-scoped-prompts.mapper";
-import { CounselorScopedPrompts } from "~counselings/domains/prompt-versions/models/counselor-scoped-prompts";
 import { PromptVersions, PromptVersionsProps } from "~counselings/domains/prompt-versions/models/prompt-versions";
-import { ToneScopedPrompts } from "~counselings/domains/prompt-versions/models/tone-scoped-prompts";
 
 import { HttpStatus } from "@nestjs/common";
+import { EntityData } from "~common/shared/utils/orm";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
@@ -19,16 +16,9 @@ export class TypeormPromptVersionsMapper {
       return null;
     }
 
-    const counselorScopedPrompts: CounselorScopedPrompts[] = TypeormCounselorScopedPromptsMapper.toDomains(
-      entity.counselorScopedPrompts,
-    );
-    const toneScopedPrompts: ToneScopedPrompts[] = TypeormToneScopedPromptsMapper.toDomains(entity.toneScopedPrompts);
-
     const promptVersionsProps: PromptVersionsProps = {
       name: entity.name,
       description: entity.description,
-      counselorScopedPrompts,
-      toneScopedPrompts,
       isActive: entity.isActive,
       isTemporary: entity.isTemporary,
       isBookmarked: entity.isBookmarked,
@@ -56,21 +46,28 @@ export class TypeormPromptVersionsMapper {
       entity.id = promptVersions.id.getString();
     }
 
-    entity.counselorScopedPrompts = TypeormCounselorScopedPromptsMapper.toEntities(
-      promptVersions.counselorScopedPrompts,
-    );
-    entity.toneScopedPrompts = TypeormToneScopedPromptsMapper.toEntities(promptVersions.toneScopedPrompts);
+    const mappedFields: EntityData<
+      PromptVersionEntity,
+      | "counselTechniques"
+      | "counselTechniqueTransitionRules"
+      | "personaPrompts"
+      | "tonePrompts"
+      | "counsels"
+      | "promptActivateHistories"
+    > = {
+      id: promptVersions.id.getString(),
+      name: promptVersions.name,
+      description: promptVersions.description,
+      isActive: promptVersions.isActive,
+      isTemporary: promptVersions.isTemporary,
+      isBookmarked: promptVersions.isBookmarked,
+      aiModel: promptVersions.aiModel,
+      createdAt: promptVersions.createdAt.toISOString(),
+      updatedAt: promptVersions.updatedAt.toISOString(),
+      deletedAt: promptVersions.deletedAt ? promptVersions.deletedAt.toISOString() : null,
+    };
 
-    entity.name = promptVersions.name;
-    entity.description = promptVersions.description;
-    entity.isActive = promptVersions.isActive;
-    entity.isTemporary = promptVersions.isTemporary;
-    entity.isBookmarked = promptVersions.isBookmarked;
-    entity.aiModel = promptVersions.aiModel;
-
-    entity.createdAt = promptVersions.createdAt.toISOString();
-    entity.updatedAt = promptVersions.updatedAt.toISOString();
-    entity.deletedAt = promptVersions.deletedAt ? promptVersions.deletedAt.toISOString() : null;
+    Object.assign(entity, mappedFields);
 
     return entity;
   }

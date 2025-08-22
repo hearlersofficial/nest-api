@@ -4,6 +4,8 @@ import { TonePrompts } from "~counselings/domains/tone-prompts/models/tone-promp
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
+import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { TonePromptEntity } from "~common/system/persistences/entities/prompts/tone-prompts.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
@@ -25,6 +27,21 @@ export class TypeormTonePromptsRepository extends TonePromptsRepository {
     findOneOptions.where = {
       ...findOneOptions.where,
       id: tonePromptId.getString(),
+    };
+    const tonePrompt = await this.tonePromptsRepository.findOne(findOneOptions);
+    return tonePrompt ? TypeormTonePromptsMapper.toDomain(tonePrompt) : null;
+  }
+
+  override async findByVersionAndTone(
+    promptVersionId: PromptVersionId,
+    toneId: ToneId,
+    options?: FindOneOptions<TonePromptEntity>,
+  ): Promise<TonePrompts | null> {
+    const findOneOptions: FindOneOptions<TonePromptEntity> = options ?? {};
+    findOneOptions.where = {
+      ...findOneOptions.where,
+      promptVersionId: promptVersionId.getString(),
+      toneId: toneId.getString(),
     };
     const tonePrompt = await this.tonePromptsRepository.findOne(findOneOptions);
     return tonePrompt ? TypeormTonePromptsMapper.toDomain(tonePrompt) : null;

@@ -5,7 +5,6 @@ import * as PersonaPromptsCriteria from "~counselings/domains/persona-prompts/pe
 import { PersonaPromptsReader } from "~counselings/domains/persona-prompts/persona-prompts.reader";
 
 import { Injectable } from "@nestjs/common";
-import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 
 @Injectable()
 export class RepositoryPersonaPromptsReader extends PersonaPromptsReader {
@@ -13,8 +12,23 @@ export class RepositoryPersonaPromptsReader extends PersonaPromptsReader {
     super();
   }
 
-  override async findOne(props: { personaPromptId: PersonaPromptId }): Promise<PersonaPrompts | null> {
-    return this.personaPromptsRepository.findByPersonaPromptId(props.personaPromptId);
+  override async findOne(props: {
+    uniqueCriteria: PersonaPromptsCriteria.UniqueKey;
+    options?: PersonaPromptsCriteria.FindOneOptions;
+  }): Promise<PersonaPrompts | null> {
+    const { uniqueCriteria, options } = props;
+    const typeormOptions = options ? RepositoryPersonaPromptCriteriaMapper.toFindOneOptions(options) : undefined;
+    if (uniqueCriteria.type === "personaPrompt") {
+      return this.personaPromptsRepository.findByPersonaPromptId(uniqueCriteria.id, typeormOptions);
+    }
+    if (uniqueCriteria.type === "versionAndCounselor") {
+      return this.personaPromptsRepository.findByVersionAndCounselor(
+        uniqueCriteria.promptVersionId,
+        uniqueCriteria.counselorId,
+        typeormOptions,
+      );
+    }
+    return null;
   }
 
   override async findMany(props: PersonaPromptsCriteria.FindManyOptions): Promise<PersonaPrompts[]> {

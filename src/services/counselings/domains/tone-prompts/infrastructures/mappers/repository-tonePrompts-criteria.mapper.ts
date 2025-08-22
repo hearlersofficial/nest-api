@@ -1,10 +1,20 @@
-import { TonePromptsCriteriaFindMany } from "~counselings/domains/tone-prompts/tone-prompts.criteria";
+import * as TonePromptsCriteria from "~counselings/domains/tone-prompts/tone-prompts.criteria";
 
 import { TonePromptEntity } from "~common/system/persistences/entities/prompts/tone-prompts.entity";
-import { FindManyOptions, FindOptionsWhere } from "typeorm";
+import { FindManyOptions, FindOneOptions, FindOptionsWhere } from "typeorm";
 
 export class RepositoryTonePromptCriteriaMapper {
-  static toFindManyOptions(criteria: TonePromptsCriteriaFindMany): FindManyOptions<TonePromptEntity> {
+  static toFindOneOptions(criteria: TonePromptsCriteria.FindOneOptions): FindOneOptions<TonePromptEntity> {
+    const where: FindOptionsWhere<TonePromptEntity> = {};
+
+    if (criteria.promptVersionId) {
+      where.promptVersionId = criteria.promptVersionId.getString();
+    }
+
+    return { where };
+  }
+
+  static toFindManyOptions(criteria: TonePromptsCriteria.FindManyOptions): FindManyOptions<TonePromptEntity> {
     const where: FindOptionsWhere<TonePromptEntity> = {};
 
     if (criteria.toneId) {

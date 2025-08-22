@@ -17,10 +17,6 @@ import {
   LoadExistingPromptVersionRequestSchema,
   LoadExistingPromptVersionResponse,
   LoadExistingPromptVersionResponseSchema,
-  SaveCounselTechniqueSequenceRequest,
-  SaveCounselTechniqueSequenceRequestSchema,
-  SaveCounselTechniqueSequenceResponse,
-  SaveCounselTechniqueSequenceResponseSchema,
   SaveTemporaryVersionRequest,
   SaveTemporaryVersionRequestSchema,
   SaveTemporaryVersionResponse,
@@ -184,23 +180,6 @@ export class GrpcCounselPromptCommandController {
     });
     return create(UpdateCounselTechniqueResponseSchema, {
       counselTechniques: techniques.map((technique) => SchemaCounselPromptsMapper.toCounselTechniqueProto(technique)),
-    });
-  }
-
-  @GrpcMethod("CounselPromptService", "SaveCounselTechniqueSequence")
-  @ProtoRequest(SaveCounselTechniqueSequenceRequestSchema)
-  async saveCounselTechniqueSequence(
-    request: SaveCounselTechniqueSequenceRequest,
-  ): Promise<SaveCounselTechniqueSequenceResponse> {
-    const { toneId, counselTechniqueIds } = request;
-    const counselTechniques = await this.counselPromptManagementsFacade.saveCounselTechniqueSequence({
-      toneId: new ToneId(toneId),
-      counselTechniqueIds: counselTechniqueIds.map((id) => new CounselTechniqueId(id)),
-    });
-    return create(SaveCounselTechniqueSequenceResponseSchema, {
-      counselTechniques: counselTechniques.map((technique) =>
-        SchemaCounselPromptsMapper.toCounselTechniqueProto(technique),
-      ),
     });
   }
 }

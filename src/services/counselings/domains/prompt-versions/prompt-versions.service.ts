@@ -7,12 +7,7 @@ import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { isDefined } from "~common/shared/utils/validate";
-import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
-import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
-import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
-import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
-import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
 
@@ -176,51 +171,5 @@ export class PromptVersionsService {
       }
     }
     await this.promptVersionsPersister.updateMany(promptVersions);
-  }
-
-  async updateCounselorScopedPromptInTemporaryVersion(props: {
-    counselorId: CounselorId;
-    personaPromptId: PersonaPromptId;
-  }): Promise<PromptVersionInfo> {
-    const { counselorId, personaPromptId } = props;
-
-    const temporaryVersion = await this.findTemporaryOne();
-    if (!temporaryVersion) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Temporary PromptVersion not found");
-    }
-    const updateResult = temporaryVersion.updateCounselorScopedPrompt({
-      counselorId,
-      personaPromptId,
-    });
-    if (updateResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateResult.error as string);
-    }
-    await this.promptVersionsPersister.update(temporaryVersion);
-
-    return PromptVersionInfo.fromDomain(temporaryVersion);
-  }
-
-  async updateToneScopedPromptInTemporaryVersion(props: {
-    toneId: ToneId;
-    tonePromptId?: TonePromptId;
-    firstCounselTechniqueId?: CounselTechniqueId;
-  }): Promise<PromptVersionInfo> {
-    const { toneId, tonePromptId, firstCounselTechniqueId } = props;
-
-    const temporaryVersion = await this.findTemporaryOne();
-    if (!temporaryVersion) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Temporary PromptVersion not found");
-    }
-    const updateResult = temporaryVersion.updateToneScopedPrompt({
-      toneId,
-      tonePromptId,
-      firstCounselTechniqueId,
-    });
-    if (updateResult.isFailure) {
-      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, updateResult.error as string);
-    }
-    await this.promptVersionsPersister.update(temporaryVersion);
-
-    return PromptVersionInfo.fromDomain(temporaryVersion);
   }
 }

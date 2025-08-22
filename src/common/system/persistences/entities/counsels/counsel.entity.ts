@@ -1,9 +1,9 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
 import { CounselContextsEntity } from "~common/system/persistences/entities/counsels/counsel-contexts.entity";
-import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/counsel-messages.entity";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
-import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 

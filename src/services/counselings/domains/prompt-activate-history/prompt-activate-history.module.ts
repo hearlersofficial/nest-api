@@ -8,7 +8,7 @@ import { PromptActivateHistoryStore } from "~counselings/domains/prompt-activate
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
+import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/prompt-activate-history.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([PromptActivateHistoryEntity])],

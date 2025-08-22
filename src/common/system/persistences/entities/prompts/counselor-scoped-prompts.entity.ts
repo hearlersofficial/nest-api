@@ -1,7 +1,7 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
-import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
-import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
+import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "counselor_scoped_prompts", comment: "상담사별 프롬프트" })

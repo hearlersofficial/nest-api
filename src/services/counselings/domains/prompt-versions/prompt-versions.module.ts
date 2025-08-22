@@ -8,7 +8,7 @@ import { PromptVersionsStore } from "~counselings/domains/prompt-versions/prompt
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([PromptVersionEntity])],

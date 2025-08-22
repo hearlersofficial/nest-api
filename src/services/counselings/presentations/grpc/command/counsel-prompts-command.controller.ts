@@ -1,5 +1,5 @@
 import { CounselPromptManagementsFacade } from "~counselings/applications/counsel-prompt-managements/counsel-prompt-managements.facade";
-import { SchemaCounselPromptsMapper } from "~counselings/presentations/grpc/counselPrompts.mapper";
+import { SchemaCounselPromptsMapper } from "~counselings/presentations/grpc/counsel-prompts.mapper";
 import {
   ActivatePromptVersionRequest,
   ActivatePromptVersionRequestSchema,

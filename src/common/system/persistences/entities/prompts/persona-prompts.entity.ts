@@ -1,6 +1,6 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
-import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/CounselorScopedPrompts.entity";
+import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/counselor-scoped-prompts.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
 @Entity({

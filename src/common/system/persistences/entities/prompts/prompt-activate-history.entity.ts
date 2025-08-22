@@ -1,5 +1,5 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
-import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "prompt_activate_history", comment: "프롬프트 활성화 이력" })

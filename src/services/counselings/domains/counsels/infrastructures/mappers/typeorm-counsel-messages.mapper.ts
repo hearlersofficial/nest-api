@@ -6,7 +6,7 @@ import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-mess
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/counsel-messages.entity";
 import dayjs from "dayjs";
 
 export class TypeormCounselMessagesMapper {

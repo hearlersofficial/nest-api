@@ -1,8 +1,8 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
-import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/PromptVersions.entity";
-import { TonePromptEntity } from "~common/system/persistences/entities/prompts/TonePrompts.entity";
+import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
+import { TonePromptEntity } from "~common/system/persistences/entities/prompts/tone-prompts.entity";
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from "typeorm";
 
 @Entity({ name: "tone_scoped_prompts", comment: "톤별 프롬프트" })

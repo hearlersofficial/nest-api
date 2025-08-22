@@ -1,8 +1,8 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
-import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
 import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";
-import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/ToneScopedPrompts.entity";
+import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/tone-scoped-prompts.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
 
 @Entity({ name: "counsel_techniques", comment: "상담 기법 (톤 + 컨텍스트 + 지시사항)" })

@@ -1,6 +1,6 @@
 import * as PersonaPromptsCriteria from "~counselings/domains/persona-prompts/persona-prompts.criteria";
 
-import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
+import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 import { FindManyOptions, FindOptionsWhere } from "typeorm";
 
 export class RepositoryPersonaPromptCriteriaMapper {

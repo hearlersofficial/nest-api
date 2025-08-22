@@ -7,7 +7,7 @@ import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
 import { KAFKA_CLIENT } from "~common/system/persistences/client-config";
-import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/CounselMessages.entity";
+import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/counsel-messages.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()

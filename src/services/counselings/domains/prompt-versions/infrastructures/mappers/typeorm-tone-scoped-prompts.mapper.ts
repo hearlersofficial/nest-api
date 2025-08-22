@@ -10,7 +10,7 @@ import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { ToneScopedPromptId } from "~common/shared-kernel/identifiers/tone-scoped-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/ToneScopedPrompts.entity";
+import { ToneScopedPromptEntity } from "~common/system/persistences/entities/prompts/tone-scoped-prompts.entity";
 import dayjs from "dayjs";
 
 export class TypeormToneScopedPromptsMapper {

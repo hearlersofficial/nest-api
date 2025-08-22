@@ -1,7 +1,7 @@
 import { CoreStatus } from "~common/shared/enums/status";
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
-import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/counsels/CounselorUserRelationships.entity";
-import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
+import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/counsels/counselor-user-relationships.entity";
 import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth-users.entity";
 import { UserActivitiesEntity } from "~common/system/persistences/entities/users/user-activities.entity";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";

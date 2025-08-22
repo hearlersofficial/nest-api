@@ -2,7 +2,7 @@ import { PromptActivateHistories } from "~counselings/domains/prompt-activate-hi
 
 import { Injectable } from "@nestjs/common";
 import { PromptActivateHistoryId } from "~common/shared-kernel/identifiers/prompt-activate-history.id";
-import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/PromptActivateHistory.entity";
+import { PromptActivateHistoryEntity } from "~common/system/persistences/entities/prompts/prompt-activate-history.entity";
 import { FindOneOptions } from "typeorm";
 
 @Injectable()

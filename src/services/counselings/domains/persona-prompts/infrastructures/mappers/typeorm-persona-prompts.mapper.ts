@@ -4,7 +4,7 @@ import { HttpStatus } from "@nestjs/common";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
+import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 import dayjs from "dayjs";
 
 export class TypeormPersonaPromptsMapper {

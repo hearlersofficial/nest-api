@@ -5,7 +5,7 @@ import { Counsels } from "~counselings/domains/counsels/models/counsels";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
-import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
 @Injectable()

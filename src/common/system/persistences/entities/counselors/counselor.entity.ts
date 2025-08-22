@@ -4,10 +4,10 @@ import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { BubbleEntity } from "~common/system/persistences/entities/counselors/bubble.entity";
 import { EpisodeEntity } from "~common/system/persistences/entities/counselors/episode.entity";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
-import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/counsels/CounselorUserRelationships.entity";
-import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
-import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/CounselorScopedPrompts.entity";
-import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/PersonaPrompts.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
+import { CounselorUserRelationshipsEntity } from "~common/system/persistences/entities/counsels/counselor-user-relationships.entity";
+import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/counselor-scoped-prompts.entity";
+import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
 
 @Entity({

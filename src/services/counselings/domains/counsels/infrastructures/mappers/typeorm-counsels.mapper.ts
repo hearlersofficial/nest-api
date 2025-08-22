@@ -9,7 +9,7 @@ import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/c
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
-import { CounselsEntity } from "~common/system/persistences/entities/counsels/Counsels.entity";
+import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
 import dayjs from "dayjs";
 
 export class TypeormCounselsMapper {

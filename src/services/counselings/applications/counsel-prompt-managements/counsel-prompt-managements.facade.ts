@@ -144,6 +144,14 @@ export class CounselPromptManagementsFacade {
     });
   }
 
+  async findPersonaPrompts(param: {
+    promptVersionId?: PromptVersionId;
+    counselorId?: CounselorId;
+  }): Promise<PersonaPromptInfo[]> {
+    const { promptVersionId, counselorId } = param;
+    return this.personaPromptService.findMany({ promptVersionId, counselorId });
+  }
+
   @Transactional()
   async updatePersonaPrompt(param: { counselorId: CounselorId; body: string }): Promise<PersonaPromptInfo> {
     const { counselorId, body } = param;
@@ -166,6 +174,11 @@ export class CounselPromptManagementsFacade {
     return this.tonePromptService.getOne({
       uniqueCriteria: { type: "tonePrompt", id: tonePromptId },
     });
+  }
+
+  async findTonePrompts(param: { promptVersionId?: PromptVersionId; toneId?: ToneId }): Promise<TonePromptInfo[]> {
+    const { promptVersionId, toneId } = param;
+    return this.tonePromptService.findMany({ promptVersionId, toneId });
   }
 
   @Transactional()
@@ -216,6 +229,14 @@ export class CounselPromptManagementsFacade {
     return this.counselTechniqueService.getOne({
       uniqueCriteria: { type: "counselTechnique", id: counselTechniqueId },
     });
+  }
+
+  async findCounselTechniques(param: {
+    promptVersionId?: PromptVersionId;
+    toneId?: ToneId;
+  }): Promise<CounselTechniqueInfo[]> {
+    const { promptVersionId, toneId } = param;
+    return this.counselTechniqueService.findMany({ promptVersionId, toneId });
   }
 
   @Transactional()

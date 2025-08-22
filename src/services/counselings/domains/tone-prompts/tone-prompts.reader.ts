@@ -1,5 +1,5 @@
-import { TonePrompts } from "~counselings/domains/tonePrompts/models/tonePrompts";
-import { TonePromptsCriteriaFindMany } from "~counselings/domains/tonePrompts/tonePrompts.criteria";
+import { TonePrompts } from "~counselings/domains/tone-prompts/models/tone-prompts";
+import { TonePromptsCriteriaFindMany } from "~counselings/domains/tone-prompts/tone-prompts.criteria";
 
 import { Injectable } from "@nestjs/common";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";

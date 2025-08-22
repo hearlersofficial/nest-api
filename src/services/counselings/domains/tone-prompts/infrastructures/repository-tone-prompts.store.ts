@@ -1,6 +1,6 @@
-import { TonePromptsRepository } from "~counselings/domains/tonePrompts/infrastructures/tonePrompts.repository";
-import { TonePrompts, TonePromptsNewProps } from "~counselings/domains/tonePrompts/models/tonePrompts";
-import { TonePromptsStore } from "~counselings/domains/tonePrompts/tonePrompts.store";
+import { TonePromptsRepository } from "~counselings/domains/tone-prompts/infrastructures/tone-prompts.repository";
+import { TonePrompts, TonePromptsNewProps } from "~counselings/domains/tone-prompts/models/tone-prompts";
+import { TonePromptsStore } from "~counselings/domains/tone-prompts/tone-prompts.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";

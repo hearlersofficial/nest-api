@@ -75,12 +75,8 @@ export class PromptVersionsService {
     if (isDefined(temporaryVersion)) {
       throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, "Temporary PromptVersion already exists");
     }
-    const newPromptVersion = await PromptVersions.createNew(props);
-    if (newPromptVersion.isFailureResult()) {
-      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, newPromptVersion.error);
-    }
-    await this.promptVersionsPersister.create(newPromptVersion.value);
-    return PromptVersionInfo.fromDomain(newPromptVersion.value);
+    const newPromptVersion = await this.promptVersionsPersister.create(props);
+    return PromptVersionInfo.fromDomain(newPromptVersion);
   }
 
   @Transactional()

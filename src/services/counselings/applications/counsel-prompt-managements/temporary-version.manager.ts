@@ -5,7 +5,7 @@ import { PromptVersionsService } from "~counselings/domains/promptVersions/promp
 import { TonePromptsService } from "~counselings/domains/tonePrompts/tonePrompts.service";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { isDefined } from "~common/shared/utils/validate";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
@@ -21,6 +21,7 @@ export class TemporaryVersionManager {
     private readonly counselTechniquesService: CounselTechniquesService,
   ) {}
 
+  private readonly logger = new Logger(TemporaryVersionManager.name);
   /**
    * 임시 프롬프트 버전을 조회하거나 생성합니다.
    * 활성 버전이 있을 경우 연관된 객체들을 새로 생성하여 복사합니다.
@@ -143,7 +144,6 @@ export class TemporaryVersionManager {
         }),
     );
 
-    // 복사된 값들로 새 임시 버전 생성
     const newTemporaryVersion = await this.promptVersionsService.createTemporaryPromptVersion({
       name: `임시 버전 (${activeVersion.name} 복사)`,
       description: `현재 수정 중인 임시 버전입니다. (부모 버전: ${activeVersion.name})`,

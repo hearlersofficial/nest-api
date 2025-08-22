@@ -3,7 +3,7 @@ import { CounselorsService } from "~counselings/domains/counselors/counselors.se
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
 import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
-import { PromptVersionsService } from "~counselings/domains/promptVersions/promptVersions.service";
+import { PromptVersionsService } from "~counselings/domains/prompt-versions/prompt-versions.service";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";

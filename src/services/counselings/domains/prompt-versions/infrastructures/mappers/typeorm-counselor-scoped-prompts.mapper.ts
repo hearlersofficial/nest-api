@@ -1,7 +1,7 @@
 import {
   CounselorScopedPrompts,
   CounselorScopedPromptsProps,
-} from "~counselings/domains/promptVersions/models/counselorScopedPrompts";
+} from "~counselings/domains/prompt-versions/models/counselor-scoped-prompts";
 
 import { HttpStatus } from "@nestjs/common";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
@@ -12,7 +12,7 @@ import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselorScopedPromptEntity } from "~common/system/persistences/entities/prompts/CounselorScopedPrompts.entity";
 import dayjs from "dayjs";
 
-export class PsqlCounselorScopedPromptsMapper {
+export class TypeormCounselorScopedPromptsMapper {
   static toDomain(entity: null): null;
   static toDomain(entity: CounselorScopedPromptEntity): CounselorScopedPrompts;
   static toDomain(entity: CounselorScopedPromptEntity | null): CounselorScopedPrompts | null;

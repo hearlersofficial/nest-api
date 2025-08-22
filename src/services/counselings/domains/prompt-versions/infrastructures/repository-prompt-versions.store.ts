@@ -1,12 +1,12 @@
-import { PromptVersionsRepository } from "~counselings/domains/promptVersions/infrastructures/promptVersions.repository";
-import { PromptVersions, PromptVersionsNewProps } from "~counselings/domains/promptVersions/models/promptVersions";
-import { PromptVersionsPersister } from "~counselings/domains/promptVersions/promptVersions.persister";
+import { PromptVersionsRepository } from "~counselings/domains/prompt-versions/infrastructures/prompt-versions.repository";
+import { PromptVersions, PromptVersionsNewProps } from "~counselings/domains/prompt-versions/models/prompt-versions";
+import { PromptVersionsStore } from "~counselings/domains/prompt-versions/prompt-versions.store";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 @Injectable()
-export class RepositoryPromptVersionsPersister extends PromptVersionsPersister {
+export class RepositoryPromptVersionsStore extends PromptVersionsStore {
   constructor(private readonly promptVersionsRepository: PromptVersionsRepository) {
     super();
   }

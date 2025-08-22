@@ -1,4 +1,4 @@
-import { PromptVersionInfo } from "~counselings/domains/promptVersions/models/promptVersion.info";
+import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
 
 import { UseCaseCoreResponse } from "~common/shared-kernel/interfaces/UseCase.response";
 

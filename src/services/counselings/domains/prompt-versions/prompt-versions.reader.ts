@@ -1,5 +1,5 @@
-import { PromptVersions } from "~counselings/domains/promptVersions/models/promptVersions";
-import { PromptVersionsCriteriaFindMany } from "~counselings/domains/promptVersions/promptVersions.criteria";
+import { PromptVersions } from "~counselings/domains/prompt-versions/models/prompt-versions";
+import * as PromptVersionsCriteria from "~counselings/domains/prompt-versions/prompt-versions.criteria";
 
 import { Injectable } from "@nestjs/common";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
@@ -7,5 +7,5 @@ import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-versio
 @Injectable()
 export abstract class PromptVersionsReader {
   abstract findOne(props: { promptVersionId: PromptVersionId; withDeleted?: boolean }): Promise<PromptVersions | null>;
-  abstract findMany(props: PromptVersionsCriteriaFindMany): Promise<PromptVersions[]>;
+  abstract findMany(props: PromptVersionsCriteria.FindManyOptions): Promise<PromptVersions[]>;
 }

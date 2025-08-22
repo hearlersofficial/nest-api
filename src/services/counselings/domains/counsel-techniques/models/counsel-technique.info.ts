@@ -1,19 +1,20 @@
 import { CounselTechniques } from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { Dayjs } from "dayjs";
 
 export class CounselTechniqueInfo {
   constructor(
     public readonly id: CounselTechniqueId,
+    public readonly promptVersionId: PromptVersionId,
     public readonly name: string,
     public readonly temperature: number,
     public readonly toneId: ToneId,
     public readonly context: string,
     public readonly instruction: string,
     public readonly messageThreshold: number,
-    public readonly nextTechniqueId: CounselTechniqueId | null,
     public readonly isTemporary: boolean,
     public readonly createdAt: Dayjs,
     public readonly updatedAt: Dayjs,
@@ -23,13 +24,13 @@ export class CounselTechniqueInfo {
   static fromDomain(counselTechnique: CounselTechniques): CounselTechniqueInfo {
     return new CounselTechniqueInfo(
       counselTechnique.id,
+      counselTechnique.promptVersionId,
       counselTechnique.name,
       counselTechnique.temperature,
       counselTechnique.toneId,
       counselTechnique.context,
       counselTechnique.instruction,
       counselTechnique.messageThreshold,
-      counselTechnique.nextTechniqueId,
       counselTechnique.isTemporary,
       counselTechnique.createdAt,
       counselTechnique.updatedAt,

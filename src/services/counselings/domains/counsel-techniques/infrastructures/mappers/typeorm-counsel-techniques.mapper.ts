@@ -4,7 +4,9 @@ import {
 } from "~counselings/domains/counsel-techniques/models/counsel-techniques";
 
 import { HttpStatus } from "@nestjs/common";
+import { EntityData } from "~common/shared/utils/orm";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
@@ -20,13 +22,13 @@ export class TypeormCounselTechniquesMapper {
     }
 
     const counselTechniqueProps: CounselTechniquesProps = {
+      promptVersionId: new PromptVersionId(entity.promptVersionId),
       name: entity.name,
       temperature: entity.temperature,
       toneId: new ToneId(entity.toneId),
       context: entity.context,
       instruction: entity.instruction,
       messageThreshold: entity.messageThreshold,
-      nextTechniqueId: entity.nextTechniqueId ? new CounselTechniqueId(entity.nextTechniqueId) : null,
       isTemporary: entity.isTemporary,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
@@ -48,23 +50,25 @@ export class TypeormCounselTechniquesMapper {
   static toEntity(counselTechniques: CounselTechniques): CounselTechniquesEntity {
     const entity = new CounselTechniquesEntity();
 
-    if (!counselTechniques.id.isNewIdentifier()) {
-      entity.id = counselTechniques.id.getString();
-    }
+    const mappedFields: EntityData<
+      CounselTechniquesEntity,
+      "tone" | "promptVersion" | "counsels" | "fromTransitionRules" | "toTransitionRules"
+    > = {
+      id: counselTechniques.id.getString(),
+      promptVersionId: counselTechniques.promptVersionId.getString(),
+      name: counselTechniques.name,
+      temperature: counselTechniques.temperature,
+      toneId: counselTechniques.toneId.getString(),
+      context: counselTechniques.context,
+      instruction: counselTechniques.instruction,
+      messageThreshold: counselTechniques.messageThreshold,
+      isTemporary: counselTechniques.isTemporary,
+      createdAt: counselTechniques.createdAt.toISOString(),
+      updatedAt: counselTechniques.updatedAt.toISOString(),
+      deletedAt: counselTechniques.deletedAt ? counselTechniques.deletedAt.toISOString() : null,
+    };
 
-    entity.name = counselTechniques.name;
-    entity.temperature = counselTechniques.temperature;
-    entity.toneId = counselTechniques.toneId.getString();
-    entity.context = counselTechniques.context;
-    entity.instruction = counselTechniques.instruction;
-    entity.messageThreshold = counselTechniques.messageThreshold;
-
-    entity.nextTechniqueId = counselTechniques.nextTechniqueId ? counselTechniques.nextTechniqueId.getString() : null;
-    entity.isTemporary = counselTechniques.isTemporary;
-
-    entity.createdAt = counselTechniques.createdAt.toISOString();
-    entity.updatedAt = counselTechniques.updatedAt.toISOString();
-    entity.deletedAt = counselTechniques.deletedAt ? counselTechniques.deletedAt.toISOString() : null;
+    Object.assign(entity, mappedFields);
 
     return entity;
   }

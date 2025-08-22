@@ -1,6 +1,4 @@
-import { CounselorScopedPromptInfo } from "~counselings/domains/prompt-versions/models/counselor-scoped-prompt.info";
 import { PromptVersions } from "~counselings/domains/prompt-versions/models/prompt-versions";
-import { ToneScopedPromptInfo } from "~counselings/domains/prompt-versions/models/tone-scoped-prompt.info";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
@@ -11,8 +9,6 @@ export class PromptVersionInfo {
     public readonly id: PromptVersionId,
     public readonly name: string,
     public readonly description: string,
-    public readonly counselorScopedPrompts: CounselorScopedPromptInfo[],
-    public readonly toneScopedPrompts: ToneScopedPromptInfo[],
     public readonly isActive: boolean,
     public readonly isTemporary: boolean,
     public readonly isBookmarked: boolean,
@@ -27,8 +23,6 @@ export class PromptVersionInfo {
       promptVersion.id,
       promptVersion.name,
       promptVersion.description,
-      CounselorScopedPromptInfo.fromDomainArray(promptVersion.counselorScopedPrompts),
-      ToneScopedPromptInfo.fromDomainArray(promptVersion.toneScopedPrompts),
       promptVersion.isActive,
       promptVersion.isTemporary,
       promptVersion.isBookmarked,

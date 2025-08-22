@@ -4,9 +4,11 @@ import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { Dayjs } from "dayjs";
 
 export interface PersonaPromptsNewProps {
+  promptVersionId: PromptVersionId;
   counselorId: CounselorId;
   body: string;
 }
@@ -73,6 +75,10 @@ export class PersonaPrompts extends AggregateRoot<PersonaPromptsProps, PersonaPr
   }
 
   // Getters
+  get promptVersionId(): PromptVersionId {
+    return this.props.promptVersionId;
+  }
+
   get counselorId(): CounselorId {
     return this.props.counselorId;
   }

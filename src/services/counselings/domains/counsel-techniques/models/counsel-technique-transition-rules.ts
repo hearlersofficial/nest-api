@@ -19,9 +19,11 @@ import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselTechniqueTransitionRuleId } from "~common/shared-kernel/identifiers/counsel-technique-transition-rule.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselTechniqueTransitionRulesNewProps {
+  promptVersionId: PromptVersionId;
   fromCounselTechniqueId: CounselTechniqueId;
   toCounselTechniqueId: CounselTechniqueId;
   priority?: number;
@@ -267,6 +269,10 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
   }
 
   // Getters
+  get promptVersionId(): PromptVersionId {
+    return this.props.promptVersionId;
+  }
+
   get fromCounselTechniqueId(): CounselTechniqueId {
     return this.props.fromCounselTechniqueId;
   }

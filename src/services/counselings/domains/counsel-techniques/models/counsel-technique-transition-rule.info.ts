@@ -16,11 +16,13 @@ import {
 
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselTechniqueTransitionRuleId } from "~common/shared-kernel/identifiers/counsel-technique-transition-rule.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { Dayjs } from "dayjs";
 
 export class CounselTechniqueTransitionRuleInfo {
   constructor(
     public readonly id: CounselTechniqueTransitionRuleId,
+    public readonly promptVersionId: PromptVersionId,
     public readonly fromCounselTechniqueId: CounselTechniqueId,
     public readonly toCounselTechniqueId: CounselTechniqueId,
     public readonly priority: number,
@@ -56,6 +58,7 @@ export class CounselTechniqueTransitionRuleInfo {
   static fromDomain(transitionRule: CounselTechniqueTransitionRules): CounselTechniqueTransitionRuleInfo {
     return new CounselTechniqueTransitionRuleInfo(
       transitionRule.id,
+      transitionRule.promptVersionId,
       transitionRule.fromCounselTechniqueId,
       transitionRule.toCounselTechniqueId,
       transitionRule.priority,

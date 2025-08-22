@@ -2,11 +2,13 @@ import { getNowDayjs } from "~common/shared/utils/date";
 import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 import { Dayjs } from "dayjs";
 
 export interface TonePromptsNewProps {
+  promptVersionId: PromptVersionId;
   toneId: ToneId;
   body: string;
 }
@@ -73,6 +75,10 @@ export class TonePrompts extends AggregateRoot<TonePromptsProps, TonePromptId> {
   }
 
   // Getters
+  get promptVersionId(): PromptVersionId {
+    return this.props.promptVersionId;
+  }
+
   get toneId(): ToneId {
     return this.props.toneId;
   }

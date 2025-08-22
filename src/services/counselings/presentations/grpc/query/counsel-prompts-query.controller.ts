@@ -9,10 +9,6 @@ import {
   FindCounselTechniqueByIdRequestSchema,
   FindCounselTechniqueByIdResponse,
   FindCounselTechniqueByIdResponseSchema,
-  FindOrderedCounselTechniquesRequest,
-  FindOrderedCounselTechniquesRequestSchema,
-  FindOrderedCounselTechniquesResponse,
-  FindOrderedCounselTechniquesResponseSchema,
   FindPersonaPromptByIdRequest,
   FindPersonaPromptByIdRequestSchema,
   FindPersonaPromptByIdResponse,
@@ -119,23 +115,6 @@ export class GrpcCounselPromptQueryController {
     });
     return create(FindTonePromptByIdResponseSchema, {
       tonePrompt: tonePrompt ? SchemaCounselPromptsMapper.toTonePromptProto(tonePrompt) : undefined,
-    });
-  }
-
-  // Counsel Technique
-  @GrpcMethod("CounselPromptService", "FindOrderedCounselTechniques")
-  @ProtoRequest(FindOrderedCounselTechniquesRequestSchema)
-  async findOrderedCounselTechniques(
-    request: FindOrderedCounselTechniquesRequest,
-  ): Promise<FindOrderedCounselTechniquesResponse> {
-    const { firstCounselTechniqueId } = request;
-    const counselTechniques = await this.counselPromptManagementsFacade.findOrderedCounselTechniques({
-      firstCounselTechniqueId: new CounselTechniqueId(firstCounselTechniqueId),
-    });
-    return create(FindOrderedCounselTechniquesResponseSchema, {
-      counselTechniques: counselTechniques.map((technique) =>
-        SchemaCounselPromptsMapper.toCounselTechniqueProto(technique),
-      ),
     });
   }
 

@@ -3,10 +3,12 @@ import { isDefined } from "~common/shared/utils/validate";
 import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { ToneId } from "~common/shared-kernel/identifiers/tone.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselTechniquesNewProps {
+  promptVersionId: PromptVersionId;
   name: string;
   temperature: number;
   toneId: ToneId;
@@ -16,7 +18,6 @@ export interface CounselTechniquesNewProps {
 }
 
 export interface CounselTechniquesProps extends CounselTechniquesNewProps {
-  nextTechniqueId: CounselTechniqueId | null;
   isTemporary: boolean;
   createdAt: Dayjs;
   updatedAt: Dayjs;
@@ -43,7 +44,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     const createdCounselTechnique = this.create(
       {
         ...newProps,
-        nextTechniqueId: null,
         isTemporary: true,
         createdAt: now,
         updatedAt: now,
@@ -96,6 +96,10 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
   }
 
   // Getters
+  get promptVersionId(): PromptVersionId {
+    return this.props.promptVersionId;
+  }
+
   get name(): string {
     return this.props.name;
   }
@@ -118,10 +122,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
 
   get messageThreshold(): number {
     return this.props.messageThreshold;
-  }
-
-  get nextTechniqueId(): CounselTechniqueId | null {
-    return this.props.nextTechniqueId;
   }
 
   get isTemporary(): boolean {
@@ -159,13 +159,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     }
     if (isDefined(props.messageThreshold) && props.messageThreshold !== this.props.messageThreshold) {
       this.props.messageThreshold = props.messageThreshold;
-    }
-    if (
-      props.nextTechniqueId !== undefined &&
-      props.nextTechniqueId !== null &&
-      props.nextTechniqueId !== this.props.nextTechniqueId
-    ) {
-      this.props.nextTechniqueId = props.nextTechniqueId;
     }
     if (isDefined(props.isTemporary) && props.isTemporary !== this.props.isTemporary) {
       this.props.isTemporary = props.isTemporary;

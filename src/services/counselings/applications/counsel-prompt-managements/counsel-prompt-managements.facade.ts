@@ -1,5 +1,4 @@
 import { TemporaryVersionManager } from "~counselings/applications/counsel-prompt-managements/temporary-version.manager";
-import { ValidatePromptVersionUseCase } from "~counselings/applications/counsel-prompt-managements/use-cases/validate-prompt-version";
 import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
 import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
@@ -32,7 +31,6 @@ export class CounselPromptManagementsFacade {
     private readonly counselTechniqueService: CounselTechniquesService,
     private readonly promptActivateHistoryService: PromptActivateHistoryService,
     private readonly temporaryVersionManager: TemporaryVersionManager,
-    private readonly validatePromptVersionUseCase: ValidatePromptVersionUseCase,
   ) {}
 
   async findPromptVersions(param: { name?: string; isBookmarked?: boolean }): Promise<PromptVersionInfo[]> {
@@ -78,15 +76,6 @@ export class CounselPromptManagementsFacade {
     const { name, description, isBookmarked, aiModel } = param;
 
     const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
-    const validatePromptVersionResult = await this.validatePromptVersionUseCase.execute({
-      promptVersion: temporaryVersion,
-    });
-    if (!validatePromptVersionResult.ok) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        validatePromptVersionResult.error as string,
-      );
-    }
 
     return this.promptVersionService.saveTemporaryPromptVersion({
       name,
@@ -118,17 +107,6 @@ export class CounselPromptManagementsFacade {
   async activatePromptVersion(param: { promptVersionId: PromptVersionId }): Promise<PromptVersionInfo> {
     const { promptVersionId } = param;
 
-    const promptVersion = await this.promptVersionService.getOne({ promptVersionId });
-    const validatePromptVersionResult = await this.validatePromptVersionUseCase.execute({
-      promptVersion,
-    });
-    if (!validatePromptVersionResult.ok) {
-      throw new HttpStatusBasedRpcException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        validatePromptVersionResult.error as string,
-      );
-    }
-
     await this.promptActivateHistoryService.create({
       promptVersionId,
       activatedAt: getNowDayjs(),
@@ -145,20 +123,22 @@ export class CounselPromptManagementsFacade {
 
   async findPersonaPromptById(param: { personaPromptId: PersonaPromptId }): Promise<PersonaPromptInfo> {
     const { personaPromptId } = param;
-    return this.personaPromptService.getOne({ personaPromptId });
+    return this.personaPromptService.getOne({
+      uniqueCriteria: { type: "personaPrompt", id: personaPromptId },
+    });
   }
 
   @Transactional()
   async updatePersonaPrompt(param: { counselorId: CounselorId; body: string }): Promise<PersonaPromptInfo> {
     const { counselorId, body } = param;
-    const promptVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
-    const personaPromptId = promptVersion.counselorScopedPrompts.find((counselorScopedPrompt) =>
-      counselorScopedPrompt.counselorId.equals(counselorId),
-    )?.personaPromptId;
-    if (!personaPromptId) {
+    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
+    const personaPrompt = await this.personaPromptService.getOne({
+      uniqueCriteria: { type: "versionAndCounselor", promptVersionId: temporaryVersion.id, counselorId },
+    });
+    if (!personaPrompt) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PersonaPrompt not found");
     }
-    const personaPrompt = await this.personaPromptService.update(personaPromptId, {
+    await this.personaPromptService.update(personaPrompt.id, {
       body,
     });
 
@@ -167,7 +147,9 @@ export class CounselPromptManagementsFacade {
 
   async findTonePromptById(param: { tonePromptId: TonePromptId }): Promise<TonePromptInfo> {
     const { tonePromptId } = param;
-    return this.tonePromptService.getOne({ tonePromptId });
+    return this.tonePromptService.getOne({
+      uniqueCriteria: { type: "tonePrompt", id: tonePromptId },
+    });
   }
 
   @Transactional()
@@ -175,17 +157,18 @@ export class CounselPromptManagementsFacade {
     const { toneId, body } = param;
 
     const promptVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
-    const tonePromptId = promptVersion.toneScopedPrompts.find((toneScopedPrompt) =>
-      toneScopedPrompt.toneId.equals(toneId),
-    )?.tonePromptId;
-    if (!tonePromptId) {
+    const tonePrompt = await this.tonePromptService.getOne({
+      uniqueCriteria: { type: "versionAndTone", promptVersionId: promptVersion.id, toneId },
+    });
+    if (!tonePrompt) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "TonePrompt not found");
     }
-    const tonePrompt = await this.tonePromptService.update(tonePromptId, {
+
+    const updatedTonePrompt = await this.tonePromptService.update(tonePrompt.id, {
       body,
     });
 
-    return tonePrompt;
+    return updatedTonePrompt;
   }
 
   @Transactional()
@@ -198,21 +181,16 @@ export class CounselPromptManagementsFacade {
     messageThreshold: number;
   }): Promise<CounselTechniqueInfo> {
     const { name, temperature, toneId, context, instruction, messageThreshold } = param;
+    const promptVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
     return this.counselTechniqueService.create({
       name,
       temperature,
+      promptVersionId: promptVersion.id,
       toneId,
       context,
       instruction,
       messageThreshold,
     });
-  }
-
-  async findOrderedCounselTechniques(param: {
-    firstCounselTechniqueId: CounselTechniqueId;
-  }): Promise<CounselTechniqueInfo[]> {
-    const { firstCounselTechniqueId } = param;
-    return this.counselTechniqueService.getOrdered({ firstCounselTechniqueId });
   }
 
   async findCounselTechniqueById(param: { counselTechniqueId: CounselTechniqueId }): Promise<CounselTechniqueInfo> {
@@ -243,39 +221,13 @@ export class CounselPromptManagementsFacade {
       );
     }
 
-    const updatedTechniques = await this.counselTechniqueService.updateCounselTechnique(firstCounselTechniqueId, {
+    const updatedTechniques = await this.counselTechniqueService.updateCounselTechnique({
       counselTechniqueId,
       name,
       temperature,
       context,
       instruction,
       messageThreshold,
-    });
-
-    return updatedTechniques;
-  }
-
-  @Transactional()
-  async saveCounselTechniqueSequence(param: {
-    toneId: ToneId;
-    counselTechniqueIds: CounselTechniqueId[];
-  }): Promise<CounselTechniqueInfo[]> {
-    const { toneId, counselTechniqueIds } = param;
-
-    const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
-    const firstCounselTechniqueId = temporaryVersion.toneScopedPrompts.find((toneScopedPrompt) =>
-      toneScopedPrompt.toneId.equals(toneId),
-    )?.firstCounselTechniqueId;
-
-    const updatedTechniques = await this.counselTechniqueService.saveCounselTechniqueSequence({
-      originalfirstCounselTechniqueId: firstCounselTechniqueId ?? null,
-      toneId,
-      counselTechniqueIds,
-    });
-
-    await this.promptVersionService.updateToneScopedPromptInTemporaryVersion({
-      toneId,
-      firstCounselTechniqueId: updatedTechniques[0].id,
     });
 
     return updatedTechniques;

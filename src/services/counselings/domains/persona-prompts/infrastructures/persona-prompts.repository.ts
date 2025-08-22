@@ -1,7 +1,9 @@
 import { PersonaPrompts } from "~counselings/domains/persona-prompts/models/persona-prompts";
 
 import { Injectable } from "@nestjs/common";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 
@@ -9,6 +11,11 @@ import { FindManyOptions, FindOneOptions } from "typeorm";
 export abstract class PersonaPromptsRepository {
   abstract findByPersonaPromptId(
     personaPromptId: PersonaPromptId,
+    options?: FindOneOptions<PersonaPromptEntity>,
+  ): Promise<PersonaPrompts | null>;
+  abstract findByVersionAndCounselor(
+    promptVersionId: PromptVersionId,
+    counselorId: CounselorId,
     options?: FindOneOptions<PersonaPromptEntity>,
   ): Promise<PersonaPrompts | null>;
   abstract findMany(options?: FindManyOptions<PersonaPromptEntity>): Promise<PersonaPrompts[]>;

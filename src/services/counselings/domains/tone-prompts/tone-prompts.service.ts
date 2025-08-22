@@ -1,5 +1,6 @@
 import { TonePromptInfo } from "~counselings/domains/tone-prompts/models/tone-prompt.info";
 import { TonePromptsNewProps } from "~counselings/domains/tone-prompts/models/tone-prompts";
+import * as TonePromptsCriteria from "~counselings/domains/tone-prompts/tone-prompts.criteria";
 import { TonePromptsReader } from "~counselings/domains/tone-prompts/tone-prompts.reader";
 import { TonePromptsStore } from "~counselings/domains/tone-prompts/tone-prompts.store";
 
@@ -26,7 +27,9 @@ export class TonePromptsService {
     tonePromptId: TonePromptId,
     updateProps: Partial<Pick<TonePromptsNewProps, "body">>,
   ): Promise<TonePromptInfo> {
-    const tonePrompt = await this.tonePromptsReader.findOne({ tonePromptId });
+    const tonePrompt = await this.tonePromptsReader.findOne({
+      uniqueCriteria: { type: "tonePrompt", id: tonePromptId },
+    });
     if (!tonePrompt) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "TonePrompt not found");
     }
@@ -35,7 +38,10 @@ export class TonePromptsService {
     return TonePromptInfo.fromDomain(tonePrompt);
   }
 
-  async getOne(props: { tonePromptId: TonePromptId }): Promise<TonePromptInfo> {
+  async getOne(props: {
+    uniqueCriteria: TonePromptsCriteria.UniqueKey;
+    options?: TonePromptsCriteria.FindOneOptions;
+  }): Promise<TonePromptInfo> {
     const tonePrompt = await this.tonePromptsReader.findOne(props);
     if (!tonePrompt) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "TonePrompt not found");

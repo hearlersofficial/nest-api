@@ -1,5 +1,6 @@
 import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
 import { PersonaPromptsNewProps } from "~counselings/domains/persona-prompts/models/persona-prompts";
+import * as PersonaPromptsCriteria from "~counselings/domains/persona-prompts/persona-prompts.criteria";
 import { PersonaPromptsReader } from "~counselings/domains/persona-prompts/persona-prompts.reader";
 import { PersonaPromptsStore } from "~counselings/domains/persona-prompts/persona-prompts.store";
 
@@ -26,7 +27,9 @@ export class PersonaPromptsService {
     personaPromptId: PersonaPromptId,
     updateProps: Partial<Pick<PersonaPromptsNewProps, "body">>,
   ): Promise<PersonaPromptInfo> {
-    const personaPrompt = await this.personaPromptsReader.findOne({ personaPromptId });
+    const personaPrompt = await this.personaPromptsReader.findOne({
+      uniqueCriteria: { type: "personaPrompt", id: personaPromptId },
+    });
     if (!personaPrompt) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PersonaPrompt not found");
     }
@@ -35,7 +38,10 @@ export class PersonaPromptsService {
     return PersonaPromptInfo.fromDomain(personaPrompt);
   }
 
-  async getOne(props: { personaPromptId: PersonaPromptId }): Promise<PersonaPromptInfo> {
+  async getOne(props: {
+    uniqueCriteria: PersonaPromptsCriteria.UniqueKey;
+    options?: PersonaPromptsCriteria.FindOneOptions;
+  }): Promise<PersonaPromptInfo> {
     const personaPrompt = await this.personaPromptsReader.findOne(props);
     if (!personaPrompt) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PersonaPrompt not found");

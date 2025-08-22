@@ -4,7 +4,9 @@ import { PersonaPrompts } from "~counselings/domains/persona-prompts/models/pers
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { PersonaPromptId } from "~common/shared-kernel/identifiers/persona-prompt.id";
+import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { PersonaPromptEntity } from "~common/system/persistences/entities/prompts/persona-prompts.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
@@ -25,6 +27,21 @@ export class TypeormPersonaPromptsRepository extends PersonaPromptsRepository {
     findOneOptions.where = {
       ...findOneOptions.where,
       id: personaPromptId.getString(),
+    };
+    const personaPrompt = await this.personaPromptsRepository.findOne(findOneOptions);
+    return personaPrompt ? TypeormPersonaPromptsMapper.toDomain(personaPrompt) : null;
+  }
+
+  override async findByVersionAndCounselor(
+    promptVersionId: PromptVersionId,
+    counselorId: CounselorId,
+    options?: FindOneOptions<PersonaPromptEntity>,
+  ): Promise<PersonaPrompts | null> {
+    const findOneOptions: FindOneOptions<PersonaPromptEntity> = options ?? {};
+    findOneOptions.where = {
+      ...findOneOptions.where,
+      promptVersionId: promptVersionId.getString(),
+      counselorId: counselorId.getString(),
     };
     const personaPrompt = await this.personaPromptsRepository.findOne(findOneOptions);
     return personaPrompt ? TypeormPersonaPromptsMapper.toDomain(personaPrompt) : null;

@@ -19,4 +19,5 @@ export type FindOneOptions = {
 
 export type FindManyOptions = {
   toneId?: ToneId;
+  promptVersionId?: PromptVersionId;
 };

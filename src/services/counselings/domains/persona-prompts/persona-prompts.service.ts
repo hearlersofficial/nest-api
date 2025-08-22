@@ -48,4 +48,9 @@ export class PersonaPromptsService {
     }
     return PersonaPromptInfo.fromDomain(personaPrompt);
   }
+
+  async findMany(props: PersonaPromptsCriteria.FindManyOptions): Promise<PersonaPromptInfo[]> {
+    const personaPrompts = await this.personaPromptsReader.findMany(props);
+    return personaPrompts.map((personaPrompt) => PersonaPromptInfo.fromDomain(personaPrompt));
+  }
 }

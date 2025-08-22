@@ -1,4 +1,4 @@
-import { RepositoryTonePromptCriteriaMapper } from "~counselings/domains/tone-prompts/infrastructures/mappers/repository-tonePrompts-criteria.mapper";
+import { RepositoryTonePromptCriteriaMapper } from "~counselings/domains/tone-prompts/infrastructures/mappers/repository-tone-prompts-criteria.mapper";
 import { TonePromptsRepository } from "~counselings/domains/tone-prompts/infrastructures/tone-prompts.repository";
 import { TonePrompts } from "~counselings/domains/tone-prompts/models/tone-prompts";
 import * as TonePromptsCriteria from "~counselings/domains/tone-prompts/tone-prompts.criteria";

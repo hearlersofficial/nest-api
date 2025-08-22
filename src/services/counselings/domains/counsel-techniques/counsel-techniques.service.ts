@@ -65,4 +65,9 @@ export class CounselTechniquesService {
 
     return CounselTechniqueInfo.fromDomain(originalTechnique);
   }
+
+  async findMany(props: CounselTechniquesCriteria.FindManyOptions): Promise<CounselTechniqueInfo[]> {
+    const counselTechniques = await this.counselTechniquesReader.findMany(props);
+    return counselTechniques.map((counselTechnique) => CounselTechniqueInfo.fromDomain(counselTechnique));
+  }
 }

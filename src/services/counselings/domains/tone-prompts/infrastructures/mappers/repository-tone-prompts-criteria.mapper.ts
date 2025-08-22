@@ -21,6 +21,10 @@ export class RepositoryTonePromptCriteriaMapper {
       where.toneId = criteria.toneId.getString();
     }
 
+    if (criteria.promptVersionId) {
+      where.promptVersionId = criteria.promptVersionId.getString();
+    }
+
     return { where };
   }
 }

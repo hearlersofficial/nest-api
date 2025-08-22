@@ -43,7 +43,7 @@ export class CounselTechniquesService {
     visited.add(firstCounselTechniqueId.getString());
 
     const firstCounselTechnique = await this.counselTechniquesReader.findOne({
-      counselTechniqueId: firstCounselTechniqueId,
+      uniqueCriteria: { type: "counselTechnique", id: firstCounselTechniqueId },
     });
     if (!firstCounselTechnique) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel Technique not found");
@@ -61,7 +61,9 @@ export class CounselTechniquesService {
   }
 
   async getOne(props: { counselTechniqueId: CounselTechniqueId }): Promise<CounselTechniqueInfo> {
-    const counselTechnique = await this.counselTechniquesReader.findOne(props);
+    const counselTechnique = await this.counselTechniquesReader.findOne({
+      uniqueCriteria: { type: "counselTechnique", id: props.counselTechniqueId },
+    });
     if (!counselTechnique) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel Technique not found");
     }

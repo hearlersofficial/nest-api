@@ -36,7 +36,7 @@ function runYarnScript(script) {
 // 1. 마이그레이션 생성 및 린팅 핸들러
 function handleGenerate() {
   rl.question(log.question("\n📝 생성할 마이그레이션 파일명을 입력하세요 (예: users/create-user): "), (answer) => {
-    const migrationName = answer ? answer.trim().replace(/[/\\s]/g, "-") : "";
+    const migrationName = answer ? answer.trim() : "";
     if (!migrationName) {
       log.error("❌ 파일명이 비어있습니다. 메인 메뉴로 돌아갑니다.");
       mainMenu();

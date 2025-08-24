@@ -55,23 +55,6 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
   // --- 전이 조건 필드 (CounselContextsEntity 필드 기반) ---
   // 모든 조건은 AND로 평가됩니다. null인 필드는 평가에서 제외됩니다.
 
-  // 메시지 수 관련 조건
-  @Column({
-    type: "int",
-    name: "min_not_compressed_message_count",
-    nullable: true,
-    comment: "최소 압축되지 않은 메시지 수",
-  })
-  minNotCompressedMessageCount: number | null;
-
-  @Column({
-    type: "int",
-    name: "max_not_compressed_message_count",
-    nullable: true,
-    comment: "최대 압축되지 않은 메시지 수",
-  })
-  maxNotCompressedMessageCount: number | null;
-
   @Column({
     type: "int",
     name: "min_current_technique_message_count",

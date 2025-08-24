@@ -29,8 +29,6 @@ export interface CounselTechniqueTransitionRulesNewProps {
   priority: number;
 
   // 메시지 수 관련 조건
-  minNotCompressedMessageCount: number | null;
-  maxNotCompressedMessageCount: number | null;
   minCurrentTechniqueMessageCount: number | null;
   maxCurrentTechniqueMessageCount: number | null;
 
@@ -129,16 +127,6 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
 
     // 범위 유효성 검사
     if (
-      isDefined(this.props.minNotCompressedMessageCount) &&
-      isDefined(this.props.maxNotCompressedMessageCount) &&
-      this.props.minNotCompressedMessageCount > this.props.maxNotCompressedMessageCount
-    ) {
-      return Result.fail(
-        "[CounselTechniqueTransitionRule] 최소 압축되지 않은 메시지 수는 최대값보다 작거나 같아야 합니다",
-      );
-    }
-
-    if (
       isDefined(this.props.minCurrentTechniqueMessageCount) &&
       isDefined(this.props.maxCurrentTechniqueMessageCount) &&
       this.props.minCurrentTechniqueMessageCount > this.props.maxCurrentTechniqueMessageCount
@@ -212,8 +200,6 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
     const assignIfDefined = this.createAssignIfDefined(updates);
 
     assignIfDefined("priority");
-    assignIfDefined("minNotCompressedMessageCount");
-    assignIfDefined("maxNotCompressedMessageCount");
     assignIfDefined("minCurrentTechniqueMessageCount");
     assignIfDefined("maxCurrentTechniqueMessageCount");
     assignIfDefined("requiredImpactDomains");
@@ -260,14 +246,6 @@ export class CounselTechniqueTransitionRules extends DomainEntity<
 
   get priority(): number {
     return this.props.priority;
-  }
-
-  get minNotCompressedMessageCount(): number | null {
-    return this.props.minNotCompressedMessageCount;
-  }
-
-  get maxNotCompressedMessageCount(): number | null {
-    return this.props.maxNotCompressedMessageCount;
   }
 
   get minCurrentTechniqueMessageCount(): number | null {

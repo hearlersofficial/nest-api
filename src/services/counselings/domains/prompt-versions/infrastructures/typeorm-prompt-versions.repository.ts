@@ -30,27 +30,6 @@ export class TypeormPromptVersionsRepository extends PromptVersionsRepository {
   }
 
   /**
-   * 삭제되지 않은 자식 관계만 JOIN
-   */
-  private applyLiveRelations(qb: SelectQueryBuilder<PromptVersionEntity>) {
-    const base = qb.alias;
-    const counselScopedPromptAlias = `${base}_csp`;
-    const toneScopedPromptAlias = `${base}_tsp`;
-
-    return qb
-      .leftJoinAndSelect(
-        `${base}.counselorScopedPrompts`,
-        counselScopedPromptAlias,
-        `${counselScopedPromptAlias}.deletedAt IS NULL`,
-      )
-      .leftJoinAndSelect(
-        `${base}.toneScopedPrompts`,
-        toneScopedPromptAlias,
-        `${toneScopedPromptAlias}.deletedAt IS NULL`,
-      );
-  }
-
-  /**
    * 쿼리 빌더에 검색 옵션 적용
    * relations 는 무시합니다.( 직접 join 적용 )
    * withDeleted 는 무시합니다. ( 쿼리빌더 생성 시 적용 )
@@ -76,7 +55,6 @@ export class TypeormPromptVersionsRepository extends PromptVersionsRepository {
 
     qb.where(`${base}.id = :id`, { id: promptVersionId.getString() });
     this.applyFindOptions(qb, options);
-    this.applyLiveRelations(qb);
 
     const promptVersion = await qb.getOne();
     return promptVersion ? TypeormPromptVersionsMapper.toDomain(promptVersion) : null;
@@ -85,7 +63,6 @@ export class TypeormPromptVersionsRepository extends PromptVersionsRepository {
   override async findMany(options?: FindManyOptions<PromptVersionEntity>): Promise<PromptVersions[]> {
     const qb = this.createBaseQb(options?.withDeleted);
     this.applyFindOptions(qb, options);
-    this.applyLiveRelations(qb);
 
     const promptVersions = await qb.getMany();
     return TypeormPromptVersionsMapper.toDomains(promptVersions);

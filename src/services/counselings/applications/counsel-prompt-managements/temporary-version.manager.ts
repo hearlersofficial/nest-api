@@ -60,7 +60,6 @@ export class TemporaryVersionManager {
    */
   @Transactional()
   private async createTemporaryVersionFromActive(activeVersion: PromptVersionInfo): Promise<PromptVersionInfo> {
-    // CounselorScopedPrompts의 PersonaPrompt들을 새로 생성
     const newTemporaryVersion = await this.promptVersionsService.createTemporaryPromptVersion({
       name: `임시 버전 (${activeVersion.name} 복사)`,
       description: `현재 수정 중인 임시 버전입니다. (부모 버전: ${activeVersion.name})`,

@@ -142,8 +142,6 @@ export class SchemaCounselPromptsMapper {
       fromCounselTechniqueId: transitionRule.fromCounselTechniqueId.getString(),
       toCounselTechniqueId: transitionRule.toCounselTechniqueId.getString(),
       priority: transitionRule.priority,
-      minNotCompressedMessageCount: transitionRule.minNotCompressedMessageCount ?? undefined,
-      maxNotCompressedMessageCount: transitionRule.maxNotCompressedMessageCount ?? undefined,
       minCurrentTechniqueMessageCount: transitionRule.minCurrentTechniqueMessageCount ?? undefined,
       maxCurrentTechniqueMessageCount: transitionRule.maxCurrentTechniqueMessageCount ?? undefined,
       requiredImpactDomains: transitionRule.requiredImpactDomains ?? [],

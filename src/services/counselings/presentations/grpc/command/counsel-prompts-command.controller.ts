@@ -134,7 +134,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(UpdatePersonaPromptRequestSchema)
   async updatePersonaPrompt(request: UpdatePersonaPromptRequest): Promise<UpdatePersonaPromptResponse> {
     const { counselorId, body } = request;
-    const personaPrompt = await this.counselPromptManagementsFacade.updatePersonaPrompt({
+    const personaPrompt = await this.counselPromptManagementsFacade.updatePersonaPromptInTemporaryVersion({
       counselorId: new CounselorId(counselorId),
       body,
     });
@@ -148,7 +148,7 @@ export class GrpcCounselPromptCommandController {
   @ProtoRequest(UpdateTonePromptRequestSchema)
   async updateTonePrompt(request: UpdateTonePromptRequest): Promise<UpdateTonePromptResponse> {
     const { toneId, body } = request;
-    const tonePrompt = await this.counselPromptManagementsFacade.updateTonePrompt({
+    const tonePrompt = await this.counselPromptManagementsFacade.updateTonePromptInTemporaryVersion({
       toneId: new ToneId(toneId),
       body,
     });

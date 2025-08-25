@@ -152,21 +152,35 @@ export class CounselPromptManagementsFacade {
     return this.personaPromptService.findMany({ promptVersionId, counselorId });
   }
 
+  /**
+   * 임시 버전에서 페르소나 프롬프트 수정 (없으면 재화 생성)
+   * @param param - { counselorId: CounselorId; body: string }
+   * @returns PersonaPromptInfo
+   */
   @Transactional()
-  async updatePersonaPrompt(param: { counselorId: CounselorId; body: string }): Promise<PersonaPromptInfo> {
+  async updatePersonaPromptInTemporaryVersion(param: {
+    counselorId: CounselorId;
+    body: string;
+  }): Promise<PersonaPromptInfo> {
     const { counselorId, body } = param;
     const temporaryVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
-    const personaPrompt = await this.personaPromptService.getOne({
-      uniqueCriteria: { type: "versionAndCounselor", promptVersionId: temporaryVersion.id, counselorId },
-    });
-    if (!personaPrompt) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "PersonaPrompt not found");
-    }
-    await this.personaPromptService.update(personaPrompt.id, {
-      body,
-    });
+    const personaPromptOrNull = await this.personaPromptService
+      .getOne({
+        uniqueCriteria: { type: "versionAndCounselor", promptVersionId: temporaryVersion.id, counselorId },
+      })
+      .catch(() => null);
 
-    return personaPrompt;
+    if (personaPromptOrNull === null) {
+      return this.personaPromptService.create({
+        promptVersionId: temporaryVersion.id,
+        counselorId,
+        body,
+      });
+    } else {
+      return this.personaPromptService.update(personaPromptOrNull.id, {
+        body,
+      });
+    }
   }
 
   async findTonePromptById(param: { tonePromptId: TonePromptId }): Promise<TonePromptInfo> {
@@ -181,23 +195,33 @@ export class CounselPromptManagementsFacade {
     return this.tonePromptService.findMany({ promptVersionId, toneId });
   }
 
+  /**
+   * 임시 버전에서 톤 프롬프트 수정 (없으면 재화 생성)
+   * @param param - { toneId: ToneId; body: string }
+   * @returns TonePromptInfo
+   */
   @Transactional()
-  async updateTonePrompt(param: { toneId: ToneId; body: string }): Promise<TonePromptInfo> {
+  async updateTonePromptInTemporaryVersion(param: { toneId: ToneId; body: string }): Promise<TonePromptInfo> {
     const { toneId, body } = param;
 
     const promptVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
-    const tonePrompt = await this.tonePromptService.getOne({
-      uniqueCriteria: { type: "versionAndTone", promptVersionId: promptVersion.id, toneId },
-    });
-    if (!tonePrompt) {
-      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "TonePrompt not found");
+    const tonePromptOrNull = await this.tonePromptService
+      .getOne({
+        uniqueCriteria: { type: "versionAndTone", promptVersionId: promptVersion.id, toneId },
+      })
+      .catch(() => null);
+
+    if (tonePromptOrNull === null) {
+      return this.tonePromptService.create({
+        promptVersionId: promptVersion.id,
+        toneId,
+        body,
+      });
+    } else {
+      return this.tonePromptService.update(tonePromptOrNull.id, {
+        body,
+      });
     }
-
-    const updatedTonePrompt = await this.tonePromptService.update(tonePrompt.id, {
-      body,
-    });
-
-    return updatedTonePrompt;
   }
 
   @Transactional()

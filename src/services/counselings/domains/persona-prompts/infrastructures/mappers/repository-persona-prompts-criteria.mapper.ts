@@ -21,6 +21,10 @@ export class RepositoryPersonaPromptCriteriaMapper {
       where.counselorId = criteria.counselorId.getString();
     }
 
+    if (criteria.promptVersionId) {
+      where.promptVersionId = criteria.promptVersionId.getString();
+    }
+
     return { where };
   }
 }

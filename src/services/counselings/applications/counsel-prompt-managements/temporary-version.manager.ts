@@ -46,7 +46,7 @@ export class TemporaryVersionManager {
   @Transactional()
   async loadExistingPromptVersion(promptVersionId: PromptVersionId): Promise<PromptVersionInfo> {
     const sourceVersion = await this.promptVersionsService.getOne({ promptVersionId });
-    const existingTemporary = await this.promptVersionsService.getTemporaryOne();
+    const existingTemporary = await this.promptVersionsService.getTemporaryOne().catch(() => null);
     // 임시 버전이 있다면 임시 버전 삭제
     if (isDefined(existingTemporary)) {
       await this.promptVersionsService.deletePromptVersions({ promptVersionIds: [existingTemporary.id] });

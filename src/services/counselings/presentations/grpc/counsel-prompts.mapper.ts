@@ -136,6 +136,7 @@ export class SchemaCounselPromptsMapper {
     if (!transitionRule) {
       return null;
     }
+
     return create(CounselTechniqueTransitionRuleSchema, {
       id: transitionRule.id.getString(),
       promptVersionId: transitionRule.promptVersionId.getString(),

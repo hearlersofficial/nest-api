@@ -49,7 +49,10 @@ export class PromptVersionsService {
 
   @Transactional()
   private async findTemporaryOne(): Promise<PromptVersions | null> {
-    const existingTemporaryVersions = await this.promptVersionsReader.findMany({ isTemporary: true });
+    const existingTemporaryVersions = await this.promptVersionsReader.findMany({
+      isTemporary: true,
+      withDeleted: false,
+    });
     if (existingTemporaryVersions.length > 0) {
       return existingTemporaryVersions[0];
     }

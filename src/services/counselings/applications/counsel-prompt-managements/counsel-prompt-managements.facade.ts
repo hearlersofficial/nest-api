@@ -364,7 +364,7 @@ export class CounselPromptManagementsFacade {
       uniqueCriteria: { type: "counselTechniqueTransitionRule", id: param.counselTechniqueTransitionRuleId },
     });
 
-    if (originalTransitionRule.promptVersionId.equals(temporaryVersion.id)) {
+    if (!originalTransitionRule.promptVersionId.equals(temporaryVersion.id)) {
       throw new HttpStatusBasedRpcException(HttpStatus.FORBIDDEN, "임시 버전에서만 수정할 수 있습니다.");
     }
 

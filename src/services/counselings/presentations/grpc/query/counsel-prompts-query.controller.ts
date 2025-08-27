@@ -240,10 +240,12 @@ export class GrpcCounselPromptQueryController {
       toCounselTechniqueId: toCounselTechniqueId ? new CounselTechniqueId(toCounselTechniqueId) : undefined,
       promptVersionId: promptVersionId ? new PromptVersionId(promptVersionId) : undefined,
     });
-    return create(FindCounselTechniqueTransitionRulesResponseSchema, {
+    const response = create(FindCounselTechniqueTransitionRulesResponseSchema, {
       counselTechniqueTransitionRules: transitionRules.map((rule) =>
         SchemaCounselPromptsMapper.toTransitionRuleProto(rule),
       ),
     });
+
+    return response;
   }
 }

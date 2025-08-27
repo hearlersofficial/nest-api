@@ -72,20 +72,20 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
   maxCurrentTechniqueMessageCount: number | null;
 
   // 삶의 영역 및 시간 관련 조건
-  @Column({ type: "simple-array", name: "required_impact_domains", nullable: true, comment: "필수 삶의 영역" })
+  @Column({ type: "int", array: true, name: "required_impact_domains", nullable: true, comment: "필수 삶의 영역" })
   requiredImpactDomains: ImpactDomain[];
 
-  @Column({ type: "simple-array", name: "required_timeframes", nullable: true, comment: "필수 문제 체감 최근성" })
+  @Column({ type: "int", array: true, name: "required_timeframes", nullable: true, comment: "필수 문제 체감 최근성" })
   requiredTimeframes: Timeframe[];
 
   // 감정 관련 조건
-  @Column({ type: "simple-array", name: "required_emotion_primaries", nullable: true, comment: "필수 주요 감정" })
+  @Column({ type: "int", array: true, name: "required_emotion_primaries", nullable: true, comment: "필수 주요 감정" })
   requiredEmotionPrimaries: EmotionPrimary[];
 
-  @Column({ type: "simple-array", name: "required_valences", nullable: true, comment: "필수 정서 쾌·불쾌" })
+  @Column({ type: "int", array: true, name: "required_valences", nullable: true, comment: "필수 정서 쾌·불쾌" })
   requiredValences: Valence[];
 
-  @Column({ type: "simple-array", name: "required_arousal_levels", nullable: true, comment: "필수 각성 수준" })
+  @Column({ type: "int", array: true, name: "required_arousal_levels", nullable: true, comment: "필수 각성 수준" })
   requiredArousalLevels: ArousalLevel[];
 
   @Column({ type: "int", name: "min_emotion_intensity", nullable: true, comment: "최소 감정 강도" })
@@ -95,10 +95,16 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
   maxEmotionIntensity: number | null;
 
   // 통제감 및 동기 관련 조건
-  @Column({ type: "simple-array", name: "required_perceived_controls", nullable: true, comment: "필수 상황 통제감" })
+  @Column({
+    type: "int",
+    array: true,
+    name: "required_perceived_controls",
+    nullable: true,
+    comment: "필수 상황 통제감",
+  })
   requiredPerceivedControls: PerceivedControl[];
 
-  @Column({ type: "simple-array", name: "required_motivation_stages", nullable: true, comment: "필수 변화 단계" })
+  @Column({ type: "int", array: true, name: "required_motivation_stages", nullable: true, comment: "필수 변화 단계" })
   requiredMotivationStages: MotivationStage[];
 
   @Column({ type: "int", name: "min_self_efficacy", nullable: true, comment: "최소 자기효능감" })
@@ -108,11 +114,17 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
   maxSelfEfficacy: number | null;
 
   // 사회적 지지 관련 조건
-  @Column({ type: "simple-array", name: "required_social_support_levels", nullable: true, comment: "필수 사회적 지지" })
+  @Column({
+    type: "int",
+    array: true,
+    name: "required_social_support_levels",
+    nullable: true,
+    comment: "필수 사회적 지지",
+  })
   requiredSocialSupportLevels: SocialSupportLevel[];
 
   // 위험 관련 조건
-  @Column({ type: "simple-array", name: "required_risk_kinds", nullable: true, comment: "필수 위험 분류" })
+  @Column({ type: "int", array: true, name: "required_risk_kinds", nullable: true, comment: "필수 위험 분류" })
   requiredRiskKinds: RiskKind[];
 
   @Column({ type: "int", name: "min_risk_severity", nullable: true, comment: "최소 위험 심각도" })
@@ -122,7 +134,7 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
   maxRiskSeverity: number | null;
 
   // 수면 및 신체 증상 관련 조건
-  @Column({ type: "simple-array", name: "required_sleep_qualities", nullable: true, comment: "필수 수면 질" })
+  @Column({ type: "int", array: true, name: "required_sleep_qualities", nullable: true, comment: "필수 수면 질" })
   requiredSleepQualities: SleepQuality[];
 
   @Column({
@@ -134,11 +146,11 @@ export class CounselTechniqueTransitionRuleEntity extends CoreEntity {
   requiredPhysicalSymptomsPresent: boolean | null;
 
   // 인지 부하 관련 조건
-  @Column({ type: "simple-array", name: "required_cognitive_loads", nullable: true, comment: "필수 인지 부하" })
+  @Column({ type: "int", array: true, name: "required_cognitive_loads", nullable: true, comment: "필수 인지 부하" })
   requiredCognitiveLoads: CognitiveLoad[];
 
   // 동맹 관련 조건
-  @Column({ type: "simple-array", name: "required_alliance_strengths", nullable: true, comment: "필수 라포·동맹" })
+  @Column({ type: "int", array: true, name: "required_alliance_strengths", nullable: true, comment: "필수 라포·동맹" })
   requiredAllianceStrengths: AllianceStrength[];
 
   // 심층 동의 관련 조건

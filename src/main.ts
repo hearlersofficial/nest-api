@@ -13,7 +13,7 @@ import utc from "dayjs/plugin/utc";
 import * as dotenv from "dotenv";
 import { initializeTransactionalContext } from "typeorm-transactional";
 
-dotenv.config({ path: [".env", ".env.dev"] });
+dotenv.config({ path: [".env"] });
 
 // 동적 애플리케이션 모듈 생성
 function createAppModule(serviceType: ServiceType): DynamicModule {

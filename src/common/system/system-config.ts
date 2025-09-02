@@ -6,7 +6,7 @@ import { INestApplication } from "@nestjs/common";
 import { GrpcOptions, KafkaOptions, Transport } from "@nestjs/microservices";
 import { findProtoFiles } from "~common/shared/utils/proto";
 import * as dotenv from "dotenv";
-dotenv.config({ path: [".env", ".env.dev"] });
+dotenv.config({ path: [".env"] });
 
 export enum ServiceType {
   APP = "APP",

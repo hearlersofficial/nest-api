@@ -15,7 +15,7 @@ import { addTransactionalDataSource } from "typeorm-transactional";
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: [".env", ".env.dev"],
+      envFilePath: [".env"],
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({

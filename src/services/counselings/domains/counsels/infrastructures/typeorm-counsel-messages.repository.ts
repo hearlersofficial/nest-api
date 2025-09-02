@@ -1,12 +1,12 @@
 import { CounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/counsel-messages.repository";
 import { TypeormCounselMessagesMapper } from "~counselings/domains/counsels/infrastructures/mappers/typeorm-counsel-messages.mapper";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
+import { COUNSELINGS_KAFKA_CLIENT } from "~counselings/infrastructures/kafka/counseling-kafka-client-config";
 
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
-import { KAFKA_CLIENT } from "~common/system/persistences/client-config";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/counsel-messages.entity";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
@@ -15,7 +15,7 @@ export class TypeormCounselMessagesRepository extends CounselMessagesRepository 
   constructor(
     @InjectRepository(CounselMessagesEntity)
     private readonly counselMessagesRepository: Repository<CounselMessagesEntity>,
-    @Inject(KAFKA_CLIENT) private readonly kafkaClient: ClientKafka,
+    @Inject(COUNSELINGS_KAFKA_CLIENT) private readonly kafkaClient: ClientKafka,
   ) {
     super();
   }

@@ -4,9 +4,9 @@ import { CounselsServiceModule } from "~counselings/counsels.service.module";
 
 import { DynamicModule, Logger, Module } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { Transport } from "@nestjs/microservices";
+import { KafkaOptions } from "@nestjs/microservices";
 import { SystemModule } from "~common/system/system.module";
-import { createGrpcOptions, serviceConfigs, ServiceType } from "~common/system/system-config";
+import { createGrpcOptions, createKafkaOptionsList, serviceConfigs, ServiceType } from "~common/system/system-config";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import utc from "dayjs/plugin/utc";
@@ -73,32 +73,19 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(dynamicModule);
 
   // gRPC 마이크로서비스 설정
-  app.connectMicroservice(createGrpcOptions(serviceType, config), {
+  app.connectMicroservice(createGrpcOptions(serviceType, config.grpc), {
     inheritAppConfig: true,
   });
+  logger.log(`gRPC server configured on ${config.grpc.host}:${config.grpc.port}`);
 
   // Kafka 마이크로서비스 설정
-  app.connectMicroservice({
-    transport: Transport.KAFKA,
-    options: {
-      client: {
-        brokers: [process.env.KAFKA_BOOTSTRAP_SERVERS],
-        clientId: process.env.KAFKA_CLIENT_ID,
-      },
-      consumer: {
-        groupId: process.env.KAFKA_GROUP_ID,
-        allowAutoTopicCreation: true,
-        retry: {
-          retries: 3,
-          initialRetryTime: 100,
-          multiplier: 2,
-        },
-      },
-    },
+  const kafkaOptionsList: KafkaOptions[] = createKafkaOptionsList(serviceType, app);
+  kafkaOptionsList.forEach((kafkaOptions) => {
+    app.connectMicroservice(kafkaOptions, {
+      inheritAppConfig: true,
+    });
+    logger.log(`Kafka server configured on ${kafkaOptions.options?.client?.brokers}`);
   });
-
-  logger.log(`gRPC server configured on ${config.host}:${config.port}`);
-  logger.log(`Kafka consumer configured with group: ${process.env.KAFKA_GROUP_ID}`);
 
   await app.init();
   await app.startAllMicroservices();

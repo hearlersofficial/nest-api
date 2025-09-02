@@ -8,6 +8,10 @@ import { TypeOrmConfigs } from "~common/system/persistences/typeorm-config";
 import { DataSource } from "typeorm";
 import { addTransactionalDataSource } from "typeorm-transactional";
 
+/**
+ * @name SystemModule
+ * @description 애플리케이션에 전역적으로 한번 로딩해야할 DB 커넥션, 필터, Config 등을 담습니다.
+ */
 @Module({
   imports: [
     ConfigModule.forRoot({

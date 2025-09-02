@@ -1,4 +1,5 @@
 import { UserManagementFacade } from "~users/applications/user-management/user-management.facade";
+import { USERS_KAFKA_CLIENT } from "~users/infrastructures/kafka/users-kafka-client-config";
 import {
   CounselMessageCreatedPayload,
   CounselMessageCreatedPayloadSchema,
@@ -9,12 +10,11 @@ import { ClientKafka, EventPattern, Payload } from "@nestjs/microservices";
 import { kafkaPayloadToProtoMessage } from "~common/shared/utils/proto";
 import { CounselMessageCreatedEvent } from "~common/shared-kernel/event/counsel-message-created.event";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
-import { KAFKA_CLIENT } from "~common/system/persistences/client-config";
 
 @Controller()
 export class UsersMessageController implements OnModuleInit {
   constructor(
-    @Inject(KAFKA_CLIENT) private readonly kafkaClient: ClientKafka,
+    @Inject(USERS_KAFKA_CLIENT) private readonly kafkaClient: ClientKafka,
     private readonly usersFacade: UserManagementFacade,
   ) {}
 
@@ -29,6 +29,7 @@ export class UsersMessageController implements OnModuleInit {
       payload,
       CounselMessageCreatedPayloadSchema,
     );
+    console.log("convertedPayload", convertedPayload);
     await this.usersFacade.consumeTokens(new UserId(convertedPayload.userId));
   }
 }

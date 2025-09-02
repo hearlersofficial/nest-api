@@ -20,6 +20,7 @@ import { TypeormCompressedMessagesRepository } from "~counselings/domains/counse
 import { TypeormCounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/typeorm-counsel-messages.repository";
 import { TypeormCounselsRepository } from "~counselings/domains/counsels/infrastructures/typeorm-counsels.repository";
 import { MessageCompressor } from "~counselings/domains/counsels/message.compressor";
+import { CounselingKafkaClientModule } from "~counselings/infrastructures/kafka/counseling-kafka-client.module";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -32,6 +33,7 @@ import { CounselMessagesEntity } from "~common/system/persistences/entities/coun
 @Module({
   imports: [
     TypeOrmModule.forFeature([CounselsEntity, CounselMessagesEntity, CounselContextsEntity, CompressedMessagesEntity]),
+    CounselingKafkaClientModule,
     AssistantAgentModule,
   ],
   providers: [

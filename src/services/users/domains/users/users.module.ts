@@ -5,6 +5,7 @@ import { UsersRepository } from "~users/domains/users/infrastructures/users.repo
 import { UsersReader } from "~users/domains/users/users.reader";
 import { UsersService } from "~users/domains/users/users.service";
 import { UsersStore } from "~users/domains/users/users.store";
+import { UsersKafkaClientModule } from "~users/infrastructures/kafka/users-kafka-client.module";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -13,7 +14,10 @@ import { UserProfilesEntity } from "~common/system/persistences/entities/users/u
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsersEntity, UserProfilesEntity, UserMessageTokensEntity])],
+  imports: [
+    TypeOrmModule.forFeature([UsersEntity, UserProfilesEntity, UserMessageTokensEntity]),
+    UsersKafkaClientModule,
+  ],
   providers: [
     {
       provide: UsersRepository,

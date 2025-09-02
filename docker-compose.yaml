@@ -2,7 +2,7 @@ services:
   api:
     container_name: hearlers-nest-api-dev
     restart: always
-    image: node:20.11.0
+    image: node:22.19.0
     command: bash -c "yarn install && yarn start"
     working_dir: /usr/src/app
     volumes:

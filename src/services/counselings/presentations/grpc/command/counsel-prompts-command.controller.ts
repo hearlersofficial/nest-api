@@ -13,6 +13,10 @@ import {
   CreateCounselTechniqueTransitionRuleRequestSchema,
   CreateCounselTechniqueTransitionRuleResponse,
   CreateCounselTechniqueTransitionRuleResponseSchema,
+  DeleteCounselTechniqueTransitionRuleRequest,
+  DeleteCounselTechniqueTransitionRuleRequestSchema,
+  DeleteCounselTechniqueTransitionRuleResponse,
+  DeleteCounselTechniqueTransitionRuleResponseSchema,
   DeletePromptVersionsRequest,
   DeletePromptVersionsRequestSchema,
   DeletePromptVersionsResponse,
@@ -221,5 +225,17 @@ export class GrpcCounselPromptCommandController {
     return create(UpdateCounselTechniqueTransitionRuleResponseSchema, {
       counselTechniqueTransitionRule: SchemaCounselPromptsMapper.toTransitionRuleProto(transitionRule),
     });
+  }
+
+  @GrpcMethod("CounselPromptService", "DeleteCounselTechniqueTransitionRule")
+  @ProtoRequest(DeleteCounselTechniqueTransitionRuleRequestSchema)
+  async deleteCounselTechniqueTransitionRule(
+    request: DeleteCounselTechniqueTransitionRuleRequest,
+  ): Promise<DeleteCounselTechniqueTransitionRuleResponse> {
+    const { counselTechniqueTransitionRuleId } = request;
+    await this.counselPromptManagementsFacade.deleteCounselTechniqueTransitionRuleById({
+      counselTechniqueTransitionRuleId: new CounselTechniqueTransitionRuleId(counselTechniqueTransitionRuleId),
+    });
+    return create(DeleteCounselTechniqueTransitionRuleResponseSchema, {});
   }
 }

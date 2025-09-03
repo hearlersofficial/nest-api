@@ -7,6 +7,7 @@ import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { Injectable, Logger } from "@nestjs/common";
 import { isDefined } from "~common/shared/utils/validate";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { Transactional } from "typeorm-transactional";
 
@@ -75,6 +76,10 @@ export class TemporaryVersionManager {
     const activeCounselTechniques = await this.counselTechniquesService.findMany({
       promptVersionId: activeVersion.id,
     });
+    const activeCounselTechniqueTransitionRules = await this.counselTechniquesService.findManyTransitionRules({
+      promptVersionId: activeVersion.id,
+    });
+    const techniqueIdMap = new Map<CounselTechniqueId, CounselTechniqueId>();
 
     Promise.all([
       ...activePersonaPrompts.map(async (personaPrompt) => {
@@ -92,7 +97,7 @@ export class TemporaryVersionManager {
         });
       }),
       ...activeCounselTechniques.map(async (counselTechnique) => {
-        return this.counselTechniquesService.create({
+        const newCounselTechnique = await this.counselTechniquesService.create({
           promptVersionId: newTemporaryVersion.id,
           toneId: counselTechnique.toneId,
           name: counselTechnique.name,
@@ -102,8 +107,48 @@ export class TemporaryVersionManager {
           messageThreshold: counselTechnique.messageThreshold,
           isStartTechnique: counselTechnique.isStartTechnique,
         });
+        techniqueIdMap.set(counselTechnique.id, newCounselTechnique.id);
+        return newCounselTechnique;
       }),
     ]);
+
+    await Promise.all(
+      activeCounselTechniqueTransitionRules.map(async (counselTechniqueTransitionRule) => {
+        const newFromCounselTechniqueId = techniqueIdMap.get(counselTechniqueTransitionRule.fromCounselTechniqueId);
+        const newToCounselTechniqueId = techniqueIdMap.get(counselTechniqueTransitionRule.toCounselTechniqueId);
+        if (!newFromCounselTechniqueId || !newToCounselTechniqueId) {
+          return;
+        }
+        return this.counselTechniquesService.createTransitionRule({
+          promptVersionId: newTemporaryVersion.id,
+          fromCounselTechniqueId: newFromCounselTechniqueId,
+          toCounselTechniqueId: newToCounselTechniqueId,
+          priority: counselTechniqueTransitionRule.priority,
+          minCurrentTechniqueMessageCount: counselTechniqueTransitionRule.minCurrentTechniqueMessageCount,
+          maxCurrentTechniqueMessageCount: counselTechniqueTransitionRule.maxCurrentTechniqueMessageCount,
+          requiredImpactDomains: counselTechniqueTransitionRule.requiredImpactDomains,
+          requiredTimeframes: counselTechniqueTransitionRule.requiredTimeframes,
+          requiredEmotionPrimaries: counselTechniqueTransitionRule.requiredEmotionPrimaries,
+          requiredValences: counselTechniqueTransitionRule.requiredValences,
+          requiredArousalLevels: counselTechniqueTransitionRule.requiredArousalLevels,
+          minEmotionIntensity: counselTechniqueTransitionRule.minEmotionIntensity,
+          maxEmotionIntensity: counselTechniqueTransitionRule.maxEmotionIntensity,
+          requiredPerceivedControls: counselTechniqueTransitionRule.requiredPerceivedControls,
+          requiredMotivationStages: counselTechniqueTransitionRule.requiredMotivationStages,
+          minSelfEfficacy: counselTechniqueTransitionRule.minSelfEfficacy,
+          maxSelfEfficacy: counselTechniqueTransitionRule.maxSelfEfficacy,
+          requiredSocialSupportLevels: counselTechniqueTransitionRule.requiredSocialSupportLevels,
+          requiredRiskKinds: counselTechniqueTransitionRule.requiredRiskKinds,
+          minRiskSeverity: counselTechniqueTransitionRule.minRiskSeverity,
+          maxRiskSeverity: counselTechniqueTransitionRule.maxRiskSeverity,
+          requiredSleepQualities: counselTechniqueTransitionRule.requiredSleepQualities,
+          requiredPhysicalSymptomsPresent: counselTechniqueTransitionRule.requiredPhysicalSymptomsPresent,
+          requiredCognitiveLoads: counselTechniqueTransitionRule.requiredCognitiveLoads,
+          requiredAllianceStrengths: counselTechniqueTransitionRule.requiredAllianceStrengths,
+          requiredConsentToDepth: counselTechniqueTransitionRule.requiredConsentToDepth,
+        });
+      }),
+    );
 
     return newTemporaryVersion;
   }

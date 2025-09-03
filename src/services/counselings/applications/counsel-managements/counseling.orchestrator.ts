@@ -1,8 +1,7 @@
 import { AIResponseGenerator } from "~counselings/applications/counsel-managements/support/ai-response.generator";
 import { ContextManager } from "~counselings/applications/counsel-managements/support/context.manager";
+import { CounselTechniquesTransitionExecutor } from "~counselings/applications/counsel-managements/support/counsel-techniques-trainsition.executor";
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
-import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
-import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
@@ -23,9 +22,8 @@ export class CounselingOrchestrator {
     private readonly promptBuilder: SystemPromptBuilder,
     private readonly aiGenerator: AIResponseGenerator,
     private readonly contextManager: ContextManager,
-    private readonly techniqueEvaluationParser: TechniqueEvaluationParser,
     private readonly counselService: CounselsService,
-    private readonly counselTechniqueService: CounselTechniquesService,
+    private readonly counselTechniquesTransitionExecutor: CounselTechniquesTransitionExecutor,
   ) {}
 
   /**
@@ -85,6 +83,7 @@ export class CounselingOrchestrator {
 
     // 6. 백그라운드에서 기법 전환 평가 수행
     // this.evaluateTechniqueTransitionInBackground(session);
+    this.counselTechniquesTransitionExecutor.executeTransitionBackgroundIfPossible(session);
 
     return {
       counsel: session.counsel,

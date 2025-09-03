@@ -1,3 +1,4 @@
+import { CounselContextsInfo } from "~counselings/domains/counsels/models/counsel-contexts.info";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
@@ -8,7 +9,7 @@ import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-versio
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
-export class CounselInfo {
+export class CounselsInfo {
   constructor(
     public readonly id: CounselId,
     public readonly userId: UserId,
@@ -16,6 +17,7 @@ export class CounselInfo {
     public readonly counselTechniqueId: CounselTechniqueId,
     public readonly promptVersionId: PromptVersionId,
     public readonly counselorUserRelationshipId: CounselorUserRelationshipId,
+    public readonly context: CounselContextsInfo,
     public readonly lastChatedAt: Dayjs | null,
     public readonly lastMessage: string | null,
     public readonly messageCount: number,
@@ -27,14 +29,15 @@ export class CounselInfo {
     public readonly deletedAt: Dayjs | null,
   ) {}
 
-  static fromDomain(counsel: Counsels): CounselInfo {
-    return new CounselInfo(
+  static fromDomain(counsel: Counsels): CounselsInfo {
+    return new CounselsInfo(
       counsel.id,
       counsel.userId,
       counsel.counselorId,
       counsel.counselTechniqueId,
       counsel.promptVersionId,
       counsel.counselorUserRelationshipId,
+      CounselContextsInfo.fromDomain(counsel.counselContexts),
       counsel.lastChatedAt,
       counsel.lastMessage,
       counsel.messageCount,
@@ -47,7 +50,7 @@ export class CounselInfo {
     );
   }
 
-  static fromDomainArray(counsels: Counsels[]): CounselInfo[] {
-    return counsels.map((counsel) => CounselInfo.fromDomain(counsel));
+  static fromDomainArray(counsels: Counsels[]): CounselsInfo[] {
+    return counsels.map((counsel) => CounselsInfo.fromDomain(counsel));
   }
 }

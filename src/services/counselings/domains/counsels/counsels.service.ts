@@ -7,10 +7,10 @@ import {
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
 import { MessageCompressor } from "~counselings/domains/counsels/message.compressor";
-import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-message.info";
-import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
-import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CompressedMessagesInfo } from "~counselings/domains/counsels/models/compressed-messages.info";
+import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
+import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { HttpStatus, Injectable } from "@nestjs/common";
@@ -31,28 +31,28 @@ export class CounselsService {
   ) {}
 
   @Transactional()
-  async create(newProps: CounselsNewProps): Promise<CounselInfo> {
+  async create(newProps: CounselsNewProps): Promise<CounselsInfo> {
     const counsel = await this.counselsStore.create(newProps);
-    return CounselInfo.fromDomain(counsel);
+    return CounselsInfo.fromDomain(counsel);
   }
 
-  async getOne(props: { counselId: CounselId }): Promise<CounselInfo> {
+  async getOne(props: { counselId: CounselId }): Promise<CounselsInfo> {
     const counsel = await this.counselsReader.findOne(props);
     if (!counsel) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
     }
-    return CounselInfo.fromDomain(counsel);
+    return CounselsInfo.fromDomain(counsel);
   }
 
-  async getMessages(criteria: CounselMessagesCriteriaFindMany): Promise<CounselMessageInfo[]> {
+  async getMessages(criteria: CounselMessagesCriteriaFindMany): Promise<CounselMessagesInfo[]> {
     const messages = await this.counselsReader.findManyMessages(criteria);
-    return CounselMessageInfo.fromDomainArray(messages);
+    return CounselMessagesInfo.fromDomainArray(messages);
   }
 
   async getSessionInfo(props: { counselId: CounselId }): Promise<{
-    counsel: CounselInfo;
-    messages: CounselMessageInfo[];
-    compressedMessages: CompressedMessageInfo[];
+    counsel: CounselsInfo;
+    messages: CounselMessagesInfo[];
+    compressedMessages: CompressedMessagesInfo[];
   }> {
     const counsel = await this.counselsReader.findOne(props);
     if (!counsel) {
@@ -65,26 +65,26 @@ export class CounselsService {
     const compressedMessages = await this.counselsReader.findManyCompressedMessages({ counselId: props.counselId });
 
     return {
-      counsel: CounselInfo.fromDomain(counsel),
-      messages: CounselMessageInfo.fromDomainArray(messages),
-      compressedMessages: CompressedMessageInfo.fromDomainArray(compressedMessages),
+      counsel: CounselsInfo.fromDomain(counsel),
+      messages: CounselMessagesInfo.fromDomainArray(messages),
+      compressedMessages: CompressedMessagesInfo.fromDomainArray(compressedMessages),
     };
   }
 
   buildHistory(props: {
     counselId: CounselId;
-    messages: CounselMessageInfo[];
-    compressedMessages: CompressedMessageInfo[];
+    messages: CounselMessagesInfo[];
+    compressedMessages: CompressedMessagesInfo[];
   }): string {
     const { messages, compressedMessages } = props;
     return this.conversationHistoryBuilder.buildHistory(messages, compressedMessages);
   }
 
-  async getMany(props: CounselsCriteriaFindMany): Promise<CounselInfo[]> {
+  async getMany(props: CounselsCriteriaFindMany): Promise<CounselsInfo[]> {
     const counsels = await this.counselsReader.findMany(props);
     return Promise.all(
       counsels.map(async (counsel) => {
-        return CounselInfo.fromDomain(counsel);
+        return CounselsInfo.fromDomain(counsel);
       }),
     );
   }
@@ -93,7 +93,7 @@ export class CounselsService {
   async updateCounselTechniqueId(props: {
     counselId: CounselId;
     counselTechniqueId: CounselTechniqueId;
-  }): Promise<CounselInfo> {
+  }): Promise<CounselsInfo> {
     const { counselId, counselTechniqueId } = props;
     const counsel = await this.counselsReader.findOne({ counselId });
     if (!counsel) {
@@ -103,7 +103,7 @@ export class CounselsService {
     counsel.updateCounselTechniqueId(counselTechniqueId);
 
     const updatedCounsel = await this.counselsStore.update(counsel);
-    return CounselInfo.fromDomain(updatedCounsel);
+    return CounselsInfo.fromDomain(updatedCounsel);
   }
 
   @Transactional()
@@ -111,7 +111,7 @@ export class CounselsService {
     counselId: CounselId;
     message: string;
     isUserMessage: boolean;
-  }): Promise<{ counsel: CounselInfo; message: CounselMessageInfo }> {
+  }): Promise<{ counsel: CounselsInfo; message: CounselMessagesInfo }> {
     const { counselId, message, isUserMessage } = props;
     const counsel = await this.counselsReader.findOne({ counselId });
     if (!counsel) {
@@ -136,8 +136,8 @@ export class CounselsService {
     // fire-and-forget: update counseling context while conversation continues
     this.contextOrganizer.organizeContext(counsel);
     return {
-      counsel: CounselInfo.fromDomain(counsel),
-      message: CounselMessageInfo.fromDomain(newMessage),
+      counsel: CounselsInfo.fromDomain(counsel),
+      message: CounselMessagesInfo.fromDomain(newMessage),
     };
   }
 
@@ -145,7 +145,7 @@ export class CounselsService {
   async reactMessage(props: {
     counselMessageId: CounselMessageId;
     reaction: CounselMessageReaction;
-  }): Promise<CounselMessageInfo> {
+  }): Promise<CounselMessagesInfo> {
     const { counselMessageId, reaction } = props;
     const counselMessage = await this.counselsReader.findOneMessage({ counselMessageId });
     if (!counselMessage) {
@@ -155,6 +155,6 @@ export class CounselsService {
     counselMessage.react(reaction);
 
     const updatedCounselMessage = await this.counselsStore.updateMessage(counselMessage);
-    return CounselMessageInfo.fromDomain(updatedCounselMessage);
+    return CounselMessagesInfo.fromDomain(updatedCounselMessage);
   }
 }

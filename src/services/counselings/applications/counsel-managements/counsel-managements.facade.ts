@@ -2,8 +2,8 @@ import { CounselingOrchestrator } from "~counselings/applications/counsel-manage
 import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
-import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
-import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
 import { PromptVersionsService } from "~counselings/domains/prompt-versions/prompt-versions.service";
 import { CounselMessageReaction } from "~proto/com/hearlers/v1/model/counsel_pb";
 
@@ -39,8 +39,8 @@ export class CounselManagementsFacade {
     bubbleId?: BubbleId;
     responseOptionNumber?: number; // NOTE: 어드민용
   }): Promise<{
-    counsel: CounselInfo;
-    counselMessages: CounselMessageInfo[];
+    counsel: CounselsInfo;
+    counselMessages: CounselMessagesInfo[];
   }> {
     const { userId, counselorId, bubbleId, responseOptionNumber, promptVersionId } = params;
 
@@ -63,7 +63,7 @@ export class CounselManagementsFacade {
       counselorUserRelationshipId: new CounselorUserRelationshipId(), // TODO: 의미있는 값 넣기
     });
 
-    const counselMessagesResult: CounselMessageInfo[] = [];
+    const counselMessagesResult: CounselMessagesInfo[] = [];
     // 버블이 있을때
     if (bubbleId !== undefined) {
       if (responseOptionNumber === undefined) {
@@ -119,13 +119,13 @@ export class CounselManagementsFacade {
     };
   }
 
-  async findCounsels(params: { userId: UserId; counselorId?: CounselorId }): Promise<CounselInfo[]> {
+  async findCounsels(params: { userId: UserId; counselorId?: CounselorId }): Promise<CounselsInfo[]> {
     const { userId, counselorId } = params;
 
     return this.counselService.getMany({ userId, counselorId, orderBy: { id: "DESC" } });
   }
 
-  async findCounselById(params: { counselId: CounselId }): Promise<CounselInfo> {
+  async findCounselById(params: { counselId: CounselId }): Promise<CounselsInfo> {
     const { counselId } = params;
 
     return this.counselService.getOne({ counselId });
@@ -133,8 +133,8 @@ export class CounselManagementsFacade {
 
   @Transactional()
   async createMessage(params: { counselId: CounselId; message: string }): Promise<{
-    createdCounselMessage: CounselMessageInfo;
-    counselorResponseMessage: CounselMessageInfo;
+    createdCounselMessage: CounselMessagesInfo;
+    counselorResponseMessage: CounselMessagesInfo;
   }> {
     const { counselId, message } = params;
 
@@ -149,7 +149,7 @@ export class CounselManagementsFacade {
     };
   }
 
-  async findMessages(params: { counselId: CounselId }): Promise<CounselMessageInfo[]> {
+  async findMessages(params: { counselId: CounselId }): Promise<CounselMessagesInfo[]> {
     const { counselId } = params;
 
     return this.counselService.getMessages({ counselId, orderBy: { id: "ASC" } });
@@ -159,7 +159,7 @@ export class CounselManagementsFacade {
   async reactMessage(params: {
     messageId: CounselMessageId;
     reaction: CounselMessageReaction;
-  }): Promise<CounselMessageInfo> {
+  }): Promise<CounselMessagesInfo> {
     const { messageId, reaction } = params;
 
     return this.counselService.reactMessage({

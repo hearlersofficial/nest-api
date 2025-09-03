@@ -10,11 +10,15 @@ import { TypeormCounselTechniquesRepository } from "~counselings/domains/counsel
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { AssistantAgentModule } from "~common/support/assistant-agents/assistant-agent.module";
 import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";
 import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CounselTechniquesEntity, CounselTechniqueTransitionRuleEntity])],
+  imports: [
+    TypeOrmModule.forFeature([CounselTechniquesEntity, CounselTechniqueTransitionRuleEntity]),
+    AssistantAgentModule,
+  ],
   providers: [
     CounselTechniquesService,
     {

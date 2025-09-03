@@ -1,14 +1,14 @@
-import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
-import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
 import { Counsel, CounselMessage, CounselMessageSchema, CounselSchema } from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
 
 export class SchemaCounselsMapper {
   static toCounselProto(counsel: null): null;
-  static toCounselProto(counsel: CounselInfo): Counsel;
-  static toCounselProto(counsel: CounselInfo | null): Counsel | null;
-  static toCounselProto(counsel: CounselInfo | null): Counsel | null {
+  static toCounselProto(counsel: CounselsInfo): Counsel;
+  static toCounselProto(counsel: CounselsInfo | null): Counsel | null;
+  static toCounselProto(counsel: CounselsInfo | null): Counsel | null {
     if (!counsel) {
       return null;
     }
@@ -28,9 +28,9 @@ export class SchemaCounselsMapper {
   }
 
   static toCounselMessageProto(counselMessage: null): null;
-  static toCounselMessageProto(counselMessage: CounselMessageInfo): CounselMessage;
-  static toCounselMessageProto(counselMessage: CounselMessageInfo | null): CounselMessage | null;
-  static toCounselMessageProto(counselMessage: CounselMessageInfo | null): CounselMessage | null {
+  static toCounselMessageProto(counselMessage: CounselMessagesInfo): CounselMessage;
+  static toCounselMessageProto(counselMessage: CounselMessagesInfo | null): CounselMessage | null;
+  static toCounselMessageProto(counselMessage: CounselMessagesInfo | null): CounselMessage | null {
     if (!counselMessage) {
       return null;
     }

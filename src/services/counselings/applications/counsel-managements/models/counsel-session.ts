@@ -1,8 +1,8 @@
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
-import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-message.info";
-import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
-import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CompressedMessagesInfo } from "~counselings/domains/counsels/models/compressed-messages.info";
+import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
 import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
 import { PromptVersionInfo } from "~counselings/domains/prompt-versions/models/prompt-version.info";
 import { TonePromptInfo } from "~counselings/domains/tone-prompts/models/tone-prompt.info";
@@ -12,10 +12,10 @@ import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-te
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 
 export type CounselSessionData = {
-  counsel: CounselInfo;
+  counsel: CounselsInfo;
   counselor: CounselorsInfo;
-  messages: CounselMessageInfo[];
-  compressedMessages: CompressedMessageInfo[];
+  messages: CounselMessagesInfo[];
+  compressedMessages: CompressedMessagesInfo[];
   promptVersion: PromptVersionInfo;
   currentTechnique: CounselTechniqueInfo;
   personaPrompt: PersonaPromptInfo;
@@ -36,7 +36,7 @@ export class CounselSession {
   /**
    * 기본 정보 Getter들
    */
-  get counsel(): CounselInfo {
+  get counsel(): CounselsInfo {
     return this.data.counsel;
   }
 
@@ -44,11 +44,11 @@ export class CounselSession {
     return this.data.counselor;
   }
 
-  get messages(): CounselMessageInfo[] {
+  get messages(): CounselMessagesInfo[] {
     return this.data.messages;
   }
 
-  get compressedMessages(): CompressedMessageInfo[] {
+  get compressedMessages(): CompressedMessagesInfo[] {
     return this.data.compressedMessages;
   }
 
@@ -91,7 +91,7 @@ export class CounselSession {
     return this.data.counsel.counselTechniqueId;
   }
 
-  withNewMessage(message: CounselMessageInfo): CounselSession {
+  withNewMessage(message: CounselMessagesInfo): CounselSession {
     return new CounselSession({
       counsel: this.data.counsel,
       counselor: this.data.counselor,

@@ -4,7 +4,7 @@ import { CompressedMessageId } from "~common/shared-kernel/identifiers/compresse
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { Dayjs } from "dayjs";
 
-export class CompressedMessageInfo {
+export class CompressedMessagesInfo {
   constructor(
     public readonly id: CompressedMessageId,
     public readonly counselId: CounselId,
@@ -15,8 +15,8 @@ export class CompressedMessageInfo {
     public readonly deletedAt: Dayjs | null,
   ) {}
 
-  static fromDomain(compressedMessage: CompressedMessages): CompressedMessageInfo {
-    return new CompressedMessageInfo(
+  static fromDomain(compressedMessage: CompressedMessages): CompressedMessagesInfo {
+    return new CompressedMessagesInfo(
       compressedMessage.id,
       compressedMessage.counselId,
       compressedMessage.content,
@@ -27,7 +27,7 @@ export class CompressedMessageInfo {
     );
   }
 
-  static fromDomainArray(compressedMessages: CompressedMessages[]): CompressedMessageInfo[] {
-    return compressedMessages.map((message) => CompressedMessageInfo.fromDomain(message));
+  static fromDomainArray(compressedMessages: CompressedMessages[]): CompressedMessagesInfo[] {
+    return compressedMessages.map((message) => CompressedMessagesInfo.fromDomain(message));
   }
 }

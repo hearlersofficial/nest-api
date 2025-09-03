@@ -4,8 +4,8 @@ import { SystemPromptBuilder } from "~counselings/applications/counsel-managemen
 import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
 import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
-import { CounselInfo } from "~counselings/domains/counsels/models/counsel.info";
-import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
 
 import { Injectable, Logger } from "@nestjs/common";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
@@ -35,9 +35,9 @@ export class CounselingOrchestrator {
    */
   @Transactional()
   async proceedCounseling(request: { counselId: CounselId; userMessage: string }): Promise<{
-    counsel: CounselInfo;
-    createdCounselMessage: CounselMessageInfo;
-    counselorResponseMessage: CounselMessageInfo;
+    counsel: CounselsInfo;
+    createdCounselMessage: CounselMessagesInfo;
+    counselorResponseMessage: CounselMessagesInfo;
   }> {
     const { counselId, userMessage } = request;
 

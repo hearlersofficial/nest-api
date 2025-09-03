@@ -7,7 +7,7 @@ import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-te
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { Dayjs } from "dayjs";
 
-export class CounselMessageInfo {
+export class CounselMessagesInfo {
   constructor(
     public readonly id: CounselMessageId,
     public readonly counselId: CounselId,
@@ -22,8 +22,8 @@ export class CounselMessageInfo {
     public readonly deletedAt: Dayjs | null,
   ) {}
 
-  static fromDomain(counselMessage: CounselMessages): CounselMessageInfo {
-    return new CounselMessageInfo(
+  static fromDomain(counselMessage: CounselMessages): CounselMessagesInfo {
+    return new CounselMessagesInfo(
       counselMessage.id,
       counselMessage.counselId,
       counselMessage.userId,
@@ -38,7 +38,7 @@ export class CounselMessageInfo {
     );
   }
 
-  static fromDomainArray(counselMessages: CounselMessages[]): CounselMessageInfo[] {
-    return counselMessages.map((message) => CounselMessageInfo.fromDomain(message));
+  static fromDomainArray(counselMessages: CounselMessages[]): CounselMessagesInfo[] {
+    return counselMessages.map((message) => CounselMessagesInfo.fromDomain(message));
   }
 }

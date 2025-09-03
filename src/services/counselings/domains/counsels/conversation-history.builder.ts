@@ -1,6 +1,6 @@
-import { CompressedMessageInfo } from "~counselings/domains/counsels/models/compressed-message.info";
 import { CompressedMessages } from "~counselings/domains/counsels/models/compressed-messages";
-import { CounselMessageInfo } from "~counselings/domains/counsels/models/counsel-message.info";
+import { CompressedMessagesInfo } from "~counselings/domains/counsels/models/compressed-messages.info";
+import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 
 import { Injectable } from "@nestjs/common";
@@ -11,8 +11,8 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class ConversationHistoryBuilder {
   buildHistory(
-    messages: CounselMessageInfo[] | CounselMessages[],
-    compressedMessages?: CompressedMessageInfo[] | CompressedMessages[],
+    messages: CounselMessagesInfo[] | CounselMessages[],
+    compressedMessages?: CompressedMessagesInfo[] | CompressedMessages[],
   ): string {
     const formattedContexts = compressedMessages ? this.formatContexts(compressedMessages) : "";
     const conversationJson = this.buildMessagesJson(
@@ -49,7 +49,7 @@ export class ConversationHistoryBuilder {
    * @param limit 포함할 메시지 수 (기본값: 20)
    * @returns 제한된 대화 히스토리 문자열
    */
-  buildLimitedHistory(messages: CounselMessageInfo[], limit: number = 20): string {
+  buildLimitedHistory(messages: CounselMessagesInfo[], limit: number = 20): string {
     const recentMessages = messages.slice(-limit);
     return this.buildHistory(recentMessages);
   }
@@ -59,7 +59,7 @@ export class ConversationHistoryBuilder {
    * @param context 압축된 컨텍스트 정보
    * @returns 포맷된 컨텍스트 문자열
    */
-  private formatContexts(compressedMessages: CompressedMessageInfo[]): string {
+  private formatContexts(compressedMessages: CompressedMessagesInfo[]): string {
     if (compressedMessages.length === 0) {
       return "";
     }
@@ -75,7 +75,7 @@ export class ConversationHistoryBuilder {
    * 도메인 모델 메시지 배열을 JSON 포맷 대화 히스토리로 변환
    * @param messages 도메인 모델의 상담 메시지 배열
    */
-  buildHistoryFromDomain(messages: CounselMessageInfo[] | CounselMessages[]): string {
+  buildHistoryFromDomain(messages: CounselMessagesInfo[] | CounselMessages[]): string {
     return this.buildMessagesJson(messages.map((m) => ({ isUserMessage: m.isUserMessage, message: m.message })));
   }
 }

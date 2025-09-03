@@ -104,7 +104,6 @@ export class TemporaryVersionManager {
           temperature: counselTechnique.temperature,
           context: counselTechnique.context,
           instruction: counselTechnique.instruction,
-          messageThreshold: counselTechnique.messageThreshold,
           isStartTechnique: counselTechnique.isStartTechnique,
         });
         techniqueIdMap.set(counselTechnique.id, newCounselTechnique.id);

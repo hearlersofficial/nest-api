@@ -64,10 +64,9 @@ export class CounselTechniquesService {
     temperature?: number;
     context?: string;
     instruction?: string;
-    messageThreshold?: number;
     isStartTechnique?: boolean;
   }): Promise<CounselTechniqueInfo> {
-    const { counselTechniqueId, name, temperature, context, instruction, messageThreshold, isStartTechnique } = props;
+    const { counselTechniqueId, name, temperature, context, instruction, isStartTechnique } = props;
     const originalTechnique = await this.counselTechniquesReader.findOne({
       uniqueCriteria: { type: "counselTechnique", id: counselTechniqueId },
     });
@@ -93,7 +92,6 @@ export class CounselTechniquesService {
       temperature: temperature ?? originalTechnique.temperature,
       context: context ?? originalTechnique.context,
       instruction: instruction ?? originalTechnique.instruction,
-      messageThreshold: messageThreshold ?? originalTechnique.messageThreshold,
       isStartTechnique: isStartTechnique ?? originalTechnique.isStartTechnique,
     });
     await this.counselTechniquesStore.update(originalTechnique);

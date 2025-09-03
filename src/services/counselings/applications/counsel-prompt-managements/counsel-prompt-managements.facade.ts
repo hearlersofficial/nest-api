@@ -231,10 +231,9 @@ export class CounselPromptManagementsFacade {
     toneId: ToneId;
     context: string;
     instruction: string;
-    messageThreshold: number;
     isStartTechnique: boolean;
   }): Promise<CounselTechniqueInfo> {
-    const { name, temperature, toneId, context, instruction, messageThreshold, isStartTechnique } = param;
+    const { name, temperature, toneId, context, instruction, isStartTechnique } = param;
     const promptVersion = await this.temporaryVersionManager.getOrCreateTemporaryOne();
     return this.counselTechniqueService.create({
       name,
@@ -243,7 +242,6 @@ export class CounselPromptManagementsFacade {
       toneId,
       context,
       instruction,
-      messageThreshold,
       isStartTechnique,
     });
   }
@@ -270,9 +268,9 @@ export class CounselPromptManagementsFacade {
     temperature?: number;
     context?: string;
     instruction?: string;
-    messageThreshold?: number;
+    isStartTechnique?: boolean;
   }): Promise<CounselTechniqueInfo> {
-    const { counselTechniqueId, name, temperature, context, instruction, messageThreshold } = param;
+    const { counselTechniqueId, name, temperature, context, instruction, isStartTechnique } = param;
 
     const updatedTechnique = await this.counselTechniqueService.updateCounselTechnique({
       counselTechniqueId,
@@ -280,7 +278,7 @@ export class CounselPromptManagementsFacade {
       temperature,
       context,
       instruction,
-      messageThreshold,
+      isStartTechnique,
     });
 
     return updatedTechnique;

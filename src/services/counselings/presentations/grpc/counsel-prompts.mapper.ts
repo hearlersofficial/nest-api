@@ -94,7 +94,6 @@ export class SchemaCounselPromptsMapper {
       toneId: counselTechnique.toneId.getString(),
       context: counselTechnique.context,
       instruction: counselTechnique.instruction,
-      messageThreshold: counselTechnique.messageThreshold,
       isStartTechnique: counselTechnique.isStartTechnique,
       temperature: counselTechnique.temperature,
       createdAt: counselTechnique.createdAt.toISOString(),

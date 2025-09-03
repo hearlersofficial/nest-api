@@ -78,7 +78,6 @@ Rubric (0-100): 0-20 minimal, 21-40 weak, 41-60 moderate, 61-80 strong, 81-100 v
 Name: ${currentTechnique.name}
 Context: ${currentTechnique.context}
 Instruction: ${currentTechnique.instruction}
-MessageThreshold: ${currentTechnique.messageThreshold}
 </CURRENT_TECHNIQUE>
 
 <NEXT_TECHNIQUE>

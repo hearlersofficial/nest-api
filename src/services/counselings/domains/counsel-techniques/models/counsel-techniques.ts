@@ -14,7 +14,6 @@ export interface CounselTechniquesNewProps {
   toneId: ToneId;
   context: string;
   instruction: string;
-  messageThreshold: number;
   isStartTechnique: boolean;
 }
 
@@ -75,14 +74,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
       return Result.fail<void>("[CounselTechniques] 톤 ID는 필수입니다");
     }
 
-    // messageThreshold 검증
-    if (!isDefined(this.props.messageThreshold)) {
-      return Result.fail<void>("[CounselTechniques] 전환에 필요한 메시지 수는 필수입니다");
-    }
-    if (this.props.messageThreshold < 0) {
-      return Result.fail<void>("[CounselTechniques] 전환에 필요한 메시지 수는 0보다 커야 합니다");
-    }
-
     // 날짜 검증
     if (!isDefined(this.props.createdAt)) {
       return Result.fail<void>("[CounselTechniques] 생성 시간은 필수입니다");
@@ -119,10 +110,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     return this.props.instruction;
   }
 
-  get messageThreshold(): number {
-    return this.props.messageThreshold;
-  }
-
   get isStartTechnique(): boolean {
     return this.props.isStartTechnique;
   }
@@ -152,9 +139,6 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
     }
     if (isDefined(props.instruction) && props.instruction !== this.props.instruction) {
       this.props.instruction = props.instruction;
-    }
-    if (isDefined(props.messageThreshold) && props.messageThreshold !== this.props.messageThreshold) {
-      this.props.messageThreshold = props.messageThreshold;
     }
     if (isDefined(props.isStartTechnique) && props.isStartTechnique !== this.props.isStartTechnique) {
       this.props.isStartTechnique = props.isStartTechnique;

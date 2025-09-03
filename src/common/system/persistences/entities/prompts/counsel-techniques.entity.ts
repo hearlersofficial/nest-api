@@ -49,13 +49,6 @@ export class CounselTechniquesEntity extends CoreEntity {
   instruction: string;
 
   @Column({
-    type: "int",
-    name: "message_threshold",
-    comment: "전환에 필요한 메시지 수",
-  })
-  messageThreshold: number;
-
-  @Column({
     type: "boolean",
     name: "is_start_technique",
     comment: "시작 기법 여부 (톤 별 1개만 시작 기법으로 설정 가능)",

@@ -17,7 +17,7 @@ export const convertAiModelToModelName = (aiModel?: AiModel): string | undefined
       return "gpt-5";
     case AiModel.GPT_5_CHAT:
       return "gpt-5-chat";
-    case AiModel.AI_MODEL_UNSPECIFIED:
+    case AiModel.UNSPECIFIED:
       return undefined;
     default:
       return undefined;

@@ -35,7 +35,7 @@ export class ChatModelFactory {
       case AiModel.GPT_5_MINI:
       case AiModel.GPT_5:
       case AiModel.GPT_5_CHAT:
-      case AiModel.AI_MODEL_UNSPECIFIED:
+      case AiModel.UNSPECIFIED:
       case undefined:
         return true;
       default:

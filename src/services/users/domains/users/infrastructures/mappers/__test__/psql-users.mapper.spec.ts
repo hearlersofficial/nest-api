@@ -4,38 +4,71 @@ import { Users } from "~users/domains/users/models/users";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
+import { CoreStatus } from "~common/shared/enums/status";
 import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
 import { getNowDayjs } from "~common/shared/utils/date";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { EntityData } from "~common/shared/utils/orm";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/user-profiles.entity";
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
 
 describe("PsqlUsersMapper", () => {
-  const createMockUserEntity = () => {
+  const createMockUserEntity = (): UsersEntity => {
     const entity = new UsersEntity();
-    entity.id = faker.string.uuid();
-    entity.nickname = faker.internet.userName().slice(0, 10);
-    entity.userMessageTokens = createMockUserMessageTokensEntity();
-    entity.createdAt = getNowDayjs().toISOString();
-    entity.updatedAt = getNowDayjs().toISOString();
-    entity.deletedAt = null;
+    const userId = faker.string.uuid();
+    const props: EntityData<UsersEntity, "authUser" | "counsels" | "counselorUserRelationships"> = {
+      id: userId,
+      nickname: faker.internet.userName().slice(0, 10),
+      userProfiles: createMockUserProfilesEntity(userId),
+      userMessageTokens: createMockUserMessageTokensEntity(userId),
+      userActivities: [],
+      status: CoreStatus.ACTIVE,
+      createdAt: getNowDayjs().toISOString(),
+      updatedAt: getNowDayjs().toISOString(),
+      deletedAt: null,
+    };
+    Object.assign(entity, props);
     return entity;
   };
 
-  const createMockUserMessageTokensEntity = () => {
+  const createMockUserMessageTokensEntity = (userId: string): UserMessageTokensEntity => {
+    const maxTokens = faker.number.int({ min: 1000, max: 10000 });
+    const props: EntityData<UserMessageTokensEntity, "user"> = {
+      id: faker.string.uuid(),
+      userId: userId,
+      maxTokens: maxTokens,
+      remainingTokens: faker.number.int({ min: 0, max: maxTokens }),
+      reserved: faker.datatype.boolean(),
+      reservedTimeout: getNowDayjs().add(1, "hour").toISOString(),
+      resetInterval: faker.helpers.arrayElement(Object.values(TokenResetInterval)),
+      lastReset: getNowDayjs().toISOString(),
+      createdAt: getNowDayjs().toISOString(),
+      updatedAt: getNowDayjs().toISOString(),
+      deletedAt: null,
+    };
     const entity = new UserMessageTokensEntity();
-    entity.id = faker.string.uuid();
-    entity.userId = faker.string.uuid();
-    entity.maxTokens = faker.number.int({ min: 1000, max: 10000 });
-    entity.remainingTokens = faker.number.int({ min: 0, max: entity.maxTokens });
-    entity.reserved = faker.datatype.boolean();
-    entity.reservedTimeout = getNowDayjs().add(1, "hour").toISOString();
-    entity.resetInterval = faker.helpers.arrayElement(Object.values(TokenResetInterval));
-    entity.lastReset = getNowDayjs().toISOString();
-    entity.createdAt = getNowDayjs().toISOString();
-    entity.updatedAt = getNowDayjs().toISOString();
-    entity.deletedAt = null;
+    Object.assign(entity, props);
+
+    return entity;
+  };
+
+  const createMockUserProfilesEntity = (userId: string): UserProfilesEntity => {
+    const entity = new UserProfilesEntity();
+    const props: EntityData<UserProfilesEntity, "user"> = {
+      id: faker.string.uuid(),
+      userId: userId,
+      profileImage: faker.image.avatar(),
+      phoneNumber: "01012345678",
+      gender: Gender.MALE,
+      mbti: Mbti.ENFP,
+      birthday: getNowDayjs().toISOString(),
+      introduction: faker.lorem.paragraph(),
+      createdAt: getNowDayjs().toISOString(),
+      updatedAt: getNowDayjs().toISOString(),
+      deletedAt: null,
+    };
+    Object.assign(entity, props);
     return entity;
   };
 
@@ -45,7 +78,7 @@ describe("PsqlUsersMapper", () => {
       const domain = PsqlUsersMapper.toDomain(entity);
 
       expect(domain).toBeDefined();
-      expect(domain?.id.equals(new UniqueEntityId(entity.id))).toBeTruthy();
+      expect(domain?.id.equals(new UserId(entity.id))).toBeTruthy();
       expect(domain?.nickname).toBe(entity.nickname);
       expect(domain?.userMessageToken).toBeDefined();
     });
@@ -82,7 +115,7 @@ describe("PsqlUsersMapper", () => {
     it("Domain을 Entity로 변환할 수 있다", () => {
       const users = Users.createNew({
         nickname: faker.internet.userName().slice(0, 10),
-      }).value as Users;
+      }).value;
 
       const entity = PsqlUsersMapper.toEntity(users);
 

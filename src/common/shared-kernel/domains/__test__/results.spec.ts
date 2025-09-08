@@ -18,8 +18,8 @@ describe("Result", (): void => {
     expect(Result.ok(value).value).toEqual(value);
   });
 
-  it("성공시 errorValue 는 undefined 이어야 한다", (): void => {
-    expect(Result.ok("FAIL").errorValue).toBeUndefined();
+  it("성공시 errorValue 는 unspecified error 이어야 한다", (): void => {
+    expect(Result.ok("FAIL").errorValue).toBe("unspecified error");
   });
 
   it("getFailResultIfExist 는 실패한 경우에 첫번째 값을 반환하고, 모두 성공시에는 null 을 반환해야 한다.", (): void => {

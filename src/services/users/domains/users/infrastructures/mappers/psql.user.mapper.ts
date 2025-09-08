@@ -52,10 +52,7 @@ export class PsqlUsersMapper {
   static toEntity(users: Users): UsersEntity {
     const entity = new UsersEntity();
 
-    if (!users.id.isNewIdentifier()) {
-      entity.id = users.id.getString();
-    }
-
+    entity.id = users.id.getString();
     entity.nickname = users.nickname;
 
     // 관계 매핑

@@ -5,12 +5,12 @@ import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
 import { KakaoId } from "~common/shared-kernel/identifiers/kakao.id";
 import { Dayjs } from "dayjs";
 
-interface KakaoNewProps {
+export interface KakaoNewProps {
   authUserId: AuthUserId;
   uniqueId: string;
 }
 
-interface KakaoProps extends KakaoNewProps {
+export interface KakaoProps extends KakaoNewProps {
   createdAt: Dayjs;
   updatedAt: Dayjs;
   deletedAt: Dayjs | null;

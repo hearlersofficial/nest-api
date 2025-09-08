@@ -3,7 +3,7 @@ import { RefreshTokens } from "~users/domains/auth-users/models/refresh-tokens";
 
 import { faker } from "@faker-js/faker";
 import { getNowDayjs } from "~common/shared/utils/date";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { RefreshTokenId } from "~common/shared-kernel/identifiers/refresh-token.id";
 
 describe("RefreshTokensInfo", () => {
   const createRefreshToken = () => {
@@ -14,7 +14,7 @@ describe("RefreshTokensInfo", () => {
       updatedAt: getNowDayjs(),
       deletedAt: null,
     };
-    return RefreshTokens.create(props, new UniqueEntityId()).value as RefreshTokens;
+    return RefreshTokens.create(props, new RefreshTokenId()).value as RefreshTokens;
   };
 
   describe("fromDomain", () => {
@@ -22,7 +22,7 @@ describe("RefreshTokensInfo", () => {
       const refreshToken = createRefreshToken();
       const refreshTokenInfo = RefreshTokenInfo.fromDomain(refreshToken);
 
-      expect(refreshTokenInfo.id).toBe(refreshToken.id.getString());
+      expect(refreshTokenInfo.id).toEqual(refreshToken.id);
       expect(refreshTokenInfo.token).toBe(refreshToken.token);
       expect(refreshTokenInfo.expiresAt).toEqual(refreshToken.expiresAt);
       expect(refreshTokenInfo.createdAt).toEqual(refreshToken.createdAt);
@@ -36,8 +36,8 @@ describe("RefreshTokensInfo", () => {
       const refreshTokenInfos = RefreshTokenInfo.fromDomainArray(refreshTokens);
 
       expect(refreshTokenInfos).toHaveLength(2);
-      expect(refreshTokenInfos[0].id).toBe(refreshTokens[0].id.getString());
-      expect(refreshTokenInfos[1].id).toBe(refreshTokens[1].id.getString());
+      expect(refreshTokenInfos[0].id).toEqual(refreshTokens[0].id);
+      expect(refreshTokenInfos[1].id).toEqual(refreshTokens[1].id);
     });
   });
 });

@@ -14,10 +14,6 @@ export abstract class DomainEntity<Props extends DomainEntityProps, IdType exten
     this.props = props;
   }
 
-  public isNew(): boolean {
-    return this._id.isNewIdentifier();
-  }
-
   get id(): IdType {
     return this._id;
   }

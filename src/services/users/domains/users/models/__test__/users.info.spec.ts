@@ -11,10 +11,10 @@ describe("UsersInfo", () => {
       const user = createUser();
       const userInfo = UsersInfo.fromDomain(user);
 
-      expect(userInfo.id).toBe(user.id.getString());
+      expect(userInfo.id).toEqual(user.id);
       expect(userInfo.nickname).toBe(user.nickname);
-      expect(userInfo.userProfile.id).toBe(user.userProfile.id.getString());
-      expect(userInfo.userMessageToken.id).toBe(user.userMessageToken.id.getString());
+      expect(userInfo.userProfile.id).toEqual(user.userProfile.id);
+      expect(userInfo.userMessageToken.id).toEqual(user.userMessageToken.id);
     });
   });
 
@@ -24,8 +24,8 @@ describe("UsersInfo", () => {
       const userInfos = UsersInfo.fromDomainArray(users);
 
       expect(userInfos).toHaveLength(2);
-      expect(userInfos[0].id).toBe(users[0].id.getString());
-      expect(userInfos[1].id).toBe(users[1].id.getString());
+      expect(userInfos[0].id).toEqual(users[0].id);
+      expect(userInfos[1].id).toEqual(users[1].id);
     });
   });
 });

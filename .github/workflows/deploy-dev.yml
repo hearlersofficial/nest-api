@@ -24,7 +24,7 @@ jobs:
             cd ~/hearlers-nest-api
             git fetch origin
             git reset --hard origin/develop
-            git submodule foreach git pull origin main
+            git submodule update --init --recursive
             sudo docker-compose -f docker-compose.yaml pull
             sudo docker-compose -f docker-compose.yaml down
             sudo docker-compose -f docker-compose.yaml up -d --build

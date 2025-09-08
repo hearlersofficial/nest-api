@@ -27,10 +27,6 @@ export class Identifier<T> {
     return Number(this.value);
   }
 
-  isNewIdentifier(): boolean {
-    return this.value === 0;
-  }
-
   overridetoString(): string {
     return this.getString();
   }

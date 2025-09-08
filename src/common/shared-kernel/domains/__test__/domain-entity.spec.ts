@@ -68,7 +68,7 @@ describe("DomainEntity", () => {
       if (result.isSuccess && result.value) {
         expect(result.value.name).toBe(name);
         expect(result.value.value).toBeGreaterThan(0);
-        expect(result.value.id.getNumber()).toBe(0);
+        expect(result.value.id.getValue()).toBeDefined();
       }
     });
 

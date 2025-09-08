@@ -1,20 +1,21 @@
+import { Kakao, KakaoProps } from "~users/domains/auth-users/models/kakao";
 import { KakaoInfo } from "~users/domains/auth-users/models/kakao.info";
-import { Kakao } from "~users/domains/auth-users/models/kakao";
 
 import { fakerKO as faker } from "@faker-js/faker";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 import { getNowDayjs } from "~common/shared/utils/date";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
+import { KakaoId } from "~common/shared-kernel/identifiers/kakao.id";
 
 describe("KakaoInfo", () => {
   const createKakao = () => {
-    const props = {
-      authUserId: new UniqueEntityId(),
+    const props: KakaoProps = {
+      authUserId: new AuthUserId(),
       uniqueId: faker.string.numeric(10),
       createdAt: getNowDayjs(),
       updatedAt: getNowDayjs(),
       deletedAt: null,
     };
-    return Kakao.create(props, new UniqueEntityId()).value as Kakao;
+    return Kakao.create(props, new KakaoId()).value as Kakao;
   };
 
   describe("fromDomain", () => {
@@ -22,8 +23,8 @@ describe("KakaoInfo", () => {
       const kakao = createKakao();
       const kakaoInfo = KakaoInfo.fromDomain(kakao);
 
-      expect(kakaoInfo.id).toBe(kakao.id.getString());
-      expect(kakaoInfo.authUserId).toBe(kakao.authUserId.getString());
+      expect(kakaoInfo.id).toEqual(kakao.id);
+      expect(kakaoInfo.authUserId).toEqual(kakao.authUserId);
       expect(kakaoInfo.uniqueId).toBe(kakao.uniqueId);
       expect(kakaoInfo.createdAt).toEqual(kakao.createdAt);
       expect(kakaoInfo.updatedAt).toEqual(kakao.updatedAt);
@@ -37,8 +38,8 @@ describe("KakaoInfo", () => {
       const kakaoInfos = KakaoInfo.fromDomainArray(kakaos);
 
       expect(kakaoInfos).toHaveLength(2);
-      expect(kakaoInfos[0].id).toBe(kakaos[0].id.getString());
-      expect(kakaoInfos[1].id).toBe(kakaos[1].id.getString());
+      expect(kakaoInfos[0].id).toEqual(kakaos[0].id);
+      expect(kakaoInfos[1].id).toEqual(kakaos[1].id);
     });
   });
 });

@@ -3,12 +3,13 @@ import { UserMessageTokensInfo } from "~users/domains/users/models/user-message-
 
 import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
 import { getNowDayjs } from "~common/shared/utils/date";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserMessageTokenId } from "~common/shared-kernel/identifiers/user-message-token.id";
 
 describe("UserMessageTokensInfo", () => {
   const createUserMessageTokens = () => {
     const props = {
-      userId: new UniqueEntityId(),
+      userId: new UserId(),
       resetInterval: TokenResetInterval.DAILY,
       maxTokens: 1000,
       remainingTokens: 500,
@@ -19,7 +20,7 @@ describe("UserMessageTokensInfo", () => {
       updatedAt: getNowDayjs(),
       deletedAt: null,
     };
-    return UserMessageTokens.create(props, new UniqueEntityId()).value as UserMessageTokens;
+    return UserMessageTokens.create(props, new UserMessageTokenId()).value;
   };
 
   describe("fromDomain", () => {
@@ -27,8 +28,8 @@ describe("UserMessageTokensInfo", () => {
       const tokens = createUserMessageTokens();
       const tokensInfo = UserMessageTokensInfo.fromDomain(tokens);
 
-      expect(tokensInfo.id).toBe(tokens.id.getString());
-      expect(tokensInfo.userId).toBe(tokens.userId.getString());
+      expect(tokensInfo.id).toEqual(tokens.id);
+      expect(tokensInfo.userId).toEqual(tokens.userId);
       expect(tokensInfo.maxTokens).toBe(tokens.maxTokens);
       expect(tokensInfo.remainingTokens).toBe(tokens.remainingTokens);
     });
@@ -40,8 +41,8 @@ describe("UserMessageTokensInfo", () => {
       const tokensInfos = UserMessageTokensInfo.fromDomainArray(tokens);
 
       expect(tokensInfos).toHaveLength(2);
-      expect(tokensInfos[0].id).toBe(tokens[0].id.getString());
-      expect(tokensInfos[1].id).toBe(tokens[1].id.getString());
+      expect(tokensInfos[0].id).toEqual(tokens[0].id);
+      expect(tokensInfos[1].id).toEqual(tokens[1].id);
     });
   });
 });

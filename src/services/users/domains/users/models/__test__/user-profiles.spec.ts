@@ -4,6 +4,7 @@ import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 import { fakerKO as faker } from "@faker-js/faker";
 import { convertDayjs, getNowDayjs } from "~common/shared/utils/date";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserProfileId } from "~common/shared-kernel/identifiers/user-profile.id";
 
 describe("UserProfiles", () => {
   const validPhoneNumber = "01012345678";
@@ -43,7 +44,6 @@ describe("UserProfiles", () => {
         expect(profile.userId.equals(userId)).toBe(true);
         expect(profile.phoneNumber).toBe(validPhoneNumber);
         expect(profile.gender).toBe(Gender.MALE);
-        expect(profile.isNew()).toBe(true);
       }
     });
 
@@ -70,7 +70,7 @@ describe("UserProfiles", () => {
 
   describe("create", () => {
     it("기존 데이터로 UserProfile을 생성할 수 있다", () => {
-      const result = UserProfiles.create(defaultProps, new UniqueEntityId(1));
+      const result = UserProfiles.create(defaultProps, new UserProfileId(1));
 
       expect(result.isSuccess).toBe(true);
       if (result.isSuccess) {
@@ -145,7 +145,7 @@ describe("UserProfiles", () => {
           ...defaultProps,
           gender: "INVALID_GENDER" as unknown as Gender,
         },
-        new UniqueEntityId(1),
+        new UserProfileId(1),
       );
 
       expect(result.isFailure).toBe(true);

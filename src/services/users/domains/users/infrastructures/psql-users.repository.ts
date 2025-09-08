@@ -9,7 +9,6 @@ import { UsersEntity } from "~common/system/persistences/entities/users/users.en
 import { FindManyOptions, FindOneOptions, FindOptionsRelations, Repository } from "typeorm";
 
 @Injectable()
-// @CollectDomainEvents()
 export class PsqlUsersRepository extends UsersRepository {
   private readonly userFindOptionsRelation: FindOptionsRelations<UsersEntity> = {
     userProfiles: true,

@@ -2,11 +2,11 @@ import { UserActivities } from "~users/domains/users/models/user-activities";
 import { ActivityType, DevicePlatform } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { getNowDayjs } from "~common/shared/utils/date";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
 
 describe("UserActivities", () => {
   const createValidProps = () => ({
-    userId: new UniqueEntityId(),
+    userId: new UserId(),
     activityType: ActivityType.LOGIN,
     activityData: { reason: "daily login" },
     platform: DevicePlatform.IOS,

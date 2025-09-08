@@ -49,12 +49,8 @@ export class PsqlUserMessageTokensMapper {
   static toEntity(userMessageTokens: UserMessageTokens): UserMessageTokensEntity {
     const entity = new UserMessageTokensEntity();
 
-    if (!userMessageTokens.id.isNewIdentifier()) {
-      entity.id = userMessageTokens.id.getString();
-    }
-    if (!userMessageTokens.userId.isNewIdentifier()) {
-      entity.userId = userMessageTokens.userId.getString();
-    }
+    entity.id = userMessageTokens.id.getString();
+    entity.userId = userMessageTokens.userId.getString();
 
     entity.maxTokens = userMessageTokens.maxTokens;
     entity.remainingTokens = userMessageTokens.remainingTokens;

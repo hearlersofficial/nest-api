@@ -42,9 +42,7 @@ export class PsqlUserProfilesMapper {
   static toEntity(userProfiles: UserProfiles): UserProfilesEntity {
     const entity = new UserProfilesEntity();
 
-    if (!userProfiles.id.isNewIdentifier()) {
-      entity.id = userProfiles.id.getString();
-    }
+    entity.id = userProfiles.id.getString();
 
     entity.userId = userProfiles.userId.getString();
 

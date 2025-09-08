@@ -1,7 +1,7 @@
-import { Kakao } from "~users/domains/auth-users/models/kakao";
+import { Kakao, KakaoNewProps } from "~users/domains/auth-users/models/kakao";
 
 import { fakerKO as faker } from "@faker-js/faker";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
 import { advanceTo, clear } from "jest-date-mock";
 
 describe("Kakao", () => {
@@ -15,8 +15,8 @@ describe("Kakao", () => {
     clear();
   });
 
-  const validProps = {
-    authUserId: new UniqueEntityId(),
+  const validProps: KakaoNewProps = {
+    authUserId: new AuthUserId(),
     uniqueId: faker.string.numeric(10), // 카카오 고유 ID 형식으로 생성
   };
 
@@ -35,10 +35,10 @@ describe("Kakao", () => {
       }
     });
 
-    it("userId가 없��면 생성에 실패한다", () => {
+    it("userId가 없으면 생성에 실패한다", () => {
       const result = Kakao.createNew({
         ...validProps,
-        authUserId: undefined as unknown as UniqueEntityId,
+        authUserId: null as unknown as AuthUserId,
       });
 
       expect(result.isFailure).toBe(true);
@@ -58,7 +58,7 @@ describe("Kakao", () => {
 
   describe("delete/restore", () => {
     it("삭제하고 복구할 수 있다", () => {
-      const kakao = Kakao.createNew(validProps).value as Kakao;
+      const kakao = Kakao.createNew(validProps).value;
 
       expect(kakao.deletedAt).toBeNull();
 
@@ -72,7 +72,7 @@ describe("Kakao", () => {
 
   describe("getters", () => {
     it("모든 getter가 올바른 값을 반환한다", () => {
-      const kakao = Kakao.createNew(validProps).value as Kakao;
+      const kakao = Kakao.createNew(validProps).value;
 
       expect(kakao.authUserId.equals(validProps.authUserId)).toBe(true);
       expect(kakao.uniqueId).toBe(validProps.uniqueId);

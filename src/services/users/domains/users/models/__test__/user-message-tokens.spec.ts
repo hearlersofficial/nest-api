@@ -3,15 +3,16 @@ import { UserMessageTokens } from "~users/domains/users/models/user-message-toke
 import { fakerKO as faker } from "@faker-js/faker";
 import { TokenResetInterval } from "~common/shared/enums/token-reset-interval.enum";
 import { getNowDayjs } from "~common/shared/utils/date";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { UserMessageTokenId } from "~common/shared-kernel/identifiers/user-message-token.id";
 
 describe("UserMessageTokens", () => {
   let defaultNewProps: any;
   let defaultProps: any;
-  let userId: UniqueEntityId;
+  let userId: UserId;
 
   beforeEach(() => {
-    userId = new UniqueEntityId(faker.number.int());
+    userId = new UserId(faker.number.int());
     const now = getNowDayjs();
 
     defaultNewProps = {
@@ -43,14 +44,13 @@ describe("UserMessageTokens", () => {
         expect(tokens.maxTokens).toBe(1000);
         expect(tokens.remainingTokens).toBe(1000);
         expect(tokens.resetInterval).toBe(TokenResetInterval.DAILY);
-        expect(tokens.isNew()).toBe(true);
       }
     });
   });
 
   describe("create", () => {
     it("기존 데이터로 UserMessageTokens를 생성할 수 있다", () => {
-      const result = UserMessageTokens.create(defaultProps, new UniqueEntityId(1));
+      const result = UserMessageTokens.create(defaultProps, new UserMessageTokenId(1));
 
       expect(result.isSuccess).toBe(true);
       if (result.isSuccess) {
@@ -66,7 +66,7 @@ describe("UserMessageTokens", () => {
     let tokens: UserMessageTokens;
 
     beforeEach(() => {
-      tokens = UserMessageTokens.createNew(defaultNewProps).value as UserMessageTokens;
+      tokens = UserMessageTokens.createNew(defaultNewProps).value;
     });
 
     describe("consumeTokens", () => {
@@ -123,8 +123,8 @@ describe("UserMessageTokens", () => {
             reserved: true,
             reservedTimeout: getNowDayjs().subtract(2, "minutes"),
           },
-          new UniqueEntityId(),
-        ).value as UserMessageTokens;
+          new UserMessageTokenId(),
+        ).value;
 
         expect(expiredTokens.isReserved()).toBe(false);
         expect(expiredTokens.reserved).toBe(false);
@@ -140,8 +140,8 @@ describe("UserMessageTokens", () => {
             resetInterval: TokenResetInterval.DAILY,
             lastReset: getNowDayjs(),
           },
-          new UniqueEntityId(),
-        ).value as UserMessageTokens;
+          new UserMessageTokenId(),
+        ).value;
 
         expect(sameDay.isResetTime()).toBe(true);
 
@@ -151,8 +151,8 @@ describe("UserMessageTokens", () => {
             resetInterval: TokenResetInterval.DAILY,
             lastReset: getNowDayjs().subtract(1, "day"),
           },
-          new UniqueEntityId(),
-        ).value as UserMessageTokens;
+          new UserMessageTokenId(),
+        ).value;
 
         expect(differentDay.isResetTime()).toBe(false);
       });
@@ -164,8 +164,8 @@ describe("UserMessageTokens", () => {
             resetInterval: TokenResetInterval.HOURLY,
             lastReset: getNowDayjs(),
           },
-          new UniqueEntityId(),
-        ).value as UserMessageTokens;
+          new UserMessageTokenId(),
+        ).value;
 
         expect(sameHour.isResetTime()).toBe(true);
 
@@ -175,8 +175,8 @@ describe("UserMessageTokens", () => {
             resetInterval: TokenResetInterval.HOURLY,
             lastReset: getNowDayjs().subtract(1, "hour"),
           },
-          new UniqueEntityId(),
-        ).value as UserMessageTokens;
+          new UserMessageTokenId(),
+        ).value;
 
         expect(differentHour.isResetTime()).toBe(false);
       });

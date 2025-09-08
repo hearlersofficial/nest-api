@@ -3,8 +3,9 @@ import { Kakao } from "~users/domains/auth-users/models/kakao";
 
 import { fakerKO as faker } from "@faker-js/faker";
 import { getNowDayjs } from "~common/shared/utils/date";
-import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { AuthUserId } from "~common/shared-kernel/identifiers/auth-user.id";
 import { KakaoEntity } from "~common/system/persistences/entities/users/kakao.entity";
+import dayjs from "dayjs";
 
 describe("PsqlKakaoMapper", () => {
   const createMockKakaoEntity = () => {
@@ -20,19 +21,19 @@ describe("PsqlKakaoMapper", () => {
 
   describe("toEntity", () => {
     it("Kakao 도메인을 KakaoEntity로 변환할 수 있다", () => {
-      const authUserId = new UniqueEntityId();
+      const authUserId = new AuthUserId();
       const uniqueId = faker.string.numeric(10);
 
       const kakao = Kakao.createNew({
         authUserId,
         uniqueId,
-      }).value as Kakao;
+      }).value;
 
       const result = PsqlKakaoMapper.toEntity(kakao);
 
       expect(result).toBeDefined();
-      expect(result.authUserId).toBe(authUserId.getNumber());
-      expect(result.uniqueId).toBe(uniqueId);
+      expect(new AuthUserId(result.authUserId)).toEqual(authUserId);
+      expect(result.uniqueId).toEqual(uniqueId);
       expect(result.createdAt).toBeDefined();
       expect(result.updatedAt).toBeDefined();
       expect(result.deletedAt).toBeNull();
@@ -47,13 +48,13 @@ describe("PsqlKakaoMapper", () => {
     });
 
     it("삭제된 도메인을 변환할 수 있다", () => {
-      const authUserId = new UniqueEntityId();
+      const authUserId = new AuthUserId();
       const uniqueId = faker.string.numeric(10);
 
       const kakao = Kakao.createNew({
         authUserId,
         uniqueId,
-      }).value as Kakao;
+      }).value;
 
       kakao.delete();
       const result = PsqlKakaoMapper.toEntity(kakao);
@@ -68,28 +69,28 @@ describe("PsqlKakaoMapper", () => {
       const domain = PsqlKakaoMapper.toDomain(originalEntity);
       const resultEntity = PsqlKakaoMapper.toEntity(domain);
 
-      expect(resultEntity.id).toBe(originalEntity.id);
-      expect(resultEntity.authUserId).toBe(originalEntity.authUserId);
-      expect(resultEntity.uniqueId).toBe(originalEntity.uniqueId);
-      expect(resultEntity.createdAt).toBe(originalEntity.createdAt);
-      expect(resultEntity.updatedAt).toBe(originalEntity.updatedAt);
-      expect(resultEntity.deletedAt).toBe(originalEntity.deletedAt);
+      expect(resultEntity.id).toEqual(originalEntity.id);
+      expect(resultEntity.authUserId).toEqual(originalEntity.authUserId);
+      expect(resultEntity.uniqueId).toEqual(originalEntity.uniqueId);
+      expect(dayjs(resultEntity.createdAt).isSame(originalEntity.createdAt)).toBeTruthy();
+      expect(dayjs(resultEntity.updatedAt).isSame(originalEntity.updatedAt)).toBeTruthy();
+      expect(resultEntity.deletedAt).toBeNull();
     });
 
     it("Domain -> Entity -> Domain 변환이 일관성있게 동작한다", () => {
       const originalDomain = Kakao.createNew({
-        authUserId: new UniqueEntityId(),
+        authUserId: new AuthUserId(),
         uniqueId: faker.string.numeric(10),
-      }).value as Kakao;
+      }).value;
 
       const entity = PsqlKakaoMapper.toEntity(originalDomain);
       const resultDomain = PsqlKakaoMapper.toDomain(entity);
 
       expect(resultDomain?.authUserId?.equals(originalDomain.authUserId)).toBeTruthy();
-      expect(resultDomain?.uniqueId).toBe(originalDomain.uniqueId);
-      expect(resultDomain?.createdAt).toBe(originalDomain.createdAt);
-      expect(resultDomain?.updatedAt).toBe(originalDomain.updatedAt);
-      expect(resultDomain?.deletedAt).toBe(originalDomain.deletedAt);
+      expect(resultDomain?.uniqueId).toEqual(originalDomain.uniqueId);
+      expect(resultDomain?.createdAt.isSame(originalDomain.createdAt)).toBeTruthy();
+      expect(resultDomain?.updatedAt.isSame(originalDomain.updatedAt)).toBeTruthy();
+      expect(resultDomain?.deletedAt).toBeNull();
     });
   });
 });

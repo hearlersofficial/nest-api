@@ -40,9 +40,7 @@ export class TypeormPromptActivateHistoryMapper {
   static toEntity(promptActivateHistory: PromptActivateHistories): PromptActivateHistoryEntity {
     const entity = new PromptActivateHistoryEntity();
 
-    if (!promptActivateHistory.id.isNewIdentifier()) {
-      entity.id = promptActivateHistory.id.getString();
-    }
+    entity.id = promptActivateHistory.id.getString();
     entity.promptVersionId = promptActivateHistory.promptVersionId.getString();
     entity.activatedAt = promptActivateHistory.activatedAt.toISOString();
     entity.createdAt = promptActivateHistory.createdAt.toISOString();

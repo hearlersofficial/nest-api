@@ -3,25 +3,31 @@ import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
 import { fakerKO as faker } from "@faker-js/faker";
-import { InternalServerErrorException } from "@nestjs/common";
 import { getNowDayjs } from "~common/shared/utils/date";
+import { EntityData } from "~common/shared/utils/orm";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
+import { UserId } from "~common/shared-kernel/identifiers/user.id";
+import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/user-profiles.entity";
+import dayjs from "dayjs";
 
 describe("PsqlUserProfilesMapper", () => {
-  const createMockUserProfilesEntity = () => {
+  const createMockUserProfilesEntity = (): UserProfilesEntity => {
     const entity = new UserProfilesEntity();
-    entity.id = faker.string.uuid();
-    entity.userId = faker.string.uuid();
-    entity.profileImage = faker.image.avatar();
-    entity.phoneNumber = "01012345678";
-    entity.gender = Gender.MALE;
-    entity.mbti = Mbti.ENFP;
-    entity.birthday = getNowDayjs().toISOString();
-    entity.introduction = faker.lorem.paragraph();
-    entity.createdAt = getNowDayjs().toISOString();
-    entity.updatedAt = getNowDayjs().toISOString();
-    entity.deletedAt = null;
+    const props: EntityData<UserProfilesEntity, "user"> = {
+      id: faker.string.uuid(),
+      userId: faker.string.uuid(),
+      profileImage: faker.image.avatar(),
+      phoneNumber: "01012345678",
+      gender: Gender.MALE,
+      mbti: Mbti.ENFP,
+      birthday: getNowDayjs().toISOString(),
+      introduction: faker.lorem.paragraph(),
+      createdAt: getNowDayjs().toISOString(),
+      updatedAt: getNowDayjs().toISOString(),
+      deletedAt: null,
+    };
+    Object.assign(entity, props);
 
     return entity;
   };
@@ -37,7 +43,7 @@ describe("PsqlUserProfilesMapper", () => {
       expect(domain?.phoneNumber).toBe(entity.phoneNumber);
       expect(domain?.gender).toBe(entity.gender);
       expect(domain?.mbti).toBe(entity.mbti);
-      expect(domain?.birthday).toEqual(entity.birthday);
+      expect(dayjs(domain?.birthday).isSame(entity.birthday)).toBe(true);
       expect(domain?.introduction).toBe(entity.introduction);
     });
 
@@ -50,21 +56,21 @@ describe("PsqlUserProfilesMapper", () => {
       const entity = createMockUserProfilesEntity();
       entity.phoneNumber = "invalid-phone";
 
-      expect(() => PsqlUserProfilesMapper.toDomain(entity)).toThrow(InternalServerErrorException);
+      expect(() => PsqlUserProfilesMapper.toDomain(entity)).toThrow(HttpStatusBasedRpcException);
     });
   });
 
   describe("toEntity", () => {
     it("Domain을 Entity로 변환할 수 있다", () => {
       const userProfiles = UserProfiles.createNew({
-        userId: new UniqueEntityId(faker.number.int()),
+        userId: new UserId(faker.number.int()),
         profileImage: faker.image.avatar(),
         phoneNumber: "01012345678",
         gender: Gender.MALE,
         mbti: Mbti.ENFP,
         birthday: getNowDayjs(),
         introduction: faker.lorem.paragraph(),
-      }).value as UserProfiles;
+      }).value;
 
       const entity = PsqlUserProfilesMapper.toEntity(userProfiles);
 
@@ -73,7 +79,7 @@ describe("PsqlUserProfilesMapper", () => {
       expect(entity.phoneNumber).toBe(userProfiles.phoneNumber);
       expect(entity.gender).toBe(userProfiles.gender);
       expect(entity.mbti).toBe(userProfiles.mbti);
-      expect(entity.birthday).toEqual(userProfiles.birthday);
+      expect(dayjs(entity.birthday).isSame(userProfiles.birthday)).toBe(true);
       expect(entity.introduction).toBe(userProfiles.introduction);
     });
   });

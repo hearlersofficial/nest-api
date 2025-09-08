@@ -13,10 +13,10 @@ describe("UniqueEntityID", (): void => {
     expect(uniqueEntityID2.getNumber()).toEqual(randomInt);
   });
 
-  it("전달된 값이 없이 생성된 경우 0을 반환", (): void => {
+  it("전달된 값이 없이 생성된 경우 snowflake id를 반환", (): void => {
     const uniqueEntityID: UniqueEntityId = new UniqueEntityId();
 
     expect(uniqueEntityID).toBeDefined();
-    expect(uniqueEntityID.getValue()).toEqual(0);
+    expect(uniqueEntityID.getValue()).toBeDefined();
   });
 });

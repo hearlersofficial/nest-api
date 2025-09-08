@@ -52,12 +52,4 @@ describe("Identifier", (): void => {
       expect(identifier2.getNumber()).toEqual(TEST_VALUE2);
     });
   });
-
-  describe("isNewIdentifier", (): void => {
-    it("0으로 생성시 isNewIdentifier() 는 true 를 반환", (): void => {
-      const identifier: Identifier<number> = new Identifier(0);
-
-      expect(identifier.isNewIdentifier()).toEqual(true);
-    });
-  });
 });

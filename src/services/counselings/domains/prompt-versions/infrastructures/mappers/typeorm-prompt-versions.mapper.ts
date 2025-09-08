@@ -42,9 +42,7 @@ export class TypeormPromptVersionsMapper {
   static toEntity(promptVersions: PromptVersions): PromptVersionEntity {
     const entity = new PromptVersionEntity();
 
-    if (!promptVersions.id.isNewIdentifier()) {
-      entity.id = promptVersions.id.getString();
-    }
+    entity.id = promptVersions.id.getString();
 
     const mappedFields: EntityData<
       PromptVersionEntity,

@@ -206,6 +206,16 @@ export class GrpcCounselPromptCommandController {
       ...request,
       fromCounselTechniqueId: new CounselTechniqueId(request.fromCounselTechniqueId),
       toCounselTechniqueId: new CounselTechniqueId(request.toCounselTechniqueId),
+      minCurrentTechniqueMessageCount: request.minCurrentTechniqueMessageCount ?? null,
+      maxCurrentTechniqueMessageCount: request.maxCurrentTechniqueMessageCount ?? null,
+      minEmotionIntensity: request.minEmotionIntensity ?? null,
+      maxEmotionIntensity: request.maxEmotionIntensity ?? null,
+      minSelfEfficacy: request.minSelfEfficacy ?? null,
+      maxSelfEfficacy: request.maxSelfEfficacy ?? null,
+      minRiskSeverity: request.minRiskSeverity ?? null,
+      maxRiskSeverity: request.maxRiskSeverity ?? null,
+      requiredPhysicalSymptomsPresent: request.requiredPhysicalSymptomsPresent ?? null,
+      requiredConsentToDepth: request.requiredConsentToDepth ?? null,
     });
     return create(CreateCounselTechniqueTransitionRuleResponseSchema, {
       counselTechniqueTransitionRule: SchemaCounselPromptsMapper.toTransitionRuleProto(transitionRule),
@@ -220,6 +230,16 @@ export class GrpcCounselPromptCommandController {
     const transitionRule = await this.counselPromptManagementsFacade.updateCounselTechniqueTransitionRule({
       ...request,
       counselTechniqueTransitionRuleId: new CounselTechniqueTransitionRuleId(request.counselTechniqueTransitionRuleId),
+      minCurrentTechniqueMessageCount: request.minCurrentTechniqueMessageCount ?? null,
+      maxCurrentTechniqueMessageCount: request.maxCurrentTechniqueMessageCount ?? null,
+      minEmotionIntensity: request.minEmotionIntensity ?? null,
+      maxEmotionIntensity: request.maxEmotionIntensity ?? null,
+      minSelfEfficacy: request.minSelfEfficacy ?? null,
+      maxSelfEfficacy: request.maxSelfEfficacy ?? null,
+      minRiskSeverity: request.minRiskSeverity ?? null,
+      maxRiskSeverity: request.maxRiskSeverity ?? null,
+      requiredPhysicalSymptomsPresent: request.requiredPhysicalSymptomsPresent ?? null,
+      requiredConsentToDepth: request.requiredConsentToDepth ?? null,
     });
     return create(UpdateCounselTechniqueTransitionRuleResponseSchema, {
       counselTechniqueTransitionRule: SchemaCounselPromptsMapper.toTransitionRuleProto(transitionRule),

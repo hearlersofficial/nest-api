@@ -296,8 +296,6 @@ export class CounselPromptManagementsFacade {
     fromCounselTechniqueId: CounselTechniqueId;
     toCounselTechniqueId: CounselTechniqueId;
     priority: number;
-    minNotCompressedMessageCount: number | null;
-    maxNotCompressedMessageCount: number | null;
     minCurrentTechniqueMessageCount: number | null;
     maxCurrentTechniqueMessageCount: number | null;
     requiredImpactDomains: ImpactDomain[];
@@ -332,8 +330,6 @@ export class CounselPromptManagementsFacade {
   async updateCounselTechniqueTransitionRule(param: {
     counselTechniqueTransitionRuleId: CounselTechniqueTransitionRuleId;
     priority: number;
-    minNotCompressedMessageCount: number | null;
-    maxNotCompressedMessageCount: number | null;
     minCurrentTechniqueMessageCount: number | null;
     maxCurrentTechniqueMessageCount: number | null;
     requiredImpactDomains: ImpactDomain[];

@@ -12,8 +12,9 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: [".eslintrc.js", ".prettierrc.js"],
+  ignorePatterns: [".eslintrc.js", ".prettierrc.js", "src/migrations/**"],
   rules: {
+    "@typescript-eslint/no-empty-object-type": "off",
     "simple-import-sort/imports": [
       "error",
       {

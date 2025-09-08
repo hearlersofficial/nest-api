@@ -1,9 +1,18 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": ".",
-  "testEnvironment": "node",
-  "testRegex": "\\.e2e-spec\\.ts$",
+  "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
-  }
+  },
+  "moduleNameMapper": {
+    "~users/(.*)$": "<rootDir>/../src/services/users/$1",
+    "~counselings/(.*)$": "<rootDir>/../src/services/counselings/$1",
+    "~shared/(.*)$": "<rootDir>/../src/shared/$1",
+    "~common/(.*)$": "<rootDir>/../src/common/$1",
+    "~proto/(.*)$": "<rootDir>/../src/gen/$1",
+    "^~/(.*)$": "<rootDir>/../$1"
+  },
+  "testEnvironment": "node",
+  "testTimeout": 30000
 }

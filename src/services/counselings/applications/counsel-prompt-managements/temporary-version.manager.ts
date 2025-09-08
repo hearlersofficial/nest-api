@@ -36,7 +36,7 @@ export class TemporaryVersionManager {
 
       if (activeVersion) {
         // 활성 버전이 있다면 복사된 값들로 새 임시 버전 생성
-        return await this.createTemporaryVersionFromActive(activeVersion);
+        return await this.createTemporaryVersion(activeVersion);
       } else {
         // 활성 버전이 없다면 빈 값으로 새 임시 버전 생성
         return await this.createEmptyTemporaryVersion();
@@ -52,7 +52,7 @@ export class TemporaryVersionManager {
     if (isDefined(existingTemporary)) {
       await this.promptVersionsService.deletePromptVersions({ promptVersionIds: [existingTemporary.id] });
     }
-    const clonedPromptVersion = await this.promptVersionsService.createTemporaryPromptVersion(sourceVersion);
+    const clonedPromptVersion = await this.createTemporaryVersion(sourceVersion);
     return clonedPromptVersion;
   }
 
@@ -60,28 +60,28 @@ export class TemporaryVersionManager {
    * 활성 버전을 복사하여 새로운 임시 버전을 생성합니다.
    */
   @Transactional()
-  private async createTemporaryVersionFromActive(activeVersion: PromptVersionInfo): Promise<PromptVersionInfo> {
+  private async createTemporaryVersion(parentVersion: PromptVersionInfo): Promise<PromptVersionInfo> {
     const newTemporaryVersion = await this.promptVersionsService.createTemporaryPromptVersion({
-      name: `임시 버전 (${activeVersion.name} 복사)`,
-      description: `현재 수정 중인 임시 버전입니다. (부모 버전: ${activeVersion.name})`,
-      aiModel: activeVersion.aiModel,
+      name: `임시 버전 (${parentVersion.name} 복사)`,
+      description: `현재 수정 중인 임시 버전입니다. (부모 버전: ${parentVersion.name})`,
+      aiModel: parentVersion.aiModel,
     });
 
     const activePersonaPrompts = await this.personaPromptsService.findMany({
-      promptVersionId: activeVersion.id,
+      promptVersionId: parentVersion.id,
     });
     const activeTonePrompts = await this.tonePromptsService.findMany({
-      promptVersionId: activeVersion.id,
+      promptVersionId: parentVersion.id,
     });
     const activeCounselTechniques = await this.counselTechniquesService.findMany({
-      promptVersionId: activeVersion.id,
+      promptVersionId: parentVersion.id,
     });
     const activeCounselTechniqueTransitionRules = await this.counselTechniquesService.findManyTransitionRules({
-      promptVersionId: activeVersion.id,
+      promptVersionId: parentVersion.id,
     });
     const techniqueIdMap = new Map<CounselTechniqueId, CounselTechniqueId>();
 
-    Promise.all([
+    await Promise.all([
       ...activePersonaPrompts.map(async (personaPrompt) => {
         return this.personaPromptsService.create({
           promptVersionId: newTemporaryVersion.id,

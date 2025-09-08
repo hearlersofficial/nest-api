@@ -79,7 +79,9 @@ export class TemporaryVersionManager {
     const activeCounselTechniqueTransitionRules = await this.counselTechniquesService.findManyTransitionRules({
       promptVersionId: parentVersion.id,
     });
-    const techniqueIdMap = new Map<CounselTechniqueId, CounselTechniqueId>();
+    const techniqueIdMap = new Map<string, CounselTechniqueId>();
+
+    this.logger.log(`Starting to create ${activeCounselTechniques.length} counsel techniques for temporary version`);
 
     await Promise.all([
       ...activePersonaPrompts.map(async (personaPrompt) => {
@@ -106,19 +108,31 @@ export class TemporaryVersionManager {
           instruction: counselTechnique.instruction,
           isStartTechnique: counselTechnique.isStartTechnique,
         });
-        techniqueIdMap.set(counselTechnique.id, newCounselTechnique.id);
+        techniqueIdMap.set(counselTechnique.id.getString(), newCounselTechnique.id);
         return newCounselTechnique;
       }),
     ]);
 
-    await Promise.all(
-      activeCounselTechniqueTransitionRules.map(async (counselTechniqueTransitionRule) => {
-        const newFromCounselTechniqueId = techniqueIdMap.get(counselTechniqueTransitionRule.fromCounselTechniqueId);
-        const newToCounselTechniqueId = techniqueIdMap.get(counselTechniqueTransitionRule.toCounselTechniqueId);
-        if (!newFromCounselTechniqueId || !newToCounselTechniqueId) {
-          return;
-        }
-        return this.counselTechniquesService.createTransitionRule({
+    // Transition rule 생성 시 에러 처리 개선
+    const transitionRulePromises = activeCounselTechniqueTransitionRules.map(async (counselTechniqueTransitionRule) => {
+      const newFromCounselTechniqueId = techniqueIdMap.get(
+        counselTechniqueTransitionRule.fromCounselTechniqueId.getString(),
+      );
+      const newToCounselTechniqueId = techniqueIdMap.get(
+        counselTechniqueTransitionRule.toCounselTechniqueId.getString(),
+      );
+
+      if (!newFromCounselTechniqueId || !newToCounselTechniqueId) {
+        this.logger.warn(
+          "Skipping transition rule creation: missing technique ID mapping. " +
+            `From: ${counselTechniqueTransitionRule.fromCounselTechniqueId.getString()} -> ${newFromCounselTechniqueId}, ` +
+            `To: ${counselTechniqueTransitionRule.toCounselTechniqueId.getString()} -> ${newToCounselTechniqueId}`,
+        );
+        return null;
+      }
+
+      try {
+        return await this.counselTechniquesService.createTransitionRule({
           promptVersionId: newTemporaryVersion.id,
           fromCounselTechniqueId: newFromCounselTechniqueId,
           toCounselTechniqueId: newToCounselTechniqueId,
@@ -146,7 +160,23 @@ export class TemporaryVersionManager {
           requiredAllianceStrengths: counselTechniqueTransitionRule.requiredAllianceStrengths,
           requiredConsentToDepth: counselTechniqueTransitionRule.requiredConsentToDepth,
         });
-      }),
+      } catch (error) {
+        this.logger.error(
+          `Failed to create transition rule from ${newFromCounselTechniqueId.getString()} to ${newToCounselTechniqueId.getString()}: ${error.message}`,
+          error.stack,
+        );
+        return null;
+      }
+    });
+
+    const transitionRuleResults = await Promise.allSettled(transitionRulePromises);
+    const successfulRules = transitionRuleResults.filter(
+      (result) => result.status === "fulfilled" && result.value !== null,
+    );
+    const failedRules = transitionRuleResults.filter((result) => result.status === "rejected" || result.value === null);
+
+    this.logger.log(
+      `Transition rules creation completed: ${successfulRules.length} successful, ${failedRules.length} failed`,
     );
 
     return newTemporaryVersion;

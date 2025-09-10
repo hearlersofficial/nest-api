@@ -109,20 +109,14 @@ export class CounselTechniquesService {
     newProps: CounselTechniqueTransitionRulesNewProps,
   ): Promise<CounselTechniqueTransitionRuleInfo> {
     const { promptVersionId, fromCounselTechniqueId, toCounselTechniqueId } = newProps;
-    const [fromCounselTechnique, toCounselTechnique, existingTransitionRule] = await Promise.all([
+    const [fromCounselTechnique, toCounselTechnique] = await Promise.all([
       this.getOne({
         uniqueCriteria: { type: "counselTechnique", id: fromCounselTechniqueId },
       }),
       this.getOne({
         uniqueCriteria: { type: "counselTechnique", id: toCounselTechniqueId },
       }),
-      this.counselTechniquesReader.findOneTransitionRule({
-        uniqueCriteria: { type: "edge", fromCounselTechniqueId, toCounselTechniqueId, promptVersionId },
-      }),
     ]);
-    if (isDefined(existingTransitionRule)) {
-      throw new HttpStatusBasedRpcException(HttpStatus.CONFLICT, "Transition rule already exists");
-    }
 
     const transitionRule = await this.counselTechniquesStore.createTransitionRule(newProps);
     return CounselTechniqueTransitionRuleInfo.fromDomain(transitionRule);

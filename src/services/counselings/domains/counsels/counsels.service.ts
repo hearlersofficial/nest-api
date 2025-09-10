@@ -134,7 +134,7 @@ export class CounselsService {
     }
 
     // fire-and-forget: update counseling context while conversation continues
-    this.contextOrganizer.organizeContext(counsel);
+    if (!isUserMessage) this.contextOrganizer.organizeContext(counsel);
     return {
       counsel: CounselsInfo.fromDomain(counsel),
       message: CounselMessagesInfo.fromDomain(newMessage),

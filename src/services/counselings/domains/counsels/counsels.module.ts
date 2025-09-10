@@ -1,3 +1,4 @@
+import { AllianceAnalyzer } from "~counselings/domains/counsels/analyzers/alliance.analyzer";
 import { BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
 import { ContextReviewer } from "~counselings/domains/counsels/analyzers/context-reviewer";
 import { EmotionAnalyzer } from "~counselings/domains/counsels/analyzers/emotion.analyzer";
@@ -47,6 +48,7 @@ import { CounselMessagesEntity } from "~common/system/persistences/entities/coun
     MotivationAnalyzer,
     SupportSleepCognitiveAnalyzer,
     ImpactTimeframeAnalyzer,
+    AllianceAnalyzer,
     {
       provide: "CONTEXT_DOMAIN_ANALYZERS",
       useFactory: (
@@ -55,13 +57,15 @@ import { CounselMessagesEntity } from "~common/system/persistences/entities/coun
         motivation: MotivationAnalyzer,
         supportSleepCognitive: SupportSleepCognitiveAnalyzer,
         impactTimeframe: ImpactTimeframeAnalyzer,
-      ): BaseDomainAnalyzer[] => [emotion, risk, motivation, supportSleepCognitive, impactTimeframe],
+        alliance: AllianceAnalyzer,
+      ): BaseDomainAnalyzer[] => [emotion, risk, motivation, supportSleepCognitive, impactTimeframe, alliance],
       inject: [
         EmotionAnalyzer,
         RiskAnalyzer,
         MotivationAnalyzer,
         SupportSleepCognitiveAnalyzer,
         ImpactTimeframeAnalyzer,
+        AllianceAnalyzer,
       ],
     },
     ConversationHistoryBuilder,

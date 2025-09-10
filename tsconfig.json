@@ -24,6 +24,7 @@
       "~shared/*": ["./src/shared/*"],
       "~common/*": ["./src/common/*"],
       "~proto/*": ["./src/gen/*"],
+      "~test/*": ["./test/*"],
       "~/*": ["./*"]
     }
   }

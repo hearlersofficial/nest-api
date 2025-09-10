@@ -1,4 +1,3 @@
-import { isDefined } from "~common/shared/utils/validate";
 import { UniqueEntityId } from "~common/shared-kernel/domains/unique-entity-id";
 
 export interface DomainEntityProps {
@@ -30,7 +29,7 @@ export abstract class DomainEntity<Props extends DomainEntityProps, IdType exten
     return <K extends keyof typeof updates>(key: K) => {
       if (key in updates) {
         const value = updates[key];
-        if (isDefined(value)) {
+        if (value !== undefined) {
           this.props[key] = value;
         }
       }

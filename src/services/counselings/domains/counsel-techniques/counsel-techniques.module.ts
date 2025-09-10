@@ -6,7 +6,7 @@ import { CounselTechniquesRepository } from "~counselings/domains/counsel-techni
 import { RepositoryCounselTechniquesReader } from "~counselings/domains/counsel-techniques/infrastructures/repository-counsel-techniques.reader";
 import { RepositoryCounselTechniquesStore } from "~counselings/domains/counsel-techniques/infrastructures/repository-counsel-techniques.store";
 import { TypeormCounselTechniqueTransitionRulesRepository } from "~counselings/domains/counsel-techniques/infrastructures/typeorm-counsel-technique-transition-rules.repository";
-import { TypeormCounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/typeorm-counselTechniques.repository";
+import { TypeormCounselTechniquesRepository } from "~counselings/domains/counsel-techniques/infrastructures/typeorm-counsel-techniques.repository";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";

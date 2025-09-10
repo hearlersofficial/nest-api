@@ -115,6 +115,7 @@
       "~shared/(.*)$": "<rootDir>/../src/shared/$1",
       "~common/(.*)$": "<rootDir>/../src/common/$1",
       "~proto/(.*)$": "<rootDir>/../src/gen/$1",
+      "~test/(.*)$": "<rootDir>/../test/$1",
       "^~/(.*)$": "<rootDir>/../$1"
     }
   },
@@ -124,6 +125,7 @@
     "~shared/(.*)$": "<rootDir>/../src/shared/$1",
     "~common/(.*)$": "<rootDir>/../src/common/$1",
     "~proto/(.*)$": "<rootDir>/../src/gen/$1",
+    "~test/(.*)$": "<rootDir>/../test/$1",
     "^~/(.*)$": "<rootDir>/../$1"
   }
 }

@@ -51,13 +51,7 @@ export class RepositoryCounselTechniquesReader extends CounselTechniquesReader {
     switch (props.uniqueCriteria.type) {
       case "counselTechniqueTransitionRule":
         return this.counselTechniqueTransitionRulesRepository.findById(props.uniqueCriteria.id, typeormOptions);
-      case "edge":
-        return this.counselTechniqueTransitionRulesRepository.findEdge(
-          props.uniqueCriteria.fromCounselTechniqueId,
-          props.uniqueCriteria.toCounselTechniqueId,
-          props.uniqueCriteria.promptVersionId,
-          typeormOptions,
-        );
+
       default:
         return null;
     }

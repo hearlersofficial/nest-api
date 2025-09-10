@@ -1,5 +1,5 @@
 import { AnalyzerValidator } from "~counselings/domains/counsels/analyzers/analyzer.validator";
-import { BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
+import { AnalysisResult, BaseDomainAnalyzer } from "~counselings/domains/counsels/analyzers/context-analyzer.interface";
 import {
   CONTEXT_DOMAIN_REGISTRY,
   ContextDomain,
@@ -28,26 +28,42 @@ export class ImpactTimeframeAnalyzer extends BaseDomainAnalyzer {
     super();
   }
 
-  async analyze(counsel: Counsels): Promise<Partial<CounselContextsProps>> {
+  async analyze(counsel: Counsels): Promise<AnalysisResult> {
+    const startTime = Date.now();
     const messages = await this.counselsReader.findManyMessages({
       counselId: counsel.id,
       limit: 20,
       orderBy: { id: "DESC" },
     });
-    if (!messages.length) return {};
 
-    const conversationJson = this.historyBuilder.buildHistoryFromDomain(messages);
-    const response = await this.assistantAgent.call({
-      conversationId: counsel.id.toString(),
-      message: this.getUserPrompt(conversationJson),
-      systemPrompt: this.getSystemPrompt(),
-      aiModel: AiModel.GPT_5,
-      temperature: 0,
-      maxToolCalls: 0,
-      useTools: false,
-    });
+    if (!messages.length) {
+      return this.createFailureResult("No messages found", 0, Date.now() - startTime);
+    }
 
-    return this.pick(response.content);
+    try {
+      const conversationJson = this.historyBuilder.buildHistoryFromDomain(messages);
+      const response = await this.assistantAgent.call({
+        conversationId: counsel.id.toString(),
+        message: this.getUserPrompt(conversationJson),
+        systemPrompt: this.getSystemPrompt(),
+        aiModel: AiModel.GPT_5,
+        temperature: 0,
+        maxToolCalls: 0,
+        useTools: false,
+      });
+
+      const updates = this.pick(response.content);
+      const processingTime = Date.now() - startTime;
+      const quality = this.assessQuality(updates, response.content);
+
+      return this.createResult(updates, messages.length, processingTime, quality);
+    } catch (error) {
+      return this.createFailureResult(
+        error instanceof Error ? error.message : "Unknown error",
+        messages.length,
+        Date.now() - startTime,
+      );
+    }
   }
 
   private getSystemPrompt(): string {

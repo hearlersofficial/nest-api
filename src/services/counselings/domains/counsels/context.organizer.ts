@@ -18,16 +18,28 @@ export class ContextOrganizer {
   public organizeContext(counsel: Counsels): void {
     Promise.resolve()
       .then(async () => {
-        this.logger.log(`[ContextOrganizer] organizeContext: ${counsel.id.getString()}`);
-        const updates = await this.counselAnalyzer.analyze(counsel);
-        if (Object.keys(updates).length > 0) {
-          counsel.counselContexts.applyUpdates(updates);
+        this.logger.log(`organizeContext: ${counsel.id.getString()}`);
+        const analysisResult = await this.counselAnalyzer.analyze(counsel);
+
+        if (Object.keys(analysisResult.updates).length > 0) {
+          counsel.counselContexts.applyUpdates(analysisResult.updates);
           await this.counselsStore.update(counsel);
+
+          this.logger.log(
+            `Context updated: ${counsel.id.getString()}, ` +
+              `analyzers: ${analysisResult.analysisMetrics.successfulAnalyzers}/${analysisResult.analysisMetrics.totalAnalyzers}, ` +
+              `time: ${analysisResult.analysisMetrics.totalProcessingTime}ms`,
+          );
+        } else {
+          this.logger.debug(
+            `No updates needed: ${counsel.id.getString()}, ` +
+              `time: ${analysisResult.analysisMetrics.totalProcessingTime}ms`,
+          );
         }
         return;
       })
       .catch((error) => {
-        this.logger.error(`[ContextOrganizer] organizeContext failed: ${counsel.id.getString()}`, error);
+        this.logger.error(`organizeContext failed: ${counsel.id.getString()}`, error);
       });
   }
 }

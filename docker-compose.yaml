@@ -10,3 +10,4 @@ services:
       - /usr/src/app/node_modules
     ports:
       - "50051:50051"
+      - "3000:3000"

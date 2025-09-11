@@ -95,6 +95,7 @@ export class LoggingInterceptor implements NestInterceptor {
   }
 
   private shouldBeLogged(context: ExecutionContext): boolean {
+    return false;
     if (
       context.getHandler().name.toLowerCase().includes("find") ||
       context.getHandler().name.toLowerCase().includes("get")

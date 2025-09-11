@@ -52,7 +52,7 @@ import {
 } from "~proto/com/hearlers/v1/service/counsel_prompt_pb";
 
 import { create } from "@bufbuild/protobuf";
-import { Controller } from "@nestjs/common";
+import { Controller, Delete, Param } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
@@ -256,5 +256,16 @@ export class GrpcCounselPromptCommandController {
       counselTechniqueTransitionRuleId: new CounselTechniqueTransitionRuleId(counselTechniqueTransitionRuleId),
     });
     return create(DeleteCounselTechniqueTransitionRuleResponseSchema, {});
+  }
+
+  @Delete("counsel-technique-transition-rule/:counselTechniqueTransitionRuleId")
+  async deleteCounselTechniqueTransitionRuleHttp(
+    @Param("counselTechniqueTransitionRuleId") counselTechniqueTransitionRuleId: string,
+  ): Promise<any> {
+    await this.counselPromptManagementsFacade.deleteCounselTechniqueTransitionRuleById({
+      counselTechniqueTransitionRuleId: new CounselTechniqueTransitionRuleId(counselTechniqueTransitionRuleId),
+    });
+    // For HTTP, return a standard response (could be 204 No Content or a JSON object)
+    return { success: true };
   }
 }

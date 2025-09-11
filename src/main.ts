@@ -89,7 +89,7 @@ async function bootstrap(): Promise<void> {
 
   await app.init();
   await app.startAllMicroservices();
-
+  await app.listen(3000);
   logger.log(`Application started successfully in ${serviceType} mode`);
 }
 

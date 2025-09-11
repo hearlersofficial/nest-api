@@ -1,4 +1,5 @@
 import { CounselPromptManagementsFacade } from "~counselings/applications/counsel-prompt-managements/counsel-prompt-managements.facade";
+import { CounselTechniqueTransitionRuleInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique-transition-rule.info";
 import { SchemaCounselPromptsMapper } from "~counselings/presentations/grpc/counsel-prompts.mapper";
 import {
   FindActiveVersionRequest,
@@ -56,7 +57,7 @@ import {
 } from "~proto/com/hearlers/v1/service/counsel_prompt_pb";
 
 import { create } from "@bufbuild/protobuf";
-import { Controller } from "@nestjs/common";
+import { Controller, Get, Query } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
@@ -69,7 +70,43 @@ import { TonePromptId } from "~common/shared-kernel/identifiers/tone-prompt.id";
 
 @Controller("counsel_prompt")
 export class GrpcCounselPromptQueryController {
+  private readonly isCachingEnabled = true; // Boolean flag to enable/disable caching
+  private readonly cacheTtl = 60 * 1000; // 1 minute in milliseconds
+  private readonly transitionRulesCache = new Map<string, { data: any; timestamp: number }>();
+
   constructor(private readonly counselPromptManagementsFacade: CounselPromptManagementsFacade) {}
+
+  private generateCacheKey(
+    fromCounselTechniqueId?: string,
+    toCounselTechniqueId?: string,
+    promptVersionId?: string,
+  ): string {
+    return `transition-rules-${fromCounselTechniqueId || "null"}-${toCounselTechniqueId || "null"}-${promptVersionId || "null"}`;
+  }
+
+  private isCacheValid(timestamp: number): boolean {
+    return Date.now() - timestamp < this.cacheTtl;
+  }
+
+  private getCachedData(cacheKey: string): any | null {
+    if (!this.isCachingEnabled) return null;
+
+    const cached = this.transitionRulesCache.get(cacheKey);
+    if (!cached || !this.isCacheValid(cached.timestamp)) {
+      this.transitionRulesCache.delete(cacheKey);
+      return null;
+    }
+    return cached.data;
+  }
+
+  private setCachedData(cacheKey: string, data: any): void {
+    if (!this.isCachingEnabled) return;
+
+    this.transitionRulesCache.set(cacheKey, {
+      data,
+      timestamp: Date.now(),
+    });
+  }
 
   // Prompt Version
   @GrpcMethod("CounselPromptService", "FindPromptVersions")
@@ -235,17 +272,58 @@ export class GrpcCounselPromptQueryController {
     request: FindCounselTechniqueTransitionRulesRequest,
   ): Promise<FindCounselTechniqueTransitionRulesResponse> {
     const { fromCounselTechniqueId, toCounselTechniqueId, promptVersionId } = request;
+    const cacheKey = this.generateCacheKey(fromCounselTechniqueId, toCounselTechniqueId, promptVersionId);
+
+    // Try to get cached response
+    const cachedResponse = this.getCachedData(cacheKey);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+
+    // Fetch data from facade
     const transitionRules = await this.counselPromptManagementsFacade.findCounselTechniqueTransitionRules({
       fromCounselTechniqueId: fromCounselTechniqueId ? new CounselTechniqueId(fromCounselTechniqueId) : undefined,
       toCounselTechniqueId: toCounselTechniqueId ? new CounselTechniqueId(toCounselTechniqueId) : undefined,
       promptVersionId: promptVersionId ? new PromptVersionId(promptVersionId) : undefined,
     });
+
+    // Create response with proto mapping
     const response = create(FindCounselTechniqueTransitionRulesResponseSchema, {
       counselTechniqueTransitionRules: transitionRules.map((rule) =>
         SchemaCounselPromptsMapper.toTransitionRuleProto(rule),
       ),
     });
 
+    // Cache the complete response
+    this.setCachedData(cacheKey, response);
+
     return response;
+  }
+
+  @Get("counsel-technique-transition-rules")
+  async getCounselTechniqueTransitionRules(
+    @Query("fromCounselTechniqueId") fromCounselTechniqueId?: string,
+    @Query("toCounselTechniqueId") toCounselTechniqueId?: string,
+    @Query("promptVersionId") promptVersionId?: string,
+  ): Promise<CounselTechniqueTransitionRuleInfo[]> {
+    const cacheKey = this.generateCacheKey(fromCounselTechniqueId, toCounselTechniqueId, promptVersionId);
+
+    // Try to get cached data
+    const cachedData = this.getCachedData(cacheKey);
+    if (cachedData) {
+      return cachedData;
+    }
+
+    // Fetch data from facade
+    const transitionRules = await this.counselPromptManagementsFacade.findCounselTechniqueTransitionRules({
+      fromCounselTechniqueId: fromCounselTechniqueId ? new CounselTechniqueId(fromCounselTechniqueId) : undefined,
+      toCounselTechniqueId: toCounselTechniqueId ? new CounselTechniqueId(toCounselTechniqueId) : undefined,
+      promptVersionId: promptVersionId ? new PromptVersionId(promptVersionId) : undefined,
+    });
+
+    // Cache the data
+    this.setCachedData(cacheKey, transitionRules);
+
+    return transitionRules;
   }
 }

@@ -8,6 +8,7 @@ import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
 import { MessageCompressor } from "~counselings/domains/counsels/message.compressor";
 import { CompressedMessagesInfo } from "~counselings/domains/counsels/models/compressed-messages.info";
+import { CounselContextsInfo } from "~counselings/domains/counsels/models/counsel-contexts.info";
 import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselsNewProps } from "~counselings/domains/counsels/models/counsels";
 import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
@@ -133,12 +134,20 @@ export class CounselsService {
       this.messageCompressor.compressContext(counsel);
     }
 
-    // fire-and-forget: update counseling context while conversation continues
-    if (!isUserMessage) this.contextOrganizer.organizeContext(counsel);
     return {
       counsel: CounselsInfo.fromDomain(counsel),
       message: CounselMessagesInfo.fromDomain(newMessage),
     };
+  }
+
+  // 조회 및 위임
+  async organizeContext(props: { counselId: CounselId }): Promise<void> {
+    const { counselId } = props;
+    const counsel = await this.counselsReader.findOne({ counselId });
+    if (!counsel) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel not found");
+    }
+    await this.contextOrganizer.organizeContext(counsel);
   }
 
   @Transactional()

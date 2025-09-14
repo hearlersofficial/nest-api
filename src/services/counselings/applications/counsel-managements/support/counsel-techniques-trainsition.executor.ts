@@ -5,6 +5,7 @@ import { CounselsService } from "~counselings/domains/counsels/counsels.service"
 import { CounselContextsInfo } from "~counselings/domains/counsels/models/counsel-contexts.info";
 
 import { Injectable, Logger } from "@nestjs/common";
+import { Propagation, Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class CounselTechniquesTransitionExecutor {
@@ -15,23 +16,28 @@ export class CounselTechniquesTransitionExecutor {
 
   private readonly logger = new Logger(CounselTechniquesTransitionExecutor.name);
 
-  async executeTransitionBackgroundIfPossible(counselSession: CounselSession): Promise<void> {
-    Promise.resolve()
-      .then(async () => {
-        const matchingRule = await this.evaluateTransition(counselSession);
-        if (matchingRule) {
-          await this.counselsService.updateCounselTechniqueId({
-            counselId: counselSession.counselId,
-            counselTechniqueId: matchingRule.toCounselTechniqueId,
-          });
-        }
-      })
-      .catch((error) => {
-        this.logger.error(
-          `[CounselTechniquesTransitionExecutor] executeTransitionBackgroundIfPossible failed: ${counselSession.counselId}`,
-          error,
+  @Transactional({ propagation: Propagation.REQUIRES_NEW })
+  async executeTransitionIfPossible(counselSession: CounselSession): Promise<void> {
+    try {
+      this.logger.log(`Evaluating technique transition for counsel: ${counselSession.counselId.getString()}`);
+      const matchingRule = await this.evaluateTransition(counselSession);
+      if (matchingRule) {
+        await this.counselsService.updateCounselTechniqueId({
+          counselId: counselSession.counselId,
+          counselTechniqueId: matchingRule.toCounselTechniqueId,
+        });
+        this.logger.log(
+          `Transitioned counsel ${counselSession.counselId.getString()} to technique ${matchingRule.toCounselTechniqueId.getString()} ` +
+            `using rule ${matchingRule.id.getString()}`,
         );
-      });
+      } else {
+        this.logger.log(`No transition rule matched for counsel: ${counselSession.counselId.getString()}`);
+      }
+    } catch (error) {
+      this.logger.error(`executeTransitionIfPossible failed: ${counselSession.counselId.getString()}`, error);
+      // Transaction Rollback
+      throw error;
+    }
   }
 
   private async evaluateTransition(counselSession: CounselSession): Promise<CounselTechniqueTransitionRuleInfo | null> {

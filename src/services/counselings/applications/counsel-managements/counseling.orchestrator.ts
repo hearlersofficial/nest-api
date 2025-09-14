@@ -7,6 +7,7 @@ import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counse
 import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
 
 import { Injectable, Logger } from "@nestjs/common";
+import { FireAndForget } from "~common/shared/utils/fire-and-forget";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { Transactional } from "typeorm-transactional";
 
@@ -81,9 +82,34 @@ export class CounselingOrchestrator {
       compressedMessages: session.compressedMessages,
     });
 
-    // 6. 백그라운드에서 기법 전환 평가 수행
-    // this.evaluateTechniqueTransitionInBackground(session);
-    this.counselTechniquesTransitionExecutor.executeTransitionBackgroundIfPossible(session);
+    // 6. 백그라운드에서 맥락 분석 및 기법 전환 수행 (별도의 동기적 flow 생성)
+    FireAndForget.execute(
+      async () => {
+        // 상담 맥락 재구성
+        try {
+          await this.counselService.organizeContext({ counselId: counselId });
+        } catch {
+          // 실패 시 즉시 종료
+          // 맥락분석 실패 -> 기법전환 불필요 -> 종료
+          return;
+        }
+
+        // 세션 최신화
+        const updatedSession = await this.contextManager.buildCounselSession(counselId);
+
+        // 최신화된 세션으로 상담 기법 전환 시도
+        try {
+          await this.counselTechniquesTransitionExecutor.executeTransitionIfPossible(updatedSession);
+        } catch {
+          // 실패 시 즉시 종료
+          // 기법전환 실패 -> 종료
+          return;
+        }
+      },
+      {
+        context: `Organize context and technique transition: ${session.counselId.getString()}`,
+      },
+    );
 
     return {
       counsel: session.counsel,
@@ -91,111 +117,4 @@ export class CounselingOrchestrator {
       counselorResponseMessage: createdAssistantMessage.message,
     };
   }
-
-  /**
-   * 백그라운드에서 기법 전환 평가 및 실행
-   * @param session 상담 세션
-   * @param latestMessage 최신 메시지
-   * @deprecated 기법 전환 평가 기능 비활성화
-   */
-  // @Transactional({ propagation: Propagation.REQUIRES_NEW })
-  // private evaluateTechniqueTransitionInBackground(session: CounselSession): void {
-  //   // 백그라운드 처리를 위해 Promise.resolve()를 사용
-  //   Promise.resolve()
-  //     .then(async () => {
-  //       // 1. 평가 조건 확인
-  //       if (!isDefined(session.currentTechnique.nextTechniqueId)) {
-  //         this.logger.log(`Technique evaluation skipped for counsel ${session.counselId}: No next technique`);
-  //         return;
-  //       }
-  //       if (
-  //         session.messages
-  //           .filter((m) => m.isUserMessage)
-  //           .filter((m) => m.counselTechniqueId.equals(session.currentTechniqueId)).length <
-  //         session.currentTechnique.messageThreshold
-  //       ) {
-  //         this.logger.log(`Technique evaluation skipped for counsel ${session.counselId}: Insufficient messages`);
-  //         return;
-  //       }
-
-  //       // 2. AI 평가 수행
-  //       const decision = await this.performAIEvaluation(session);
-
-  //       // 3. 기법 전환 처리
-  //       if (decision.shouldTransition) {
-  //         await this.counselService.updateCounselTechniqueId({
-  //           counselId: session.counselId,
-  //           counselTechniqueId: session.currentTechnique.nextTechniqueId!,
-  //         });
-  //       }
-
-  //       // 로깅
-  //       if (decision.shouldTransition) {
-  //         this.logger.log(`Technique transition executed for counsel ${session.counselId}`, {
-  //           currentTechniqueId: session.currentTechniqueId,
-  //           scores: decision.scores,
-  //           confidence: decision.confidence,
-  //         });
-  //       } else {
-  //         this.logger.log(`Technique transition not recommended for counsel ${session.counselId}`, {
-  //           currentTechniqueId: session.currentTechniqueId,
-  //           scores: decision.scores,
-  //           confidence: decision.confidence,
-  //         });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       this.logger.error(`Error in background technique evaluation for counsel ${session.counselId}`, error);
-  //     });
-  // }
-
-  // /**
-  //  * AI 평가 수행 (support 서비스들 활용)
-  //  * @param request 평가 요청
-  //  * @returns 기법 전환 결정
-  //  */
-  // private async performAIEvaluation(session: CounselSession): Promise<TechniqueTransitionDecision> {
-  //   // 현재 기법 메시지들을 대화 히스토리로 구성
-  //   const conversationHistory = this.counselService.buildHistory({
-  //     counselId: session.getCounselId(),
-  //     messages: session.getMessages(),
-  //     compressedMessages: session.getCompressedMessages(),
-  //   });
-  //   const nextTechniqueId = session.getCurrentTechnique().nextTechniqueId;
-
-  //   if (!isDefined(nextTechniqueId)) {
-  //     throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "Next technique not found");
-  //   }
-
-  //   const nextTechnique = await this.counselTechniqueService.getOne({
-  //     counselTechniqueId: nextTechniqueId,
-  //   });
-
-  //   // 기법 평가용 통합 시스템 프롬프트 생성
-  //   const systemPrompt = this.promptBuilder.buildTechniqueEvaluationSystemPrompt({
-  //     currentTechnique: session.getCurrentTechnique(),
-  //     nextTechnique: nextTechnique,
-  //     messageThreshold: session.getCurrentTechnique().messageThreshold,
-  //   });
-
-  //   const evaluationRequest = "please evaluate the technique transition";
-
-  //   // AI 평가 수행
-  //   const aiResponse = await this.aiGenerator.generateResponse(
-  //     systemPrompt,
-  //     conversationHistory,
-  //     evaluationRequest,
-  //     `technique-evaluation-${Date.now()}`,
-  //     AiModel.GPT_4O,
-  //     0,
-  //   );
-
-  //   const userMessageCount = session.getMessages().filter((m) => m.isUserMessage).length;
-
-  //   // 파서를 사용하여 응답 파싱 + 결정 계산
-  //   return this.techniqueEvaluationParser.parseTechniqueEvaluationResponse(aiResponse, {
-  //     messageThreshold: session.getCurrentTechnique().messageThreshold,
-  //     userMessageCount,
-  //   });
-  // }
 }

@@ -19,7 +19,7 @@ export class UsersKafkaClientConfig extends BaseKafkaClientConfig {
     return {
       clientId: process.env.KAFKA_USERS_CLIENT_ID ?? "users-service",
       groupId: process.env.KAFKA_USERS_GROUP_ID ?? "users-group",
-      brokers: [process.env.KAFKA_BOOTSTRAP_SERVERS ?? "localhost:9092"],
+      brokers: (process.env.KAFKA_BOOTSTRAP_SERVERS ?? "localhost:9092").split(","),
     };
   }
 }

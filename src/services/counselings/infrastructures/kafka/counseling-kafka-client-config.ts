@@ -19,7 +19,7 @@ export class CounselingsKafkaClientConfig extends BaseKafkaClientConfig {
     return {
       clientId: process.env.KAFKA_COUNSELINGS_CLIENT_ID ?? "counselings-service",
       groupId: process.env.KAFKA_COUNSELINGS_GROUP_ID ?? "counselings-group",
-      brokers: [process.env.KAFKA_BOOTSTRAP_SERVERS ?? "localhost:9092"],
+      brokers: (process.env.KAFKA_BOOTSTRAP_SERVERS ?? "localhost:9092").split(","),
     };
   }
 }

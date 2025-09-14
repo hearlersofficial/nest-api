@@ -5,8 +5,8 @@ services:
     image: node:22.19.0
     command: bash -c "yarn install && yarn start"
     working_dir: /usr/src/app
+    network_mode: host
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    ports:
-      - "50051:50051"
+

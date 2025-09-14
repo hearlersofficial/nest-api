@@ -1,5 +1,6 @@
 import { AIResponseGenerator } from "~counselings/applications/counsel-managements/support/ai-response.generator";
 import { ContextManager } from "~counselings/applications/counsel-managements/support/context.manager";
+import { CounselLockManager } from "~counselings/applications/counsel-managements/support/counsel-lock.manager";
 import { CounselTechniquesTransitionExecutor } from "~counselings/applications/counsel-managements/support/counsel-techniques-trainsition.executor";
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
@@ -25,6 +26,7 @@ export class CounselingOrchestrator {
     private readonly contextManager: ContextManager,
     private readonly counselService: CounselsService,
     private readonly counselTechniquesTransitionExecutor: CounselTechniquesTransitionExecutor,
+    private readonly counselLockManager: CounselLockManager,
   ) {}
 
   /**
@@ -79,38 +81,49 @@ export class CounselingOrchestrator {
     // 6. 백그라운드에서 추가 작업 수행 (상담 맥락을 다루는 별도의 동기적 flow 생성)
     FireAndForget.execute(
       async () => {
-        // 1. 메시지 압축(필요시)
-        if (session.counsel.shouldCompressContext) {
-          try {
-            await this.counselService.compressContext({ counselId: session.counselId });
-          } catch {
-            // 실패해도 무시하고 계속 진행
+        // counsel별 동시성 제어 - 락 획득 시도
+        if (!this.counselLockManager.tryAcquire(counselId.getString())) {
+          this.logger.debug(`Context processing already in progress: ${counselId.getString()}`);
+          return; // 이미 처리 중이면 스킵
+        }
+
+        try {
+          // 1. 메시지 압축(필요시)
+          if (session.counsel.shouldCompressContext) {
+            try {
+              await this.counselService.compressContext({ counselId: session.counselId });
+            } catch {
+              // 실패해도 무시하고 계속 진행
+            }
           }
-        }
 
-        // 2. 상담 맥락 재구성
-        try {
-          await this.counselService.organizeContext({ counselId: counselId });
-        } catch {
-          // 실패 시 즉시 종료
-          // 맥락분석 실패 -> 기법전환 불필요 -> 종료
-          return;
-        }
+          // 2. 상담 맥락 재구성
+          try {
+            await this.counselService.organizeContext({ counselId: counselId });
+          } catch {
+            // 실패 시 즉시 종료
+            // 맥락분석 실패 -> 기법전환 불필요 -> 종료
+            return;
+          }
 
-        // 3. 세션 최신화
-        const updatedSession = await this.contextManager.buildCounselSession(counselId);
+          // 3. 세션 최신화
+          const updatedSession = await this.contextManager.buildCounselSession(counselId);
 
-        // 4. 최신화된 세션으로 상담 기법 전환 시도
-        try {
-          await this.counselTechniquesTransitionExecutor.executeTransitionIfPossible(updatedSession);
-        } catch {
-          // 실패 시 무시하고 종료
-          // 기법전환 실패 -> 종료
-          return;
+          // 4. 최신화된 세션으로 상담 기법 전환 시도
+          try {
+            await this.counselTechniquesTransitionExecutor.executeTransitionIfPossible(updatedSession);
+          } catch {
+            // 실패 시 무시하고 종료
+            // 기법전환 실패 -> 종료
+            return;
+          }
+        } finally {
+          // 락 해제
+          this.counselLockManager.release(counselId.getString());
         }
       },
       {
-        context: `Organize context and technique transition: ${session.counselId.getString()}`,
+        context: `Organize context and technique transition: ${counselId.getString()}`,
       },
     );
 

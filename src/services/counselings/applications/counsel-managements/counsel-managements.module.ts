@@ -2,6 +2,7 @@ import { CounselManagementsFacade } from "~counselings/applications/counsel-mana
 import { CounselingOrchestrator } from "~counselings/applications/counsel-managements/counseling.orchestrator";
 import { AIResponseGenerator } from "~counselings/applications/counsel-managements/support/ai-response.generator";
 import { ContextManager } from "~counselings/applications/counsel-managements/support/context.manager";
+import { CounselLockManager } from "~counselings/applications/counsel-managements/support/counsel-lock.manager";
 import { CounselTechniquesTransitionExecutor } from "~counselings/applications/counsel-managements/support/counsel-techniques-trainsition.executor";
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
 import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
@@ -35,6 +36,7 @@ import { AssistantAgentModule } from "~common/support/assistant-agents/assistant
     TechniqueEvaluationParser,
     ContextManager,
     CounselTechniquesTransitionExecutor,
+    CounselLockManager,
 
     // Main Orchestrator
     CounselingOrchestrator,

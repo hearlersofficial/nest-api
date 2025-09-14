@@ -52,7 +52,7 @@ export class CounselingOrchestrator {
 
     // 3. 프롬프트 구성
     const systemPrompt = await this.promptBuilder.buildSystemPrompt(session);
-    let conversationHistory = this.counselService.buildHistory({
+    const conversationHistory = this.counselService.buildHistory({
       counselId: session.counselId,
       messages: session.messages,
       compressedMessages: session.compressedMessages,
@@ -76,16 +76,19 @@ export class CounselingOrchestrator {
     });
     session = session.withNewMessage(createdAssistantMessage.message);
 
-    conversationHistory = this.counselService.buildHistory({
-      counselId: session.counselId,
-      messages: session.messages,
-      compressedMessages: session.compressedMessages,
-    });
-
-    // 6. 백그라운드에서 맥락 분석 및 기법 전환 수행 (별도의 동기적 flow 생성)
+    // 6. 백그라운드에서 추가 작업 수행 (상담 맥락을 다루는 별도의 동기적 flow 생성)
     FireAndForget.execute(
       async () => {
-        // 상담 맥락 재구성
+        // 1. 메시지 압축(필요시)
+        if (session.counsel.shouldCompressContext) {
+          try {
+            await this.counselService.compressContext({ counselId: session.counselId });
+          } catch {
+            // 실패해도 무시하고 계속 진행
+          }
+        }
+
+        // 2. 상담 맥락 재구성
         try {
           await this.counselService.organizeContext({ counselId: counselId });
         } catch {
@@ -94,14 +97,14 @@ export class CounselingOrchestrator {
           return;
         }
 
-        // 세션 최신화
+        // 3. 세션 최신화
         const updatedSession = await this.contextManager.buildCounselSession(counselId);
 
-        // 최신화된 세션으로 상담 기법 전환 시도
+        // 4. 최신화된 세션으로 상담 기법 전환 시도
         try {
           await this.counselTechniquesTransitionExecutor.executeTransitionIfPossible(updatedSession);
         } catch {
-          // 실패 시 즉시 종료
+          // 실패 시 무시하고 종료
           // 기법전환 실패 -> 종료
           return;
         }

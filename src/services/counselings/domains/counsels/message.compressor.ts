@@ -23,24 +23,25 @@ export class MessageCompressor {
   private readonly logger = new Logger(MessageCompressor.name);
 
   @Transactional({ propagation: Propagation.REQUIRES_NEW })
-  public compressContext(counsel: Counsels): void {
-    Promise.resolve()
-      .then(async () => {
-        this.logger.log(`[MessageCompressor] compressContext: ${counsel.id.getString()}`);
-        const compressedMessageContent = await this.generateCompressedMessage(counsel);
-        const compressedMessage = await this.counselsStore.createCompressedMessage({
-          counselId: counsel.id,
-          content: compressedMessageContent,
-          messageCountAtCompression: counsel.messageCount,
-        });
-        counsel.counselContexts.markContextCompressed();
-        await this.counselsStore.update(counsel);
-
-        return compressedMessage;
-      })
-      .catch((error) => {
-        this.logger.error(`[MessageCompressor] compressContext failed: ${counsel.id.getString()}`, error);
+  public async compressContext(counsel: Counsels): Promise<void> {
+    try {
+      this.logger.log(`[MessageCompressor] compressContext: ${counsel.id.getString()}`);
+      const compressedMessageContent = await this.generateCompressedMessage(counsel);
+      const compressedMessage = await this.counselsStore.createCompressedMessage({
+        counselId: counsel.id,
+        content: compressedMessageContent,
+        messageCountAtCompression: counsel.messageCount,
       });
+      counsel.counselContexts.markContextCompressed();
+      await this.counselsStore.update(counsel);
+
+      this.logger.log(
+        `[MessageCompressor] Compressed message created: ${compressedMessage.id.getString()} for counsel: ${counsel.id.getString()}`,
+      );
+    } catch (error) {
+      this.logger.error(`[MessageCompressor] compressContext failed: ${counsel.id.getString()}`, error);
+      throw error;
+    }
   }
 
   private async generateCompressedMessage(counsel: Counsels): Promise<string> {

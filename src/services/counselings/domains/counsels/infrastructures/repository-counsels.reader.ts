@@ -5,10 +5,14 @@ import {
 } from "~counselings/domains/counsels/counsels.criteria";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CompressedMessagesRepository } from "~counselings/domains/counsels/infrastructures/compressed-messages.repository";
+import { CounselCompressConditionsRepository } from "~counselings/domains/counsels/infrastructures/counsel-compress-conditions.repository";
+import { CounselContextsRepository } from "~counselings/domains/counsels/infrastructures/counsel-contexts.repository";
 import { CounselMessagesRepository } from "~counselings/domains/counsels/infrastructures/counsel-messages.repository";
 import { CounselsRepository } from "~counselings/domains/counsels/infrastructures/counsels.repository";
 import { RepositoryCounselCriteriaMapper } from "~counselings/domains/counsels/infrastructures/mappers/repository-counsels-criteria.mapper";
 import { CompressedMessages } from "~counselings/domains/counsels/models/compressed-messages";
+import { CounselCompressConditions } from "~counselings/domains/counsels/models/counsel-compress-conditions";
+import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 import { CounselMessages } from "~counselings/domains/counsels/models/counsel-messages";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
@@ -23,6 +27,8 @@ export class RepositoryCounselsReader extends CounselsReader {
     private readonly counselsRepository: CounselsRepository,
     private readonly counselMessagesRepository: CounselMessagesRepository,
     private readonly compressedMessagesRepository: CompressedMessagesRepository,
+    private readonly counselCompressConditionsRepository: CounselCompressConditionsRepository,
+    private readonly counselContextsRepository: CounselContextsRepository,
   ) {
     super();
   }
@@ -54,5 +60,13 @@ export class RepositoryCounselsReader extends CounselsReader {
   override async findManyCompressedMessages(props: CompressedMessagesCriteriaFindMany): Promise<CompressedMessages[]> {
     const typeormOptions = RepositoryCounselCriteriaMapper.toFindManyCompressedMessageOptions(props);
     return this.compressedMessagesRepository.findMany(typeormOptions);
+  }
+
+  override async findCompressConditions(props: { counselId: CounselId }): Promise<CounselCompressConditions | null> {
+    return this.counselCompressConditionsRepository.findByCounselId(props.counselId);
+  }
+
+  override async findContexts(props: { counselId: CounselId }): Promise<CounselContexts | null> {
+    return this.counselContextsRepository.findByCounselId(props.counselId);
   }
 }

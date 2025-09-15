@@ -16,15 +16,15 @@ import {
 
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselContextId } from "~common/shared-kernel/identifiers/counsel-context.id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { Dayjs } from "dayjs";
 
 export class CounselContextsInfo {
   constructor(
     public readonly id: CounselContextId,
     public readonly counselId: CounselId,
-    public readonly notCompressedMessageCount: number,
-    public readonly lastMessageCompressedAt: Dayjs | null,
-    public readonly currentTechniqueMessageCount: number,
+    public readonly counselTechniqueId: CounselTechniqueId,
+    public readonly messageCountAtLastTransition: number,
     public readonly impactDomain: ImpactDomain,
     public readonly timeframe: Timeframe,
     public readonly emotionPrimary: EmotionPrimary,
@@ -51,9 +51,8 @@ export class CounselContextsInfo {
     return new CounselContextsInfo(
       counselContexts.id,
       counselContexts.counselId,
-      counselContexts.notCompressedMessageCount,
-      counselContexts.lastMessageCompressedAt,
-      counselContexts.currentTechniqueMessageCount,
+      counselContexts.counselTechniqueId,
+      counselContexts.messageCountAtLastTransition,
       counselContexts.impactDomain,
       counselContexts.timeframe,
       counselContexts.emotionPrimary,

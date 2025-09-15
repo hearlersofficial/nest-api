@@ -1,6 +1,7 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { ToneEntity } from "~common/system/persistences/entities/counselors/tone.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
+import { CounselContextsEntity } from "~common/system/persistences/entities/counsels/counsel-contexts.entity";
 import { CounselTechniqueTransitionRuleEntity } from "~common/system/persistences/entities/prompts/counsel-technique-transition-rules.entity";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from "typeorm";
@@ -66,10 +67,10 @@ export class CounselTechniquesEntity extends CoreEntity {
   @Column({ type: "bigint", name: "prompt_version_id" })
   promptVersionId: string;
 
-  @OneToMany(() => CounselsEntity, (counsel) => counsel.counselTechnique, {
+  @OneToMany(() => CounselContextsEntity, (counselContext) => counselContext.counselTechnique, {
     cascade: true,
   })
-  counsels: CounselsEntity[];
+  counselContexts: CounselContextsEntity[];
 
   @OneToMany(() => CounselTechniqueTransitionRuleEntity, (rule) => rule.fromCounselTechnique, {
     cascade: true,

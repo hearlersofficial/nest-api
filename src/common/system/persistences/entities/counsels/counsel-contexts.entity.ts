@@ -15,33 +15,21 @@ import {
 
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselsEntity } from "~common/system/persistences/entities/counsels/counsel.entity";
-import { Column, Entity, JoinColumn, OneToOne, RelationId } from "typeorm";
+import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, RelationId } from "typeorm";
 
 @Entity({ name: "counsel_contexts", comment: "상담 컨텍스트" })
 export class CounselContextsEntity extends CoreEntity {
   @Column({
     type: "int",
-    name: "not_compressed_message_count",
+    name: "message_count_at_last_transition",
     default: 0,
-    comment: "압축되지 않은 메시지 수",
+    comment: "마지막 기법 전이 시점의 메시지 수",
   })
-  notCompressedMessageCount: number;
+  messageCountAtLastTransition: number;
 
-  @Column({
-    type: "timestamp",
-    name: "last_message_compressed_at",
-    nullable: true,
-    comment: "마지막 메시지 압축일시",
-  })
-  lastMessageCompressedAt: string | null;
-
-  @Column({
-    type: "int",
-    name: "current_technique_message_count",
-    default: 0,
-    comment: "현 기법에서 누적 메시지 수(>=0)",
-  })
-  currentTechniqueMessageCount!: number;
+  @Column({ type: "bigint", name: "counsel_technique_id", comment: "상담 기법 ID" })
+  counselTechniqueId: string;
 
   @Column({ type: "int", name: "impact_domain", nullable: true, comment: "삶의 영역" })
   impactDomain!: ImpactDomain;
@@ -93,6 +81,13 @@ export class CounselContextsEntity extends CoreEntity {
 
   @Column({ type: "boolean", name: "consent_to_depth", nullable: true, comment: "심층 동의" })
   consentToDepth!: boolean | null;
+
+  @ManyToOne(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.counselContexts, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn({ name: "counsel_technique_id" })
+  counselTechnique!: CounselTechniquesEntity;
 
   @OneToOne(() => CounselsEntity, (counsel) => counsel.counselContext, {
     onDelete: "CASCADE",

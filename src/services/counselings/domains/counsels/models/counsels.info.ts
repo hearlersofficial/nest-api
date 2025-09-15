@@ -1,3 +1,4 @@
+import { CounselCompressConditionsInfo } from "~counselings/domains/counsels/models/counsel-compress-conditions.info";
 import { CounselContextsInfo } from "~counselings/domains/counsels/models/counsel-contexts.info";
 import { Counsels } from "~counselings/domains/counsels/models/counsels";
 
@@ -14,16 +15,11 @@ export class CounselsInfo {
     public readonly id: CounselId,
     public readonly userId: UserId,
     public readonly counselorId: CounselorId,
-    public readonly counselTechniqueId: CounselTechniqueId,
     public readonly promptVersionId: PromptVersionId,
     public readonly counselorUserRelationshipId: CounselorUserRelationshipId,
-    public readonly context: CounselContextsInfo,
     public readonly lastChatedAt: Dayjs | null,
     public readonly lastMessage: string | null,
     public readonly messageCount: number,
-    public readonly notCompressedMessageCount: number,
-    public readonly lastMessageCompressedAt: Dayjs | null,
-    public readonly shouldCompressContext: boolean,
     public readonly createdAt: Dayjs,
     public readonly updatedAt: Dayjs,
     public readonly deletedAt: Dayjs | null,
@@ -34,16 +30,11 @@ export class CounselsInfo {
       counsel.id,
       counsel.userId,
       counsel.counselorId,
-      counsel.counselTechniqueId,
       counsel.promptVersionId,
       counsel.counselorUserRelationshipId,
-      CounselContextsInfo.fromDomain(counsel.counselContexts),
       counsel.lastChatedAt,
       counsel.lastMessage,
       counsel.messageCount,
-      counsel.counselContexts.notCompressedMessageCount,
-      counsel.counselContexts.lastMessageCompressedAt,
-      counsel.counselContexts.shouldCompressContext(),
       counsel.createdAt,
       counsel.updatedAt,
       counsel.deletedAt,

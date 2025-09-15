@@ -22,15 +22,16 @@ export class ContextManager {
 
   async buildCounselSession(counselId: CounselId): Promise<CounselSession> {
     // 병렬로 데이터 수집
-    const { counsel, messages, compressedMessages } = await this.counselService.getSessionInfo({
-      counselId,
-    });
+    const { counsel, messages, compressedMessages, counselContext, compressCondition } =
+      await this.counselService.getSessionInfo({
+        counselId,
+      });
 
     const [counselor, promptVersion, currentTechnique] = await Promise.all([
       this.counselorService.getOne({ counselorId: counsel.counselorId }),
       this.promptVersionsService.getOne({ promptVersionId: counsel.promptVersionId }),
       this.counselTechniqueService.getOne({
-        uniqueCriteria: { type: "counselTechnique", id: counsel.counselTechniqueId },
+        uniqueCriteria: { type: "counselTechnique", id: counselContext.counselTechniqueId },
       }),
     ]);
     const [personaPrompt, tonePrompt] = await Promise.all([
@@ -55,6 +56,8 @@ export class ContextManager {
       counselor,
       messages,
       compressedMessages,
+      counselContext,
+      compressCondition,
       promptVersion,
       currentTechnique,
       personaPrompt,

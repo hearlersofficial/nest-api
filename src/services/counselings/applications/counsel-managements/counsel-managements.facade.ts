@@ -55,7 +55,7 @@ export class CounselManagementsFacade {
         promptVersionId: promptVersion.id,
       },
     });
-    const createdCounsel = await this.counselService.create({
+    const createdCounsel = await this.counselService.initializeCounsel({
       userId,
       counselorId,
       counselTechniqueId: startTechnique.id,

@@ -7,8 +7,7 @@ import {
 } from "~counselings/domains/counsels/analyzers/context-domain.registry";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
-import { CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
-import { Counsels } from "~counselings/domains/counsels/models/counsels";
+import { CounselContexts, CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
 import { ImpactDomain, PerceivedControl, Timeframe } from "~proto/com/hearlers/v1/model/counsel_pb";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
@@ -28,10 +27,10 @@ export class ImpactTimeframeAnalyzer extends BaseDomainAnalyzer {
     super();
   }
 
-  async analyze(counsel: Counsels): Promise<AnalysisResult> {
+  async analyze(counselContext: CounselContexts): Promise<AnalysisResult> {
     const startTime = Date.now();
     const messages = await this.counselsReader.findManyMessages({
-      counselId: counsel.id,
+      counselId: counselContext.counselId,
       limit: 20,
       orderBy: { id: "DESC" },
     });
@@ -43,7 +42,7 @@ export class ImpactTimeframeAnalyzer extends BaseDomainAnalyzer {
     try {
       const conversationJson = this.historyBuilder.buildHistoryFromDomain(messages);
       const response = await this.assistantAgent.call({
-        conversationId: counsel.id.toString(),
+        conversationId: counselContext.counselId.toString(),
         message: this.getUserPrompt(conversationJson),
         systemPrompt: this.getSystemPrompt(),
         aiModel: AiModel.GPT_5,

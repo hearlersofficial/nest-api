@@ -3,7 +3,6 @@ import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/co
 
 import { HttpStatus } from "@nestjs/common";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
-import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
@@ -24,7 +23,6 @@ export class TypeormCounselsMapper {
     const counselProps: CounselsProps = {
       userId: new UserId(entity.userId),
       counselorId: new CounselorId(entity.counselorId),
-      counselTechniqueId: new CounselTechniqueId(entity.counselTechniqueId),
       promptVersionId: new PromptVersionId(entity.promptVersionId),
       counselorUserRelationshipId: new CounselorUserRelationshipId(entity.counselorUserRelationshipId),
       lastChatedAt: entity.lastChatedAt ? dayjs(entity.lastChatedAt) : null,
@@ -33,7 +31,6 @@ export class TypeormCounselsMapper {
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
-      counselContexts: TypeormCounselContextsMapper.toDomain(entity.counselContext),
     };
     const counselsOrError = Counsels.create(counselProps, new CounselId(entity.id));
 
@@ -54,7 +51,6 @@ export class TypeormCounselsMapper {
     entity.id = counsels.id.getString();
     entity.userId = counsels.userId.getString();
     entity.counselorId = counsels.counselorId.getString();
-    entity.counselTechniqueId = counsels.counselTechniqueId.getString();
     entity.promptVersionId = counsels.promptVersionId.getString();
     entity.counselorUserRelationshipId = counsels.counselorUserRelationshipId.getString();
 
@@ -66,8 +62,6 @@ export class TypeormCounselsMapper {
     entity.createdAt = counsels.createdAt.toISOString();
     entity.updatedAt = counsels.updatedAt.toISOString();
     entity.deletedAt = counsels.deletedAt ? counsels.deletedAt.toISOString() : null;
-
-    entity.counselContext = TypeormCounselContextsMapper.toEntity(counsels.counselContexts);
 
     return entity;
   }

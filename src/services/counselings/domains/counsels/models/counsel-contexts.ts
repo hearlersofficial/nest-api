@@ -19,16 +19,16 @@ import { DomainEntity } from "~common/shared-kernel/domains/domain-entity";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselContextId } from "~common/shared-kernel/identifiers/counsel-context.id";
+import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { Dayjs } from "dayjs";
 
 export interface CounselContextsNewProps {
   counselId: CounselId;
+  counselTechniqueId: CounselTechniqueId;
 }
 
 export interface CounselContextsProps extends CounselContextsNewProps {
-  notCompressedMessageCount: number;
-  lastMessageCompressedAt: Dayjs | null;
-  currentTechniqueMessageCount: number;
+  messageCountAtLastTransition: number;
   impactDomain: ImpactDomain;
   timeframe: Timeframe;
   emotionPrimary: EmotionPrimary;
@@ -51,9 +51,12 @@ export interface CounselContextsProps extends CounselContextsNewProps {
   deletedAt: Dayjs | null;
 }
 
+/**
+ * 상담 맥락 (Counsel Contexts) 도메인 모델
+ * - 상담 세션의 맥락 정보를 관리합니다.
+ * - 기법 전이에 필요한 정보를 포함합니다.
+ */
 export class CounselContexts extends DomainEntity<CounselContextsProps, CounselContextId> {
-  public static readonly COMPRESSION_THRESHOLD = 20;
-
   private constructor(props: CounselContextsProps, id: CounselContextId) {
     super(props, id);
   }
@@ -73,9 +76,7 @@ export class CounselContexts extends DomainEntity<CounselContextsProps, CounselC
     return this.create(
       {
         ...newProps,
-        notCompressedMessageCount: 0,
-        lastMessageCompressedAt: null,
-        currentTechniqueMessageCount: 0,
+        messageCountAtLastTransition: 0,
         impactDomain: ImpactDomain.UNSPECIFIED,
         timeframe: Timeframe.UNSPECIFIED,
         emotionPrimary: EmotionPrimary.UNSPECIFIED,
@@ -101,8 +102,8 @@ export class CounselContexts extends DomainEntity<CounselContextsProps, CounselC
     );
   }
   public validateDomain(): Result<void> {
-    if (this.props.currentTechniqueMessageCount < 0) {
-      return Result.fail("[CounselContexts] 현 기법에서 누적 메시지 수는 0 이상이어야 합니다");
+    if (this.props.messageCountAtLastTransition < 0) {
+      return Result.fail("[CounselContexts] 마지막 기법 전이 시점 메시지 카운트는 0 이상이어야 합니다");
     }
     if (
       isDefined(this.props.emotionIntensity) &&
@@ -127,23 +128,10 @@ export class CounselContexts extends DomainEntity<CounselContextsProps, CounselC
     if (!isDefined(this.props.counselId)) {
       return Result.fail("[CounselContexts] 상담 ID는 필수입니다");
     }
+    if (!isDefined(this.props.counselTechniqueId)) {
+      return Result.fail("[CounselContexts] 상담 기법 ID는 필수입니다");
+    }
     return Result.ok();
-  }
-
-  public shouldCompressContext(): boolean {
-    return this.props.notCompressedMessageCount >= CounselContexts.COMPRESSION_THRESHOLD;
-  }
-
-  public markContextCompressed(): void {
-    const now = getNowDayjs();
-    this.props.notCompressedMessageCount = 0;
-    this.props.lastMessageCompressedAt = now;
-    this.props.updatedAt = now;
-  }
-
-  public increaseNotCompressedMessageCount(): void {
-    this.props.notCompressedMessageCount++;
-    this.props.updatedAt = getNowDayjs();
   }
 
   public applyUpdates(updates: Partial<CounselContextsProps>): void {
@@ -174,18 +162,21 @@ export class CounselContexts extends DomainEntity<CounselContextsProps, CounselC
     this.props.updatedAt = now;
   }
 
-  get notCompressedMessageCount(): number {
-    return this.props.notCompressedMessageCount;
-  }
-  get lastMessageCompressedAt(): Dayjs | null {
-    return this.props.lastMessageCompressedAt;
+  public updateCounselTechniqueId(counselTechniqueId: CounselTechniqueId, currentMessageCount: number): Result<void> {
+    this.props.counselTechniqueId = counselTechniqueId;
+    this.props.messageCountAtLastTransition = currentMessageCount;
+    this.props.updatedAt = getNowDayjs();
+    return Result.ok();
   }
 
   get counselId(): CounselId {
     return this.props.counselId;
   }
-  get currentTechniqueMessageCount(): number {
-    return this.props.currentTechniqueMessageCount;
+  get counselTechniqueId(): CounselTechniqueId {
+    return this.props.counselTechniqueId;
+  }
+  get messageCountAtLastTransition(): number {
+    return this.props.messageCountAtLastTransition;
   }
   get impactDomain(): ImpactDomain {
     return this.props.impactDomain;

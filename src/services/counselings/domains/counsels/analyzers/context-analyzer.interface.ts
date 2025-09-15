@@ -1,6 +1,5 @@
 import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-domain.registry";
-import { CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
-import { Counsels } from "~counselings/domains/counsels/models/counsels";
+import { CounselContexts, CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
 
 import { Injectable } from "@nestjs/common";
 
@@ -24,13 +23,13 @@ export interface AnalysisResult {
 
 export interface DomainAnalyzer {
   readonly domain: ContextDomain;
-  analyze: (counsel: Counsels) => Promise<AnalysisResult>;
+  analyze: (counselContext: CounselContexts) => Promise<AnalysisResult>;
 }
 
 @Injectable()
 export abstract class BaseDomainAnalyzer implements DomainAnalyzer {
   abstract readonly domain: ContextDomain;
-  abstract analyze(counsel: Counsels): Promise<AnalysisResult>;
+  abstract analyze(counselContext: CounselContexts): Promise<AnalysisResult>;
 
   /**
    * 분석 결과를 메타데이터와 함께 생성하는 헬퍼 메서드

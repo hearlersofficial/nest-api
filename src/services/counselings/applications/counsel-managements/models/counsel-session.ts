@@ -1,6 +1,8 @@
 import { CounselTechniqueInfo } from "~counselings/domains/counsel-techniques/models/counsel-technique.info";
 import { CounselorsInfo } from "~counselings/domains/counselors/models/counselors.info";
 import { CompressedMessagesInfo } from "~counselings/domains/counsels/models/compressed-messages.info";
+import { CounselCompressConditionsInfo } from "~counselings/domains/counsels/models/counsel-compress-conditions.info";
+import { CounselContextsInfo } from "~counselings/domains/counsels/models/counsel-contexts.info";
 import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
 import { PersonaPromptInfo } from "~counselings/domains/persona-prompts/models/persona-prompt.info";
@@ -16,6 +18,8 @@ export type CounselSessionData = {
   counselor: CounselorsInfo;
   messages: CounselMessagesInfo[];
   compressedMessages: CompressedMessagesInfo[];
+  counselContext: CounselContextsInfo;
+  compressCondition: CounselCompressConditionsInfo;
   promptVersion: PromptVersionInfo;
   currentTechnique: CounselTechniqueInfo;
   personaPrompt: PersonaPromptInfo;
@@ -50,6 +54,14 @@ export class CounselSession {
 
   get compressedMessages(): CompressedMessagesInfo[] {
     return this.data.compressedMessages;
+  }
+
+  get counselContext(): CounselContextsInfo {
+    return this.data.counselContext;
+  }
+
+  get compressCondition(): CounselCompressConditionsInfo {
+    return this.data.compressCondition;
   }
 
   get promptVersion(): PromptVersionInfo {
@@ -88,7 +100,7 @@ export class CounselSession {
    * @returns 상담기법 ID
    */
   get currentTechniqueId(): CounselTechniqueId {
-    return this.data.counsel.counselTechniqueId;
+    return this.data.counselContext.counselTechniqueId;
   }
 
   withNewMessage(message: CounselMessagesInfo): CounselSession {
@@ -97,6 +109,8 @@ export class CounselSession {
       counselor: this.data.counselor,
       messages: [...this.data.messages, message],
       compressedMessages: this.data.compressedMessages,
+      counselContext: this.data.counselContext,
+      compressCondition: this.data.compressCondition,
       promptVersion: this.data.promptVersion,
       currentTechnique: this.data.currentTechnique,
       personaPrompt: this.data.personaPrompt,

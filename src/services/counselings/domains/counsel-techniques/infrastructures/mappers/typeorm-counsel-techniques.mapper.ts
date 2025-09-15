@@ -51,7 +51,7 @@ export class TypeormCounselTechniquesMapper {
 
     const mappedFields: EntityData<
       CounselTechniquesEntity,
-      "tone" | "promptVersion" | "counsels" | "fromTransitionRules" | "toTransitionRules"
+      "tone" | "promptVersion" | "counselContexts" | "fromTransitionRules" | "toTransitionRules"
     > = {
       id: counselTechniques.id.getString(),
       promptVersionId: counselTechniques.promptVersionId.getString(),

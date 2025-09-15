@@ -1,8 +1,8 @@
 import { CoreEntity } from "~common/system/persistences/entities/core.entity";
 import { CounselorEntity } from "~common/system/persistences/entities/counselors/counselor.entity";
+import { CounselCompressConditionsEntity } from "~common/system/persistences/entities/counsels/counsel-compress-conditions.entity";
 import { CounselContextsEntity } from "~common/system/persistences/entities/counsels/counsel-contexts.entity";
 import { CounselMessagesEntity } from "~common/system/persistences/entities/counsels/counsel-messages.entity";
-import { CounselTechniquesEntity } from "~common/system/persistences/entities/prompts/counsel-techniques.entity";
 import { PromptVersionEntity } from "~common/system/persistences/entities/prompts/prompt-versions.entity";
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, RelationId } from "typeorm";
@@ -81,21 +81,6 @@ export class CounselsEntity extends CoreEntity {
   })
   promptVersionId: string;
 
-  @ManyToOne(() => CounselTechniquesEntity, (counselTechnique) => counselTechnique.counsels, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-  })
-  @JoinColumn({ name: "counsel_technique_id" })
-  counselTechnique: CounselTechniquesEntity;
-
-  @RelationId((counsels: CounselsEntity) => counsels.counselTechnique)
-  @Column({
-    type: "bigint",
-    name: "counsel_technique_id",
-    comment: "상담 기법 ID",
-  })
-  counselTechniqueId: string;
-
   // @ManyToOne(() => CounselorUserRelationshipsEntity, (counselorUserRelationship) => counselorUserRelationship.counsels)
   // @JoinColumn({ name: "counselor_user_relationship_id" })
   // counselorUserRelationship: CounselorUserRelationshipsEntity;
@@ -115,4 +100,10 @@ export class CounselsEntity extends CoreEntity {
     orphanedRowAction: "disable",
   })
   counselContext: CounselContextsEntity;
+
+  @OneToOne(() => CounselCompressConditionsEntity, (compressCondition) => compressCondition.counsel, {
+    cascade: true,
+    orphanedRowAction: "disable",
+  })
+  compressCondition: CounselCompressConditionsEntity;
 }

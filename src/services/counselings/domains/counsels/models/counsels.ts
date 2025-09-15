@@ -1,4 +1,3 @@
-import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 import { CounselCreatedPayloadSchema } from "~proto/com/hearlers/v1/message/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
@@ -8,7 +7,6 @@ import { AggregateRoot } from "~common/shared-kernel/domains/aggregate-root";
 import { Result } from "~common/shared-kernel/domains/results";
 import { CounselCreatedEvent } from "~common/shared-kernel/event/counsel-created.event";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
-import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
@@ -18,13 +16,11 @@ import { Dayjs } from "dayjs";
 export interface CounselsNewProps {
   userId: UserId;
   counselorId: CounselorId;
-  counselTechniqueId: CounselTechniqueId;
   promptVersionId: PromptVersionId;
   counselorUserRelationshipId: CounselorUserRelationshipId;
 }
 
 export interface CounselsProps extends CounselsNewProps {
-  counselContexts: CounselContexts;
   lastChatedAt: Dayjs | null;
   lastMessage: string | null;
 
@@ -35,6 +31,11 @@ export interface CounselsProps extends CounselsNewProps {
   deletedAt: Dayjs | null;
 }
 
+/**
+ * 상담 (Counsels) 도메인 모델
+ * - 상담 세션의 기본 정보를 관리합니다.
+ * - 상담사, 사용자, 프롬프트 버전 등의 연관 정보를 포함합니다.
+ */
 export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
   private constructor(props: CounselsProps, id: CounselId) {
     super(props, id);
@@ -52,16 +53,9 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
   public static createNew(newProps: CounselsNewProps): Result<Counsels> {
     const now = getNowDayjs();
     const newId = new CounselId();
-    const counselContexts = CounselContexts.createNew({
-      counselId: newId,
-    });
-    if (counselContexts.isFailureResult()) {
-      return Result.fail<Counsels>(counselContexts.error);
-    }
     const createdCounsel = this.create(
       {
         ...newProps,
-        counselContexts: counselContexts.value,
         lastChatedAt: null,
         lastMessage: null,
         messageCount: 0,
@@ -89,11 +83,6 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
       return Result.fail("[Counsels] 상담사 ID는 필수입니다");
     }
 
-    // counselTechniqueId 검증
-    if (!isDefined(this.props.counselTechniqueId)) {
-      return Result.fail("[Counsels] 상담 기법 ID는 필수입니다");
-    }
-
     // promptVersionId 검증
     if (!isDefined(this.props.promptVersionId)) {
       return Result.fail("[Counsels] 프롬프트 버전 ID는 필수입니다");
@@ -102,10 +91,6 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
     // counselorUserRelationshipId 검증
     if (!isDefined(this.props.counselorUserRelationshipId)) {
       return Result.fail("[Counsels] 상담사-사용자 관계 ID는 필수입니다");
-    }
-
-    if (!isDefined(this.props.counselContexts)) {
-      return Result.fail("[Counsels] 상담 컨텍스트는 필수입니다");
     }
 
     // messageCount 검증
@@ -136,10 +121,6 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
     return this.props.userId;
   }
 
-  get counselTechniqueId(): CounselTechniqueId {
-    return this.props.counselTechniqueId;
-  }
-
   get promptVersionId(): PromptVersionId {
     return this.props.promptVersionId;
   }
@@ -158,10 +139,6 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
 
   get messageCount(): number {
     return this.props.messageCount;
-  }
-
-  get counselContexts(): CounselContexts {
-    return this.props.counselContexts;
   }
 
   get createdAt(): Dayjs {
@@ -183,15 +160,8 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
     return Result.ok();
   }
 
-  public updateCounselTechniqueId(counselTechniqueId: CounselTechniqueId): Result<void> {
-    this.props.counselTechniqueId = counselTechniqueId;
-    this.props.updatedAt = getNowDayjs();
-    return Result.ok();
-  }
-
   public increaseMessageCount(): void {
     this.props.messageCount++;
-    this.counselContexts.increaseNotCompressedMessageCount();
     this.props.updatedAt = getNowDayjs();
   }
 

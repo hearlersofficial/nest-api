@@ -25,6 +25,7 @@ export class CounselTechniquesTransitionExecutor {
         await this.counselsService.updateCounselTechniqueId({
           counselId: counselSession.counselId,
           counselTechniqueId: matchingRule.toCounselTechniqueId,
+          currentMessageCount: counselSession.counsel.messageCount,
         });
         this.logger.log(
           `Transitioned counsel ${counselSession.counselId.getString()} to technique ${matchingRule.toCounselTechniqueId.getString()} ` +
@@ -50,8 +51,10 @@ export class CounselTechniquesTransitionExecutor {
       return null;
     }
     // 현재 세션 컨텍스트 정보 추출
-    const currentContext = counselSession.counsel.context;
-    const currentTechniqueMessageCount = currentContext.currentTechniqueMessageCount;
+    const counsel = counselSession.counsel;
+    const currentContext = counselSession.counselContext;
+    const compressCondition = counselSession.compressCondition;
+    const currentTechniqueMessageCount = counsel.messageCount - compressCondition.messageCountAtLastCompression;
 
     // 조건을 만족하는 규칙들을 필터링하고 최고 우선순위 규칙 반환
     const matchingRule = this.findHighestPriorityMatchingRule(

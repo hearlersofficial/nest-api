@@ -19,7 +19,8 @@ export class SchemaCounselsMapper {
       lastMessage: counsel.lastMessage ?? undefined,
       lastChatedAt: counsel.lastChatedAt ? counsel.lastChatedAt.toISOString() : undefined,
       promptVersionId: counsel.promptVersionId.getString(),
-      counselTechniqueId: counsel.counselTechniqueId.getString(),
+      // TODO - proto 수정 필요
+      counselTechniqueId: counsel.id.getString(),
       counselorUserRelationshipId: counsel.counselorUserRelationshipId.getString(),
       createdAt: counsel.createdAt.toISOString(),
       updatedAt: counsel.updatedAt.toISOString(),

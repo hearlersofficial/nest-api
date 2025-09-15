@@ -1,6 +1,6 @@
 import { CounselAnalyzer } from "~counselings/domains/counsels/counsel.analyzer";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
-import { Counsels } from "~counselings/domains/counsels/models/counsels";
+import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
 
 import { Injectable, Logger } from "@nestjs/common";
 import { Propagation, Transactional } from "typeorm-transactional";
@@ -15,28 +15,28 @@ export class ContextOrganizer {
   private readonly logger = new Logger(ContextOrganizer.name);
 
   @Transactional({ propagation: Propagation.REQUIRES_NEW })
-  public async organizeContext(counsel: Counsels): Promise<void> {
+  public async organizeContext(counselContext: CounselContexts): Promise<void> {
     try {
-      this.logger.log(`organizeContext: ${counsel.id.getString()}`);
-      const analysisResult = await this.counselAnalyzer.analyze(counsel);
+      this.logger.log(`organizeContext: ${counselContext.counselId.getString()}`);
+      const analysisResult = await this.counselAnalyzer.analyze(counselContext);
 
       if (Object.keys(analysisResult.updates).length > 0) {
-        counsel.counselContexts.applyUpdates(analysisResult.updates);
-        await this.counselsStore.update(counsel);
+        counselContext.applyUpdates(analysisResult.updates);
+        await this.counselsStore.updateContexts(counselContext);
 
         this.logger.log(
-          `Context updated: ${counsel.id.getString()}, ` +
+          `Context updated: ${counselContext.counselId.getString()}, ` +
             `analyzers: ${analysisResult.analysisMetrics.successfulAnalyzers}/${analysisResult.analysisMetrics.totalAnalyzers}, ` +
             `time: ${analysisResult.analysisMetrics.totalProcessingTime}ms`,
         );
       } else {
         this.logger.debug(
-          `No updates needed: ${counsel.id.getString()}, ` +
+          `No updates needed: ${counselContext.counselId.getString()}, ` +
             `time: ${analysisResult.analysisMetrics.totalProcessingTime}ms`,
         );
       }
     } catch (error) {
-      this.logger.error(`organizeContext failed: ${counsel.id.getString()}`, error);
+      this.logger.error(`organizeContext failed: ${counselContext.counselId.getString()}`, error);
       // Transaction Rollback
       throw error;
     }

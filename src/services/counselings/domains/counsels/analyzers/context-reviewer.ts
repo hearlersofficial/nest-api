@@ -141,8 +141,6 @@ IMPACT & TIMEFRAME:
 - Timeframe: ${FIELD_DESCRIPTIONS.timeframe.values[context.timeframe] || `Unknown (${context.timeframe})`}
 
 ADDITIONAL INFO:
-- Physical Symptoms Present: ${context.physicalSymptomsPresent ?? "Not specified"}
-- Current Technique Message Count: ${context.currentTechniqueMessageCount}
-- Not Compressed Message Count: ${context.notCompressedMessageCount}`;
+- Physical Symptoms Present: ${context.physicalSymptomsPresent ?? "Not specified"}`;
   }
 }

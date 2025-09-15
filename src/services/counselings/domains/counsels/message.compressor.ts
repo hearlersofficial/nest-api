@@ -1,8 +1,7 @@
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
 import { CounselsStore } from "~counselings/domains/counsels/counsels.store";
-import { CounselContexts } from "~counselings/domains/counsels/models/counsel-contexts";
-import { Counsels } from "~counselings/domains/counsels/models/counsels";
+import { CounselCompressConditions } from "~counselings/domains/counsels/models/counsel-compress-conditions";
 import { AiModel } from "~proto/com/hearlers/v1/model/counsel_prompt_pb";
 
 import { Inject, Injectable, Logger } from "@nestjs/common";
@@ -23,31 +22,40 @@ export class MessageCompressor {
   private readonly logger = new Logger(MessageCompressor.name);
 
   @Transactional({ propagation: Propagation.REQUIRES_NEW })
-  public async compressContext(counsel: Counsels): Promise<void> {
+  public async compressContext(
+    compressCondition: CounselCompressConditions,
+    currentMessageCount: number,
+  ): Promise<void> {
     try {
-      this.logger.log(`[MessageCompressor] compressContext: ${counsel.id.getString()}`);
-      const compressedMessageContent = await this.generateCompressedMessage(counsel);
+      this.logger.log(`[MessageCompressor] compressContext: ${compressCondition.counselId.getString()}`);
+      const compressedMessageContent = await this.generateCompressedMessage(compressCondition, currentMessageCount);
       const compressedMessage = await this.counselsStore.createCompressedMessage({
-        counselId: counsel.id,
+        counselId: compressCondition.counselId,
         content: compressedMessageContent,
-        messageCountAtCompression: counsel.messageCount,
+        messageCountAtCompression: currentMessageCount,
       });
-      counsel.counselContexts.markContextCompressed();
-      await this.counselsStore.update(counsel);
+      compressCondition.markContextCompressed(currentMessageCount);
+      await this.counselsStore.updateCompressConditions(compressCondition);
 
       this.logger.log(
-        `[MessageCompressor] Compressed message created: ${compressedMessage.id.getString()} for counsel: ${counsel.id.getString()}`,
+        `[MessageCompressor] Compressed message created: ${compressedMessage.id.getString()} for counsel: ${compressCondition.counselId.getString()}`,
       );
     } catch (error) {
-      this.logger.error(`[MessageCompressor] compressContext failed: ${counsel.id.getString()}`, error);
+      this.logger.error(
+        `[MessageCompressor] compressContext failed: ${compressCondition.counselId.getString()}`,
+        error,
+      );
       throw error;
     }
   }
 
-  private async generateCompressedMessage(counsel: Counsels): Promise<string> {
+  private async generateCompressedMessage(
+    compressCondition: CounselCompressConditions,
+    currentMessageCount: number,
+  ): Promise<string> {
     const messages = await this.counselsReader.findManyMessages({
-      counselId: counsel.id,
-      limit: CounselContexts.COMPRESSION_THRESHOLD,
+      counselId: compressCondition.counselId,
+      limit: currentMessageCount - compressCondition.messageCountAtLastCompression,
       offset: 0,
       orderBy: {
         id: "DESC",
@@ -58,7 +66,7 @@ export class MessageCompressor {
     const userPrompt = this.getUserPrompt(conversationJson);
 
     const response = await this.assistantAgent.call({
-      conversationId: counsel.id.toString(),
+      conversationId: compressCondition.counselId.toString(),
       message: userPrompt,
       systemPrompt,
       aiModel: AiModel.GPT_5,

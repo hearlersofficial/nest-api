@@ -3,8 +3,7 @@ import { ContextDomain } from "~counselings/domains/counsels/analyzers/context-d
 import { ContextReviewer } from "~counselings/domains/counsels/analyzers/context-reviewer";
 import { ConversationHistoryBuilder } from "~counselings/domains/counsels/conversation-history.builder";
 import { CounselsReader } from "~counselings/domains/counsels/counsels.reader";
-import { CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
-import { Counsels } from "~counselings/domains/counsels/models/counsels";
+import { CounselContexts, CounselContextsProps } from "~counselings/domains/counsels/models/counsel-contexts";
 
 import { Inject, Injectable, Logger } from "@nestjs/common";
 
@@ -33,20 +32,20 @@ export class CounselAnalyzer {
    * 최근 대화 히스토리를 기반으로 counsel-context 후보 값을 추정한다.
    * 필요한 값만 반환하는 부분 업데이트 형태로 돌려준다.
    */
-  public async analyze(counsel: Counsels): Promise<CounselAnalysisResult> {
+  public async analyze(counselContext: CounselContexts): Promise<CounselAnalysisResult> {
     const startTime = Date.now();
 
     try {
       // 1) Light review to determine which domains to analyze
       const messages = await this.counselsReader.findManyMessages({
-        counselId: counsel.id,
+        counselId: counselContext.counselId,
         limit: 30,
         orderBy: { id: "DESC" },
       });
       const conversation = this.historyBuilder.buildHistoryFromDomain(messages);
 
       const review = await this.reviewer.review({
-        current: counsel.counselContexts,
+        current: counselContext,
         conversation,
       });
 
@@ -70,7 +69,7 @@ export class CounselAnalyzer {
         .map((d) => analyzerMap.get(d))
         .filter((x): x is BaseDomainAnalyzer => !!x)
         .map((a) =>
-          a.analyze(counsel).catch(
+          a.analyze(counselContext).catch(
             (error): AnalysisResult => ({
               updates: {},
               metadata: {
@@ -119,7 +118,7 @@ export class CounselAnalyzer {
         },
       };
     } catch (error) {
-      this.logger.warn(`Analyze failed for counsel ${counsel.id.getString()}: ${String(error)}`);
+      this.logger.warn(`Analyze failed for counsel ${counselContext.counselId.getString()}: ${String(error)}`);
       return {
         updates: {},
         analysisMetrics: {

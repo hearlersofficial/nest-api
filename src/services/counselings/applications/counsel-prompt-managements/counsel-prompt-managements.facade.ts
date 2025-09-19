@@ -284,6 +284,12 @@ export class CounselPromptManagementsFacade {
     return updatedTechnique;
   }
 
+  @Transactional()
+  async deleteCounselTechnique(param: { counselTechniqueId: CounselTechniqueId }): Promise<void> {
+    const { counselTechniqueId } = param;
+    await this.counselTechniqueService.deleteCounselTechnique(counselTechniqueId);
+  }
+
   async findPromptActivateHistories(param: {
     promptVersionId?: PromptVersionId;
   }): Promise<PromptActivateHistoryInfo[]> {

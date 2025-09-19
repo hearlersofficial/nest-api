@@ -99,6 +99,32 @@ export class CounselTechniquesService {
     return CounselTechniqueInfo.fromDomain(originalTechnique);
   }
 
+  @Transactional()
+  async deleteCounselTechnique(counselTechniqueId: CounselTechniqueId): Promise<void> {
+    const originalTechnique = await this.counselTechniquesReader.findOne({
+      uniqueCriteria: { type: "counselTechnique", id: counselTechniqueId },
+    });
+    if (!originalTechnique) {
+      throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "Counsel technique not found");
+    }
+    const [fromTransitionRules, toTransitionRules] = await Promise.all([
+      this.counselTechniquesReader.findManyTransitionRules({
+        fromCounselTechniqueId: counselTechniqueId,
+      }),
+      this.counselTechniquesReader.findManyTransitionRules({
+        toCounselTechniqueId: counselTechniqueId,
+      }),
+    ]);
+    const connectedTransitionRules = [...fromTransitionRules, ...toTransitionRules];
+
+    originalTechnique.delete();
+    connectedTransitionRules.forEach((transitionRule) => {
+      transitionRule.delete();
+    });
+    await this.counselTechniquesStore.update(originalTechnique);
+    await this.counselTechniquesStore.updateManyTransitionRules(connectedTransitionRules);
+  }
+
   async findMany(props: CounselTechniquesCriteria.FindManyOptions): Promise<CounselTechniqueInfo[]> {
     const counselTechniques = await this.counselTechniquesReader.findMany(props);
     return counselTechniques.map((counselTechnique) => CounselTechniqueInfo.fromDomain(counselTechnique));

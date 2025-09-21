@@ -81,14 +81,6 @@ export class CounselsEntity extends CoreEntity {
   })
   promptVersionId: string;
 
-  // @ManyToOne(() => CounselorUserRelationshipsEntity, (counselorUserRelationship) => counselorUserRelationship.counsels)
-  // @JoinColumn({ name: "counselor_user_relationship_id" })
-  // counselorUserRelationship: CounselorUserRelationshipsEntity;
-
-  // @RelationId((counsels: CounselsEntity) => counsels.counselorUserRelationship)
-  @Column({ type: "bigint", name: "counselor_user_relationship_id" })
-  counselorUserRelationshipId: string;
-
   @OneToMany(() => CounselMessagesEntity, (counselMessage) => counselMessage.counsel, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",

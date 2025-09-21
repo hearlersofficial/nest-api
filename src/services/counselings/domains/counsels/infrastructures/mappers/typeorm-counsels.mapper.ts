@@ -1,10 +1,8 @@
-import { TypeormCounselContextsMapper } from "~counselings/domains/counsels/infrastructures/mappers/typeorm-counsel-contexts.mapper";
 import { Counsels, CounselsProps } from "~counselings/domains/counsels/models/counsels";
 
 import { HttpStatus } from "@nestjs/common";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
-import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -24,7 +22,6 @@ export class TypeormCounselsMapper {
       userId: new UserId(entity.userId),
       counselorId: new CounselorId(entity.counselorId),
       promptVersionId: new PromptVersionId(entity.promptVersionId),
-      counselorUserRelationshipId: new CounselorUserRelationshipId(entity.counselorUserRelationshipId),
       lastChatedAt: entity.lastChatedAt ? dayjs(entity.lastChatedAt) : null,
       lastMessage: entity.lastMessage,
       messageCount: entity.messageCount,
@@ -52,7 +49,6 @@ export class TypeormCounselsMapper {
     entity.userId = counsels.userId.getString();
     entity.counselorId = counsels.counselorId.getString();
     entity.promptVersionId = counsels.promptVersionId.getString();
-    entity.counselorUserRelationshipId = counsels.counselorUserRelationshipId.getString();
 
     entity.lastChatedAt = counsels.lastChatedAt ? counsels.lastChatedAt.toISOString() : null;
     entity.lastMessage = counsels.lastMessage;

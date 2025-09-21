@@ -17,7 +17,6 @@ export interface CounselsNewProps {
   userId: UserId;
   counselorId: CounselorId;
   promptVersionId: PromptVersionId;
-  counselorUserRelationshipId: CounselorUserRelationshipId;
 }
 
 export interface CounselsProps extends CounselsNewProps {
@@ -88,11 +87,6 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
       return Result.fail("[Counsels] 프롬프트 버전 ID는 필수입니다");
     }
 
-    // counselorUserRelationshipId 검증
-    if (!isDefined(this.props.counselorUserRelationshipId)) {
-      return Result.fail("[Counsels] 상담사-사용자 관계 ID는 필수입니다");
-    }
-
     // messageCount 검증
     if (this.props.messageCount < 0) {
       return Result.fail("[Counsels] 메시지 수는 0 이상이어야 합니다.");
@@ -123,10 +117,6 @@ export class Counsels extends AggregateRoot<CounselsProps, CounselId> {
 
   get promptVersionId(): PromptVersionId {
     return this.props.promptVersionId;
-  }
-
-  get counselorUserRelationshipId(): CounselorUserRelationshipId {
-    return this.props.counselorUserRelationshipId;
   }
 
   get lastChatedAt(): Dayjs | null {

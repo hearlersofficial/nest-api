@@ -15,6 +15,7 @@ import { TonePromptsModule } from "~counselings/domains/tone-prompts/tone-prompt
 
 import { Module } from "@nestjs/common";
 import { AssistantAgentModule } from "~common/support/assistant-agents/assistant-agent.module";
+import { DistributedSyncModule } from "~common/support/distributed-sync/distributed-sync.module";
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AssistantAgentModule } from "~common/support/assistant-agents/assistant
     PersonaPromptsModule,
     TonePromptsModule,
     AssistantAgentModule,
+    DistributedSyncModule,
   ],
   providers: [
     // Facade

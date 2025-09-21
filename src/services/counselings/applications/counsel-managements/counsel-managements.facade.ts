@@ -12,7 +12,6 @@ import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
-import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -60,7 +59,6 @@ export class CounselManagementsFacade {
       counselorId,
       counselTechniqueId: startTechnique.id,
       promptVersionId: promptVersion.id,
-      counselorUserRelationshipId: new CounselorUserRelationshipId(), // TODO: 의미있는 값 넣기
     });
 
     const counselMessagesResult: CounselMessagesInfo[] = [];

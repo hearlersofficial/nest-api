@@ -19,7 +19,6 @@ import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
 import { CounselTechniqueId } from "~common/shared-kernel/identifiers/counsel-techinque.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
-import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -40,15 +39,13 @@ export class CounselsService {
     userId: UserId;
     counselorId: CounselorId;
     promptVersionId: PromptVersionId;
-    counselorUserRelationshipId: CounselorUserRelationshipId;
     counselTechniqueId: CounselTechniqueId;
   }): Promise<CounselsInfo> {
-    const { userId, counselorId, promptVersionId, counselorUserRelationshipId, counselTechniqueId } = props;
+    const { userId, counselorId, promptVersionId, counselTechniqueId } = props;
     const counsel = await this.counselsStore.create({
       userId,
       counselorId,
       promptVersionId,
-      counselorUserRelationshipId,
     });
     await this.counselsStore.createContexts({
       counselId: counsel.id,

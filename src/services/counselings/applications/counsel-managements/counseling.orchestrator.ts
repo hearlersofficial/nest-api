@@ -47,7 +47,7 @@ export class CounselingOrchestrator {
     const { counselId, userMessage } = request;
 
     // 메인 플로우 동시성 제어 - 락 획득
-    if (!this.counselLockManager.tryAcquire(counselId.getString(), LockType.MAIN_FLOW)) {
+    if (!(await this.counselLockManager.tryAcquire(counselId.getString(), LockType.MAIN_FLOW))) {
       throw new HttpStatusBasedRpcException(
         HttpStatus.TOO_MANY_REQUESTS,
         `상담 진행이 이미 처리 중입니다: ${counselId.getString()}`,
@@ -100,7 +100,7 @@ export class CounselingOrchestrator {
       };
     } finally {
       // 메인 플로우 락 해제
-      this.counselLockManager.release(counselId.getString(), LockType.MAIN_FLOW);
+      await this.counselLockManager.release(counselId.getString(), LockType.MAIN_FLOW);
     }
   }
 
@@ -112,7 +112,7 @@ export class CounselingOrchestrator {
     FireAndForget.execute(
       async () => {
         // counsel별 동시성 제어 - 락 획득 시도
-        if (!this.counselLockManager.tryAcquire(counselId.getString(), LockType.COMPRESSION)) {
+        if (!(await this.counselLockManager.tryAcquire(counselId.getString(), LockType.COMPRESSION))) {
           this.logger.debug(`Compression processing already in progress: ${counselId.getString()}`);
           return; // 이미 처리 중이면 스킵
         }
@@ -125,7 +125,7 @@ export class CounselingOrchestrator {
           }
         } finally {
           // 락 해제
-          this.counselLockManager.release(counselId.getString(), LockType.COMPRESSION);
+          await this.counselLockManager.release(counselId.getString(), LockType.COMPRESSION);
         }
       },
       {
@@ -137,7 +137,7 @@ export class CounselingOrchestrator {
     FireAndForget.execute(
       async () => {
         // counsel별 동시성 제어 - 락 획득 시도
-        if (!this.counselLockManager.tryAcquire(counselId.getString(), LockType.ANALYSIS_TRANSITION)) {
+        if (!(await this.counselLockManager.tryAcquire(counselId.getString(), LockType.ANALYSIS_TRANSITION))) {
           this.logger.debug(`Analysis and Transition processing already in progress: ${counselId.getString()}`);
           return; // 이미 처리 중이면 스킵
         }
@@ -162,7 +162,7 @@ export class CounselingOrchestrator {
           }
         } finally {
           // 락 해제
-          this.counselLockManager.release(counselId.getString(), LockType.ANALYSIS_TRANSITION);
+          await this.counselLockManager.release(counselId.getString(), LockType.ANALYSIS_TRANSITION);
         }
       },
       {

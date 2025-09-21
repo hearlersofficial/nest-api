@@ -1,4 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { LockManager } from "~common/support/distributed-sync/lock/lock.manager";
 
 /**
  * 작업 유형 정의
@@ -13,14 +14,17 @@ export enum LockType {
 /**
  * Counsel별 작업별 동시성 제어를 위한 락 매니저
  * 특정 counsel에 대해 압축, 분석, 전환 작업을 독립적으로 관리
+ * 공용 LockManager를 활용하여 분산 환경 지원
  */
 @Injectable()
 export class CounselLockManager {
-  private readonly locks = new Map<string, { acquired: Date; ttl: number; type: LockType }>();
   private readonly logger = new Logger(CounselLockManager.name);
+  private readonly namespace = "counsel"; // 네임스페이스로 counsel 락 구분
 
   // 기본 TTL: 5분 (긴 분석 작업도 고려)
   private static readonly DEFAULT_TTL = 300000;
+
+  constructor(private readonly lockManager: LockManager) {}
 
   /**
    * 락 키 생성 (counselId + lockType 조합)
@@ -33,40 +37,30 @@ export class CounselLockManager {
    * 특정 counsel에 대한 특정 작업의 락 획득 시도
    * @param counselId counsel ID (string)
    * @param lockType 락 유형 (압축, 분석, 전이 등)
-   * @param ttl 락 유지 시간 (밀리초, 기본값: 60초)
+   * @param ttl 락 유지 시간 (밀리초, 기본값: 5분)
    * @returns 락 획득 성공 여부
    */
-  tryAcquire(
+  async tryAcquire(
     counselId: string,
     lockType: LockType = LockType.GENERAL,
     ttl: number = CounselLockManager.DEFAULT_TTL,
-  ): boolean {
+  ): Promise<boolean> {
     try {
       const lockKey = this.generateLockKey(counselId, lockType);
-      const existing = this.locks.get(lockKey);
-      const now = Date.now();
 
-      // 기존 락이 있고 아직 유효한 경우
-      if (existing && now - existing.acquired.getTime() < existing.ttl) {
-        this.logger.debug(`Lock already held for counsel: ${counselId}, type: ${lockType}`);
-        return false;
-      }
-
-      // 만료된 락이 있다면 정리
-      if (existing) {
-        this.logger.warn(`Cleaning up expired lock for counsel: ${counselId}, type: ${lockType}`);
-        this.locks.delete(lockKey);
-      }
-
-      // 새로운 락 설정
-      this.locks.set(lockKey, {
-        acquired: new Date(),
+      const acquired = await this.lockManager.acquire(lockKey, {
         ttl,
-        type: lockType,
+        namespace: this.namespace,
+        owner: this.generateOwner(),
       });
 
-      this.logger.debug(`Lock acquired for counsel: ${counselId}, type: ${lockType}, TTL: ${ttl}ms`);
-      return true;
+      if (acquired) {
+        this.logger.debug(`Lock acquired for counsel: ${counselId}, type: ${lockType}, TTL: ${ttl}ms`);
+      } else {
+        this.logger.debug(`Lock already held for counsel: ${counselId}, type: ${lockType}`);
+      }
+
+      return acquired;
     } catch (error) {
       this.logger.error(`Failed to acquire lock for counsel: ${counselId}, type: ${lockType}`, error);
       return false;
@@ -78,11 +72,14 @@ export class CounselLockManager {
    * @param counselId counsel ID (string)
    * @param lockType 락 유형 (압축, 분석, 전이 등)
    */
-  release(counselId: string, lockType: LockType = LockType.GENERAL): void {
+  async release(counselId: string, lockType: LockType = LockType.GENERAL): Promise<void> {
     try {
       const lockKey = this.generateLockKey(counselId, lockType);
-      const removed = this.locks.delete(lockKey);
-      if (removed) {
+      const fullKey = `${this.namespace}:${lockKey}`;
+
+      const released = await this.lockManager.release(fullKey);
+
+      if (released) {
         this.logger.debug(`Lock released for counsel: ${counselId}, type: ${lockType}`);
       } else {
         this.logger.warn(`Attempted to release non-existent lock for counsel: ${counselId}, type: ${lockType}`);
@@ -98,46 +95,30 @@ export class CounselLockManager {
    * @param lockType 락 유형 (압축, 분석, 전이 등)
    * @returns 락 정보 또는 null
    */
-  getLockInfo(
+  async getLockInfo(
     counselId: string,
     lockType: LockType = LockType.GENERAL,
-  ): { acquired: Date; ttl: number; type: LockType; isExpired: boolean } | null {
-    const lockKey = this.generateLockKey(counselId, lockType);
-    const lockInfo = this.locks.get(lockKey);
-    if (!lockInfo) return null;
+  ): Promise<{ acquired: Date; ttl: number; type: LockType; isExpired: boolean } | null> {
+    try {
+      const lockKey = this.generateLockKey(counselId, lockType);
+      const fullKey = `${this.namespace}:${lockKey}`;
 
-    const now = Date.now();
-    const isExpired = now - lockInfo.acquired.getTime() >= lockInfo.ttl;
+      const lockInfo = await this.lockManager.getLockInfo(fullKey);
 
-    return {
-      acquired: lockInfo.acquired,
-      ttl: lockInfo.ttl,
-      type: lockInfo.type,
-      isExpired,
-    };
-  }
-
-  /**
-   * 모든 만료된 락 정리 (주기적 정리용)
-   * @returns 정리된 락 개수
-   */
-  cleanupExpiredLocks(): number {
-    let cleanedCount = 0;
-    const now = Date.now();
-
-    for (const [lockKey, lockInfo] of this.locks.entries()) {
-      if (now - lockInfo.acquired.getTime() >= lockInfo.ttl) {
-        this.locks.delete(lockKey);
-        cleanedCount++;
-        this.logger.debug(`Cleaned up expired lock: ${lockKey}`);
+      if (!lockInfo) {
+        return null;
       }
-    }
 
-    if (cleanedCount > 0) {
-      this.logger.log(`Cleaned up ${cleanedCount} expired locks`);
+      return {
+        acquired: lockInfo.acquiredAt,
+        ttl: lockInfo.ttl,
+        type: lockType,
+        isExpired: lockInfo.isExpired,
+      };
+    } catch (error) {
+      this.logger.error(`Failed to get lock info for counsel: ${counselId}, type: ${lockType}`, error);
+      return null;
     }
-
-    return cleanedCount;
   }
 
   /**
@@ -146,13 +127,16 @@ export class CounselLockManager {
    * @param lockType 락 유형 (압축, 분석, 전이 등)
    * @returns 활성 락 보유 여부
    */
-  hasActiveLock(counselId: string, lockType: LockType = LockType.GENERAL): boolean {
-    const lockKey = this.generateLockKey(counselId, lockType);
-    const lockInfo = this.locks.get(lockKey);
-    if (!lockInfo) return false;
+  async hasActiveLock(counselId: string, lockType: LockType = LockType.GENERAL): Promise<boolean> {
+    try {
+      const lockKey = this.generateLockKey(counselId, lockType);
+      const fullKey = `${this.namespace}:${lockKey}`;
 
-    const now = Date.now();
-    return now - lockInfo.acquired.getTime() < lockInfo.ttl;
+      return await this.lockManager.isLocked(fullKey);
+    } catch (error) {
+      this.logger.error(`Failed to check active lock for counsel: ${counselId}, type: ${lockType}`, error);
+      return false;
+    }
   }
 
   /**
@@ -160,33 +144,40 @@ export class CounselLockManager {
    * @param counselId counsel ID (string)
    * @returns 해당 counsel의 모든 락 정보
    */
-  getAllLocksForCounsel(counselId: string): Array<{
-    type: LockType;
-    acquired: Date;
-    ttl: number;
-    isExpired: boolean;
-  }> {
-    const result: Array<{
+  async getAllLocksForCounsel(counselId: string): Promise<
+    Array<{
       type: LockType;
       acquired: Date;
       ttl: number;
       isExpired: boolean;
-    }> = [];
-    const now = Date.now();
+    }>
+  > {
+    try {
+      const result: Array<{
+        type: LockType;
+        acquired: Date;
+        ttl: number;
+        isExpired: boolean;
+      }> = [];
 
-    for (const [lockKey, lockInfo] of this.locks.entries()) {
-      if (lockKey.startsWith(`${counselId}:`)) {
-        const isExpired = now - lockInfo.acquired.getTime() >= lockInfo.ttl;
-        result.push({
-          type: lockInfo.type,
-          acquired: lockInfo.acquired,
-          ttl: lockInfo.ttl,
-          isExpired,
-        });
+      // 모든 락 타입에 대해 개별 조회
+      for (const lockType of Object.values(LockType)) {
+        const lockInfo = await this.getLockInfo(counselId, lockType);
+        if (lockInfo) {
+          result.push({
+            type: lockType,
+            acquired: lockInfo.acquired,
+            ttl: lockInfo.ttl,
+            isExpired: lockInfo.isExpired,
+          });
+        }
       }
-    }
 
-    return result;
+      return result;
+    } catch (error) {
+      this.logger.error(`Failed to get all locks for counsel: ${counselId}`, error);
+      return [];
+    }
   }
 
   /**
@@ -194,21 +185,27 @@ export class CounselLockManager {
    * @param counselId counsel ID (string)
    * @returns 해제된 락 개수
    */
-  releaseAllForCounsel(counselId: string): number {
-    let releasedCount = 0;
+  async releaseAllForCounsel(counselId: string): Promise<number> {
+    try {
+      // counsel의 모든 락 타입에 대해 패턴 매칭으로 해제
+      const pattern = `${this.namespace}:${counselId}:*`;
+      const releasedCount = await this.lockManager.releasePattern(pattern);
 
-    for (const lockKey of this.locks.keys()) {
-      if (lockKey.startsWith(`${counselId}:`)) {
-        this.locks.delete(lockKey);
-        releasedCount++;
-        this.logger.debug(`Released lock: ${lockKey}`);
+      if (releasedCount > 0) {
+        this.logger.log(`Released ${releasedCount} locks for counsel: ${counselId}`);
       }
-    }
 
-    if (releasedCount > 0) {
-      this.logger.log(`Released ${releasedCount} locks for counsel: ${counselId}`);
+      return releasedCount;
+    } catch (error) {
+      this.logger.error(`Failed to release all locks for counsel: ${counselId}`, error);
+      return 0;
     }
+  }
 
-    return releasedCount;
+  /**
+   * 소유자 ID 생성
+   */
+  private generateOwner(): string {
+    return `counsel-lock-${process.pid}-${Date.now()}`;
   }
 }

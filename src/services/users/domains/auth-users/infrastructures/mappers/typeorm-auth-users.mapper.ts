@@ -1,5 +1,5 @@
-import { PsqlKakaoMapper } from "~users/domains/auth-users/infrastructures/mappers/psql.kakao.mapper";
-import { PsqlRefreshTokensMapper } from "~users/domains/auth-users/infrastructures/mappers/psql-refresh-token.mapper";
+import { PsqlKakaoMapper } from "~users/domains/auth-users/infrastructures/mappers/typeorm-kakao.mapper";
+import { PsqlRefreshTokensMapper } from "~users/domains/auth-users/infrastructures/mappers/typeorm-refresh-tokens.mapper";
 import { AuthUsers, AuthUsersProps } from "~users/domains/auth-users/models/auth-users";
 
 import { HttpStatus } from "@nestjs/common";
@@ -56,6 +56,7 @@ export class PsqlAuthUsersMapper {
     entity.createdAt = authUser.createdAt.toISOString();
     entity.updatedAt = authUser.updatedAt.toISOString();
     entity.deletedAt = authUser.deletedAt ? authUser.deletedAt.toISOString() : null;
+
     return entity;
   }
 

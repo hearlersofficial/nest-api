@@ -9,10 +9,11 @@ export class RefreshTokenEntity extends CoreEntity {
   @Column({ type: "timestamp", comment: "토큰 만료 시간" })
   expiresAt: string;
 
-  @JoinColumn({ name: "authUserId" })
+  @JoinColumn({ name: "auth_user_id" })
   @ManyToOne(() => AuthUsersEntity, (authUser) => authUser.refreshTokens, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
+    orphanedRowAction: "disable",
   })
   authUser: AuthUsersEntity;
 

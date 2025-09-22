@@ -21,7 +21,7 @@ export class RepositoryAuthUsersReader extends AuthUsersReader {
     options?: AuthUsersCriteriaFindOne;
   }): Promise<AuthUsers | null> {
     const typeormOptions = RepositoryAuthUsersCriteriaMapper.toFindOneOptions(props.options);
-    console.log(props.uniqueCriteria);
+
     switch (props.uniqueCriteria.type) {
       case "user":
         return this.authUserRepository.findByUserId(props.uniqueCriteria.id, typeormOptions);

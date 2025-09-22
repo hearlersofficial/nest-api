@@ -29,7 +29,7 @@ export class UsersMessageController implements OnModuleInit {
       payload,
       CounselMessageCreatedPayloadSchema,
     );
-    console.log("convertedPayload", convertedPayload);
+
     await this.usersFacade.consumeTokens(new UserId(convertedPayload.userId));
   }
 }

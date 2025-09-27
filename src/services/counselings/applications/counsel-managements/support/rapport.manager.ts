@@ -4,7 +4,6 @@ import { CounselorUserRelationshipsService } from "~counselings/domains/counselo
 import { Injectable } from "@nestjs/common";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
-import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 
 /**
  * 라포 매니저: 상담사-사용자 관계의 라포(친밀도) 관리

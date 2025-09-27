@@ -3,6 +3,7 @@ import { CounselorUserRelationshipsService } from "~counselings/domains/counselo
 import { CounselorUserRelationshipsStore } from "~counselings/domains/counselor-user-relationships/counselor-user-relationships.store";
 import { CounselorUserRelationshipsRepository } from "~counselings/domains/counselor-user-relationships/infrastructures/counselor-user-relationships.repository";
 import { RepositoryCounselorUserRelationshipsReader } from "~counselings/domains/counselor-user-relationships/infrastructures/repository-counselor-user-relationships.reader";
+import { RepositoryCounselorUserRelationshipsStore } from "~counselings/domains/counselor-user-relationships/infrastructures/repository-counselor-user-relationships.store";
 import { TypeormCounselorUserRelationshipsRepository } from "~counselings/domains/counselor-user-relationships/infrastructures/typeorm-counselor-user-relationships.repository";
 
 import { Module } from "@nestjs/common";
@@ -23,7 +24,7 @@ import { CounselorUserRelationshipsEntity } from "~common/system/persistences/en
     },
     {
       provide: CounselorUserRelationshipsStore,
-      useClass: RepositoryCounselorUserRelationshipsReader,
+      useClass: RepositoryCounselorUserRelationshipsStore,
     },
   ],
   exports: [CounselorUserRelationshipsService],

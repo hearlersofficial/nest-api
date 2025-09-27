@@ -4,9 +4,16 @@ import { AIResponseGenerator } from "~counselings/applications/counsel-managemen
 import { ContextManager } from "~counselings/applications/counsel-managements/support/context.manager";
 import { CounselLockManager } from "~counselings/applications/counsel-managements/support/counsel-lock.manager";
 import { CounselTechniquesTransitionExecutor } from "~counselings/applications/counsel-managements/support/counsel-techniques-trainsition.executor";
+import { RapportManager } from "~counselings/applications/counsel-managements/support/rapport.manager";
+import {
+  DEFAULT_DAILY_CAP,
+  DEFAULT_RULES,
+  RapportCalculator,
+} from "~counselings/applications/counsel-managements/support/rapport-calculator";
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
 import { TechniqueEvaluationParser } from "~counselings/applications/counsel-managements/support/technique-evaluation.parser";
 import { CounselTechniquesModule } from "~counselings/domains/counsel-techniques/counsel-techniques.module";
+import { CounselorUserRelationshipsModule } from "~counselings/domains/counselor-user-relationships/counselor-user-relationships.module";
 import { CounselorsModule } from "~counselings/domains/counselors/counselors.module";
 import { CounselsModule } from "~counselings/domains/counsels/counsels.module";
 import { PersonaPromptsModule } from "~counselings/domains/persona-prompts/persona-prompts.module";
@@ -25,6 +32,7 @@ import { DistributedSyncModule } from "~common/support/distributed-sync/distribu
     CounselTechniquesModule,
     PersonaPromptsModule,
     TonePromptsModule,
+    CounselorUserRelationshipsModule,
     AssistantAgentModule,
     DistributedSyncModule,
   ],
@@ -39,6 +47,11 @@ import { DistributedSyncModule } from "~common/support/distributed-sync/distribu
     ContextManager,
     CounselTechniquesTransitionExecutor,
     CounselLockManager,
+    {
+      provide: RapportCalculator,
+      useFactory: () => new RapportCalculator(DEFAULT_DAILY_CAP, DEFAULT_RULES),
+    },
+    RapportManager,
 
     // Main Orchestrator
     CounselingOrchestrator,

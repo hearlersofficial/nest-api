@@ -128,22 +128,32 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
 
   // Methods
   public update(props: Partial<CounselTechniquesProps>): Result<void> {
+    let hasChanges = false;
+
     if (isDefined(props.name) && props.name !== this.props.name) {
       this.props.name = props.name;
+      hasChanges = true;
     }
     if (isDefined(props.toneId) && !props.toneId.equals(this.props.toneId)) {
       this.props.toneId = props.toneId;
+      hasChanges = true;
     }
     if (isDefined(props.context) && props.context !== this.props.context) {
       this.props.context = props.context;
+      hasChanges = true;
     }
     if (isDefined(props.instruction) && props.instruction !== this.props.instruction) {
       this.props.instruction = props.instruction;
+      hasChanges = true;
     }
     if (isDefined(props.isStartTechnique) && props.isStartTechnique !== this.props.isStartTechnique) {
       this.props.isStartTechnique = props.isStartTechnique;
+      hasChanges = true;
     }
-    this.props.updatedAt = getNowDayjs();
+
+    if (!hasChanges) {
+      this.props.updatedAt = getNowDayjs();
+    }
     return Result.ok();
   }
 

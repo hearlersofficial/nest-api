@@ -35,9 +35,13 @@ export class CounselorUserRelationshipsService {
     if (!relationship) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "CounselorUserRelationship not found");
     }
-    withMessageInteraction
+    const applyRapportResult = withMessageInteraction
       ? relationship.applyRapportIncreaseWithInteraction({ amount, dailyCap })
       : relationship.applyRapportIncrease({ amount, dailyCap });
+    if (applyRapportResult.isFailure) {
+      throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, applyRapportResult.error as string);
+    }
+
     await this.store.update(relationship);
     return CounselorUserRelationshipInfo.fromDomain(relationship);
   }

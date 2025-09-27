@@ -1,6 +1,14 @@
+import { CounselorUserRelationshipInfo } from "~counselings/domains/counselor-user-relationships/models/counselor-user-relationship-info";
 import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
-import { Counsel, CounselMessage, CounselMessageSchema, CounselSchema } from "~proto/com/hearlers/v1/model/counsel_pb";
+import {
+  Counsel,
+  CounselMessage,
+  CounselMessageSchema,
+  CounselorUserRelationship,
+  CounselorUserRelationshipSchema,
+  CounselSchema,
+} from "~proto/com/hearlers/v1/model/counsel_pb";
 
 import { create } from "@bufbuild/protobuf";
 
@@ -19,10 +27,6 @@ export class SchemaCounselsMapper {
       lastMessage: counsel.lastMessage ?? undefined,
       lastChatedAt: counsel.lastChatedAt ? counsel.lastChatedAt.toISOString() : undefined,
       promptVersionId: counsel.promptVersionId.getString(),
-      // TODO - proto 수정 필요
-      counselTechniqueId: counsel.id.getString(),
-      // TODO - proto 수정 필요
-      counselorUserRelationshipId: counsel.id.getString(),
       createdAt: counsel.createdAt.toISOString(),
       updatedAt: counsel.updatedAt.toISOString(),
       deletedAt: counsel.deletedAt ? counsel.deletedAt.toISOString() : undefined,
@@ -50,5 +54,22 @@ export class SchemaCounselsMapper {
     });
   }
 
-  // TODO: counselor user relationship mapper 추가
+  static toCounselorUserRelationshipProto(relationship: null): null;
+  static toCounselorUserRelationshipProto(relationship: CounselorUserRelationshipInfo): CounselorUserRelationship;
+  static toCounselorUserRelationshipProto(
+    relationship: CounselorUserRelationshipInfo | null,
+  ): CounselorUserRelationship | null {
+    if (!relationship) {
+      return null;
+    }
+    return create(CounselorUserRelationshipSchema, {
+      id: relationship.id.getString(),
+      counselorId: relationship.counselorId.getString(),
+      userId: relationship.userId.getString(),
+      rapport: relationship.rapport,
+      createdAt: relationship.createdAt.toISOString(),
+      updatedAt: relationship.updatedAt.toISOString(),
+      deletedAt: relationship.deletedAt ? relationship.deletedAt.toISOString() : undefined,
+    });
+  }
 }

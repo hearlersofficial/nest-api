@@ -26,6 +26,8 @@ export class CounselorUserRelationshipsService {
   async increaseRapport(
     relationshipId: CounselorUserRelationshipId,
     amount: number,
+    dailyCap: number,
+    withMessageInteraction: boolean = true,
   ): Promise<CounselorUserRelationshipInfo> {
     const relationship = await this.reader.findOne({
       uniqueCriteria: { type: "counselorUserRelationship", id: relationshipId },
@@ -33,7 +35,9 @@ export class CounselorUserRelationshipsService {
     if (!relationship) {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "CounselorUserRelationship not found");
     }
-    relationship.increaseRapport(amount);
+    withMessageInteraction
+      ? relationship.applyRapportIncreaseWithInteraction({ amount, dailyCap })
+      : relationship.applyRapportIncrease({ amount, dailyCap });
     await this.store.update(relationship);
     return CounselorUserRelationshipInfo.fromDomain(relationship);
   }

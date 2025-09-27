@@ -24,6 +24,10 @@ export class TypeormCounselorUserRelationshipsMapper {
       userId: new UserId(entity.userId),
       counselorId: new CounselorId(entity.counselorId),
       rapport: entity.rapport,
+      totalUserMessageCount: entity.totalUserMessageCount,
+      lastInteractionAt: entity.lastInteractionAt ? dayjs(entity.lastInteractionAt) : null,
+      dailyIncreasedRapport: entity.dailyIncreasedRapport,
+      dailyRapportResetAt: entity.dailyRapportResetAt ? dayjs(entity.dailyRapportResetAt) : null,
       createdAt: dayjs(entity.createdAt),
       updatedAt: dayjs(entity.updatedAt),
       deletedAt: entity.deletedAt ? dayjs(entity.deletedAt) : null,
@@ -52,6 +56,12 @@ export class TypeormCounselorUserRelationshipsMapper {
     entity.userId = relationship.userId.getString();
     entity.counselorId = relationship.counselorId.getString();
     entity.rapport = relationship.rapport;
+    entity.totalUserMessageCount = relationship.totalUserMessageCount;
+    entity.lastInteractionAt = relationship.lastInteractionAt ? relationship.lastInteractionAt.toISOString() : null;
+    entity.dailyIncreasedRapport = relationship.dailyIncreasedRapport;
+    entity.dailyRapportResetAt = relationship.dailyRapportResetAt
+      ? relationship.dailyRapportResetAt.toISOString()
+      : null;
     entity.createdAt = relationship.createdAt.toISOString();
     entity.updatedAt = relationship.updatedAt.toISOString();
     entity.deletedAt = relationship.deletedAt ? relationship.deletedAt.toISOString() : null;

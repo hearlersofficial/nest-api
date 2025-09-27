@@ -14,6 +14,7 @@ import { BubbleId } from "~common/shared-kernel/identifiers/bubble.id";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselMessageId } from "~common/shared-kernel/identifiers/counsel-message.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
 import { PromptVersionId } from "~common/shared-kernel/identifiers/prompt-version.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
@@ -169,7 +170,16 @@ export class CounselManagementsFacade {
     });
   }
 
-  async findCounselorUserRelationship(params: {
+  async findCounselorUserRelationshipById(params: {
+    relationshipId: CounselorUserRelationshipId;
+  }): Promise<CounselorUserRelationshipInfo> {
+    const { relationshipId } = params;
+    return this.counselorUserRelationshipsService.getOne({
+      uniqueCriteria: { type: "counselorUserRelationship", id: relationshipId },
+    });
+  }
+
+  async findCounselorUserRelationshipByUserAndCounselorId(params: {
     userId: UserId;
     counselorId: CounselorId;
   }): Promise<CounselorUserRelationshipInfo> {
@@ -179,7 +189,7 @@ export class CounselManagementsFacade {
     });
   }
 
-  async findManyCounselorUserRelationships(params: { userId: UserId }): Promise<CounselorUserRelationshipInfo[]> {
+  async findCounselorUserRelationships(params: { userId: UserId }): Promise<CounselorUserRelationshipInfo[]> {
     const { userId } = params;
     return this.counselorUserRelationshipsService.findMany({ userId });
   }

@@ -5,6 +5,18 @@ import {
   FindCounselByIdRequestSchema,
   FindCounselByIdResponse,
   FindCounselByIdResponseSchema,
+  FindCounselorUserRelationshipByIdRequest,
+  FindCounselorUserRelationshipByIdRequestSchema,
+  FindCounselorUserRelationshipByIdResponse,
+  FindCounselorUserRelationshipByIdResponseSchema,
+  FindCounselorUserRelationshipByUserAndCounselorIdRequest,
+  FindCounselorUserRelationshipByUserAndCounselorIdRequestSchema,
+  FindCounselorUserRelationshipByUserAndCounselorIdResponse,
+  FindCounselorUserRelationshipByUserAndCounselorIdResponseSchema,
+  FindCounselorUserRelationshipsRequest,
+  FindCounselorUserRelationshipsRequestSchema,
+  FindCounselorUserRelationshipsResponse,
+  FindCounselorUserRelationshipsResponseSchema,
   FindCounselsRequest,
   FindCounselsRequestSchema,
   FindCounselsResponse,
@@ -21,6 +33,7 @@ import { GrpcMethod } from "@nestjs/microservices";
 import { ProtoRequest } from "~common/shared/utils/rpc";
 import { CounselId } from "~common/shared-kernel/identifiers/counsel.id";
 import { CounselorId } from "~common/shared-kernel/identifiers/counselor.id";
+import { CounselorUserRelationshipId } from "~common/shared-kernel/identifiers/counselor-user-relationship.id";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 
 @Controller("counsel")
@@ -61,6 +74,51 @@ export class GrpcCounselQueryController {
     });
     return create(FindMessagesResponseSchema, {
       counselMessages: counselMessages.map((message) => SchemaCounselsMapper.toCounselMessageProto(message)),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindCounselorUserRelationshipById")
+  @ProtoRequest(FindCounselorUserRelationshipByIdRequestSchema)
+  async findCounselorUserRelationshipById(
+    request: FindCounselorUserRelationshipByIdRequest,
+  ): Promise<FindCounselorUserRelationshipByIdResponse> {
+    const { relationshipId } = request;
+    const relationship = await this.counselManagementsFacade.findCounselorUserRelationshipById({
+      relationshipId: new CounselorUserRelationshipId(relationshipId),
+    });
+    return create(FindCounselorUserRelationshipByIdResponseSchema, {
+      counselorUserRelationship: SchemaCounselsMapper.toCounselorUserRelationshipProto(relationship),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindCounselorUserRelationshipByUserAndCounselorId")
+  @ProtoRequest(FindCounselorUserRelationshipByUserAndCounselorIdRequestSchema)
+  async findCounselorUserRelationshipByUserAndCounselorId(
+    request: FindCounselorUserRelationshipByUserAndCounselorIdRequest,
+  ): Promise<FindCounselorUserRelationshipByUserAndCounselorIdResponse> {
+    const { userId, counselorId } = request;
+    const relationship = await this.counselManagementsFacade.findCounselorUserRelationshipByUserAndCounselorId({
+      userId: new UserId(userId),
+      counselorId: new CounselorId(counselorId),
+    });
+    return create(FindCounselorUserRelationshipByUserAndCounselorIdResponseSchema, {
+      counselorUserRelationship: SchemaCounselsMapper.toCounselorUserRelationshipProto(relationship),
+    });
+  }
+
+  @GrpcMethod("CounselService", "FindCounselorUserRelationships")
+  @ProtoRequest(FindCounselorUserRelationshipsRequestSchema)
+  async findCounselorUserRelationships(
+    request: FindCounselorUserRelationshipsRequest,
+  ): Promise<FindCounselorUserRelationshipsResponse> {
+    const { userId } = request;
+    const relationships = await this.counselManagementsFacade.findCounselorUserRelationships({
+      userId: new UserId(userId),
+    });
+    return create(FindCounselorUserRelationshipsResponseSchema, {
+      counselorUserRelationships: relationships.map((relationship) =>
+        SchemaCounselsMapper.toCounselorUserRelationshipProto(relationship),
+      ),
     });
   }
 }

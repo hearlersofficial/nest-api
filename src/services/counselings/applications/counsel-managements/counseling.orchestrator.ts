@@ -5,6 +5,7 @@ import {
   LockType,
 } from "~counselings/applications/counsel-managements/support/counsel-lock.manager";
 import { CounselTechniquesTransitionExecutor } from "~counselings/applications/counsel-managements/support/counsel-techniques-trainsition.executor";
+import { RapportManager } from "~counselings/applications/counsel-managements/support/rapport.manager";
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
@@ -31,6 +32,7 @@ export class CounselingOrchestrator {
     private readonly counselService: CounselsService,
     private readonly counselTechniquesTransitionExecutor: CounselTechniquesTransitionExecutor,
     private readonly counselLockManager: CounselLockManager,
+    private readonly rapportManager: RapportManager,
   ) {}
 
   /**
@@ -64,6 +66,13 @@ export class CounselingOrchestrator {
 
       // 2. 세션 컨텍스트 구성
       const session = await this.contextManager.buildCounselSession(counselId);
+
+      // 라포 처리 (유저 메시지 수신 이벤트)
+      await this.rapportManager.increaseRapportForUserMessage(
+        session.counsel.userId,
+        session.counsel.counselorId,
+        userMessage,
+      );
 
       // 3. 프롬프트 구성
       const systemPrompt = await this.promptBuilder.buildSystemPrompt(session);

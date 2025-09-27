@@ -1,5 +1,7 @@
 import { CounselingOrchestrator } from "~counselings/applications/counsel-managements/counseling.orchestrator";
 import { CounselTechniquesService } from "~counselings/domains/counsel-techniques/counsel-techniques.service";
+import { CounselorUserRelationshipsService } from "~counselings/domains/counselor-user-relationships/counselor-user-relationships.service";
+import { CounselorUserRelationshipInfo } from "~counselings/domains/counselor-user-relationships/models/counselor-user-relationship-info";
 import { CounselorsService } from "~counselings/domains/counselors/counselors.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
@@ -28,6 +30,7 @@ export class CounselManagementsFacade {
     private readonly counselorService: CounselorsService,
     private readonly counselingOrchestrator: CounselingOrchestrator,
     private readonly counselTechniqueService: CounselTechniquesService,
+    private readonly counselorUserRelationshipsService: CounselorUserRelationshipsService,
   ) {}
 
   @Transactional()
@@ -164,5 +167,20 @@ export class CounselManagementsFacade {
       counselMessageId: messageId,
       reaction,
     });
+  }
+
+  async findCounselorUserRelationship(params: {
+    userId: UserId;
+    counselorId: CounselorId;
+  }): Promise<CounselorUserRelationshipInfo> {
+    const { userId, counselorId } = params;
+    return this.counselorUserRelationshipsService.getOne({
+      uniqueCriteria: { type: "userAndCounselor", userId, counselorId },
+    });
+  }
+
+  async findManyCounselorUserRelationships(params: { userId: UserId }): Promise<CounselorUserRelationshipInfo[]> {
+    const { userId } = params;
+    return this.counselorUserRelationshipsService.findMany({ userId });
   }
 }

@@ -69,6 +69,17 @@ export class CounselorUserRelationshipsService {
     return CounselorUserRelationshipInfo.fromDomain(relationship);
   }
 
+  @Transactional()
+  async getOrCreate(props: CounselorUserRelationshipsNewProps): Promise<CounselorUserRelationshipInfo> {
+    let relationship = await this.reader.findOne({
+      uniqueCriteria: { type: "userAndCounselor", userId: props.userId, counselorId: props.counselorId },
+    });
+    if (!relationship) {
+      relationship = await this.store.create(props);
+    }
+    return CounselorUserRelationshipInfo.fromDomain(relationship);
+  }
+
   async findMany(props: CounselorUserRelationshipsCriteria.FindManyOptions): Promise<CounselorUserRelationshipInfo[]> {
     const relationships = await this.reader.findMany(props);
     return relationships.map((relationship) => CounselorUserRelationshipInfo.fromDomain(relationship));

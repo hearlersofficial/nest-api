@@ -1,4 +1,6 @@
 import { UsersInfo } from "~users/domains/users/models/user.info";
+import { UserTrackingsInfo } from "~users/domains/users/models/user-trackings.info";
+import * as UserTrackingsCriteria from "~users/domains/users/user-trackings.criteria";
 import { UsersService } from "~users/domains/users/users.service";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
@@ -7,7 +9,6 @@ import { isDefined } from "~common/shared/utils/validate";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { HttpStatusBasedRpcException } from "~common/system/filters/exceptions";
 import { Transactional } from "typeorm-transactional";
-
 @Injectable()
 export class UserManagementFacade {
   constructor(private readonly usersService: UsersService) {}
@@ -102,5 +103,31 @@ export class UserManagementFacade {
     }
 
     return updatedUser!;
+  }
+
+  @Transactional()
+  async getOneTracking(params: {
+    uniqueCriteria: UserTrackingsCriteria.UniqueKey;
+    options?: UserTrackingsCriteria.FindOneOptions;
+  }): Promise<UserTrackingsInfo> {
+    const { uniqueCriteria, options } = params;
+    const tracking = await this.usersService.findOneTracking({
+      uniqueCriteria,
+      options,
+    });
+    if (!tracking) {
+      const createdTracking = await this.upsertTracking({
+        userId: uniqueCriteria.id,
+        hasSeenIntroCutscene: false,
+      });
+      return createdTracking;
+    }
+    return tracking;
+  }
+
+  @Transactional()
+  async upsertTracking(params: { userId: UserId; hasSeenIntroCutscene: boolean }): Promise<UserTrackingsInfo> {
+    const { userId, hasSeenIntroCutscene } = params;
+    return this.usersService.saveUserTracking({ userId, hasSeenIntroCutscene });
   }
 }

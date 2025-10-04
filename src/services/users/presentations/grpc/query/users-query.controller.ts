@@ -15,6 +15,9 @@ import {
   FindAuthUserByUserIdRequest,
   FindAuthUserByUserIdResponse,
   FindAuthUserByUserIdResponseSchema,
+  FindTrackingByUserIdRequest,
+  FindTrackingByUserIdResponse,
+  FindTrackingByUserIdResponseSchema,
   FindUserByNicknameRequest,
   FindUserByNicknameResponse,
   FindUserByNicknameResponseSchema,
@@ -102,6 +105,16 @@ export class GrpcUserQueryController {
       remainingTokens,
       maxTokens,
       reserved,
+    });
+  }
+
+  @GrpcMethod("UserService", "FindTrackingByUserId")
+  async findTrackingByUserId(data: FindTrackingByUserIdRequest): Promise<FindTrackingByUserIdResponse> {
+    const tracking = await this.userFacade.getOneTracking({
+      uniqueCriteria: { type: "user", id: new UserId(data.userId) },
+    });
+    return create(FindTrackingByUserIdResponseSchema, {
+      userTracking: SchemaUsersMapper.toUserTrackingProto(tracking),
     });
   }
 }

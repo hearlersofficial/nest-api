@@ -1,6 +1,14 @@
 import { UsersInfo } from "~users/domains/users/models/user.info";
 import { UserProfilesInfo } from "~users/domains/users/models/user-profiles.info";
-import { User, UserProfile, UserProfileSchema, UserSchema } from "~proto/com/hearlers/v1/model/user_pb";
+import { UserTrackingsInfo } from "~users/domains/users/models/user-trackings.info";
+import {
+  User,
+  UserProfile,
+  UserProfileSchema,
+  UserSchema,
+  UserTracking,
+  UserTrackingSchema,
+} from "~proto/com/hearlers/v1/model/user_pb";
 
 import { create } from "@bufbuild/protobuf";
 import { HttpStatus } from "@nestjs/common";
@@ -35,6 +43,18 @@ export class SchemaUsersMapper {
       createdAt: userProfile.createdAt.toISOString(),
       updatedAt: userProfile.updatedAt.toISOString(),
       deletedAt: userProfile.deletedAt ? userProfile.deletedAt.toISOString() : undefined,
+    });
+  }
+
+  static toUserTrackingProto(userTracking: UserTrackingsInfo): UserTracking {
+    if (!userTracking) {
+      throw new HttpStatusBasedRpcException(HttpStatus.INTERNAL_SERVER_ERROR, "failed to map userTracking to proto");
+    }
+    return create(UserTrackingSchema, {
+      hasSeenIntroCutscene: userTracking.hasSeenIntroCutscene,
+      createdAt: userTracking.createdAt.toISOString(),
+      updatedAt: userTracking.updatedAt.toISOString(),
+      deletedAt: userTracking.deletedAt ? userTracking.deletedAt.toISOString() : undefined,
     });
   }
 }

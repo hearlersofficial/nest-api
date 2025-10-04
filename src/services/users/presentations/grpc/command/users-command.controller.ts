@@ -17,6 +17,9 @@ import {
   UpdateAuthorityRequest,
   UpdateAuthorityResponse,
   UpdateAuthorityResponseSchema,
+  UpdateTrackingRequest,
+  UpdateTrackingResponse,
+  UpdateTrackingResponseSchema,
   UpdateUserRequest,
   UpdateUserResponse,
   UpdateUserResponseSchema,
@@ -122,5 +125,17 @@ export class GrpcUserCommandController {
       authority,
     });
     return create(UpdateAuthorityResponseSchema, { authUser: SchemaAuthUsersMapper.toAuthUserProto(authUser) });
+  }
+
+  @GrpcMethod("UserService", "UpdateTracking")
+  async updateTracking(request: UpdateTrackingRequest): Promise<UpdateTrackingResponse> {
+    const { userId, hasSeenIntroCutscene } = request;
+    const updatedTracking = await this.usersFacade.upsertTracking({
+      userId: new UserId(userId),
+      hasSeenIntroCutscene,
+    });
+    return create(UpdateTrackingResponseSchema, {
+      userTracking: SchemaUsersMapper.toUserTrackingProto(updatedTracking),
+    });
   }
 }

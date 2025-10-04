@@ -1,4 +1,4 @@
-import { PsqlUsersMapper } from "~users/domains/users/infrastructures/mappers/psql.user.mapper";
+import { PsqlUsersMapper } from "~users/domains/users/infrastructures/mappers/psql-user.mapper";
 import { UsersRepository } from "~users/domains/users/infrastructures/users.repository";
 import { Users } from "~users/domains/users/models/users";
 

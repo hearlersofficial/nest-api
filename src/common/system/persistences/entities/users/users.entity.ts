@@ -6,6 +6,7 @@ import { AuthUsersEntity } from "~common/system/persistences/entities/users/auth
 import { UserActivitiesEntity } from "~common/system/persistences/entities/users/user-activities.entity";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/user-profiles.entity";
+import { UserTrackingsEntity } from "~common/system/persistences/entities/users/user-trackings.entity";
 import { Column, Entity, OneToMany, OneToOne } from "typeorm";
 
 @Entity({
@@ -42,6 +43,12 @@ export class UsersEntity extends CoreEntity {
     orphanedRowAction: "disable",
   })
   userMessageTokens: UserMessageTokensEntity;
+
+  @OneToMany(() => UserTrackingsEntity, (userTracking) => userTracking.user, {
+    cascade: true,
+    orphanedRowAction: "disable",
+  })
+  userTrackings: UserTrackingsEntity[];
 
   @OneToMany(() => CounselsEntity, (counsel) => counsel.user, {
     cascade: true,

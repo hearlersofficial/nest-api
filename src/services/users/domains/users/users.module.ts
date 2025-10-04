@@ -11,11 +11,12 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/user-profiles.entity";
+import { UserTrackingsEntity } from "~common/system/persistences/entities/users/user-trackings.entity";
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UsersEntity, UserProfilesEntity, UserMessageTokensEntity]),
+    TypeOrmModule.forFeature([UsersEntity, UserProfilesEntity, UserMessageTokensEntity, UserTrackingsEntity]),
     UsersKafkaClientModule,
   ],
   providers: [

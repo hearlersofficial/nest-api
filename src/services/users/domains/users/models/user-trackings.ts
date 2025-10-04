@@ -53,8 +53,14 @@ export class UserTrackings extends DomainEntity<UserTrackingsProps, UserTracking
     if (!this.props.createdAt) {
       return Result.fail<void>("[UserTrackings] 생성 시간은 필수입니다");
     }
+    if (!this.props.createdAt.isValid()) {
+      return Result.fail<void>("[UserTrackings] 유효하지 않은 생성 시간입니다");
+    }
     if (!this.props.updatedAt) {
       return Result.fail<void>("[UserTrackings] 수정 시간은 필수입니다");
+    }
+    if (!this.props.updatedAt.isValid()) {
+      return Result.fail<void>("[UserTrackings] 유효하지 않은 수정 시간입니다");
     }
 
     return Result.ok();

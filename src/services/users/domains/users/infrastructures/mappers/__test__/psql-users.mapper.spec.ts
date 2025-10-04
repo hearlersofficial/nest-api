@@ -1,4 +1,4 @@
-import { PsqlUsersMapper } from "~users/domains/users/infrastructures/mappers/psql.user.mapper";
+import { PsqlUsersMapper } from "~users/domains/users/infrastructures/mappers/psql-user.mapper";
 import { UserProfiles } from "~users/domains/users/models/use-profiles";
 import { Users } from "~users/domains/users/models/users";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";

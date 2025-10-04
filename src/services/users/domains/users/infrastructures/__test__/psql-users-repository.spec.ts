@@ -25,7 +25,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
   const createMockUserEntity = (): UsersEntity => {
     const entity = new UsersEntity();
     const userId = faker.string.uuid();
-    const props: EntityData<UsersEntity, "authUser" | "counsels" | "counselorUserRelationships"> = {
+    const props: EntityData<UsersEntity, "authUser" | "counsels" | "counselorUserRelationships" | "userTrackings"> = {
       id: userId,
       nickname: faker.internet.userName().slice(0, 10),
       userProfiles: createMockUserProfilesEntity(userId),

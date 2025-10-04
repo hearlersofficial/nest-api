@@ -1,4 +1,6 @@
+import { UserTrackings } from "~users/domains/users/models/user-trackings";
 import { Users } from "~users/domains/users/models/users";
+import * as UserTrackingsCriteria from "~users/domains/users/user-trackings.criteria";
 import {
   UsersCriteriaFindMany,
   UsersCriteriaFindOne,
@@ -11,4 +13,9 @@ export abstract class UsersReader {
     options?: UsersCriteriaFindOne;
   }): Promise<Users | null>;
   abstract findMany(props: UsersCriteriaFindMany): Promise<Users[]>;
+
+  abstract findOneTracking(props: {
+    uniqueCriteria: UserTrackingsCriteria.UniqueKey;
+    options?: UserTrackingsCriteria.FindOneOptions;
+  }): Promise<UserTrackings | null>;
 }

@@ -5,7 +5,7 @@ import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { UserTrackingId } from "~common/shared-kernel/identifiers/user-tracking.id";
 import { Dayjs } from "dayjs";
 
-interface UserTrackingsNewProps {
+export interface UserTrackingsNewProps {
   userId: UserId;
   hasSeenIntroCutscene: boolean;
 }

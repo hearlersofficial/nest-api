@@ -1,6 +1,9 @@
+import { RepositoryUserTrackingsCriteriaMapper } from "~users/domains/users/infrastructures/mappers/repository-user-trackings-criteria.mapper";
 import { RepositoryUserCriteriaMapper } from "~users/domains/users/infrastructures/mappers/repository-users-criteria.mapper";
 import { UsersRepository } from "~users/domains/users/infrastructures/users.repository";
+import { UserTrackings } from "~users/domains/users/models/user-trackings";
 import { Users } from "~users/domains/users/models/users";
+import * as UserTrackingsCriteria from "~users/domains/users/user-trackings.criteria";
 import {
   UsersCriteriaFindMany,
   UsersCriteriaFindOne,
@@ -32,5 +35,16 @@ export class RepositoryUsersReader extends UsersReader {
   override async findMany(props: UsersCriteriaFindMany): Promise<Users[]> {
     const typeormOptions = RepositoryUserCriteriaMapper.toFindManyOptions(props);
     return this.userRepository.findMany(typeormOptions);
+  }
+
+  override async findOneTracking(props: {
+    uniqueCriteria: UserTrackingsCriteria.UniqueKey;
+    options?: UserTrackingsCriteria.FindOneOptions;
+  }): Promise<UserTrackings | null> {
+    const typeormOptions = RepositoryUserTrackingsCriteriaMapper.toFindOneOptions(props.options);
+    switch (props.uniqueCriteria.type) {
+      case "user":
+        return this.userRepository.findTrackingByUserId(props.uniqueCriteria.id, typeormOptions);
+    }
   }
 }

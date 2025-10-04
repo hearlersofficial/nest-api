@@ -1,6 +1,9 @@
 import { UserProfilesProps } from "~users/domains/users/models/use-profiles";
 import { UsersInfo } from "~users/domains/users/models/user.info";
+import { UserTrackings, UserTrackingsNewProps } from "~users/domains/users/models/user-trackings";
+import { UserTrackingsInfo } from "~users/domains/users/models/user-trackings.info";
 import { UsersNewProps } from "~users/domains/users/models/users";
+import * as UserTrackingsCriteria from "~users/domains/users/user-trackings.criteria";
 import { UsersCriteriaFindOne, UsersCriteriaUniqueKey } from "~users/domains/users/users.criteria";
 import { UsersReader } from "~users/domains/users/users.reader";
 import { UsersStore } from "~users/domains/users/users.store";
@@ -134,5 +137,34 @@ export class UsersService {
       throw new HttpStatusBasedRpcException(HttpStatus.NOT_FOUND, "User not found");
     }
     return user;
+  }
+
+  async findOneTracking(props: {
+    uniqueCriteria: UserTrackingsCriteria.UniqueKey;
+    options?: UserTrackingsCriteria.FindOneOptions;
+  }): Promise<UserTrackingsInfo | null> {
+    const userTracking = await this.reader.findOneTracking(props);
+    return userTracking ? UserTrackingsInfo.fromDomain(userTracking) : null;
+  }
+
+  async saveUserTracking(userTracking: UserTrackingsNewProps): Promise<UserTrackingsInfo> {
+    const userTrackingOrNull = await this.reader.findOneTracking({
+      uniqueCriteria: { type: "user", id: userTracking.userId },
+    });
+    if (userTrackingOrNull == null) {
+      const userTrackingOrError = UserTrackings.createNew(userTracking);
+      if (userTrackingOrError.isFailureResult()) {
+        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, userTrackingOrError.errorValue);
+      }
+      await this.store.saveUserTracking(userTrackingOrError.value);
+      return UserTrackingsInfo.fromDomain(userTrackingOrError.value);
+    } else {
+      const updateResult = userTrackingOrNull.updateIntroCutsceneStatus(userTracking.hasSeenIntroCutscene);
+      if (updateResult.isFailureResult()) {
+        throw new HttpStatusBasedRpcException(HttpStatus.BAD_REQUEST, updateResult.errorValue);
+      }
+      await this.store.saveUserTracking(userTrackingOrNull);
+      return UserTrackingsInfo.fromDomain(userTrackingOrNull);
+    }
   }
 }

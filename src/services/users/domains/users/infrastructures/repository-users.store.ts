@@ -1,4 +1,5 @@
 import { UsersRepository } from "~users/domains/users/infrastructures/users.repository";
+import { UserTrackings } from "~users/domains/users/models/user-trackings";
 import { Users, UsersNewProps } from "~users/domains/users/models/users";
 import { UsersStore } from "~users/domains/users/users.store";
 
@@ -25,5 +26,9 @@ export class RepositoryUsersStore extends UsersStore {
 
   override async updateMany(users: Users[]): Promise<Users[]> {
     return this.userRepository.save(users);
+  }
+
+  override async saveUserTracking(userTracking: UserTrackings): Promise<UserTrackings> {
+    return this.userRepository.saveUserTracking(userTracking);
   }
 }

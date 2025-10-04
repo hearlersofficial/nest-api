@@ -1,4 +1,5 @@
 import { PsqlUsersRepository } from "~users/domains/users/infrastructures/psql-users.repository";
+import { UserTrackings } from "~users/domains/users/models/user-trackings";
 import { USERS_KAFKA_CLIENT } from "~users/infrastructures/kafka/users-kafka-client-config";
 import { Gender, Mbti } from "~proto/com/hearlers/v1/model/user_pb";
 
@@ -13,12 +14,14 @@ import { EntityData } from "~common/shared/utils/orm";
 import { UserId } from "~common/shared-kernel/identifiers/user.id";
 import { UserMessageTokensEntity } from "~common/system/persistences/entities/users/user-message-tokens.entity";
 import { UserProfilesEntity } from "~common/system/persistences/entities/users/user-profiles.entity";
+import { UserTrackingsEntity } from "~common/system/persistences/entities/users/user-trackings.entity";
 import { UsersEntity } from "~common/system/persistences/entities/users/users.entity";
 import { Repository } from "typeorm";
 
 describe("PsqlUsersRepositoryAdaptor", () => {
   let module: TestingModule;
   let repository: Repository<UsersEntity>;
+  let userTrackingsRepository: Repository<UserTrackingsEntity>;
   let adaptor: PsqlUsersRepository;
   let kafkaProducer: ClientKafka;
 
@@ -80,6 +83,20 @@ describe("PsqlUsersRepositoryAdaptor", () => {
     return entity;
   };
 
+  const createMockUserTrackingsEntity = (userId: string): UserTrackingsEntity => {
+    const entity = new UserTrackingsEntity();
+    const props: EntityData<UserTrackingsEntity, "user"> = {
+      id: faker.string.uuid(),
+      userId: userId,
+      hasSeenIntroCutscene: faker.datatype.boolean(),
+      createdAt: getNowDayjs().toISOString(),
+      updatedAt: getNowDayjs().toISOString(),
+      deletedAt: null,
+    };
+    Object.assign(entity, props);
+    return entity;
+  };
+
   beforeEach(async () => {
     const mockKafkaProducer = {
       emit: jest.fn(),
@@ -97,6 +114,14 @@ describe("PsqlUsersRepositoryAdaptor", () => {
           },
         },
         {
+          provide: getRepositoryToken(UserTrackingsEntity),
+          useValue: {
+            findOne: jest.fn(),
+            save: jest.fn(),
+            create: jest.fn(),
+          },
+        },
+        {
           provide: USERS_KAFKA_CLIENT,
           useValue: mockKafkaProducer,
         },
@@ -104,6 +129,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
     }).compile();
 
     repository = module.get<Repository<UsersEntity>>(getRepositoryToken(UsersEntity));
+    userTrackingsRepository = module.get<Repository<UserTrackingsEntity>>(getRepositoryToken(UserTrackingsEntity));
     kafkaProducer = module.get<ClientKafka>(USERS_KAFKA_CLIENT);
     adaptor = module.get<PsqlUsersRepository>(PsqlUsersRepository);
   });
@@ -124,6 +150,7 @@ describe("PsqlUsersRepositoryAdaptor", () => {
         relations: {
           userProfiles: true,
           userMessageTokens: true,
+          userTrackings: false,
         },
       });
 
@@ -136,6 +163,56 @@ describe("PsqlUsersRepositoryAdaptor", () => {
       jest.spyOn(repository, "findOne").mockResolvedValue(null);
       const result = await adaptor.findByUserId(new UserId("999"));
       expect(result).toBeNull();
+    });
+  });
+
+  describe("findTrackingByUserId", () => {
+    it("사용자 ID로 사용자 추적 정보를 조회할 수 있다", async () => {
+      const userId = faker.string.uuid();
+      const mockUserTracking = createMockUserTrackingsEntity(userId);
+      jest.spyOn(userTrackingsRepository, "findOne").mockResolvedValue(mockUserTracking);
+
+      const result = await adaptor.findTrackingByUserId(new UserId(userId));
+
+      expect(userTrackingsRepository.findOne).toHaveBeenCalledWith({
+        where: { userId: userId },
+      });
+
+      expect(result).toBeDefined();
+      expect(result?.id.getString()).toEqual(mockUserTracking.id);
+      expect(result?.userId.getString()).toEqual(mockUserTracking.userId);
+      expect(result?.hasSeenIntroCutscene).toBe(mockUserTracking.hasSeenIntroCutscene);
+    });
+
+    it("존재하지 않는 사용자 추적 정보를 조회하면 null을 반환한다", async () => {
+      const userId = faker.string.uuid();
+      jest.spyOn(userTrackingsRepository, "findOne").mockResolvedValue(null);
+
+      const result = await adaptor.findTrackingByUserId(new UserId(userId));
+
+      expect(userTrackingsRepository.findOne).toHaveBeenCalledWith({
+        where: { userId: userId },
+      });
+      expect(result).toBeNull();
+    });
+  });
+
+  describe("saveUserTracking", () => {
+    it("사용자 추적 정보를 저장할 수 있다", async () => {
+      const userId = faker.string.uuid();
+      const mockUserTracking = createMockUserTrackingsEntity(userId);
+      jest.spyOn(userTrackingsRepository, "save").mockResolvedValue(mockUserTracking);
+
+      // UserTrackings 도메인 객체 생성
+      const userTracking = UserTrackings.createNew({
+        userId: new UserId(userId),
+        hasSeenIntroCutscene: faker.datatype.boolean(),
+      }).value as any;
+
+      const result = await adaptor.saveUserTracking(userTracking);
+
+      expect(userTrackingsRepository.save).toHaveBeenCalled();
+      expect(result).toBe(userTracking);
     });
   });
 

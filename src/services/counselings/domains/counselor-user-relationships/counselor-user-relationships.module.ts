@@ -5,6 +5,11 @@ import { CounselorUserRelationshipsRepository } from "~counselings/domains/couns
 import { RepositoryCounselorUserRelationshipsReader } from "~counselings/domains/counselor-user-relationships/infrastructures/repository-counselor-user-relationships.reader";
 import { RepositoryCounselorUserRelationshipsStore } from "~counselings/domains/counselor-user-relationships/infrastructures/repository-counselor-user-relationships.store";
 import { TypeormCounselorUserRelationshipsRepository } from "~counselings/domains/counselor-user-relationships/infrastructures/typeorm-counselor-user-relationships.repository";
+import {
+  DEFAULT_DAILY_CAP,
+  DEFAULT_RULES,
+  RapportCalculator,
+} from "~counselings/domains/counselor-user-relationships/rapport-calculator";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -25,6 +30,10 @@ import { CounselorUserRelationshipsEntity } from "~common/system/persistences/en
     {
       provide: CounselorUserRelationshipsStore,
       useClass: RepositoryCounselorUserRelationshipsStore,
+    },
+    {
+      provide: RapportCalculator,
+      useFactory: () => new RapportCalculator(DEFAULT_DAILY_CAP, DEFAULT_RULES),
     },
   ],
   exports: [CounselorUserRelationshipsService],

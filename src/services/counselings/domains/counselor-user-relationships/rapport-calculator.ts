@@ -1,8 +1,11 @@
 import {
+  isSessionTickSource,
+  isTaskCompletedSource,
+  isUserMessageSource,
   RapportCalcInput,
   RapportCalcResult,
   RapportRuleConfig,
-} from "~counselings/applications/counsel-managements/types/rapport.type";
+} from "~counselings/domains/counselor-user-relationships/types/rapport.type";
 
 import { Injectable } from "@nestjs/common";
 
@@ -10,8 +13,7 @@ export const DEFAULT_RULES: RapportRuleConfig = {
   base: {
     USER_MESSAGE: 1,
     TASK_COMPLETED: 6,
-    SESSION_TICK_10M: 2,
-    SESSION_TICK_30M: 5,
+    SESSION_TICK: 0,
   },
   bonuses: {
     emotionTag: 1,
@@ -43,7 +45,7 @@ export class RapportCalculator {
   }
 
   compute(input: RapportCalcInput): RapportCalcResult {
-    const { relation, eventType, payload } = input;
+    const { relation, source } = input;
 
     const rules = input.rules ?? this.getRules();
     const dailyCap = input.dailyCap ?? this.getDailyCap();
@@ -56,45 +58,36 @@ export class RapportCalculator {
     const reasons: string[] = [];
 
     // 1) 베이스 점수
-    switch (eventType) {
-      case "USER_MESSAGE": {
-        base += rules.base.USER_MESSAGE;
-        reasons.push(`base(USER_MESSAGE:+${rules.base.USER_MESSAGE})`);
+    if (isUserMessageSource(source)) {
+      base += rules.base.USER_MESSAGE;
+      reasons.push(`base:USER_MESSAGE(${rules.base.USER_MESSAGE})`);
 
-        // 보너스: 감정태그
-        if (payload?.hasEmotionTag && rules.bonuses?.emotionTag) {
-          base += rules.bonuses.emotionTag;
-          reasons.push(`bonus(emotion:+${rules.bonuses.emotionTag})`);
-        }
-        // 보너스: 긴 메시지
-        const th = rules.bonuses?.longMessageThreshold;
-        const bonus = rules.bonuses?.longMessageBonus;
-        const len = payload?.textLength ?? 0;
-        if (th && bonus && len >= th) {
-          base += bonus;
-          reasons.push(`bonus(longMessage>=${th}:+${bonus})`);
-        }
-        break;
+      // 보너스: 감정태그
+      if (source.payload.hasEmotionTag && rules.bonuses?.emotionTag) {
+        base += rules.bonuses.emotionTag;
+        reasons.push(`bonus:emotionTag(${rules.bonuses.emotionTag})`);
       }
 
-      case "TASK_COMPLETED": {
-        base += rules.base.TASK_COMPLETED;
-        reasons.push(`base(TASK_COMPLETED:+${rules.base.TASK_COMPLETED})`);
-        // 필요 시 payload.taskKind별 보정은 여기서 확장
-        break;
+      // 보너스: 긴 메시지
+      if (
+        rules.bonuses?.longMessageThreshold &&
+        source.payload.textLength > rules.bonuses.longMessageThreshold &&
+        rules.bonuses?.longMessageBonus
+      ) {
+        base += rules.bonuses.longMessageBonus;
+        reasons.push(`bonus:longMessage(${rules.bonuses.longMessageBonus})`);
       }
+    } else if (isTaskCompletedSource(source)) {
+      base += rules.base.TASK_COMPLETED;
+      reasons.push(`base:TASK_COMPLETED(${rules.base.TASK_COMPLETED})`);
+    } else if (isSessionTickSource(source)) {
+      // SESSION_TICK의 경우, 분 단위 경과 시간에 따라 점수가 다름
+      const mins = source.payload.minutesElapsed;
+      const tickScore = this.calculateSessionTickScore(mins);
 
-      case "SESSION_TICK": {
-        // 10/30분 구간 우선 지원
-        const m = payload?.minutesElapsed ?? 0;
-        if (m >= 30 && rules.base.SESSION_TICK_30M) {
-          base += rules.base.SESSION_TICK_30M;
-          reasons.push(`base(SESSION_TICK_30M:+${rules.base.SESSION_TICK_30M})`);
-        } else if (m >= 10 && rules.base.SESSION_TICK_10M) {
-          base += rules.base.SESSION_TICK_10M;
-          reasons.push(`base(SESSION_TICK_10M:+${rules.base.SESSION_TICK_10M})`);
-        }
-        break;
+      if (tickScore > 0) {
+        base += tickScore;
+        reasons.push(`base:SESSION_TICK(${tickScore})`);
       }
     }
 
@@ -112,6 +105,16 @@ export class RapportCalculator {
       reasons,
       flags: { capped },
     };
+  }
+
+  private calculateSessionTickScore(minutes: number): number {
+    // 30분 이상이면 5점, 10분 이상이면 2점
+    if (minutes >= 30) {
+      return 5;
+    } else if (minutes >= 10) {
+      return 2;
+    }
+    return 0;
   }
 
   private clampInt(n: number): number {

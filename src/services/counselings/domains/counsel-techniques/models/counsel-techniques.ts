@@ -151,7 +151,7 @@ export class CounselTechniques extends AggregateRoot<CounselTechniquesProps, Cou
       hasChanges = true;
     }
 
-    if (!hasChanges) {
+    if (hasChanges) {
       this.props.updatedAt = getNowDayjs();
     }
     return Result.ok();

@@ -5,8 +5,8 @@ import {
   LockType,
 } from "~counselings/applications/counsel-managements/support/counsel-lock.manager";
 import { CounselTechniquesTransitionExecutor } from "~counselings/applications/counsel-managements/support/counsel-techniques-trainsition.executor";
-import { RapportManager } from "~counselings/applications/counsel-managements/support/rapport.manager";
 import { SystemPromptBuilder } from "~counselings/applications/counsel-managements/support/system-prompt.builder";
+import { CounselorUserRelationshipsService } from "~counselings/domains/counselor-user-relationships/counselor-user-relationships.service";
 import { CounselsService } from "~counselings/domains/counsels/counsels.service";
 import { CounselMessagesInfo } from "~counselings/domains/counsels/models/counsel-message.info";
 import { CounselsInfo } from "~counselings/domains/counsels/models/counsels.info";
@@ -32,7 +32,7 @@ export class CounselingOrchestrator {
     private readonly counselService: CounselsService,
     private readonly counselTechniquesTransitionExecutor: CounselTechniquesTransitionExecutor,
     private readonly counselLockManager: CounselLockManager,
-    private readonly rapportManager: RapportManager,
+    private readonly counselorUserRelationshipsService: CounselorUserRelationshipsService,
   ) {}
 
   /**
@@ -68,7 +68,7 @@ export class CounselingOrchestrator {
       const session = await this.contextManager.buildCounselSession(counselId);
 
       // 라포 처리 (유저 메시지 수신 이벤트)
-      await this.rapportManager.increaseRapportForUserMessage(
+      await this.counselorUserRelationshipsService.increaseRapportForUserMessage(
         session.counsel.userId,
         session.counsel.counselorId,
         userMessage,
